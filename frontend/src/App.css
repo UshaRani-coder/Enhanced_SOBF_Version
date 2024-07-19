@@ -1,84 +1,50 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-} */
- *{
+ * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
- }
-.ham-menu{
+}
+
+.ham-menu {
   position: relative;
   width: 25px;
   height: 35px;
 }
+
 .ham-menu span {
-  background-color:rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   height: 3.5px;
   width: 100%;
   border-radius: 20px;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   transition: 0.5s ease;
 }
-.ham-menu span:nth-child(1){
+
+.ham-menu span:nth-child(1) {
   top: 25%;
 }
-.ham-menu span:nth-child(3){
+
+.ham-menu span:nth-child(3) {
   top: 75%;
 }
-.ham-menu.active span:nth-child(1){
+
+.ham-menu.active span:nth-child(1) {
   top: 50%;
-  transform: translate(-50%,-50%) rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
 }
-.ham-menu.active span:nth-child(2){
+
+.ham-menu.active span:nth-child(2) {
   opacity: 0;
 }
-.ham-menu.active span:nth-child(3){
+
+.ham-menu.active span:nth-child(3) {
   top: 50%;
-  transform: translate(-50%,-50%) rotate(-42deg);
+  transform: translate(-50%, -50%) rotate(-42deg);
 }
-.nav-items{
+
+.nav-items {
   position: fixed;
   top: 100px;
   right: -100px;
@@ -86,18 +52,19 @@
   font-family: "Work Sans", sans-serif
 }
 
-@media screen and (min-width:768px){
-  .nav-items{
+@media screen and (min-width:768px) {
+  .nav-items {
     position: static;
     width: 100%;
   }
 }
 
-@media screen and (min-width:1024px){
-  .nav-items{
+@media screen and (min-width:1024px) {
+  .nav-items {
     width: 60%;
   }
-} 
-.nav-items.active{
+}
+
+.nav-items.active {
   right: 40px;
 }
