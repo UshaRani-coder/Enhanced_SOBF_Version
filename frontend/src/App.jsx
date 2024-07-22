@@ -8,7 +8,8 @@ import Header from './Components/common/Header';
 // Lazy load components
 const HomePage = lazy(() => import('./Components/pages/HomePage'));
 const AboutUs = lazy(() => import('./Components/pages/Aboutus'));
-const ContactUs = lazy(() => import('./Components/pages/Contactus'));
+const ContactUs = lazy(() => import('./Components/pages/ContactUs'));
+const Footer = lazy(() => import('./Components/common/Footer'))
 
 
 const App = () => {
@@ -19,7 +20,9 @@ const App = () => {
         <Route exact path="/" element={<HomePage />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
+    
       </Routes>
+      <Footer/>
     </Suspense>
   );
 };
