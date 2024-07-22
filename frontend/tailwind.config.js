@@ -11,6 +11,9 @@ export default {
         "orange": "#FF7700",
         "blue":"#101840"
       },
+      boxShadow: {
+        'dual': '0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1)', // Add your custom shadow values here
+      },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
       },
