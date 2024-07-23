@@ -6,7 +6,7 @@ import Contactus from './Contactus.jsx'
 import Faq from './Faq.jsx'
 const HomePage = () => {
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center '>
       <Hero />
       <Statistics />
       <Contactus />

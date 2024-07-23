@@ -41,7 +41,7 @@ const MissionVisionObjective = () => {
   ];
 
   return (
-    <>
+    <div className='pt-[120px]'>
       {/* image */}
       <img src={aboutus} alt="" className='w-full h-[190px] lg:h-[420px]' />
       {/* toggler  */}
@@ -102,7 +102,7 @@ const MissionVisionObjective = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -167,10 +167,11 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsActive(!isActive);
   };
+  
   const navItemClass = "text-primary hover:text-[#ff7700] ";
   const activeNavItemClass = "text-[#ff7700] underline";
   return (
-    <nav className="cursor-pointer w-[100%] md:flex md:pr-[15px] md:items-center ">
+    <nav className="cursor-pointer w-[100%] md:flex md:pr-[15px] md:items-center top-[55px] md:top-[60px] fixed z-50 bg-[#ffffff]">
       <div className="flex w-[100%] justify-between items-center p-[15px]">
         <img src={logo} alt="logo" width={"70px"} />
         <div
@@ -187,7 +188,8 @@ const Navbar = () => {
       <ul
         className={`nav-items ${
           isActive ? "active" : ""
-        }  flex flex-col items-center gap-y-[20px]  md:flex-row  md:gap-x-[20px]`}
+        } flex flex-col items-center gap-y-[20px] hidden md:flex  md:flex-row  md:gap-x-[20px]`}
+        
       >
         <li className="hover:text-[#ff7700] font-semibold mt-[20px] md:mt-0">
           <NavLink

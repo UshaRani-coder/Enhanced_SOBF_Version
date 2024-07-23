@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 const Header = () => {
   return (
     <>
-      <div className="licence w-[100%] p-[5px] bg-[rgb(16,24,64)] text-[#ffffff] text-[10px] md:text-[12px]">
+      <div className="licence fixed top-0 z-50 w-[100%] p-[5px] bg-[rgb(16,24,64)] text-[#ffffff] text-[10px] md:text-[12px]">
         <p className="flex flex-col items-center">
           <span>Licence under Section 8(1) of the Company Act, 2013</span>
           <span>
@@ -13,7 +13,6 @@ const Header = () => {
           <span>Section-8 Company Licence Number - 119528</span>
         </p>
       </div>
-      <Navbar />
     </>
   );
 };

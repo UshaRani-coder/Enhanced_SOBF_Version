@@ -44,21 +44,43 @@
   top: 50%;
   transform: translate(-50%, -50%) rotate(-42deg);
 }
-.nav-items {
+/* .nav-items {
   position: absolute;
   top: 120px;
   right: 0;
-  
   transition: 0.5s ease;
   font-family: "Work Sans", sans-serif;
   z-index : -100
-} 
-
-
-
-
-
-@media screen and (min-width:768px) {
+}  */
+  .nav-items{
+    font-family: "Work Sans", sans-serif;
+  }
+@media screen and (max-width:768px){
+.nav-items.active{
+  display: flex;
+  position: fixed;
+  top: 120px;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  transition: 0.5s ease;
+  font-family: "Work Sans", sans-serif;
+  width: 150px;
+  
+  background-color:#001d23;
+  color: #ffffff;
+  z-index: 100;
+}
+ }
+@media screen and (min-width:766px){
+.nav-items.active{
+position: static;
+background-color: #ffffff;
+height:auto ;
+width: auto;
+}
+}
+/* @media screen and (min-width:768px) {
   .nav-items {
     position: static;
     width: 100%;
@@ -69,9 +91,9 @@
   .nav-items {
     width: 60%;
   }
-}
+} */
 
-.nav-items.active {
+/* .nav-items.active {
   
   width: 150px;
   height: 100%;
@@ -79,14 +101,15 @@
   color: #ffffff;
   z-index: 100;
 
-} 
+}  */
+@media screen and (max-width:767px){
 .nav-items.active li {
   color: #ffffff;
 }
 .nav-items.active li a{
   color: #ffffff;
   font-weight: normal;
-}
+}}
  .hero::after {
   content: '';
   position: absolute;
@@ -109,13 +132,13 @@
   content: '';
   display: inline-block;
   position: absolute;
-  top: 20px;
+  top: 200px;
   left: 20px;
   background-color: #ff7700;
   width: 20px;
   height: 20px; 
   border-radius: 50%;
-  z-index: 200;
+  z-index: 10;
   opacity: 0;
   animation: fadeInOut 3s infinite; 
 }
@@ -141,7 +164,7 @@
   animation: zoomIn 2.5s forwards;
 }
 
-.scroll-arrow {
+/* .scroll-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -155,11 +178,11 @@
 
 .scroll-arrow.left {
   left: 10px;
-}
+} */
 
-.scroll-arrow.right {
+/* .scroll-arrow.right {
   right: 10px;
-}
+} */
 @keyframes textAnimation {
   0% {
     opacity: 0;
