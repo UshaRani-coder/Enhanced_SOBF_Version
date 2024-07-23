@@ -2,7 +2,7 @@ import React from "react";
 
 const Statistics = () => {
   return (
-    <div className="statistics py-[30px] my-[50px]  md:py-0 md:my-0 shadow-dual md:text-[10px] lg:text-[16px] rounded-lg font-semibold bg-[#ffffff] w-[100%] flex flex-col items-center md:flex-row md:absolute md:top-[560px]  lg:top-[640px] md:w-[95%] ">
+    <div className="statistics py-[30px] my-[50px]  md:py-0 md:my-0 shadow-dual md:text-[10px] lg:text-[16px] rounded-lg font-semibold bg-[#ffffff] w-[100%] flex flex-col items-center md:flex-row md:absolute md:top-[560px]  lg:top-[600px]  md:w-[95%]">
       <ul className=" w-[60%] flex flex-col items-center gap-y-[20px] md:flex-row md:items-center md:justify-center md:gap-x-[10px] lg:gap-x-[15px] md:w-[100%] ">
         <li className="flex flex-col items-center">
           <svg

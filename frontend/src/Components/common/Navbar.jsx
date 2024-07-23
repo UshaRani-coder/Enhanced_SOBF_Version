@@ -193,7 +193,7 @@ const Navbar = () => {
           <NavLink
             to="/"
             className={navItemClass}
-            // activeClassName={activeNavItemClass}
+            activeClassName={activeNavItemClass}
             onClick={toggleMenu}
           >
             Home
@@ -203,7 +203,7 @@ const Navbar = () => {
           <NavLink
             to="/about-us"
             className={navItemClass}
-            // activeClassName={activeNavItemClass}
+            activeClassName={activeNavItemClass}
             onClick={toggleMenu}
           >
             About
@@ -213,7 +213,7 @@ const Navbar = () => {
           <NavLink
             to="/vision"
             className={navItemClass}
-            // activeClassName={activeNavItemClass}
+            activeClassName={activeNavItemClass}
             onClick={toggleMenu}
           >
             Vision
@@ -223,7 +223,7 @@ const Navbar = () => {
           <NavLink
             to="/gallery"
             className={navItemClass}
-            // activeClassName={activeNavItemClass}
+            activeClassName={activeNavItemClass}
             onClick={toggleMenu}
           >
             Gallery
@@ -233,7 +233,7 @@ const Navbar = () => {
           <NavLink
             to="/contact-us"
             className={navItemClass}
-            // activeClassName={activeNavItemClass}
+            activeClassName={activeNavItemClass}
             onClick={toggleMenu}
           >
             Contact
@@ -243,7 +243,7 @@ const Navbar = () => {
           <NavLink
             to="/more"
             className={navItemClass}
-            // activeClassName={activeNavItemClass}
+            activeClassName={activeNavItemClass}
             onClick={toggleMenu}
           >
             More

@@ -8,7 +8,7 @@ import Header from './Components/common/Header';
 // Lazy load components
 const HomePage = lazy(() => import('./Components/pages/HomePage'));
 const AboutUs = lazy(() => import('./Components/pages/Aboutus'));
-const ContactUs = lazy(() => import('./Components/pages/ContactUs'));
+const ContactUs = lazy(() => import('./Components/pages/Contactus'));
 const Footer = lazy(() => import('./Components/common/Footer'))
 
 
