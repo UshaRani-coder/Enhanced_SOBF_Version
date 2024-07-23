@@ -10,7 +10,7 @@ const ContactUs = () => {
       </h1>
 
       {/* Container for the contact information cards */}
-      <div className="flex flex-col lg:flex-row justify-center gap-3 px-32  ">
+      <div className="flex flex-col lg:flex-row justify-center gap-3 lg:px-32  ">
         
         {/* Location Card */}
         <div className="p-5  lg:w-[33%] w-[99%]">
