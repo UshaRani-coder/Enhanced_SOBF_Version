@@ -12,11 +12,14 @@ export default {
         "blue":"#101840"
       },
       boxShadow: {
-        'dual': '0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1)', // Add your custom shadow values here
+        'dual': '0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1)', 
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
-      },
+        amatic : ['"Amatic SC"', 'sans-serif'],
+        workSans: ['"Work Sans"', 'sans-serif'],
+      }, 
+
       fontWeight: {
         thin: 100,
         extralight: 200,
