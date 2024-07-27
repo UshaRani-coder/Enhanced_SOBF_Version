@@ -35,7 +35,7 @@ const ContactUs = () => {
           <div className="items-center flex flex-col">
             {/* Button to redirect to Google Maps */}
             <button
-              className="bg-[#ff7700] justify-center flex rounded-[20px] p-4 hover:bg-blue"
+              className="bg-[#ff7700] justify-center flex rounded-[20px] p-4 hover:bg-blue transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectMap}
             >
               {" "}
@@ -78,7 +78,7 @@ const ContactUs = () => {
           <div className="items-center flex flex-col">
             {/* Button to redirect to call */}
             <button
-              className="bg-[#ff7700] justify-center flex rounded-[20px] p-4 hover:bg-blue"
+              className="bg-[#ff7700] justify-center flex rounded-[20px] p-4 hover:bg-blue transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectCall}
             >
               <svg
@@ -107,7 +107,7 @@ const ContactUs = () => {
           <div className="items-center flex flex-col ">
             {/* Button to redirect to email */}
             <button
-              className="bg-[#ff7700] justify-center items-center flex rounded-[20px] p-4 hover:bg-[#2D2339]"
+              className="bg-[#ff7700] justify-center items-center flex rounded-[20px] p-4 hover:bg-[#2D2339] transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectMail}
             >
               <svg
