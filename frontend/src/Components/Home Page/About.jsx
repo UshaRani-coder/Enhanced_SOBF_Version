@@ -1,5 +1,6 @@
 import React from "react";
 import ReactPlayer from "react-player";
+import aboutImg from '../../assets/about-img.png'
 const About = () => {
   return (
     <div className="flex flex-col items-center md:mt-[30px] lg:mx-[20px]">
@@ -30,7 +31,9 @@ const About = () => {
         <div className="w-[90%] h-[200px] md:w-[50%]  md:h-[400px] lg:h-[300px]">
         <ReactPlayer width={'100%'}  height={'100%'} controls url={'https://youtu.be/FINV2QMsPF4?si=ERWrN4z3R13Fqvpu'} />
        </div>
+      
       </div>
+      <img src={aboutImg} alt="about"  className="mt-[15px] w-[90%] lg:w-[95%]" />
     </div>
   );
 };

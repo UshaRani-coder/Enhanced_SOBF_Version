@@ -9,7 +9,8 @@ export default {
       colors: {
         "primary": "#141414",
         "orange": "#FF7700",
-        "blue":"#101840"
+        "blue":"#101840",
+        "seashell":"#fdf7f4"
       },
       boxShadow: {
         'dual': '0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1)', 
@@ -18,6 +19,7 @@ export default {
         poppins: ['Poppins', 'sans-serif'],
         amatic : ['"Amatic SC"', 'sans-serif'],
         workSans: ['"Work Sans"', 'sans-serif'],
+        sans : ["Quicksand", 'sans-serif']
       }, 
 
       fontWeight: {
