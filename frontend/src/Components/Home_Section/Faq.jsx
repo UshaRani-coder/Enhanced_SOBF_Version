@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
-import data from "../../Constant/data.jsx";
+import { data } from "../../Constant/data";
+// import { data } from "../../Constant/data";
 
 function Accordion() {
   // State to keep track of which FAQ is currently selected/open
@@ -21,7 +23,7 @@ function Accordion() {
       <div className="flex flex-col items-center justify-center p-4">
         {/* Content wrapper with maximum width */}
         <div className="w-full max-w-[1200px]">
-          <h1 className="text-center text-4xl font-bold mb-4 p-5 text-[#ff7700] relative hover:text-blue cursor-pointer transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+          <h1 className="text-center text-4xl font-bold mb-4 p-5 text-[#ff7700] relative hover:text-blue  transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
             Frequently Asked Questions
           </h1>
           <h1 className="text-center text-2xl font-bold">
@@ -35,9 +37,9 @@ function Accordion() {
             {/* Left column */}
             <div className="w-full md:w-1/2 space-y-4">
               {leftColumnData.map((dataItem) => (
-                <AccordionItem 
-                  key={dataItem.id} 
-                  dataItem={dataItem} 
+                <AccordionItem
+                  key={dataItem.id}
+                  dataItem={dataItem}
                   isSelected={selected === dataItem.id}
                   onSelect={handleSingleSelection}
                 />
@@ -46,9 +48,9 @@ function Accordion() {
             {/* Right column */}
             <div className="w-full md:w-1/2 space-y-4">
               {rightColumnData.map((dataItem) => (
-                <AccordionItem 
-                  key={dataItem.id} 
-                  dataItem={dataItem} 
+                <AccordionItem
+                  key={dataItem.id}
+                  dataItem={dataItem}
                   isSelected={selected === dataItem.id}
                   onSelect={handleSingleSelection}
                 />
@@ -69,7 +71,7 @@ function AccordionItem({ dataItem, isSelected, onSelect }) {
       className="bg-white border border-gray-300 rounded-md shadow-md overflow-hidden hover:bg-gray-100 transition-all duration-300"
     >
       {/* FAQ question and toggle button */}
-      <div className="flex items-center justify-between cursor-pointer p-4">
+      <div className="flex items-center justify-between p-4">
         <h3 className="text-lg font-semibold pr-4 hover:text-blue-900">{dataItem.question}</h3>
         {/* Toggle icon, changes based on selected state */}
         <span className="text-2xl font-bold flex-shrink-0 text-[#ff7700]">

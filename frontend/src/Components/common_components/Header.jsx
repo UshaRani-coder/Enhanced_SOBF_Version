@@ -13,6 +13,7 @@ const Header = () => {
           <span>Section-8 Company Licence Number - 119528</span>
         </p>
       </div>
+      <Navbar />
     </>
   );
 };

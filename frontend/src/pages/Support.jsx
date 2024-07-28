@@ -9,21 +9,18 @@ const handleRedirectMap = () => {
 };
 
 // Function to handle redirection to email
-const handleRedirectMail = () => {
-  window.location.href = "mailto:soulofbraj@gmail.com";
-};
+const handleRedirectMail = () => window.location.href = "mailto:soulofbraj@gmail.com";
 
 // Function to handle redirection to call
-const handleRedirectCall = () => {
-  window.location.href = "tel:+91 8439406670";
-};
+const handleRedirectCall = () => window.location.href = "tel:+91 8439406670";
 
-const ContactUs = () => {
+
+const Support = () => {
   return (
     // Main container for the Contact Us section
     <div className="bg-orange-100 p-5 w-full pt-[10px]">
       {/* Section title */}
-      <h1 className="text-center text-4xl font-bold mb-4 p-5 text-orange hover:text-blue relative hover:text-blue-900 cursor-pointer transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] md:pt-[70px]">
+      <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-orange hover:text-blue relative hover:text-blue-900 transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] md:pt-[70px]">
         Your Support can change lives
       </h1>
 
@@ -38,26 +35,16 @@ const ContactUs = () => {
               className="bg-[#ff7700] justify-center flex rounded-[20px] p-4 hover:bg-blue transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectMap}
             >
-              {" "}
-    
               <svg
                 className="h-20 w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 text-white"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path
-                  // stroke-linecap="round"
-                  // stroke-linejoin="round"
-                  // stroke-width="1"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  // stroke-linecap="round"
-                  // stroke-linejoin="round"
-                  // stroke-width="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                </path>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z">
+                </path>
               </svg>
             </button>
             {/* Container for the location card text */}
@@ -116,12 +103,8 @@ const ContactUs = () => {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path
-                  // stroke-linecap="round"
-                  // stroke-linejoin="round"
-                  // stroke-width="1"
-                  d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76">
+                </path>
               </svg>
             </button>
             {/* Container for the get in touch card text */}
@@ -136,4 +119,4 @@ const ContactUs = () => {
   );
 };
 
-export default ContactUs;
+export default Support;

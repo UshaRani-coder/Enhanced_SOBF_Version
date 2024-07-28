@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import aboutus from "../../assets/about-us.png"
-import aboutImg from "../../assets/about-s.png"
+import aboutus from "../assets/about-us.png"
 
-const MissionVisionObjective = () => {
+const AboutUs = () => {
   const [activeTab, setActiveTab] = useState('mission');
 
   const renderContent = () => {
@@ -47,8 +46,8 @@ const MissionVisionObjective = () => {
       {/* toggler  */}
       <div className="w-full flex justify-center items-center flex-col lg:flex-row gap-1 lg:gap-5 mx-auto py-8 px-4">
         <div className='w-[98%] lg:w-[50%] '>
-          <h2 className="text-orange poppins-semibold text-xl">What We Do</h2>
-          <h1 className="poppins-bold text-3xl lg:text-5xl text-gray-900 mt-2 ">Discover our mission-driven approach</h1>
+          <h2 className="text-orange poppins-semibold text-heading4">What We Do</h2>
+          <h1 className="poppins-bold text-3xl lg:text-heading1 leading-snug text-gray-900 mt-2 ">Discover our mission-driven approach</h1>
         </div>
 
         <div className="w-[99%] lg:w-[50%] mt-4">
@@ -57,7 +56,7 @@ const MissionVisionObjective = () => {
               className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm lg:text-lg ${activeTab === 'mission' ? 'text-white bg-orange hover:bg-blue' : 'bg-[#FDF7F4] text-gray-700'}`}
               onClick={() => setActiveTab('mission')}
             >
-              Our mission
+              Our Mission
             </button>
             <button
               className={`poppins-medium w-[33.3%] px-4 py-3 text-sm lg:text-lg  ${activeTab === 'vision' ? 'text-white hover:bg-blue bg-orange' : 'bg-[#FDF7F4] text-gray-700'}`}
@@ -69,7 +68,7 @@ const MissionVisionObjective = () => {
               className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm lg:text-lg  ${activeTab === 'objective' ? 'text-white bg-orange hover:bg-blue' : 'bg-[#FDF7F4] text-gray-700'}`}
               onClick={() => setActiveTab('objective')}
             >
-              Objective
+              Our Objective
             </button>
           </div>
           <div className="p-4 py-8 bg-gray-50 rounded-b-lg text-lg rounded-lg border ">
@@ -81,7 +80,7 @@ const MissionVisionObjective = () => {
       {/* about us data */}
       <div className='flex py-12 px-4 lg:px-12 gap-3 lg:gap-24 justify-around flex-col lg:flex-row '>
         <div className='w-[99%] lg:w-[50%] p-0 lg:p-4'>
-          <h1 className='text-4xl lg:text-6xl py-4 text-orange -mt-12 lg:-mt-23 font-poppins font-semibold'>Our Story</h1>
+          <h1 className='text-start text-heading3 lg:text-heading1 font-bold mb-4 pb-5 text-orange hover:text-blue relative hover:text-blue-900 transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]'>Our Story</h1>
           <p className='text-lg text-gray-700 mt-4'>
             <span className='text-xl text-orange font-bold hover:underline'>Soul Of Braj Federation</span> is a Section-8 Recognized Non Profit Organization, dedicated to Serve Society members in Shri Vrindavan Dham, Since 2020, SOBF is Dedicated to Serve the Poorest of the Poor Residents of Vrindavan and the Braj region of Uttar Pradesh, ( Bharat ). Particularly Adolescent Girls and Women by Providing Comprehensive, Essential Community Services. Our Initiatives are, Clean and Healthy Vrindavan, Affordable Food , Providing Basic Education, Skill Training, Health-Hygiene Care, Distribution of free Meals / Ration Kits ,Waste Management Projects, Currently we are Impacting more than 1000+ Beneficiaries on Daily Basis. Focused And On Going Initiatives: Gopala Bhog ( Affordable Food Prasadam For All ), Swasth aur Swachh Vrindavan, Give Me A Chance, Say Yes To Me, Brajkulam Community Centre.
           </p>
@@ -93,7 +92,7 @@ const MissionVisionObjective = () => {
 
       {/* collected shots */}
       <div className="container mx-auto p-0 lg:p-4 px-4 lg:px-20">
-        <h1 className='text-4xl lg:text-6xl py-5 text-orange -mt-12 lg:-mt-23 font-poppins font-semibold text-center' >Collected Shots</h1>
+        <h1 className=' text-heading3 lg:text-heading1 text-center font-bold mb-4 pb-5 text-orange hover:text-blue relative hover:text-blue-900 transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]' >Collected Shots</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {images.map((image, index) => (
             <div key={index} className="w-full hover:opacity-90">
@@ -106,4 +105,4 @@ const MissionVisionObjective = () => {
   );
 };
 
-export default MissionVisionObjective;
+export default AboutUs;

@@ -1,4 +1,8 @@
-const data = [
+import Boy from "../assets/Boy.jpg";
+import FoodDonation from "../assets/FoodDonation.jpg";
+import Nature from "../assets/nature.jpg";
+
+export const data = [
     {
         id: 1,
         question: 'Why CSR activities are important in Vrindavan , Mathura district?',
@@ -36,5 +40,32 @@ const data = [
     }
 ];
 
-export default data;
+
+
+
+export const heroes = [
+    {
+        img: Boy,
+        text: "He has a desire to go to School, your support can fulfill his Dream",
+    },
+    {
+        img: FoodDonation,
+        text: "Your food can fill more than just a plate.",
+    },
+    {
+        img: Nature,
+        text: "Every small act of cleanliness contributes to a healthier world.",
+    },
+];
+
+
+export const images = [
+    { url: 'https://www.sobf.in/images/about4.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/activity2.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/activity3.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/activity1.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/about2.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/about3.jpeg', quote: 'Food distribution' },
+];
+
 

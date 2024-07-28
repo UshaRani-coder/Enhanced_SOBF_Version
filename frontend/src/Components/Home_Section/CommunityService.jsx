@@ -16,8 +16,8 @@ const CommunityService = () => {
           to give back, but it is great for volunteers as well. Helping others
           makes us feel better. By giving back, we helping ourselves. .
           <p className="mt-[20px] md:mt-[10px] lg:mt-[20px]" >
-           Service to a just cause rewards the workers with more real happiness and
-          satisfaction than any other venture of life.
+            Service to a just cause rewards the workers with more real happiness and
+            satisfaction than any other venture of life.
           </p>
         </p>
       </div>

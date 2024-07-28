@@ -1,30 +1,26 @@
+/* eslint-disable react/prop-types */
 import React, { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
-import ContactUs from "../pages/Contactus";
+import Support from "./Support";
 
 // npm i @emailjs/browser
 
 const ContactUsPage = () => {
   // Reference for the form element
   const form = useRef();
-  
+
   // State to store form data
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
   // State to manage form submission status
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // State to store submission message
   const [submitMessage, setSubmitMessage] = useState("");
 
   // Handler to update form data state on input change
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
 
   // Handler for form submission
   const handleSubmit = (e) => {
@@ -78,11 +74,10 @@ const ContactUsPage = () => {
     // Display the message with a green color for success and red for failure
     return (
       <p
-        className={`mt-4 text-center ${
-          submitMessage.includes("success")
-            ? "text-green-600 delay-75 duration-200"
-            : "text-red-600"
-        }`}
+        className={`mt-4 text-center ${submitMessage.includes("success")
+          ? "text-green-600 delay-75 duration-200"
+          : "text-red-600"
+          }`}
       >
         {submitMessage}
       </p>
@@ -95,11 +90,11 @@ const ContactUsPage = () => {
       <div className="flex flex-col lg:flex-row mx-[3rem] lg:gap-10 gap-16 md:mt-40 mt-36 ">
         {/*  Form div */}
         <div className="lg:w-[50%] w-[100%]  ">
-          <h3 className="text-start text-4xl font-bold mb-4 pb-5 text-orange hover:text-blue relative hover:text-blue-900 cursor-pointer transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+          <h3 className="text-start text-heading3 lg:text-heading2 font-bold mb-4 pb-5 text-orange hover:text-blue relative hover:text-blue-900 transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
             Have any questions?
           </h3>
           <p className="text-gray-600 mb-6">
-            If you have any questions or feedback, fill out the form below, and we'll get back to you.
+            If you have any questions or feedback, fill out the form below, and we&apos;ll get back to you.
           </p>
           <form ref={form} onSubmit={handleSubmit}>
             {/* Form fields */}
@@ -162,9 +157,9 @@ const ContactUsPage = () => {
           />
         </div>
       </div>
-      {/* Contact Us Form parent div */}
+      {/* Support us section */}
       <div className="md:py-0 py-10">
-        <ContactUs />
+        <Support />
       </div>
     </>
   );
