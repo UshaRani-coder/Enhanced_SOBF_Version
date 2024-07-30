@@ -6,7 +6,7 @@ const Gallery = () => {
 
 
   return (
-    <div className='pt-[120px] py-6'>
+    <div className='pt-[110px] py-6'>
       <img src={aboutus} alt="" className='w-full h-[190px] lg:h-[420px]' />
       <div className="container mx-auto p-0 px-4 lg:px-20">
         <h1 className='text-4xl lg:text-6xl py-8 text-orange font-bold font-quicksand font-600 text-center'>Our Gallery</h1>

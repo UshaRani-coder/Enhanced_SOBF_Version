@@ -6,7 +6,7 @@ import ObjectiveImg from "../assets/objective.jpeg"
 
 const Vision = () => {
   return (
-    <div className='pt-32'>
+    <div className='pt-[110px]'>
       {/* image */}
       <img src={aboutus} alt="" className='w-full h-[190px] lg:h-[420px]' />
       {/* 1st card */}

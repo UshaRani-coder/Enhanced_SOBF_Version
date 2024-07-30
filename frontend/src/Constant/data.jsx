@@ -1,6 +1,6 @@
-import Boy from "../assets/Boy.jpg";
+import Boy from "../assets/banner1.jpeg";
 import FoodDonation from "../assets/FoodDonation.jpg";
-import Nature from "../assets/nature.jpg";
+import Nature from "../assets/banner2.jpeg";
 
 export const data = [
     {
@@ -45,7 +45,7 @@ export const data = [
 
 export const heroes = [
     {
-        img: Boy,
+        img: "https://media.istockphoto.com/id/613253596/photo/group-of-happy-gypsy-indian-children-desert-village-india.jpg?s=612x612&w=0&k=20&c=L5zHBbisaiGg098L_Txc8v6r8oOFBylw47EA8pEWhic=",
         text: "He has a desire to go to School, your support can fulfill his Dream",
     },
     {

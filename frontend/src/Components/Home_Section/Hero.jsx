@@ -1,6 +1,6 @@
+// Hero.js
 import React, { useState, useEffect, useRef } from "react";
-
-import "../../App.css"
+import "../../App.css";
 import { heroes } from "../../Constant/data";
 
 const Hero = () => {
@@ -8,11 +8,8 @@ const Hero = () => {
   const [textAnimation, setTextAnimation] = useState(false);
   const imageElement = useRef(null);
 
-
   const scrollLeft = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + heroes.length) % heroes.length
-    );
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + heroes.length) % heroes.length);
   };
 
   const scrollRight = () => {
@@ -20,7 +17,14 @@ const Hero = () => {
   };
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      scrollRight();
+    }, 3000); // Change slide every 3 seconds
 
+    return () => clearInterval(interval);
+  }, [currentIndex]);
+
+  useEffect(() => {
     // Animate text when currentIndex changes
     setTextAnimation(true);
     const textElement = document.querySelector(".hero-text");
@@ -37,10 +41,19 @@ const Hero = () => {
   }, [currentIndex]);
 
   return (
-    <div className="hero pt-[120px]">
-      <div className="hero-img" ref={imageElement} key={currentIndex} style={{ backgroundImage: `url(${heroes[currentIndex].img})` }}></div>
+    <div className="hero relative">
+      <div
+        className="hero-img"
+        ref={imageElement}
+        key={currentIndex}
+        style={{ backgroundImage: `url(${heroes[currentIndex].img})` }}
+      ></div>
 
-      <div className="scroll-arrow absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]" style={{ transform: 'translateY(-50%)' }} onClick={scrollLeft}>
+      <div
+        className="scroll-arrow absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
+        style={{ transform: "translateY(-50%)" }}
+        onClick={scrollLeft}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 448 512"
@@ -50,7 +63,11 @@ const Hero = () => {
           <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
         </svg>
       </div>
-      <div className="scroll-arrow  absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10] style={{ transform: 'translateY(-50%)' }} " onClick={scrollRight}>
+      <div
+        className="scroll-arrow absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
+        style={{ transform: "translateY(-50%)" }}
+        onClick={scrollRight}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 448 512"
@@ -61,8 +78,7 @@ const Hero = () => {
         </svg>
       </div>
       <p
-        className={`absolute font-bold top-[55%] left-[3%] md:left-[8%] lg:left-[25%]  text-white z-[10]  text-center hero-text ${textAnimation ? "text-animate" : ""
-          }`}
+        className={`absolute font-bold top-[55%] left-[3%] md:left-[8%] lg:left-[25%] text-white z-[10] text-center hero-text ${textAnimation ? "text-animate" : ""}`}
       >
         {heroes[currentIndex].text}
       </p>
