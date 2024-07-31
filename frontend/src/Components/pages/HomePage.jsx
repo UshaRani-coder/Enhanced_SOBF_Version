@@ -7,6 +7,7 @@ import Faq from './Faq.jsx'
 import About from '../Home Page/About.jsx'
 import Services from '../Home Page/Services.jsx'
 import Team from '../Home Page/Team.jsx'
+import Testimonials from '../Home Page/Testimonials.jsx'
 const HomePage = () => {
   return (
     <div className='flex flex-col items-center '>
@@ -15,6 +16,7 @@ const HomePage = () => {
       <About />
       <Services />
       <Team />
+      <Testimonials />
       <Contactus />
       <Faq />
     </div>
