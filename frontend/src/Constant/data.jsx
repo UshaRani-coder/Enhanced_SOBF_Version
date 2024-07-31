@@ -1,4 +1,8 @@
-const data = [
+import Boy from "../assets/banner1.jpeg";
+import FoodDonation from "../assets/FoodDonation.jpg";
+import Nature from "../assets/banner2.jpeg";
+
+export const data = [
     {
         id: 1,
         question: 'Why CSR activities are important in Vrindavan , Mathura district?',
@@ -36,5 +40,32 @@ const data = [
     }
 ];
 
-export default data;
+
+
+
+export const heroes = [
+    {
+        img: "https://media.istockphoto.com/id/613253596/photo/group-of-happy-gypsy-indian-children-desert-village-india.jpg?s=612x612&w=0&k=20&c=L5zHBbisaiGg098L_Txc8v6r8oOFBylw47EA8pEWhic=",
+        text: "He has a desire to go to School, your support can fulfill his Dream",
+    },
+    {
+        img: FoodDonation,
+        text: "Your food can fill more than just a plate.",
+    },
+    {
+        img: Nature,
+        text: "Every small act of cleanliness contributes to a healthier world.",
+    },
+];
+
+
+export const images = [
+    { url: 'https://www.sobf.in/images/about4.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/activity2.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/activity3.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/activity1.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/about2.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/about3.jpeg', quote: 'Food distribution' },
+];
+
 

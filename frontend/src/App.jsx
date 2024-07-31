@@ -1,29 +1,29 @@
-// src/App.jsx
 import React, { Suspense } from 'react';
-import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './index.css';
-import Header from './Components/common/Header';
-import Navbar from './Components/common/Navbar.jsx';
-// Lazy load components
-const HomePage = lazy(() => import('./Components/pages/HomePage'));
-const AboutUs = lazy(() => import('./Components/pages/Aboutus'));
-const ContactUs = lazy(() => import('./Components/ContactUsPage/ContactUsPage.jsx'));
-const Footer = lazy(() => import('./Components/common/Footer'))
+import "./App.css";
+import Header from './Components/common_components/Header.jsx';
+import Footer from './Components/common_components/Footer.jsx';
+import HomePage from './pages/Home.jsx';
+import AboutUs from './pages/Aboutus.jsx';
+import ContactUsPage from './pages/ContactUs.jsx';
+import Vision from './pages/Vision.jsx';
+import Gallery from './pages/Gallery.jsx';
+
+
 
 
 const App = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Header />
-      <Navbar />
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/contact-us" element={<ContactUs />} />
-    
+        <Route path="/contact-us" element={<ContactUsPage />} />
+        <Route path="/vision" element={<Vision />} />
+        <Route path="/gallery" element={<Gallery />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </Suspense>
   );
 };

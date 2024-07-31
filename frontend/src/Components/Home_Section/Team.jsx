@@ -1,5 +1,6 @@
 import React from 'react'
 import chairmanImg from '../../assets/chairman.png'
+// import chairmanImg from  "../../App"
 
 const Team = () => {
   return (
