@@ -21,7 +21,8 @@ export default {
         poppins: ['Poppins', 'sans-serif'],
         amatic: ['"Amatic SC"', 'sans-serif'],
         workSans: ['"Work Sans"', 'sans-serif'],
-        sans: ["Quicksand", 'sans-serif']
+        sans: ["Quicksand", 'sans-serif'],
+        cursive : ["Are You Serious", 'cursive']
       },
       fontWeight: {
         thin: 100,
@@ -39,6 +40,7 @@ export default {
         heading2: '3rem', // Example: 48px
         heading3: '2.25rem', // Example: 36px
         heading4: '1.5rem', // Example: 24px
+        heading5: '1rem',// Example: 16px
       }
     },
   },

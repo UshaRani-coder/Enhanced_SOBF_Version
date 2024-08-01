@@ -7,6 +7,7 @@ import Faq from '../Components/Home_Section/Faq.jsx'
 import About from '../Components/Home_Section/About.jsx'
 import Services from '../Components/Home_Section/Services.jsx'
 import Team from '../Components/Home_Section/Team.jsx'
+import Testimonials from '../Components/Home_Section/Testimonials.jsx'
 import Video from '../Components/Home_Section/Video.jsx'
 import Programms from '../Components/Home_Section/Programms.jsx'
 
@@ -23,6 +24,7 @@ const HomePage = () => {
       <About />
       <Services />
       <Team />
+      <Testimonials />
       <Contactus />
       <Faq />
     </div>
