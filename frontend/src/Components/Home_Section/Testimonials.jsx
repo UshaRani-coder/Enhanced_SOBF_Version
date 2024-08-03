@@ -203,10 +203,12 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="bg-seashell w-[100%] mt-[30px] flex flex-col items-center">
-      <h1 className="text-heading5 md:text-heading4 mt-[30px] font-serif font-bold text-orange lg:pb-[25px]">
-        WHAT OTHERS SAY ABOUT US
+    <div className="bg-light-lavender w-[100%] mt-20 flex flex-col items-center">
+          <div className="w-[95%]">
+    <h1 className="text-center text-heading3 lg:text-heading2 font-bold mt-10 p-5 text-peacock-green relative hover:text-peacock-green-hover  transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+        Testimonials
       </h1>
+    </div>
       <div className="testimonials-slider w-[90%] md:w-[80%] lg:w-[70%] mt-[30px]">
         <Slider {...settings}>
           {testimonials.map((testimonial, index) => (

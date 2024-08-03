@@ -12,16 +12,20 @@ export default {
         "blue": "#011232",
         "seashell": "#fdf7f4",
         "creamy-white":"#EFDFCB",
-        "background_clr":"#EBF1FA"
+        "background_clr":"#EBF1FA",
+        "peacock-green" :"#379e90 ",
+        "peacock-green-hover" : "#19675d",
+        "light-lavender" : "#edf1ffdb"
+
       },
       boxShadow: {
         'dual': '0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1)',
       },
       fontFamily: {
+        sans: ["DM Sans", 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
         amatic: ['"Amatic SC"', 'sans-serif'],
         workSans: ['"Work Sans"', 'sans-serif'],
-        sans: ["Quicksand", 'sans-serif'],
         cursive : ["Are You Serious", 'cursive']
       },
       fontWeight: {
@@ -41,6 +45,7 @@ export default {
         heading3: '2.25rem', // Example: 36px
         heading4: '1.5rem', // Example: 24px
         heading5: '1rem',// Example: 16px
+        headong6: '10px'
       }
     },
   },

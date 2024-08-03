@@ -5,13 +5,15 @@ import aboutImg from '../../assets/about-img.png'
 
 const About = () => {
   return (
-    <div className="flex flex-col items-center lg:mx-[20px] lg:mt-[-24rem]">
-      <h1 className="text-heading1 font-serif font-bold text-orange lg:pb-[25px]">
-        Who We Are
+    <div className="flex flex-col items-center lg:mx-[20px] mt-5">
+          <div className="w-[90%]">
+    <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-1 p-5 text-peacock-green relative hover:text-peacock-green-hover transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+        Who are we?
       </h1>
-      <div className="mx-4 ">
-        <p className="text-lg text-gray-700 text-center font-semibold mt-4 ">
-          <span className="text-2xl text-orange font-bold hover:underline">
+    </div>
+      <div className="mx-4 px-16">
+        <p className="text-lg text-gray-700 text-start font-medium mt-4 ">
+          <span className="text-2xl text-violet-700 font-bold hover:underline">
             Soul Of Braj Federation
           </span> is a Section-8 Recognized Non Profit Organization, dedicated to Serve
           Society members in Shri Vrindavan Dham, Since 2020, SOBF is Dedicated
@@ -24,7 +26,7 @@ const About = () => {
           Currently we are Impacting more than 1000+ Beneficiaries on Daily
           Basis.
           <br />
-          <span className=" text-[rgb(216,78,32)] underline font-bold ">
+          <span className=" text-violet-700 font-bold text-xl ">
             Focused And On Going Initiatives :
           </span> Gopala Bhog ( Affordable Food Prasadam For All ), Swasth aur Swachh
           Vrindavan, Give Me A Chance, Say Yes To Me, Brajkulam Community

@@ -20,7 +20,7 @@ const Support = () => {
     // Main container for the Contact Us section
     <div className=" p-5 w-full pt-[10px]">
       {/* Section title */}
-      <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-orange hover:text-blue relative hover:text-blue-900 transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] md:pt-[70px]">
+      <h1 className="text-center  text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-peacock-green hover:text-peacock-green-hover relative hover:text-blue-900 transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] md:pt-[70px]">
         Your Support can change lives
       </h1>
 
@@ -32,7 +32,7 @@ const Support = () => {
           <div className="items-center flex flex-col">
             {/* Button to redirect to Google Maps */}
             <button
-              className="bg-[#ff7700] justify-center flex rounded-[20px] p-4 hover:bg-blue transition ease-in-out duration-500 delay-50"
+              className="bg-peacock-green justify-center flex rounded-[20px] p-4 hover:bg-blue transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectMap}
             >
               <svg
@@ -65,7 +65,7 @@ const Support = () => {
           <div className="items-center flex flex-col">
             {/* Button to redirect to call */}
             <button
-              className="bg-[#ff7700] justify-center flex rounded-[20px] p-4 hover:bg-blue transition ease-in-out duration-500 delay-50"
+              className="bg-peacock-green justify-center flex rounded-[20px] p-4 hover:bg-blue transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectCall}
             >
               <svg
@@ -94,7 +94,7 @@ const Support = () => {
           <div className="items-center flex flex-col ">
             {/* Button to redirect to email */}
             <button
-              className="bg-[#ff7700] justify-center items-center flex rounded-[20px] p-4 hover:bg-[#2D2339] transition ease-in-out duration-500 delay-50"
+              className="bg-peacock-green justify-center items-center flex rounded-[20px] p-4 hover:bg-[#2D2339] transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectMail}
             >
               <svg

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
-import Support from "./Support";
+import Support from "../Components/Home_Section/Support";
 
 // npm i @emailjs/browser
 
@@ -90,7 +90,7 @@ const ContactUsPage = () => {
       <div className="flex flex-col lg:flex-row mx-[3rem] lg:gap-10 gap-16 md:mt-40 mt-36 ">
         {/*  Form div */}
         <div className="lg:w-[50%] w-[100%]  ">
-          <h3 className="text-start text-heading3 lg:text-heading2 font-bold mb-4 pb-5 text-orange hover:text-blue relative hover:text-blue-900 transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+          <h3 className="text-start text-heading3 lg:text-heading2 font-bold mb-4 pb-5 text-peacock-green hover:text-peacock-green-hover relative hover:text-blue-900 transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
             Have any questions?
           </h3>
           <p className="text-gray-600 mb-6">
@@ -103,7 +103,7 @@ const ContactUsPage = () => {
                 type="text"
                 name="name"
                 placeholder="Name"
-                className="w-full p-3 rounded-md bg-[#FCF7F5] border border-gray-400"
+                className="w-full p-3 rounded-md bg-light-lavender border border-gray-400"
                 onChange={handleChange}
                 value={formData.name}
                 required
@@ -115,7 +115,7 @@ const ContactUsPage = () => {
                 type="email"
                 name="email"
                 placeholder="Email address"
-                className="w-full p-3 rounded-md bg-[#FCF7F5] border border-gray-400"
+                className="w-full p-3 rounded-md bg-light-lavender border border-gray-400"
                 onChange={handleChange}
                 value={formData.email}
                 required
@@ -127,7 +127,7 @@ const ContactUsPage = () => {
                 name="message"
                 placeholder="Message"
                 rows="4"
-                className="w-full p-3 rounded-md bg-[#FCF7F5] border font-poppins border-gray-400 resize-none"
+                className="w-full p-3 rounded-md bg-light-lavender border font-poppins border-gray-400 resize-none"
                 onChange={handleChange}
                 value={formData.message}
                 required

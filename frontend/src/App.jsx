@@ -9,6 +9,7 @@ import AboutUs from './pages/Aboutus.jsx';
 import ContactUsPage from './pages/ContactUs.jsx';
 import Vision from './pages/Vision.jsx';
 import Gallery from './pages/Gallery.jsx';
+import Donateus from './pages/Donateus.jsx';
 
 
 
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/vision" element={<Vision />} />
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/donate-us" element={<Donateus/>} />
       </Routes>
       <Footer />
     </Suspense>
