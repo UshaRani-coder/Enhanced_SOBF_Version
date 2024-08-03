@@ -1,4 +1,3 @@
-// Hero.js
 import React, { useState, useEffect, useRef } from "react";
 import "../../App.css";
 import { heroes } from "../../Constant/data";
@@ -50,7 +49,7 @@ const Hero = () => {
       ></div>
 
       <div
-        className="scroll-arrow absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
+        className="scroll-arrow hidden lg:block absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
         style={{ transform: "translateY(-50%)" }}
         onClick={scrollLeft}
       >
@@ -64,7 +63,7 @@ const Hero = () => {
         </svg>
       </div>
       <div
-        className="scroll-arrow absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
+        className="scroll-arrow hidden lg:block absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
         style={{ transform: "translateY(-50%)" }}
         onClick={scrollRight}
       >
@@ -78,7 +77,7 @@ const Hero = () => {
         </svg>
       </div>
       <p
-        className={`absolute font-bold top-[55%] left-[3%] md:left-[8%] lg:left-[25%] text-white z-[10] text-center hero-text ${textAnimation ? "text-animate" : ""}`}
+        className={`absolute px-4 font-bold top-[68%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text ${textAnimation ? "text-animate" : ""}`}
       >
         {heroes[currentIndex].text}
       </p>
