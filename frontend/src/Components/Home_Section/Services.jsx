@@ -24,7 +24,7 @@ const Services = () => {
           <li
             key={id}
             onClick={() => setService(id)}
-            className="transition ease-in-out duration-500 delay-150 border-2 border-blue rounded-full px-[20px] py-[5px] xl:w-auto text-center hover:text-[#ffffff] hover:bg-blue"
+            className="transition ease-in-out duration-500 delay-150 border-2 border-blue rounded-full px-[20px] py-[5px] xl:w-auto text-center hover:text-peacock-green hover:bg-blue"
           >
             {name}
           </li>
