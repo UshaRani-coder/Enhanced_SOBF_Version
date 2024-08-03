@@ -77,7 +77,7 @@ const Hero = () => {
         </svg>
       </div>
       <p
-        className={`absolute w-2/3 max-w-md px-4 font-bold top-[55%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text ${textAnimation ? "text-animate" : ""}`}
+        className={`absolute px-4 font-bold top-[68%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text ${textAnimation ? "text-animate" : ""}`}
       >
         {heroes[currentIndex].text}
       </p>
