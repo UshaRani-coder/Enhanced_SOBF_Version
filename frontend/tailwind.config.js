@@ -16,7 +16,6 @@ export default {
         "peacock-green" :"#379e90 ",
         "peacock-green-hover" : "#19675d",
         "light-lavender" : "#edf1ffdb"
-
       },
       boxShadow: {
         'dual': '0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1)',
@@ -40,12 +39,26 @@ export default {
         black: 900,
       },
       fontSize: {
-        heading1: '3.5rem', // Example: 64px
-        heading2: '3rem', // Example: 48px
-        heading3: '2.25rem', // Example: 36px
-        heading4: '1.5rem', // Example: 24px
-        heading5: '1rem',// Example: 16px
+        heading1: '3.5rem',
+        heading2: '3rem',
+        heading3: '2.25rem',
+        heading4: '1.5rem',
+        heading5: '1rem',
         headong6: '10px'
+      },
+      animation: {
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+        'infinite-scroll-reverse': 'infinite-scroll-reverse 25s linear infinite',
+      },
+      keyframes: {
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
+        },
+        'infinite-scroll-reverse': {
+          from: { transform: 'translateX(-100%)' },
+          to: { transform: 'translateX(0)' },
+        },
       }
     },
   },

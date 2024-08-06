@@ -69,4 +69,41 @@ export const images = [
 ];
 
 
+export const donors_words = [
+    {
+        image: Boy,
+        name: 'John Doe',
+        occupation: 'Software Engineer',
+        place: 'San Francisco, CA',
+        reviews: 'John has a great understanding of software development and consistently delivers high-quality code. He is a reliable team player.'
+      },
+      {
+        image: Boy,
+        name: 'Jane Smith',
+        occupation: 'UX Designer',
+        place: 'New York, NY',
+        reviews: 'Jane is an exceptional UX designer. Her designs are always user-friendly and aesthetically pleasing. She has a keen eye for detail.'
+      },
+      {
+        image: Boy,
+        name: 'Carlos Mendoza',
+        occupation: 'Project Manager',
+        place: 'Austin, TX',
+        reviews: 'Carlos is an excellent project manager who keeps projects on track and ensures clear communication among all team members.'
+      },
+      {
+        image: Boy,
+        name: 'Aisha Khan',
+        occupation: 'Data Scientist',
+        place: 'Seattle, WA',
+        reviews: 'Aisha is a highly skilled data scientist who provides valuable insights through her analyses. Her work has significantly impacted our decision-making process.'
+      },
+      {
+        image: Boy,
+        name: 'Liam O’Connor',
+        occupation: 'Marketing Specialist',
+        place: 'Chicago, IL',
+        reviews: 'Liam’s marketing strategies have greatly increased our customer engagement. He is creative and results-driven.'
+      }
+];
 

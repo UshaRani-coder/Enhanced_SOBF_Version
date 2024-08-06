@@ -5,6 +5,7 @@ import education from "../assets/banner2.jpeg";
 import food from "../assets/FoodDonation.jpg";
 import objective from "../assets/objective.jpeg";
 import donate from "../assets/donateMotive.jpeg";
+import { donors_words } from "../Constant/data";
 
 
 const Donateus = () => {
@@ -122,7 +123,7 @@ const Donateus = () => {
       <div className="w-full lg:w-full p-10 mt-4">
         <div className="flex">
           <button
-            className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm lg:text-lg ${
+            className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm md:text-lg ${
               activeTab === "whydonate"
                 ? "text-white bg-[#379e90] hover:bg-[#2a9b8c]"
                 : "bg-light-lavender text-gray-700"
@@ -132,7 +133,7 @@ const Donateus = () => {
             Why donate us
           </button>
           <button
-            className={`poppins-medium w-[33.3%] px-4 py-3 text-sm lg:text-lg  ${
+            className={`poppins-medium w-[33.3%] px-4 py-3 text-sm md:text-lg  ${
               activeTab === "howweuse"
                 ? "text-white hover:bg-[#2a9b8c] bg-[#379e90]"
                 : "bg-light-lavender text-gray-700"
@@ -142,7 +143,7 @@ const Donateus = () => {
             How we use
           </button>
           <button
-            className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm lg:text-lg  ${
+            className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm md:text-lg  ${
               activeTab === "whereweuse"
                 ? "text-white bg-[#379e90] hover:bg-[#2a9b8c]"
                 : "bg-light-lavender text-gray-700"
@@ -158,7 +159,13 @@ const Donateus = () => {
       </div>
 
       {/* dynamic number datas */}
-      <div className="flex flex-col justify-center px-4 sm:px-6 lg:px-8 ">
+      <div className="mt-5 max-w[90%]">
+        {/* Title section for Donors words about us */}
+        <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-peacock-green relative hover:text-peacock-green-hover transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+          Our achievements
+        </h1>
+      </div>
+      <div className="flex flex-col justify-center mb-10 px-4 sm:px-6 lg:px-8 ">
         <ul className="w-full grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 lg:gap-6 gap-4">
           {/* List items */}
           <li className="flex flex-col items-center group p-6 rounded-xl hover:shadow-xl">
@@ -289,12 +296,366 @@ const Donateus = () => {
         </ul>
       </div>
 
+      {/* Section for Donors' Words */}
+      <div className="mt-10 max-w[90%]">
+        {/* Title section for Donors words about us */}
+        <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-10 p-5 text-peacock-green relative hover:text-peacock-green-hover transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+          Donors words about us
+        </h1>
+      </div>
+
+      {/* Container for the donor review cards, allowing horizontal scrolling */}
+      <div className="w-full inline-flex flex-nowrap overflow-hidden">
+        {/* Wrapper for the donor review cards with an animation for infinite scrolling */}
+        <div className="flex animate-infinite-scroll">
+          {/* Map through the donors_words array to create donor review cards */}
+          {[...donors_words, ...donors_words].map((item, index) => (
+            <div
+              key={index}
+              className="review-item mb-8 p-4 border rounded-lg flex flex-col flex-shrink-0 w-[24rem]   mx-4"
+            >
+              <div className="flex items-start mb-4">
+                {/* Image section of the donor */}
+                <div className="w-20">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-20 h-20 object-cover rounded-full"
+                  />
+                </div>
+                <div className="w-10"></div>
+                {/* Donor details section */}
+                <div className="w-50">
+                  <h3 className="md:text-xl text-base font-bold">
+                    {item.name}
+                  </h3>
+                  <p className="text-gray-600">{item.occupation}</p>
+                  <p className="text-gray-600">{item.place}</p>
+                </div>
+              </div>
+              {/* Review text from the donor */}
+              <p className="text-gray-800 md:text-lg text-base">
+                {item.reviews}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Duplicate wrapper for smooth infinite scrolling effect */}
+        <div className="flex animate-infinite-scroll" aria-hidden="true">
+          {[...donors_words, ...donors_words].map((item, index) => (
+            <div
+              key={index}
+              className="review-item mb-8 p-4 border rounded-lg flex flex-col flex-shrink-0 w-96 mx-4"
+            >
+              <div className="flex items-start mb-4">
+                {/* Image section of the donor */}
+                <div className="w-20">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-20 h-20 object-cover rounded-full"
+                  />
+                </div>
+                <div className="w-20"></div>
+                {/* Donor details section */}
+                <div className="w-50">
+                  <h3 className="text-xl font-bold">{item.name}</h3>
+                  <p className="text-gray-600">{item.occupation}</p>
+                  <p className="text-gray-600">{item.place}</p>
+                </div>
+              </div>
+              {/* Review text from the donor */}
+              <p className="text-gray-800">{item.reviews}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Section for Recent Donors */}
+      {/* Title section for Recent Donors */}
+      <div className="mt-10 max-w[90%]">
+        {/* Title for the donors section with styles for heading and hover effects */}
+        <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-10 p-5 text-peacock-green relative hover:text-peacock-green-hover transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+          Our Donors
+        </h1>
+      </div>
+
+      {/* Container for the donor cards, allowing horizontal scrolling */}
+      <div className="w-full inline-flex flex-nowrap overflow-hidden">
+        {/* Wrapper for the donor cards with an animation for infinite scrolling */}
+        <div className="flex animate-infinite-scroll-reverse">
+          {/* Map through the donors_words array to create donor cards */}
+          {[...donors_words, ...donors_words].map((item, index) => (
+            <div
+              key={index}
+              className="review-item mb-8 p-4 border rounded-lg flex flex-col flex-shrink-0 w-[24rem] mx-4"
+            >
+              <div className="flex items-start mb-4">
+                {/* Image section of the donor */}
+                <div className="w-20">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-20 h-20 object-cover rounded-full"
+                  />
+                </div>
+                <div className="w-10"></div>
+                {/* Donor details section */}
+                <div className="w-50">
+                  <h3 className="text-xl font-bold">{item.name}</h3>
+                  <p className="text-gray-600">{item.occupation}</p>
+                  <p className="text-gray-600">{item.place}</p>
+                </div>
+              </div>
+              {/* Review text from the donor */}
+              <p className="text-gray-800">{item.reviews}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Duplicate wrapper for smooth infinite scrolling effect */}
+        <div
+          className="flex animate-infinite-scroll-reverse"
+          aria-hidden="true"
+        >
+          {[...donors_words, ...donors_words].map((item, index) => (
+            <div
+              key={index}
+              className="review-item mb-8 p-4 border rounded-lg flex flex-col flex-shrink-0 w-96 mx-4"
+            >
+              <div className="flex items-start mb-4">
+                {/* Image section of the donor */}
+                <div className="w-20">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-20 h-20 object-cover rounded-full"
+                  />
+                </div>
+                <div className="w-20"></div>
+                {/* Donor details section */}
+                <div className="w-50">
+                  <h3 className="text-xl font-bold">{item.name}</h3>
+                  <p className="text-gray-600">{item.occupation}</p>
+                  <p className="text-gray-600">{item.place}</p>
+                </div>
+              </div>
+              {/* Review text from the donor */}
+              <p className="text-gray-800">{item.reviews}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Donate form */}
+      <div id="donate-form">
+        {/* Title section for the donate form */}
+        <div className="min-h-screen mt-4 p-6 bg-gray-100 flex items-center justify-center rounded-lg">
+          {/* Container for the donate form */}
+          <div className="container max-w-screen-lg mx-auto md:mt-32 md:mb-20 mt-10 mb-8">
+            <div className="bg-white rounded-xl shadow-lg p-4 px-4 md:p-8 mb-6">
+              <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                <div className="text-gray-600">
+                  <div className="flex- flex-col">
+                    <span className="font-medium md:text-[2rem] text-peacock-green text-heading4 py-3 pr-2">
+                      Personal
+                    </span>
+
+                    <span className="font-medium md:text-[2rem] text-peacock-green-hover text-heading4 py-3">
+                      Details
+                    </span>
+                  </div>
+
+                  <p className="pt-1.5 lg:pb-0 pb-4">
+                    Please fill out all the fields.
+                  </p>
+                </div>
+
+                <div className="lg:col-span-2">
+                  <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                    <div className="md:col-span-5">
+                      <label htmlFor="first_name">First Name</label>
+                      <input
+                        type="text"
+                        name="first_name"
+                        id="first_name"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="First Name"
+                        required
+                        minLength="2"
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="last_name">Last Name</label>
+                      <input
+                        type="text"
+                        name="last_name"
+                        id="last_name"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="Last Name"
+                        required
+                        minLength="1"
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="dob">Date of Birth</label>
+                      <input
+                        type="date"
+                        name="dob"
+                        id="dob"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        required
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="gender">Gender</label>
+                      <select
+                        name="gender"
+                        id="gender"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        required
+                      >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="email">Email Address</label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="example@gmail.com"
+                        required
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="phone">Mobile Number</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="Mobile Number"
+                        required
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="pan">PAN Number (Optional)</label>
+                      <input
+                        type="text"
+                        name="pan"
+                        id="pan"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="Enter a valid PAN number (e.g., ABCDE1234F)"
+                        maxLength="10"
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="aadhar">Aadhar Number (Optional)</label>
+                      <input
+                        type="number"
+                        name="aadhar"
+                        id="aadhar"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="Enter a valid 12-digit Aadhaar number (e.g., 123456789012)"
+                        maxLength="12"
+                        pattern="\d{12}"
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="pin">PIN Code</label>
+                      <input
+                        type="number"
+                        name="pin"
+                        id="pin"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="ex. 236790"
+                        required
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="state">State</label>
+                      <input
+                        type="text"
+                        name="state"
+                        id="state"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="state"
+                        required
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="city">City</label>
+                      <input
+                        type="text"
+                        name="city"
+                        id="city"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="City"
+                        required
+                      />
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="donation_for">Donation For</label>
+                      <select
+                        name="donation_for"
+                        id="donation_for"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        required
+                      >
+                        <option value="">Select Program/Service</option>
+                        <option value="program1">
+                          Child and Education empowerment
+                        </option>
+                        <option value="program2">Children activities</option>
+                        <option value="program3">Food distribution</option>
+                        <option value="program3">Women empowerment</option>
+                        <option value="program3">Health awareness camp</option>
+                        <option value="program3">
+                          Sanitary pads distribution
+                        </option>
+                        <option value="program3">Face mask distribution</option>
+                      </select>
+                    </div>
+                    <div className="md:col-span-5">
+                      <label htmlFor="donation_amount">Donation Amount</label>
+                      <input
+                        type="number"
+                        name="donation_amount"
+                        id="donation_amount"
+                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="Enter amount"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="md:col-span-5 flex flex-col  md:flex-row justify-center pt-10 md:gap-10 gap-3">
+                <button className="text-white bg-peacock-green border border-gray-300 focus:outline-none hover:bg-peacock-green-hover focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-peacock-green-hover dark:text-white dark:border-peacock-green-hover dark:hover:bg-peacock-green-hover dark:hover:border-gray-600 dark:focus:ring-peacock-green-hover">
+                  Pay via UPI
+                </button>
+                <button className="text-white bg-peacock-green border border-gray-300 focus:outline-none hover:bg-peacock-green-hover focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-peacock-green-hover dark:text-white dark:border-peacock-green-hover dark:hover:bg-peacock-green-hover dark:hover:border-gray-600 dark:focus:ring-peacock-green-hover">
+                  Pay via Card
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
       {/* Donation opportunity Image*/}
       <div className="pt-10">
         <img src={donate} alt="donation oppurtunity" className="w-full"/>
       </div>
 
-      {/* Donate form */}
+      
     </div>
   );
 };
