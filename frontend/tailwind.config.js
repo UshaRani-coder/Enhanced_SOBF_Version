@@ -15,7 +15,9 @@ export default {
         "background_clr":"#EBF1FA",
         "peacock-green" :"#379e90 ",
         "peacock-green-hover" : "#19675d",
-        "light-lavender" : "#edf1ffdb"
+        "light-lavender" : "#edf1ffdb",
+        "logo-blue" : "#2C325C",
+        "logo-yellow" : "#EDB259"
       },
       boxShadow: {
         'dual': '0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1)',

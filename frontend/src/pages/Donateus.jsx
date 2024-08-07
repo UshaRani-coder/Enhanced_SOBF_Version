@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Hero from "../Components/Home_Section/Hero";
 import { useSpring, animated } from "react-spring";
 import education from "../assets/banner2.jpeg";
 import food from "../assets/FoodDonation.jpg";
 import objective from "../assets/objective.jpeg";
 import donate from "../assets/donateMotive.jpeg";
 import { donors_words } from "../Constant/data";
+import Donate_hero from "../Components/Donate_page/donate_hero.jsx";
 
 
 const Donateus = () => {
@@ -117,7 +117,7 @@ const Donateus = () => {
   return (
     <div>
       {/* Hero section */}
-      <Hero />
+      <Donate_hero/>
 
       {/* Tabs */}
       <div className="w-full lg:w-full p-10 mt-4">
@@ -480,7 +480,7 @@ const Donateus = () => {
                         type="text"
                         name="first_name"
                         id="first_name"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="First Name"
                         required
                         minLength="2"
@@ -492,7 +492,7 @@ const Donateus = () => {
                         type="text"
                         name="last_name"
                         id="last_name"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="Last Name"
                         required
                         minLength="1"
@@ -504,7 +504,8 @@ const Donateus = () => {
                         type="date"
                         name="dob"
                         id="dob"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        placeholder="dd/mm/yyyy"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         required
                       />
                     </div>
@@ -513,7 +514,7 @@ const Donateus = () => {
                       <select
                         name="gender"
                         id="gender"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         required
                       >
                         <option value="">Select Gender</option>
@@ -528,7 +529,7 @@ const Donateus = () => {
                         type="email"
                         name="email"
                         id="email"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="example@gmail.com"
                         required
                       />
@@ -539,7 +540,7 @@ const Donateus = () => {
                         type="tel"
                         name="phone"
                         id="phone"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="Mobile Number"
                         required
                       />
@@ -550,21 +551,22 @@ const Donateus = () => {
                         type="text"
                         name="pan"
                         id="pan"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="Enter a valid PAN number (e.g., ABCDE1234F)"
                         maxLength="10"
                       />
                     </div>
-                    <div className="md:col-span-5">
+                    <div className="md:col-span-5 ">
                       <label htmlFor="aadhar">Aadhar Number (Optional)</label>
                       <input
                         type="number"
                         name="aadhar"
                         id="aadhar"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="Enter a valid 12-digit Aadhaar number (e.g., 123456789012)"
                         maxLength="12"
                         pattern="\d{12}"
+                        color="#edf1ffdb"
                       />
                     </div>
                     <div className="md:col-span-5">
@@ -573,7 +575,7 @@ const Donateus = () => {
                         type="number"
                         name="pin"
                         id="pin"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="ex. 236790"
                         required
                       />
@@ -584,7 +586,7 @@ const Donateus = () => {
                         type="text"
                         name="state"
                         id="state"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="state"
                         required
                       />
@@ -595,7 +597,7 @@ const Donateus = () => {
                         type="text"
                         name="city"
                         id="city"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="City"
                         required
                       />
@@ -605,7 +607,7 @@ const Donateus = () => {
                       <select
                         name="donation_for"
                         id="donation_for"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         required
                       >
                         <option value="">Select Program/Service</option>
@@ -628,7 +630,7 @@ const Donateus = () => {
                         type="number"
                         name="donation_amount"
                         id="donation_amount"
-                        className="h-10 border mt-1 rounded px-4 w-full "
+                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
                         placeholder="Enter amount"
                         required
                       />
@@ -648,6 +650,7 @@ const Donateus = () => {
           </div>
         </div>
       </div>
+
 
       
       {/* Donation opportunity Image*/}

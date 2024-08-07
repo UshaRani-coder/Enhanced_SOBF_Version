@@ -1,6 +1,9 @@
 import Boy from "../assets/banner1.jpeg";
 import FoodDonation from "../assets/FoodDonation.jpg";
 import Nature from "../assets/banner2.jpeg";
+import we1 from "../assets/Sobf Images/women empowerment/we1.jpg";
+import cee14 from "../assets/Sobf Images/child education and empowerment/cee14.jpg";
+import hac4 from "../assets/Sobf Images/health and awareness camp/hac4.jpg";
 
 export const data = [
     {
@@ -58,6 +61,20 @@ export const heroes = [
     },
 ];
 
+export const heroes_donate = [
+    {
+        img: cee14,
+        text: "Your support unlock's true potential, brighten many futures.",
+    },
+    {
+        img: we1,
+        text: "Empowering Hands, Crafting Futures: Your Donations Stitch Dreams and Opportunities.",
+    },
+    {
+        img: hac4,
+        text: "Spreading Smiles and Health: Your Donations Create Brighter Tomorrows.",
+    },
+];
 
 export const images = [
     { url: 'https://www.sobf.in/images/about4.jpeg', quote: 'Food distribution' },
