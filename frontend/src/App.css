@@ -91,7 +91,7 @@
     }
   }
 
-  .hero::after {
+  .hero::after,.hero-community-service:after {
     content: '';
     position: absolute;
     top: 0;

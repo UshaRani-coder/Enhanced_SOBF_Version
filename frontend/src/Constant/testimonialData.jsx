@@ -11,12 +11,12 @@ const testimonials = [
     description:
       "The soul of Braj is doing marvelous work for humanity, keeping Humanity First. They have set an example of the next evolutionary step for humankind which is to move from man to kind. In short, I remember reading One book, one pen, one child, and one teacher can change the world.",
   },
-  {
-    img : testimonialImg2,
-    name : "KANIKA GARG",
-    profession : "",
-    description: "Soul of braj is a partner of SDG couple that helps in braj initiative sustainability. With strong commitment and dedication, we would contribute to bring widespread change in the lives of millions of people by providing them sustainable access to water and sanitation, particularly for young women and girls."
-  },
+  // {
+  //   img : testimonialImg2,
+  //   name : "KANIKA GARG",
+  //   profession : "",
+  //   description: "Soul of braj is a partner of SDG couple that helps in braj initiative sustainability. With strong commitment and dedication, we would contribute to bring widespread change in the lives of millions of people by providing them sustainable access to water and sanitation, particularly for young women and girls."
+  // },
   {
     img: testimonialImg3,
     name: "DR. PRAKASH KUMAR",
