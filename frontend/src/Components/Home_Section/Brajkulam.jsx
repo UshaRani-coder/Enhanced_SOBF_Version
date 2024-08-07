@@ -1,5 +1,8 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
-import BrajkulamImg from '../../assets/Sobf Images/child education and empowerment/cee1.jpg'
+import BrajkulamImg from '../../assets/Sobf Images/child_education_and_empowerment/cee1.jpg'
+
+
 const Brajkulam = ({setService}) => {
   return (
     <div className="w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto">

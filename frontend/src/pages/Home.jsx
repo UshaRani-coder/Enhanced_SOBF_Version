@@ -10,6 +10,7 @@ import Team from '../Components/Home_Section/Team.jsx'
 import Testimonials from '../Components/Home_Section/Testimonials.jsx'
 import Video from '../Components/Home_Section/Video.jsx'
 import Programms from '../Components/Home_Section/Initiatives.jsx'
+import Home_Gallery from '../Components/Home_Section/Home_gallery.jsx'
 
 
 
@@ -25,6 +26,7 @@ const HomePage = () => {
       <Services />
       <Team />
       <Testimonials />
+      <Home_Gallery/>
       <Contactus />
       <Faq />
     </div>

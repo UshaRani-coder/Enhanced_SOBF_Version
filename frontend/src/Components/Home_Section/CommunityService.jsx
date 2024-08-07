@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import CommunityServiceImg1 from "../../assets/communityService.jpg";
-import CommunityServiceImg from "../../assets/Sobf Images/Sanitary pads distribution/spd7.jpg";
+import CommunityServiceImg from "../../assets/Sobf Images/Sanitary_pads_distribution/spd7.jpg";
 
 const CommunityService = ({ setService }) => {
   return (

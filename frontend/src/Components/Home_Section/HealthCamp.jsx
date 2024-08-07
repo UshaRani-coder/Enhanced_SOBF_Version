@@ -1,5 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
-import Image from '../../assets/Sobf Images/health and awareness camp/hac4.jpg'
+import Image from '../../assets/Sobf Images/health_and_awareness_camp/hac4.jpg'
+
+
+
 const HealthCamp = ({setService}) => {
   return (
     <div className="w-full md:w-[90%] flex flex-col items-center lg:items-end mx-auto">
