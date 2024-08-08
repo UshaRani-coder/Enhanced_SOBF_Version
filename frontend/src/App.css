@@ -91,7 +91,7 @@
     }
   }
 
-  .hero::after,.hero-community-service:after {
+  .hero::after,.hero-community-service:after,.home-about::after {
     content: '';
     position: absolute;
     top: 0;
@@ -100,6 +100,10 @@
     height: 100%;
     background-color: rgba(1, 29, 36, 0.8);
     mix-blend-mode: multiply;
+  }
+  .home-about::after{
+    background-color: rgba(29, 6, 6, 0.8); /* Transparent navy blue */
+   
   }
 
   @keyframes fadeInOut {
