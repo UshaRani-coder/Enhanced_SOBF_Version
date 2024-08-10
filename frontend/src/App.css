@@ -76,6 +76,22 @@
   background-color: rgba(29, 6, 6, 0.8);
 }
 
+.hero-donate::after,
+.hero-donate-community-service:after,
+.home-donate-about::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(1, 29, 36, 0.8);
+  mix-blend-mode: multiply;
+}
+.home-about::after {
+  background-color: rgba(29, 6, 6, 0.8);
+}
+
 @keyframes fadeInOut {
   0%,
   100% {
@@ -94,6 +110,19 @@
   top: 20px;
   left: 20px;
   background-color: #ff7700;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  z-index: 10;
+  opacity: 0;
+  animation: fadeInOut 3s infinite;
+}
+
+.hero-donate::before{
+  display: inline-block;
+  position: absolute;
+  top: 20px;
+  left: 20px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -138,4 +167,5 @@
    
   }
 }
+
 /* styling for some Hero elements and Navbar elements ends here */
