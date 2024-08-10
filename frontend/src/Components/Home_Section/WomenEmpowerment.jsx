@@ -21,7 +21,7 @@ const WomenEmpowerment = ({setService}) => {
       <h1 className="text-center text-heading4 lg:text-[27px] xl:text-heading3 font-bold my-4 text-peacock-green relative hover:text-peacock-green-hover transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
           Women Empowerment
         </h1>
-        <p className="text-gray-700 text-[16px] lg:text-[18px] mt-2 font-workSans xl:mt-0 xl:pb-[50px] text-center md:text-left lg:leading-[30px]">
+        <p className="text-gray-700 text-[16px] lg:text-[18px] mt-2 font-workSans xl:mt-0 xl:pb-[50px]  lg:leading-[30px]">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa iure, rem distinctio velit vero dolorum eum cupiditate voluptates omnis molestias doloremque ut quos excepturi soluta voluptatem quisquam corrupti delectus odit ipsum libero aut. Fugit vel animi nulla quis et autem molestias. Sunt, reprehenderit aliquid sint modi aliquam facilis repellendus explicabo.
         </p>
       </div>

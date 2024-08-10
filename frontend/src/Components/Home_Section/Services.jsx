@@ -125,10 +125,10 @@ const Services = () => {
       )}
 
       {service === null && (
-        <ul className="services w-[100%]  mt-[20px] flex flex-col items-center gap-y-[30px]  md:flex-row md:justify-center md:gap-x-[5px] lg:gap-x-[10px]  md:flex-wrap">
+        <ul className="services w-[100%]  mt-[20px] flex flex-col items-center gap-y-[30px]  md:flex-row md:justify-center md:gap-x-[60px] lg:gap-x-[30px]  md:flex-wrap">
           {/* Community Service */}
           <li
-            className="service service1 rounded-bl-[50px] rounded-tr-[50px] cursor-pointer bg-[#73002e]  w-[80%] md:w-[30%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service1 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#73002e]  w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
             onClick={() => setService("communityService")}
           >
             <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
@@ -179,7 +179,7 @@ const Services = () => {
           {/* Gopala Bhog */}
           <li
             onClick={() => setService("gopalaBhog")}
-            className="service service2 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#ee9904]   w-[80%] md:w-[30%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service2 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#ee9904]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -207,7 +207,7 @@ const Services = () => {
           {/* Brajkulam Educational Centre */}
           <li
             onClick={() => setService("brajkulamEducationalCenter")}
-            className="service service3 rounded-bl-[50px] rounded-tr-[50px] cursor-pointer bg-[#00a6e9]   w-[80%] md:w-[30%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service3 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#00a6e9]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -234,7 +234,7 @@ const Services = () => {
           {/* Swachh & Swasth Vrindavan  */}
           <li
             onClick={() => setService("swachh&SwasthVrindavan")}
-            className="service service4 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#00a36c]   w-[80%] md:w-[30%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service4 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#00a36c]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -279,7 +279,7 @@ const Services = () => {
           {/* Sadhu Seva */}
           <li
             onClick={() => setService("sadhuSeva")}
-            className="service service5 rounded-bl-[50px] rounded-tr-[50px] cursor-pointer bg-orange   w-[80%] md:w-[30%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service5 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-orange   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -312,7 +312,7 @@ const Services = () => {
           {/* Health and Awareness Camp */}
           <li
             onClick={() => setService("health&Awareness")}
-            className="service service6 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#01a8ac]   w-[80%] md:w-[30%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service6 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#01a8ac]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -372,7 +372,7 @@ const Services = () => {
           {/* Women Empowerment */}
           <li
             onClick={() => setService("womenEmpowerment")}
-            className="service service7 rounded-bl-[50px] rounded-tr-[50px] cursor-pointer bg-[#e63aaa]   w-[80%] md:w-[30%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service7 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#e63aaa]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg

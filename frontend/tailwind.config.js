@@ -50,6 +50,7 @@ export default {
       },
       animation: {
         'infinite-scroll': 'infinite-scroll 25s linear infinite',
+        'partners-infinite-scroll': 'infinite-scroll 5s linear infinite',
         'infinite-scroll-reverse': 'infinite-scroll-reverse 25s linear infinite',
       },
       keyframes: {

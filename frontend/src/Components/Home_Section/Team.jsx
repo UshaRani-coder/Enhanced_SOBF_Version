@@ -380,7 +380,7 @@ const Team = () => {
         </div>
 
         {/* card 4 */}
-        <div className="flex items-center gap-x-[20px]">
+        {/* <div className="flex items-center gap-x-[20px]">
           <div
             className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px]  rounded-full"
             style={{
@@ -499,10 +499,10 @@ const Team = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* card 5 */}
-        <div className="flex items-center gap-x-[20px]">
+        {/* <div className="flex items-center gap-x-[20px]">
           <div
             className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px]  rounded-full"
             style={{
@@ -621,10 +621,10 @@ const Team = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* card 6 */}
-        <div className="flex items-center gap-x-[20px]">
+        {/* <div className="flex items-center gap-x-[20px]">
           <div
             className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px]  rounded-full"
             style={{
@@ -743,7 +743,7 @@ const Team = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

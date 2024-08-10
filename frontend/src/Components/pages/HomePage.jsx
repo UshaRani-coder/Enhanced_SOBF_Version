@@ -8,6 +8,7 @@ import About from '../Home Page/About.jsx'
 import Services from '../Home Page/Services.jsx'
 import Team from '../Home Page/Team.jsx'
 import Testimonials from '../Home_Section/Testimonials.jsx'
+import Partners from '../Home_Section/Partners.jsx'
 const HomePage = () => {
   useEffect(()=>console.log("HomePage"),[])
   return (
@@ -16,6 +17,7 @@ const HomePage = () => {
       <Statistics />
       <About />
       <Services />
+      <Partners />
       <Team />
       <Testimonials />
       <Contactus />

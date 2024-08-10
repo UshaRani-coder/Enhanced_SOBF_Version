@@ -11,7 +11,7 @@ import Testimonials from '../Components/Home_Section/Testimonials.jsx'
 import Video from '../Components/Home_Section/Video.jsx'
 import Programms from '../Components/Home_Section/Initiatives.jsx'
 import Home_Gallery from '../Components/Home_Section/Home_gallery.jsx'
-
+import Partners from '../Components/Home_Section/Partners.jsx'
 
 
 
@@ -24,6 +24,7 @@ const HomePage = () => {
       {/* <Video /> */}
       <About />
       <Services />
+      <Partners />
       <Team />
       <Testimonials />
       <Home_Gallery/>
