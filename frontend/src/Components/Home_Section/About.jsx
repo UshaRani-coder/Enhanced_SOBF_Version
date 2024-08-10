@@ -1,6 +1,5 @@
 import React from "react";
 import ReactPlayer from "react-player";
-// import aboutImg from "../../assets/Sobf Images/health_and_awareness_camp/hac2.jpg";
 import aboutImg from "../../assets/Sobf Images/food distribution/fd7.jpg";
 import aboutBackgroundImg from "../../assets/Sobf Images/child_education_and_empowerment/cee12.jpg";
 const About = () => {

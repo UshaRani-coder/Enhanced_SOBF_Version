@@ -71,12 +71,12 @@ const Navbar = () => {
 
           {/* Hamburger menu for mobile */}
           <div
-            className={`ham-menu md:hidden cursor-pointer flex flex-col justify-center gap-1 ${isActive ? "active" : ""}`}
+            className={`ham-menu  md:hidden cursor-pointer flex flex-col justify-center gap-1 relative w-[25px] h-[25px] ${isActive ? "active" : ""}`}
             onClick={toggleMenu}
           >
-            <span className="block w-6 h-0.5 bg-black"></span>
-            <span className="block w-6 h-0.5 bg-black"></span>
-            <span className="block w-6 h-0.5 bg-black"></span>
+            <span className="block w-[100%] h-[3.5px]  rounded-[20px] absolute top-[25%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-black "></span>
+            <span className="block w-[100%] h-[3.5px]  rounded-[20px] absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-black"></span>
+            <span className="block w-[100%] h-[3.5px]  rounded-[20px] absolute top-[75%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-black"></span>
           </div>
         </div>
       </nav>

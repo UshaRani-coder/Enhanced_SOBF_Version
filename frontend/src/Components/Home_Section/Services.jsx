@@ -1,106 +1,82 @@
-// import React, { useState } from "react";
-// import CommunityService from "./CommunityService";
-// import serviceImg from '../../assets/Sobf Images/food distribution/fd8.jpg'
-// const Services = () => {
-//   const [service, setService] = useState("communityService");
-
-//   const services = [
-//     {
-//       id: "communityService",
-//       name: "Community Service",
-//       component: CommunityService,
-//     },
-//     { id: "gopalaBhog", name: "Gopala Bhog" },
-//     { id: "swachhSwasthVrindavan", name: "Swachh & Swasth Vrindavan" },
-//     { id: "brajkulamCommunityCenter", name: "Brajkulam Community Center" },
-//     { id: "upcomingProjects", name: "Upcoming Projects" },
-//   ];
-
-//   const SelectedService = services.find((s) => s.id === service)?.component;
-
-//   return (
-//     <div className="w-[100%]  py-[100px] text-[10px]  xl:text-[15px] flex flex-col justify-center items-center mt-[30px]"
-//     style={{
-//       backgroundImage: `url(${serviceImg})`,
-//       backgroundPosition: "center",
-//       backgroundSize: "100%",
-//       backgroundRepeat: "no-repeat",
-//       backgroundColor: 'rgba(1, 29, 36, 0.8)'
-//     }}>
-//       <div></div>
-//       <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-peacock-green relative hover:text-peacock-green-hover  transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
-//           Our Services
-//         </h1>
-//       {/* <ul className="hidden font-sans text-blue font-bold md:flex justify-center gap-x-[30px] lg:gap-x-[40px] xl:gap-x-4 items-center cursor-pointer">
-//         {services.map(({ id, name }) => (
-//           <li
-//             key={id}
-//             onClick={() => setService(id)}
-//             className="transition ease-in-out duration-500 delay-150 border-2 border-blue rounded-full px-[20px] py-[5px] xl:w-auto text-center hover:text-peacock-green hover:bg-blue"
-//           >
-//             {name}
-//           </li>
-//         ))}
-//       </ul>
-//       {SelectedService && <SelectedService />} */}
-//     </div>
-//   );
-// };
-
-// export default Services;
-
-import React, { useState } from "react";
-import CommunityService from "./CommunityService";
-
+import React, { useEffect, useState } from "react";
+import CommunityService from "./Services/CommunityService";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import "./services.css";
+import GopalaBhog from "./Services/GopalaBhog.jsx";
+import Brajkulam from "./Services/Brajkulam.jsx";
 
-import GopalaBhog from "./GopalaBhog.jsx";
-import Brajkulam from "./Brajkulam.jsx";
+import SadhuSeva from "./Services/SadhuSeva.jsx";
+import HealthCamp from "./Services/HealthCamp.jsx";
+import WomenEmpowerment from "./Services/WomenEmpowerment.jsx";
+import SwachhVrindavan from "./Services/SwachhVrindavan.jsx";
 
-import SadhuSeva from "./SadhuSeva.jsx";
-import HealthCamp from "./HealthCamp.jsx";
-import WomenEmpowerment from "./WomenEmpowerment.jsx";
-import SwachhVrindavan from "./SwachhVrindavan.jsx";
 const Services = () => {
   const [service, setService] = useState(null);
 
-  // const services = [
-  //   {
-  //     id: "communityService",
-  //     name: "Community Service",
-  //     para: "“Soul of Braj” is focused on Community service as it is not only a way to give back, but it is great for volunteers as well. Helping others makes us feel better. By giving back, we helping ourselves. Service to a just cause rewards the workers with more real happiness and satisfaction than any other venture of life.",
-  //   },
-  //   {
-  //     id: "gopalaBhog",
-  //     name: "Gopala Bhog",
-  //     description:
-  //       "Gopala Bhog Outlet in Shri Vrindavan Dham is not Only Serving affordable and Satvik Food Prasadam to Hundreds of Beneficiaries, Gopala Bhog Outlet is also Providing Jobs Opportunites to Needy Women Beneficiaries, with this opportunity they are able to help their Families financially ,Currently We have more than 10 Women beneficiaries. ",
-  //   },
-  //   {
-  //     id: "swachhSwasthVrindavan",
-  //     name: "Swachh & Swasth Vrindavan",
-  //     description:
-  //       "We feel very sad when we see garbage and filth in Shri Vrindavan Dham, and even more sad when we see cows eating that garbage,Swachh Vrindavan, Swasth Vrindavan, is our initiative, in which we will take steps to make Shri Vrindavan Dham more clean and healthy, every year lakhs of devotees come to visit Shri Vrindavan Dham, we will make an effort for all, so that all the pilgrims Had a very good experience of Braj Yatra.Our Shri Vrindavan Dham is very sacred, hence it is our duty to keep making continuous efforts to keep Shri Vrindavan Dham clean and healthy.Parikrama is going on continuously in Shri Vrindavan Dham, every Guru, Sadhu, Sanyasi, Acharya, Vaishnav all do Parikrama, we will try that while doing Parikrama there is no dirt on their feet.",
-  //   },
-  //   {
-  //     id: "brajkulamCommunityCenter",
-  //     name: "Brajkulam Community Center",
-  //     description:
-  //       "At our Brajkulam Community centre is Serving 100+ Beneficiaries on Daily Basis , we are actively involved in Providing Basic Education , Skill Training, Health and Hygiene Camps.",
-  //   },
-  //   {
-  //     id: "sadhuSeva",
-  //     name: "Sadhu Seva",
-  //     decsription:
-  //       "Those who are fully depends on Mercy and Blessings of Shri Radha Krishna, for them We like to start Daily Food Prasadam seva for them , here are Thousands of Devotees who are living and doing their sadhana on road side, they don't have House to live , food to eat but even then they are happily Living in Shri Vrindavan Dham, and doing their Daily Sadhana.",
-  //   },
-  //   {
-  //     id: "brajkulamEducationalCentre",
-  //     name: "Brajkulam Educational Centre",
-  //     description:
-  //       "we started a Free Computer lab for our brajkulam children in Shri Vrindavan dham , mathura district , Uttar Pradesh , in this lab they will get knowledge of machine learning , so they can get prepared for their bright future . With this effort We like to transform hundreds of deprived children in the braj region, we need your guidance and support to achieve our goal.",
-  //   },
-  // ];
+  useEffect(() => {
+    // Function to handle screen resizing and update AOS attributes
+    const handleResize = () => {
+      const elements = document.querySelectorAll("[data-aos]");
+
+      elements.forEach((element) => {
+        // Get stored default attributes
+        const defaultAos =
+          element.getAttribute("data-default-aos") || "fade-right";
+        const defaultDelay =
+          element.getAttribute("data-default-aos-delay") || "100";
+
+        if (window.innerWidth < 768) {
+          // Change data-aos attributes for small screens
+          element.setAttribute("data-aos", "fade-up");
+          element.setAttribute("data-aos-delay", "200");
+        } else if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+          // Change data-aos attributes for medium screens
+          element.setAttribute("data-aos", "fade-down");
+          element.setAttribute("data-aos-delay", "100");
+        } else {
+          // Revert to default data-aos attributes
+          element.setAttribute("data-aos", defaultAos);
+          element.setAttribute("data-aos-delay", defaultDelay);
+        }
+      });
+
+      // Refresh AOS to apply the changes
+      AOS.refresh();
+    };
+
+    // Initialize AOS
+    AOS.init({
+      duration: 700,
+      easing: "ease-out-cubic",
+    });
+
+    // Store default attributes on mount
+    const elements = document.querySelectorAll("[data-aos]");
+    elements.forEach((element) => {
+      if (!element.hasAttribute("data-default-aos")) {
+        element.setAttribute(
+          "data-default-aos",
+          element.getAttribute("data-aos") || "fade-right"
+        );
+        element.setAttribute(
+          "data-default-aos-delay",
+          element.getAttribute("data-aos-delay") || "100"
+        );
+      }
+    });
+
+    // Initial screen size check
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="w-[100%] flex flex-col justify-center items-center  ">
@@ -125,9 +101,11 @@ const Services = () => {
       )}
 
       {service === null && (
-        <ul className="services w-[100%]  mt-[20px] flex flex-col items-center gap-y-[30px]  md:flex-row md:justify-center md:gap-x-[60px] lg:gap-x-[30px]  md:flex-wrap">
+        <ul className="services w-[100%]  mt-[20px] flex flex-col items-center gap-y-[30px] md:gap-y-[70px]  md:flex-row md:justify-center md:gap-x-[60px] lg:gap-x-[30px]  md:flex-wrap">
           {/* Community Service */}
           <li
+            data-aos="fade-right"
+            data-aos-delay="100"
             className="service service1 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#73002e]  w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
             onClick={() => setService("communityService")}
           >
@@ -178,6 +156,8 @@ const Services = () => {
           </li>
           {/* Gopala Bhog */}
           <li
+            data-aos="fade-down"
+            data-aos-delay="100"
             onClick={() => setService("gopalaBhog")}
             className="service service2 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#ee9904]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
@@ -206,6 +186,8 @@ const Services = () => {
           </li>
           {/* Brajkulam Educational Centre */}
           <li
+            data-aos="fade-left"
+            data-aos-delay="100"
             onClick={() => setService("brajkulamEducationalCenter")}
             className="service service3 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#00a6e9]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
@@ -233,6 +215,8 @@ const Services = () => {
           </li>
           {/* Swachh & Swasth Vrindavan  */}
           <li
+            data-aos="fade-right"
+            data-aos-delay="100"
             onClick={() => setService("swachh&SwasthVrindavan")}
             className="service service4 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#00a36c]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
@@ -278,6 +262,8 @@ const Services = () => {
         </li> */}
           {/* Sadhu Seva */}
           <li
+            data-aos="fade-up"
+            data-aos-delay="100"
             onClick={() => setService("sadhuSeva")}
             className="service service5 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-orange   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
@@ -311,6 +297,8 @@ const Services = () => {
           </li>
           {/* Health and Awareness Camp */}
           <li
+            data-aos="fade-left"
+            data-aos-delay="100"
             onClick={() => setService("health&Awareness")}
             className="service service6 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#01a8ac]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
@@ -371,8 +359,10 @@ const Services = () => {
           </li>
           {/* Women Empowerment */}
           <li
+            data-aos="fade-up"
+            data-aos-delay="100"
             onClick={() => setService("womenEmpowerment")}
-            className="service service7 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#e63aaa]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service7 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#ba114d]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg

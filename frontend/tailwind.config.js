@@ -27,7 +27,8 @@ export default {
         poppins: ['Poppins', 'sans-serif'],
         amatic: ['"Amatic SC"', 'sans-serif'],
         workSans: ['"Work Sans"', 'sans-serif'],
-        cursive : ["Are You Serious", 'cursive']
+        cursive : ["Are You Serious", 'cursive'],
+        quicksand : ["Quicksand", 'sans-serif']
       },
       fontWeight: {
         thin: 100,
@@ -52,6 +53,7 @@ export default {
         'infinite-scroll': 'infinite-scroll 25s linear infinite',
         'partners-infinite-scroll': 'infinite-scroll 5s linear infinite',
         'infinite-scroll-reverse': 'infinite-scroll-reverse 25s linear infinite',
+        'zoomIn': 'zoomIn 2.5s forwards',
       },
       keyframes: {
         'infinite-scroll': {
@@ -62,8 +64,21 @@ export default {
           from: { transform: 'translateX(-100%)' },
           to: { transform: 'translateX(0)' },
         },
+        'zoomIn': { 
+          '0%': { transform: 'scale(1)'},
+          '100%': { transform: 'scale(1.2)'},
+        },
+        
       }
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      addUtilities({
+        '.transition-bg-image': {
+          transition: 'background-image 0.5s ease-in-out',
+        },
+      })
+    }
+  ],
 }

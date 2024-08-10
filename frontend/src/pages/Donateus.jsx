@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 import education from "../assets/banner2.jpeg";
-import food from "../assets/FoodDonation.jpg";
+import food from "../assets/Sobf Images/food distribution/FoodDonation.jpg";
 import objective from "../assets/objective.jpeg";
 import donate from "../assets/donateMotive.jpeg";
 import { donors_words } from "../Constant/data";

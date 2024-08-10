@@ -1,5 +1,5 @@
 import React from "react";
-import chairmanImg from "../../assets/chairman.png";
+import chairmanImg from "../../assets/Sobf Images/people/chairman.png";
 import {Link} from 'react-router-dom'
 // import chairmanImg from  "../../App"
 

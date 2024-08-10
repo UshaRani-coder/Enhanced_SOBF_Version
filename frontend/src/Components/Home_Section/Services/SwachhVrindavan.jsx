@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "../../assets/cow.avif";
+import Image from "../../../assets/Sobf Images/health_and_awareness_camp/cow.avif";
 const SwachhVrindavan = ({ setService }) => {
   return (
     <div className="w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto">

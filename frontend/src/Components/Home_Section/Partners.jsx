@@ -1,6 +1,6 @@
 import React from 'react'
-import raturiFoundationLogo from '../../assets/raturiFoundation.jpg'
-import hinduFoundationLogo from '../../assets/hinduFoundation.jpg'
+import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFoundation.jpg'
+import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundation.jpg'
 const Partners = () => {
   return (
     <div className='overflow-hidden '>
@@ -8,7 +8,7 @@ const Partners = () => {
         Supported by
       </h1>
        <ul className=' flex items-center justify-center  mt-[20px] [&_li]:mx-8 [&_img]:max-w-none '>
-        <li><img src={raturiFoundationLogo} alt="raturi-foundation" className='w-[58px] ' /></li>
+        <li ><img src={raturiFoundationLogo} alt="raturi-foundation" className='w-[58px] ' /></li>
         <li><img src={hinduFoundationLogo} alt="hindu-foundation" className='w-[50px] lg:w-[60px]' /></li>
       </ul> 
       {/* <ul className='flex items-center justify-center  mt-[20px] [&_li]:mx-4 [&_img]:max-w-none animate-partners-infinite-scroll' aria-hidden="true">

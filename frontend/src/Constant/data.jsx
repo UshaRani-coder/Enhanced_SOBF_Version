@@ -1,5 +1,5 @@
 import Boy from "../assets/banner1.jpeg";
-import FoodDonation from "../assets/FoodDonation.jpg";
+import FoodDonation from "../assets/Sobf Images/food distribution/FoodDonation.jpg";
 import Nature from "../assets/banner2.jpeg";
 import we1 from "../assets/Sobf Images/women empowerment/we1.jpg";
 import cee14 from "../assets/Sobf Images/child_education_and_empowerment/cee14.jpg";

@@ -1,5 +1,5 @@
 import React from 'react'
-import womenEmpowermentImg from '../../assets/Sobf Images/women empowerment/we3.jpg'
+import womenEmpowermentImg from '../../../assets/Sobf Images/women empowerment/we3.jpg'
 const WomenEmpowerment = ({setService}) => {
   return (
     <div className="w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto">
