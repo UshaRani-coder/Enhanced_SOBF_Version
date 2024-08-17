@@ -72,9 +72,6 @@
   background-color: rgba(1, 29, 36, 0.8);
   mix-blend-mode: multiply;
 }
-.home-about::after {
-  background-color: rgba(45,51,93,1);
-}
 
 .hero-donate::after,
 .hero-donate-community-service:after,
@@ -89,7 +86,7 @@
   mix-blend-mode: multiply;
 }
 .home-about::after {
-  background-color: rgba(29, 6, 6, 0.8);
+  background-color:rgba(1,0,124,0.85);
 }
 
 @keyframes fadeInOut {

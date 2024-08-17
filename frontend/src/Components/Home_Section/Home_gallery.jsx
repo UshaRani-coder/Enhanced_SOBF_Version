@@ -43,6 +43,7 @@ const Home_Gallery = () => {
         </div>
       </div>
     </div>
+    </div>
   );
 };
 
