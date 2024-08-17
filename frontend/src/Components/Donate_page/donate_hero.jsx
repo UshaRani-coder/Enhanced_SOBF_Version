@@ -10,8 +10,7 @@ const donate_hero = () => {
 
   const scrollLeft = () => {
     setCurrentIndex(
-      (prevIndex) =>
-        (prevIndex - 1 + heroes_donate.length) % heroes_donate.length
+      (prevIndex) => (prevIndex - 1 + heroes_donate.length) % heroes_donate.length
     );
   };
 
@@ -44,12 +43,17 @@ const donate_hero = () => {
   }, [currentIndex]);
 
   return (
-    <div className="hero relative">
+    <div className="hero-donate relative flex items-center overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[130px]">
       <div
-        className="hero-img"
+        className="hero-img w-[100%] h-[100%] animate-zoomIn transition-bg-image"
         ref={imageElement}
         key={currentIndex}
-        style={{ backgroundImage: `url(${heroes_donate[currentIndex].img})` }}
+        style={{
+          backgroundImage: `url(${heroes_donate[currentIndex].img})`,
+          backgroundSize: "cover",
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
       ></div>
 
       <div
@@ -81,7 +85,7 @@ const donate_hero = () => {
         </svg>
       </div>
       <p
-        className={`absolute px-4 md:font-semibold font-semibold  md:top-[60%] top-[70%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text ${
+        className={`absolute px-4 font-bold top-[55%] lg:top-[50.5%] xl:top-[42.5%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] lg:w-[700px] sm:text-[25px] md:text-[30px] lg:text-[45px]  ${
           textAnimation ? "text-animate" : ""
         }`}
       >

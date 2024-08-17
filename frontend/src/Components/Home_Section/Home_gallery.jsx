@@ -15,6 +15,8 @@ const Home_Gallery = () => {
             Featured Gallery
           </h1>
         </div>
+      <div className="container mx-auto p-0 px-4 lg:px-20">
+        
         {/* Gallery Grid */}
         <div>
           
