@@ -24,8 +24,8 @@ const HomePage = () => {
       {/* <Video /> */}
       <About />
       <Services />
-      <Partners />
       <Team />
+      <Partners />
       <Testimonials />
       <Home_Gallery/>
       <Contactus />

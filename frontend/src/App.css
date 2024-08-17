@@ -73,7 +73,7 @@
   mix-blend-mode: multiply;
 }
 .home-about::after {
-  background-color: rgba(29, 6, 6, 0.8);
+  background-color: rgba(45,51,93,1);
 }
 
 @keyframes fadeInOut {

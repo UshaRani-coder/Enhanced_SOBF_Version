@@ -80,7 +80,7 @@ const Services = () => {
 
   return (
     <div className="w-[100%] flex flex-col justify-center items-center  ">
-      <h1 className="text-center text-[25px] md:text-heading3 lg:text-heading2 font-bold  p-5 text-peacock-green relative z-10 hover:text-peacock-green-hover transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+      <h1 className="text-center text-heading3 lg:text-heading2 font-bold my-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
         Our Services
       </h1>
 
@@ -159,7 +159,7 @@ const Services = () => {
             data-aos="fade-down"
             data-aos-delay="100"
             onClick={() => setService("gopalaBhog")}
-            className="service service2 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#ee9904]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service2 rounded-tl-[50px] rounded-br-[50px] cursor-pointer    w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -189,7 +189,7 @@ const Services = () => {
             data-aos="fade-left"
             data-aos-delay="100"
             onClick={() => setService("brajkulamEducationalCenter")}
-            className="service service3 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#00a6e9]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service3 rounded-tl-[50px] rounded-br-[50px] cursor-pointer    w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -218,7 +218,7 @@ const Services = () => {
             data-aos="fade-right"
             data-aos-delay="100"
             onClick={() => setService("swachh&SwasthVrindavan")}
-            className="service service4 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#00a36c]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service4 rounded-tl-[50px] rounded-br-[50px] cursor-pointer    w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -300,7 +300,7 @@ const Services = () => {
             data-aos="fade-left"
             data-aos-delay="100"
             onClick={() => setService("health&Awareness")}
-            className="service service6 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#01a8ac]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service6 rounded-tl-[50px] rounded-br-[50px] cursor-pointer    w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
           >
             <div className="service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -362,7 +362,7 @@ const Services = () => {
             data-aos="fade-up"
             data-aos-delay="100"
             onClick={() => setService("womenEmpowerment")}
-            className="service service7 rounded-tl-[50px] rounded-br-[50px] cursor-pointer bg-[#ba114d]   w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center"
+            className="service service7 rounded-tl-[50px] rounded-br-[50px] cursor-pointer    w-[80%] md:w-[32%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center "
           >
             <div className="service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
@@ -392,6 +392,8 @@ const Services = () => {
               </p>
             </div>
           </li>
+{/* dummy */}
+         
         </ul>
       )}
     </div>

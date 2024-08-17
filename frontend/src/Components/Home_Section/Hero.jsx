@@ -42,7 +42,7 @@ const Hero = () => {
   }, [currentIndex]);
 
   return (
-    <div className="hero relative flex items-center overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[130px]">
+    <div className="hero relative flex items-center overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[100px] lg:mt-[120px]">
       <div
         className="hero-img w-[100%] h-[100%] animate-zoomIn transition-bg-image"
         ref={imageElement}
@@ -56,7 +56,7 @@ const Hero = () => {
       ></div>
 
       <div
-        className="scroll-arrow hidden lg:block absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
+        className="scroll-arrow hidden lg:block absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10] cursor-pointer"
         style={{ transform: "translateY(-50%)" }}
         onClick={scrollLeft}
       >
@@ -70,7 +70,7 @@ const Hero = () => {
         </svg>
       </div>
       <div
-        className="scroll-arrow hidden lg:block absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
+        className="scroll-arrow hidden lg:block absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10] cursor-pointer"
         style={{ transform: "translateY(-50%)" }}
         onClick={scrollRight}
       >

@@ -11,7 +11,7 @@ const Home_Gallery = () => {
     <div className="pt-[110px] py-6 border-b">
       <div className="container mx-auto p-0 px-4 lg:px-20">
         <div className="w-full">
-          <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-peacock-green">
+        <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
             Featured Gallery
           </h1>
         </div>
@@ -34,7 +34,7 @@ const Home_Gallery = () => {
         <div className="flex justify-center mt-6">
           <Link
             to="/gallery"
-            className="bg-peacock-green text-white font-bold py-4 px-8 rounded hover:bg-peacock-green-hover transition-colors duration-300"
+            className="bg-blue text-white font-bold py-4 px-8 rounded hover:bg-blue-hover transition-colors duration-300"
           >
             See More
           </Link>
