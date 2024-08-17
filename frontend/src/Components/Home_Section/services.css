@@ -78,9 +78,7 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.services .service:hover {
-  transform: scale(1.07);
-}
+
 
 .services .service:hover::after {
   content: "";

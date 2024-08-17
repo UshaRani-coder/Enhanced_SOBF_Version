@@ -7,16 +7,16 @@ const Team = () => {
   return (
     <div className="bg-[#111827] mt-[30px] pb-[40px] flex flex-col items-center   w-full">
       <div className="w-[90%]">
-        <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-peacock-green relative hover:text-peacock-green-hover  transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
-          Meet our team
+        <h1 className="text-center text-[25px] md:text-heading3 lg:text-heading2 font-bold  px-5 pt-5 text-logo-yellow relative z-10 ">
+          Meet Our Team
         </h1>
       </div>
-      <div className=" mt-[30px] team-cards flex flex-col items-center gap-y-[50px] justify-center md:flex-row md:flex-wrap md:w-[100%]  md:gap-x-[100px] md:gap-y-[40px] lg:gap-y-[60px] lg:gap-x-[50px]">
+      <div className=" mt-[30px] team-cards flex flex-col items-center gap-[50px] justify-center md:flex-row md:flex-wrap md:w-[80%]  md:gap-x-[100px] md:gap-y-[40px] lg:gap-y-[60px] lg:gap-x-[200px]">
         
         {/* card 1 */}
-        <div className="flex items-center gap-x-[20px]">
+        <div className="flex items-center flex-col gap-y-[5px]">
           <div
-            className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px]  rounded-full"
+            className="w-[200px] h-[200px]  rounded-full"
             style={{
               backgroundImage: `url(${chairmanImg})`,
               backgroundPosition: "center",
@@ -25,8 +25,8 @@ const Team = () => {
             }}
           ></div>
           <div className="flex flex-col gap-y-[10px] items-center">
-            <div className="flex flex-col items-center pb-[10px] border-b-2 border-[rgba(255,255,255,0.5)]">
-              <span className="font-sans text-peacock-green font-bold mt-[10px] text-[16px] lg:text-[18px] ">
+            <div className="flex flex-col items-center  ">
+              <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px] ">
                 TARUN MISRA
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
@@ -136,9 +136,9 @@ const Team = () => {
         </div>
 
         {/* card 2 */}
-        <div className="flex items-center gap-x-[20px]">
+        <div className="flex items-center flex-col gap-y-[5px]">
           <div
-            className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px]  rounded-full"
+            className="w-[200px] h-[200px]   rounded-full"
             style={{
               backgroundImage: `url(${chairmanImg})`,
               backgroundPosition: "center",
@@ -147,8 +147,8 @@ const Team = () => {
             }}
           ></div>
           <div className="flex flex-col gap-y-[10px] items-center">
-            <div className="flex flex-col items-center pb-[10px] border-b-2 border-[rgba(255,255,255,0.5)]">
-              <span className="font-sans text-peacock-green font-bold mt-[10px] text-[16px] lg:text-[18px] ">
+            <div className="flex flex-col items-center  ">
+              <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px] ">
                 TARUN MISRA
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
@@ -258,9 +258,9 @@ const Team = () => {
         </div>
 
         {/* card 3 */}
-        <div className="flex items-center gap-x-[20px]">
+        <div className="flex items-center flex-col gap-y-[5px]">
           <div
-            className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px]  rounded-full"
+            className="w-[200px] h-[200px] rounded-full"
             style={{
               backgroundImage: `url(${chairmanImg})`,
               backgroundPosition: "center",
@@ -269,8 +269,8 @@ const Team = () => {
             }}
           ></div>
           <div className="flex flex-col gap-y-[10px] items-center">
-            <div className="flex flex-col items-center pb-[10px] border-b-2 border-[rgba(255,255,255,0.5)]">
-              <span className="font-sans text-peacock-green font-bold mt-[10px] text-[16px] lg:text-[18px] ">
+            <div className="flex flex-col items-center  ">
+              <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px] ">
                 TARUN MISRA
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
@@ -380,9 +380,9 @@ const Team = () => {
         </div>
 
         {/* card 4 */}
-        {/* <div className="flex items-center gap-x-[20px]">
+        <div className="flex items-center flex-col gap-y-[5px]">
           <div
-            className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px]  rounded-full"
+            className="w-[200px] h-[200px]   rounded-full"
             style={{
               backgroundImage: `url(${chairmanImg})`,
               backgroundPosition: "center",
@@ -391,8 +391,8 @@ const Team = () => {
             }}
           ></div>
           <div className="flex flex-col gap-y-[10px] items-center">
-            <div className="flex flex-col items-center pb-[10px] border-b-2 border-[rgba(255,255,255,0.5)]">
-              <span className="font-sans text-peacock-green font-bold mt-[10px] text-[16px] lg:text-[18px] ">
+            <div className="flex flex-col items-center  ">
+              <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px] ">
                 TARUN MISRA
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
@@ -499,12 +499,11 @@ const Team = () => {
               </div>
             </div>
           </div>
-        </div> */}
-
+        </div>
         {/* card 5 */}
-        {/* <div className="flex items-center gap-x-[20px]">
+        <div className="flex items-center flex-col gap-y-[5px]">
           <div
-            className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px]  rounded-full"
+            className="w-[200px] h-[200px]   rounded-full"
             style={{
               backgroundImage: `url(${chairmanImg})`,
               backgroundPosition: "center",
@@ -513,8 +512,8 @@ const Team = () => {
             }}
           ></div>
           <div className="flex flex-col gap-y-[10px] items-center">
-            <div className="flex flex-col items-center pb-[10px] border-b-2 border-[rgba(255,255,255,0.5)]">
-              <span className="font-sans text-peacock-green font-bold mt-[10px] text-[16px] lg:text-[18px] ">
+            <div className="flex flex-col items-center  ">
+              <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px] ">
                 TARUN MISRA
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
@@ -621,12 +620,12 @@ const Team = () => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
 
         {/* card 6 */}
-        {/* <div className="flex items-center gap-x-[20px]">
+        <div className="flex items-center flex-col gap-y-[5px]">
           <div
-            className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px]  rounded-full"
+            className="w-[200px] h-[200px]   rounded-full"
             style={{
               backgroundImage: `url(${chairmanImg})`,
               backgroundPosition: "center",
@@ -635,8 +634,8 @@ const Team = () => {
             }}
           ></div>
           <div className="flex flex-col gap-y-[10px] items-center">
-            <div className="flex flex-col items-center pb-[10px] border-b-2 border-[rgba(255,255,255,0.5)]">
-              <span className="font-sans text-peacock-green font-bold mt-[10px] text-[16px] lg:text-[18px] ">
+            <div className="flex flex-col items-center  ">
+              <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px] ">
                 TARUN MISRA
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
@@ -743,7 +742,7 @@ const Team = () => {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
