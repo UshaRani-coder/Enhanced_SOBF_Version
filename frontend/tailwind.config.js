@@ -6,7 +6,7 @@ export default {
       colors: {
         primary: "#141414",
         orange: "#FF5403",
-        blue: "#011232",
+        blue: "#2d335d",
         seashell: "#fdf7f4",
         "creamy-white": "#EFDFCB",
         background_clr: "#EBF1FA",
@@ -14,7 +14,7 @@ export default {
         "peacock-green-hover": "#19675d",
         "light-lavender": "#edf1ffdb",
         "logo-blue": "#2C325C",
-        "logo-yellow": "#EDB259",
+        logoYellow: "#EDB259",
       },
       boxShadow: {
         dual: "0 4px 6px rgba(0, 0, 0, 0.1), 0 -4px 6px rgba(0, 0, 0, 0.1)",
@@ -49,10 +49,9 @@ export default {
         headong6: "10px",
       },
       animation: {
-        "infinite-scroll": "infinite-scroll 25s linear infinite",
+        "infinite-scroll": "infinite-scroll 35s linear infinite",
         "partners-infinite-scroll": "infinite-scroll 5s linear infinite",
-        "infinite-scroll-reverse":
-          "infinite-scroll-reverse 25s linear infinite",
+        "infinite-scroll-reverse": "infinite-scroll-reverse 35s linear infinite",
         zoomIn: "zoomIn 2.5s forwards",
         scroll: "scroll 20s linear infinite",
       },

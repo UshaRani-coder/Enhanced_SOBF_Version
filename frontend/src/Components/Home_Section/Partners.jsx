@@ -6,6 +6,7 @@ const Partners = () => {
     <div className='overflow-hidden mt-[30px] mb-[50px]'>
       <h1 className="text-center text-heading3 lg:text-heading2 font-bold my-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
         Supported by
+        <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>
        <ul className=' flex items-center justify-center  mt-[20px] [&_li]:mx-8 [&_img]:max-w-none '>
         <li ><img src={raturiFoundationLogo} alt="raturi-foundation" className='w-[78px] lg:w-[98px] ' /></li>

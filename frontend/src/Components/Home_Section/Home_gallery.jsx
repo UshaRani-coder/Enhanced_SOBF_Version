@@ -8,19 +8,17 @@ const Home_Gallery = () => {
   const displayedImages = galleryImage.slice(0, 6);
 
   return (
-    <div className="pt-[110px] py-6 border-b">
+    <div className="py-14">
       <div className="container mx-auto p-0 px-4 lg:px-20">
-        <div className="w-full">
-        <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
+        <div className="w-full text-center mb-8">
+        <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
             Featured Gallery
+            <hr className="mt-1 border-light-lavender border-[1px]" />
           </h1>
         </div>
       <div className="container mx-auto p-0 px-4 lg:px-20">
         
         {/* Gallery Grid */}
-        <div>
-          
-        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {displayedImages.map((image, index) => (
             <div key={index} className="w-full hover:opacity-90 relative group">
@@ -33,10 +31,10 @@ const Home_Gallery = () => {
           ))}
         </div>
         {/* See More Button */}
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-10">
           <Link
             to="/gallery"
-            className="bg-blue text-white font-bold py-4 px-8 rounded hover:bg-blue-hover transition-colors duration-300"
+            className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"
           >
             See More
           </Link>

@@ -31,7 +31,7 @@ const Navbar = () => {
               <NavLink
                 exact
                 to="/"
-                className="text-blue hover:text-logo-yellow text-lg font-bold font-sans"
+                className="text-blue hover:text-logoYellow text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Home
@@ -40,7 +40,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/about-us"
-                className="text-blue  hover:text-logo-yellow text-lg font-bold font-sans"
+                className="text-blue  hover:text-logoYellow text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 About
@@ -49,7 +49,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/vision"
-                className="text-blue  hover:text-logo-yellow text-lg font-bold font-sans"
+                className="text-blue  hover:text-logoYellow text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Vision
@@ -58,7 +58,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/gallery"
-                className="text-blue  hover:text-logo-yellow text-lg font-bold font-sans"
+                className="text-blue  hover:text-logoYellow text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Gallery
@@ -67,7 +67,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/contact-us"
-                className="text-blue  hover:text-logo-yellow text-lg font-bold font-sans"
+                className="text-blue  hover:text-logoYellow text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Contact
@@ -78,7 +78,7 @@ const Navbar = () => {
             <li className="block md:hidden">
               <Link
                 href=""
-                className="px-8 py-3.5 relative rounded-full group overflow-hidden font-semibold bg-logo-yellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
+                className="px-8 py-3.5 relative rounded-full group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
               >
                 <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
                 <span className="relative z-10">
@@ -94,7 +94,7 @@ const Navbar = () => {
           <div className="hidden md:block">
   <Link
     href=""
-    className="px-8 py-3.5 relative rounded-full group overflow-hidden font-semibold bg-logo-yellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:text-white hover:shadow-lg"
+    className="px-8 py-3.5 relative rounded-full group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:text-white hover:shadow-lg"
   >
     <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
     <span className="relative z-10">

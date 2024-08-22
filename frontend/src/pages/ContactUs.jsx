@@ -89,9 +89,10 @@ const ContactUsPage = () => {
       {/* Contact Us Form parent div */}
       <div className="flex flex-col lg:flex-row mx-[3rem] lg:gap-10 gap-16 md:mt-40 mt-36 ">
         {/*  Form div */}
-        <div className="lg:w-[50%] w-[100%]  ">
-          <h3 className="text-start text-heading3 lg:text-heading2 font-bold mb-4 pb-5 text-peacock-green hover:text-peacock-green-hover relative hover:text-blue-900 transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+        <div className="lg:w-[50%] w-[100%] text-start ">
+          <h3 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 pb-5 text-logoYellow ">
             Have any questions?
+            <hr className="mt-1 border-light-lavender border-[1px]" />
           </h3>
           <p className="text-gray-600 mb-6">
             If you have any questions or feedback, fill out the form below, and we&apos;ll get back to you.
@@ -137,7 +138,7 @@ const ContactUsPage = () => {
             <div className="flex justify-center md:p-4 p-2">
               <button
                 type="submit"
-                className="bg-blue text-white md:py-2 md:px-6 py-1.5 px-5  rounded-full hover:bg-orange transition duration-300"
+                className="bg-blue text-white md:py-2 md:px-6 py-1.5 px-5  rounded-full hover:bg-logoYellow transition duration-300"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Submitting..." : "Submit"}

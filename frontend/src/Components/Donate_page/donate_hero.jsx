@@ -97,7 +97,7 @@ const donate_hero = () => {
           duration={1200}
           className="z-[10] transform -translate-x-1/2"
         >
-          <button className="text-white bg-peacock-green hover:bg-peacock-green-hover font-semibold rounded-lg md:text-[1.25rem] text-heading5 px-5 py-2.5 me-2 md:mb-7 md:mt-7 mb:5 mt-5">
+          <button className="text-white bg-logoYellow font-semibold rounded-lg md:text-[1.25rem] text-heading5 px-5 py-2.5 me-2 md:mb-7 md:mt-7 mb:5 mt-5">
             Donate
           </button>
         </ScrollLink>

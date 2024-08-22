@@ -82,7 +82,9 @@ const Services = () => {
     <div className="w-[100%] flex flex-col justify-center items-center  ">
       <h1 className="text-center text-heading3 lg:text-heading2 font-bold my-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
         Our Services
+        <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>
+      
 
       {service === "communityService" && (
         <CommunityService setService={setService} />

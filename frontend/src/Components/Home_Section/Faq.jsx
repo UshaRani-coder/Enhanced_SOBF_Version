@@ -22,9 +22,10 @@ function Accordion() {
       {/* Inner container for centering content */}
       <div className="flex flex-col items-center justify-center p-4">
         {/* Content wrapper with maximum width */}
-        <div className="w-full max-w-[1200px]">
-        <h1 className="text-center text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
+        <div className="w-full max-w-[1200px] text-center">
+        <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
             Frequently Asked Questions
+            <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
           </h1>
           <h1 className="text-center text-2xl font-bold">
             We work with Satisfaction, encourage groups, and our members are nationwide
