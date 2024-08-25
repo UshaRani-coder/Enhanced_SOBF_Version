@@ -10,7 +10,11 @@ const ContactUsPage = () => {
   const form = useRef();
 
   // State to store form data
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
   // State to manage form submission status
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,8 +23,8 @@ const ContactUsPage = () => {
   const [submitMessage, setSubmitMessage] = useState("");
 
   // Handler to update form data state on input change
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   // Handler for form submission
   const handleSubmit = (e) => {
@@ -30,10 +34,10 @@ const ContactUsPage = () => {
     // Sending the form data using emailjs
     emailjs
       .sendForm(
-        "service_5pnbrna", // Service ID
-        "template_1qb8sbl", // Template ID
+        import.meta.env.VITE_CONTACT_SERVICE_ID, // Service ID
+        import.meta.env.VITE_CONTACT_TEMPLATE_ID, // Template ID
         form.current, // Form reference
-        "cMxdmY6NY1lUSrCy7" // User ID
+        import.meta.env.VITE_CONTACT_USER_ID // User ID
       )
       .then(
         (result) => {
@@ -74,10 +78,11 @@ const ContactUsPage = () => {
     // Display the message with a green color for success and red for failure
     return (
       <p
-        className={`mt-4 text-center ${submitMessage.includes("success")
-          ? "text-green-600 delay-75 duration-200"
-          : "text-red-600"
-          }`}
+        className={`mt-4 text-center ${
+          submitMessage.includes("success")
+            ? "text-green-600 delay-75 duration-200"
+            : "text-red-600"
+        }`}
       >
         {submitMessage}
       </p>
@@ -95,7 +100,8 @@ const ContactUsPage = () => {
             <hr className="mt-1 border-light-lavender border-[1px]" />
           </h3>
           <p className="text-gray-600 mb-6">
-            If you have any questions or feedback, fill out the form below, and we&apos;ll get back to you.
+            If you have any questions or feedback, fill out the form below, and
+            we&apos;ll get back to you.
           </p>
           <form ref={form} onSubmit={handleSubmit}>
             {/* Form fields */}
