@@ -8,7 +8,7 @@ const Partners = () => {
         Supported by
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>
-       <ul className=' flex items-center justify-center  mt-[20px] [&_li]:mx-8 [&_img]:max-w-none gap-20'>
+       <ul className=' flex items-center justify-center  mt-[20px] [&_li]:mx-2 [&_img]:max-w-none gap-20'>
         <li ><img src={raturiFoundationLogo} alt="raturi-foundation" className='w-[78px] lg:w-[200px] ' /></li>
         <li><img src={hinduFoundationLogo} alt="hindu-foundation" className='w-[70px] lg:w-[200px]' /></li>
       </ul> 

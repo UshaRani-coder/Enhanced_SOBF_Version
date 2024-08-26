@@ -23,7 +23,7 @@ const Recent_Activities = () => {
         undertaken to make a difference in our communities.
       </h1>
 
-      <div className="flex flex-col items-center gap-[50px] lg:gap-[100px] mt-[50px] md:flex-row md:justify-center">
+      <div className="flex flex-col items-center gap-[50px] lg:gap-[100px]  md:flex-row md:justify-center">
         {recentActivities.map((activity, index) => (
           <div
             key={index}

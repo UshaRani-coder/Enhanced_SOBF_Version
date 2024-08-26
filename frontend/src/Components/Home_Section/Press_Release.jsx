@@ -24,7 +24,7 @@ const Press_Release = () => {
         impact of our efforts across the country.
       </h1>
 
-      <div className="flex flex-col items-center gap-[50px] lg:gap-[100px] mt-[50px] md:flex-row md:justify-center">
+      <div className="flex flex-col items-center gap-[50px] lg:gap-[100px]  md:flex-row md:justify-center">
         {News.map((news, index) => (
           <div
             key={index}
