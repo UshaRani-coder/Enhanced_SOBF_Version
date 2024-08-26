@@ -36,7 +36,7 @@ function Accordion() {
           {/* Flex container for columns, switches to row layout on medium screens */}
           <div className="flex flex-col md:flex-row gap-[20px] lg:gap-[80px]">
             {/* Left column */}
-            <div className="w-full md:w-1/2 space-y-4">
+            <div className="w-full md:w-1/2 space-y-4 text-justify">
               {leftColumnData.map((dataItem) => (
                 <AccordionItem
                   key={dataItem.id}
@@ -47,7 +47,7 @@ function Accordion() {
               ))}
             </div>
             {/* Right column */}
-            <div className="w-full md:w-1/2 space-y-4">
+            <div className="w-full md:w-1/2 space-y-4 text-justify">
               {rightColumnData.map((dataItem) => (
                 <AccordionItem
                   key={dataItem.id}
