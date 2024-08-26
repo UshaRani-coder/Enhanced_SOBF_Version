@@ -13,7 +13,7 @@ const About = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <h1 className="text-center mt-5 mb-5 text-logoYellow text-[30px] md:text-heading3 lg:text-heading2 font-bold  px-5 pt-5 text-logo-yellow relative z-10 ">
+      <h1 className="text-center mt-5 mb-5 text-logoYellow text-heading3 lg:text-heading2 font-bold  px-5 pt-5 text-logo-yellow relative z-10 ">
         Who are we?
         <hr className="mt-1 border-light-lavender border-[0.5px]" />
       </h1>

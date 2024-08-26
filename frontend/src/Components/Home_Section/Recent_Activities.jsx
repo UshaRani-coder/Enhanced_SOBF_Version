@@ -7,7 +7,7 @@ const Recent_Activities = () => {
   console.log(location.pathname);
   return (
     <div className={`flex flex-col items-center mb-[30px] ${location.pathname === "/recent-activities" ? "mt-[120px]" : "mt-[30px]"}`}>
-      <h1 className={`${location.pathname === "/recent-activities" ? "hidden" : "inline-block"} text-[30px] md:text-heading3 lg:text-heading2 font-bold px-[4px] md:px-5 pt-5 text-logo-blue relative z-10 `}>
+      <h1 className={` text-heading3 lg:text-heading2 font-bold px-[4px] md:px-5 pt-5 text-logo-blue relative z-10 `}>
         Recent Activities
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>

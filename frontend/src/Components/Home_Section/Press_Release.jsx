@@ -9,7 +9,7 @@ const Press_Release = () => {
   return (
     <div className={`flex flex-col items-center mb-[30px] ${location.pathname === "/press-release" ? "mt-[120px]" : "mt-0"}`}>
 
-      <h1 className={` ${location.pathname === "/press-release" ? "hidden" : "inline-block"}   text-[30px] md:text-heading3 lg:text-heading2 font-bold px-[4px] md:px-5 pt-5 text-logo-blue relative z-10 `}>
+      <h1 className={`   text-heading3 lg:text-heading2 font-bold px-[4px] md:px-5 pt-5 text-logo-blue relative z-10 `}>
         Press Release
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>

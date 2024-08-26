@@ -6,10 +6,19 @@ import ObjectiveImg from "../assets/objective.jpeg"
 
 const Vision = () => {
   return (
-    <div className='pt-[110px]'>
+    <div className='pt-[100px]'>
       {/* image */}
-      <img src={aboutus} alt="" className='w-full h-[190px] lg:h-[420px]' />
-      {/* 1st card */}
+      {/* <img src={aboutus} alt="" className='w-full h-[190px] lg:h-[420px]' /> */}
+      <div
+        className="w-full h-[200px] md:h-[300px] lg:h-[450px]"
+        style={{
+          backgroundImage: `url(${aboutus})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      ></div>
+{/* 1st card */}
       <div className='flex gap-4 lg:flex-row flex-col justify-between px-2 lg:px-24 py-12'>
         <div className='w-[99%] lg:w-[50%] p-0 lg:p-6'>
           <img src={VisionImg} alt="Vision" className='w-full h-auto rounded-lg border border-gray-100' />
