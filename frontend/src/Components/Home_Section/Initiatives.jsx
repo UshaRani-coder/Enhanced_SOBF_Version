@@ -10,7 +10,7 @@ const Programms = () => {
   return (
     <div className="my-[15px]">
       <div className="mt-2 text-center">
-        <h2 className="inline-block text-heading3 lg:text-heading2 font-bold p-5 text-blue">
+        <h2 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold p-5 text-blue">
           Our Initiatives
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h2>

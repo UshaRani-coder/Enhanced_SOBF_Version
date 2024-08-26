@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../App.css";
 import { heroes_donate } from "../../Constant/data";
-import { Link as ScrollLink} from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 
 const donate_hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -10,7 +10,8 @@ const donate_hero = () => {
 
   const scrollLeft = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + heroes_donate.length) % heroes_donate.length
+      (prevIndex) =>
+        (prevIndex - 1 + heroes_donate.length) % heroes_donate.length
     );
   };
 
@@ -43,7 +44,7 @@ const donate_hero = () => {
   }, [currentIndex]);
 
   return (
-    <div className="hero-donate relative flex items-center overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[130px]">
+    <div className="hero-donate relative flex items-center overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[100px]">
       <div
         className="hero-img w-[100%] h-[100%] animate-zoomIn transition-bg-image"
         ref={imageElement}
@@ -51,13 +52,13 @@ const donate_hero = () => {
         style={{
           backgroundImage: `url(${heroes_donate[currentIndex].img})`,
           backgroundSize: "cover",
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       ></div>
 
       <div
-        className="scroll-arrow hidden lg:block absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
+        className="scroll-arrow hidden cursor-pointer lg:block absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
         style={{ transform: "translateY(-50%)" }}
         onClick={scrollLeft}
       >
@@ -71,7 +72,7 @@ const donate_hero = () => {
         </svg>
       </div>
       <div
-        className="scroll-arrow hidden lg:block absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
+        className="scroll-arrow hidden cursor-pointer lg:block absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
         style={{ transform: "translateY(-50%)" }}
         onClick={scrollRight}
       >
@@ -85,7 +86,7 @@ const donate_hero = () => {
         </svg>
       </div>
       <p
-        className={`absolute px-4 font-bold top-[55%] lg:top-[50.5%] xl:top-[42.5%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] lg:w-[700px] sm:text-[25px] md:text-[30px] lg:text-[45px]  ${
+        className={`absolute px-4 font-bold top-[35%] lg:top-[50.5%] xl:top-[42.5%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] lg:w-[700px] sm:text-[25px] md:text-[30px] lg:text-[45px]  ${
           textAnimation ? "text-animate" : ""
         }`}
       >

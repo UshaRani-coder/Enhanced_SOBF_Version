@@ -20,7 +20,7 @@ const Support = () => {
     // Main container for the Contact Us section
     <div className=" p-5 w-full pt-[10px] text-center">
       {/* Section title */}
-      <h1 className="inline-block text-heading3 lg:text-heading2 font-bold my-4 p-5 text-blue relative  transition-all ease-in-out ">
+      <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold my-4 p-5 text-blue relative  transition-all ease-in-out ">
         Your Support can change lives
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>

@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../../App.css";
@@ -25,13 +27,13 @@ const Navbar = () => {
           <ul
             className={`nav-items ${
               isActive ? "flex" : "hidden"
-            } md:flex  flex-col z-50 md:flex-row items-center gap-4 md:gap-x-10 absolute md:static top-full left-0 w-full md:w-auto bg-[#f2f2f2] border border-t-2 md:border-none lg:border-none shadow-2xl lg:shadow-none md:bg-transparent p-4 md:p-0`}
+            } lg:flex  flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-10 absolute lg:static top-full left-0 w-full  bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
           >
             <li>
               <NavLink
                 exact
                 to="/"
-                className="text-blue hover:text-logoYellow text-lg font-bold font-sans"
+                className="text-blue hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Home
@@ -40,7 +42,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/about-us"
-                className="text-blue  hover:text-logoYellow text-lg font-bold font-sans"
+                className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 About
@@ -49,7 +51,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/vision"
-                className="text-blue  hover:text-logoYellow text-lg font-bold font-sans"
+                className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Vision
@@ -58,7 +60,7 @@ const Navbar = () => {
             <li>
               <NavLink
                 to="/gallery"
-                className="text-blue  hover:text-logoYellow text-lg font-bold font-sans"
+                className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Gallery
@@ -66,8 +68,26 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
+                to="/press-release"
+                className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+                onClick={closeMenu}
+              >
+                Press Release
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/recent-activities"
+                className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+                onClick={closeMenu}
+              >
+                Recent Activities
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
                 to="/contact-us"
-                className="text-blue  hover:text-logoYellow text-lg font-bold font-sans"
+                className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Contact
@@ -75,7 +95,7 @@ const Navbar = () => {
             </li>
             {/* Donate button */}
 
-            <li className="block md:hidden">
+            <li className="block lg:hidden">
               <Link
                 href=""
                 className="px-8 py-3.5 relative rounded-full group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
@@ -91,31 +111,30 @@ const Navbar = () => {
           </ul>
 
           {/* Donate button on the right for desktop */}
-          <div className="hidden md:block">
-  <Link
-    href=""
-    className="px-8 py-3.5 relative rounded-full group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:text-white hover:shadow-lg"
-  >
-    <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
-    <span className="relative z-10">
-      <NavLink to="/donate-us" onClick={closeMenu}>
-        Donate
-      </NavLink>
-    </span>
-  </Link>
-</div>
+          <div className="hidden lg:block">
+            <Link
+              href=""
+              className="px-8 py-3.5 relative rounded-full group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:text-white hover:shadow-lg"
+            >
+              <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
+              <span className="relative z-10">
+                <NavLink to="/donate-us" onClick={closeMenu}>
+                  Donate
+                </NavLink>
+              </span>
+            </Link>
+          </div>
 
-
-          {/* Hamburger menu for mobile */}
+          {/* Hamburger menu for mobile and large screens */}
           <div
-            className={`ham-menu  md:hidden cursor-pointer flex flex-col justify-center gap-1 relative w-[25px] h-[25px] ${
+            className={`ham-menu lg:hidden cursor-pointer flex flex-col justify-center gap-1 relative w-[25px] h-[25px] ${
               isActive ? "active" : ""
             }`}
             onClick={toggleMenu}
           >
-            <span className="block w-[100%] h-[3.5px]  rounded-[20px] absolute top-[25%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue "></span>
-            <span className="block w-[100%] h-[3.5px]  rounded-[20px] absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue"></span>
-            <span className="block w-[100%] h-[3.5px]  rounded-[20px] absolute top-[75%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue"></span>
+            <span className="block w-[100%] h-[3.5px] rounded-[20px] absolute top-[25%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue"></span>
+            <span className="block w-[100%] h-[3.5px] rounded-[20px] absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue"></span>
+            <span className="block w-[100%] h-[3.5px] rounded-[20px] absolute top-[75%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue"></span>
           </div>
         </div>
       </nav>
@@ -124,3 +143,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

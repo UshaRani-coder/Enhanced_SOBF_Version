@@ -12,8 +12,8 @@ import Video from '../Components/Home_Section/Video.jsx'
 import Programms from '../Components/Home_Section/Initiatives.jsx'
 import Home_Gallery from '../Components/Home_Section/Home_gallery.jsx'
 import Partners from '../Components/Home_Section/Partners.jsx'
-
-
+import Press_Release from '../Components/Home_Section/Press_Release.jsx'
+import Recent_Activities from '../Components/Home_Section/Recent_Activities.jsx'
 
 const HomePage = () => {
   return (
@@ -24,6 +24,8 @@ const HomePage = () => {
       {/* <Video /> */}
       <About />
       <Services />
+      <Press_Release />
+      <Recent_Activities />
       <Team />
       <Partners />
       <Testimonials />

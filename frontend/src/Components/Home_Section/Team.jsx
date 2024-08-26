@@ -7,7 +7,7 @@ const Team = () => {
   return (
     <div className="bg-[#111827] mt-[30px] pb-[40px] flex flex-col items-center text-center w-full">
       <div className="w-[90%]">
-        <h1 className="inline-block text-[25px] md:text-heading3 lg:text-heading2 font-bold  px-5 pt-5 text-logoYellow relative z-10 ">
+        <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold  px-5 pt-5 text-logoYellow relative z-10 ">
           Meet Our Team
           <hr className="mt-1 border-light-lavender border-[0.5px]" />
         </h1>

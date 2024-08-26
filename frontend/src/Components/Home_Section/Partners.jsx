@@ -4,7 +4,7 @@ import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundati
 const Partners = () => {
   return (
     <div className='overflow-hidden mt-[30px] mb-[50px]'>
-      <h1 className="text-center text-heading3 lg:text-heading2 font-bold my-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
+      <h1 className="text-center text-[30px] md:text-heading3 lg:text-heading2 font-bold my-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
         Supported by
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>

@@ -453,13 +453,13 @@ const Donateus = () => {
       {/* Donate form */}
       <div id="donate-form">
         {/* Title section for the donate form */}
-        <div className="min-h-screen mt-24 p-6 bg-gray-100 flex items-center justify-center rounded-lg">
+        <div className="min-h-screen mt-24 p-6 bg-gray-100 flex  items-center justify-center rounded-lg ">
           {/* Container for the donate form */}
-          <div className="container max-w-screen-lg mx-auto md:mt-32 md:mb-16 mt-28 mb-10">
-            <div className="bg-white rounded-xl shadow-lg p-4 px-4 md:p-8 mb-6">
-              <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+          <div className="container max-w-screen-lg mx-auto md:mt-32 md:mb-16 mt-28 mb-10 flex flex-col items-center">
+            <div className="bg-white rounded-xl shadow-lg p-4 px-4 md:p-8 mb-6 md:w-[60%]">
+              <div className="grid gap-4 gap-y-2 text-sm grid-cols-1">
                 <div className="text-gray-600">
-                  <div className="flex- flex-col">
+                  <div className="flex justify-center">
                     <span className="font-medium md:text-[2rem] text-logoYellow text-heading4 py-3 pr-2">
                       Personal
                     </span>
@@ -469,7 +469,7 @@ const Donateus = () => {
                     </span>
                   </div>
 
-                  <p className="pt-1.5 lg:pb-0 pb-4">
+                  <p className="pt-1.5 lg:pb-0 pb-4 flex justify-center">
                     Please fill out all the fields.
                   </p>
                 </div>

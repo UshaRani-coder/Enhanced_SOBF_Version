@@ -10,7 +10,8 @@ import ContactUsPage from './pages/ContactUs.jsx';
 import Vision from './pages/Vision.jsx';
 import Gallery from './pages/Gallery.jsx';
 import Donateus from './pages/Donateus.jsx';
-
+import Press_Release from './Components/Home_Section/Press_Release.jsx';
+import Recent_Activities from './Components/Home_Section/Recent_Activities.jsx';
 
 
 
@@ -24,6 +25,8 @@ const App = () => {
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/vision" element={<Vision />} />
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/press-release" element={<Press_Release/>} />
+        <Route path="/recent-activities" element= {<Recent_Activities/>} />
         <Route path="/donate-us" element={<Donateus/>} />
       </Routes>
       <Footer />
