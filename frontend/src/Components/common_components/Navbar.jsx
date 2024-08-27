@@ -19,9 +19,9 @@ const Navbar = () => {
       <nav className="cursor-pointer w-full bg-white shadow-2xl">
         <div className="container mx-auto flex justify-between items-center p-2">
           {/* Logo on the left */}
-          <NavLink to="/" className="flex-shrink-0">
+          <Link to="/" className="flex-shrink-0">
             <img src={logo} alt="logo" className="w-20" />
-          </NavLink>
+          </Link>
 
           {/* Navigation items in the center */}
           <ul
@@ -30,68 +30,68 @@ const Navbar = () => {
             } lg:flex  flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-10 absolute lg:static top-full left-0 w-full  bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
           >
             <li>
-              <NavLink
+              <Link
                 exact
                 to="/"
                 className="text-blue hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Home
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to="/about-us"
                 className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 About
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to="/vision"
                 className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Vision
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to="/gallery"
                 className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Gallery
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to="/press-release"
                 className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Press Release
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to="/recent-activities"
                 className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Recent Activities
-              </NavLink>
+              </Link>
             </li>
             <li>
-              <NavLink
+              <Link
                 to="/contact-us"
                 className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Contact
-              </NavLink>
+              </Link>
             </li>
             {/* Donate button */}
 
@@ -102,9 +102,9 @@ const Navbar = () => {
               >
                 <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
                 <span className="relative z-10">
-                  <NavLink to="/donate-us" onClick={closeMenu}>
+                  <Link to="/donate-us" onClick={closeMenu}>
                     Donate
-                  </NavLink>
+                  </Link>
                 </span>
               </Link>
             </li>
@@ -118,9 +118,9 @@ const Navbar = () => {
             >
               <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
               <span className="relative z-10">
-                <NavLink to="/donate-us" onClick={closeMenu}>
+                <Link to="/donate-us" onClick={closeMenu}>
                   Donate
-                </NavLink>
+                </Link>
               </span>
             </Link>
           </div>

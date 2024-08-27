@@ -19,7 +19,6 @@ const App = () => {
     
     <Suspense fallback={<div>Loading...</div>}>
       <Header />
-      <BackgroundMusic/>
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route path="/about-us" element={<AboutUs />} />
@@ -30,6 +29,7 @@ const App = () => {
         <Route path="/recent-activities" element= {<Recent_Activities/>} />
         <Route path="/donate-us" element={<Donateus/>} />
       </Routes>
+      <BackgroundMusic />
       <Footer />
     </Suspense>
   );
