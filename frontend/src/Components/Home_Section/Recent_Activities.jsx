@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 const Recent_Activities = () => {
   const location = useLocation();
-  console.log(location.pathname);
   return (
     <div
       className={`flex flex-col items-center mb-[30px] ${
@@ -18,7 +17,7 @@ const Recent_Activities = () => {
       <h1 className="text-center text-2xl font-bold">
         Highlights of Our Latest Efforts and Community Engagement
       </h1>
-      <h1 className="text-center text-xl mb-12 p-3 text-gray-600">
+      <h1 className="text-center text-xl mb-4 p-3 text-gray-600">
         Discover the most recent projects, events, and initiatives we've
         undertaken to make a difference in our communities.
       </h1>

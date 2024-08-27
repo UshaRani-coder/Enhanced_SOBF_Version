@@ -86,7 +86,7 @@ const donate_hero = () => {
         </svg>
       </div>
       <p
-        className={`absolute px-4 font-bold top-[35%] lg:top-[50.5%] xl:top-[42.5%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] lg:w-[700px] sm:text-[25px] md:text-[30px] lg:text-[45px]  ${
+        className={`absolute px-2 font-bold top-[35%] lg:top-[50.5%] xl:top-[42.5%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[320px] md:w-[600px] lg:w-[700px] sm:text-[25px] md:text-[30px] lg:text-[45px]  ${
           textAnimation ? "text-animate" : ""
         }`}
       >

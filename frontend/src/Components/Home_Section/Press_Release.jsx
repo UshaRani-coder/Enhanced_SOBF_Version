@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 
 const Press_Release = () => {
   const location = useLocation();
-  console.log(location.pathname);
   return (
     <div
       className={`flex flex-col items-center mb-[30px] ${
@@ -19,7 +18,7 @@ const Press_Release = () => {
       <h1 className="text-center text-2xl font-bold">
         Announcing Our Latest Initiatives and Achievements Nationwide
       </h1>
-      <h1 className="text-center text-xl mb-12 p-3 text-gray-600">
+      <h1 className="text-center text-xl mb-4 p-3 text-gray-600">
         Stay informed about our recent collaborations, upcoming events, and the
         impact of our efforts across the country.
       </h1>

@@ -15,6 +15,7 @@ const Statistics = () => {
 
   return (
     <>
+    
       <div className="mt-2 text-center">
         <h2 className="inline-block text-heading3 lg:text-heading2 font-bold p-5 text-blue">
           Our Impacts
