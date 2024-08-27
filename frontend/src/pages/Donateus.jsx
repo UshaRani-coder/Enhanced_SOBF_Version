@@ -5,6 +5,7 @@ import food from "../assets/Sobf Images/food distribution/FoodDonation.jpg";
 import objective from "../assets/objective.jpeg";
 import donate from "../assets/donateMotive.jpeg";
 import { donors_words } from "../Constant/data";
+import { our_donors } from "../Constant/data";
 import Donate_hero from "../Components/Donate_page/donate_hero.jsx";
 
 
@@ -388,7 +389,7 @@ const Donateus = () => {
         {/* Wrapper for the donor cards with an animation for infinite scrolling */}
         <div className="flex animate-infinite-scroll-reverse">
           {/* Map through the donors_words array to create donor cards */}
-          {[...donors_words, ...donors_words].map((item, index) => (
+          {[...our_donors, ...our_donors].map((item, index) => (
             <div
               key={index}
               className="review-item mb-8 p-4 border rounded-lg flex flex-col flex-shrink-0 w-[24rem] mx-4"
@@ -421,7 +422,7 @@ const Donateus = () => {
           className="flex animate-infinite-scroll-reverse"
           aria-hidden="true"
         >
-          {[...donors_words, ...donors_words].map((item, index) => (
+          {[...our_donors, ...our_donors].map((item, index) => (
             <div
               key={index}
               className="review-item mb-8 p-4 border rounded-lg flex flex-col flex-shrink-0 w-96 mx-4"
@@ -456,7 +457,7 @@ const Donateus = () => {
         <div className="min-h-screen mt-24 p-6 bg-gray-100 flex  items-center justify-center rounded-lg ">
           {/* Container for the donate form */}
           <div className="container max-w-screen-lg mx-auto md:mt-32 md:mb-16 mt-28 mb-10 flex flex-col items-center">
-            <div className="bg-white rounded-xl shadow-lg p-4 px-4 md:p-8 mb-6 md:w-[60%]">
+            <div className="bg-white rounded-xl shadow-lg p-4 px-4 md:p-8 mb-6 md:w-[100%]">
               <div className="grid gap-4 gap-y-2 text-sm grid-cols-1">
                 <div className="text-gray-600">
                   <div className="flex justify-center">

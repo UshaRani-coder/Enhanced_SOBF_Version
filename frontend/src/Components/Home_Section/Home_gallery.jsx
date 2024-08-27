@@ -11,7 +11,7 @@ const Home_Gallery = () => {
     <div className="py-14">
       <div className="container mx-auto p-0 px-4 lg:px-20">
         <div className="w-full text-center mb-8">
-        <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
+        <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
             Featured Gallery
             <hr className="mt-1 border-light-lavender border-[1px]" />
           </h1>

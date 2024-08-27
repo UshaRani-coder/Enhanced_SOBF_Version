@@ -1,5 +1,4 @@
 import React, { Suspense } from 'react';
-
 import { Route, Routes } from 'react-router-dom';
 import "./App.css";
 import Header from './Components/common_components/Header.jsx';
@@ -12,13 +11,15 @@ import Gallery from './pages/Gallery.jsx';
 import Donateus from './pages/Donateus.jsx';
 import Press_Release from './Components/Home_Section/Press_Release.jsx';
 import Recent_Activities from './Components/Home_Section/Recent_Activities.jsx';
-
+import BackgroundMusic from './Components/BackgroundMusic.jsx';
 
 
 const App = () => {
   return (
+    
     <Suspense fallback={<div>Loading...</div>}>
       <Header />
+      <BackgroundMusic/>
       <Routes>
         <Route exact path="/" element={<HomePage />} />
         <Route path="/about-us" element={<AboutUs />} />

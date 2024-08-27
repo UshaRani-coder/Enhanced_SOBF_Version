@@ -10,7 +10,7 @@ const Programms = () => {
   return (
     <div className="my-[15px]">
       <div className="mt-2 text-center">
-        <h2 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold p-5 text-blue">
+        <h2 className="inline-block text-heading3 lg:text-heading2 font-bold p-5 text-blue">
           Our Initiatives
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h2>
@@ -36,8 +36,7 @@ const Programms = () => {
                 Zero Hunger
               </h2>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Exercitationem, magnam.
+              We provide affordable, nutritious Sattvik food to address hunger and improve quality of life.
               </p>
             </div>
           </div>
@@ -52,8 +51,7 @@ const Programms = () => {
                 Good health and Well being
               </h2>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Exercitationem, magnam.
+              We do promote health, hygiene, and a clean environment to foster well-being and spiritual growth.
               </p>
             </div>
           </div>
@@ -70,8 +68,7 @@ const Programms = () => {
                 Quality Education
               </h2>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Exercitationem, magnam.
+              Providing quality education to all, especially girls and women, to empower them and create equal opportunities.
               </p>
             </div>
           </div>
@@ -93,8 +90,7 @@ const Programms = () => {
                 Clean water and sanitation
               </h2>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Exercitationem, magnam.
+              Gopala Bhog promotes sustainable living through waste management and sanitation initiatives.
               </p>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
-
 const Statistics = () => {
   const spansRef = useRef([]);
 
@@ -17,7 +16,7 @@ const Statistics = () => {
   return (
     <>
       <div className="mt-2 text-center">
-        <h2 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold p-5 text-blue">
+        <h2 className="inline-block text-heading3 lg:text-heading2 font-bold p-5 text-blue">
           Our Impacts
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h2>
