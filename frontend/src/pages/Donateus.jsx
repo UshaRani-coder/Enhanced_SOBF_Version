@@ -37,7 +37,7 @@ const Donateus = () => {
               />
             </div>
             <div className="lg:w-1/2 pt-10 lg:text-[18px] text-[14px]">
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-justify">
                 Donating to us means contributing to a mission dedicated to
                 simplifying complex processes, enhancing efficiency, and driving
                 growth through innovative services. We empower communities to
@@ -65,7 +65,7 @@ const Donateus = () => {
               />
             </div>
             <div className="lg:w-1/2 pt-20 lg:text-[18px] text-[14px]">
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-justify">
                 We utilize donations strategically to maximize their impact on
                 the communities we serve. Funds are allocated to various
                 programs that address critical needs such as food distribution,
@@ -93,7 +93,7 @@ const Donateus = () => {
               />
             </div>
             <div className="lg:w-1/2 pt-6 lg:text-[18px] text-[14px]">
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-justify">
                 Your generous donations are used across multiple impactful
                 programs and initiatives. Our focus areas include addressing
                 poverty, hunger, health and well-being, quality education,
@@ -337,7 +337,7 @@ const Donateus = () => {
                 </div>
               </div>
               {/* Review text from the donor */}
-              <p className="text-gray-800">
+              <p className="text-gray-800 text-justify">
                 {item.reviews}
               </p>
             </div>
@@ -369,7 +369,7 @@ const Donateus = () => {
                 </div>
               </div>
               {/* Review text from the donor */}
-              <p className="text-gray-800">{item.reviews}</p>
+              <p className="text-gray-800 text-justify">{item.reviews}</p>
             </div>
           ))}
         </div>
@@ -412,7 +412,7 @@ const Donateus = () => {
                 </div>
               </div>
               {/* Review text from the donor */}
-              <p className="text-gray-800">{item.reviews}</p>
+              <p className="text-gray-800 text-justify">{item.reviews}</p>
             </div>
           ))}
         </div>
@@ -445,7 +445,7 @@ const Donateus = () => {
                 </div>
               </div>
               {/* Review text from the donor */}
-              <p className="text-gray-800">{item.reviews}</p>
+              <p className="text-gray-800 text-justify">{item.reviews}</p>
             </div>
           ))}
         </div>

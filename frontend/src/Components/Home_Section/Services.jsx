@@ -149,7 +149,7 @@ const Services = () => {
               <h3 className="mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold ">
                 Community Service
               </h3>
-              <p className="text-center text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px]  text-[#ffffff]">
+              <p className="text-justify  text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px]  text-[#ffffff]">
                 Brings fulfillment, purpose, connection, satisfaction, and
                 positive impact.
               </p>
@@ -179,7 +179,7 @@ const Services = () => {
               <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Gopala Bhog
               </h3>
-              <p className="text-center text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
+              <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
                 Serving affordable and Satvik Food Prasadam to hundreds of
                 beneficiaries
               </p>
@@ -208,7 +208,7 @@ const Services = () => {
               <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Brajkulam Educational Centre
               </h3>
-              <p className="text-center text-[14px] pt-[20px] lg:text-[16px] lg:pt-[10px] text-[#ffffff]">
+              <p className="text-justify text-[14px] pt-[20px] lg:text-[16px] lg:pt-[10px] text-[#ffffff]">
                 Actively involved in Providing Basic Education , Skill Training,
                 Health and Hygiene Camps
               </p>
@@ -241,10 +241,10 @@ const Services = () => {
                   />
                 </g>
               </svg>
-              <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
+              <h3 className="text-center  mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Swachh & Swasth Vrindavan
               </h3>
-              <p className="text-center text-[14px] pt-[20px] lg:text-[16px] lg:pt-[10px] text-[#ffffff]">
+              <p className="text-justify text-[14px] pt-[20px] lg:text-[16px] lg:pt-[10px] text-[#ffffff]">
                 Our Shri Vrindavan Dham is very sacred, hence it is our duty to
                 keep making continuous efforts to keep Shri Vrindavan Dham clean
                 and healthy.
@@ -291,7 +291,7 @@ const Services = () => {
               <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px]  text-[#ffffff] font-bold">
                 Sadhu Seva
               </h3>
-              <p className="text-center text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px]  text-[#ffffff]">
+              <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px]  text-[#ffffff]">
                 Daily food seva for devotees living in Vrindavan with devotion.
               </p>
             </div>
@@ -352,8 +352,8 @@ const Services = () => {
               <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Health and Awareness Camp
               </h3>
-              <p className="text-center text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
-                Health and Awareness program enhance knowledge, promoting
+              <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
+                Health & Awareness program enhances the knowledge, promoting
                 wellness and healthy living.
               </p>
             </div>
@@ -386,7 +386,7 @@ const Services = () => {
               <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Women Empowerment
               </h3>
-              <p className="text-center text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
+              <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
                 Women's empowerment is about equality, breaking barriers, and
                 creating a world where women have the freedom to reach their
                 full potential.

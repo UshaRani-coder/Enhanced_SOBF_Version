@@ -35,7 +35,7 @@ const Programms = () => {
               <h2 className="text-heading4 text-black  font-sans font-bold ">
                 Zero Hunger
               </h2>
-              <p>
+              <p className="text-justify">
               We provide affordable, nutritious Sattvik food to address hunger and improve quality of life.
               </p>
             </div>
@@ -50,7 +50,7 @@ const Programms = () => {
               <h2 className="text-heading4 text-black  font-sans font-bold text-center">
                 Good health and Well being
               </h2>
-              <p>
+              <p className="text-justify">
               We do promote health, hygiene, and a clean environment to foster well-being and spiritual growth.
               </p>
             </div>
@@ -67,7 +67,7 @@ const Programms = () => {
               <h2 className="text-heading4 text-black  font-sans font-bold text-center">
                 Quality Education
               </h2>
-              <p>
+              <p className="text-justify">
               Providing quality education to all, especially girls and women, to empower them and create equal opportunities.
               </p>
             </div>
@@ -89,7 +89,7 @@ const Programms = () => {
               <h2 className="text-heading4 text-black  font-sans font-bold  text-center md:text-start">
                 Clean water and sanitation
               </h2>
-              <p>
+              <p className="text-justify">
               Gopala Bhog promotes sustainable living through waste management and sanitation initiatives.
               </p>
             </div>

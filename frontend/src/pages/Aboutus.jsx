@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import aboutus from "../assets/aboutUsImage.png";
+import cee14 from "../assets/Sobf Images/child_education_and_empowerment/cee14.jpg";
+import cee11 from "../assets/Sobf Images/child_education_and_empowerment/cee11.jpg";
+import ca5 from "../assets/Sobf Images/children_activities/ca5.jpg";
+import ca15 from "../assets/Sobf Images/children_activities/ca3.jpg";
+import hac4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.jpg";
+import ca6 from "../assets/Sobf Images/children_activities/ca6.jpg";
 
 const AboutUs = () => {
   const [activeTab, setActiveTab] = useState("mission");
@@ -8,7 +14,7 @@ const AboutUs = () => {
     switch (activeTab) {
       case "mission":
         return (
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-justify">
             We aim to simplify complex processes, enhance efficiency, and drive
             growth through our innovative software and services. By providing
             solutions, we enable to navigate the ever-changing tech landscape.
@@ -16,14 +22,14 @@ const AboutUs = () => {
         );
       case "vision":
         return (
-          <p className="text-gray-600">
+          <p className="text-gray-600  text-justify">
             Our vision is to be the leading provider of innovative tech
             solutions that empower businesses to reach their full potential.
           </p>
         );
       case "objective":
         return (
-          <p className="text-gray-600">
+          <p className="text-gray-600  text-justify">
             Our objective is to deliver high-quality, efficient, and reliable
             software solutions that meet the evolving needs of our clients.
           </p>
@@ -34,12 +40,13 @@ const AboutUs = () => {
   };
 
   const images = [
-    "https://www.sobf.in/images/about4.jpeg",
-    "https://www.sobf.in/images/activity2.jpeg",
-    "https://www.sobf.in/images/activity3.jpeg",
-    "https://www.sobf.in/images/activity1.jpeg",
-    "https://www.sobf.in/images/about2.jpeg",
-    "https://www.sobf.in/images/about3.jpeg",
+   cee14,
+    ca5,
+    hac4,
+    cee11,
+    ca15,
+    ca6,
+
   ];
 
   return (
@@ -112,7 +119,7 @@ const AboutUs = () => {
             Our Story
             <hr className="mt-1 border-light-lavender border-[1px]" />
           </h1>
-          <p className="text-lg text-gray-700 mt-4">
+          <p className="text-lg text-gray-700 mt-4 text-justify">
             <span className="text-xl text-purple-700 font-bold hover:underline">
               Soul Of Braj Federation
             </span>{" "}

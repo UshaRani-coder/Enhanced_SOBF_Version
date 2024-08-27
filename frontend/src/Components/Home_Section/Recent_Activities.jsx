@@ -47,7 +47,7 @@ const Recent_Activities = () => {
               <h1 className="font-bold mt-[10px] text-lg leading-[23px] flex-grow">
                 {activity.title}
               </h1>
-              <p className="mt-[10px] text-[14px] flex-grow">
+              <p className="mt-[10px] text-[14px] text-justify flex-grow">
                 {activity.description}
               </p>
               <Link to="/recent-activities">

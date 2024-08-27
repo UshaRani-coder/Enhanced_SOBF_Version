@@ -48,7 +48,7 @@ const Press_Release = () => {
               <h1 className="font-bold mt-[10px] text-lg leading-[23px] flex-grow">
                 {news.title}
               </h1>
-              <p className="mt-[10px] text-[14px] flex-grow">
+              <p className="mt-[10px] text-[14px] flex-grow text-justify">
                 {news.description}
               </p>
               <Link to="/press-release">

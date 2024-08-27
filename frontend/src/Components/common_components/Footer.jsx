@@ -1,3 +1,4 @@
+import sobfLogo from "../../assets/sobfLogo.png";
 const Footer = () => {
   return (
     <footer className="text-start text-slate-500 w-full">
@@ -15,7 +16,7 @@ const Footer = () => {
                 href="/"
               >
                 <img
-                  src="https://www.sobf.in/images/BRAJ%20WHITE.png"
+                  src= {sobfLogo}
                   className="h-12 sm:h-16"
                   alt="Logo"
                 />
