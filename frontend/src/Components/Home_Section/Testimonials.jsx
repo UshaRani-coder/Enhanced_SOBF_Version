@@ -71,7 +71,7 @@ const Testimonials = () => {
                 ></div>
                 <div className="testimonial-content flex flex-col items-center   flex-1">
                   <h1 className="font-sans font-bold mt-[10px] ">{testimonial.name}</h1>
-                  <h3 className="font-sans font-bold text-[rgba(0,18,51,0.4)] text-[12px]">{testimonial.profession}</h3>
+                  <h2 className="font-sans font-bold text-[rgba(0,18,51,0.4)] text-[12px]">{testimonial.profession}</h2>
                   <p className="testimonial-description font-workSans text-[14px] md:text-[16px] relative mt-[50px]">
                     {testimonial.description}
                   </p>

@@ -22,7 +22,7 @@ const BackgroundMusic = () => {
 
   return (
     <div className="fixed bottom-[20px] bg-[#30d464] rounded-full px-[13px] pt-[10px] pb-[7px]  right-[2px] lg:right-[20px] ">
-      <button onClick={togglePlay}>
+       <button aria-label="Play Video" onClick={togglePlay}>
         {isPlaying ? (
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height={'15px'} width={'15px'} fill="#000">
             <path d="M48 64C21.5 64 0 85.5 0 112L0 400c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48L48 64zm192 0c-26.5 0-48 21.5-48 48l0 288c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48l-32 0z" />

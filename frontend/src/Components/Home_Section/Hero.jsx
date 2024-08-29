@@ -6,7 +6,6 @@ const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [textAnimation, setTextAnimation] = useState(false);
   const imageElement = useRef(null);
-
   const scrollLeft = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + heroes.length) % heroes.length
@@ -44,14 +43,14 @@ const Hero = () => {
   return (
     <div className="hero relative flex items-center overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[100px] lg:mt-[120px]">
       <div
-        className="hero-img w-[100%] h-[100%] animate-zoomIn transition-bg-image"
+        className="hero-img object-cover w-[100%] h-[100%] animate-zoomIn transition-bg-image"
         ref={imageElement}
         key={currentIndex}
         style={{
           backgroundImage: `url(${heroes[currentIndex].img})`,
           backgroundSize: "cover",
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       ></div>
 

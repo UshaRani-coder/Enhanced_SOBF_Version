@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../../App.css";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.avif";
 
 const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
@@ -20,7 +20,7 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center p-2">
           {/* Logo on the left */}
           <Link to="/" className="flex-shrink-0">
-            <img src={logo} alt="logo" className="w-20" />
+            <img src={logo} alt="logo" className="w-20 object-cover" />
           </Link>
 
           {/* Navigation items in the center */}
@@ -31,7 +31,6 @@ const Navbar = () => {
           >
             <li>
               <Link
-                exact
                 to="/"
                 className="text-blue hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
@@ -85,13 +84,13 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link
+              <NavLink
                 to="/contact-us"
                 className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
                 onClick={closeMenu}
               >
                 Contact
-              </Link>
+              </NavLink>
             </li>
             {/* Donate button */}
 

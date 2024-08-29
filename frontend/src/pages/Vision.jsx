@@ -1,8 +1,8 @@
 import React from 'react'
-import aboutus from "../assets/aboutUsImage.png"
-import VisionImg from "../assets/Vision.jpeg"
-import MisionImg from "../assets/Mission.jpeg"
-import ObjectiveImg from "../assets/objective.jpeg"
+import aboutus from "../assets/aboutUsImage.avif"
+import VisionImg from "../assets/Vision.avif"
+import MisionImg from "../assets/Mission.avif"
+import ObjectiveImg from "../assets/objective.avif"
 
 const Vision = () => {
   return (
@@ -21,7 +21,7 @@ const Vision = () => {
       {/* 1st Card */}
       <div className='flex gap-4 lg:flex-row flex-col justify-center items-center lg:px-24 py-6 px-4 lg:p-0'>
         <div className='w-[99%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none'>
-          <img src={VisionImg} alt="Vision" className='w-full h-auto rounded-lg border border-gray-100' />
+          <img src={VisionImg} alt="Vision" className='object-cover w-full h-auto rounded-lg border border-gray-100' />
         </div>
         <div className='w-[99%] lg:w-[50%] order-2 lg:order-none'>
           <h1 className='inline-block text-heading3 lg:text-heading2 font-bold mt-10 mb-2 pb-5 text-logoYellow flex lg:justify-normal  justify-center items-center lg:items-start'>
@@ -46,14 +46,14 @@ const Vision = () => {
           </p>
         </div>
         <div className='w-[90%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none'>
-          <img src={MisionImg} alt="Mission" className='w-full h-auto rounded-lg border border-gray-200' />
+          <img src={MisionImg} alt="Mission" className='object-cover w-full h-auto rounded-lg border border-gray-200' />
         </div>
       </div>
 
       {/* 3rd Card */}
       <div className='flex gap-4 lg:flex-row flex-col justify-center items-center lg:px-24 py-6 px-4 lg:p-0'>
         <div className='w-[90%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none'>
-          <img src={ObjectiveImg} alt="Objective" className='w-full h-auto rounded-lg border border-gray-200' />
+          <img src={ObjectiveImg} alt="Objective" className='object-cover w-full h-auto rounded-lg border border-gray-200' />
         </div>
         <div className='w-[99%] lg:w-[50%] order-2 lg:order-none'>
           <h1 className='inline-block text-heading3 lg:text-heading2 font-bold mt-10 mb-2 pb-5 text-logoYellow flex lg:justify-normal  justify-center items-center lg:items-start'>

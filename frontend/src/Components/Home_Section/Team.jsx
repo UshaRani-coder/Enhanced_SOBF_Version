@@ -1,11 +1,11 @@
 import React from "react";
-import chairmanImg from "../../assets/Sobf Images/people/chairman.png";
+import chairmanImg from "../../assets/Sobf Images/people/chairman.avif";
 import { Link } from "react-router-dom";
-import TarunMisra from "../../assets/OurTeam/TarunMisra.jpeg";
-import DevRaturi from "../../assets/OurTeam/DevRaturi.jpeg";
-import MarkRameshRamdeen from "../../assets/OurTeam/MarkRameshRamdeen.jpeg";
-import SaurabhSinha from "../../assets/OurTeam/SaurabhSinha.jpeg";
-import ShaluSharma from "../../assets/OurTeam/ShaluSharma.jpeg";
+import TarunMisra from "../../assets/OurTeam/TarunMisra.avif";
+import DevRaturi from "../../assets/OurTeam/DevRaturi.avif";
+import MarkRameshRamdeen from "../../assets/OurTeam/MarkRameshRamdeen.avif";
+import SaurabhSinha from "../../assets/OurTeam/SaurabhSinha.avif";
+import ShaluSharma from "../../assets/OurTeam/ShaluSharma.avif";
 
 const Team = () => {
   return (
@@ -35,14 +35,14 @@ const Team = () => {
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
                 Founder & Director at{" "}
-                <a
+                <Link
                   href="https://sobf.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cursor-pointer text-[#4a8bed]"
                 >
                   SOBF
-                </a>
+                </Link>
               </p>
             </div>
             <div className="socials flex gap-x-[10px] ">
@@ -155,14 +155,14 @@ const Team = () => {
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
                 Founder and Director at{" "}
-                <a
+                <Link
                   href="https://sobf.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cursor-pointer text-[#4a8bed]"
                 >
                   SOBF
-                </a>
+                </Link>
               </p>
             </div>
             <div className="socials flex gap-x-[10px] ">
@@ -280,14 +280,14 @@ const Team = () => {
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
                 Honorary Director at{" "}
-                <a
+                <Link
                   href="https://sobf.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cursor-pointer text-[#4a8bed]"
                 >
                   SOBF
-                </a>
+                </Link>
               </p>
               <p className="text-[12px] mx-[10px] md:mx-0  lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
               Founder of The Hindu Diaspora Foundation
@@ -403,34 +403,34 @@ const Team = () => {
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
                 Honorary Director at{" "}
-                <a
+                <Link
                   href="https://sobf.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cursor-pointer text-[#4a8bed]"
                 >
                   SOBF
-                </a>
+                </Link>
               </p>
               <p className="text-[12px] mx-[10px] md:mx-0 lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
                 Founder & CEO at{" "}
-                <a
+                <Link
                   href="https://raturi.org/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cursor-pointer text-[#4a8bed]"
                 >
                   Raturi Foundation
-                </a>{" "}
+                </Link>{" "}
                 &{" "}
-                <a
+                <Link
                   href="https://amberpalace.org/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cursor-pointer text-[#4a8bed]"
                 >
                   Amber Palace
-                </a>{" "}
+                </Link>{" "}
                 Indian Restaurants, India and China
               </p>
             </div>
@@ -544,14 +544,14 @@ const Team = () => {
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
                 Advisory Board Member at{" "}
-                <a
+                <Link
                   href="https://sobf.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cursor-pointer text-[#4a8bed]"
                 >
                   SOBF
-                </a>
+                </Link>
                 <p className="text-[12px] mx-[10px] md:mx-0 lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
                   CEO & Founder- Indian Bureaucracy
                 </p>

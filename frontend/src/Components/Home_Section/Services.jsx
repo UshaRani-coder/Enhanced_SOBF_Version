@@ -146,9 +146,9 @@ const Services = () => {
                   </g>
                 </g>
               </svg>
-              <h3 className="mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold ">
+              <h2 className="mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold ">
                 Community Service
-              </h3>
+              </h2>
               <p className="text-justify  text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px]  text-[#ffffff]">
                 Brings fulfillment, purpose, connection, satisfaction, and
                 positive impact.
@@ -176,9 +176,9 @@ const Services = () => {
               >
                 <path d="M390.34 441.59V291H322.6c-28.71 5.15-57.43 20.71-86.15 38.8h-52.61c-23.81 1.43-36.28 25.57-13.15 41.43 18.45 13.52 42.79 12.76 67.74 10.52 17.2-.85 17.95 22.28 0 22.36-6.23.48-13.02-.98-18.93-.98-31.14-.03-56.79-5.99-72.49-30.59l-7.89-18.41-78.26-38.8c-39.16-12.9-66.99 28.07-38.14 56.56 56.68 41.24 114.82 75.17 174.27 102.58 43.19 26.27 86.37 25.38 129.56 0l63.79-32.88zM26.61 295.84C13.26 274.78 5.03 248.03.07 213.49c-.38-2.71.81-5.29 2.87-6.8 1.16-25.91 13.69-39.74 37.53-48.27 2.14-18.68 16.9-31.73 34.98-34.86 25.04-25.44 65.94-33.03 99-20.35 1.14.44 4.7 2.24 7.92 3.86.5.25.78.5.94.72 11.09-8.54 23.81-13.07 36.47-14.37 9.14-.93 18.27-.19 26.74 1.94l42.11-84.37c3.84-7.5 9.98-14.67 21.91-8.88 3.19 1.55 6 3.94 7.87 6.83 5.41 8.3.87 14.09-3.25 21.24l-45.58 75.58c9.12 6.43 16.4 15.39 19.04 26.41 3.95 1.12 7.74 2.37 11.34 3.76l53.07-88.26c4.43-7.18 11.13-13.83 22.55-7.11 3.06 1.8 5.67 4.41 7.31 7.43 4.73 8.71-.26 14.12-4.94 20.92l-55.4 78.84c20.12 14.12 32.83 36.04 27.22 61.26-.3 1.41.32 1.93.32 3.47l-.06.92c-.16 2.81-.4 5.62-.7 8.43-1.76 16.5-5.96 32.94-13.17 48.51H322.6c-.86 0-1.71.06-2.53.2 8.53-16.08 13.29-33.44 15.09-50.88H15.52c5.13 30.94 13.25 54.57 26.01 72.76-5.29.44-10.3 1.62-14.92 3.42zm231-103.63c-3.97 0-7.18-3.21-7.18-7.17 0-3.97 3.21-7.18 7.18-7.18h16.07c3.97 0 7.18 3.21 7.18 7.18 0 3.96-3.21 7.17-7.18 7.17h-16.07zm-3.88-47.66a7.155 7.155 0 1 1-5.83 13.07l-14.66-6.59a7.155 7.155 0 0 1-3.62-9.45 7.155 7.155 0 0 1 9.45-3.62l14.66 6.59zm-81.67 4.82a7.208 7.208 0 0 1-3.98-9.38 7.22 7.22 0 0 1 9.39-3.98l16.07 6.56a7.22 7.22 0 0 1 3.98 9.39 7.223 7.223 0 0 1-9.39 3.97l-16.07-6.56zm-5.53 42.84c-3.96 0-7.18-3.21-7.18-7.17a7.18 7.18 0 0 1 7.18-7.18h16.07c3.97 0 7.18 3.21 7.18 7.18 0 3.96-3.21 7.17-7.18 7.17h-16.07zm-54.6-32.63a7.155 7.155 0 0 1-9.45-3.62 7.155 7.155 0 0 1 3.62-9.45l14.66-6.59c3.61-1.61 7.84.01 9.45 3.62a7.155 7.155 0 0 1-3.62 9.45l-14.66 6.59zm-31.65 32.63c-3.97 0-7.18-3.21-7.18-7.17 0-3.97 3.21-7.18 7.18-7.18h16.07a7.18 7.18 0 0 1 7.18 7.18c0 3.96-3.22 7.17-7.18 7.17H80.28zm-62.88 13.1 318.54-.01c6.91-33.52-27.73-53.61-55.3-60.43-2.85-.7-5.1-3.13-5.41-6.22-1.43-13.91-14.66-23.51-26.9-27.81-8.3-2.92-17.69-4.14-27.09-3.17-11.1 1.13-22.23 5.35-31.62 13.43a7.118 7.118 0 0 1-5.13 2.16c-3.36 0-11.38-5.21-15.14-6.65-28.36-10.88-64.32-4.09-85.15 18.54a7.134 7.134 0 0 1-4.49 2.27c-13.94 1.55-25.12 11.2-25.21 25.77a7.184 7.184 0 0 1-5.02 7.33c-19.1 5.97-30.51 13.81-32.08 34.79zM44 238.06a5.723 5.723 0 0 1 3.45-7.32c2.97-1.06 6.25.48 7.32 3.46 3.91 10.84 8.9 21.3 14.91 31.14 1.65 2.7.8 6.23-1.9 7.87-2.7 1.65-6.23.8-7.88-1.9-6.39-10.47-11.75-21.71-15.9-33.25zm25.64 47.5a5.745 5.745 0 0 1 1.08-8.04 5.743 5.743 0 0 1 8.03 1.08c4.69 6.14 9.81 11.83 15.55 17a5.748 5.748 0 0 1 .43 8.1 5.73 5.73 0 0 1-8.1.43c-6.2-5.59-11.92-11.95-16.99-18.57zm433.5-9.03h-83.55c-4.88 0-8.87 3.98-8.87 8.86v162.46c0 4.88 3.99 8.87 8.87 8.87h83.55c4.87 0 8.86-3.99 8.86-8.87V285.39c0-4.88-3.99-8.86-8.86-8.86zm-41.78 27.35c-7.27 0-13.17 5.9-13.17 13.18 0 7.27 5.9 13.17 13.17 13.17 7.28 0 13.17-5.9 13.17-13.17 0-7.28-5.89-13.18-13.17-13.18z" />
               </svg>
-              <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
+              <h2 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Gopala Bhog
-              </h3>
+              </h2>
               <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
                 Serving affordable and Satvik Food Prasadam to hundreds of
                 beneficiaries
@@ -205,9 +205,9 @@ const Services = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
+              <h2 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Brajkulam Educational Centre
-              </h3>
+              </h2>
               <p className="text-justify text-[14px] pt-[20px] lg:text-[16px] lg:pt-[10px] text-[#ffffff]">
                 Actively involved in Providing Basic Education , Skill Training,
                 Health and Hygiene Camps
@@ -241,9 +241,9 @@ const Services = () => {
                   />
                 </g>
               </svg>
-              <h3 className="text-center  mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
+              <h2 className="text-center  mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Swachh & Swasth Vrindavan
-              </h3>
+              </h2>
               <p className="text-justify text-[14px] pt-[20px] lg:text-[16px] lg:pt-[10px] text-[#ffffff]">
                 Our Shri Vrindavan Dham is very sacred, hence it is our duty to
                 keep making continuous efforts to keep Shri Vrindavan Dham clean
@@ -255,7 +255,7 @@ const Services = () => {
           {/* <li className="service service3 cursor-pointer bg-[#00a36c]   w-[80%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center">
           <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
        <svg className="h-[40px] w-[40px]" fill="#ffffff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 95.57"  xml:space="preserve"><g><path class="st0" d="M30.45,57.96h-0.93c0-7.62-2.85-14.28-8.54-19.97c-5.69-5.69-12.35-8.54-19.97-8.54v-0.93 c7.62,0,14.28-2.85,19.97-8.55C26.67,14.25,29.52,7.59,29.52,0h0.93c0,7.62,2.85,14.28,8.54,19.97c5.69,5.69,12.35,8.54,19.97,8.54 v0.93c-7.62,0-14.28,2.85-19.97,8.54C33.3,43.68,30.45,50.34,30.45,57.96L30.45,57.96z M13.51,92.85h-0.43 c0-3.49-1.31-6.55-3.92-9.16C6.55,81.08,3.49,79.77,0,79.77v-0.43c3.49,0,6.55-1.31,9.16-3.92c2.61-2.62,3.92-5.67,3.92-9.15h0.43 c0,3.49,1.31,6.55,3.92,9.16c2.61,2.61,5.66,3.92,9.16,3.92v0.43c-3.49,0-6.55,1.31-9.16,3.92C14.81,86.3,13.51,89.36,13.51,92.85 L13.51,92.85z M68.37,95.57h-0.43c0-3.49-1.31-6.55-3.92-9.16c-2.61-2.61-5.66-3.92-9.16-3.92v-0.43c3.49,0,6.55-1.31,9.16-3.92 c2.61-2.62,3.92-5.67,3.92-9.15h0.43c0,3.49,1.31,6.55,3.92,9.16c2.61,2.61,5.66,3.92,9.16,3.92v0.43c-3.49,0-6.55,1.31-9.16,3.92 C69.67,89.02,68.37,92.07,68.37,95.57L68.37,95.57z M98.95,64.57h-0.78c0-6.39-2.39-11.98-7.17-16.76 c-4.78-4.78-10.36-7.17-16.76-7.17v-0.78c6.39,0,11.98-2.39,16.76-7.18c4.78-4.79,7.17-10.38,7.17-16.75h0.78 c0,6.39,2.39,11.98,7.17,16.76c4.78,4.78,10.36,7.17,16.76,7.17v0.78c-6.39,0-11.98,2.39-16.76,7.17 C101.34,52.59,98.95,58.18,98.95,64.57L98.95,64.57z"/></g></svg>
-            <h3 className="text-center mt-[10px] text-[18px] text-[#ffffff] font-bold">
+            <h2 className="text-center mt-[10px] text-[18px] text-[#ffffff] font-bold">
             Brajkulam Community Center
             </h3>
             <p className="text-[14px] pt-[20px]  text-[#ffffff]"></p>
@@ -288,9 +288,9 @@ const Services = () => {
                   />
                 </g>
               </svg>
-              <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px]  text-[#ffffff] font-bold">
+              <h2 className="text-center mt-[10px] text-[18px] lg:text-[20px]  text-[#ffffff] font-bold">
                 Sadhu Seva
-              </h3>
+              </h2>
               <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px]  text-[#ffffff]">
                 Daily food seva for devotees living in Vrindavan with devotion.
               </p>
@@ -348,10 +348,10 @@ const Services = () => {
                   />
                 </g>
               </svg>
-
-              <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
+              <h2
+               className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Health and Awareness Camp
-              </h3>
+              </h2>
               <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
                 Health & Awareness program enhances the knowledge, promoting
                 wellness and healthy living.
@@ -383,9 +383,9 @@ const Services = () => {
                 />
               </svg>
 
-              <h3 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
+              <h2 className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Women Empowerment
-              </h3>
+              </h2>
               <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
                 Women's empowerment is about equality, breaking barriers, and
                 creating a world where women have the freedom to reach their

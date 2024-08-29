@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import BrajkulamImg from '../../../assets/Sobf Images/child_education_and_empowerment/cee1.jpg'
+import BrajkulamImg from '../../../assets/Sobf Images/child_education_and_empowerment/cee1.avif'
 
 
 const Brajkulam = ({setService}) => {
   return (
     <div className="w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto">
-      <button
+       <button aria-label="Play Video"
         className="back-button my-4 px-4 py-2 bg-gray-800 text-white rounded hover:bg-indigo-500 hover:text-white hover:scale-105 transform transition-all duration-300 ease-in-out"
         onClick={() => setService(null)}
       >
