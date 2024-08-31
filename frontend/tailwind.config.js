@@ -49,9 +49,9 @@ export default {
         headong6: "10px",
       },
       animation: {
-        "infinite-scroll": "infinite-scroll 50s linear infinite",
+        "infinite-scroll": "infinite-scroll 80s linear infinite",
         "partners-infinite-scroll": "infinite-scroll 5s linear infinite",
-        "infinite-scroll-reverse": "infinite-scroll-reverse 50s linear infinite",
+        "infinite-scroll-reverse": "infinite-scroll-reverse 80s linear infinite",
         zoomIn: "zoomIn 2.5s forwards",
         scroll: "scroll 20s linear infinite",
       },

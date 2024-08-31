@@ -1,6 +1,22 @@
 import sobfLogo from "../../assets/sobfLogo.avif";
 import { Link } from "react-router-dom";
+// import { Services } from '/src/Components/Home_Section/Services.jsx';
 const Footer = () => {
+  const handleRedirectMap = () => {
+    window.open(
+      "https://google.com/maps/place/Soul+Of+Braj+Federation/@27.564868,77.672604,16z/data=!4m6!3m5!1s0x39736fffb9ab491f:0xf32c290c550ecc7b!8m2!3d27.5648675!4d77.6726042!16s%2Fg%2F11jk5x0qcw?hl=en&entry=ttu",
+      "_blank"
+    );
+  };
+  const handleRedirectMail = () => window.open("mailto:soulofbraj@gmail.com", "_blank");
+  const handleRedirectCall = () => window.open("tel:+91 8439406670", "_blank");
+  const handleRedirectFacebook = () => window.open("https://www.facebook.com/soulofbraj/", "_blank");
+  const handleRedirectInstagram = () => window.open("https://www.instagram.com/soulofbraj/?hl=en", "_blank");
+  const handleRedirectWhatsapp = () => window.open("https://wa.me/918439406670", "_blank");
+  const handleRedirectLinkedIn = () => window.open("https://www.linkedin.com/company/soulofbraj/", "_blank");
+  const handleRedirectYoutube = () => window.open("https://www.youtube.com/@sobf", "_blank");  
+
+
   return (
     <footer className="text-start text-slate-500 w-full">
       {/* Main footer */}
@@ -27,7 +43,7 @@ const Footer = () => {
               </p>
 
               {/* Address below logo*/}
-              <Link href="https://maps.app.goo.gl/6kemecjbb1zUpebt5" target="_blank">
+              <Link onClick={handleRedirectMap} >
               <p className="mb-4 flex items-center justify-center md:justify-start hover:text-gray-300">
                 <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
                   <svg
@@ -46,7 +62,7 @@ const Footer = () => {
               </Link>
 
               {/* Email below logo */}
-              <Link href="mailto:soulofbraj@gmail.com" target="_blank">
+              <Link onClick={handleRedirectMail} >
               <p className="mb-4 flex items-center justify-start md:justify-start hover:text-gray-300">
                 <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
                   <svg
@@ -64,7 +80,7 @@ const Footer = () => {
               </Link>
 
               {/* Phone below logo*/}
-              <Link href="tel:+91 8439406670">
+              <Link onClick={handleRedirectCall}>
               <p className="mb-4 flex items-center justify-start md:justify-start hover:text-gray-300">
                 <span className="me-3 [&>svg]:h-5 [&>svg]:w-5">
                   <svg
@@ -96,7 +112,7 @@ const Footer = () => {
                     </h3>
                     <ul>
                       <li className="mb-2 leading-6">
-                        <Link href="" className="transition-colors duration-300 hover:text-white focus:text-white">
+                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
                           Community Service
                         </Link>
                       </li>
@@ -185,7 +201,7 @@ const Footer = () => {
 
       <div class=" w-full h-auto py-4 flex items-center justify-center gap-3 flex-wrap">
       {/* Facebook */}
-      <Link href="https://www.facebook.com/soulofbraj/" target="_blank"
+      <Link onClick={handleRedirectFacebook} 
       class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 71 72"
       fill="none">
@@ -195,7 +211,7 @@ const Footer = () => {
       </svg>
       </Link>
       {/* Instagram */}
-      <Link href="https://www.instagram.com/soulofbraj/?hl=en" target="_blank"
+      <Link onClick={handleRedirectInstagram} 
       class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 71 72"
       fill="none">
@@ -215,7 +231,7 @@ const Footer = () => {
       </svg>
       </Link> */}
       {/* Whatsapp */}
-      <Link href="https://wa.me/918439406670" target="_blank" rel="noopener noreferrer"
+      <Link onClick={handleRedirectWhatsapp}  rel="noopener noreferrer"
       class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 71 72"
       fill="none">
@@ -228,7 +244,7 @@ const Footer = () => {
       </svg>
       </Link>
       {/* LinkedIn */}
-      <Link href="https://www.linkedin.com/company/soulofbraj/" target="_blank"
+      <Link onClick={handleRedirectLinkedIn} 
       class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 72 72"
       fill="none">
@@ -238,7 +254,7 @@ const Footer = () => {
       </svg>
       </Link>
      {/* Telegram */}
-      {/* <Link href="https://t.me/918439406670" target="_blank" rel="noopener noreferrer"
+      {/* <Link href="https://t.me/918439406670"  rel="noopener noreferrer"
       class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 72 72"
       fill="none">
@@ -248,7 +264,7 @@ const Footer = () => {
       </svg>
       </Link> */}
       {/* Gmail */}
-      <Link href="mailto:soulofbraj@gmail.com" target="_blank"
+      <Link onClick={handleRedirectMail} 
       class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 72 72"
       fill="none">
@@ -269,7 +285,7 @@ const Footer = () => {
       </svg>
       </Link>
       {/* Youtube */}
-      <Link href="https://www.youtube.com/@sobf" target="_blank"
+      <Link onClick={handleRedirectYoutube} 
       class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 71 71"
       fill="none">

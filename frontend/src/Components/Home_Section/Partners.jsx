@@ -1,5 +1,5 @@
 import React from 'react'
-import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFoundation.avif'
+import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFoundation2.avif'
 import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundation.avif'
 const Partners = () => {
   return (

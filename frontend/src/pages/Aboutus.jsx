@@ -6,6 +6,7 @@ import ca5 from "../assets/Sobf Images/children_activities/ca5.avif";
 import ca15 from "../assets/Sobf Images/children_activities/ca3.avif";
 import hac4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.avif";
 import ca6 from "../assets/Sobf Images/children_activities/ca6.avif";
+import ourStory from "../assets/ourStoryImg.avif";
 
 const AboutUs = () => {
   const [activeTab, setActiveTab] = useState("mission");
@@ -140,9 +141,7 @@ const AboutUs = () => {
         </div>
         <div className="w-[99%] lg:w-[50%] ">
           <img
-            src={
-              "https://i.pinimg.com/736x/f3/e5/5b/f3e55b48403b33f2aaa08a46842451e2.avif "
-            }
+            src={ourStory}
             className="rounded-xl shadow-xl w-[570px] lg:w-[550px]"
             alt=""
           />
