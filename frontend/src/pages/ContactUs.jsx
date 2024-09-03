@@ -142,7 +142,7 @@ const ContactUsPage = () => {
             </div>
             {/* Submit button */}
             <div className="flex justify-center md:p-4 p-2">
-              <button
+               <button aria-label="Play Video"
                 type="submit"
                 className="bg-blue text-white md:py-2 md:px-6 py-1.5 px-5  rounded-full hover:bg-logoYellow transition duration-300"
                 disabled={isSubmitting}

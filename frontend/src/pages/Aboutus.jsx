@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import aboutus from "../assets/aboutUsImage.png";
-import cee14 from "../assets/Sobf Images/child_education_and_empowerment/cee14.jpg";
-import cee11 from "../assets/Sobf Images/child_education_and_empowerment/cee11.jpg";
-import ca5 from "../assets/Sobf Images/children_activities/ca5.jpg";
-import ca15 from "../assets/Sobf Images/children_activities/ca3.jpg";
-import hac4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.jpg";
-import ca6 from "../assets/Sobf Images/children_activities/ca6.jpg";
+import aboutus from "../assets/aboutUsImage.avif";
+import cee14 from "../assets/Sobf Images/child_education_and_empowerment/cee14.avif";
+import cee11 from "../assets/Sobf Images/child_education_and_empowerment/cee11.avif";
+import ca5 from "../assets/Sobf Images/children_activities/ca5.avif";
+import ca15 from "../assets/Sobf Images/children_activities/ca3.avif";
+import hac4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.avif";
+import ca6 from "../assets/Sobf Images/children_activities/ca6.avif";
+import ourStory from "../assets/ourStoryImg.avif";
 
 const AboutUs = () => {
   const [activeTab, setActiveTab] = useState("mission");
@@ -75,7 +76,7 @@ const AboutUs = () => {
 
         <div className="w-[99%] lg:w-[50%] mt-4">
           <div className="flex ">
-            <button
+             <button aria-label="Play Video"
               className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm lg:text-lg ${
                 activeTab === "mission"
                   ? "text-white bg-peacock-green-hover"
@@ -85,7 +86,7 @@ const AboutUs = () => {
             >
               Our Mission
             </button>
-            <button
+             <button aria-label="Play Video"
               className={`poppins-medium w-[33.3%] px-4 py-3 text-sm lg:text-lg  ${
                 activeTab === "vision"
                   ? "text-white hover:bg bg-peacock-green-hover"
@@ -95,7 +96,7 @@ const AboutUs = () => {
             >
               Our Vision
             </button>
-            <button
+             <button aria-label="Play Video"
               className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm lg:text-lg  ${
                 activeTab === "objective"
                   ? "text-white bg-peacock-green-hover "
@@ -140,9 +141,7 @@ const AboutUs = () => {
         </div>
         <div className="w-[99%] lg:w-[50%] ">
           <img
-            src={
-              "https://i.pinimg.com/736x/f3/e5/5b/f3e55b48403b33f2aaa08a46842451e2.jpg "
-            }
+            src={ourStory}
             className="rounded-xl shadow-xl w-[570px] lg:w-[550px]"
             alt=""
           />

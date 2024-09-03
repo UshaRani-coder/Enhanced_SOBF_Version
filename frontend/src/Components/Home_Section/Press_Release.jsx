@@ -52,7 +52,7 @@ const Press_Release = () => {
                 {news.description}
               </p>
               <Link to="/press-release">
-                <button className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
+                 <button aria-label="Play Video" className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
                   {news.button}
                 </button>
               </Link>

@@ -1,80 +1,81 @@
-import Boy from "../assets/banner1.jpeg";
-import FoodDonation from "../assets/Sobf Images/food distribution/FoodDonation.jpg";
-import Nature from "../assets/banner2.jpeg";
-import we1 from "../assets/Sobf Images/women empowerment/we1.jpg";
-import cee14 from "../assets/Sobf Images/child_education_and_empowerment/cee14.jpg";
-import hac4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.jpg";
+import Boy from "../assets/banner1.avif";
+import FoodDonation from "../assets/Sobf Images/food distribution/FoodDonation.avif";
+import Nature from "../assets/banner2.avif";
+import we1 from "../assets/Sobf Images/women empowerment/we1.avif";
+import cee14 from "../assets/Sobf Images/child_education_and_empowerment/cee14.avif";
+import hac4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.avif";
+import pic1 from "../assets/Sobf Images/partners/Soul Of Braj_files/pic1.avif"
 
 //Donors words Images
-import AishaKhan from "../assets/Donors_words/AishaKhan.jpeg";
-import ArjunRao from "../assets/Donors_words/ArjunRao.jpeg";
-import CarlosMendoza from "../assets/Donors_words/CarlosMendoza.jpeg";
-import EmilyZhang from "../assets/Donors_words/EmilyZhang.jpeg";
-import JaneSmith from "../assets/Donors_words/JaneSmith.jpeg";
-import JohnDoe from "../assets/Donors_words/JohnDoe.jpeg";
-import LiamOConnor from "../assets/Donors_words/LiamOConnor.jpeg";
-import SophieWillimas from "../assets/Donors_words/SophieWilliams.jpeg";
-import RaviPatel from "../assets/Donors_words/RaviPatel.jpeg";
+import AishaKhan from "../assets/Donors_words/AishaKhan.avif";
+import ArjunRao from "../assets/Donors_words/ArjunRao.avif";
+import CarlosMendoza from "../assets/Donors_words/CarlosMendoza.avif";
+import EmilyZhang from "../assets/Donors_words/EmilyZhang.avif";
+import JaneSmith from "../assets/Donors_words/JaneSmith.avif";
+import JohnDoe from "../assets/Donors_words/JohnDoe.avif";
+import LiamOConnor from "../assets/Donors_words/LiamOConnor.avif";
+import SophieWillimas from "../assets/Donors_words/SophieWilliams.avif";
+import RaviPatel from "../assets/Donors_words/RaviPatel.avif";
 
 //Our Donors Images
-import AishwaryaKashyap from "../assets/OurDonors/AishwaryaKashyap.jpeg";
-import EmilyWatson from "../assets/OurDonors/EmilyWatson.jpeg";
-import JhonMarcusNicolous from "../assets/OurDonors/JhonMarcusNicolous.jpeg";
-import NaleSmith from "../assets/OurDonors/NaleSmith.jpeg";
-import NocarMendoza from "../assets/OurDonors/NocarMendoza.jpeg";
-import PriyaSharma from "../assets/OurDonors/PriyaSharma.jpeg";
-import RohanGupta from "../assets/OurDonors/RohanGupta.jpeg";
-import SinchanaSRao from "../assets/OurDonors/SinchanaSRao.jpeg";
-import ArjunMRao from "../assets/OurDonors/ArjunMRao.jpeg";
+import AishwaryaKashyap from "../assets/OurDonors/AishwaryaKashyap.avif";
+import EmilyWatson from "../assets/OurDonors/EmilyWatson.avif";
+import JhonMarcusNicolous from "../assets/OurDonors/JhonMarcusNicolous.avif";
+import NaleSmith from "../assets/OurDonors/NaleSmith.avif";
+import NocarMendoza from "../assets/OurDonors/NocarMendoza.avif";
+import PriyaSharma from "../assets/OurDonors/PriyaSharma.avif";
+import RohanGupta from "../assets/OurDonors/RohanGupta.avif";
+import SinchanaSRao from "../assets/OurDonors/SinchanaSRao.avif";
+import ArjunMRao from "../assets/OurDonors/ArjunMRao.avif";
 
 // child activites 
-import one from "../assets/Sobf Images/children_activities/ca1.jpg"
-import two from "../assets/Sobf Images/children_activities/ca2.jpg"
-import three from "../assets/Sobf Images/children_activities/ca3.jpg"
-import four from "../assets/Sobf Images/children_activities/ca4.jpg"
-import five from "../assets/Sobf Images/children_activities/ca5.jpg"
-import six from "../assets/Sobf Images/children_activities/ca6.jpg"
-import seven from "../assets/Sobf Images/children_activities/ca7.jpg"
-import eight from "../assets/Sobf Images/children_activities/ca8.jpg"
-import nine from "../assets/Sobf Images/children_activities/ca9.jpg"
-import ten from "../assets/Sobf Images/children_activities/ca10.jpg"
+import one from "../assets/Sobf Images/children_activities/ca1.avif"
+import two from "../assets/Sobf Images/children_activities/ca2.avif"
+import three from "../assets/Sobf Images/children_activities/ca3.avif"
+import four from "../assets/Sobf Images/children_activities/ca4.avif"
+import five from "../assets/Sobf Images/children_activities/ca5.avif"
+import six from "../assets/Sobf Images/children_activities/ca6.avif"
+import seven from "../assets/Sobf Images/children_activities/ca7.avif"
+import eight from "../assets/Sobf Images/children_activities/ca8.avif"
+import nine from "../assets/Sobf Images/children_activities/ca9.avif"
+import ten from "../assets/Sobf Images/children_activities/ca10.avif"
 
 
 
 // face mask distribution
-import f1 from "../assets/Sobf Images/Face_mask_distribution/fmd1.jpeg"
-import f2 from "../assets/Sobf Images/Face_mask_distribution/fmd2.jpeg"
-import f3 from "../assets/Sobf Images/Face_mask_distribution/fmd3.jpeg"
-import f4 from "../assets/Sobf Images/Face_mask_distribution/fmd4.jpg"
-import f5 from "../assets/Sobf Images/Face_mask_distribution/fmd5.jpg"
+import f1 from "../assets/Sobf Images/Face_mask_distribution/fmd1.avif"
+import f2 from "../assets/Sobf Images/Face_mask_distribution/fmd2.avif"
+import f3 from "../assets/Sobf Images/Face_mask_distribution/fmd3.avif"
+import f4 from "../assets/Sobf Images/Face_mask_distribution/fmd4.avif"
+import f5 from "../assets/Sobf Images/Face_mask_distribution/fmd5.avif"
 
 
 // health awaraness
-import hel1 from "../assets/Sobf Images/health_and_awareness_camp/hac1.jpg"
-import hel2 from "../assets/Sobf Images/health_and_awareness_camp/hac2.jpg"
-import hel3 from "../assets/Sobf Images/health_and_awareness_camp/hac3.jpg"
-import hel4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.jpg"
-import hel5 from "../assets/Sobf Images/health_and_awareness_camp/hac5.jpg"
+import hel1 from "../assets/Sobf Images/health_and_awareness_camp/hac1.avif"
+import hel2 from "../assets/Sobf Images/health_and_awareness_camp/hac2.avif"
+import hel3 from "../assets/Sobf Images/health_and_awareness_camp/hac3.avif"
+import hel4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.avif"
+import hel5 from "../assets/Sobf Images/health_and_awareness_camp/hac5.avif"
 
 // child education 
-import childEdu1 from "../assets/Sobf Images/child_education_and_empowerment/cee1.jpg"
-import childEdu2 from "../assets/Sobf Images/child_education_and_empowerment/cee12.jpg"
-import childEdu3 from "../assets/Sobf Images/child_education_and_empowerment/cee3.jpg"
-import childEdu4 from "../assets/Sobf Images/child_education_and_empowerment/cee11.jpg"
-import childEdu5 from "../assets/Sobf Images/child_education_and_empowerment/cee5.jpg"
-import childEdu6 from "../assets/Sobf Images/child_education_and_empowerment/cee6.jpg"
-import childEdu7 from "../assets/Sobf Images/child_education_and_empowerment/cee7.jpg"
-import childEdu8 from "../assets/Sobf Images/child_education_and_empowerment/cee8.jpg"
-import childEdu9 from "../assets/Sobf Images/child_education_and_empowerment/cee9.jpg"
-import childEdu10 from "../assets/Sobf Images/child_education_and_empowerment/cee10.jpg"
+import childEdu1 from "../assets/Sobf Images/child_education_and_empowerment/cee1.avif"
+import childEdu2 from "../assets/Sobf Images/child_education_and_empowerment/cee12.avif"
+import childEdu3 from "../assets/Sobf Images/child_education_and_empowerment/cee3.avif"
+import childEdu4 from "../assets/Sobf Images/child_education_and_empowerment/cee11.avif"
+import childEdu5 from "../assets/Sobf Images/child_education_and_empowerment/cee5.avif"
+import childEdu6 from "../assets/Sobf Images/child_education_and_empowerment/cee6.avif"
+import childEdu7 from "../assets/Sobf Images/child_education_and_empowerment/cee7.avif"
+import childEdu8 from "../assets/Sobf Images/child_education_and_empowerment/cee8.avif"
+import childEdu9 from "../assets/Sobf Images/child_education_and_empowerment/cee9.avif"
+import childEdu10 from "../assets/Sobf Images/child_education_and_empowerment/cee10.avif"
 
 
 // sanitary pads distribution
-import sanitary1 from "../assets/Sobf Images/Sanitary_pads_distribution/spd1.jpg"
-import sanitary2 from "../assets/Sobf Images/Sanitary_pads_distribution/spd2.jpg"
-import sanitary3 from "../assets/Sobf Images/Sanitary_pads_distribution/spd3.jpg"
-import sanitary4 from "../assets/Sobf Images/Sanitary_pads_distribution/spd4.jpg"
-import sanitary5 from "../assets/Sobf Images/Sanitary_pads_distribution/spd5.jpg"
+import sanitary1 from "../assets/Sobf Images/Sanitary_pads_distribution/spd1.avif"
+import sanitary2 from "../assets/Sobf Images/Sanitary_pads_distribution/spd2.avif"
+import sanitary3 from "../assets/Sobf Images/Sanitary_pads_distribution/spd3.avif"
+import sanitary4 from "../assets/Sobf Images/Sanitary_pads_distribution/spd4.avif"
+import sanitary5 from "../assets/Sobf Images/Sanitary_pads_distribution/spd5.avif"
 
 
 
@@ -121,7 +122,7 @@ export const data = [
 
 export const heroes = [
     {
-        img: "https://media.istockphoto.com/id/613253596/photo/group-of-happy-gypsy-indian-children-desert-village-india.jpg?s=612x612&w=0&k=20&c=L5zHBbisaiGg098L_Txc8v6r8oOFBylw47EA8pEWhic=",
+        img: pic1,
         text: "He has a desire to go to School, your support can fulfill his Dream",
     },
     {
@@ -150,12 +151,12 @@ export const heroes_donate = [
 ];
 
 export const images = [
-    { url: 'https://www.sobf.in/images/about4.jpeg', quote: 'Food distribution' },
-    { url: 'https://www.sobf.in/images/activity2.jpeg', quote: 'Food distribution' },
-    { url: 'https://www.sobf.in/images/activity3.jpeg', quote: 'Food distribution' },
-    { url: 'https://www.sobf.in/images/activity1.jpeg', quote: 'Food distribution' },
-    { url: 'https://www.sobf.in/images/about2.jpeg', quote: 'Food distribution' },
-    { url: 'https://www.sobf.in/images/about3.jpeg', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/about4.avif', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/activity2.avif', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/activity3.avif', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/activity1.avif', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/about2.avif', quote: 'Food distribution' },
+    { url: 'https://www.sobf.in/images/about3.avif', quote: 'Food distribution' },
 ];
 
 

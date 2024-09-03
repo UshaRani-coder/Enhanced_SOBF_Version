@@ -1,10 +1,10 @@
 import React from "react";
-import noPoverty from "../../assets/no-poverty1.png";
-import education from "../../assets/education.png";
-import food1 from "../../assets/food1.png";
-import gender from "../../assets/gender-equality1.png";
-import goodhealth from "../../assets/good-health1.png";
-import cleanwater from "../../assets/clean-water1.png";
+import noPoverty from "../../assets/no-poverty1.avif";
+import education from "../../assets/education.avif";
+import food1 from "../../assets/food1.avif";
+import gender from "../../assets/gender-equality1.avif";
+import goodhealth from "../../assets/good-health1.avif";
+import cleanwater from "../../assets/clean-water1.avif";
 
 const Programms = () => {
   return (
@@ -27,7 +27,7 @@ const Programms = () => {
           </div> */}
           <div className="gap-4 flex p-4 flex-col items-center md:flex-row ">
             <img
-              className="bg-[#dda63a] border-2rounded-xl w-11 h-11 rounded-lg p-1"
+              className="bg-[#dda63a] object-cover border-2rounded-xl w-11 h-11 rounded-lg p-1"
               src={food1}
               alt=""
             />
@@ -42,7 +42,7 @@ const Programms = () => {
           </div>
           <div className="gap-4 flex p-4 flex-col items-center md:flex-row">
             <img
-              className="bg-[#4c9f38] border-2rounded-xl w-11 h-11 rounded-lg p-1"
+              className="bg-[#4c9f38] object-cover border-2rounded-xl w-11 h-11 rounded-lg p-1"
               src={goodhealth}
               alt=""
             />
@@ -81,7 +81,7 @@ const Programms = () => {
           </div> */}
           <div className="gap-4 flex p-4 flex-col items-center md:flex-row ">
             <img
-              className="bg-[#26bde2] border-2rounded-xl w-11 h-11 rounded-lg p-1"
+              className="bg-[#26bde2] object-cover border-2rounded-xl w-11 h-11 rounded-lg p-1"
               src={cleanwater}
               alt=""
             />

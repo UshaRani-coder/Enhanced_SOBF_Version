@@ -46,7 +46,7 @@ const donate_hero = () => {
   return (
     <div className="hero-donate relative flex items-center overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[100px]">
       <div
-        className="hero-img w-[100%] h-[100%] animate-zoomIn transition-bg-image"
+        className="hero-img object-cover w-[100%] h-[100%] animate-zoomIn transition-bg-image"
         ref={imageElement}
         key={currentIndex}
         style={{
@@ -98,7 +98,7 @@ const donate_hero = () => {
           duration={1200}
           className="z-[10] transform -translate-x-1/2"
         >
-          <button className="text-white bg-logoYellow font-semibold rounded-lg md:text-[1.25rem] text-heading5 px-5 py-2.5 me-2 md:mb-7 md:mt-7 mb:5 mt-5">
+           <button aria-label="Play Video" className="text-white bg-logoYellow font-semibold rounded-lg md:text-[1.25rem] text-heading5 px-5 py-2.5 me-2 md:mb-7 md:mt-7 mb:5 mt-5">
             Donate
           </button>
         </ScrollLink>

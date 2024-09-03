@@ -1,5 +1,5 @@
-import activity1Img from '../assets/banner1.jpeg'
-import activity2Img from '../assets/banner2.jpeg'
+import activity1Img from '../assets/banner1.avif'
+import activity2Img from '../assets/banner2.avif'
 const recentActivities = [
     {
         media:activity1Img,

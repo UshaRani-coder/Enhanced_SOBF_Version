@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import education from "../assets/banner2.jpeg";
-import food from "../assets/Sobf Images/food distribution/FoodDonation.jpg";
-import objective from "../assets/objective.jpeg";
-import donate from "../assets/donateMotive.jpeg";
+import education from "../assets/banner2.avif";
+import food from "../assets/Sobf Images/food distribution/FoodDonation.avif";
+import objective from "../assets/objective.avif";
+import donate from "../assets/donateMotive.avif";
 import { donors_words } from "../Constant/data";
 import { our_donors } from "../Constant/data";
 import Donate_hero from "../Components/Donate_page/donate_hero.jsx";
@@ -123,7 +123,7 @@ const Donateus = () => {
       {/* Tabs */}
       <div className="w-full lg:w-full p-10 mt-4">
         <div className="flex">
-          <button
+           <button aria-label="Play Video"
             className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm md:text-lg ${
               activeTab === "whydonate"
                 ? "text-white bg-logoYellow"
@@ -133,7 +133,7 @@ const Donateus = () => {
           >
             Why donate us
           </button>
-          <button
+           <button aria-label="Play Video"
             className={`poppins-medium w-[33.3%] px-4 py-3 text-sm md:text-lg  ${
               activeTab === "howweuse"
                 ? "text-white bg-logoYellow"
@@ -143,7 +143,7 @@ const Donateus = () => {
           >
             How we use
           </button>
-          <button
+           <button aria-label="Play Video"
             className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm md:text-lg  ${
               activeTab === "whereweuse"
                 ? "text-white bg-logoYellow"
@@ -616,7 +616,7 @@ const Donateus = () => {
                 </div>
               </div>
               <div className="md:col-span-5 flex flex-col  md:flex-row justify-center pt-10 md:gap-10 gap-3">
-                <button className="text-white bg-blue hover:bg-logoYellow border-gray-300 focus:outline-none  focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
+                 <button aria-label="Play Video" className="text-white bg-blue hover:bg-logoYellow border-gray-300 focus:outline-none  focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
                   Pay Now
                 </button>
               </div>
@@ -629,7 +629,7 @@ const Donateus = () => {
       
       {/* Donation opportunity Image*/}
       <div className="pt-10">
-        <img src={donate} alt="donation oppurtunity" className="w-full"/>
+        <img src={donate} alt="donation oppurtunity" className="w-full object-cover"/>
       </div>
 
       

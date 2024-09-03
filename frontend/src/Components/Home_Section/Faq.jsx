@@ -73,7 +73,7 @@ function AccordionItem({ dataItem, isSelected, onSelect }) {
     >
       {/* FAQ question and toggle button */}
       <div className="flex items-center justify-between p-4">
-        <h3 className="text-lg font-semibold pr-4 hover:text-blue">{dataItem.question}</h3>
+        <h2 className="text-lg font-semibold pr-4 hover:text-blue">{dataItem.question}</h2>
         {/* Toggle icon, changes based on selected state */}
         <span className="text-2xl font-bold flex-shrink-0 text-logo-yellow">
           {isSelected ? '-' : '+'}

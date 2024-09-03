@@ -32,7 +32,7 @@ const Support = () => {
           {/* Container for the location card */}
           <div className="items-center flex flex-col">
             {/* Button to redirect to Google Maps */}
-            <button
+             <button aria-label="Play Video"
               className="bg-[#fb4a59] justify-center flex rounded-[20px]  hover:bg-blue transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectMap}
             >
@@ -51,11 +51,11 @@ const Support = () => {
             {/* Container for the location card text */}
             <div className="text-center">
               <h1 className="p-5 font-bold lg:text-2xl md:text-xl text-2xl">Our Location</h1>
-              <h3 className="max-w-xs text-gray-600 lg:text-[16px] md:text-[13px] text-[16px]">
+              <h2 className="max-w-xs text-gray-600 lg:text-[16px] md:text-[13px] text-[16px]">
                 Soul of Braj Federation Chaitnya Vihar Phase-2, Plot No: 9-10,
                 Near Electric Sub Station, Durga Mandir, Vrindavan, UttarPradesh
                 281121
-              </h3>
+              </h2>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@ const Support = () => {
           {/* Container for the contact us card */}
           <div className="items-center flex flex-col">
             {/* Button to redirect to call */}
-            <button
+             <button aria-label="Play Video"
               className="bg-[#3da288] justify-center flex rounded-[20px]  hover:bg-blue transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectCall}
             >
@@ -84,7 +84,7 @@ const Support = () => {
             {/* Container for the contact us card text */}
             <div className="text-center">
               <h1 className="p-5 font-bold lg:text-2xl md:text-xl text-2xl">Contact Us</h1>
-              <h3 className="max-w-xs text-gray-600 md:text-[16px] text-[16px]">+91 8439406670</h3>
+              <h2 className="max-w-xs text-gray-600 md:text-[16px] text-[16px]">+91 8439406670</h2>
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@ const Support = () => {
           {/* Container for the get in touch card */}
           <div className="items-center flex flex-col ">
             {/* Button to redirect to email */}
-            <button
+             <button aria-label="Play Video"
               className="bg-[#32aaf7] justify-center items-center flex rounded-[20px]  hover:bg-[#2D2339] transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectMail}
             >
@@ -111,7 +111,7 @@ const Support = () => {
             {/* Container for the get in touch card text */}
             <div className="text-center">
               <h1 className="p-5 font-bold lg:text-2xl md:text-xl text-2xl">Get in touch</h1>
-              <h3 className="max-w-xs text-gray-600 md:text-[16px] text-[16px]">soulofbraj@gmail.com</h3>
+              <h2 className="max-w-xs text-gray-600 md:text-[16px] text-[16px]">soulofbraj@gmail.com</h2>
             </div>
           </div>
         </div>
