@@ -12,7 +12,7 @@ import Donateus from './pages/Donateus.jsx';
 import Press_Release from './Components/Home_Section/Press_Release.jsx';
 import Recent_Activities from './Components/Home_Section/Recent_Activities.jsx';
 import BackgroundMusic from './Components/BackgroundMusic.jsx';
-
+import Login from './pages/Login.jsx';
 
 const App = () => {
   return (
@@ -21,6 +21,7 @@ const App = () => {
       <Header />
       <Routes>
         <Route exact path="/" element={<HomePage />} />
+        <Route exact path='/login' element={<Login/>} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/vision" element={<Vision />} />

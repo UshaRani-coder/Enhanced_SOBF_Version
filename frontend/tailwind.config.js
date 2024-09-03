@@ -4,7 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#141414",
+        primary: {
+          300: "#93c5fd",
+          600: "#2563eb",
+          700: "#1d4ed8",
+        },
         orange: "#FF5403",
         blue: "#2d335d",
         seashell: "#fdf7f4",
@@ -51,7 +55,8 @@ export default {
       animation: {
         "infinite-scroll": "infinite-scroll 50s linear infinite",
         "partners-infinite-scroll": "infinite-scroll 5s linear infinite",
-        "infinite-scroll-reverse": "infinite-scroll-reverse 50s linear infinite",
+        "infinite-scroll-reverse":
+          "infinite-scroll-reverse 50s linear infinite",
         zoomIn: "zoomIn 2.5s forwards",
         scroll: "scroll 20s linear infinite",
       },

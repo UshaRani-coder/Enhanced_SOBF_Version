@@ -37,7 +37,7 @@ const BackgroundMusic = () => {
         ref={audioRef}
         src={audio}
         loop
-        volume={0.5}
+        volume={1}
         style={{ display: "none" }}
       >
         Your browser does not support the audio element.
