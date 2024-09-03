@@ -6,6 +6,7 @@ import Footer from "./Components/common_components/Footer.jsx";
 import BackgroundMusic from "./Components/BackgroundMusic.jsx";
 
 // Lazy loading the components
+const Login = lazy(()=>import("./pages/Login.jsx"))
 const HomePage = lazy(() => import("./pages/Home.jsx"));
 const AboutUs = lazy(() => import("./pages/Aboutus.jsx"));
 const ContactUsPage = lazy(() => import("./pages/ContactUs.jsx"));
