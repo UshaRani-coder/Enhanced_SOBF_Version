@@ -84,6 +84,15 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
+              <Link
+                to="/legal-doc"
+                className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+                onClick={closeMenu}
+              >
+                Legal Documents
+              </Link>
+            </li>
+            <li>
               <NavLink
                 to="/contact-us"
                 className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"

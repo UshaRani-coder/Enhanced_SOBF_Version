@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React, { useEffect, useState } from "react";
 import CommunityService from "./Services/CommunityService";
 import AOS from "aos";
@@ -114,7 +115,7 @@ const Services = () => {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 492 492"
-                xml:space="preserve"
+                xmlSpace="preserve"
                 className="w-[40px] h-[40px]"
                 fill="#ffffff"
               >
@@ -165,9 +166,9 @@ const Services = () => {
             <div className="service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                shape-rendering="geometricPrecision"
-                text-rendering="geometricPrecision"
-                image-rendering="optimizeQuality"
+                shapeRendering="geometricPrecision"
+                textRendering="geometricPrecision"
+                imageRendering="optimizeQuality"
                 fillRule="evenodd"
                 clipRule="evenodd"
                 viewBox="0 0 512 493.84"
@@ -236,7 +237,7 @@ const Services = () => {
               >
                 <g>
                   <path
-                    class="st0"
+                    className="st0"
                     d="M30.45,57.96h-0.93c0-7.62-2.85-14.28-8.54-19.97c-5.69-5.69-12.35-8.54-19.97-8.54v-0.93 c7.62,0,14.28-2.85,19.97-8.55C26.67,14.25,29.52,7.59,29.52,0h0.93c0,7.62,2.85,14.28,8.54,19.97c5.69,5.69,12.35,8.54,19.97,8.54 v0.93c-7.62,0-14.28,2.85-19.97,8.54C33.3,43.68,30.45,50.34,30.45,57.96L30.45,57.96z M13.51,92.85h-0.43 c0-3.49-1.31-6.55-3.92-9.16C6.55,81.08,3.49,79.77,0,79.77v-0.43c3.49,0,6.55-1.31,9.16-3.92c2.61-2.62,3.92-5.67,3.92-9.15h0.43 c0,3.49,1.31,6.55,3.92,9.16c2.61,2.61,5.66,3.92,9.16,3.92v0.43c-3.49,0-6.55,1.31-9.16,3.92C14.81,86.3,13.51,89.36,13.51,92.85 L13.51,92.85z M68.37,95.57h-0.43c0-3.49-1.31-6.55-3.92-9.16c-2.61-2.61-5.66-3.92-9.16-3.92v-0.43c3.49,0,6.55-1.31,9.16-3.92 c2.61-2.62,3.92-5.67,3.92-9.15h0.43c0,3.49,1.31,6.55,3.92,9.16c2.61,2.61,5.66,3.92,9.16,3.92v0.43c-3.49,0-6.55,1.31-9.16,3.92 C69.67,89.02,68.37,92.07,68.37,95.57L68.37,95.57z M98.95,64.57h-0.78c0-6.39-2.39-11.98-7.17-16.76 c-4.78-4.78-10.36-7.17-16.76-7.17v-0.78c6.39,0,11.98-2.39,16.76-7.18c4.78-4.79,7.17-10.38,7.17-16.75h0.78 c0,6.39,2.39,11.98,7.17,16.76c4.78,4.78,10.36,7.17,16.76,7.17v0.78c-6.39,0-11.98,2.39-16.76,7.17 C101.34,52.59,98.95,58.18,98.95,64.57L98.95,64.57z"
                   />
                 </g>
@@ -251,16 +252,6 @@ const Services = () => {
               </p>
             </div>
           </li>
-          {/* Brajkulam Community Center */}
-          {/* <li className="service service3 cursor-pointer bg-[#00a36c]   w-[80%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center">
-          <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
-       <svg className="h-[40px] w-[40px]" fill="#ffffff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 95.57"  xml:space="preserve"><g><path class="st0" d="M30.45,57.96h-0.93c0-7.62-2.85-14.28-8.54-19.97c-5.69-5.69-12.35-8.54-19.97-8.54v-0.93 c7.62,0,14.28-2.85,19.97-8.55C26.67,14.25,29.52,7.59,29.52,0h0.93c0,7.62,2.85,14.28,8.54,19.97c5.69,5.69,12.35,8.54,19.97,8.54 v0.93c-7.62,0-14.28,2.85-19.97,8.54C33.3,43.68,30.45,50.34,30.45,57.96L30.45,57.96z M13.51,92.85h-0.43 c0-3.49-1.31-6.55-3.92-9.16C6.55,81.08,3.49,79.77,0,79.77v-0.43c3.49,0,6.55-1.31,9.16-3.92c2.61-2.62,3.92-5.67,3.92-9.15h0.43 c0,3.49,1.31,6.55,3.92,9.16c2.61,2.61,5.66,3.92,9.16,3.92v0.43c-3.49,0-6.55,1.31-9.16,3.92C14.81,86.3,13.51,89.36,13.51,92.85 L13.51,92.85z M68.37,95.57h-0.43c0-3.49-1.31-6.55-3.92-9.16c-2.61-2.61-5.66-3.92-9.16-3.92v-0.43c3.49,0,6.55-1.31,9.16-3.92 c2.61-2.62,3.92-5.67,3.92-9.15h0.43c0,3.49,1.31,6.55,3.92,9.16c2.61,2.61,5.66,3.92,9.16,3.92v0.43c-3.49,0-6.55,1.31-9.16,3.92 C69.67,89.02,68.37,92.07,68.37,95.57L68.37,95.57z M98.95,64.57h-0.78c0-6.39-2.39-11.98-7.17-16.76 c-4.78-4.78-10.36-7.17-16.76-7.17v-0.78c6.39,0,11.98-2.39,16.76-7.18c4.78-4.79,7.17-10.38,7.17-16.75h0.78 c0,6.39,2.39,11.98,7.17,16.76c4.78,4.78,10.36,7.17,16.76,7.17v0.78c-6.39,0-11.98,2.39-16.76,7.17 C101.34,52.59,98.95,58.18,98.95,64.57L98.95,64.57z"/></g></svg>
-            <h2 className="text-center mt-[10px] text-[18px] text-[#ffffff] font-bold">
-            Brajkulam Community Center
-            </h3>
-            <p className="text-[14px] pt-[20px]  text-[#ffffff]"></p>
-          </div>
-        </li> */}
           {/* Sadhu Seva */}
           <li
             data-aos="fade-up"
@@ -349,7 +340,7 @@ const Services = () => {
                 </g>
               </svg>
               <h2
-               className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
+                className="text-center mt-[10px] text-[18px] lg:text-[20px] text-[#ffffff] font-bold">
                 Health and Awareness Camp
               </h2>
               <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
@@ -387,7 +378,7 @@ const Services = () => {
                 Women Empowerment
               </h2>
               <p className="text-justify text-[14px] lg:text-[16px] lg:pt-[10px] pt-[20px] px-[20px] text-[#ffffff]">
-                Women's empowerment is about equality, breaking barriers, and
+                Women&apos;s empowerment is about equality, breaking barriers, and
                 creating a world where women have the freedom to reach their
                 full potential.
               </p>

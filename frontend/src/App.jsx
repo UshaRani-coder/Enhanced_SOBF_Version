@@ -4,9 +4,10 @@ import "./App.css";
 import Header from "./Components/common_components/Header.jsx";
 import Footer from "./Components/common_components/Footer.jsx";
 import BackgroundMusic from "./Components/BackgroundMusic.jsx";
-
+import LegalDoc from "./pages/LegalDoc.jsx";
+import loader from "./assets/loader.webp"
 // Lazy loading the components
-const Login = lazy(()=>import("./pages/Login.jsx"))
+const Login = lazy(() => import("./pages/Login.jsx"))
 const HomePage = lazy(() => import("./pages/Home.jsx"));
 const AboutUs = lazy(() => import("./pages/Aboutus.jsx"));
 const ContactUsPage = lazy(() => import("./pages/ContactUs.jsx"));
@@ -16,17 +17,20 @@ const Donateus = lazy(() => import("./pages/Donateus.jsx"));
 const Press_Release = lazy(() =>
   import("./Components/Home_Section/Press_Release.jsx")
 );
-const Recent_Activities = lazy(() =>
-  import("./Components/Home_Section/Recent_Activities.jsx")
-);
+const Recent_Activities = lazy(() => import("./Components/Home_Section/Recent_Activities.jsx"));
 
 const App = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={
+      <div className="flex justify-center items-center h-screen">
+        <img src={loader} alt="" className="w-20" />
+      </div>
+    }
+    >
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route exact path='/login' element={<Login/>} />
+        <Route exact path='/login' element={<Login />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/vision" element={<Vision />} />
@@ -34,6 +38,7 @@ const App = () => {
         <Route path="/press-release" element={<Press_Release />} />
         <Route path="/recent-activities" element={<Recent_Activities />} />
         <Route path="/donate-us" element={<Donateus />} />
+        <Route path="/legal-doc" element={<LegalDoc />} />
       </Routes>
       <BackgroundMusic />
       <Footer />

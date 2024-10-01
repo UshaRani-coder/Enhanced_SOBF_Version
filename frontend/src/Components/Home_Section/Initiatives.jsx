@@ -1,8 +1,6 @@
 import React from "react";
-import noPoverty from "../../assets/no-poverty1.avif";
 import education from "../../assets/education.avif";
 import food1 from "../../assets/food1.avif";
-import gender from "../../assets/gender-equality1.avif";
 import goodhealth from "../../assets/good-health1.avif";
 import cleanwater from "../../assets/clean-water1.avif";
 
@@ -18,13 +16,6 @@ const Programms = () => {
 
       <div className="flex  flex-col lg:flex-row px-2  md:mx-[100px] lg:mx-[50px]">
         <div className=" pt-1 lg:py-12">
-          {/* <div className='gap-4 flex p-4'>
-            <img className='bg-[#e4243c] border-2rounded-xl w-11 h-11 p-1 rounded-lg' src={noPoverty} alt="" />
-            <div>
-              <h2 className='text-heading4 text-black  font-sans font-bold'>No Poverty</h2>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, magnam.</p>
-            </div>
-          </div> */}
           <div className="gap-4 flex p-4 flex-col items-center md:flex-row ">
             <img
               className="bg-[#dda63a] object-cover border-2rounded-xl w-11 h-11 rounded-lg p-1"
@@ -72,13 +63,6 @@ const Programms = () => {
               </p>
             </div>
           </div>
-          {/* <div className='gap-4 flex p-4'>
-            <img className='bg-[#ff3a21] border-2rounded-xl w-11 h-11 rounded-lg p-1' src={gender} alt="" />
-            <div>
-              <h2 className='text-heading4 text-black  font-sans font-bold'>Gender Equality</h2>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, magnam.</p>
-            </div>
-          </div> */}
           <div className="gap-4 flex p-4 flex-col items-center md:flex-row ">
             <img
               className="bg-[#26bde2] object-cover border-2rounded-xl w-11 h-11 rounded-lg p-1"

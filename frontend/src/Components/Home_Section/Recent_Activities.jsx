@@ -6,9 +6,8 @@ const Recent_Activities = () => {
   const location = useLocation();
   return (
     <div
-      className={`flex flex-col items-center mb-[30px] ${
-        location.pathname === "/recent-activities" ? "mt-[120px]" : "mt-[30px]"
-      }`}
+      className={`flex flex-col items-center mb-[30px] ${location.pathname === "/recent-activities" ? "mt-[120px]" : "mt-[30px]"
+        }`}
     >
       <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
         Recent Activities
@@ -18,7 +17,7 @@ const Recent_Activities = () => {
         Highlights of Our Latest Efforts and Community Engagement
       </h1>
       <h1 className="text-center text-xl mb-4 p-3 text-gray-600">
-        Discover the most recent projects, events, and initiatives we've
+        Discover the most recent projects, events, and initiatives we&apos;ve
         undertaken to make a difference in our communities.
       </h1>
 
@@ -51,7 +50,7 @@ const Recent_Activities = () => {
                 {activity.description}
               </p>
               <Link to="/recent-activities">
-                 <button aria-label="Play Video" className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
+                <button aria-label="Play Video" className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
                   {activity.button}
                 </button>
               </Link>

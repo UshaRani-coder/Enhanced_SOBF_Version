@@ -13,8 +13,8 @@ const Testimonials = () => {
     speed: 500,
     slidesToShow: 2.5,
     slidesToScroll: 2,
-    arrows: false, 
-     autoplay: true,
+    arrows: false,
+    autoplay: true,
     autoplaySpeed: 1200,
     responsive: [
       {
@@ -22,7 +22,7 @@ const Testimonials = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          arrows: false, 
+          arrows: false,
           dots: true,
         }
       },
@@ -31,7 +31,7 @@ const Testimonials = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false, 
+          arrows: false,
           dots: true,
         }
       },
@@ -40,7 +40,7 @@ const Testimonials = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false, 
+          arrows: false,
           dots: true,
         }
       }
@@ -50,7 +50,7 @@ const Testimonials = () => {
   return (
     <div className="bg-light-lavender mt-16 w-[100%]  pb-20 flex flex-col items-center text-center">
       <div className="w-[95%]">
-      <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
+        <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
           Testimonials
           <hr className="mt-1 border-blue border-[0.5px]" />
         </h1>

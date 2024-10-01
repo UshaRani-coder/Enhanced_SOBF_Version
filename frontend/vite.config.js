@@ -7,14 +7,11 @@ export default defineConfig({
   plugins: [
     react(),
     viteCompression({
-      algorithm: 'gzip',  // Use 'gzip' for Gzip compression
-      ext: '.gz',         // Use '.gz' extension for Gzip-compressed files
-      threshold: 10240,   // Only compress files larger than 10KB
-      deleteOriginFile: false // Keep the original uncompressed files
-    })
+      algorithm: 'gzip',            // Use 'gzip' for Gzip compression
+      ext: '.gz',                   // Use '.gz' extension for Gzip-compressed files
+      // threshold: 10240,             // Only compress files larger than 10KB
+      deleteOriginFile: false,      // Keep the original uncompressed files
+    }),
   ],
+  assetsInclude: ['**/*.pdf', "**/*.PDF"],      // Include PDF files as assets
 });
-
-
-
-

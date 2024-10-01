@@ -7,9 +7,8 @@ const Press_Release = () => {
   const location = useLocation();
   return (
     <div
-      className={`flex flex-col items-center mb-[30px] ${
-        location.pathname === "/press-release" ? "mt-[120px]" : "mt-0"
-      }`}
+      className={`flex flex-col items-center mb-[30px] ${location.pathname === "/press-release" ? "mt-[120px]" : "mt-0"
+        }`}
     >
       <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2  font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
         Press Release
@@ -52,7 +51,7 @@ const Press_Release = () => {
                 {news.description}
               </p>
               <Link to="/press-release">
-                 <button aria-label="Play Video" className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
+                <button aria-label="Play Video" className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
                   {news.button}
                 </button>
               </Link>

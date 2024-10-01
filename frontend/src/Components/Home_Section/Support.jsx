@@ -32,7 +32,7 @@ const Support = () => {
           {/* Container for the location card */}
           <div className="items-center flex flex-col">
             {/* Button to redirect to Google Maps */}
-             <button aria-label="Play Video"
+            <button aria-label="Play Video"
               className="bg-[#fb4a59] justify-center flex rounded-[20px]  hover:bg-blue transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectMap}
             >
@@ -65,7 +65,7 @@ const Support = () => {
           {/* Container for the contact us card */}
           <div className="items-center flex flex-col">
             {/* Button to redirect to call */}
-             <button aria-label="Play Video"
+            <button aria-label="Play Video"
               className="bg-[#3da288] justify-center flex rounded-[20px]  hover:bg-blue transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectCall}
             >
@@ -94,7 +94,7 @@ const Support = () => {
           {/* Container for the get in touch card */}
           <div className="items-center flex flex-col ">
             {/* Button to redirect to email */}
-             <button aria-label="Play Video"
+            <button aria-label="Play Video"
               className="bg-[#32aaf7] justify-center items-center flex rounded-[20px]  hover:bg-[#2D2339] transition ease-in-out duration-500 delay-50"
               onClick={handleRedirectMail}
             >
