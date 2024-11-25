@@ -22,7 +22,7 @@ const Press_Release = () => {
         impact of our efforts across the country.
       </h1>
 
-      <div className="flex flex-col items-center gap-[50px] lg:gap-[100px]  md:flex-row md:justify-center">
+      <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px]  md:flex-row md:justify-center">
         {News.map((news, index) => (
           <div
             key={index}
@@ -50,11 +50,15 @@ const Press_Release = () => {
               <p className="mt-[10px] text-[14px] flex-grow text-justify">
                 {news.description}
               </p>
-              <Link to="/press-release">
-                <button aria-label="Play Video" className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
+              <Link to={`/press-release/${news.id}`}>
+                <button
+                  aria-label="View Details"
+                  className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
+                >
                   {news.button}
                 </button>
               </Link>
+
             </div>
           </div>
         ))}

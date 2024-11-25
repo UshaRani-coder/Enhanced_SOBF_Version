@@ -6,6 +6,7 @@ import Footer from "./Components/common_components/Footer.jsx";
 import BackgroundMusic from "./Components/BackgroundMusic.jsx";
 import LegalDoc from "./pages/LegalDoc.jsx";
 import loader from "./assets/loader.webp"
+import ActivityDetails from "./pages/ActivityDetails.jsx";
 // Lazy loading the components
 const Login = lazy(() => import("./pages/Login.jsx"))
 const HomePage = lazy(() => import("./pages/Home.jsx"));
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/vision" element={<Vision />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/press-release" element={<Press_Release />} />
+        <Route path="/press-release/:id" element={<ActivityDetails />} />
         <Route path="/recent-activities" element={<Recent_Activities />} />
         <Route path="/donate-us" element={<Donateus />} />
         <Route path="/legal-doc" element={<LegalDoc />} />

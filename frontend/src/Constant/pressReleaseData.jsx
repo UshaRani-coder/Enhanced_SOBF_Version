@@ -1,8 +1,11 @@
 // dummy data
 import news1 from "../assets/Sobf Images/Press Release/news1.avif";
 import news2 from "../assets/Sobf Images/Press Release/news2.avif";
+import news3 from "../assets/Sobf Images/Press Release/News3.jpeg"
+
 const News = [
   {
+    id:1,
     media: news2,
     date: "August 23, 2024",
     title:
@@ -12,8 +15,19 @@ const News = [
     button: "Click here to Read More",
   },
   {
+    id: 2,
     media: news1,
     date: "July 20, 2024",
+    title:
+      "Soul of Braj Federation Hosts Impactful Medical Camp to Support Underserved Communities .",
+    description:
+      "The Soul of Braj Federation successfully organized a medical camp on November 24, 2024, in Shri Vrindavan Dham, Mathura, UP. This initiative addressed critical healthcare needs, significantly improving the well-being of underserved communities Supported by generous donors, the Federation continues its mission of creating meaningful change.It seeks further support to organize monthly dental and eye care camps, promoting preventive healthcare and community welfare..",
+    button: " Click here to Read More",
+  },
+  {
+    id: 3,
+    media: news3,
+    date: "November 20, 2024",
     title:
       "The institutions providing food, education, and health services have taken new initiatives for the betterment of Braj.",
     description:
