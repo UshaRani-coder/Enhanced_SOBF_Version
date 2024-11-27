@@ -15,7 +15,7 @@ const Team = () => {
           <hr className="mt-1 border-light-lavender border-[0.5px]" />
         </h1>
       </div>
-      <div className=" mt-[100px] team-cards flex flex-col items-center gap-[50px] justify-center md:flex-row md:flex-wrap md:w-[80%] lg:w-[100%]  md:gap-x-[100px] md:gap-y-[40px] lg:gap-y-[60px] lg:gap-x-[200px]">
+      <div className=" mt-[100px] team-cards flex flex-col items-center p-3 justify-center md:flex-row md:flex-wrap md:w-[80%] lg:w-[100%]  md:gap-x-[40px] md:gap-y-[20px] lg:gap-y-[40px] lg:gap-x-[100px]">
         {/* card 1 */}
         <div className="flex items-center flex-col gap-y-[5px] md:w-[300px]">
           <div
@@ -32,17 +32,17 @@ const Team = () => {
               <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px] ">
                 TARUN MISRA
               </span>
-              <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
-                Founder & Director at
-                <Link
-                  href="https://sobf.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cursor-pointer text-[#4a8bed]"
-                >
-                  SOBF
-                </Link>
-              </p>
+             <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
+  Founder & Director at&nbsp; 
+  <Link
+    href="https://sobf.in"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="cursor-pointer text-[#4a8bed]"
+  >
+    SOBF
+  </Link>
+</p>
             </div>
             <div className="socials flex gap-x-[10px] ">
               <Link to={"https://www.linkedin.com/in/sobftarun/"}>
@@ -153,14 +153,14 @@ const Team = () => {
                 SHALU SHARMA
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
-                Founder and Director at
+                Founder and Director at&nbsp;
                 <Link
                   href="https://sobf.in"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cursor-pointer text-[#4a8bed]"
                 >
-                  SOBF
+                   SOBF
                 </Link>
               </p>
             </div>
@@ -279,7 +279,7 @@ const Team = () => {
                 DEV RATURI
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
-                Honorary Director at
+                Honorary Director &nbsp;
                 <Link
                   href="https://sobf.in"
                   target="_blank"
@@ -290,7 +290,7 @@ const Team = () => {
                 </Link>
               </p>
               <p className="text-[12px] mx-[10px] md:mx-0 lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
-                Founder & CEO at
+                Founder & CEO at&nbsp;
                 <Link
                   href="https://raturi.org/"
                   target="_blank"
@@ -299,7 +299,7 @@ const Team = () => {
                 >
                   Raturi Foundation
                 </Link>
-                &
+                &nbsp;&&nbsp;
                 <Link
                   href="https://amberpalace.org/"
                   target="_blank"
@@ -308,7 +308,7 @@ const Team = () => {
                 >
                   Amber Palace
                 </Link>
-                Indian Restaurants, India and China
+                &nbsp;Indian Restaurants, India and China
               </p>
             </div>
             <div className="socials flex gap-x-[10px] ">
@@ -420,7 +420,7 @@ const Team = () => {
                 SAURABH SINHA
               </span>
               <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
-                Advisory Board Member at
+                Advisory Board Member at&nbsp;
                 <Link
                   href="https://sobf.in"
                   target="_blank"

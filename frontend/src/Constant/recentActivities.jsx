@@ -1,5 +1,6 @@
 import activity1Img from '../assets/banner1.avif'
 import activity2Img from '../assets/banner2.avif'
+import we3 from '../assets/Sobf Images/women empowerment/we3.avif'
 const recentActivities = [
     {
         media:activity1Img,
@@ -14,7 +15,15 @@ const recentActivities = [
         title: "Brajkulam Educational Center: Nurturing Minds, Shaping Futures",
         description:"The Brajkulam Educational Center is dedicated to nurturing young minds and shaping the future of the Braj region. This center provides quality education and skill training to children and youth, empowering them with the knowledge and tools needed to thrive in today’s world. ",
         button: "Read More" 
+    },
+    {
+        media: we3, 
+        "date": "February 10, 2024",
+        "title": "Women Empowerment: Sewing Dreams, Stitching Futures",
+        "description": "Our women empowerment program equips women with skills like tailoring and crafts, fostering confidence. By enabling them to build brighter futures, this initiative uplifts individuals and communities, paving the way for a more empowered and self-reliant Braj region.",
+        "button": "Read More"
     }
+    
 ]
 
 export default recentActivities;

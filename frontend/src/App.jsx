@@ -19,6 +19,9 @@ const Press_Release = lazy(() =>
   import("./Components/Home_Section/Press_Release.jsx")
 );
 const Recent_Activities = lazy(() => import("./Components/Home_Section/Recent_Activities.jsx"));
+const GopalaBhog = lazy(() => import("./Components/Home_Section/Services/GopalaBhog.jsx"));
+const SwachhVrindavan = lazy(() => import("./Components/Home_Section/Services/SwachhVrindavan.jsx"));
+const Brajkulam = lazy(() => import("./Components/Home_Section/Services/Brajkulam.jsx"));
 
 const App = () => {
   return (
@@ -41,6 +44,9 @@ const App = () => {
         <Route path="/recent-activities" element={<Recent_Activities />} />
         <Route path="/donate-us" element={<Donateus />} />
         <Route path="/legal-doc" element={<LegalDoc />} />
+        <Route path="/gopala-bhog" element={<GopalaBhog />} />
+        <Route path="/swachh-vrindavan" element={<SwachhVrindavan />} /> 
+        <Route path="/brajkulam" element={<Brajkulam />} />
       </Routes>
       <BackgroundMusic />
       <Footer />

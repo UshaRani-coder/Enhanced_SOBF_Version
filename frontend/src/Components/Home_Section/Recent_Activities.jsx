@@ -21,7 +21,7 @@ const Recent_Activities = () => {
         undertaken to make a difference in our communities.
       </h1>
 
-      <div className="flex flex-col items-center gap-[50px] lg:gap-[100px]  md:flex-row md:justify-center">
+      <div className="flex flex-col items-center gap-7 p-5  md:flex-row md:justify-center">
         {recentActivities.map((activity, index) => (
           <div
             key={index}
@@ -30,7 +30,7 @@ const Recent_Activities = () => {
             <img
               src={activity.media}
               alt="media"
-              className="w-full h-full md:h-[300px] "
+              className="w-full h-full md:h-[300px] rounded-t-lg object-cover"
             />
             <div className=" px-[20px]">
               <div className="flex items-center gap-x-[5px] mt-[15px] ">

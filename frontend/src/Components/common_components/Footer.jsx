@@ -1,5 +1,6 @@
 import sobfLogo from "../../assets/sobfLogo.avif";
 import { Link } from "react-router-dom";
+import LegalDoc from "../../pages/LegalDoc";
 // import { Services } from '/src/Components/Home_Section/Services.jsx';
 const Footer = () => {
   const handleRedirectMap = () => {
@@ -111,26 +112,43 @@ const Footer = () => {
                       Services
                     </h3>
                     <ul>
-                      <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
+                     <li className="mb-2 leading-6">
+                        <Link
+                          to="/recent-activities"
+                          className="transition-colors duration-300 hover:text-white focus:text-white"
+                          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                        >
                           Community Service
                         </Link>
                       </li>
                       <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
+                        <Link
+                          to="/gopala-bhog"
+                          className="transition-colors duration-300 hover:text-white focus:text-white"
+                          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        >
                           Gopala Bhog
                         </Link>
                       </li>
                       <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
-                          Swachh & Swasth Vrindavan
-                        </Link>
-                      </li>
-                      <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
-                          Brajkulam Community Center
-                        </Link>
-                      </li>
+                      <Link
+                        to="/swachh-vrindavan"
+                        className="transition-colors duration-300 hover:text-white focus:text-white"
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                      >
+                        Swachh & Swasth Vrindavan
+                      </Link>
+                    </li>
+
+                    <li className="mb-2 leading-6">
+                      <Link
+                        to="/brajkulam"
+                        className="transition-colors duration-300 hover:text-white focus:text-white"
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                      >
+                        Brajkulam Education Center
+                      </Link>
+                    </li>
                     </ul>
                   </nav>
 
@@ -181,12 +199,16 @@ const Footer = () => {
                       </li>
                       <li className="mb-2 leading-6">
                         <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
-                          Cookie Policy
+                          Refund Policy
                         </Link>
                       </li>
                       <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
-                          Disclaimer
+                        <Link
+                          to="/legal-doc"
+                          className="transition-colors duration-300 hover:text-white focus:text-white"
+                          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                        >
+                          Legal Documents
                         </Link>
                       </li>
                     </ul>

@@ -14,12 +14,19 @@ const Navbar = () => {
     setIsActive(false);
   };
 
+  const handleSmoothScroll = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <div className="w-full fixed top-[1px] lg:top-1 z-50 flex justify-center mt-10">
       <nav className="cursor-pointer w-full bg-white shadow-2xl">
         <div className="container mx-auto flex justify-between items-center p-2">
           {/* Logo on the left */}
-          <Link to="/" className="flex-shrink-0">
+          <Link to="/" className="flex-shrink-0" onClick={handleSmoothScroll}>
             <img src={logo} alt="logo" className="w-20 object-cover" />
           </Link>
 
