@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../../App.css";
@@ -17,7 +15,7 @@ const Navbar = () => {
   const handleSmoothScroll = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
@@ -109,18 +107,14 @@ const Navbar = () => {
               </NavLink>
             </li>
             {/* Donate button */}
-
             <li className="block lg:hidden">
               <Link
-                href=""
+                to="/donate-us"
                 className="px-8 py-3.5 relative rounded-full group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
+                onClick={closeMenu}
               >
                 <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
-                <span className="relative z-10">
-                  <Link to="/donate-us" onClick={closeMenu}>
-                    Donate
-                  </Link>
-                </span>
+                <span className="relative z-10">Donate</span>
               </Link>
             </li>
           </ul>
@@ -128,18 +122,14 @@ const Navbar = () => {
           {/* Donate button on the right for desktop */}
           <div className="hidden lg:block">
             <Link
-              href=""
+              to="/donate-us"
               className="px-8 py-3.5 relative rounded-full group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:text-white hover:shadow-lg"
+              onClick={closeMenu}
             >
               <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
-              <span className="relative z-10">
-                <Link to="/donate-us" onClick={closeMenu}>
-                  Donate
-                </Link>
-              </span>
+              <span className="relative z-10">Donate</span>
             </Link>
           </div>
-
           {/* Hamburger menu for mobile and large screens */}
           <div
             className={`ham-menu lg:hidden cursor-pointer flex flex-col justify-center gap-1 relative w-[25px] h-[25px] ${
@@ -158,4 +148,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

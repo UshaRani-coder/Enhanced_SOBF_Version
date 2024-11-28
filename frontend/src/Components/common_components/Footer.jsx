@@ -221,10 +221,10 @@ const Footer = () => {
 
               {/* Social Icons */}
 
-      <div class=" w-full h-auto py-4 flex items-center justify-center gap-3 flex-wrap">
+      <div className=" w-full h-auto py-4 flex items-center justify-center gap-3 flex-wrap">
       {/* Facebook */}
       <Link onClick={handleRedirectFacebook} 
-      class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+      className="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 71 72"
       fill="none">
       <path
@@ -234,7 +234,7 @@ const Footer = () => {
       </Link>
       {/* Instagram */}
       <Link onClick={handleRedirectInstagram} 
-      class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+      className="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 71 72"
       fill="none">
       <path
@@ -254,7 +254,7 @@ const Footer = () => {
       </Link> */}
       {/* Whatsapp */}
       <Link onClick={handleRedirectWhatsapp}  rel="noopener noreferrer"
-      class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+      className="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 71 72"
       fill="none">
       <path
@@ -267,7 +267,7 @@ const Footer = () => {
       </Link>
       {/* LinkedIn */}
       <Link onClick={handleRedirectLinkedIn} 
-      class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+      className="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 72 72"
       fill="none">
       <path
@@ -287,7 +287,7 @@ const Footer = () => {
       </Link> */}
       {/* Gmail */}
       <Link onClick={handleRedirectMail} 
-      class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+      className="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 72 72"
       fill="none">
       <path
@@ -308,7 +308,7 @@ const Footer = () => {
       </Link>
       {/* Youtube */}
       <Link onClick={handleRedirectYoutube} 
-      class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
+      className="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 71 71"
       fill="none">
       <path fillRule="evenodd" clipRule="evenodd"

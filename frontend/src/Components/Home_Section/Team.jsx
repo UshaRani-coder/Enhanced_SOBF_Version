@@ -429,10 +429,10 @@ const Team = () => {
                 >
                   SOBF
                 </Link>
-                <p className="text-[12px] mx-[10px] md:mx-0 lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
+              </p>
+              <p className="text-[12px] mx-[10px] md:mx-0 lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
                   CEO & Founder- Indian Bureaucracy
                 </p>
-              </p>
             </div>
             <div className="socials flex gap-x-[10px] ">
               <Link to={"https://www.linkedin.com/in/sobftarun/"}>

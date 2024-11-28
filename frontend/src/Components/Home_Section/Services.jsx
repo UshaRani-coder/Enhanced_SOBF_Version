@@ -229,11 +229,11 @@ const Services = () => {
                 version="1.1"
                 id="Layer_1"
                 xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
                 x="0px"
                 y="0px"
                 viewBox="0 0 122.88 95.57"
-                xml:space="preserve"
+                xmlSpace="preserve"
               >
                 <g>
                   <path
@@ -266,11 +266,11 @@ const Services = () => {
                 version="1.1"
                 id="Layer_1"
                 xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
                 x="0px"
                 y="0px"
                 viewBox="0 0 101.48 122.88"
-                xml:space="preserve"
+                xmlSpace="preserve"
               >
                 <g>
                   <path
@@ -299,17 +299,17 @@ const Services = () => {
                 version="1.1"
                 id="Layer_1"
                 xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
                 x="0px"
                 y="0px"
                 viewBox="0 0 122.88 120.16"
-                xml:space="preserve"
+                xmlSpace="preserve"
                 className="w-[40px] h-[40px]"
                 fill="#ffffff"
               >
                 <g>
                   <path
-                    class="st0"
+                    className="st0"
                     d="M100.44,6.4c12.39,0,22.44,10.05,22.44,22.44c0,10.21-6.82,18.83-16.16,21.55
 		c0.41,10.31,0.54,21.41-0.96,31.45c-1.61,10.86-4.96,20.21-10.95,27.03c-6.26,7.13-15.09,11.3-27.34,11.3
 		c-17.49,0-27.38-7.62-32.93-18.41c-4.56-8.86-5.88-19.65-6.13-29.82c-2.5-1.76-5.01-4.16-7.47-7.01c-3.57-4.15-7.12-9.32-10.3-14.8
@@ -359,9 +359,9 @@ const Services = () => {
             <div className="service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                shape-rendering="geometricPrecision"
+                shapeRendering="geometricPrecision"
                 textRendering="geometricPrecision"
-                image-rendering="optimizeQuality"
+                imageRendering="optimizeQuality"
                 fillRule="evenodd"
                 clipRule="evenodd"
                 viewBox="0 0 358 511.86"
