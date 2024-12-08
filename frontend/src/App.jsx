@@ -7,6 +7,7 @@ import BackgroundMusic from "./Components/BackgroundMusic.jsx";
 import LegalDoc from "./pages/LegalDoc.jsx";
 import loader from "./assets/loader.webp"
 import ActivityDetails from "./pages/ActivityDetails.jsx";
+
 // Lazy loading the components
 const Login = lazy(() => import("./pages/Login.jsx"))
 const HomePage = lazy(() => import("./pages/Home.jsx"));
@@ -22,6 +23,9 @@ const Recent_Activities = lazy(() => import("./Components/Home_Section/Recent_Ac
 const GopalaBhog = lazy(() => import("./Components/Home_Section/Services/GopalaBhog.jsx"));
 const SwachhVrindavan = lazy(() => import("./Components/Home_Section/Services/SwachhVrindavan.jsx"));
 const Brajkulam = lazy(() => import("./Components/Home_Section/Services/Brajkulam.jsx"));
+const PrivacyPolicy = lazy(() => import("./Footer/PrivacyPolicy.jsx"));
+const RefundPolicy = lazy(() => import("./Footer/RefundPolicy.jsx"));
+const TermsAndConditions = lazy(() => import("./Footer/TermsAndConditions.jsx"));
 
 const App = () => {
   return (
@@ -47,6 +51,9 @@ const App = () => {
         <Route path="/gopala-bhog" element={<GopalaBhog />} />
         <Route path="/swachh-vrindavan" element={<SwachhVrindavan />} /> 
         <Route path="/brajkulam" element={<Brajkulam />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
+        <Route path= "/terms-and-conditions" element={<TermsAndConditions />} />
       </Routes>
       <BackgroundMusic />
       <Footer />

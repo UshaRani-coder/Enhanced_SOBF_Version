@@ -188,17 +188,20 @@ const Footer = () => {
                     </h3>
                     <ul>
                       <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
+                        <Link to="/privacy-policy" className="transition-colors duration-300 hover:text-white focus:text-white"
+                          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                           Privacy Policy
                         </Link>
                       </li>
                       <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
+                        <Link to="/terms-and-conditions" className="transition-colors duration-300 hover:text-white focus:text-white"
+                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                           Terms & Conditions
                         </Link>
                       </li>
                       <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
+                        <Link to="/refund-policy" className="transition-colors duration-300 hover:text-white focus:text-white"
+                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                           Refund Policy
                         </Link>
                       </li>

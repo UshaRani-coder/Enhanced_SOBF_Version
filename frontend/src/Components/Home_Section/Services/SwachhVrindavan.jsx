@@ -33,10 +33,10 @@ const SwachhVrindavan = ({ setService }) => {
         />
 
         <div className="flex flex-col items-center md:items-start mx-[20px] w-[90%] lg:w-[70%] justify-center">
-          <h1 className="text-center text-heading4 lg:text-[27px] font-bold my-4 relative transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%]">
+          <h1 className="text-center text-heading4 lg:text-[27px] font-bold my-4 relative transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] mt-5">
             Swachh & Swasth Vrindavan
           </h1>
-          <p className="text-gray-700 text-[16px] text-justify lg:text-[18px] mt-2 font-workSans xl:mt-0 xl:pb-[50px] md:text-left lg:leading-[30px]">
+          <p className="text-gray-700 text-[16px] text-justify lg:text-[18px] mt-2 font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px]">
             We feel very sad when we see garbage and filth in Shri Vrindavan
             Dham, and even more sad when we see cows eating that garbage. Swachh
             Vrindavan, Swasth Vrindavan, is our initiative, in which we will
