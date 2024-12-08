@@ -14,7 +14,7 @@ const About = () => {
       }}
     >
       <h1 className="text-center mt-5 mb-5 text-logoYellow text-heading3 lg:text-heading2 font-bold  px-5 pt-5 text-logo-yellow relative z-10 ">
-        Who are we?
+        Who Are We?
         <hr className="mt-1 border-light-lavender border-[0.5px]" />
       </h1>
       <div className=" md:mb-10 text-justify flex flex-col items-center  lg:flex lg:flex-row lg:justify-center lg:items-center lg:gap-x-[50px] z-40  mt-5 lg:px-[40px] xl:justify-around pb-[30px]">

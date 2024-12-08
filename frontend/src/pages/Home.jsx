@@ -21,8 +21,8 @@ const HomePage = () => {
       <Hero />
       <Impacts />
       <Programms/>
-      {/* <Video /> */}
       <About />
+      <Video />
       <Services />
       <Press_Release />
       <Recent_Activities />
