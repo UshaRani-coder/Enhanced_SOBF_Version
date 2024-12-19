@@ -1,13 +1,13 @@
 import React from "react";
 import ReactPlayer from "react-player";
-import aboutImg from "../../assets/Sobf Images/food distribution/fd7.avif";
-import aboutBackgroundImg from "../../assets/Sobf Images/child_education_and_empowerment/cee12.avif";
+import aboutBackgroundImg from "../../assets/Sobf Images/food distribution/fd7.avif";
+import aboutImg from "../../assets/Sobf Images/children_activities/aboutUs.jpg";
 const About = () => {
   return (
     <div
       className="home-about relative flex flex-col items-center "
       style={{
-        backgroundImage: `url(${aboutImg})`,
+        backgroundImage: `url(${aboutBackgroundImg})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -18,8 +18,8 @@ const About = () => {
         <hr className="mt-1 border-light-lavender border-[0.5px]" />
       </h1>
       <div className=" md:mb-10 text-justify flex flex-col items-center  lg:flex lg:flex-row lg:justify-center lg:items-center lg:gap-x-[50px] z-40  mt-5 lg:px-[40px] xl:justify-around pb-[30px]">
-        <p className=" leading-[27px] text-heading5    text-[rgba(225,225,225,0.85)]   md:mt-4 mx-4 lg:m-0 md:mx-[40px] lg:w-[50%] ">
-        <span className="text-xl  font-bold hover:underline">
+        <p className=" leading-[27px]  text-heading5  text-[rgba(225,225,225,0.85)]   md:mt-4 mx-4 lg:m-0 md:mx-[40px] lg:w-[50%] ">
+        <span className="text-xl  font-bold hover:underline ">
             Soul Of Braj Federation
           </span>{" "}
           is a Section-8 recognized Non Profit Organization, dedicated to serve
@@ -43,9 +43,9 @@ const About = () => {
         </p>
 
         <img
-          src={aboutBackgroundImg}
+          src={aboutImg}
           alt="about"
-          className="z-40 my-[30px] lg:my-0 w-[90%] lg:w-[50%] xl:w-[37%]   "
+          className="z-40 my-[30px] lg:my-0 w-[90%] lg:w-[30%]    "
         />
       </div>
     </div>

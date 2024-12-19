@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import Image from "../../../assets/Sobf Images/health_and_awareness_camp/cow.avif";
+import Image from "../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.jpg";
 import ImgBanner from "./ImgBanner";
 import { Link } from "react-router-dom";
 const SwachhVrindavan = ({ setService }) => {
@@ -29,17 +29,16 @@ const SwachhVrindavan = ({ setService }) => {
         <img
           src={Image}
           alt="community-service"
-          className="w-[90%] lg:w-[30%]"
+          className="w-[90%] lg:w-[25%]"
         />
 
         <div className="flex flex-col items-center md:items-start mx-[20px] w-[90%] lg:w-[70%] justify-center">
           <h1 className="text-center text-heading4 lg:text-[27px] font-bold my-4 relative transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] mt-5">
-            Swachh & Swasth Vrindavan
+            Swachh Yamuna, Swasth Vrindavan
           </h1>
-          <p className="text-gray-700 text-[16px] text-justify lg:text-[18px] mt-2 font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px]">
+          {/* <p className="text-gray-700 text-[16px] text-justify lg:text-[18px] mt-2 font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px]">
             We feel very sad when we see garbage and filth in Shri Vrindavan
-            Dham, and even more sad when we see cows eating that garbage. Swachh
-            Vrindavan, Swasth Vrindavan, is our initiative, in which we will
+            Dham, and even more sad when we see cows eating that garbage. Swachh Yamuna, Swasth Vrindavan, is our initiative, in which we will
             take steps to make Shri Vrindavan Dham cleaner and healthier. Every
             year, lakhs of devotees come to visit Shri Vrindavan Dham, and we
             aim to ensure they have a good experience. Our Shri Vrindavan Dham is
@@ -48,6 +47,14 @@ const SwachhVrindavan = ({ setService }) => {
             and every Guru, Sadhu, Sanyasi, Acharya, and Vaishnav performs
             Parikrama. We strive to ensure there is no dirt on their feet during
             Parikrama.
+          </p> */}
+          <p className="text-gray-700 text-[16px] text-justify lg:text-[18px] mt-2 font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px]">
+            "Swachh Yamuna, Swasth Vrindavan" emphasizes the vital link between
+            a clean Yamuna River and a healthy Vrindavan. It calls for
+            collective efforts—government action, community participation, NGO
+            involvement, and individual responsibility—to restore ecological
+            balance, enhance public health, preserve religious sanctity, and
+            boost tourism, ensuring a sustainable future.
           </p>
           <button>
             <Link
