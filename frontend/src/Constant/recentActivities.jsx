@@ -12,8 +12,8 @@ const recentActivities = [
     {
         media:activity2Img,
         date: "January 25, 2024",
-        title: "Brajkulam Educational Center: Nurturing Minds, Shaping Futures",
-        description:"The Brajkulam Educational Center is dedicated to nurturing young minds and shaping the future of the Braj region. This center provides quality education and skill training to children and youth, empowering them with the knowledge and tools needed to thrive in today’s world. ",
+        title: "Brajkulam Community Center: Nurturing Minds, Shaping Futures",
+        description:"The Brajkulam Community Center is dedicated to nurturing young minds and shaping the future of the Braj region. This center provides quality education and skill training to children and youth, empowering them with the knowledge and tools needed to thrive in today’s world. ",
         button: "Read More" 
     },
     {

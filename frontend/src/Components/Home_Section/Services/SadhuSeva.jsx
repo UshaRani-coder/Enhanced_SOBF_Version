@@ -1,5 +1,4 @@
 import React from "react";
-import sadhuSevaImg from '../../../assets/Sobf Images/food distribution/sadhu.avif'
 import ImgBanner from "./ImgBanner";
 import { Link } from "react-router-dom";
 const SadhuSeva = ({ setService }) => {

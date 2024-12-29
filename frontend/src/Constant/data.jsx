@@ -5,6 +5,7 @@ import we1 from "../assets/Sobf Images/women empowerment/we1.avif";
 import cee14 from "../assets/Sobf Images/child_education_and_empowerment/cee14.avif";
 import hac4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.avif";
 import pic1 from "../assets/Sobf Images/partners/Soul Of Braj_files/pic1.avif"
+import banner1 from "../assets/banner1.avif"
 
 //Donors words Images
 import AishaKhan from "../assets/Donors_words/AishaKhan.avif";
@@ -77,7 +78,20 @@ import sanitary3 from "../assets/Sobf Images/Sanitary_pads_distribution/spd3.avi
 import sanitary4 from "../assets/Sobf Images/Sanitary_pads_distribution/spd4.avif"
 import sanitary5 from "../assets/Sobf Images/Sanitary_pads_distribution/spd5.avif"
 
+import childSobf from "../assets/child_sobf.avif"
+import Mission from "../assets/Mission.avif"
 
+import sysv1 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv1.avif"
+import sysv2 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv2.avif"
+import sysv3 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv3.avif"
+import sysv4 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv4.avif"
+
+import ss1 from "../assets/Sobf Images/Sadhu Seva/ss1.avif"
+import ss2 from "../assets/Sobf Images/Sadhu Seva/ss2.avif"
+import ss3 from "../assets/Sobf Images/Sadhu Seva/ss3.avif"
+import ss4 from "../assets/Sobf Images/Sadhu Seva/ss4.avif"
+import ss5 from "../assets/Sobf Images/Sadhu Seva/ss5.avif"
+import ss6 from "../assets/Sobf Images/Sadhu Seva/ss6.avif"
 
 
 export const data = [
@@ -293,6 +307,39 @@ export const our_donors = [
     }
 ];
 
+export const homeGalleryImage = [
+    {
+        id:1,
+        title:"child_activites",
+        image: childSobf
+    },
+    {
+        id: 2,
+        title: "sysv",
+        image: sysv2
+    },
+    {
+        id: 3,
+        title: "women_empowerment",
+        image: we1
+    },
+    {
+        id: 4,
+        title: "",
+        image: hel2
+    },
+    {
+        id: 5,
+        title: "child_activites",
+        image: FoodDonation
+    },
+    {
+        id:6,
+        title: "child_activites",
+        image: banner1
+    },
+]
+
 export const galleryImage = [
     {
         id:1,
@@ -469,5 +516,54 @@ export const galleryImage = [
         title: "sanitary_pads_distribution",
         image: sanitary5
     },
-
+    {
+        id: 36,
+        title: "sadhu_seva",
+        image: ss1
+    },
+    {
+        id: 37,
+        title: "sadhu_seva",
+        image: ss2
+    },
+    {
+        id: 38,
+        title: "sadhu_seva",
+        image: ss3
+    },
+    {
+        id: 39,
+        title: "sadhu_seva",
+        image: ss4
+    },
+    {
+        id: 40,
+        title: "sadhu_seva",
+        image: ss5
+    },
+    {
+        id: 41,
+        title: "sadhu_seva",
+        image: ss6
+    },
+    {
+        id: 42,
+        title: "sysv",
+        image: sysv1
+    },
+    {
+        id: 43,
+        title: "sysv",
+        image: sysv2
+    },
+    {
+        id: 44,
+        title: "sysv",
+        image: sysv3
+    },
+    {
+        id: 45,
+        title: "sysv",
+        image: sysv4
+    },
 ]
