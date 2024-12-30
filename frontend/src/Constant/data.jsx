@@ -4,7 +4,8 @@ import Nature from "../assets/banner2.avif";
 import we1 from "../assets/Sobf Images/women empowerment/we1.avif";
 import cee14 from "../assets/Sobf Images/child_education_and_empowerment/cee14.avif";
 import hac4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.avif";
-import pic1 from "../assets/Sobf Images/partners/Soul Of Braj_files/pic1.avif";
+import pic1 from "../assets/Sobf Images/partners/Soul Of Braj_files/pic1.avif"
+import banner1 from "../assets/banner1.avif"
 
 //Donors words Images
 import AishaKhan from "../assets/Donors_words/AishaKhan.avif";
@@ -67,11 +68,27 @@ import childEdu9 from "../assets/Sobf Images/child_education_and_empowerment/cee
 import childEdu10 from "../assets/Sobf Images/child_education_and_empowerment/cee10.avif";
 
 // sanitary pads distribution
-import sanitary1 from "../assets/Sobf Images/Sanitary_pads_distribution/spd1.avif";
-import sanitary2 from "../assets/Sobf Images/Sanitary_pads_distribution/spd2.avif";
-import sanitary3 from "../assets/Sobf Images/Sanitary_pads_distribution/spd3.avif";
-import sanitary4 from "../assets/Sobf Images/Sanitary_pads_distribution/spd4.avif";
-import sanitary5 from "../assets/Sobf Images/Sanitary_pads_distribution/spd5.avif";
+import sanitary1 from "../assets/Sobf Images/Sanitary_pads_distribution/spd1.avif"
+import sanitary2 from "../assets/Sobf Images/Sanitary_pads_distribution/spd2.avif"
+import sanitary3 from "../assets/Sobf Images/Sanitary_pads_distribution/spd3.avif"
+import sanitary4 from "../assets/Sobf Images/Sanitary_pads_distribution/spd4.avif"
+import sanitary5 from "../assets/Sobf Images/Sanitary_pads_distribution/spd5.avif"
+
+import childSobf from "../assets/child_sobf.avif"
+import Mission from "../assets/Mission.avif"
+
+import sysv1 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv1.avif"
+import sysv2 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv2.avif"
+import sysv3 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv3.avif"
+import sysv4 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv4.avif"
+
+import ss1 from "../assets/Sobf Images/Sadhu Seva/ss1.avif"
+import ss2 from "../assets/Sobf Images/Sadhu Seva/ss2.avif"
+import ss3 from "../assets/Sobf Images/Sadhu Seva/ss3.avif"
+import ss4 from "../assets/Sobf Images/Sadhu Seva/ss4.avif"
+import ss5 from "../assets/Sobf Images/Sadhu Seva/ss5.avif"
+import ss6 from "../assets/Sobf Images/Sadhu Seva/ss6.avif"
+
 
 export const data = [
   {
@@ -241,254 +258,328 @@ export const donors_words = [
 ];
 
 export const our_donors = [
-  {
-    image: NaleSmith,
-    name: "Nale Smith",
-    occupation: "Marketing Specialist",
-    place: "San Francisco, CA",
-    reviews:
-      "Supporting the Soul of Braj Federation has been an incredible experience. The organization’s efforts to provide clean water and sanitation in Vrindavan have made a real impact on the community.",
-  },
-  {
-    image: JhonMarcusNicolous,
-    name: "Jhon Marcus Nicolous",
-    occupation: "User Experience Designer",
-    place: "New York, NY",
-    reviews:
-      "I’m proud to be a part of SOBF’s mission. Their focus on providing education and skill training to underprivileged girls and women is truly inspiring and necessary.",
-  },
-  {
-    image: NocarMendoza,
-    name: "Nocar Mendoza",
-    occupation: "Frontend Developer",
-    place: "Austin, TX",
-    reviews:
-      "It’s amazing to see how SOBF’s clean and healthy Vrindavan initiative is transforming the community. Contributing to this cause has been deeply rewarding for me.",
-  },
-  {
-    image: AishwaryaKashyap,
-    name: "Aishwarya Kashyap",
-    occupation: "Project Manager",
-    place: "Seattle, WA",
-    reviews:
-      "The work that SOBF does in distributing free meals and ration kits is vital. It’s heartening to know that my support is helping to provide food to those who need it most.",
-  },
-  {
-    image: SinchanaSRao,
-    name: "Sinchana S Rao",
-    occupation: "Data Governance Specialist",
-    place: "Chicago, IL",
-    reviews:
-      "I’ve been inspired by SOBF’s commitment to community well-being. Their health-hygiene care programs are making a tangible difference in the lives of many.",
-  },
-  {
-    image: RohanGupta,
-    name: "Rohan Gupta",
-    occupation: "Software Engineer",
-    place: "Palo Alto, CA",
-    reviews:
-      "SOBF’s efforts in waste management and maintaining a clean environment in Vrindavan are commendable. It feels good to contribute to such a meaningful cause.",
-  },
-  {
-    image: EmilyWatson,
-    name: "Emily Watson",
-    occupation: "Entrepreneur",
-    place: "Boston, MA",
-    reviews:
-      "As an entrepreneur, I appreciate the innovation and dedication that SOBF brings to its projects. Their initiatives are not only impactful but also sustainable in the long run.",
-  },
-  {
-    image: ArjunRao,
-    name: "Arjun Rao",
-    occupation: "Philanthropist",
-    place: "Mumbai, India",
-    reviews:
-      "Supporting SOBF aligns perfectly with my philanthropic goals. Their work in improving education and health in the Braj region is exemplary and inspiring.",
-  },
-  {
-    image: PriyaSharma,
-    name: "Priya Sharma",
-    occupation: "Teacher",
-    place: "Delhi, India",
-    reviews:
-      "The dedication of SOBF to providing basic education and skill training to underprivileged communities is something I deeply respect. I’m proud to support their efforts.",
-  },
+    {
+        image: NaleSmith,
+        name: 'Nale Smith',
+        occupation: 'Marketing Specialist',
+        place: 'San Francisco, CA',
+        reviews: 'Supporting the Soul of Braj Federation has been an incredible experience. The organization’s efforts to provide clean water and sanitation in Vrindavan have made a real impact on the community.'
+    },
+    {
+        image: JhonMarcusNicolous,
+        name: 'Jhon Marcus Nicolous',
+        occupation: 'User Experience Designer',
+        place: 'New York, NY',
+        reviews: 'I’m proud to be a part of SOBF’s mission. Their focus on providing education and skill training to underprivileged girls and women is truly inspiring and necessary.'
+    },
+    {
+        image: NocarMendoza,
+        name: 'Nocar Mendoza',
+        occupation: 'Frontend Developer',
+        place: 'Austin, TX',
+        reviews: 'It’s amazing to see how SOBF’s clean and healthy Vrindavan initiative is transforming the community. Contributing to this cause has been deeply rewarding for me.'
+    },
+    {
+        image: AishwaryaKashyap,
+        name: 'Aishwarya Kashyap',
+        occupation: 'Project Manager',
+        place: 'Seattle, WA',
+        reviews: 'The work that SOBF does in distributing free meals and ration kits is vital. It’s heartening to know that my support is helping to provide food to those who need it most.'
+    },
+    {
+        image: SinchanaSRao,
+        name: 'Sinchana S Rao',
+        occupation: 'Data Governance Specialist',
+        place: 'Chicago, IL',
+        reviews: 'I’ve been inspired by SOBF’s commitment to community well-being. Their health-hygiene care programs are making a tangible difference in the lives of many.'
+    },
+    {
+        image: RohanGupta,
+        name: 'Rohan Gupta',
+        occupation: 'Software Engineer',
+        place: 'Palo Alto, CA',
+        reviews: 'SOBF’s efforts in waste management and maintaining a clean environment in Vrindavan are commendable. It feels good to contribute to such a meaningful cause.'
+    },
+    {
+        image: EmilyWatson,
+        name: 'Emily Watson',
+        occupation: 'Entrepreneur',
+        place: 'Boston, MA',
+        reviews: 'As an entrepreneur, I appreciate the innovation and dedication that SOBF brings to its projects. Their initiatives are not only impactful but also sustainable in the long run.'
+    },
+    {
+        image: ArjunRao,
+        name: 'Arjun Rao',
+        occupation: 'Philanthropist',
+        place: 'Mumbai, India',
+        reviews: 'Supporting SOBF aligns perfectly with my philanthropic goals. Their work in improving education and health in the Braj region is exemplary and inspiring.'
+    },
+    {
+        image: PriyaSharma,
+        name: 'Priya Sharma',
+        occupation: 'Teacher',
+        place: 'Delhi, India',
+        reviews: 'The dedication of SOBF to providing basic education and skill training to underprivileged communities is something I deeply respect. I’m proud to support their efforts.'
+    }
 ];
 
+export const homeGalleryImage = [
+    {
+        id:1,
+        title:"child_activites",
+        image: childSobf
+    },
+    {
+        id: 2,
+        title: "sysv",
+        image: sysv2
+    },
+    {
+        id: 3,
+        title: "women_empowerment",
+        image: we1
+    },
+    {
+        id: 4,
+        title: "",
+        image: hel2
+    },
+    {
+        id: 5,
+        title: "child_activites",
+        image: FoodDonation
+    },
+    {
+        id:6,
+        title: "child_activites",
+        image: banner1
+    },
+]
+
 export const galleryImage = [
-  {
-    id: 1,
-    title: "child_activites",
-    image: one,
-  },
-  {
-    id: 2,
-    title: "child_activites",
-    image: two,
-  },
-  {
-    id: 3,
-    title: "child_activites",
-    image: three,
-  },
-  {
-    id: 4,
-    title: "child_activites",
-    image: four,
-  },
-  {
-    id: 5,
-    title: "child_activites",
-    image: five,
-  },
-  {
-    id: 6,
-    title: "child_activites",
-    image: six,
-  },
-  {
-    id: 7,
-    title: "child_activites",
-    image: seven,
-  },
-  {
-    id: 8,
-    title: "child_activites",
-    image: eight,
-  },
-  {
-    id: 9,
-    title: "child_activites",
-    image: nine,
-  },
-  {
-    id: 10,
-    title: "child_activites",
-    image: ten,
-  },
-  {
-    id: 11,
-    title: "face_mask_distribution",
-    image: f1,
-  },
-  {
-    id: 12,
-    title: "face_mask_distribution",
-    image: f2,
-  },
-  {
-    id: 13,
-    title: "face_mask_distribution",
-    image: f3,
-  },
-  {
-    id: 14,
-    title: "face_mask_distribution",
-    image: f4,
-  },
-  {
-    id: 15,
-    title: "face_mask_distribution",
-    image: f5,
-  },
-  {
-    id: 16,
-    title: "health_awaraness",
-    image: hel1,
-  },
-  {
-    id: 17,
-    title: "health_awaraness",
-    image: hel2,
-  },
-  {
-    id: 18,
-    title: "health_awaraness",
-    image: hel3,
-  },
-  {
-    id: 19,
-    title: "health_awaraness",
-    image: hel4,
-  },
-  {
-    id: 20,
-    title: "health_awaraness",
-    image: f5,
-  },
-  {
-    id: 21,
-    title: "child_education",
-    image: childEdu1,
-  },
-  {
-    id: 22,
-    title: "child_education",
-    image: childEdu2,
-  },
-  {
-    id: 23,
-    title: "child_education",
-    image: childEdu3,
-  },
-  {
-    id: 24,
-    title: "child_education",
-    image: childEdu4,
-  },
-  {
-    id: 25,
-    title: "child_education",
-    image: childEdu5,
-  },
-  {
-    id: 26,
-    title: "child_education",
-    image: childEdu6,
-  },
-  {
-    id: 27,
-    title: "child_education",
-    image: childEdu7,
-  },
-  {
-    id: 28,
-    title: "child_education",
-    image: childEdu8,
-  },
-  {
-    id: 29,
-    title: "child_education",
-    image: childEdu9,
-  },
-  {
-    id: 30,
-    title: "child_education",
-    image: childEdu10,
-  },
-  {
-    id: 31,
-    title: "sanitary_pads_distribution",
-    image: sanitary1,
-  },
-  {
-    id: 32,
-    title: "sanitary_pads_distribution",
-    image: sanitary2,
-  },
-  {
-    id: 33,
-    title: "sanitary_pads_distribution",
-    image: sanitary3,
-  },
-  {
-    id: 34,
-    title: "sanitary_pads_distribution",
-    image: sanitary4,
-  },
-  {
-    id: 35,
-    title: "sanitary_pads_distribution",
-    image: sanitary5,
-  },
-];
+    {
+        id:1,
+        title:"child_activites",
+        image:one
+    },
+    {
+        id: 2,
+        title: "child_activites",
+        image: two
+    },
+    {
+        id: 3,
+        title: "child_activites",
+        image: three
+    },
+    {
+        id: 4,
+        title: "child_activites",
+        image: four
+    },
+    {
+        id: 5,
+        title: "child_activites",
+        image: five
+    },
+    {
+        id:6,
+        title: "child_activites",
+        image: six
+    },
+    {
+        id: 7,
+        title: "child_activites",
+        image: seven
+    },
+    {
+        id: 8,
+        title: "child_activites",
+        image: eight
+    },
+    {
+        id: 9,
+        title: "child_activites",
+        image: nine
+    },
+    {
+        id: 10,
+        title: "child_activites",
+        image: ten
+    },
+    {
+        id: 11,
+        title: "face_mask_distribution",
+        image: f1
+    },
+    {
+        id: 12,
+        title: "face_mask_distribution",
+        image: f2
+    },
+    {
+        id: 13,
+        title: "face_mask_distribution",
+        image: f3
+    },
+    {
+        id: 14,
+        title: "face_mask_distribution",
+        image: f4
+    },
+    {
+        id: 15,
+        title: "face_mask_distribution",
+        image: f5
+    },
+    {
+        id: 16,
+        title: "health_awaraness",
+        image: hel1
+    },
+    {
+        id: 17,
+        title: "health_awaraness",
+        image: hel2
+    },
+    {
+        id: 18,
+        title: "health_awaraness",
+        image: hel3
+    },
+    {
+        id: 19,
+        title: "health_awaraness",
+        image: hel4
+    },
+    {
+        id: 20,
+        title: "health_awaraness",
+        image: f5
+    },
+    {
+        id: 21,
+        title: "child_education",
+        image: childEdu1
+    },
+    {
+        id: 22,
+        title: "child_education",
+        image: childEdu2
+    },
+    {
+        id: 23,
+        title: "child_education",
+        image: childEdu3
+    },
+    {
+        id: 24,
+        title: "child_education",
+        image: childEdu4
+    },
+    {
+        id: 25,
+        title: "child_education",
+        image: childEdu5
+    },
+    {
+        id: 26,
+        title: "child_education",
+        image: childEdu6
+    },
+    {
+        id: 27,
+        title: "child_education",
+        image: childEdu7
+    },
+    {
+        id: 28,
+        title: "child_education",
+        image: childEdu8
+    },
+    {
+        id: 29,
+        title: "child_education",
+        image: childEdu9
+    },
+    {
+        id: 30,
+        title: "child_education",
+        image: childEdu10
+    },
+    {
+        id: 31,
+        title: "sanitary_pads_distribution",
+        image: sanitary1
+    },
+    {
+        id: 32,
+        title: "sanitary_pads_distribution",
+        image: sanitary2
+    },
+    {
+        id: 33,
+        title: "sanitary_pads_distribution",
+        image: sanitary3
+    },
+    {
+        id: 34,
+        title: "sanitary_pads_distribution",
+        image: sanitary4
+    },
+    {
+        id: 35,
+        title: "sanitary_pads_distribution",
+        image: sanitary5
+    },
+    {
+        id: 36,
+        title: "sadhu_seva",
+        image: ss1
+    },
+    {
+        id: 37,
+        title: "sadhu_seva",
+        image: ss2
+    },
+    {
+        id: 38,
+        title: "sadhu_seva",
+        image: ss3
+    },
+    {
+        id: 39,
+        title: "sadhu_seva",
+        image: ss4
+    },
+    {
+        id: 40,
+        title: "sadhu_seva",
+        image: ss5
+    },
+    {
+        id: 41,
+        title: "sadhu_seva",
+        image: ss6
+    },
+    {
+        id: 42,
+        title: "sysv",
+        image: sysv1
+    },
+    {
+        id: 43,
+        title: "sysv",
+        image: sysv2
+    },
+    {
+        id: 44,
+        title: "sysv",
+        image: sysv3
+    },
+    {
+        id: 45,
+        title: "sysv",
+        image: sysv4
+    },
+]

@@ -40,11 +40,11 @@ const Gallery = () => {
               Child Activities
             </button>
              <button aria-label="Play Video"
-              onClick={() => handleFilterChange("face_mask_distribution")}
+              onClick={() => handleFilterChange("sadhu_seva")}
               className={`px-3 lg:px-4 py-1 lg:py-2  font-bold rounded ${selectedCategory === "face_mask_distribution" ? "bg-blue text-white" : "bg-gray-200"
                 }`}
             >
-              Face Mask Distribution
+              Sadhu Seva
             </button>
              <button aria-label="Play Video"
               onClick={() => handleFilterChange("health_awaraness")}
@@ -61,11 +61,11 @@ const Gallery = () => {
               Child Education
             </button>
              <button aria-label="Play Video"
-              onClick={() => handleFilterChange("sanitary_pads_distribution")}
+              onClick={() => handleFilterChange("sysv")}
               className={`px-1 lg:px-4 py-1 lg:py-2  font-bold rounded ${selectedCategory === "sanitary_pads_distribution" ? "bg-blue text-white" : "bg-gray-200"
                 }`}
             >
-              Sanitary Pads Distribution
+              Sadhu Seva and Yamuna Cleaning
             </button>
           </div>
         </div>

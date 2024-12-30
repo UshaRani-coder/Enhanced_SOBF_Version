@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Assuming you're using React Router
-import { galleryImage } from "../../Constant/data";
+import { galleryImage, homeGalleryImage } from "../../Constant/data";
 // import { galleryImage } from "../Constant/data";
 
 const Home_Gallery = () => {
   // Get the first 8 images
-  const displayedImages = galleryImage.slice(0, 6);
+  const displayedImages = homeGalleryImage.slice(0, 6);
 
   return (
     <div className="py-14">
@@ -22,11 +22,12 @@ const Home_Gallery = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {displayedImages.map((image, index) => (
             <div key={index} className="w-full hover:opacity-90 relative group">
-              <img
-                src={image.image}
-                alt={`Shot ${index + 1}`}
-                className=" transform transition-transform duration-500 ease-in-out hover:scale-105 rounded-lg"
-              />
+             <img
+  src={image.image}
+  alt={`Shot ${index + 1}`}
+  className="w-[1000px] h-72 object-cover transform transition-transform duration-500 ease-in-out hover:scale-105 rounded-lg"
+/>
+
             </div>
           ))}
         </div>
