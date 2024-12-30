@@ -1,13 +1,25 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
-import BrajkulamImg from '../../../assets/Sobf Images/child_education_and_empowerment/cee1.avif'
+import Img1 from '../../../assets/Sobf Images/child_education_and_empowerment/cee1.avif'
+import Img2 from '../../../assets/Sobf Images/child_education_and_empowerment/cee12.avif'
+import Img3 from '../../../assets/Sobf Images/child_education_and_empowerment/cee25.avif'
 import ImgBanner from './ImgBanner'
 import { Link } from 'react-router-dom'
 
 const Brajkulam = ({ setService }) => {
   const location = useLocation();
   const isHomePage = location.pathname === "/"; // Check if the current page is the home page
-
+  const images = [
+      {
+        img: Img1,
+      },
+      {
+        img: Img2,
+      },
+      {
+        img: Img3,
+      },
+    ];
   return (
     <div
       className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
@@ -26,12 +38,7 @@ const Brajkulam = ({ setService }) => {
       )}
 
       <div className="flex flex-col lg:flex-row items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[100px] gap-y-[10px]">
-        <img
-          src={BrajkulamImg}
-          alt="Brajkulam Educational Centre"
-          className="w-[90%] lg:w-[50%] xl:w-[42.5%]"
-        />
-
+        <ImgBanner banners={images}/>
         <div className="flex flex-col md:items-start items-center mx-[20px] w-[90%] lg:w-[50%] justify-center">
           <h1 className="text-center text-heading4 lg:text-[27px] font-bold my-4 relative transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] mt-5">
             Brajkulam Educational Centre

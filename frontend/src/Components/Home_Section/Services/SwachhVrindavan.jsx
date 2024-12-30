@@ -1,12 +1,26 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import Image from "../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.jpg";
+import Img1 from "../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.jpg";
+import Img2 from "../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan2.jpg";
+import Img3 from "../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan3.jpg";
 import ImgBanner from "./ImgBanner";
 import { Link } from "react-router-dom";
 const SwachhVrindavan = ({ setService }) => {
   const location = useLocation();
 
   const isHomePage = location.pathname === "/"; // Check if the current page is the home page
+
+  const images = [
+        {
+          img: Img1,
+        },
+        {
+          img: Img2,
+        },
+        {
+          img: Img3,
+        },
+      ];
 
   return (
     <div
@@ -26,13 +40,8 @@ const SwachhVrindavan = ({ setService }) => {
       )}
 
       <div className="flex flex-col lg:flex-row items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[100px] gap-y-[10px]">
-        <img
-          src={Image}
-          alt="community-service"
-          className="w-[90%] lg:w-[25%]"
-        />
-
-        <div className="flex flex-col items-center md:items-start mx-[20px] w-[90%] lg:w-[70%] justify-center">
+        <ImgBanner banners={images}/>
+                <div className="flex flex-col items-center md:items-start mx-[20px] w-[90%] lg:w-[70%] justify-center">
           <h1 className="text-center text-heading4 lg:text-[27px] font-bold my-4 relative transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] mt-5">
             Swachh Yamuna, Swasth Vrindavan
           </h1>

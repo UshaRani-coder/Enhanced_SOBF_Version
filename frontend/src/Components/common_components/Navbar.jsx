@@ -21,8 +21,8 @@ const Navbar = () => {
 
   return (
     <div className="w-full fixed top-[1px] lg:top-1 z-50 flex justify-center mt-10">
-      <nav className="cursor-pointer w-full bg-white shadow-2xl">
-        <div className="container mx-auto flex justify-between items-center p-2">
+      <nav className="cursor-pointer w-[100%] bg-white shadow-2xl p-2  flex justify-between items-center ">
+       
           {/* Logo on the left */}
           <Link to="/" className="flex-shrink-0" onClick={handleSmoothScroll}>
             <img src={logo} alt="logo" className="w-20 object-cover" />
@@ -32,7 +32,7 @@ const Navbar = () => {
           <ul
             className={`nav-items ${
               isActive ? "flex" : "hidden"
-            } lg:flex  flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-10 absolute lg:static top-full left-0 w-full  bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
+            } lg:flex  flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-8 xl:gap-x-10 absolute lg:static top-full left-0 w-full  bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
           >
             <li>
               <Link
@@ -141,7 +141,7 @@ const Navbar = () => {
             <span className="block w-[100%] h-[3.5px] rounded-[20px] absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue"></span>
             <span className="block w-[100%] h-[3.5px] rounded-[20px] absolute top-[75%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue"></span>
           </div>
-        </div>
+        
       </nav>
     </div>
   );

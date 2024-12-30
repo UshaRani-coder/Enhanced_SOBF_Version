@@ -45,7 +45,7 @@ const About = () => {
         <img
           src={aboutImg}
           alt="about"
-          className="z-40 my-[30px] lg:my-0 w-[90%] lg:w-[30%]    "
+          className="z-40 my-[30px] lg:my-0 w-[90%] lg:w-[35%]    "
         />
       </div>
     </div>

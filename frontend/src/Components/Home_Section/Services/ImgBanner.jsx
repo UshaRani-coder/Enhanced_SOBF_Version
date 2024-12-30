@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { heroes } from "../../../Constant/data";
+//import { heroes } from "../../../Constant/data";
 
-const ImgBanner = () => {
+const ImgBanner = ({banners}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const imageElement = useRef(null);
   const timerRef = useRef(null);
@@ -9,13 +9,13 @@ const ImgBanner = () => {
   // Move to the previous slide
   const scrollLeft = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + heroes.length) % heroes.length
+      (prevIndex) => (prevIndex - 1 + heroes.length) % banners.length
     );
   };
 
   // Move to the next slide
   const scrollRight = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % heroes.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
   };
 
   // Automatically cycle through slides
@@ -59,7 +59,7 @@ const ImgBanner = () => {
       <div
         className="absolute w-full h-full transition-all duration-1000"
         style={{
-          backgroundImage: `url(${heroes[currentIndex].img})`,
+          backgroundImage: `url(${banners[currentIndex].img})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -99,12 +99,12 @@ const ImgBanner = () => {
 
       {/* Indicators */}
       <div className="absolute bottom-4 flex justify-center gap-2">
-        {heroes.map((_, index) => (
+        {banners.map((_, index) => (
           <div
             key={index}
             className={`w-3 h-3 rounded-full transition-all duration-500 ${currentIndex === index
-                ? "bg-blue-500 scale-125"
-                : "bg-gray-400"
+                ? "bg-white scale-125"
+                : " bg-black/50"
               } cursor-pointer`}
             onClick={() => setCurrentIndex(index)}
           ></div>
