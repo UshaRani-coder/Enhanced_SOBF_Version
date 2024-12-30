@@ -46,6 +46,7 @@ const App = () => {
         <Route path="/press-release" element={<Press_Release />} />
         <Route path="/press-release/:id" element={<ActivityDetails />} />
         <Route path="/recent-activities" element={<Recent_Activities />} />
+        <Route path="/recent-activities/:id" element={<ActivityDetails />} />
         <Route path="/donate-us" element={<Donateus />} />
         <Route path="/legal-doc" element={<LegalDoc />} />
         <Route path="/gopala-bhog" element={<GopalaBhog />} />

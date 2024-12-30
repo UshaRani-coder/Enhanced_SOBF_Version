@@ -22,16 +22,16 @@ const Press_Release = () => {
         impact of our efforts across the country.
       </h1>
 
-      <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px]  md:flex-row md:justify-center">
+      <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px]  lg:flex-row lg:justify-center p-5">
         {News.map((news, index) => (
           <div
             key={index}
-            className=" flex flex-col items-center w-[80%] md:w-[35%] lg:w-[30%] bg-white rounded-lg  shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
+            className=" flex flex-col items-center w-[80%] md:w-[55%] lg:w-[30%] bg-white rounded-lg  shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
           >
             <img
               src={news.media}
               alt="media"
-              className="w-full h-full md:h-[300px] "
+              className="w-full h-full md:h-[300px] rounded-t-lg "
             />
             <div className=" px-[20px]">
               <div className="flex items-center gap-x-[5px] mt-[15px] ">
@@ -54,6 +54,7 @@ const Press_Release = () => {
                 <button
                   aria-label="View Details"
                   className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
+                  onClick={() => window.scrollTo(0, 0)}
                 >
                   {news.button}
                 </button>

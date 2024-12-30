@@ -6,8 +6,9 @@ const Recent_Activities = () => {
   const location = useLocation();
   return (
     <div
-      className={`flex flex-col items-center mb-[30px] ${location.pathname === "/recent-activities" ? "mt-[120px]" : "mt-[30px]"
-        }`}
+      className={`flex flex-col items-center mb-[30px] ${
+        location.pathname === "/recent-activities" ? "mt-[120px]" : "mt-[30px]"
+      }`}
     >
       <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
         Recent Activities
@@ -21,11 +22,11 @@ const Recent_Activities = () => {
         undertaken to make a difference in our communities.
       </h1>
 
-      <div className="flex flex-col items-center gap-7 p-5  md:flex-row md:justify-center">
+      <div className="flex flex-col items-center gap-7 p-5  lg:flex-row lg:justify-center">
         {recentActivities.map((activity, index) => (
           <div
             key={index}
-            className=" flex flex-col items-center w-[80%] md:w-[35%] lg:w-[30%] bg-white rounded-lg  shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
+            className=" flex flex-col items-center w-[80%] md:w-[55%] lg:w-[30%] bg-white rounded-lg  shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
           >
             <img
               src={activity.media}
@@ -49,8 +50,12 @@ const Recent_Activities = () => {
               <p className="mt-[10px] text-[14px] text-justify flex-grow">
                 {activity.description}
               </p>
-              <Link to="/recent-activities">
-                <button aria-label="Play Video" className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
+              <Link to={`/recent-activities/${activity.id}`}>
+                <button
+                  aria-label="Play Video"
+                  className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
                   {activity.button}
                 </button>
               </Link>
