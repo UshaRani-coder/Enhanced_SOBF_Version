@@ -25,47 +25,47 @@ const Gallery = () => {
           </h1>
           {/* Filter Buttons */}
           <div className="flex lg:justify-center flex-wrap mb-4 gap-4">
-             <button aria-label="Play Video"
+            <button aria-label="Play Video"
               onClick={() => handleFilterChange("all")}
               className={`px-3 lg:px-4 py-1 lg:py-2 font-bold rounded ${selectedCategory === "all" ? "bg-blue text-white" : "bg-gray-200"
                 }`}
             >
               All
             </button>
-             <button aria-label="Play Video"
+            <button aria-label="Play Video"
               onClick={() => handleFilterChange("child_activites")}
               className={`px-3 lg:px-4 py-1 lg:py-2  font-bold rounded ${selectedCategory === "child_activites" ? "bg-blue text-white" : "bg-gray-200"
                 }`}
             >
               Child Activities
             </button>
-             <button aria-label="Play Video"
+            <button aria-label="Play Video"
               onClick={() => handleFilterChange("sadhu_seva")}
               className={`px-3 lg:px-4 py-1 lg:py-2  font-bold rounded ${selectedCategory === "face_mask_distribution" ? "bg-blue text-white" : "bg-gray-200"
                 }`}
             >
               Sadhu Seva
             </button>
-             <button aria-label="Play Video"
+            <button aria-label="Play Video"
               onClick={() => handleFilterChange("health_awaraness")}
               className={`px-3 lg:px-4 py-1 lg:py-2  font-bold rounded ${selectedCategory === "health_awaraness" ? "bg-blue text-white" : "bg-gray-200"
                 }`}
             >
               Health Awareness
             </button>
-             <button aria-label="Play Video"
+            <button aria-label="Play Video"
               onClick={() => handleFilterChange("child_education")}
               className={`px-3 lg:px-4 py-1 lg:py-2  font-bold rounded ${selectedCategory === "child_education" ? "bg-blue text-white" : "bg-gray-200"
                 }`}
             >
               Child Education
             </button>
-             <button aria-label="Play Video"
+            <button aria-label="Play Video"
               onClick={() => handleFilterChange("sysv")}
               className={`px-1 lg:px-4 py-1 lg:py-2  font-bold rounded ${selectedCategory === "sanitary_pads_distribution" ? "bg-blue text-white" : "bg-gray-200"
                 }`}
             >
-              Sadhu Seva and Yamuna Cleaning
+              Yamuna Cleaning
             </button>
           </div>
         </div>
@@ -77,7 +77,7 @@ const Gallery = () => {
               <img
                 src={image.image}
                 alt={`Shot ${index + 1}`}
-                className="w-full h-full transform transition-transform duration-500 ease-in-out hover:scale-105 rounded-lg"
+                className="w-full h-[300px] object-cover transform transition-transform duration-500 ease-in-out hover:scale-105 rounded-lg"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out rounded-lg">
                 <p className="text-white text-center font-bold px-4">

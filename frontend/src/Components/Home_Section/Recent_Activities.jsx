@@ -10,7 +10,7 @@ const Recent_Activities = () => {
         location.pathname === "/recent-activities" ? "mt-[120px]" : "mt-[30px]"
       }`}
     >
-      <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
+      <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-logoYellow relative transition-all ease-in-out">
         Recent Activities
         <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
       </h1>
@@ -53,7 +53,7 @@ const Recent_Activities = () => {
               <Link to={`/recent-activities/${activity.id}`}>
                 <button
                   aria-label="Play Video"
-                  className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
+                  className="my-[20px] bg-logo-blue text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
                   onClick={() => window.scrollTo(0, 0)}
                 >
                   {activity.button}

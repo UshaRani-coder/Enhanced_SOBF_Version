@@ -118,8 +118,8 @@ const AboutUs = () => {
         <div className="w-[99%] lg:w-[50%] p-0 lg:p-4 text-start">
           <h1 className="inline-block text-heading3 lg:text-heading1 font-bold mb-1 pb-5 text-logoYellow ">
             Our Story
-            <hr className="mt-1 border-light-lavender border-[1px]" />
           </h1>
+          <hr className="mt-1 border-light-lavender border-[1px]" />
           <p className="text-lg text-gray-700 mt-4 text-justify">
             <span className="text-xl text-purple-700 font-bold hover:underline">
               Soul Of Braj Federation
@@ -134,7 +134,7 @@ const AboutUs = () => {
             Training, Health-Hygiene Care, Distribution of free Meals / Ration
             Kits ,Waste Management Projects, Currently we are Impacting more
             than 1000+ Beneficiaries on Daily Basis. Focused And On Going
-            Initiatives: Gopala Bhog ( Affordable Food Prasadam For All ),
+            Initiatives: Anna Vitran Seva( Affordable Food Prasadam For All ),
             Swasth aur Swachh Vrindavan, Give Me A Chance, Say Yes To Me,
             Brajkulam Community Centre.
           </p>

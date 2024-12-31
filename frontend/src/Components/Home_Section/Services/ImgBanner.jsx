@@ -51,7 +51,7 @@ const ImgBanner = ({banners}) => {
 
   return (
     <div
-      className="relative flex items-center justify-center overflow-hidden w-[90%] md:w-[70%] lg:w-[50%] h-[60vh] lg:mt-[120px] mx-auto"
+      className="relative flex items-center justify-center overflow-hidden w-[90%] md:w-[70%] lg:w-[50%] h-[60vh] lg:mt-[120px] mx-auto rounded-2xl"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

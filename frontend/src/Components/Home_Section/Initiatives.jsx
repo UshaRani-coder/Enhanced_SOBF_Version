@@ -74,7 +74,7 @@ const Programms = () => {
                 Clean water and sanitation
               </h2>
               <p className="text-justify">
-              Gopala Bhog promotes sustainable living through waste management and sanitation initiatives.
+                Anna Vitran Seva promotes sustainable living through waste management and sanitation initiatives.
               </p>
             </div>
           </div>

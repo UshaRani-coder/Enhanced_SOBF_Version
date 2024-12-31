@@ -23,10 +23,10 @@ const Home_Gallery = () => {
           {displayedImages.map((image, index) => (
             <div key={index} className="w-full hover:opacity-90 relative group">
              <img
-  src={image.image}
-  alt={`Shot ${index + 1}`}
-  className="w-[1000px] h-72 object-cover transform transition-transform duration-500 ease-in-out hover:scale-105 rounded-lg"
-/>
+                src={image.image}
+                alt={`Shot ${index + 1}`}
+                className="w-[1000px] h-72 object-cover transform transition-transform duration-500 ease-in-out hover:scale-105 rounded-lg"
+              />
 
             </div>
           ))}
@@ -35,6 +35,7 @@ const Home_Gallery = () => {
         <div className="flex justify-center mt-10">
           <Link
             to="/gallery"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"
           >
             See More

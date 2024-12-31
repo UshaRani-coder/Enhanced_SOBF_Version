@@ -25,14 +25,14 @@ const GopalaBhog = ({ setService }) => {
   return (
     <div
       className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
-        isHomePage ? "" : "mt-40 mb-20" 
+        isHomePage ? "" : "mt-20 mb-20" 
       }`}
     >
       {/* Only show the "Back to Services" button if on the home page */}
-      {location.pathname == "/" && (
+      {isHomePage && (
         <button
           aria-label="Play Video"
-          className="back-button my-4 px-4 py-2 bg-gray-800 text-white rounded hover:bg-indigo-500 hover:text-white hover:scale-105 transform transition-all duration-300 ease-in-out"
+          className="back-button px-4 py-2 bg-gray-800 text-white rounded hover:bg-indigo-500 hover:text-white hover:scale-105 transform transition-all duration-300 ease-in-out"
           onClick={() => setService(null)}
         >
           Back to Services
@@ -43,13 +43,13 @@ const GopalaBhog = ({ setService }) => {
        
         <ImgBanner banners={images} />
         <div className="flex flex-col items-center md:items-start mx-[20px] w-[90%] lg:w-[50%] justify-center">
-          <h1 className="text-center text-heading4 lg:text-heading3 font-bold my-4 relative transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] ">
-            Gopala Bhog
+          <h1 className="text-center text-heading4 lg:text-heading3 font-bold relative transition-all ease-in-out before:transition-[width] before:ease-in-out before:duration-700 before:absolute before:bg-gray-400 before:origin-center before:h-[1px] before:w-0 hover:before:w-[50%] before:bottom-0 before:left-[50%] after:transition-[width] after:ease-in-out after:duration-700 after:absolute after:bg-gray-400 after:origin-center after:h-[1px] after:w-0 hover:after:w-[50%] after:bottom-0 after:right-[50%] ">
+          Anna Vitran Seva
           </h1>
           <p className="text-gray-700 text-justify text-[16px] lg:text-[18px] mt-2 font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px]">
-            Gopala Bhog Outlet in Shri Vrindavan Dham is not only serving
+            Anna Vitran Seva Outlet in Shri Vrindavan Dham is not only serving
             affordable and satvik food prasadam to hundreds of beneficiaries,
-            Gopala Bhog Outlet is also providing job opportunities to needy
+            Anna Vitran Seva Outlet is also providing job opportunities to needy
             women beneficiaries. With this opportunity, they are able to help
             their families financially. Currently, we have more than 10 women
             beneficiaries.

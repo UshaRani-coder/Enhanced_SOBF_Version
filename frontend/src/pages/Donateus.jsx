@@ -100,7 +100,7 @@ const Donateus = () => {
                 gender equality, and clean water and sanitation. We have reached
                 over 15,000 lives, distributed food and sanitary napkins, and
                 engaged over 200 volunteers in our efforts. Our community
-                service projects, such as Gopala Bhog, Swachh & Swasth
+                service projects, such as Anna Vitran Seva, Swachh & Swasth
                 Vrindavan, and the Brajkulam Community Center, are designed to
                 foster sustainable development and community well-being. By
                 contributing, you are directly supporting these programs and

@@ -23,7 +23,7 @@ const Brajkulam = ({ setService }) => {
   return (
     <div
       className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
-        isHomePage ? "" : "mt-40 mb-20" // Apply mt and mb only if not on home page
+        isHomePage ? "" : "mt-20 mb-20" // Apply mt and mb only if not on home page
       }`}
     >
       {/* Only show the "Back to Services" button if on the home page */}

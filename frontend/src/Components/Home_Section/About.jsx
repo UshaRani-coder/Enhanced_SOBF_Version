@@ -37,9 +37,9 @@ const About = () => {
           <div className="lg:mt-0 font-bold text-xl">
             Focused And Ongoing Initiatives :
           </div>{" "}
-          Gopala Bhog (affordable food prasadam for all), Swasth aur Swachh
+          Anna Vitran Seva (affordable food prasadam for all), Swasth aur Swachh
           Vrindavan, Give Me A Chance, Say Yes To Me, Brajkulam Community
-          Centre.
+          Center.
         </p>
 
         <img

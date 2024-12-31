@@ -9,7 +9,7 @@ const Navbar = () => {
   const toggleMenu = () => setIsActive(!isActive);
 
   const closeMenu = () => {
-    setIsActive(false);
+    setIsActive(false);  
   };
 
   const handleSmoothScroll = () => {
@@ -38,7 +38,10 @@ const Navbar = () => {
               <Link
                 to="/"
                 className="text-blue hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
-                onClick={closeMenu}
+                onClick={() => {
+                  closeMenu();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
               >
                 Home
               </Link>

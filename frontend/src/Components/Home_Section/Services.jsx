@@ -4,7 +4,7 @@ import CommunityService from "./Services/CommunityService";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./services.css";
-import GopalaBhog from "./Services/GopalaBhog.jsx";
+import GopalaBhog from "./Services/AnnaVitranSeva.jsx";
 import Brajkulam from "./Services/Brajkulam.jsx";
 
 import SadhuSeva from "./Services/SadhuSeva.jsx";

@@ -82,12 +82,12 @@ import sysv2 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv2.av
 import sysv3 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv3.avif"
 import sysv4 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv4.avif"
 
-import ss1 from "../assets/Sobf Images/Sadhu Seva/ss1.avif"
-import ss2 from "../assets/Sobf Images/Sadhu Seva/ss2.avif"
-import ss3 from "../assets/Sobf Images/Sadhu Seva/ss3.avif"
-import ss4 from "../assets/Sobf Images/Sadhu Seva/ss4.avif"
-import ss5 from "../assets/Sobf Images/Sadhu Seva/ss5.avif"
-import ss6 from "../assets/Sobf Images/Sadhu Seva/ss6.avif"
+import ss1 from "../assets/Sobf Images/Sadhu Seva/cropped-ss1.avif"
+import ss2 from "../assets/Sobf Images/Sadhu Seva/cropped-ss2.avif"
+import ss3 from "../assets/Sobf Images/Sadhu Seva/cropped-ss3.avif"
+// import ss4 from "../assets/Sobf Images/Sadhu Seva/cropped-ss4.avif"
+// import ss5 from "../assets/Sobf Images/Sadhu Seva/ss5.avif"
+// import ss6 from "../assets/Sobf Images/Sadhu Seva/ss6.avif"
 
 
 export const data = [
@@ -452,11 +452,11 @@ export const galleryImage = [
         title: "health_awaraness",
         image: hel4
     },
-    {
-        id: 20,
-        title: "health_awaraness",
-        image: f5
-    },
+    // {
+    //     id: 20,
+    //     title: "health_awaraness",
+    //     image: f5
+    // },
     {
         id: 21,
         title: "child_education",
@@ -508,31 +508,6 @@ export const galleryImage = [
         image: childEdu10
     },
     {
-        id: 31,
-        title: "sanitary_pads_distribution",
-        image: sanitary1
-    },
-    {
-        id: 32,
-        title: "sanitary_pads_distribution",
-        image: sanitary2
-    },
-    {
-        id: 33,
-        title: "sanitary_pads_distribution",
-        image: sanitary3
-    },
-    {
-        id: 34,
-        title: "sanitary_pads_distribution",
-        image: sanitary4
-    },
-    {
-        id: 35,
-        title: "sanitary_pads_distribution",
-        image: sanitary5
-    },
-    {
         id: 36,
         title: "sadhu_seva",
         image: ss1
@@ -547,21 +522,21 @@ export const galleryImage = [
         title: "sadhu_seva",
         image: ss3
     },
-    {
-        id: 39,
-        title: "sadhu_seva",
-        image: ss4
-    },
-    {
-        id: 40,
-        title: "sadhu_seva",
-        image: ss5
-    },
-    {
-        id: 41,
-        title: "sadhu_seva",
-        image: ss6
-    },
+    // {
+    //     id: 39,
+    //     title: "sadhu_seva",
+    //     image: ss4
+    // },
+    // {
+    //     id: 40,
+    //     title: "sadhu_seva",
+    //     image: ss5
+    // },
+    // {
+    //     id: 41,
+    //     title: "sadhu_seva",
+    //     image: ss6
+    // },
     {
         id: 42,
         title: "sysv",

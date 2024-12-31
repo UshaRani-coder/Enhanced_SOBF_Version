@@ -114,7 +114,7 @@ const Footer = () => {
                     <ul>
                      <li className="mb-2 leading-6">
                         <Link
-                          to="/recent-activities"
+                          to="/community-service"
                           className="transition-colors duration-300 hover:text-white focus:text-white"
                           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                         >
@@ -123,11 +123,11 @@ const Footer = () => {
                       </li>
                       <li className="mb-2 leading-6">
                         <Link
-                          to="/gopala-bhog"
+                          to="/anna-vitran-seva"
                           className="transition-colors duration-300 hover:text-white focus:text-white"
                           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         >
-                          Gopala Bhog
+                          Anna Vitran Seva
                         </Link>
                       </li>
                       <li className="mb-2 leading-6">
