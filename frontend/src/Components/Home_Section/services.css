@@ -24,13 +24,13 @@
   background-image: url("../../assets/Sobf Images/child_education_and_empowerment/cee6.avif");
 }
 .services .service4::before {
-  background-image: url("../../assets/Sobf Images/health_and_awareness_camp/nature.avif");
+  background-image: url("../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.jpg");
 }
 .services .service:hover:before {
   transform: translateY(0);
 }
 .services .service5::before {
-  background-image: url("../../assets/Sobf Images/food distribution/fd10.avif");
+  background-image: url("../../assets/Sobf Images/food distribution/sadhuSeva.jpg");
 }
 .services .service6::before {
   background-image: url("../../assets/Sobf Images/health_and_awareness_camp/hac2.avif");

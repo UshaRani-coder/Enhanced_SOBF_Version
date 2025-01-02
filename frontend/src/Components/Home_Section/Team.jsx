@@ -434,7 +434,7 @@ const Team = () => {
               </p>
             </div>
             <div className="socials flex gap-x-[10px] ">
-              <Link to={"https://www.linkedin.com/in/sobftarun/"}>
+              <Link to={"https://www.linkedin.com/in/saurabhsinha/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"}>
                 <div className="bg-[#374151] p-[5px]  rounded-full hover:scale-[1.2] cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

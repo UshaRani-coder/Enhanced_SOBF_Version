@@ -53,7 +53,7 @@ const Recent_Activities = () => {
               <Link to={`/recent-activities/${activity.id}`}>
                 <button
                   aria-label="Play Video"
-                  className="my-[20px] bg-logo-blue text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
+                 className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
                   onClick={() => window.scrollTo(0, 0)}
                 >
                   {activity.button}

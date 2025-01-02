@@ -9,7 +9,6 @@ import loader from "./assets/loader.webp"
 import ActivityDetails from "./pages/ActivityDetails.jsx";
 
 // Lazy loading the components
-const Login = lazy(() => import("./pages/Login.jsx"))
 const HomePage = lazy(() => import("./pages/Home.jsx"));
 const AboutUs = lazy(() => import("./pages/Aboutus.jsx"));
 const ContactUsPage = lazy(() => import("./pages/ContactUs.jsx"));
@@ -39,7 +38,6 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route exact path='/login' element={<Login />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/vision" element={<Vision />} />
