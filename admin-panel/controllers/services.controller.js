@@ -6,7 +6,6 @@ const { ImpactModel, Services, Team, SuppportedBy } = require("../models/service
 // Create
 const createImpact = async (req, res) => {
   try {
-
     try {
       const { title, stat_number } = req.body
       if (!(title, stat_number)) {
@@ -20,13 +19,6 @@ const createImpact = async (req, res) => {
     } catch (error) {
       res.status(500).json({ success: false, message: "Something went wrong while creating post", error: error.message });
     }
-
-
-
-// 
-
-
-
     const impact = new ImpactModel(req.body);
     await impact.save();
     res.status(201).send(impact);
@@ -34,6 +26,9 @@ const createImpact = async (req, res) => {
     res.status(500).send(err.message);
   }
 };
+
+
+
 
 // Get All Impacts
 const getImpacts = async (req, res) => {

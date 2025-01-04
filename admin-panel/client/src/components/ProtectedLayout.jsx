@@ -10,6 +10,8 @@ import OurImpacts from "../Pages/OurImpacts";
 import FeaturedVideo from "../Pages/FeaturedVideo";
 import LegalDocs from "../Pages/LegalDocs";
 import HeroBanner from "../Pages/HeroBanner";
+import Team from "../Pages/Team";
+import Gallery from "../Pages/Gallery";
 
 const ProtectedLayout = ({ setIsAuthenticated }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Sidebar visibility for small screens
@@ -50,16 +52,14 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
         {/* Main Content */}
         <div className="flex-1 pt-2 pb-2 md:p-4 overflow-auto">
           <Routes>
-            <Route
-              path="/dashboard"
-              element={<AdminPage isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />}
-            />
+            <Route path="/dashboard" element={<Team />} />
             <Route path="/recent-activities" element={<PostPage />} />
             <Route path="/our-impacts" element={<OurImpacts />} />
             <Route path="/featured-videos" element={<FeaturedVideo />} />
             <Route path="/legalDoc" element={<LegalDocs />} />
             <Route path="/hero-banner" element={<HeroBanner />} />
             <Route path="/bulletine" element={<NewsBulletines />} />
+            <Route path="/gallery" element={<Gallery />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>

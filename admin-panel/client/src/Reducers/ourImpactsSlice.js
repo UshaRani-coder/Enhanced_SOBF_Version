@@ -6,8 +6,6 @@ import { createOurImpacts, updateOurImpacts, deleteOurImpacts, getOurImpacts } f
 
 export const getOurImpact = createAsyncThunk('ourImpacts/getOurImpacts', async () => {
   const response = await getOurImpacts();
-  console.log(response);
-  
   return response.data.posts;
 });
 

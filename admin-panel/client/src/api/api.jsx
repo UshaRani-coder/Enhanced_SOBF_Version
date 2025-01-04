@@ -61,3 +61,20 @@ export const createLegalDocs = (postData) => API.post('/api/post/create-legal-do
 export const getLegalDocs = () => API.get('/api/post/get-legal-doc')
 export const updateLegalDocs = (id, updatedPost) => API.put(`/api/post/update-legal-doc/${id}`, updatedPost);
 export const deleteLegalDocs = (id) => API.delete(`/api/post/delete-legal-doc/${id}`);
+
+
+
+
+
+// ! Our Teams Endpoints
+export const createTeam = (postData) => API.post('/api/post/create-team', postData);
+export const getTeam = () => API.get('/api/post/get-team')
+export const updateTeam = (id, updatedPost) => API.put(`/api/post/update-team/${id}`, updatedPost);
+export const deleteTeam = (id) => API.delete(`/api/post/delete-team/${id}`);
+
+
+// ! Our Gallery Endpoints
+export const createGallery = (postData) => API.post('/api/post/create-gallery-image', postData);
+export const getGallery = () => API.get('/api/post/get-gallery-image')
+export const updateGallery = (id, updatedPost) => API.put(`/api/post/update-gallery-image/${id}`, updatedPost);
+export const deleteGallery = (id) => API.delete(`/api/post/delete-gallery-image/${id}`);

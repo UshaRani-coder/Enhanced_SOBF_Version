@@ -1,53 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toast';
-import {
-  addHeroBanner,
-  getHeroBanners,
-  updateHeroBanners,
-  removeHeroBanner,
-} from '../Reducers/heroBannerSlice';
+import { addGallery, getGalleryImages, removeGallery, updateGalleryImage } from '../Reducers/gallerySlice';
 
-const HeroBanner = () => {
+const Gallery = () => {
   const dispatch = useDispatch();
-  const { heroBanner, status } = useSelector((state) => state.heroBanner);
+  const { gallery, status } = useSelector((state) => state.gallery);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
-  const [formData, setFormData] = useState({ quotes: '', image: null });
+  const [formData, setFormData] = useState({image: null });
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(getHeroBanners());
+      dispatch(getGalleryImages());
     }
   }, [status, dispatch]);
 
   const handleAddPost = () => {
     const formDataToSend = new FormData();
-    formDataToSend.append('quotes', formData.quotes);
     if (formData.image) formDataToSend.append('image', formData.image);
 
-    dispatch(addHeroBanner(formDataToSend));
-    toast.success('Successfully added Hero Banner');
+    dispatch(addGallery(formDataToSend));
+    toast.success('Successfully added gallery image');
     setIsModalOpen(false);
     resetForm();
   };
 
   const handleUpdatePost = () => {
     const updatedData = new FormData();
-    updatedData.append('quotes', formData.quotes);
     if (formData.image) updatedData.append('image', formData.image);
 
-    dispatch(updateHeroBanners({ id: currentPost._id, updatedData }));
-    toast.success('Successfully updated Hero Banner');
+    dispatch(updateGalleryImage({ id: currentPost._id, updatedData }));
+    toast.success('Successfully updated  gallery image');
     setIsModalOpen(false);
     resetForm();
   };
 
   const handleDeletePost = (id) => {
-    dispatch(removeHeroBanner(id));
-    toast.success('Successfully deleted Hero Banner');
+    dispatch(removeGallery(id));
+    toast.success('Successfully deleted  gallery image');
   };
 
   const handleInputChange = (e) => {
@@ -99,16 +92,6 @@ const HeroBanner = () => {
             </h2>
             <form>
               <div className="mb-4">
-                <label className="block font-semibold mb-2">Quote</label>
-                <input
-                  type="text"
-                  name="quotes"
-                  value={formData.quotes}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded"
-                />
-              </div>
-              <div className="mb-4">
                 <label className="block font-semibold mb-2">Image</label>
                 <input
                   type="file"
@@ -140,8 +123,8 @@ const HeroBanner = () => {
       )}
 
       <div className="mt-6 flex flex-wrap gap-4">
-        {heroBanner.length > 0 ? (
-          heroBanner.map((post) => (
+        {gallery.length > 0 ? (
+          gallery.map((post) => (
             <div
               key={post._id}
               className="border p-4 rounded w-64 hover:shadow-lg"
@@ -151,7 +134,6 @@ const HeroBanner = () => {
                 alt="Hero Banner"
                 className="w-full h-40 object-cover rounded"
               />
-              <h3 className="mt-2 font-bold text-xl">{post.quotes}</h3>
               <div className="mt-4 flex gap-4">
                 <button
                   className="text-blue-600 hover:underline cursor-pointe"
@@ -169,11 +151,11 @@ const HeroBanner = () => {
             </div>
           ))
         ) : (
-          <p>No banners found.</p>
+          <p>No Images found.</p>
         )}
       </div>
     </div>
   );
 };
 
-export default HeroBanner;
+export default Gallery;

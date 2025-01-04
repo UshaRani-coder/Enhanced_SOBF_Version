@@ -6,6 +6,8 @@ const { createNewsBulletine, getNewsBulletine, updateNewsBulletine, deleteNewsBu
 const { createHeroBanner, getHeroBanner, updateHeroBanner, deleteHeroBanner } = require('../controllers/hero-banner.controler');
 const { createOurImpacts, getOurImpacts, updateOurImpacts, deleteOurImpacts } = require('../controllers/our-impacts.controller');
 const { createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo, getLegalDocument, createLegalDocument, updateLegalDocument, deleteLegalDocument } = require('../controllers/other.controller');
+const { createTeamMember, getTeamMembers, updateTeam, deleteTeam } = require('../controllers/team.controller');
+const { createGallery, getGallery, updateGallery, deleteGallery } = require('../controllers/gallery.controller');
 const router = express.Router();
 
 
@@ -55,5 +57,19 @@ router.get("/get-legal-doc", getLegalDocument)
 router.put("/update-legal-doc/:id", upload.single('file'), uploadSingleFile, updateLegalDocument)
 router.delete("/delete-legal-doc/:id", deleteLegalDocument)
 
+
+
+// ! Our Team Members 
+router.post("/create-team", upload.single('image'), uploadSingleFile, createTeamMember)
+router.get("/get-team", getTeamMembers)
+router.put("/update-team/:id", upload.single('image'), uploadSingleFile, updateTeam)
+router.delete("/delete-team/:id", deleteTeam)
+
+
+// ! Our Gallery  
+router.post("/create-gallery-image", upload.single('image'), uploadSingleFile, createGallery)
+router.get("/get-gallery-image", getGallery)
+router.put("/update-gallery-image/:id", upload.single('image'), uploadSingleFile, updateGallery)
+router.delete("/delete-gallery-image/:id", deleteGallery)
 
 module.exports = router;
