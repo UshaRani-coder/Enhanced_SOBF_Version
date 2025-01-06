@@ -166,3 +166,11 @@
 }
 
 /* styling for some Hero elements and Navbar elements ends here */
+
+/* overriding whatsapp-button internal styles */
+.floating-whatsapp-button {
+  position: fixed !important; 
+  bottom: 20px !important;       
+  right: 20px !important;        
+  z-index: 1000 !important;   
+}

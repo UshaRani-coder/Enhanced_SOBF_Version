@@ -7,6 +7,7 @@ import BackgroundMusic from "./Components/BackgroundMusic.jsx";
 import LegalDoc from "./pages/LegalDoc.jsx";
 import loader from "./assets/loader.webp"
 import ActivityDetails from "./pages/ActivityDetails.jsx";
+import Whatsapp from "./Components/Whatsapp.jsx";
 
 // Lazy loading the components
 const HomePage = lazy(() => import("./pages/Home.jsx"));
@@ -57,6 +58,7 @@ const App = () => {
         <Route path= "/terms-and-conditions" element={<TermsAndConditions />} />
       </Routes>
       <BackgroundMusic />
+      <Whatsapp />
       <Footer />
     </Suspense>
   );

@@ -21,7 +21,7 @@ const BackgroundMusic = () => {
   };
 
   return (
-    <div className="fixed bottom-[20px] z-50 bg-[#30d464] rounded-full px-[13px] pt-[10px] pb-[7px]  right-[2px] lg:right-[20px] ">
+    <div className="fixed bottom-[20px] z-50 bg-[#30d464] rounded-full px-[13px] pt-[10px] pb-[7px]  left-[2px] lg:left-[20px] ">
        <button aria-label="Play Video" onClick={togglePlay}>
         {isPlaying ? (
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" height={'15px'} width={'15px'} fill="#000">
