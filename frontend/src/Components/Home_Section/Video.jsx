@@ -12,9 +12,9 @@ const Video = () => {
           {/* Video 1 */}
           <div className="video-container aspect-w-16 aspect-h-9 ">
             <iframe
-              width="400"
+              // width="400"
               height="300"
-              className="rounded-lg"
+              className="rounded-lg w-[100%]"
               src="https://www.youtube.com/embed/ALMEHI7ET1I?si=gJjQAqYsGlEUdML0"
               title="YouTube video player"
               frameBorder="0"
@@ -26,9 +26,9 @@ const Video = () => {
           {/* Video 2 */}
           <div className="video-container aspect-w-16 aspect-h-9">
             <iframe
-              width="400"
+              // width="100"
               height="300"
-              className="rounded-lg"
+              className="rounded-lg w-[100%]"
               src="https://www.youtube.com/embed/6mVy1uUoEIA?si=qw9mBv91HYEQaivr"
               title="YouTube video player"
               frameBorder="0"
@@ -40,9 +40,9 @@ const Video = () => {
           {/* Video 3 */}
           <div className="video-container aspect-w-16 aspect-h-9">
             <iframe
-              width="400"
+              // width="400"
               height="300"
-              className="rounded-lg"
+              className="rounded-lg w-[100%]"
               src="https://www.youtube.com/embed/fdw-6OefRTw?si=hY2SqpnZxduGCeW6"
               title="YouTube video player"
               frameBorder="0"
