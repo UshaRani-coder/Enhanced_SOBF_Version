@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAdmin, getAdmins, removeAdmin, updateAdmin } from "../Reducers/adminSlice";
-import { toast } from "react-toast";
+import { toast } from "react-toastify";
 
 const AdminPage = () => {
   const dispatch = useDispatch();

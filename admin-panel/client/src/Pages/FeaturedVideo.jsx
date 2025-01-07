@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addfeaturedVideo, getfeaturedVideo, removefeaturedVideo, updatefeaturedVideo } from '../Reducers/featuredVideoSlice';
-import { toast } from 'react-toast';
+import { toast } from "react-toastify";
 
 const FeaturedVideo = () => {
   const dispatch = useDispatch();

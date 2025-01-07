@@ -42,7 +42,7 @@ export const deleteHeroBanner = () => API.delete(`/api/post/delete-hero-banner/$
 export const createOurImpacts = (postdata) => API.post('/api/post/create-impacts', postdata)
 export const getOurImpacts = () => API.get('/api/post/get-impacts')
 export const updateOurImpacts = (id, updatedPost) => API.put(`/api/post/update-impacts/${id}`, updatedPost)
-export const deleteOurImpacts = () => API.delete(`/api/post/delete-impacts/${id}`)
+export const deleteOurImpacts = (id) => API.delete(`/api/post/delete-impacts/${id}`);
 
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toast';
+import { toast } from "react-toastify";
 import { addGallery, getGalleryImages, removeGallery, updateGalleryImage } from '../Reducers/gallerySlice';
 
 const Gallery = () => {

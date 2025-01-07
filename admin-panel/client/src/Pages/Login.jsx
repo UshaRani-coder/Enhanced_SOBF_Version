@@ -1,8 +1,9 @@
-
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { toast } from "react-toast";
-const Login = ({ setIsAuthenticated }) => { // Receive setIsAuthenticated as a prop
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const Login = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,48 +11,57 @@ const Login = ({ setIsAuthenticated }) => { // Receive setIsAuthenticated as a p
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
 
   const validateForm = () => {
-    // Validation logic remains the same
+    let isValid = true;
+
     if (!email) {
       setEmailErrorMessage("Email is required.");
-      toast.error("Email is required.")
-      return false;
-    }
-
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(email)) {
-      setEmailErrorMessage("Please enter a valid email address.");
-      toast.error("Please enter a valid email address.")
-      return false;
+      toast.error("Email is required.");
+      isValid = false;
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(email)) {
+        setEmailErrorMessage("Please enter a valid email address.");
+        toast.error("Please enter a valid email address.");
+        isValid = false;
+      } else {
+        setEmailErrorMessage("");
+      }
     }
 
     if (!password) {
-      setEmailErrorMessage("");
       setPasswordErrorMessage("Password is required.");
-      toast.error("Password is required.")
-      return false;
+      toast.error("Password is required.");
+      isValid = false;
+    } else {
+      setPasswordErrorMessage("");
     }
 
-    if (password.length < 8) {
-      setEmailErrorMessage("");
-      setPasswordErrorMessage("Password must be at least 8 characters long.");
-      toast.error("Password must be at least 8 characters long.")
-      return false;
-    }
-
-    setEmailErrorMessage("");
-    setPasswordErrorMessage("");
-    return true;
+    return isValid;
   };
 
-
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      // Update isAuthenticated state
-      setIsAuthenticated(true); // Call setIsAuthenticated here
-      // Optionally, you can navigate to a different page if you want
-      navigate("/dashboard"); // Uncomment this if you want to navigate
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/admin/login", {
+        email,
+        password,
+      });
+
+      const { token } = response.data; // Correctly access token from response
+      if (token) {
+        localStorage.setItem("adminToken", token); // Store token in localStorage
+        setIsAuthenticated(true); // Update authentication state
+        toast.success("Login successful!");
+        navigate("/dashboard"); // Navigate to dashboard
+      }
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || "Login failed. Please try again.";
+      toast.error(errorMessage); // Display error message
     }
   };
 
@@ -63,7 +73,8 @@ const Login = ({ setIsAuthenticated }) => { // Receive setIsAuthenticated as a p
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
+              {/* Email Input */}
               <div>
                 <label
                   htmlFor="email"
@@ -81,10 +92,12 @@ const Login = ({ setIsAuthenticated }) => { // Receive setIsAuthenticated as a p
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
+                {emailErrorMessage && (
+                  <div className="text-red-500 text-sm">{emailErrorMessage}</div>
+                )}
               </div>
-              {emailErrorMessage && (
-                <div className="text-red-500 text-sm">{emailErrorMessage}</div>
-              )}
+
+              {/* Password Input */}
               <div>
                 <label
                   htmlFor="password"
@@ -102,12 +115,12 @@ const Login = ({ setIsAuthenticated }) => { // Receive setIsAuthenticated as a p
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+                {passwordErrorMessage && (
+                  <div className="text-red-500 text-sm">{passwordErrorMessage}</div>
+                )}
               </div>
-              {passwordErrorMessage && (
-                <div className="text-red-500 text-sm">
-                  {passwordErrorMessage}
-                </div>
-              )}
+
+              {/* Remember Me and Forgot Password */}
               <div className="flex items-center justify-between">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
@@ -131,6 +144,8 @@ const Login = ({ setIsAuthenticated }) => { // Receive setIsAuthenticated as a p
                   Forgot password?
                 </a>
               </div>
+
+              {/* Submit Button */}
               <button
                 type="submit"
                 className="w-full text-white bg-[#2563eb] hover:bg-[#1d4ed8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"

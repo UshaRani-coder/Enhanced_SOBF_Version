@@ -1,10 +1,15 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ toggleSidebar, setIsAuthenticated }) => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    // Clear authentication state
+    localStorage.removeItem("adminToken");
     setIsAuthenticated(false);
-    navigate('/login');
+    navigate("/login");
   };
+
   return (
     <div className="bg-white shadow-md p-4 flex justify-between items-center">
       {/* Hamburger Menu Icon */}
@@ -16,7 +21,11 @@ const Header = ({ toggleSidebar, setIsAuthenticated }) => {
         ☰
       </button>
 
-      <button onClick={handleLogout} className="text-white p-2 px-4 rounded-md bg-red-700 hover:bg-red-800 font-semibold">
+      {/* Logout Button */}
+      <button
+        onClick={handleLogout}
+        className="text-white p-2 px-4 rounded-md bg-red-700 hover:bg-red-800 font-semibold"
+      >
         Logout
       </button>
     </div>

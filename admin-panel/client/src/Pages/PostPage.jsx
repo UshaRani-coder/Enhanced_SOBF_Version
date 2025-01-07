@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addPost, getPosts, removePost, updatePost } from '../Reducers/postSlice';
-import { toast } from 'react-toast';
+import { toast } from "react-toastify";
 
 const PostPage = () => {
   const dispatch = useDispatch();

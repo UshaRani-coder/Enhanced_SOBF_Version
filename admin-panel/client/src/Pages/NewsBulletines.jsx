@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addBulletine, getBulletine, removeBulletine, updateBulletine } from '../Reducers/bulletinSlice';
-import { toast } from 'react-toast';
-// import { addBulletine, getBulletine, removeBulletine, updateBulletine, } from '../Reducers/postSlice';
+import { toast } from "react-toastify";
+
 
 const PostPage = () => {
   const dispatch = useDispatch();
