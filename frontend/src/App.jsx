@@ -9,6 +9,15 @@ import loader from "./assets/loader.webp"
 import ActivityDetails from "./pages/ActivityDetails.jsx";
 import Whatsapp from "./Components/Whatsapp.jsx";
 
+
+
+// 
+import Login from "../../admin-panel/client/src/Pages/Login.jsx"
+
+
+
+
+
 // Lazy loading the components
 const HomePage = lazy(() => import("./pages/Home.jsx"));
 const AboutUs = lazy(() => import("./pages/Aboutus.jsx"));
@@ -56,6 +65,9 @@ const App = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path= "/terms-and-conditions" element={<TermsAndConditions />} />
+
+         {/* Updated Code For admin panel */}
+        <Route path="/admin-login" element={<Login />} />
       </Routes>
       <BackgroundMusic />
       <Whatsapp />

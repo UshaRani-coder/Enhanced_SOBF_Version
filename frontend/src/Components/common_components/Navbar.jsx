@@ -109,6 +109,22 @@ const Navbar = () => {
                 Contact
               </NavLink>
             </li>
+
+            {/*  */}
+          <li>
+            <NavLink
+              to="/admin-login"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              onClick={closeMenu}
+            >
+              Admin Login
+            </NavLink>
+          </li>
+
+
+
+
+
             {/* Donate button */}
             <li className="block lg:hidden">
               <Link
