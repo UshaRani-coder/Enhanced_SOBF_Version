@@ -85,176 +85,174 @@ import sysv4 from "../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv4.av
 import ss1 from "../assets/Sobf Images/Sadhu Seva/cropped-ss1.avif"
 import ss2 from "../assets/Sobf Images/Sadhu Seva/cropped-ss2.avif"
 import ss3 from "../assets/Sobf Images/Sadhu Seva/cropped-ss3.avif"
-// import ss4 from "../assets/Sobf Images/Sadhu Seva/cropped-ss4.avif"
-// import ss5 from "../assets/Sobf Images/Sadhu Seva/ss5.avif"
-// import ss6 from "../assets/Sobf Images/Sadhu Seva/ss6.avif"
+
 
 
 export const data = [
-  {
-    id: 1,
-    question:
-      "Why CSR activities are important in Vrindavan, Mathura district?",
-    answer:
-      "CSR activities in Vrindavan and Mathura are vital as they address the pressing needs of the underprivileged communities, particularly in areas like health, education, and sanitation. These initiatives help preserve the cultural and spiritual heritage of the region while improving the quality of life for residents and pilgrims alike.",
-  },
+    {
+        id: 1,
+        question:
+            "Why CSR activities are important in Vrindavan, Mathura district?",
+        answer:
+            "CSR activities in Vrindavan and Mathura are vital as they address the pressing needs of the underprivileged communities, particularly in areas like health, education, and sanitation. These initiatives help preserve the cultural and spiritual heritage of the region while improving the quality of life for residents and pilgrims alike.",
+    },
 
-  {
-    id: 2,
-    question: "Importance of Braj?",
-    answer:
-      "Braj, encompassing Vrindavan and Mathura, holds immense religious significance as the land where Lord Krishna spent his childhood. It is a major pilgrimage destination for millions of devotees worldwide, rich in spiritual history, culture, and traditions. Preserving Braj’s sanctity and supporting its residents through various initiatives is crucial for maintaining its spiritual vibrancy.",
-  },
+    {
+        id: 2,
+        question: "Importance of Braj?",
+        answer:
+            "Braj, encompassing Vrindavan and Mathura, holds immense religious significance as the land where Lord Krishna spent his childhood. It is a major pilgrimage destination for millions of devotees worldwide, rich in spiritual history, culture, and traditions. Preserving Braj’s sanctity and supporting its residents through various initiatives is crucial for maintaining its spiritual vibrancy.",
+    },
 
-  {
-    id: 3,
-    question: "Get to know about Soul of Braj Federation?",
-    answer:
-      "The Soul of Braj Federation is a Section-8 recognized non-profit organization dedicated to serving the poorest communities in Vrindavan and the Braj region. Since 2020, SOBF has been committed to initiatives like providing affordable food, basic education, skill training, health care, and waste management, positively impacting over 1000 beneficiaries daily.",
-  },
+    {
+        id: 3,
+        question: "Get to know about Soul of Braj Federation?",
+        answer:
+            "The Soul of Braj Federation is a Section-8 recognized non-profit organization dedicated to serving the poorest communities in Vrindavan and the Braj region. Since 2020, SOBF has been committed to initiatives like providing affordable food, basic education, skill training, health care, and waste management, positively impacting over 1000 beneficiaries daily.",
+    },
 
-  {
-    id: 4,
-    question: "Place of interest in Mathura & Vrindavan?",
-    answer:
-      "Mathura and Vrindavan are home to numerous sacred sites, including the Krishna Janmabhoomi Temple, Banke Bihari Temple, ISKCON Temple, and the Radha Raman Temple. These places attract pilgrims and tourists seeking spiritual enlightenment and a connection with the divine history of Lord Krishna.",
-  },
+    {
+        id: 4,
+        question: "Place of interest in Mathura & Vrindavan?",
+        answer:
+            "Mathura and Vrindavan are home to numerous sacred sites, including the Krishna Janmabhoomi Temple, Banke Bihari Temple, ISKCON Temple, and the Radha Raman Temple. These places attract pilgrims and tourists seeking spiritual enlightenment and a connection with the divine history of Lord Krishna.",
+    },
 
-  {
-    id: 5,
-    question: "Know about Vrindavan - the land of Lord Krishna?",
-    answer:
-      "Vrindavan is revered as the land where Lord Krishna spent his childhood, performing divine pastimes that are celebrated in Hindu tradition. It is a sacred town filled with temples, holy sites, and a rich cultural heritage that draws devotees from around the world to experience its spiritual ambiance.",
-  },
+    {
+        id: 5,
+        question: "Know about Vrindavan - the land of Lord Krishna?",
+        answer:
+            "Vrindavan is revered as the land where Lord Krishna spent his childhood, performing divine pastimes that are celebrated in Hindu tradition. It is a sacred town filled with temples, holy sites, and a rich cultural heritage that draws devotees from around the world to experience its spiritual ambiance.",
+    },
 
-  {
-    id: 6,
-    question: "How can you contact us?",
-    answer:
-      "You can contact the Soul of Braj Federation through our website’s contact form, by email at [insert email address], or by visiting our office in Vrindavan. We are always open to collaborations, donations, and volunteer support to further our mission of serving the Braj region.",
-  },
+    {
+        id: 6,
+        question: "How can you contact us?",
+        answer:
+            "You can contact the Soul of Braj Federation through our website’s contact form, by email at [insert email address], or by visiting our office in Vrindavan. We are always open to collaborations, donations, and volunteer support to further our mission of serving the Braj region.",
+    },
 ];
 
 export const heroes = [
-  {
-    img: pic1,
-    text: "He has a desire to go to School, your support can fulfill his Dream",
-  },
-  {
-    img: FoodDonation,
-    text: "Your food can fill more than just a plate.",
-  },
-  {
-    img: Nature,
-    text: "Every small act of cleanliness contributes to a healthier world.",
-  },
+    {
+        img: pic1,
+        text: "He has a desire to go to School, your support can fulfill his Dream",
+    },
+    {
+        img: FoodDonation,
+        text: "Your food can fill more than just a plate.",
+    },
+    {
+        img: Nature,
+        text: "Every small act of cleanliness contributes to a healthier world.",
+    },
 ];
 export const heroes_donate = [
-  {
-    img: cee14,
-    text: "Your support unlock's true potential, brighten many futures.",
-  },
-  {
-    img: we1,
-    text: "Empowering Hands, Crafting Futures: Your Donations Stitch Dreams and Opportunities.",
-  },
-  {
-    img: hac4,
-    text: "Spreading Smiles and Health: Your Donations Create Brighter Tomorrows.",
-  },
+    {
+        img: cee14,
+        text: "Your support unlock's true potential, brighten many futures.",
+    },
+    {
+        img: we1,
+        text: "Empowering Hands, Crafting Futures: Your Donations Stitch Dreams and Opportunities.",
+    },
+    {
+        img: hac4,
+        text: "Spreading Smiles and Health: Your Donations Create Brighter Tomorrows.",
+    },
 ];
 
 export const images = [
-  { url: "https://www.sobf.in/images/about4.avif", quote: "Food distribution" },
-  {
-    url: "https://www.sobf.in/images/activity2.avif",
-    quote: "Food distribution",
-  },
-  {
-    url: "https://www.sobf.in/images/activity3.avif",
-    quote: "Food distribution",
-  },
-  {
-    url: "https://www.sobf.in/images/activity1.avif",
-    quote: "Food distribution",
-  },
-  { url: "https://www.sobf.in/images/about2.avif", quote: "Food distribution" },
-  { url: "https://www.sobf.in/images/about3.avif", quote: "Food distribution" },
+    { url: "https://www.sobf.in/images/about4.avif", quote: "Food distribution" },
+    {
+        url: "https://www.sobf.in/images/activity2.avif",
+        quote: "Food distribution",
+    },
+    {
+        url: "https://www.sobf.in/images/activity3.avif",
+        quote: "Food distribution",
+    },
+    {
+        url: "https://www.sobf.in/images/activity1.avif",
+        quote: "Food distribution",
+    },
+    { url: "https://www.sobf.in/images/about2.avif", quote: "Food distribution" },
+    { url: "https://www.sobf.in/images/about3.avif", quote: "Food distribution" },
 ];
 
 export const donors_words = [
-  {
-    image: JohnDoe,
-    name: "John Doe",
-    occupation: "Software Engineer",
-    place: "San Francisco, CA",
-    reviews:
-      "Supporting the Soul of Braj Federation has been a fulfilling experience. Knowing that my contributions help improve the lives of those in need in Vrindavan gives me immense satisfaction.",
-  },
-  {
-    image: JaneSmith,
-    name: "Jane Smith",
-    occupation: "UX Designer",
-    place: "New York, NY",
-    reviews:
-      "It’s inspiring to see how my donations are making a real difference in the lives of women and children in Vrindavan. The organization’s commitment to education and health is truly commendable.",
-  },
-  {
-    image: CarlosMendoza,
-    name: "Carlos Mendoza",
-    occupation: "Project Manager",
-    place: "Austin, TX",
-    reviews:
-      "I’ve always believed in giving back, and the Soul of Braj Federation provides the perfect platform. Their initiatives are well-organized, and I’m proud to support such a dedicated team.",
-  },
-  {
-    image: AishaKhan,
-    name: "Aisha Khan",
-    occupation: "Data Scientist",
-    place: "Seattle, WA",
-    reviews:
-      "Contributing to SOBF has been one of the most impactful decisions I’ve made. The organization’s focus on clean water and sanitation resonates with my values, and I’m happy to be part of this mission.",
-  },
-  {
-    image: LiamOConnor,
-    name: "Liam O’Connor",
-    occupation: "Marketing Specialist",
-    place: "Chicago, IL",
-    reviews:
-      "The work that SOBF is doing in Vrindavan is truly transformative. I’m thrilled to contribute to an organization that is dedicated to uplifting the most vulnerable communities.",
-  },
-  {
-    image: EmilyZhang,
-    name: "Emily Zhang",
-    occupation: "Entrepreneur",
-    place: "Los Angeles, CA",
-    reviews:
-      "As an entrepreneur, I appreciate organizations that create lasting impact. SOBF’s initiatives in skill training and education are paving the way for a brighter future in Vrindavan.",
-  },
-  {
-    image: RaviPatel,
-    name: "Ravi Patel",
-    occupation: "Doctor",
-    place: "Houston, TX",
-    reviews:
-      "The health and hygiene programs run by SOBF are saving lives. I’m honored to support such critical work that ensures the well-being of the Braj region’s residents.",
-  },
-  {
-    image: SophieWillimas,
-    name: "Sophie Williams",
-    occupation: "Teacher",
-    place: "Boston, MA",
-    reviews:
-      "Education is the foundation of progress, and SOBF’s efforts in providing basic education to underprivileged children are commendable. I’m proud to be a donor.",
-  },
-  {
-    image: ArjunMRao,
-    name: "Arjun M Rao",
-    occupation: "Philanthropist",
-    place: "Mumbai, India",
-    reviews:
-      "SOBF’s commitment to creating a clean and healthy Vrindavan aligns with my philanthropic goals. I’m happy to contribute to their vision of a better Braj.",
-  },
+    {
+        image: JohnDoe,
+        name: "John Doe",
+        occupation: "Software Engineer",
+        place: "San Francisco, CA",
+        reviews:
+            "Supporting the Soul of Braj Federation has been a fulfilling experience. Knowing that my contributions help improve the lives of those in need in Vrindavan gives me immense satisfaction.",
+    },
+    {
+        image: JaneSmith,
+        name: "Jane Smith",
+        occupation: "UX Designer",
+        place: "New York, NY",
+        reviews:
+            "It’s inspiring to see how my donations are making a real difference in the lives of women and children in Vrindavan. The organization’s commitment to education and health is truly commendable.",
+    },
+    {
+        image: CarlosMendoza,
+        name: "Carlos Mendoza",
+        occupation: "Project Manager",
+        place: "Austin, TX",
+        reviews:
+            "I’ve always believed in giving back, and the Soul of Braj Federation provides the perfect platform. Their initiatives are well-organized, and I’m proud to support such a dedicated team.",
+    },
+    {
+        image: AishaKhan,
+        name: "Aisha Khan",
+        occupation: "Data Scientist",
+        place: "Seattle, WA",
+        reviews:
+            "Contributing to SOBF has been one of the most impactful decisions I’ve made. The organization’s focus on clean water and sanitation resonates with my values, and I’m happy to be part of this mission.",
+    },
+    {
+        image: LiamOConnor,
+        name: "Liam O’Connor",
+        occupation: "Marketing Specialist",
+        place: "Chicago, IL",
+        reviews:
+            "The work that SOBF is doing in Vrindavan is truly transformative. I’m thrilled to contribute to an organization that is dedicated to uplifting the most vulnerable communities.",
+    },
+    {
+        image: EmilyZhang,
+        name: "Emily Zhang",
+        occupation: "Entrepreneur",
+        place: "Los Angeles, CA",
+        reviews:
+            "As an entrepreneur, I appreciate organizations that create lasting impact. SOBF’s initiatives in skill training and education are paving the way for a brighter future in Vrindavan.",
+    },
+    {
+        image: RaviPatel,
+        name: "Ravi Patel",
+        occupation: "Doctor",
+        place: "Houston, TX",
+        reviews:
+            "The health and hygiene programs run by SOBF are saving lives. I’m honored to support such critical work that ensures the well-being of the Braj region’s residents.",
+    },
+    {
+        image: SophieWillimas,
+        name: "Sophie Williams",
+        occupation: "Teacher",
+        place: "Boston, MA",
+        reviews:
+            "Education is the foundation of progress, and SOBF’s efforts in providing basic education to underprivileged children are commendable. I’m proud to be a donor.",
+    },
+    {
+        image: ArjunMRao,
+        name: "Arjun M Rao",
+        occupation: "Philanthropist",
+        place: "Mumbai, India",
+        reviews:
+            "SOBF’s commitment to creating a clean and healthy Vrindavan aligns with my philanthropic goals. I’m happy to contribute to their vision of a better Braj.",
+    },
 ];
 
 export const our_donors = [
@@ -325,8 +323,8 @@ export const our_donors = [
 
 export const homeGalleryImage = [
     {
-        id:1,
-        title:"child_activites",
+        id: 1,
+        title: "child_activites",
         image: childSobf
     },
     {
@@ -350,7 +348,7 @@ export const homeGalleryImage = [
         image: FoodDonation
     },
     {
-        id:6,
+        id: 6,
         title: "child_activites",
         image: banner1
     },
@@ -358,9 +356,9 @@ export const homeGalleryImage = [
 
 export const galleryImage = [
     {
-        id:1,
-        title:"child_activites",
-        image:one
+        id: 1,
+        title: "child_activites",
+        image: one
     },
     {
         id: 2,
@@ -383,7 +381,7 @@ export const galleryImage = [
         image: five
     },
     {
-        id:6,
+        id: 6,
         title: "child_activites",
         image: six
     },

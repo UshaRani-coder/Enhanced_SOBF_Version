@@ -1,53 +1,71 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../App.css";
-import { heroes } from "../../Constant/data";
+import { useDispatch, useSelector } from "react-redux";
+import { getHeroBanners } from "../../Reducers/heroBannerSlice";
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [textAnimation, setTextAnimation] = useState(false);
-  const imageElement = useRef(null);
+  const { heroBanner, status } = useSelector((state) => state.heroBanner);
+  const dispatch = useDispatch();
+
   const scrollLeft = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + heroes.length) % heroes.length
+      (prevIndex) => (prevIndex - 1 + heroBanner.length) % heroBanner.length
     );
   };
 
   const scrollRight = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % heroes.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner.length);
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      scrollRight();
-    }, 3000); // Change slide every 3 seconds
+    // Fetch hero banners when the component mounts
+    dispatch(getHeroBanners());
+  }, [dispatch]);
 
-    return () => clearInterval(interval);
-  }, [currentIndex]);
+  useEffect(() => {
+    if (heroBanner.length > 0) {
+      const interval = setInterval(() => {
+        scrollRight();
+      }, 3000); // Change slide every 3 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [currentIndex, heroBanner.length]);
 
   useEffect(() => {
     // Animate text when currentIndex changes
-    setTextAnimation(true);
-    const textElement = document.querySelector(".hero-text");
-    textElement.classList.add("text-animate");
-    const handleTextAnimationEnd = () => {
-      textElement.classList.remove("text-animate");
-      textElement.removeEventListener("animationend", handleTextAnimationEnd);
-    };
-    textElement.addEventListener("animationend", handleTextAnimationEnd);
+    if (heroBanner.length > 0) {
+      setTextAnimation(true);
+      const textElement = document.querySelector(".hero-text");
+      textElement.classList.add("text-animate");
+      const handleTextAnimationEnd = () => {
+        textElement.classList.remove("text-animate");
+        textElement.removeEventListener("animationend", handleTextAnimationEnd);
+      };
+      textElement.addEventListener("animationend", handleTextAnimationEnd);
 
-    return () => {
-      textElement.removeEventListener("animationend", handleTextAnimationEnd);
-    };
-  }, [currentIndex]);
+      return () => {
+        textElement.removeEventListener("animationend", handleTextAnimationEnd);
+      };
+    }
+  }, [currentIndex, heroBanner.length]);
+
+  if (status === "loading" || heroBanner.length === 0) {
+    return (
+      <div className="hero flex items-center justify-center w-full h-[100vh]">
+        <p className="text-white font-bold text-xl">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="hero relative flex items-center overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[100px] lg:mt-[120px]">
       <div
         className="hero-img object-cover w-[100%] h-[100%] animate-zoomIn transition-bg-image"
-        ref={imageElement}
-        key={currentIndex}
         style={{
-          backgroundImage: `url(${heroes[currentIndex].img})`,
+          backgroundImage: `url(${heroBanner[currentIndex]?.image})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -83,11 +101,10 @@ const Hero = () => {
         </svg>
       </div>
       <p
-        className={`absolute px-4 font-bold top-[38%] lg:top-[50.5%] xl:top-[42.5%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] md:text-[40px]  lg:text-[50px] lg:w-[700px] ${
-          textAnimation ? "text-animate" : ""
-        }`}
+        className={`absolute px-4 font-bold top-[38%] lg:top-[50.5%] xl:top-[42.5%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] md:text-[40px] lg:text-[50px] lg:w-[700px] ${textAnimation ? "text-animate" : ""
+          }`}
       >
-        {heroes[currentIndex].text}
+        {heroBanner[currentIndex]?.quotes || ""}
       </p>
     </div>
   );

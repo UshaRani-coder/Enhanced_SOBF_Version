@@ -8,13 +8,7 @@ import LegalDoc from "./pages/LegalDoc.jsx";
 import loader from "./assets/loader.webp"
 import ActivityDetails from "./pages/ActivityDetails.jsx";
 import Whatsapp from "./Components/Whatsapp.jsx";
-
-
-
-// 
-import Login from "../../admin-panel/client/src/Pages/Login.jsx"
-
-
+import RecentActivityDetails from "./pages/RecentActivityDetail.jsx";
 
 
 
@@ -55,6 +49,7 @@ const App = () => {
         <Route path="/press-release" element={<Press_Release />} />
         <Route path="/press-release/:id" element={<ActivityDetails />} />
         <Route path="/recent-activities" element={<Recent_Activities />} />
+        <Route path="/recent-activities/:id" element={<RecentActivityDetails />} />
         <Route path="/recent-activities/:id" element={<ActivityDetails />} />
         <Route path="/donate-us" element={<Donateus />} />
         <Route path="/legal-doc" element={<LegalDoc />} />
@@ -65,9 +60,6 @@ const App = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path= "/terms-and-conditions" element={<TermsAndConditions />} />
-
-         {/* Updated Code For admin panel */}
-        <Route path="/admin-login" element={<Login />} />
       </Routes>
       <BackgroundMusic />
       <Whatsapp />
