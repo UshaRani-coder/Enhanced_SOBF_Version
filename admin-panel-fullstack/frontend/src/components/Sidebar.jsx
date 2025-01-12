@@ -2,7 +2,13 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/sobfLogo.avif";
-import { FaHome, FaPen, FaChartBar, FaTable, } from "react-icons/fa";
+import {FaPen, FaChartBar, FaTable, } from "react-icons/fa";
+import { FiTarget } from "react-icons/fi";
+import { FaYoutube } from "react-icons/fa";
+import { IoDocuments } from "react-icons/io5";
+import { FaRegNewspaper } from "react-icons/fa";
+import { GrGallery } from "react-icons/gr";
+import { RiAdminFill } from "react-icons/ri";
 
 
 const Sidebar = ({ isCollapsed, onOptionClick }) => {
@@ -25,7 +31,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
                 : "text-[rgba(255,255,255,0.7)]"
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
             >
-              <FaHome className="text-xl ml-4" />
+              <RiAdminFill className="text-xl ml-4" />
               {!isCollapsed && <span className="ml-4">Admin</span>}
             </Link>
           </li>
@@ -51,7 +57,8 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
                 : "text-[rgba(255,255,255,0.7)]"
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
             >
-              <FaTable className="text-lg ml-4" />
+              {/* <FaTable className="text-lg ml-4" /> */}
+              <FiTarget className="text-xl ml-4 " />
               {!isCollapsed && <span className="ml-4">Our impacts </span>}
             </Link>
           </li>
@@ -64,7 +71,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
                 : "text-[rgba(255,255,255,0.7)]"
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
             >
-              <FaTable className="text-lg ml-4" />
+              <FaYoutube className="text-lg ml-4" />
               {!isCollapsed && <span className="ml-4">Featured Videos</span>}
             </Link>
           </li>
@@ -77,7 +84,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
                 : "text-[rgba(255,255,255,0.7)]"
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
             >
-              <FaTable className="text-lg ml-4" />
+              <IoDocuments className="text-lg ml-4" />
               {!isCollapsed && <span className="ml-4">Legal Docs</span>}
             </Link>
           </li>
@@ -91,7 +98,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
             >
               <FaPen className="text-xl ml-4" />
-              {!isCollapsed && <span className="ml-4">Stories</span>}
+              {!isCollapsed && <span className="ml-4">Recent Activities</span>}
             </Link>
           </li>
           <li>
@@ -103,7 +110,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
                 : "text-[rgba(255,255,255,0.7)]"
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
             >
-              <FaTable className="text-lg ml-4" />
+              <FaRegNewspaper className="text-lg ml-4" />
               {!isCollapsed && <span className="ml-4"> Bulletins </span>}
             </Link>
           </li>
@@ -116,7 +123,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
                 : "text-[rgba(255,255,255,0.7)]"
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
             >
-              <FaTable className="text-lg ml-4" />
+              <GrGallery className="text-lg ml-4" />
               {!isCollapsed && <span className="ml-4"> Gallery </span>}
             </Link>
           </li>

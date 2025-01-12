@@ -97,10 +97,10 @@ const PostPage = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between px-14 pb-4">
-        <h1 className="text-4xl">Recent Activities</h1>
+      <div className="flex justify-between items-center m-4">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold">Recent Activities</h1>
         <button
-          className="px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="text-[12px] md:text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -114,7 +114,7 @@ const PostPage = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 max-h-[90%] md:max-h-full overflow-y-auto md:overflow-y-none">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? 'Update Post' : 'Add New Post'}
             </h2>
@@ -207,9 +207,9 @@ const PostPage = () => {
           posts?.map((post) => (
             <div
               key={post._id}
-              className="border cursor-pointer p-4 mb-4 rounded flex-grow flex-shrink-0 min-w-[250px] max-w-[350px] w-full hover:shadow-lg transition-shadow duration-300 flex-wrap"
+              className="border cursor-pointer p-4 mb-4 rounded  w-[90%] md:w-[60%] lg:w-[30%] hover:shadow-lg transition-shadow duration-300 flex-wrap"
             >
-              <div className="w-full h-34">
+              <div className=" h-34">
                 <img
                   src={
                     post.images && post.images.length > 0
@@ -221,7 +221,7 @@ const PostPage = () => {
                 />
               </div>
 
-              <h3 className="font-bold text-xl overflow-hidden text-ellipsis whitespace-pre w-[90%]">
+              <h3 className="font-bold text-xl overflow-hidden text-ellipsis whitespace-pre w-[90%] mt-2">
                 {post.title}
               </h3>
               <p className="mt-2 italic line-clamp-4">{post.description}</p>

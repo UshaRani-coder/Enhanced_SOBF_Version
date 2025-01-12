@@ -91,10 +91,10 @@ const LegalDoc = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between px-14 pb-4">
-        <h1 className="text-4xl">Legal Documents</h1>
+      <div className="flex justify-between items-center m-4">
+        <h1 className="text-xl md:text-3xl lg:text-4xl font-semibold">Legal Documents</h1>
         <button
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="text-[12px] md:text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -107,7 +107,7 @@ const LegalDoc = () => {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2">
+          <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 max-h-[90%] md:max-h-full overflow-y-auto md:overflow-y-none">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? 'Update Document' : 'Add New Document'}
             </h2>
@@ -161,13 +161,13 @@ const LegalDoc = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap gap-4">
+      {/* <div className="mt-12 flex flex-wrap justify-evenly gap-4">
         {
           legalDocs.length > 0 ? (
             legalDocs.map((doc) => (
               <div
                 key={doc._id}
-                className="flex flex-col justify-between mb-8 w-full sm:w-[48%] lg:w-[30%] p-6 border border-gray-300 bg-white shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 hover:shadow-2xl"
+                className="flex flex-col justify-between mb-8 w-[90%] sm:w-[48%] lg:w-[30%] p-6 border border-gray-300 bg-white shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 hover:shadow-2xl"
               >
                 <h2 className="text-2xl font-semibold mb-4 text-gray-800">{doc.title}</h2>
                 <p className="text-gray-600 mb-6">{doc.description}</p>
@@ -190,7 +190,39 @@ const LegalDoc = () => {
           ) : (
             <p>No documents found.</p>
           )}
-      </div>
+      </div> */}
+      <div className="mt-12 flex flex-wrap justify-evenly gap-4 max-w-full">
+  {
+    legalDocs.length > 0 ? (
+      legalDocs.map((doc) => (
+        <div
+          key={doc._id}
+          className="flex flex-col justify-between mb-8 w-[90%] sm:w-[48%] lg:w-[30%] p-6 border border-gray-300 bg-white shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 hover:shadow-2xl"
+        >
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">{doc.title}</h2>
+          <p className="text-gray-600 mb-6">{doc.description}</p>
+          <div className="mt-4 flex gap-4">
+            <button
+              className="text-blue-600 cursor-pointer"
+              onClick={() => openUpdateModal(doc)}
+            >
+              Update
+            </button>
+            <button
+              className="text-red-600 cursor-pointer"
+              onClick={() => handleDeleteDoc(doc._id)}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ))
+    ) : (
+      <p>No documents found.</p>
+    )
+  }
+</div>
+
     </div>
   );
 };

@@ -77,10 +77,10 @@ const HeroBanner = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between px-14 pb-4">
-        <h1 className="text-4xl">Hero Banners</h1>
+      <div className="flex justify-between items-center mx-4 my-4">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold">Hero Banners</h1>
         <button
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="text-md md:text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -139,7 +139,7 @@ const HeroBanner = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap gap-4">
+      <div className="mt-6 flex flex-wrap justify-evenly gap-4">
         {heroBanner.length > 0 ? (
           heroBanner.map((post) => (
             <div

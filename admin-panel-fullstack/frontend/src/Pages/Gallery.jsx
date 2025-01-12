@@ -70,25 +70,25 @@ const Gallery = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between px-14 pb-4">
-        <h1 className="text-4xl">Hero Banners</h1>
+      <div className="flex justify-between items-center m-4">
+        <h1 className="text-3xl lg:text-4xl font-semibold">Gallery</h1>
         <button
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
             resetForm();
           }}
         >
-          Add Banner
+          Add Images
         </button>
       </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2">
+          <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 ">
             <h2 className="text-xl font-bold mb-4">
-              {isUpdateMode ? 'Update Banner' : 'Add New Banner'}
+              {isUpdateMode ? 'Update Image' : 'Add a new Image'}
             </h2>
             <form>
               <div className="mb-4">
@@ -114,7 +114,7 @@ const Gallery = () => {
                   className="px-4 py-2 bg-blue-600 text-white rounded"
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
                 >
-                  {isUpdateMode ? 'Update Banner' : 'Add Banner'}
+                  {isUpdateMode ? 'Update Image' : 'Add Image'}
                 </button>
               </div>
             </form>
@@ -122,7 +122,7 @@ const Gallery = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap gap-4">
+      <div className="mt-6 flex flex-wrap justify-evenly gap-4">
         {gallery.length > 0 ? (
           gallery.map((post) => (
             <div
