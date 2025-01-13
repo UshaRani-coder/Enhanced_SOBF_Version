@@ -6,20 +6,17 @@ import { toast } from "react-toastify";
 const AdminPage = () => {
   const dispatch = useDispatch();
   const { admins, status } = useSelector((state) => state.admins);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    phone: "",
-  });
+  const [formData, setFormData] = useState({ username: "", email: "", phone: "", });
+
 
   useEffect(() => {
     if (status === "idle") {
       dispatch(getAdmins());
     }
   }, [status, dispatch]);
+
 
   const openModal = (admin = null) => {
     setIsModalOpen(true);
@@ -46,9 +43,7 @@ const AdminPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const { username, email, phone } = formData;
-
     // Validation logic
     if (!username.trim()) {
       alert("Please provide a valid username.");
@@ -56,10 +51,6 @@ const AdminPage = () => {
     }
     if (!email.trim() || !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
       alert("Please provide a valid email address.");
-      return;
-    }
-    if (!phone.trim() || phone.length !== 10 || !/^\d{10}$/.test(phone)) {
-      alert("Please provide a valid 10-digit phone number.");
       return;
     }
 
@@ -72,7 +63,6 @@ const AdminPage = () => {
       dispatch(addAdmin(formData)); // For adding new admins
       toast.success("Successfully added admins data .")
     }
-
     closeModal();
   };
 
@@ -101,7 +91,7 @@ const AdminPage = () => {
         </thead>
         <tbody>
           {admins?.map((admin) => (
-            
+
             <tr key={admin._id} className="border-b text-[10px] md:text-[12px] lg:text-[16px]">
               <td className="py-2 px-2 md:px-4 truncate">{admin.username}</td>
               <td className="py-2 px-2 md:px-4 truncate">{admin.email}</td>
