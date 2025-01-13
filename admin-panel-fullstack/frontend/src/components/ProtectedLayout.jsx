@@ -12,6 +12,7 @@ import LegalDocs from "../Pages/LegalDocs";
 import HeroBanner from "../Pages/HeroBanner";
 import Team from "../Pages/Team";
 import Gallery from "../Pages/Gallery";
+import NotFound from "../Pages/NotFound.jsx";
 
 const ProtectedLayout = ({ setIsAuthenticated }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Sidebar visibility for small screens
@@ -60,7 +61,7 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
             <Route path="/hero-banner" element={<HeroBanner />} />
             <Route path="/bulletine" element={<NewsBulletines />} />
             <Route path="/gallery" element={<Gallery />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>

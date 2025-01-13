@@ -121,7 +121,7 @@ const Gallery = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap justify-evenly gap-4">
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
         {gallery.length > 0 ? (
           gallery.map((post) => (
             <div

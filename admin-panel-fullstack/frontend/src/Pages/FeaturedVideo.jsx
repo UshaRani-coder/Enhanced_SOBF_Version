@@ -67,7 +67,7 @@ const FeaturedVideo = () => {
       <div className="flex justify-between mx-4 items-center my-4">
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold">Featured Videos</h1>
         <button
-          className="text-md md:text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="text-[12px] md:text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -121,7 +121,7 @@ const FeaturedVideo = () => {
       )}
 
       {/* Video List */}
-      <div className="mt-6 flex flex-wrap justify-evenly gap-4">
+      <div className="mt-6 flex flex-wrap  justify-center gap-4">
         {featuredVideo.length > 0 ? (
           featuredVideo.map((video) => (
             <div

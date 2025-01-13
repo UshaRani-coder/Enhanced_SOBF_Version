@@ -135,40 +135,38 @@ const HeroBanner = () => {
         )
       }
 
-      <div className="mt-6 flex flex-wrap justify-evenly gap-4">
-        {
-          heroBanner.length > 0 ? (
-            heroBanner.map((post) => (
-              <div
-                key={post._id}
-                className="border p-4 rounded w-64 hover:shadow-lg"
-              >
-                <img
-                  src={post.image || 'https://via.placeholder.com/150'}
-                  alt="Hero Banner"
-                  className="w-full h-40 object-cover rounded"
-                />
-                <h3 className="mt-2 font-bold text-xl">{post.quotes}</h3>
-                <div className="mt-4 flex gap-4">
-                  <button
-                    className="text-blue-600 hover:underline cursor-pointe"
-                    onClick={() => openUpdateModal(post)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="text-red-600 hover:underline cursor-pointer"
-                    onClick={() => handleDeletePost(post._id)}
-                  >
-                    Delete
-                  </button>
-                </div>
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
+        {heroBanner.length > 0 ? (
+          heroBanner.map((post) => (
+            <div
+              key={post._id}
+              className="border p-4 rounded w-64 hover:shadow-lg"
+            >
+              <img
+                src={post.image || 'https://via.placeholder.com/150'}
+                alt="Hero Banner"
+                className="w-full h-40 object-cover rounded"
+              />
+              <h3 className="mt-2 font-bold text-xl">{post.quotes}</h3>
+              <div className="mt-4 flex gap-4">
+                <button
+                  className="text-blue-600 hover:underline cursor-pointe"
+                  onClick={() => openUpdateModal(post)}
+                >
+                  Update
+                </button>
+                <button
+                  className="text-red-600 hover:underline cursor-pointer"
+                  onClick={() => handleDeletePost(post._id)}
+                >
+                  Delete
+                </button>
               </div>
-            ))
-          ) : (
-            <p>No banners found.</p>
-          )
-        }
+            </div>
+          ))
+        ) : (
+          <p>No banners found.</p>
+        )}
       </div>
     </div>
   );

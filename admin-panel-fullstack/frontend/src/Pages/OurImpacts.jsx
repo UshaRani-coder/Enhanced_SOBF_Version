@@ -141,7 +141,7 @@ const OurImpacts = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap justify-evenly gap-4">
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
         {
           ourImpacts.length > 0 ? (
             ourImpacts.map((impact) => (
