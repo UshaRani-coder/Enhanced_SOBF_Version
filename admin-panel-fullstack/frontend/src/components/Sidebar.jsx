@@ -118,7 +118,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
             <Link
               to="/gallery"
               onClick={onOptionClick}
-              className={`flex items-center pb-2 pt-2 w-[90%] ${location.pathname === "//gallery"
+              className={`flex items-center pb-2 pt-2 w-[90%] ${location.pathname === "/gallery"
                 ? "text-white bg-[rgb(39,39,79)]"
                 : "text-[rgba(255,255,255,0.7)]"
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}

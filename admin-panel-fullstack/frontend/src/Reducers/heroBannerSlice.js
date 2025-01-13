@@ -20,7 +20,7 @@ export const removeHeroBanner = createAsyncThunk(
   'heroBanner/removeHeroBanner',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/post/delete-hero-banner/${id}`, { method: 'DELETE' });
+      const response = await fetch(`https://backend.sobf.in/api/post/delete-hero-banner/${id}`, { method: 'DELETE' });
       if (!response.ok) {
         const errorData = await response.json();
         return rejectWithValue(errorData.message || "Failed to delete hero banner");

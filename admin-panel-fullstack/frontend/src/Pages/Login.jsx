@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import bcrypt from "bcryptjs";
 import CryptoJS from "crypto-js";
 
 
@@ -38,26 +37,27 @@ const Login = ({ setIsAuthenticated }) => {
     } else {
       setPasswordErrorMessage("");
     }
-
     return isValid;
   };
 
 
 
 
+  console.log("import.meta.env.JWT_SECRET", import.meta.env.VITE_JWT_SECRET);
+  
   const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
-
     try {
       // Encrypt the payload
       const encryptedData = CryptoJS.AES.encrypt(
         JSON.stringify({ email, password }),
-        "fgdsgsdfty4362365fhfg"
+        import.meta.env.VITE_JWT_SECRET
+        // "fgdsgsdfty4362365fhfg"
       ).toString();
 
-      const response = await axios.post("http://localhost:5000/api/admin/login", {
+      const response = await axios.post("https://backend.sobf.in/api/admin/login", {
         data: encryptedData,
       });
       console.log("response in login " , response);

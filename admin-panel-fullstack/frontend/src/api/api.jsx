@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiClient = axios.create({ baseURL: 'http://localhost:5000' });
+const apiClient = axios.create({ baseURL: 'https://backend.sobf.in' });
 
 
 apiClient.interceptors.request.use((config) => {
