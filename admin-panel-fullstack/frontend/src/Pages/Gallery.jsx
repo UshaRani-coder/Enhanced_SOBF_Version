@@ -6,7 +6,6 @@ import { addGallery, getGalleryImages, removeGallery, updateGalleryImage } from 
 const Gallery = () => {
   const dispatch = useDispatch();
   const { gallery, status } = useSelector((state) => state.gallery);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);

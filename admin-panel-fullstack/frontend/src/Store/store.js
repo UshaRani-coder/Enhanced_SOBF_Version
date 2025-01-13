@@ -9,6 +9,9 @@ import addLegalDocReducer from '../Reducers/legalDocSlice';
 import teamReducer from "../Reducers/TeamSlice"
 import galleryReducer from "../Reducers/gallerySlice"
 
+
+
+
 const store = configureStore({
   reducer: {
     admins: adminReducer,

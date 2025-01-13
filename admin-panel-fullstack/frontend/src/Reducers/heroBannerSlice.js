@@ -16,10 +16,22 @@ export const updateHeroBanners = createAsyncThunk('heroBanner/updateHeroBanners'
   return response.data;
 });
 
-export const removeHeroBanner = createAsyncThunk('heroBanner/removeHeroBanner', async (id) => {
-  await deleteHeroBanner(id);
-  return id;
-});
+export const removeHeroBanner = createAsyncThunk(
+  'heroBanner/removeHeroBanner',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/post/delete-hero-banner/${id}`, { method: 'DELETE' });
+      if (!response.ok) {
+        const errorData = await response.json();
+        return rejectWithValue(errorData.message || "Failed to delete hero banner");
+      }
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.message || "Network error occurred");
+    }
+  }
+);
+
 
 const heroBannerSlice = createSlice({
   name: 'heroBanner',

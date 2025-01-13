@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import bcrypt from "bcryptjs";
+import CryptoJS from "crypto-js";
+
 
 const Login = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
@@ -39,31 +42,40 @@ const Login = ({ setIsAuthenticated }) => {
     return isValid;
   };
 
+
+
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
-      const response = await axios.post("http://localhost:5000/api/admin/login", {
-        email,
-        password,
-      });
+      // Encrypt the payload
+      const encryptedData = CryptoJS.AES.encrypt(
+        JSON.stringify({ email, password }),
+        "fgdsgsdfty4362365fhfg"
+      ).toString();
 
-      const { token } = response.data; // Correctly access token from response
+      const response = await axios.post("http://localhost:5000/api/admin/login", {
+        data: encryptedData,
+      });
+      console.log("response in login " , response);
+
+      const { token } = response.data;
       if (token) {
-        localStorage.setItem("adminToken", token); // Store token in localStorage
-        setIsAuthenticated(true); // Update authentication state
+        localStorage.setItem("adminToken", token);
+        setIsAuthenticated(true);
         toast.success("Login successful!");
-        navigate("/dashboard"); // Navigate to dashboard
+        navigate("/admin/dashboard");
       }
     } catch (err) {
       const errorMessage = err.response?.data?.message || "Login failed. Please try again.";
-      toast.error(errorMessage); // Display error message
+      toast.error(errorMessage);
     }
   };
+
+
 
   return (
     <section className="bg-gray-100 h-screen">

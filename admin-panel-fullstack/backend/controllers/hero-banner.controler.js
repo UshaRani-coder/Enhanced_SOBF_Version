@@ -59,15 +59,21 @@ const updateHeroBanner = async (req, res) => {
 const deleteHeroBanner = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ success: false, message: "ID is required" });
+    }
+
     const post = await HeroBannerModel.findByIdAndDelete(id);
     if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ success: false, message: "Post not found" });
     }
-    res.status(200).json({ success: true, message: 'Post deleted successfully' });
+
+    res.status(200).json({ success: true, message: "Post deleted successfully" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while deleting post", error: error.message });
+    res.status(500).json({ success: false, message: "Server error", error: error.message });
   }
-}
+};
+
 
 
 module.exports = { createHeroBanner, getHeroBanner, updateHeroBanner, deleteHeroBanner }
