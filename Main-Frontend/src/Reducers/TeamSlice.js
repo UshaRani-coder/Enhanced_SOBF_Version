@@ -10,8 +10,7 @@ export const getTeams = createAsyncThunk('team/getTeam', async () => {
 
 export const createTeamMember = createAsyncThunk('team/addTeam', async (postData) => {
   const response = await createTeam(postData);
-  console.log("postData for create team " + postData);
-  
+  // console.log("postData for create team " + postData);
   return response.data;
 });
 
@@ -19,8 +18,7 @@ export const updateTeamMember = createAsyncThunk(
   'team/updateTeam',
   async ({ id, updatedData }) => {
     const response = await updateTeam(id, updatedData);
-    console.log("response of updateTeam", response);
-    
+    // console.log("response of updateTeam", response);
     return response.data;
   }
 );

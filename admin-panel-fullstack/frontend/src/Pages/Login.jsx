@@ -43,7 +43,7 @@ const Login = ({ setIsAuthenticated }) => {
 
 
 
-  console.log("import.meta.env.JWT_SECRET", import.meta.env.VITE_JWT_SECRET);
+  // console.log("import.meta.env.JWT_SECRET", import.meta.env.VITE_JWT_SECRET);
   
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ const Login = ({ setIsAuthenticated }) => {
       const response = await axios.post("https://backend.sobf.in/api/admin/login", {
         data: encryptedData,
       });
-      console.log("response in login " , response);
+      // console.log("response in login " , response);
 
       const { token } = response.data;
       if (token) {

@@ -41,13 +41,13 @@ const ContactUsPage = () => {
       )
       .then(
         (result) => {
-          console.log(result.text);
+          // console.log(result.text);
           setSubmitMessage("Message sent successfully!");
           setFormData({ name: "", email: "", message: "" }); // Reset form data
           form.current.reset(); // Reset the form fields
         },
         (error) => {
-          console.log(error.message);
+          // console.log(error.message);
           setSubmitMessage("Failed to send. Please try again later.");
           setFormData({ name: "", email: "", message: "" }); // Reset form data
           form.current.reset(); // Reset the form fields
