@@ -275,12 +275,12 @@ const Team = () => {
           <p>No team members found.</p>
         )}
       </div> */}
-      <div className="mt-6 flex flex-wrap justify-evenly gap-10 lg:gap-y-16">
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
         {teams.length > 0 ? (
           teams.map((member) => (
             <div
               key={member._id}
-              className="border p-4 rounded shadow hover:shadow-lg transition-shadow duration-300 max-w-sm flex flex-col justify-between h-[400px]" // Fixed height
+              className="border p-4 rounded shadow hover:shadow-lg transition-shadow duration-300  w-[70%] md:w-[50%] lg:w-[30%] flex flex-col md:h-[350px] " // Fixed height
             >
               <img
                 src={member.image || "https://via.placeholder.com/150"}
@@ -288,8 +288,8 @@ const Team = () => {
                 className="w-full h-[50%] bg-contain rounded" // Fixed image height
               />
               <h3 className="mt-2 font-bold">{member.name}</h3>
-              <p className="italic">{member.role}</p>
-              <div className="flex justify-center gap-x-[12px] mt-2">
+              <p className="italic md:overflow-hidden md:text-ellipsis md:whitespace-nowrap md:max-w-[400px]">{member.role}</p>
+              <div className="flex justify-center gap-x-[12px] mt-6">
                 <a
                   href={member.linkedIn}
                   target="_blank"

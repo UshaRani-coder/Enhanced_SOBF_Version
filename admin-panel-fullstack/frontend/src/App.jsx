@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import ProtectedLayout from "./components/ProtectedLayout";
 import Login from "./Pages/Login.jsx";
+import NotFound from "./Pages/NotFound.jsx";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -56,9 +57,8 @@ const App = () => {
             )
           }
         />
-
-        {/* Fallback Route */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+         {/* Catch-all route for 404 */}
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </Router>
   );

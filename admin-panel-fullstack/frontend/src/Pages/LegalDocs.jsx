@@ -191,13 +191,13 @@ const LegalDoc = () => {
             <p>No documents found.</p>
           )}
       </div> */}
-      <div className="mt-12 flex flex-wrap justify-evenly gap-4 max-w-full">
+      <div className="mt-12 flex flex-wrap justify-center gap-4 ">
   {
     legalDocs.length > 0 ? (
       legalDocs.map((doc) => (
         <div
           key={doc._id}
-          className="flex flex-col justify-between mb-8 w-[90%] sm:w-[48%] lg:w-[30%] p-6 border border-gray-300 bg-white shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 hover:shadow-2xl"
+          className="flex flex-col justify-between mb-8 w-[90%] sm:w-[48%] lg:w-[40%] p-6 border border-gray-300 bg-white shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 hover:shadow-2xl"
         >
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">{doc.title}</h2>
           <p className="text-gray-600 mb-6">{doc.description}</p>

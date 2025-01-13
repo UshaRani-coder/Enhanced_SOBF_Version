@@ -139,7 +139,7 @@ const HeroBanner = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap justify-evenly gap-4">
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
         {heroBanner.length > 0 ? (
           heroBanner.map((post) => (
             <div
