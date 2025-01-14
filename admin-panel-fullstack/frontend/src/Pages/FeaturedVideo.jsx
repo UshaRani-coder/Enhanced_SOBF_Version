@@ -66,9 +66,6 @@ const FeaturedVideo = () => {
 		setURL(video.URL);
 	};
 
-	// Extract the video ID safely
-	const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || "";
-
 	return (
 		<div className="container mx-auto">
 			<div className="flex justify-between mx-4 items-center my-4">
@@ -127,33 +124,42 @@ const FeaturedVideo = () => {
 			)}
 
 			{/* Video List */}
-			<div className="mt-6 flex flex-wrap  justify-center gap-4">
-				{featuredVideo.length > 0 ? (
-					featuredVideo.map((video) => (
-						<div
-							key={video._id}
-							className="border p-4 rounded w-64  hover:shadow-lg transition-shadow duration-300 flex-wrap">
-							<iframe
-								src={`https://www.youtube.com/embed/${videoId}`}
-								frameBorder="0"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-								allowFullScreen
-								title="YouTube Video"
-								className="w-full h-40 object-cover rounded"></iframe>
-							<div className="mt-2 flex gap-4">
-								<button
-									className="text-blue-600 hover:underline"
-									onClick={() => openUpdateModal(video)}>
-									Update
-								</button>
-								<button
-									className="text-red-600 hover:underline"
-									onClick={() => handleDeleteVideo(video._id)}>
-									Delete
-								</button>
+			<div className="mt-6 flex flex-wrap justify-center gap-4">
+				{featuredVideo?.length > 0 ? (
+					featuredVideo.map((video) => {
+						// Safely extract video ID
+						const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || "";
+
+						return (
+							<div
+								key={video?._id}
+								className="border p-4 rounded w-64 hover:shadow-lg transition-shadow duration-300 flex-wrap">
+								{videoId ? (
+									<iframe
+										src={`https://www.youtube.com/embed/${videoId}`}
+										frameBorder="0"
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+										allowFullScreen
+										title="YouTube Video"
+										className="w-full h-40 object-cover rounded"></iframe>
+								) : (
+									<p className="text-red-500 text-center">Invalid Video URL</p>
+								)}
+								<div className="mt-2 flex gap-4">
+									<button
+										className="text-blue-600 hover:underline"
+										onClick={() => openUpdateModal(video)}>
+										Update
+									</button>
+									<button
+										className="text-red-600 hover:underline"
+										onClick={() => handleDeleteVideo(video._id)}>
+										Delete
+									</button>
+								</div>
 							</div>
-						</div>
-					))
+						);
+					})
 				) : (
 					<p>No videos found</p>
 				)}
