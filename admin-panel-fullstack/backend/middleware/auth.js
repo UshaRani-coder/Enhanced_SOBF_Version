@@ -8,7 +8,7 @@ const protectedRoute = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Attach user details for further use
+    req.user = decoded; 
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid token." });

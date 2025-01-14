@@ -1,5 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getHeroBanner, createHeroBanner, updateHeroBanner, deleteHeroBanner } from '../api/api';
+import { getHeroBanner, createHeroBanner, updateHeroBanner } from '../api/api';
+import axios from "axios"
+
+
+const apiClient = axios.create({ baseURL: 'https://backend.sobf.in' }); 
+
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('adminToken');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+
+
+
+
+
 
 export const getHeroBanners = createAsyncThunk('heroBanner/getHeroBanners', async () => {
   const response = await getHeroBanner();
@@ -13,6 +29,8 @@ export const addHeroBanner = createAsyncThunk('heroBanner/addHeroBanner', async 
 
 export const updateHeroBanners = createAsyncThunk('heroBanner/updateHeroBanners', async ({ id, updatedData }) => {
   const response = await updateHeroBanner(id, updatedData);
+  console.log("resposen data: " + response);
+  
   return response.data;
 });
 
@@ -20,13 +38,12 @@ export const removeHeroBanner = createAsyncThunk(
   'heroBanner/removeHeroBanner',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await fetch(`https://backend.sobf.in/api/post/delete-hero-banner/${id}`, { method: 'DELETE' });
-      if (!response.ok) {
-        const errorData = await response.json();
-        return rejectWithValue(errorData.message || "Failed to delete hero banner");
-      }
-      return id;
+      const response = await apiClient.delete(`/api/post/delete-hero-banner/${id}`);
+      return response.data; 
     } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data.message || "Failed to delete hero banner");
+      }
       return rejectWithValue(error.message || "Network error occurred");
     }
   }

@@ -10,8 +10,8 @@ const createNewsBulletine = async (req, res) => {
       return res.status(400).json({ error: 'All fields including files are required' });
     }
     const images = req.images
-    const videos = req.videos
-    const post = new bulletineModal({ title, description, images, videos });
+    // const videos = req.videos
+    const post = new bulletineModal({ title, description, images });
     await post.save();
     res.status(201).json({ success: true, message: 'News/Bulletine created successfully', post });
   } catch (error) {
@@ -40,9 +40,9 @@ const updateNewsBulletine = async (req, res) => {
     }
     // if (req.files) {
     const images = req.images
-    const videos = req.videos
+    // const videos = req.videos
     if (images) updates.images = images
-    if (videos) updates.videos = videos
+    // if (videos) updates.videos = videos
     // }
     const updatedPost = await bulletineModal.findByIdAndUpdate(id, updates, { new: true });
     if (!updatedPost) {

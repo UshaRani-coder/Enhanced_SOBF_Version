@@ -32,7 +32,7 @@ router.delete('/delete-news-post/:id', protectedRoute, deleteNewsBulletine);
 // ! Hero banner 
 router.post("/create-banner", protectedRoute, upload.single('image'), uploadSingleFile, createHeroBanner)
 router.get("/get-hero-banner",  getHeroBanner)
-router.put("/update-hero-banner/:id", protectedRoute, upload.single('image'), uploadSingleFile, updateHeroBanner)
+router.put("/update-hero-banner/:id", upload.single('image'), uploadSingleFile, updateHeroBanner)
 router.delete("/delete-hero-banner/:id", protectedRoute, deleteHeroBanner)
 
 

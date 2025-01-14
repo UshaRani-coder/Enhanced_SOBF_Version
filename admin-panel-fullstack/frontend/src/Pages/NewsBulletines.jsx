@@ -15,7 +15,7 @@ const PostPage = () => {
     title: '',
     description: '',
     images: '',
-    videos: '',
+    // videos: '',
   });
 
   // ! fetching all posts from backend throught redux
@@ -32,7 +32,7 @@ const PostPage = () => {
     newBulletine.append('title', formData.title);
     newBulletine.append('description', formData.description);
     if (formData.images) newBulletine.append('images', formData.images);
-    if (formData.videos) newBulletine.append('videos', formData.videos);
+    // if (formData.videos) newBulletine.append('videos', formData.videos);
 
     dispatch(addBulletine(newBulletine));
     setIsModalOpen(false);
@@ -47,7 +47,7 @@ const PostPage = () => {
 
     // Append images and videos if they exist
     if (formData.images) updatedBulletine.append('images', formData.images);
-    if (formData.videos) updatedBulletine.append('videos', formData.videos);
+    // if (formData.videos) updatedBulletine.append('videos', formData.videos);
 
     // Dispatch updated data
     dispatch(updateBulletine({ id: currentPost._id, updatedData: updatedBulletine }));
@@ -75,7 +75,8 @@ const PostPage = () => {
   };
   // ! reset the form to initial stage
   const resetForm = () => {
-    setFormData({ title: '', description: '', images: null, videos: null });
+    // , videos: null 
+    setFormData({ title: '', description: '', images: null});
     setCurrentPost(null);
   };
 
@@ -87,7 +88,7 @@ const PostPage = () => {
       title: post.title,
       description: post.description,
       images: null,
-      videos: null,
+      // videos: null,
     });
   };
 
@@ -161,7 +162,7 @@ const PostPage = () => {
               </div>
 
               {/* Videos */}
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label className="block font-semibold mb-2" htmlFor="videos">
                   Video
                 </label>
@@ -173,7 +174,7 @@ const PostPage = () => {
                   onChange={handleFileChange}
                   className="w-full"
                 />
-              </div>
+              </div> */}
 
               {/* Actions */}
               <div className="flex justify-end gap-2">
