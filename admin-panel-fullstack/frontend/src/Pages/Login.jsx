@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CryptoJS from "crypto-js";
-
+import Logo from '../assets/logo.avif'
 
 const Login = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
@@ -82,6 +82,7 @@ const Login = ({ setIsAuthenticated }) => {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <img src={Logo} alt="logo" className="mx-auto w-[70px] md:w-[100px]" />
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Sign in to your account
             </h1>
@@ -133,7 +134,7 @@ const Login = ({ setIsAuthenticated }) => {
               </div>
 
               {/* Remember Me and Forgot Password */}
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
@@ -155,7 +156,7 @@ const Login = ({ setIsAuthenticated }) => {
                 >
                   Forgot password?
                 </a>
-              </div>
+              </div> */}
 
               {/* Submit Button */}
               <button

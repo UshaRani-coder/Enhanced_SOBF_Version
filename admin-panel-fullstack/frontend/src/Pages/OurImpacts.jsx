@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
 import { addOurImpact, getOurImpact, removeOurImpact, updateOurImpact, } from '../Reducers/ourImpactsSlice';
-
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 const OurImpacts = () => {
   const dispatch = useDispatch();
   const { ourImpacts, status } = useSelector((state) => state.ourImpacts);
@@ -73,9 +74,9 @@ const OurImpacts = () => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between mx-4 items-center my-4">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold">Our Impacts</h1>
+        <h1 className="text-2xl small-range:text-3xl  lg:text-4xl font-semibold">Our Impacts</h1>
         <button
-          className="text-md md:text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[13px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
           onClick={() => openModal()}
         >
           Add Impact
@@ -141,13 +142,13 @@ const OurImpacts = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap justify-center gap-4">
+      <div className="mt-6 flex flex-wrap justify-center gap-4 ">
         {
           ourImpacts.length > 0 ? (
             ourImpacts.map((impact) => (
               <div
                 key={impact._id}
-                className="border p-4 rounded w-64 hover:shadow-lg"
+                className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center"
               >
                 <img
                   src={impact.image || 'https://via.placeholder.com/150'}
@@ -155,20 +156,21 @@ const OurImpacts = () => {
                   className="w-full h-40 object-cover rounded"
                 />
                 <h3 className="mt-2 font-bold text-xl">{impact.total_services}</h3>
-                <p className="mt-2">{impact.description}</p>
+                <p className=" line-clamp-2 mt-2 ">{impact.description}</p>
                 <div className="mt-4 flex gap-4">
-                  <button
-                    className="text-blue-600"
-                    onClick={() => openModal(impact)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="text-red-600"
-                    onClick={() => handleDelete(impact._id)}
-                  >
-                    Delete
-                  </button>
+                <button
+                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
+                  onClick={() => openModal(impact)}
+                >
+                  <MdEdit className="text-blue-800 text-2xl" />
+                </button>
+
+                <button
+                  className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
+                  onClick={() => handleDelete(impact._id)}
+                >
+                  <MdDelete className="text-red-800 text-2xl" />
+                </button>
                 </div>
               </div>
             ))

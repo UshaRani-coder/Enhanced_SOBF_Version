@@ -8,7 +8,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'small-range': '375px', 
+        'small-max': '425px' , 
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/line-clamp'),

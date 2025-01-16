@@ -7,6 +7,8 @@ import {
   removeTeamMember,
   updateTeamMember,
 } from "../Reducers/TeamSlice";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 const Team = () => {
   const dispatch = useDispatch();
@@ -110,11 +112,11 @@ const Team = () => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center mx-4 my-4">
-        <h1 className="text-lg md:text-3xl lg:text-4xl font-semibold">
+        <h1 className="text-xl small-range:text-2xl md:text-3xl lg:text-4xl font-semibold">
           Our Team Members
         </h1>
-        <button
-          className="text-[12px] md:text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+        {/* <button
+          className="text-[12px] small-range:md md:text-lg px-4  py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -122,13 +124,24 @@ const Team = () => {
           }}
         >
           Add Member
-        </button>
+        </button> */}
+        <button
+  className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[13px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
+  onClick={() => {
+    setIsModalOpen(true);
+    setIsUpdateMode(false);
+    resetForm();
+  }}
+>
+  {/* <FaUserPlus className="text-white text-2xl" /> */}
+  Add Member
+</button>
       </div>
 
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 max-h-[90%] md:max-h-full overflow-y-auto md:overflow-y-none">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 max-h-[90%] md:max-h-full overflow-y-auto md:overflow-y-hidden">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? "Update Team Member" : "Add New Team Member"}
             </h2>
@@ -275,21 +288,38 @@ const Team = () => {
           <p>No team members found.</p>
         )}
       </div> */}
-      <div className="mt-6 flex flex-wrap justify-center gap-4">
+      <div className="mt-6 flex flex-col items-center p-6 small-max:p-0 md:p-6 justify-center md:flex-row md:flex-wrap md:justify-center  lg:w-[100%] md:gap-x-[40px] gap-y-[45px] md:gap-y-[60px] lg:gap-y-[40px] lg:gap-x-[100px]">
         {teams.length > 0 ? (
           teams.map((member) => (
             <div
               key={member._id}
-              className="border p-4 rounded shadow hover:shadow-lg transition-shadow duration-300  w-[70%] md:w-[50%] lg:w-[30%] flex flex-col md:h-[350px] " // Fixed height
+              className="flex items-center flex-col gap-y-[5px] md:gap-y-[10px]  w-[300px]" // Fixed height
             >
-              <img
+              {/* <img
                 src={member.image || "https://via.placeholder.com/150"}
                 alt={member.name}
                 className="w-full h-[50%] bg-contain rounded" // Fixed image height
-              />
-              <h3 className="mt-2 font-bold">{member.name}</h3>
-              <p className="italic md:overflow-hidden md:text-ellipsis md:whitespace-nowrap md:max-w-[400px]">{member.role}</p>
-              <div className="flex justify-center gap-x-[12px] mt-6">
+              /> */}
+              <div
+                className="w-[200px] h-[200px] rounded-full"
+                style={{
+                  backgroundImage: `url(${
+                    member.image || "https://via.placeholder.com/150"
+                  })`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                }}
+              ></div>
+              <div className="flex flex-col  items-center">
+                <span className=" font-bold mt-[10px] text-[16px] lg:text-[18px]">
+                  {member.name}
+                </span>
+                <p className="text-[14px] md:text-[16px] break-words max-w-[280px] text-center">
+                  {member.role}
+                </p>
+              </div>
+              <div className="flex justify-center gap-x-[12px] ">
                 <a
                   href={member.linkedIn}
                   target="_blank"
@@ -370,18 +400,19 @@ const Team = () => {
                   </svg>
                 </a>
               </div>
-              <div className="mt-2 flex justify-center gap-4">
+              <div className=" flex justify-center gap-4">
                 <button
-                  className="text-blue-600 hover:underline"
+                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
                   onClick={() => openUpdateModal(member)}
                 >
-                  Update
+                  <MdEdit className="text-blue-800 text-2xl" />
                 </button>
+
                 <button
-                  className="text-red-600 hover:underline"
+                  className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
                   onClick={() => handleDeleteTeamMember(member._id)}
                 >
-                  Delete
+                  <MdDelete className="text-red-800 text-2xl" />
                 </button>
               </div>
             </div>

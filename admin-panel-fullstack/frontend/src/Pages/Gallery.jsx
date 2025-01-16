@@ -1,7 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { addGallery, getGalleryImages, removeGallery, updateGalleryImage } from '../Reducers/gallerySlice';
+import {
+  addGallery,
+  getGalleryImages,
+  removeGallery,
+  updateGalleryImage,
+} from "../Reducers/gallerySlice";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 const Gallery = () => {
   const dispatch = useDispatch();
@@ -9,37 +16,37 @@ const Gallery = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
-  const [formData, setFormData] = useState({image: null });
+  const [formData, setFormData] = useState({ image: null });
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === "idle") {
       dispatch(getGalleryImages());
     }
   }, [status, dispatch]);
 
   const handleAddPost = () => {
     const formDataToSend = new FormData();
-    if (formData.image) formDataToSend.append('image', formData.image);
+    if (formData.image) formDataToSend.append("image", formData.image);
 
     dispatch(addGallery(formDataToSend));
-    toast.success('Successfully added gallery image');
+    toast.success("Successfully added gallery image");
     setIsModalOpen(false);
     resetForm();
   };
 
   const handleUpdatePost = () => {
     const updatedData = new FormData();
-    if (formData.image) updatedData.append('image', formData.image);
+    if (formData.image) updatedData.append("image", formData.image);
 
     dispatch(updateGalleryImage({ id: currentPost._id, updatedData }));
-    toast.success('Successfully updated  gallery image');
+    toast.success("Successfully updated  gallery image");
     setIsModalOpen(false);
     resetForm();
   };
 
   const handleDeletePost = (id) => {
     dispatch(removeGallery(id));
-    toast.success('Successfully deleted  gallery image');
+    toast.success("Successfully deleted  gallery image");
   };
 
   const handleInputChange = (e) => {
@@ -53,7 +60,7 @@ const Gallery = () => {
   };
 
   const resetForm = () => {
-    setFormData({ quotes: '', image: null });
+    setFormData({ quotes: "", image: null });
     setCurrentPost(null);
   };
 
@@ -62,7 +69,7 @@ const Gallery = () => {
     setIsUpdateMode(true);
     setCurrentPost(post);
     setFormData({
-      quotes: post.quotes || '',
+      quotes: post.quotes || "",
       image: null,
     });
   };
@@ -72,7 +79,7 @@ const Gallery = () => {
       <div className="flex justify-between items-center m-4">
         <h1 className="text-3xl lg:text-4xl font-semibold">Gallery</h1>
         <button
-          className="text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -87,7 +94,7 @@ const Gallery = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 ">
             <h2 className="text-xl font-bold mb-4">
-              {isUpdateMode ? 'Update Image' : 'Add a new Image'}
+              {isUpdateMode ? "Update Image" : "Add a new Image"}
             </h2>
             <form>
               <div className="mb-4">
@@ -113,7 +120,7 @@ const Gallery = () => {
                   className="px-4 py-2 bg-blue-600 text-white rounded"
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
                 >
-                  {isUpdateMode ? 'Update Image' : 'Add Image'}
+                  {isUpdateMode ? "Update Image" : "Add Image"}
                 </button>
               </div>
             </form>
@@ -126,25 +133,25 @@ const Gallery = () => {
           gallery.map((post) => (
             <div
               key={post._id}
-              className="border p-4 rounded w-64 hover:shadow-lg"
+              className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center"
             >
               <img
-                src={post.image || 'https://via.placeholder.com/150'}
+                src={post.image || "https://via.placeholder.com/150"}
                 alt="Hero Banner"
                 className="w-full h-40 object-cover rounded"
               />
-              <div className="mt-4 flex gap-4">
+              <div className="mt-6 flex gap-4">
                 <button
-                  className="text-blue-600 hover:underline cursor-pointe"
+                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
                   onClick={() => openUpdateModal(post)}
                 >
-                  Update
+                  <MdEdit className="text-blue-800 text-2xl" />
                 </button>
                 <button
-                  className="text-red-600 hover:underline cursor-pointer"
+                  className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
                   onClick={() => handleDeletePost(post._id)}
                 >
-                  Delete
+                  <MdDelete className="text-red-800 text-2xl" />
                 </button>
               </div>
             </div>

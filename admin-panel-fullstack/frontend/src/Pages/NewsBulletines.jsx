@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addBulletine, getBulletine, removeBulletine, updateBulletine } from '../Reducers/bulletinSlice';
 import { toast } from "react-toastify";
-
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 const PostPage = () => {
   const dispatch = useDispatch();
@@ -95,9 +96,9 @@ const PostPage = () => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center m-4">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold">News Posts</h1>
+        <h1 className="text-3xl  lg:text-4xl font-semibold">News Posts</h1>
         <button
-          className="text-[12px] md:text-lg px-4 py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -224,17 +225,19 @@ const PostPage = () => {
             <p className="mt-2 italic line-clamp-4">{post.description}</p>
             <div className="mt-2 flex gap-4">
               <button
-                className="text-blue-600 hover:underline"
+                 className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
                 onClick={() => openUpdateModal(post)}
               >
-                Update
+               <MdEdit className="text-blue-800 text-2xl" />
               </button>
               <button
-                className="text-red-600 hover:underline"
+                 className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
                 onClick={() => handleDeleteBulletine(post._id)}
               >
-                Delete
+               <MdDelete className="text-red-800 text-2xl" />
               </button>
+              
+              
             </div>
           </div>
         ))
