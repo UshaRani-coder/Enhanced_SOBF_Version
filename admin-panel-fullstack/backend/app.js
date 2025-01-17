@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/admin", admin_router); //  admin routes
 app.use("/api/post", router); // post routes & bulleting routes
 
-app.get("/", (req, res) => res.send("Checking Jenkins Pipeline - ✅"));
+app.get("/", (req, res) => res.send("Final Check CI/CD - ✅"));
 
 app.listen(PORT, console.log(`Server running on port ${PORT}`));
 connectDB();
