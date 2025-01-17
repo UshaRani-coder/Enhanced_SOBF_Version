@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/admin", admin_router); //  admin routes
 app.use("/api/post", router); // post routes & bulleting routes
 
-app.get("/", (req, res) => res.send("SOBF Backend Working Fine - ✅"));
+app.get("/", (req, res) => res.send("Checking Health - Backend Working Fine - ✅"));
 
 app.listen(PORT, console.log(`Server running on port ${PORT}`));
 connectDB();
