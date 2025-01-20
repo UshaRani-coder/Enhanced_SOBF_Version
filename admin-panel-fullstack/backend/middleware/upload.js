@@ -2,7 +2,7 @@ const cloudinary = require("cloudinary").v2;
 const asyncHandler = require("express-async-handler");
 
 cloudinary.config({
-	cloud_name: "backend-SOBF",
+	cloud_name: "dgua57bwf",
 	api_key: "575246365656966",
 	api_secret: "oshbw_mwIoK6Cl8pJCXaRnDEZ8o",
 });
@@ -60,6 +60,7 @@ const uploadSingleFile = asyncHandler(async (req, res, next) => {
 		req.image = result.secure_url;
 		next();
 	} catch (error) {
+		console.log(">>>> error check in upload single file", error)
 		res.status(500).json({
 			message: "Internal error in uploadSingleFile middleware",
 			error: error.message,
