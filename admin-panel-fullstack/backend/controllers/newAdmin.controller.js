@@ -27,13 +27,15 @@ const registerAdmin = async (req, res) => {
 const loginAdmin = async (req, res) => {
   try {
     // Decrypt the incoming data
+    console.log(req.body);
     const bytes = CryptoJS.AES.decrypt(req.body.data, "fgdsgsdfty4362365fhfg");
     const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
     const { email, password } = decryptedData;
-
+    console.log({decryptedData})
     // Proceed with authentication logic as usual
     const admin = await Admin.findOne({ email });
+    console.log({admin})
     if (!admin) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
