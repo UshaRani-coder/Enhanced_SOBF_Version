@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import {
-  addHeroBanner,
-  getHeroBanners,
-  updateHeroBanners,
-  removeHeroBanner,
-} from "../Reducers/heroBannerSlice";
+import {addHeroBanner,getHeroBanners, updateHeroBanners,removeHeroBanner,} from "../Reducers/heroBannerSlice";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
@@ -21,35 +16,81 @@ const HeroBanner = () => {
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(getHeroBanners());
+      dispatch(getHeroBanners()); // ? getting post 
     }
   }, [status, dispatch]);
 
+
+
+  // ? adding post
   const handleAddPost = () => {
+    if (!formData.quotes.trim()) {
+      toast.error("Quote is required and cannot be empty");
+      return;
+    }
+    if (!formData.image) {
+      toast.error("Image is required");
+      return;
+    }
     const formDataToSend = new FormData();
     formDataToSend.append("quotes", formData.quotes);
-    if (formData.image) formDataToSend.append("image", formData.image);
-    dispatch(addHeroBanner(formDataToSend));
-    toast.success("Successfully added Hero Banner");
-    setIsModalOpen(false);
-    resetForm();
+    formDataToSend.append("image", formData.image);
+
+    dispatch(addHeroBanner(formDataToSend))
+      .unwrap()
+      .then(() => {
+        toast.success("Hero Banner added successfully!");
+        setIsModalOpen(false);
+        resetForm();
+      })
+      .catch((error) => {
+        toast.error(error || "Failed to add Hero Banner");
+      });
   };
 
+
+  // ? updating post 
   const handleUpdatePost = () => {
+    if (!formData.quotes.trim()) {
+      toast.error("Quote is required and cannot be empty");
+      return;
+    }
+
     const updatedData = new FormData();
     updatedData.append("quotes", formData.quotes);
     if (formData.image) updatedData.append("image", formData.image);
 
-    dispatch(updateHeroBanners({ id: currentPost._id, updatedData }));
-    toast.success("Successfully updated Hero Banner");
-    setIsModalOpen(false);
-    resetForm();
+    dispatch(updateHeroBanners({ id: currentPost._id, updatedData }))
+      .unwrap()
+      .then(() => {
+        toast.success("Hero Banner updated successfully!");
+        setIsModalOpen(false);
+        resetForm();
+      })
+      .catch((error) => {
+        toast.error(error || "Failed to update Hero Banner");
+      });
   };
 
+
+//  ? deleting 
   const handleDeletePost = (id) => {
-    dispatch(removeHeroBanner(id));
-    toast.success("Successfully deleted Hero Banner");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this Hero Banner? This action cannot be undone."
+    );
+
+    if (confirmDelete) {
+      dispatch(removeHeroBanner(id))
+        .unwrap()
+        .then(() => {
+          toast.success("Hero Banner deleted successfully!");
+        })
+        .catch((error) => {
+          toast.error(error || "Failed to delete Hero Banner");
+        });
+    }
   };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -116,6 +157,7 @@ const HeroBanner = () => {
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                   maxLength={maxLength}
+                  placeholder="Enter quotes here ..."
                 />
                 <p className="mt-2 text-sm text-gray-500">
                   {maxLength - formData.quotes.length} characters remaining

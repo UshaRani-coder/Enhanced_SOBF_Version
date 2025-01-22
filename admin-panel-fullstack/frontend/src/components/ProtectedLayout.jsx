@@ -4,8 +4,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import NewsBulletines from "../Pages/NewsBulletines";
-import PostPage from "../Pages/PostPage";
-import AdminPage from "../Pages/AdminPage";
 import OurImpacts from "../Pages/OurImpacts";
 import FeaturedVideo from "../Pages/FeaturedVideo";
 import LegalDocs from "../Pages/LegalDocs";
@@ -13,6 +11,11 @@ import HeroBanner from "../Pages/HeroBanner";
 import Team from "../Pages/Team";
 import Gallery from "../Pages/Gallery";
 import NotFound from "../Pages/NotFound.jsx";
+import RecentActivityPostPage from "../Pages/RecentActivityPostPage.jsx";
+import OurService from "../Pages/OurServices.jsx"
+
+
+
 
 const ProtectedLayout = ({ setIsAuthenticated }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Sidebar visibility for small screens
@@ -54,13 +57,14 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
         <div className="flex-1 pt-2 pb-2 md:p-4 overflow-auto">
           <Routes>
             <Route path="/dashboard" element={<Team />} />
-            <Route path="/recent-activities" element={<PostPage />} />
+            <Route path="/recent-activities" element={<RecentActivityPostPage />} />
             <Route path="/our-impacts" element={<OurImpacts />} />
             <Route path="/featured-videos" element={<FeaturedVideo />} />
             <Route path="/legalDoc" element={<LegalDocs />} />
             <Route path="/hero-banner" element={<HeroBanner />} />
             <Route path="/bulletine" element={<NewsBulletines />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/our-services" element={<OurService />}/>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

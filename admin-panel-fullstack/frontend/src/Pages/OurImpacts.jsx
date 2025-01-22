@@ -1,58 +1,103 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { addOurImpact, getOurImpact, removeOurImpact, updateOurImpact, } from '../Reducers/ourImpactsSlice';
-import { MdEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
+import {addOurImpact,getOurImpact,updateOurImpact,removeOurImpact,} from "../Reducers/ourImpactsSlice";
+import { MdEdit, MdDelete } from "react-icons/md";
+
 const OurImpacts = () => {
   const dispatch = useDispatch();
   const { ourImpacts, status } = useSelector((state) => state.ourImpacts);
+  const maxLength = 100;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentImpact, setCurrentImpact] = useState(null);
-  const [formData, setFormData] = useState({ total_services: '', description: '', image: null, });
+  const [formData, setFormData] = useState({
+    total_services: "",
+    description: "",
+    image: null,
+  });
 
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(getOurImpact());
+    if (status === "idle") {
+      dispatch(getOurImpact()); //? getting posts 
     }
   }, [status, dispatch]);
 
-  const resetForm = () => {
-    setFormData({ total_services: '', description: '', image: null });
-    setCurrentImpact(null);
-  };
 
-  const handleSubmit = () => {
-    const data = new FormData();
-    data.append('total_services', formData.total_services);
-    data.append('description', formData.description);
-    if (formData.image) data.append('image', formData.image);
-
-    if (isUpdateMode) {
-      dispatch(updateOurImpact({ id: currentImpact._id, updatedData: data }))
-        .then(() => toast.success('Successfully updated Our Impact'))
-        .catch(() => toast.error('Failed to update Our Impact'));
-    } else {
-      dispatch(addOurImpact(data))
-        .then(() => toast.success('Successfully added Our Impact'))
-        .catch(() => toast.error('Failed to add Our Impact'));
+  //? adding post 
+  const handleAddPost = () => {
+    if (!formData.total_services.trim()) {
+      toast.error("Total services is required and cannot be empty");
+      return;
     }
-
-    setIsModalOpen(false);
-    resetForm();
+    if (!formData.description.trim()) {
+      toast.error("Description is required and cannot be empty");
+      return;
+    }
+    if (!formData.image) {
+      toast.error("Image is required");
+      return;
+    }
+    const formDataToSend = new FormData();
+    formDataToSend.append("total_services", formData.total_services);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("image", formData.image);
+    dispatch(addOurImpact(formDataToSend))
+      .unwrap()
+      .then(() => {
+        toast.success("Our impact added successfully!");
+        setIsModalOpen(false);
+        resetForm();
+      })
+      .catch((error) => {
+        toast.error(error || "Failed to add our impact");
+      });
   };
 
+  // ? updating post 
+  const handleUpdatePost = () => {
+    const updatedData = new FormData();
+    updatedData.append("total_services", formData.total_services);
+    updatedData.append("description", formData.description);
+    if (formData.image) updatedData.append("image", formData.image);
+    dispatch(updateOurImpact({ id: currentImpact._id, updatedData }))
+      .unwrap()
+      .then(() => {
+        toast.success("Our impact updated successfully!");
+        setIsModalOpen(false);
+        resetForm();
+      })
+      .catch((error) => {
+        toast.error(error || "Failed to update our impact");
+      });
+  };
+
+  // ? deleting post 
   const handleDelete = (id) => {
-    dispatch(removeOurImpact(id))
-      .then(() => toast.success('Successfully deleted Our Impact'))
-      .catch(() => toast.error('Failed to delete Our Impact'));
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this impact? This action cannot be undone."
+    );
+    if (confirmDelete) {
+      dispatch(removeOurImpact(id))
+        .unwrap()
+        .then(() => {
+          toast.success("Our impact deleted successfully!");
+        })
+        .catch((error) => {
+          toast.error(error || "Failed to delete our impact");
+        });
+    }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (value.length <= maxLength) {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleFileChange = (e) => {
@@ -60,24 +105,35 @@ const OurImpacts = () => {
     setFormData((prev) => ({ ...prev, [name]: files[0] }));
   };
 
-  const openModal = (impact = null) => {
+  const resetForm = () => {
+    setFormData({ total_services: "", description: "", image: null });
+    setCurrentImpact(null);
+  };
+
+  const openUpdateModal = (impact) => {
     setIsModalOpen(true);
-    setIsUpdateMode(!!impact);
+    setIsUpdateMode(true);
     setCurrentImpact(impact);
     setFormData({
-      total_services: impact?.total_services || '',
-      description: impact?.description || '',
+      total_services: impact?.total_services || "",
+      description: impact?.description || "",
       image: null,
     });
   };
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between mx-4 items-center my-4">
-        <h1 className="text-2xl small-range:text-3xl  lg:text-4xl font-semibold">Our Impacts</h1>
+      <div className="flex justify-between items-center mx-4 my-4">
+        <h1 className="text-2xl small-range:text-3xl md:text-4xl font-semibold">
+          Our Impacts
+        </h1>
         <button
-          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[13px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
-          onClick={() => openModal()}
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
+          onClick={() => {
+            setIsModalOpen(true);
+            setIsUpdateMode(false);
+            resetForm();
+          }}
         >
           Add Impact
         </button>
@@ -87,18 +143,21 @@ const OurImpacts = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2">
             <h2 className="text-xl font-bold mb-4">
-              {isUpdateMode ? 'Update Impact' : 'Add New Impact'}
+              {isUpdateMode ? "Update Impact" : "Add New Impact"}
             </h2>
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form>
               <div className="mb-4">
-                <label className="block font-semibold mb-2">Services</label>
+                <label className="block font-semibold mb-2">
+                  Total Services
+                </label>
                 <input
-                  type="text"
+                  type="number"
                   name="total_services"
                   value={formData.total_services}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
-                  required
+                  maxLength={maxLength}
+                  placeholder="Numbers only eg. 2 3 "
                 />
               </div>
               <div className="mb-4">
@@ -108,8 +167,12 @@ const OurImpacts = () => {
                   value={formData.description}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
-                  required
-                />
+                  maxLength={maxLength}
+                  placeholder="Enter description here"
+                ></textarea>
+                <p className="mt-2 text-sm text-gray-500">
+                  {maxLength - formData.description.length} characters remaining
+                </p>
               </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Image</label>
@@ -132,9 +195,9 @@ const OurImpacts = () => {
                 <button
                   type="button"
                   className="px-4 py-2 bg-blue-600 text-white rounded"
-                  onClick={handleSubmit}
+                  onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
                 >
-                  {isUpdateMode ? 'Update Impact' : 'Add Impact'}
+                  {isUpdateMode ? "Update Impact" : "Add Impact"}
                 </button>
               </div>
             </form>
@@ -142,41 +205,43 @@ const OurImpacts = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap justify-center gap-4 ">
-        {
-          ourImpacts.length > 0 ? (
-            ourImpacts.map((impact) => (
-              <div
-                key={impact._id}
-                className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center"
-              >
-                <img
-                  src={impact.image || 'https://via.placeholder.com/150'}
-                  alt="Our Impact"
-                  className="w-full h-40 object-cover rounded"
-                />
-                <h3 className="mt-2 font-bold text-xl">{impact.total_services}</h3>
-                <p className=" line-clamp-2 mt-2 ">{impact.description}</p>
-                <div className="mt-4 flex gap-4">
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
+        {ourImpacts && ourImpacts?.length > 0 ? (
+          ourImpacts?.map((impact) => (
+            <div
+              key={impact._id}
+              className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center"
+            >
+              <img
+                src={impact?.image || "https://via.placeholder.com/150"}
+                alt="Impact"
+                className="w-full h-40 object-cover rounded"
+              />
+              <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
+                {impact?.total_services}
+              </h3>
+              <p className="w-full line-clamp-2 mt-1 text-sm text-gray-600">
+                {impact?.description}
+              </p>
+              <div className="mt-4 flex gap-4">
                 <button
                   className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={() => openModal(impact)}
+                  onClick={() => openUpdateModal(impact)}
                 >
                   <MdEdit className="text-blue-800 text-2xl" />
                 </button>
-
                 <button
                   className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={() => handleDelete(impact._id)}
+                  onClick={() => handleDelete(impact?._id)}
                 >
                   <MdDelete className="text-red-800 text-2xl" />
                 </button>
-                </div>
               </div>
-            ))
-          ) : (
-            <p>No impacts found.</p>
-          )}
+            </div>
+          ))
+        ) : (
+          <p>No impacts found.</p>
+        )}
       </div>
     </div>
   );

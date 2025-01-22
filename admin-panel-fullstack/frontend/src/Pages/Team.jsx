@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import {
-  createTeamMember,
-  getTeams,
-  removeTeamMember,
-  updateTeamMember,
-} from "../Reducers/TeamSlice";
+import { toast } from 'react-toastify';
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
+import { addTeam, getTeamData, removeTeam, updateTeamData } from "../Reducers/TeamSlice";
 
 const Team = () => {
   const dispatch = useDispatch();
   const { teams, status } = useSelector((state) => state.teams);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     name: "",
     role: "",
@@ -28,47 +23,88 @@ const Team = () => {
   // Fetch teams data
   useEffect(() => {
     if (status === "idle") {
-      dispatch(getTeams());
+      dispatch(getTeamData());
     }
   }, [status, dispatch]);
 
-  // Handle form submission for adding a new team member
+  useEffect(() => {
+    if (!isModalOpen) {
+      setErrorMessage("");
+    }
+  }, [isModalOpen]);
+
+  //? Handle form submission for adding a new team member
+  const validateForm = () => {
+    if (!formData.name || !formData.role) {
+      setErrorMessage("Name and Role are required fields.");
+      return false;
+    }
+    const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
+    if (formData.linkedIn && !urlRegex.test(formData.linkedIn)) {
+      setErrorMessage("Invalid LinkedIn URL format.");
+      return false;
+    }
+    if (formData.instagram && !urlRegex.test(formData.instagram)) {
+      setErrorMessage("Invalid Instagram URL format.");
+      return false;
+    }
+    return true;
+  };
+
+
+  //? add team members
   const handleAddTeamMember = async () => {
+    if (!validateForm()) {
+      toast.error("Please fill all the required fields correctly.");
+      return;
+    }
     const newTeam = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       newTeam.append(key, value);
     });
 
     try {
-      await dispatch(createTeamMember(newTeam)).unwrap(); // Wait for action to complete
-      toast.success("Successfully added new team member.");
-      setIsModalOpen(false);
+      await dispatch(addTeam(newTeam)).unwrap();
       resetForm();
+      setIsModalOpen(false);
+      toast.success("Team member added successfully.");
     } catch (error) {
-      toast.error("Failed to add team member. Please try again.");
-      console.error("Error adding team member:", error);
+      toast.error(error.message);
     }
   };
 
-  // Handle form submission for updating an existing team member
-  const handleUpdateTeamMember = () => {
-    const updatedTeam = new FormData();
+  //? Handle form submission for updating an existing team member
+  const handleUpdateTeamMember = async () => {
+    if (!validateForm()) {
+      toast.error("Please fill all the required fields correctly.");
+      return;
+    }
+    const teamData = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      updatedTeam.append(key, value);
+      teamData.append(key, value);
     });
 
-    dispatch(
-      updateTeamMember({ id: currentPost._id, updatedData: updatedTeam })
-    );
-    toast.success("Successfully updated team member.");
-    setIsModalOpen(false);
-    resetForm();
+    try {
+      await dispatch(updateTeamData({ id: currentPost._id, teamData: teamData })).unwrap();
+      setIsModalOpen(false);
+      resetForm();
+      toast.success("Team member updated successfully.");
+    } catch (error) {
+      toast.error(error.message || "Failed to update team member.");
+    }
   };
 
-  // Handle deleting a team member
-  const handleDeleteTeamMember = (id) => {
-    dispatch(removeTeamMember(id));
-    toast.success("Successfully deleted team member.");
+  //? Handle deleting a team member
+  const handleDeleteTeamMember = async (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this team member?");
+    if (isConfirmed) {
+      try {
+        await dispatch(removeTeam(id)).unwrap();
+        toast.success("Successfully deleted team member.");
+      } catch (error) {
+        toast.error("Failed to delete team member.");
+      }
+    }
   };
 
   // Handle input changes
@@ -93,6 +129,7 @@ const Team = () => {
       image: null,
     });
     setCurrentPost(null);
+    setErrorMessage("");
   };
 
   // Open modal for updating an existing team member
@@ -101,22 +138,21 @@ const Team = () => {
     setIsUpdateMode(true);
     setCurrentPost(post);
     setFormData({
-      name: post.name,
-      role: post.role,
+      name: post?.name || "",
+      role: post?.role || "",
       linkedIn: post.linkedIn || "",
       instagram: post.instagram || "",
       image: null,
     });
   };
-
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center mx-4 my-4">
         <h1 className="text-xl small-range:text-2xl md:text-3xl lg:text-4xl font-semibold">
           Our Team Members
         </h1>
-        {/* <button
-          className="text-[12px] small-range:md md:text-lg px-4  py-1 md:px-6 md:py-2 bg-blue-600 text-white font-semibold rounded-lg transition duration-300 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+        <button
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[13px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -124,18 +160,7 @@ const Team = () => {
           }}
         >
           Add Member
-        </button> */}
-        <button
-  className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[13px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
-  onClick={() => {
-    setIsModalOpen(true);
-    setIsUpdateMode(false);
-    resetForm();
-  }}
->
-  {/* <FaUserPlus className="text-white text-2xl" /> */}
-  Add Member
-</button>
+        </button>
       </div>
 
       {/* Modal */}
@@ -155,6 +180,7 @@ const Team = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded focus:outline-none"
+                  placeholder="Enter your name here"
                 />
               </div>
 
@@ -166,6 +192,7 @@ const Team = () => {
                   value={formData.role}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded focus:outline-none"
+                  placeholder="Enter your  role and responsibility "
                 ></textarea>
               </div>
 
@@ -178,6 +205,7 @@ const Team = () => {
                   value={formData.linkedIn}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded focus:outline-none"
+                  placeholder="Enter your linkedin profile link "
                 />
               </div>
 
@@ -190,6 +218,7 @@ const Team = () => {
                   value={formData.instagram}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded focus:outline-none"
+                  placeholder="Enter your instagram profile link "
                 />
               </div>
 
@@ -229,83 +258,19 @@ const Team = () => {
         </div>
       )}
 
-      {/* Team Members */}
-      {/* <div className="mt-6 flex flex-wrap justify-evenly gap-4">
-        {teams.length > 0 ? (
-          teams.map((member) => (
-            <div
-              key={member._id}
-              className="border p-4 rounded shadow hover:shadow-lg transition-shadow duration-300 max-w-sm"
-            >
-              <img
-                src={member.image || "https://via.placeholder.com/150"}
-                alt={member.name}
-                className="w-full h-40 object-cover rounded"
-              />
-              <h3 className="mt-2 font-bold">{member.name}</h3>
-              <p className="italic">{member.role}</p>
-              <div className="flex justify-center gap-x-[12px] mt-2">
-                <a
-                  href={member.linkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
-                >
-                  
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width={'20px'} fill="#146EBE">
-                    <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />
-                  </svg>
-                </a>
-                <a
-                  href={member.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-pink-500 hover:underline"
-                >
-                  
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-[25px] h-[25px]" x="0px" y="0px" width="10" height="10" viewBox="0 0 48 48">
-                      <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1" cx="19.38" cy="42.035" r="44.899" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#fd5"></stop><stop offset=".328" stopColor="#ff543f"></stop><stop offset=".348" stopColor="#fc5245"></stop><stop offset=".504" stopColor="#e64771"></stop><stop offset=".643" stopColor="#d53e91"></stop><stop offset=".761" stopColor="#cc39a4"></stop><stop offset=".841" stopColor="#c837ab"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><radialGradient id="yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2" cx="11.786" cy="5.54" r="29.813" gradientTransform="matrix(1 0 0 .6663 0 1.849)" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#4168c9"></stop><stop offset=".999" stopColor="#4168c9" stopOpacity="0"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><path fill="#fff" d="M24,31c-3.859,0-7-3.14-7-7s3.141-7,7-7s7,3.14,7,7S27.859,31,24,31z M24,19c-2.757,0-5,2.243-5,5	s2.243,5,5,5s5-2.243,5-5S26.757,19,24,19z"></path><circle cx="31.5" cy="16.5" r="1.5" fill="#fff"></circle><path fill="#fff" d="M30,37H18c-3.859,0-7-3.14-7-7V18c0-3.86,3.141-7,7-7h12c3.859,0,7,3.14,7,7v12	C37,33.86,33.859,37,30,37z M18,13c-2.757,0-5,2.243-5,5v12c0,2.757,2.243,5,5,5h12c2.757,0,5-2.243,5-5V18c0-2.757-2.243-5-5-5H18z"></path>
-                    </svg>
-                </a>
-              </div>
-              <div className="mt-2 flex justify-center gap-4">
-                <button
-                  className="text-blue-600 hover:underline"
-                  onClick={() => openUpdateModal(member)}
-                >
-                  Update
-                </button>
-                <button
-                  className="text-red-600 hover:underline"
-                  onClick={() => handleDeleteTeamMember(member._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p>No team members found.</p>
-        )}
-      </div> */}
+
       <div className="mt-6 flex flex-col items-center p-6 small-max:p-0 md:p-6 justify-center md:flex-row md:flex-wrap md:justify-center  lg:w-[100%] md:gap-x-[40px] gap-y-[45px] md:gap-y-[60px] lg:gap-y-[40px] lg:gap-x-[100px]">
-        {teams.length > 0 ? (
-          teams.map((member) => (
+        {teams && teams?.length > 0 ? (
+          teams?.map((member) => (
             <div
-              key={member._id}
-              className="flex items-center flex-col gap-y-[5px] md:gap-y-[10px]  w-[300px]" // Fixed height
+              key={member?._id}
+              className="flex items-center flex-col gap-y-[5px] md:gap-y-[10px] bg-white p-2  w-[300px]"
             >
-              {/* <img
-                src={member.image || "https://via.placeholder.com/150"}
-                alt={member.name}
-                className="w-full h-[50%] bg-contain rounded" // Fixed image height
-              /> */}
               <div
-                className="w-[200px] h-[200px] rounded-full"
+                className="w-[150px] h-[150px] rounded-full"
                 style={{
-                  backgroundImage: `url(${
-                    member.image || "https://via.placeholder.com/150"
-                  })`,
+                  backgroundImage: `url(${member?.image || "https://via.placeholder.com/150"
+                    })`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
@@ -313,15 +278,15 @@ const Team = () => {
               ></div>
               <div className="flex flex-col  items-center">
                 <span className=" font-bold mt-[10px] text-[16px] lg:text-[18px]">
-                  {member.name}
+                  {member?.name}
                 </span>
                 <p className="text-[14px] md:text-[16px] break-words max-w-[280px] text-center">
-                  {member.role}
+                  {member?.role}
                 </p>
               </div>
               <div className="flex justify-center gap-x-[12px] ">
                 <a
-                  href={member.linkedIn}
+                  href={member?.linkedIn}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
@@ -336,7 +301,7 @@ const Team = () => {
                   </svg>
                 </a>
                 <a
-                  href={member.instagram}
+                  href={member?.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-pink-500 hover:underline"
@@ -402,17 +367,17 @@ const Team = () => {
               </div>
               <div className=" flex justify-center gap-4">
                 <button
-                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
+                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl hover:translate-2 flex items-center gap-2"
                   onClick={() => openUpdateModal(member)}
                 >
-                  <MdEdit className="text-blue-800 text-2xl" />
+                  <MdEdit className="text-blue-800 text-2xl" /> Edit
                 </button>
 
                 <button
-                  className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={() => handleDeleteTeamMember(member._id)}
+                  className=" bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
+                  onClick={() => handleDeleteTeamMember(member?._id)}
                 >
-                  <MdDelete className="text-red-800 text-2xl" />
+                  <MdDelete className="text-red-800 text-2xl" /> Delete
                 </button>
               </div>
             </div>

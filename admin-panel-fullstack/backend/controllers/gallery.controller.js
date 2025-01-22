@@ -1,14 +1,24 @@
 const GalleryModel = require("../models/gallery.model");
 
-//!  Create a new hero banner
-const createGallery = async (req, res) => {
+const createGalleryController = async (req, res) => {
   try {
+    const { tag } = req.body; 
     const image = req.image;
-    const post = new GalleryModel({  image });
+
+    // Validate if image is provided
+    if (!image) {
+      return res.status(400).json({
+        success: false,
+        message: "Image is required to create a gallery post.",
+      });
+    }
+
+    const post = new GalleryModel({ image, tag });
     await post.save();
+
     res.status(201).json({
       success: true,
-      message: 'gallery post has been created successfully',
+      message: "Gallery post has been created successfully",
       post,
     });
   } catch (error) {
@@ -20,36 +30,56 @@ const createGallery = async (req, res) => {
   }
 };
 
-//!  get all hero banner
-const getGallery = async (req, res) => {
-  try {
-    const posts = await GalleryModel.find({})
-    res.status(200).json({ success: true, message: "successfully fetched all the data from backend .", posts });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while fetching Gallery post from backend side .", error: error.message });
-  }
-}
 
-//!  update hero banner based  on ID 
-const updateGallery = async (req, res) => {
+
+
+
+
+// Fetch all gallery images from the database
+const getAllGalleryImagesController = async (req, res) => {
+  try {
+    const posts = await GalleryModel.find({});
+
+    res.status(200).json({
+      success: true,
+      message: "Gallery posts retrieved successfully",
+      posts
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while retrieving gallery posts",
+      error: error.message
+    });
+  }
+};
+
+
+
+// Update Gallery post validation
+const updateGalleryController = async (req, res) => {
   try {
     const { id } = req.params;
+    const { tag } = req.body;
     const updates = { ...req.body };
     const image = req.image;
-    if (image) updates.image = image
+
+    // If image is present, validate the image
+    if (image) updates.image = image;
+
     const updatedPost = await GalleryModel.findByIdAndUpdate(id, updates, { new: true });
     if (!updatedPost) {
       return res.status(404).json({ error: 'Post not found' });
     }
+
     res.status(200).json({ success: true, message: 'Gallery post updated successfully', updatedPost });
   } catch (error) {
     res.status(500).json({ success: false, message: "Something went wrong while updating Gallery post", error: error.message });
   }
-}
+};
 
-
-//!  delete hero banner based  on ID 
-const deleteGallery = async (req, res) => {
+// Delete Gallery post validation
+const deleteGalleryController = async (req, res) => {
   try {
     const { id } = req.params;
     const post = await GalleryModel.findByIdAndDelete(id);
@@ -58,9 +88,8 @@ const deleteGallery = async (req, res) => {
     }
     res.status(200).json({ success: true, message: 'Post deleted successfully' });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while Gallery post", error: error.message });
+    res.status(500).json({ success: false, message: "Something went wrong while deleting the Gallery post", error: error.message });
   }
-}
+};
 
-
-module.exports = { createGallery, getGallery, updateGallery, deleteGallery }
+module.exports = { createGalleryController, getAllGalleryImagesController, updateGalleryController, deleteGalleryController };
