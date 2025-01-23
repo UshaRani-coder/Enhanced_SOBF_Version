@@ -64,22 +64,5 @@ const loginAdmin = async (req, res) => {
 	}
 };
 
-const protectedRoute = async (req, res) => {
-	const token = req.header("Authorization");
-	if (!token) {
-		return res.status(401).json({ message: "Access Denied" });
-	}
-	try {
-		const verified = jwt.verify(token, process.env.JWT_SECRET);
-		req.admin = verified;
 
-		console.log(
-			">>>>>>>>> JWT_SECRET in Protected Route",
-			process.env.JWT_SECRET
-		);
-		res.status(200).json({ message: "Access granted" });
-	} catch (err) {
-		res.status(400).json({ message: "Invalid token" });
-	}
-};
-module.exports = { registerAdmin, loginAdmin, protectedRoute };
+module.exports = { registerAdmin, loginAdmin };

@@ -1,9 +1,9 @@
 const { ImpactModel, Services, Team, SuppportedBy } = require("../models/services.model");
 
 
-//! CRUD Operations for Impact
+//! Our Impacts Starts from here 
 
-// Create
+//! Creating
 const createImpact = async (req, res) => {
   try {
     try {
@@ -30,7 +30,7 @@ const createImpact = async (req, res) => {
 
 
 
-// Get All Impacts
+//! Get All Impacts
 const getImpacts = async (req, res) => {
   try {
     const impacts = await ImpactModel.find({});
@@ -40,7 +40,7 @@ const getImpacts = async (req, res) => {
   }
 };
 
-// Update Impacts
+//! Update Impacts
 const updateImpact = async (req, res) => {
   try {
     const impact = await ImpactModel.findByIdAndUpdate(req.params.id, req.body, {
@@ -54,7 +54,7 @@ const updateImpact = async (req, res) => {
   }
 };
 
-// Delete Impacts
+// ! Delete Impacts
 const deleteImpact = async (req, res) => {
   try {
     const impact = await ImpactModel.findByIdAndDelete(req.params.id);
@@ -65,7 +65,9 @@ const deleteImpact = async (req, res) => {
   }
 };
 
-// ! CRUD Operations for Services 
+
+
+//! OUR SERVICES SECTION STARTS FREM HERE 
 
 //! Create
 const createServices = async (req, res) => {
@@ -78,7 +80,7 @@ const createServices = async (req, res) => {
   }
 };
 
-// Read All
+//! Getting All
 const getServices = async (req, res) => {
   try {
     const services = await Services.find();
@@ -88,7 +90,7 @@ const getServices = async (req, res) => {
   }
 };
 
-// Update
+//! Updating
 const updateServices = async (req, res) => {
   try {
     const service = await Services.findByIdAndUpdate(req.params.id, req.body, {
@@ -102,7 +104,7 @@ const updateServices = async (req, res) => {
   }
 };
 
-// Delete
+// ! Deleting
 const deleteServices = async (req, res) => {
   try {
     const service = await Services.findByIdAndDelete(req.params.id);
@@ -113,9 +115,8 @@ const deleteServices = async (req, res) => {
   }
 };
 
-//! CRUD Operations for Team 
-
-// Create
+//! Team  ✌
+//! Create
 const createTeam = async (req, res) => {
   try {
     const teamMember = new Team(req.body);
@@ -126,7 +127,7 @@ const createTeam = async (req, res) => {
   }
 };
 
-// Read All
+// ! Get All
 const getTeam = async (req, res) => {
   try {
     const team = await Team.find({});
@@ -136,7 +137,7 @@ const getTeam = async (req, res) => {
   }
 };
 
-// Update
+//! Update
 const updateTeam = async (req, res) => {
   try {
     const teamMember = await Team.findByIdAndUpdate(req.params.id, req.body, {
@@ -150,7 +151,7 @@ const updateTeam = async (req, res) => {
   }
 };
 
-// Delete
+//! Delete
 const deleteTeam = async (req, res) => {
   try {
     const teamMember = await Team.findByIdAndDelete(req.params.id);
@@ -161,9 +162,9 @@ const deleteTeam = async (req, res) => {
   }
 };
 
-//!  CRUD Operations for SupportedBy
+//!  SupportedBy Start from here
 
-// Create
+//! Creating 
 const createSupportBy = async (req, res) => {
   try {
     const supported = new SuppportedBy(req.body);
@@ -174,7 +175,7 @@ const createSupportBy = async (req, res) => {
   }
 };
 
-// Read All
+//! Getting All data 
 const getSupportedBy = async (req, res) => {
   try {
     const supported = await SuppportedBy.find();
@@ -184,7 +185,7 @@ const getSupportedBy = async (req, res) => {
   }
 };
 
-// Update
+//! Update
 const updateSupportedBy = async (req, res) => {
   try {
     const supported = await SuppportedBy.findByIdAndUpdate(req.params.id, req.body, {
@@ -198,7 +199,7 @@ const updateSupportedBy = async (req, res) => {
   }
 };
 
-// Delete
+// ! Delete
 const deleteSupportedBy = async (req, res) => {
   try {
     const supported = await SuppportedBy.findByIdAndDelete(req.params.id);

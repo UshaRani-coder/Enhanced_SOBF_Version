@@ -29,7 +29,6 @@ const Login = ({ setIsAuthenticated }) => {
         setEmailErrorMessage("");
       }
     }
-
     if (!password) {
       setPasswordErrorMessage("Password is required.");
       toast.error("Password is required.");
@@ -42,38 +41,6 @@ const Login = ({ setIsAuthenticated }) => {
 
 
 
-
-  // console.log("import.meta.env.JWT_SECRET", import.meta.env.VITE_JWT_SECRET);
-  
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!validateForm()) return;
-  //   try {
-  //     // Encrypt the payload
-  //     const encryptedData = CryptoJS.AES.encrypt(
-  //       JSON.stringify({ email, password }),
-  //       import.meta.env.VITE_JWT_SECRET
-  //       // "fgdsgsdfty4362365fhfg"
-  //     ).toString();
-
-  //     const response = await axios.post("https://backend.sobf.in/api/admin/login", {
-  //       data: encryptedData,
-  //     });
-  //     // console.log("response in login " , response);
-
-  //     const { token } = response.data;
-  //     if (token) {
-  //       localStorage.setItem("adminToken", token);
-  //       setIsAuthenticated(true);
-  //       toast.success("Login successful!");
-  //       navigate("/admin/dashboard");
-  //     }
-  //   } catch (err) {
-  //     const errorMessage = err.response?.data?.message || "Login failed. Please try again.";
-  //     toast.error(errorMessage);
-  //   }
-  // };
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -83,7 +50,6 @@ const Login = ({ setIsAuthenticated }) => {
       const encryptedData = CryptoJS.AES.encrypt(
         JSON.stringify({ email, password }),
         import.meta.env.VITE_JWT_SECRET
-        // "fgdsgsdfty4362365fhfg"
       ).toString();
 
       // const response = await axios.post("https://backend.sobf.in/api/admin/login", {
@@ -91,14 +57,15 @@ const Login = ({ setIsAuthenticated }) => {
         data: encryptedData,
       });
 
-
-
+      // const response = await axios.post("http://localhost:5000/api/admin/login", {
+      //   data: encryptedData,
+      // });
 
 
 
       // console.log("response in login " , response);
 
-      const { token } = response.data;
+      const { token } = response?.data;
       if (token) {
         localStorage.setItem("adminToken", token);
         setIsAuthenticated(true);
@@ -167,31 +134,6 @@ const Login = ({ setIsAuthenticated }) => {
                   <div className="text-red-500 text-sm">{passwordErrorMessage}</div>
                 )}
               </div>
-
-              {/* Remember Me and Forgot Password */}
-              {/* <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300"
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label htmlFor="remember" className="text-gray-500">
-                      Remember me
-                    </label>
-                  </div>
-                </div>
-                <a
-                  href="#"
-                  className="text-sm font-medium text-[#2563eb] hover:underline"
-                >
-                  Forgot password?
-                </a>
-              </div> */}
 
               {/* Submit Button */}
               <button
