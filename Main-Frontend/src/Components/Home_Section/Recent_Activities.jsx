@@ -29,7 +29,7 @@ const Recent_Activities = () => {
       className={`flex flex-col items-center mb-[30px] ${location.pathname === "/recent-activities" ? "mt-[120px]" : "mt-[30px]"
         }`}
     >
-      <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-logoYellow relative transition-all ease-in-out">
+      <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
         Recent Activities
         <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
       </h1>
@@ -44,11 +44,11 @@ const Recent_Activities = () => {
       {status === "loading" && <p>Loading activities...</p>}
       {status === "failed" && <p className="text-red-500">{error}</p>}
 
-      <div className="flex flex-col items-center gap-7 p-5 lg:flex-row lg:justify-center">
+      <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px] lg:flex-row lg:justify-center p-5">
         {bulletines.map((activity) => (
           <div
             key={activity._id}
-            className="flex flex-col items-center w-[80%] md:w-[55%] lg:w-[30%] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
+            className="flex flex-col items-center w-[90%] md:w-[55%] lg:w-[30%] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
           >
             <img
               src={
@@ -70,10 +70,10 @@ const Recent_Activities = () => {
                 </svg>
                 <span className="text-[13px]">{formatDate(activity.date)}</span>
               </div>
-              <h1 className="font-bold mt-[10px] text-lg leading-[23px]">
+              <h1 className="font-bold mt-[10px] text-lg  line-clamp-2">
                 {activity.title}
               </h1>
-              <p className="mt-[10px] text-[14px] text-justify">
+              <p className="mt-[10px] text-[14px]  line-clamp-4">
                 {activity.description}
               </p>
               <Link to={`/recent-activities/${activity._id}`}>

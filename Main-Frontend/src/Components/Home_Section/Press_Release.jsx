@@ -50,10 +50,11 @@ const Press_Release = () => {
       {status === 'failed' && <p className="text-red-500">{error}</p>}
 
       <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px] lg:flex-row lg:justify-center p-5">
-        {posts.length === 3 && posts.map((news) => (
+        {/* {posts.length === 3 && posts.map((news) => ( */}
+        {posts.map((news) =>(
           <div
             key={news._id}
-            className="flex flex-col items-center w-[80%] md:w-[55%] lg:w-[30%] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
+            className="flex flex-col items-center w-[90%] md:w-[55%] lg:w-[30%] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
           >
             <img
               src={
@@ -75,10 +76,10 @@ const Press_Release = () => {
                 </svg>
                 <span className="text-[13px]">{formatDate(news.date)}</span>
               </div>
-              <h1 className="font-bold mt-[10px] text-lg leading-[23px] flex-grow">
+              <h1 className="font-bold mt-[10px] text-lg leading-[23px] line-clamp-2">
                 {news.title}
               </h1>
-              <p className="mt-[10px] text-[14px] flex-grow text-justify">
+              <p className="mt-[10px] text-[14px] line-clamp-4  ">
                 {news.description}
               </p>
               <Link to={`/press-release/${news._id}`}>

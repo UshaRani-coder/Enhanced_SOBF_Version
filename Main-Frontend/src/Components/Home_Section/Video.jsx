@@ -20,7 +20,7 @@ const Video = () => {
 				<hr className="mt-1 border-light-lavender border-[1px]" />
 			</h1>
 			{/* Video List */}
-			<div className="mt-6 flex flex-wrap gap-6 justify-center">
+			<div className="mt-6 flex flex-col items-center justify-center md:flex-row flex-wrap  gap-6 justify-center">
 				{featuredVideo?.length > 0 ? (
 					featuredVideo.map((video) => {
 						// Safely extract video ID
@@ -29,7 +29,7 @@ const Video = () => {
 						return (
 							<div
 								key={video?._id}
-								className="border p-2 rounded w-[25%] hover:shadow-lg transition-shadow duration-300 flex-wrap">
+								className="border p-2 rounded w-full small-range:w-[80%] md:w-[35%]  hover:shadow-lg transition-shadow duration-300 flex-wrap">
 								{videoId ? (
 									<iframe
 										src={`https://www.youtube.com/embed/${videoId}`}

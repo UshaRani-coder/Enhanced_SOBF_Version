@@ -45,6 +45,35 @@ const Login = ({ setIsAuthenticated }) => {
 
   // console.log("import.meta.env.JWT_SECRET", import.meta.env.VITE_JWT_SECRET);
   
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!validateForm()) return;
+  //   try {
+  //     // Encrypt the payload
+  //     const encryptedData = CryptoJS.AES.encrypt(
+  //       JSON.stringify({ email, password }),
+  //       import.meta.env.VITE_JWT_SECRET
+  //       // "fgdsgsdfty4362365fhfg"
+  //     ).toString();
+
+  //     const response = await axios.post("https://backend.sobf.in/api/admin/login", {
+  //       data: encryptedData,
+  //     });
+  //     // console.log("response in login " , response);
+
+  //     const { token } = response.data;
+  //     if (token) {
+  //       localStorage.setItem("adminToken", token);
+  //       setIsAuthenticated(true);
+  //       toast.success("Login successful!");
+  //       navigate("/admin/dashboard");
+  //     }
+  //   } catch (err) {
+  //     const errorMessage = err.response?.data?.message || "Login failed. Please try again.";
+  //     toast.error(errorMessage);
+  //   }
+  // };
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -75,7 +104,6 @@ const Login = ({ setIsAuthenticated }) => {
       toast.error(errorMessage);
     }
   };
-
 
 
   return (
