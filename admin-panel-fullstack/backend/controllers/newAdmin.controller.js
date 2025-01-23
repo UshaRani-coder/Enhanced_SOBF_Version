@@ -1,6 +1,8 @@
 const Admin = require("../models/admin.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const CryptoJS = require("crypto-js");
 
 const JWT_SECRET = "fgdsgsdfty4362365fhfg";
