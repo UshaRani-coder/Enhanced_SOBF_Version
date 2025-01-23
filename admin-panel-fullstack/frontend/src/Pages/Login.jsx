@@ -62,8 +62,6 @@ const Login = ({ setIsAuthenticated }) => {
         data: encryptedData,
       });
 
-
-
       // console.log("response in login " , response);
 
       const { token } = response.data;
@@ -71,6 +69,7 @@ const Login = ({ setIsAuthenticated }) => {
         localStorage.setItem("adminToken", token);
         setIsAuthenticated(true);
         toast.success("Login successful!");
+        navigate("/dashboard");
         navigate("/dashboard");
       }
     } catch (err) {
