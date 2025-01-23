@@ -61,8 +61,8 @@ const Hero = () => {
   }
 
   return (
-    <div className="hero relative flex items-center overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[100px] lg:mt-[120px]">
-      <div
+    <div className="hero relative flex items-center overflow-hidden font-quicksand w-[100%] h-[80vh] md:h-[100vh] lg:h-[80vh] mt-[100px] lg:mt-[120px]">
+      {/* <div
         className="hero-img object-cover w-[100%] h-[100%] animate-zoomIn transition-bg-image"
         style={{
           backgroundImage: `url(${heroBanner[currentIndex]?.image})`,
@@ -70,10 +70,31 @@ const Hero = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
-      ></div>
+      ></div> */}
+      {/* <div
+    className="hero-img object-cover w-full h-full animate-zoomIn transition-bg-image"
+    style={{
+      backgroundImage: `url(${heroBanner[currentIndex]?.image})`,
+      backgroundSize: "cover",  // Ensures the image covers the entire container
+      backgroundPosition: "center",  // Keeps the image centered
+      backgroundRepeat: "no-repeat", // Prevents repeating the image
+    }}
+  ></div> */}
+  <div
+    className="hero-img object-cover w-full h-full bg-fixed transition-all ease-in-out duration-700"
+    style={{
+      backgroundImage: `url(${heroBanner[currentIndex]?.image})`,
+      backgroundSize: "cover",  
+      backgroundPosition: "center",  
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed",  // Creates a parallax effect
+    }}
+  ></div>
+
+  
 
       <div
-        className="scroll-arrow hidden lg:block absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10] cursor-pointer"
+        className="scroll-arrow hidden lg:block absolute top-[50%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10] cursor-pointer"
         style={{ transform: "translateY(-50%)" }}
         onClick={scrollLeft}
       >
@@ -87,7 +108,7 @@ const Hero = () => {
         </svg>
       </div>
       <div
-        className="scroll-arrow hidden lg:block absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10] cursor-pointer"
+        className="scroll-arrow hidden lg:block absolute top-[50%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10] cursor-pointer"
         style={{ transform: "translateY(-50%)" }}
         onClick={scrollRight}
       >
@@ -101,7 +122,7 @@ const Hero = () => {
         </svg>
       </div>
       <p
-        className={`absolute px-4 font-bold top-[38%] lg:top-[50.5%] xl:top-[42.5%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] md:text-[40px] lg:text-[50px] lg:w-[700px] ${textAnimation ? "text-animate" : ""
+        className={`absolute  font-bold top-[38%] lg:top-[40.5%] xl:top-[43.0%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] md:text-[40px] lg:text-[50px] lg:w-[700px] ${textAnimation ? "text-animate" : ""
           }`}
       >
         {heroBanner[currentIndex]?.quotes || ""}

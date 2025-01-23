@@ -40,7 +40,7 @@ const Statistics = () => {
                 <br />
                 Tons
               </span>
-              <p className="text-center text-base mt-2">
+              <p className="text-center text-lg mt-2">
                 More than 10 tons of Yamuna Waste and Garbage collected
               </p>
             </li>
@@ -64,7 +64,7 @@ const Statistics = () => {
                 <Number n={100000} /> <br/>
                  Plates
               </span>
-              <p className="text-center text-base mt-2">More than 1,00,000 Food Plate Seva accomplished</p>
+              <p className="text-center text-lg mt-2">More than 1,00,000 Food Plate Seva accomplished</p>
             </li>
 
             {/* Sanitary napkins */}
@@ -82,7 +82,7 @@ const Statistics = () => {
               <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
                 <Number n={12000} /> <br /> Units
               </span>
-              <p className="text-center text-base mt-2">More than 12,000 Sanitary napkins distributed</p>
+              <p className="text-center text-lg mt-2">More than 12,000 Sanitary napkins distributed</p>
             </li>
 
             {/* Underserved Children */}
@@ -102,7 +102,7 @@ const Statistics = () => {
               <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
                 <Number n={200} /> <br /> Children
               </span>
-              <p className="text-center text-base mt-2">More than 200 Underserved Children were served</p>
+              <p className="text-center text-lg mt-2">More than 200 Underserved Children were served</p>
             </li>
 
             {/* Donation received */}
@@ -130,7 +130,7 @@ const Statistics = () => {
               <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
                 <Number n={1} /> <br /> Crore ₹
               </span>
-              <p className="text-center text-base mt-2">More than 1 crore Rupees of Donation received</p>
+              <p className="text-center text-lg mt-2">More than 1 crore Rupees of Donation received</p>
             </li>
           </ul>
         </div>

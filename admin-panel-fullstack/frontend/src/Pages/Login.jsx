@@ -57,7 +57,8 @@ const Login = ({ setIsAuthenticated }) => {
         // "fgdsgsdfty4362365fhfg"
       ).toString();
 
-      const response = await axios.post("https://backend.sobf.in/api/admin/login", {
+      // const response = await axios.post("https://backend.sobf.in/api/admin/login", {
+        const response = await axios.post("http://localhost:5000/api/admin/login", {
         data: encryptedData,
       });
       // console.log("response in login " , response);
@@ -93,7 +94,7 @@ const Login = ({ setIsAuthenticated }) => {
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
-                  Your email
+                  Email
                 </label>
                 <input
                   type="email"

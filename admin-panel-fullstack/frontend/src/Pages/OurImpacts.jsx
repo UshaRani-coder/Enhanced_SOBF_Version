@@ -156,7 +156,7 @@ const OurImpacts = () => {
                   className="w-full h-40 object-cover rounded"
                 />
                 <h3 className="mt-2 font-bold text-xl">{impact.total_services}</h3>
-                <p className=" line-clamp-2 mt-2 ">{impact.description}</p>
+                <p className="text-center  line-clamp-2 mt-2 ">{impact.description}</p>
                 <div className="mt-4 flex gap-4">
                 <button
                   className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
