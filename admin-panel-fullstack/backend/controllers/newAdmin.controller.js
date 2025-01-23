@@ -1,6 +1,8 @@
 const Admin = require("../models/admin.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const CryptoJS = require("crypto-js");
 
 const JWT_SECRET = "fgdsgsdfty4362365fhfg";
@@ -46,12 +48,25 @@ const loginAdmin = async (req, res) => {
 			return res.status(400).json({ message: "Invalid email or password" });
 		}
 
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
 		const token = jwt.sign({ id: admin._id }, JWT_SECRET, {
 			expiresIn: "1h",
 		});
 
 		console.log(">>>>>>>>> JWT_SECRET", process.env.JWT_SECRET);
 
+    res.status(200).json({
+      message: "Login successful",
+      token,
+    });
+  } catch (err) {
+    console.error("Error in loginAdmin:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
 		res.status(200).json({
 			message: "Login successful",
 			token,

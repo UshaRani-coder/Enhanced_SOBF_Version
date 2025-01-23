@@ -171,6 +171,21 @@
 .floating-whatsapp-button {
   position: fixed !important; 
   bottom: 20px !important;       
-  right: 20px !important;        
+  right: 10px !important;        
   z-index: 1000 !important;   
+  width: 40px  !important;
+  height: 40px !important;
+  
 }
+.floating-whatsapp-button::after,
+.floating-whatsapp-button::before {
+  box-shadow: none !important;
+}
+
+.floating-whatsapp-button svg[viewBox="0 0 24 24"] {
+  width: 40px !important;
+  height: 40px !important;
+  fill: #f1f2f1 !important;
+}
+
+
