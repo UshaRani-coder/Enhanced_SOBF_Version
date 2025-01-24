@@ -58,9 +58,14 @@ const Login = ({ setIsAuthenticated }) => {
       ).toString();
 
       // const response = await axios.post("https://backend.sobf.in/api/admin/login", {
-        const response = await axios.post("http://localhost:5000/api/admin/login", {
+      //   data: encryptedData,
+      // });
+
+      const response = await axios.post("http://localhost:5000/api/admin/login", {
         data: encryptedData,
       });
+
+
 
       // console.log("response in login " , response);
 
@@ -69,7 +74,6 @@ const Login = ({ setIsAuthenticated }) => {
         localStorage.setItem("adminToken", token);
         setIsAuthenticated(true);
         toast.success("Login successful!");
-        navigate("/dashboard");
         navigate("/dashboard");
       }
     } catch (err) {

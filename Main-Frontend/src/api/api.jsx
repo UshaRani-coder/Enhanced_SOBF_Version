@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // const api = axios.create({ baseURL: 'https://backend.sobf.in' });
-const api = axios.create({ baseURL: 'http://localhost:5000' })
+const api = axios.create({ baseURL: 'http://localhost:5000' });
+
 //! Admin Endpoints
 export const fetchAdmins = () => api.get('/api/admin/get-admin');
 export const createAdmin = (adminData) => api.post('/api/admin/create-admin', adminData);
