@@ -3,6 +3,8 @@ import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFounda
 import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundation.avif'
 import curiousBusinessSolutions from '../../assets/Sobf Images/partners/curiousBusinessSolutions.jpg'
 import {Link} from 'react-router-dom'
+import curiousBusinessSolutions from '../../assets/Sobf Images/partners/curiousBusinessSolutions.jpg'
+import {Link} from 'react-router-dom'
 const Partners = () => {
   return (
     <div className='overflow-hidden mt-[30px] mb-[50px]'>

@@ -127,6 +127,19 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
               {!isCollapsed && <span className="ml-4"> Gallery </span>}
             </Link>
           </li>
+          <li>
+            <Link
+              to="/our-services"
+              onClick={onOptionClick}
+              className={`flex items-center pb-2 pt-2 w-[90%] ${location.pathname === "/our-services"
+                ? "text-white bg-[rgb(39,39,79)]"
+                : "text-[rgba(255,255,255,0.7)]"
+                } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
+            >
+              <GrGallery className="text-lg ml-4" />
+              {!isCollapsed && <span className="ml-4"> Our Services </span>}
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>

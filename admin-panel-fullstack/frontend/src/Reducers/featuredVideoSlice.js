@@ -31,7 +31,6 @@ const featuredVideoSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Get posts
       .addCase(getfeaturedVideo.pending, (state) => {
         state.status = 'loading';
       })
@@ -43,18 +42,15 @@ const featuredVideoSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-      // Add video
       .addCase(addfeaturedVideo.fulfilled, (state, action) => {
         state.featuredVideo.push(action.payload);
       })
-      // Update video
       .addCase(updatefeaturedVideo.fulfilled, (state, action) => {
         const index = state.featuredVideo.findIndex((video) => video._id === action.payload._id);
         if (index !== -1) {
           state.featuredVideo[index] = action.payload;
         }
       })
-      // Remove video
       .addCase(removefeaturedVideo.fulfilled, (state, action) => {
         state.featuredVideo = state.featuredVideo.filter((video) => video._id !== action.payload);
       });

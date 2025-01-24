@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  addfeaturedVideo,
-  getfeaturedVideo,
-  removefeaturedVideo,
-  updatefeaturedVideo,
-} from "../Reducers/featuredVideoSlice";
+import { addfeaturedVideo, getfeaturedVideo, removefeaturedVideo, updatefeaturedVideo, } from "../Reducers/featuredVideoSlice";
 import { toast } from "react-toastify";
-import { MdEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
+import { MdEdit, MdDelete } from "react-icons/md";
 
 const FeaturedVideo = () => {
   const dispatch = useDispatch();
   const { featuredVideo, status } = useSelector((state) => state.featuredVideo);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(null);
   const [URL, setURL] = useState("");
+  const [error, setError] = useState("");
 
   // Fetch videos on component load
   useEffect(() => {
@@ -26,8 +20,24 @@ const FeaturedVideo = () => {
     }
   }, [status, dispatch]);
 
-  // Add video
+  // URL validation
+  const validateURL = (url) => {
+    const regex = /^(https?:\/\/)?(www\.)?(youtube|vimeo)\.(com|tv|in)\/.+$/;
+    return regex.test(url);
+  };
+
+  //? Add video
   const handleAddVideo = () => {
+    if (!URL) {
+      setError("Please provide a URL.");
+      return;
+    }
+    if (!validateURL(URL)) {
+      setError("Invalid video URL.");
+      return;
+    }
+
+    setError(""); // Clear any previous errors
     dispatch(addfeaturedVideo({ URL }))
       .then(() => {
         toast.success("Video added successfully!");
@@ -39,10 +49,20 @@ const FeaturedVideo = () => {
       });
   };
 
-  // Update video
+  //? Update video
   const handleUpdateVideo = () => {
+    if (!URL) {
+      setError("Please provide a URL.");
+      return;
+    }
+    if (!validateURL(URL)) {
+      setError("Invalid video URL.");
+      toast.error("Invalid video URL")
+      return;
+    }
+    setError(""); // Clear any previous errors
     if (currentVideo) {
-      dispatch(updatefeaturedVideo({ id: currentVideo._id, URL }))
+      dispatch(updatefeaturedVideo({ id: currentVideo?._id, URL }))
         .then(() => {
           toast.success("Video updated successfully!");
           setIsModalOpen(false);
@@ -54,12 +74,16 @@ const FeaturedVideo = () => {
     }
   };
 
-  // Delete video
+  //? Delete video
   const handleDeleteVideo = (id) => {
-    dispatch(removefeaturedVideo(id))
-      .then(() => toast.success("Video deleted successfully!"))
-      .catch(() => toast.error("Failed to delete video!"));
+    const confirmed = window.confirm("Are you sure you want to delete this video?");
+    if (confirmed) {
+      dispatch(removefeaturedVideo(id))
+        .then(() => toast.success("Video deleted successfully!"))
+        .catch(() => toast.error("Failed to delete video!"));
+    }
   };
+
 
   const openUpdateModal = (video) => {
     setIsModalOpen(true);
@@ -105,7 +129,9 @@ const FeaturedVideo = () => {
                   value={URL}
                   onChange={(e) => setURL(e.target.value)}
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
+                  placeholder="e.g https://www.youtube.com/watch?v=5346fdDV"
                 />
+                {error && <p className="text-red-500">{error}</p>}
               </div>
               <div className="flex justify-end gap-2">
                 <button
@@ -130,11 +156,10 @@ const FeaturedVideo = () => {
 
       {/* Video List */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
-        {featuredVideo?.length > 0 ? (
-          featuredVideo.map((video) => {
+        {featuredVideo && featuredVideo?.length > 0 ? (
+          featuredVideo?.map((video) => {
             // Safely extract video ID
             const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || "";
-
             return (
               <div
                 key={video?._id}

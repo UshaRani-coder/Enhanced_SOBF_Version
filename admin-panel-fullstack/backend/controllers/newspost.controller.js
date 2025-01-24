@@ -2,7 +2,7 @@ const { default: mongoose } = require("mongoose");
 const bulletineModal = require("../models/newspost.model");
 
 
-// CREATE 
+//! CREATE 
 const createNewsBulletine = async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -19,7 +19,7 @@ const createNewsBulletine = async (req, res) => {
   }
 };
 
-// GET ALL POSTS
+//! GET ALL POSTS
 const getNewsBulletine = async (req, res) => {
   try {
     const posts = await bulletineModal.find({})
@@ -30,7 +30,7 @@ const getNewsBulletine = async (req, res) => {
 };
 
 
-//  UPDATE  POST BASED ON ID 
+//!  UPDATE  POST BASED ON ID 
 const updateNewsBulletine = async (req, res) => {
   try {
     const { id } = req.params;
@@ -56,7 +56,7 @@ const updateNewsBulletine = async (req, res) => {
 };
 
 
-// DELETE POST BASED ON ID
+//! DELETE POST BASED ON ID
 const deleteNewsBulletine = async (req, res) => {
   try {
     const { id } = req.params;
