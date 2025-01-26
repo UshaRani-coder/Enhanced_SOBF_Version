@@ -1,17 +1,17 @@
 import React from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams,useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const RecentActivityDetails = () => {
+const NewsBulletinDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const posts = useSelector((state) => state.posts.posts);
-  const activity = posts.find((post) => post._id === id);
+  const bulletines = useSelector((state) => state.bulletines.bulletines); // Redux posts
+  const activity = bulletines.find((bulletin) => bulletin._id === id);
 
   if (!activity) {
     return (
       <div className="flex flex-col items-center w-full mt-[150px] p-4">
-        <p className="text-lg text-red-500">Activity not found!</p>
+        Activity not found!
       </div>
     );
   }
@@ -25,8 +25,9 @@ const RecentActivityDetails = () => {
     });
   };
   const handleBack = () => {
-    navigate("/recent-activities", { state: { scrollTo: "recentActivities" } });
+    navigate("/press-release", { state: { scrollTo: "pressRelease" } });
   };
+
   return (
     <div className="flex flex-col items-center w-full mt-[100px] md:mt-[140px]  p-4">
       <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-[30px]">
@@ -59,14 +60,16 @@ const RecentActivityDetails = () => {
                 />
               ))
             )
-          ) : (
+          ) 
+          : (
             // Fallback Image
             <img
               src="https://via.placeholder.com/600"
               alt="Placeholder"
               className="w-full h-full object-cover rounded-lg shadow-lg"
             />
-          )}
+          )
+          }
         </div>
 
         <div className="w-full lg:w-1/2 flex flex-col justify-start p-4">
@@ -86,7 +89,7 @@ const RecentActivityDetails = () => {
               className="px-4 py-2 font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all mt-4"
               onClick={handleBack}
             >
-              Back to Recent Activities
+              Back to Press Release
             </button>
           </div>
           <div className="mt-12 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 rounded-lg shadow-lg">
@@ -111,4 +114,4 @@ const RecentActivityDetails = () => {
   );
 };
 
-export default RecentActivityDetails;
+export default NewsBulletinDetails;

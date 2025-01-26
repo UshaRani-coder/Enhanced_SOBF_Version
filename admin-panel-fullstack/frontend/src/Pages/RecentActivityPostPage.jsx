@@ -16,7 +16,6 @@ const RecentActivityPostPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
-  console.log(expandedItem);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -31,39 +30,6 @@ const RecentActivityPostPage = () => {
     }
   }, [status, dispatch]);
 
-  // const handleAddPost = () => {
-  //   if (!formData.title.trim()) {
-  //     toast.error("Title is required.");
-  //     return;
-  //   }
-  //   if (!formData.description.trim()) {
-  //     toast.error("Description is required.");
-  //     return;
-  //   }
-  //   if (!formData.images) {
-  //     toast.error("At least one image is required.");
-  //     return;
-  //   }
-
-  //   const formDataToSend = new FormData();
-  //   formDataToSend.append("title", formData.title);
-  //   formDataToSend.append("description", formData.description);
-  //   formDataToSend.append("date", formData.date);
-  //   if (formData.images) formDataToSend.append("images", formData.images);
-  //   if (formData.videos) formDataToSend.append("videos", formData.videos);
-
-  //   dispatch(addPost(formDataToSend))
-  //     .unwrap()
-  //     .then(() => {
-  //       toast.success("Post added successfully!");
-  //       setIsModalOpen(false);
-  //       resetForm();
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error || "Failed to add post.");
-  //     });
-  // };
-
   const handleAddPost = () => {
     if (!formData.title.trim()) {
       toast.error("Title is required.");
@@ -77,10 +43,10 @@ const RecentActivityPostPage = () => {
       toast.error("Date is required.");
       return;
     }
-    if (!formData.images?.length) {
-      toast.error("At least one image is required.");
-      return;
-    }
+    if (!formData.images && !formData.videos) {
+          toast.error("Either image or video is required.");
+          return;
+        }
 
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
@@ -125,16 +91,12 @@ const RecentActivityPostPage = () => {
     updatedData.append("title", formData.title);
     updatedData.append("description", formData.description);
     updatedData.append("date", formData.date);
-    // if (formData.images) updatedData.append("images", formData.images);
-    // if (formData.videos) updatedData.append("videos", formData.videos);
-    
   if (formData.images) {
     formData.images.forEach((file) => {
       updatedData.append("images", file);
     });
   }
   
- 
   if (formData.videos) {
     formData.videos.forEach((file) => {
       updatedData.append("videos", file);
@@ -219,8 +181,10 @@ const RecentActivityPostPage = () => {
       title: post?.title,
       description: post?.description,
       date: post?.date,
-      images: null,
-      videos: null,
+      images: [],
+      videos: [],
+      // images:null,
+      // videos:null,
     });
   };
   
@@ -248,7 +212,7 @@ const RecentActivityPostPage = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 max-h-[90vh] overflow-y-auto scrollbar-none">
             {/* Header */}
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center gap-x-[20px] mb-4">
               <h2 className="text-xl font-bold">{expandedItem?.title}</h2>
               <button onClick={closeExpandedModal}>
                 <MdClose className="text-2xl text-gray-600" />
@@ -280,7 +244,7 @@ const RecentActivityPostPage = () => {
                   key={index}
                   src={image}
                   alt={`Post Image ${index + 1}`}
-                  className="w-full h-60 object-cover rounded mb-4"
+                  className="w-full  object-cover rounded mb-[20px]"
                 />
               ))
             ) : (

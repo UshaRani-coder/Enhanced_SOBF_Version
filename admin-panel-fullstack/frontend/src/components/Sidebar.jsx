@@ -111,7 +111,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
             >
               <FaRegNewspaper className="text-lg ml-4" />
-              {!isCollapsed && <span className="ml-4"> Bulletins </span>}
+              {!isCollapsed && <span className="ml-4">News Bulletins </span>}
             </Link>
           </li>
           <li>

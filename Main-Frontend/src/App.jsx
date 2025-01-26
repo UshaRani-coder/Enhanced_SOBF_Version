@@ -6,7 +6,7 @@ import Footer from "./Components/common_components/Footer.jsx";
 import BackgroundMusic from "./Components/BackgroundMusic.jsx";
 import LegalDoc from "./pages/LegalDoc.jsx";
 import loader from "./assets/loader.webp"
-import ActivityDetails from "./pages/ActivityDetails.jsx";
+import NewsBulletinDetails from "./pages/NewsBulletinDetails.jsx";
 import Whatsapp from "./Components/Whatsapp.jsx";
 import RecentActivityDetails from "./pages/RecentActivityDetail.jsx";
 
@@ -47,10 +47,10 @@ const App = () => {
         <Route path="/vision" element={<Vision />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/press-release" element={<Press_Release />} />
-        <Route path="/press-release/:id" element={<ActivityDetails />} />
+        <Route path="/press-release/:id" element={<NewsBulletinDetails/>} />
         <Route path="/recent-activities" element={<Recent_Activities />} />
         <Route path="/recent-activities/:id" element={<RecentActivityDetails />} />
-        <Route path="/recent-activities/:id" element={<ActivityDetails />} />
+        {/* <Route path="/recent-activities/:id" element={<ActivityDetails />} /> */}
         <Route path="/donate-us" element={<Donateus />} />
         <Route path="/legal-doc" element={<LegalDoc />} />
         <Route path="/anna-vitran-seva" element={<AnnaVitranSeva />} />
