@@ -141,9 +141,9 @@ const LegalDoc = () => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center m-4">
-        <h1 className="text-3xl font-semibold">Legal Documents</h1>
+        <h1 className="text-xl small-range:text-2xl small-max:text-3xl md:text-4xl font-semibold">Legal Documents</h1>
         <button
-          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-6 py-3 text-lg font-semibold rounded-3xl shadow-lg transition-all hover:scale-105"
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-4 small-max:py-3 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);

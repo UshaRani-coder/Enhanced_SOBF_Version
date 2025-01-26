@@ -157,7 +157,9 @@ const OurService = () => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center p-4">
-        <h1 className="text-3xl font-bold">Our Services</h1>
+      <h1 className="text-2xl small-range:text-3xl md:text-4xl font-semibold">
+          Our Services
+        </h1>
         <button
           className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
           onClick={() => {
@@ -166,14 +168,14 @@ const OurService = () => {
             resetForm();
           }}
         >
-          Add Post
+          Add Service
         </button>
       </div>
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center  z-50">
+          <div className="bg-white p-6 rounded-lg w-11/12 max-h-[90vh] overflow-y-auto scrollbar-none md:w-1/2">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? "Update Post" : "Add New Post"}
             </h2>

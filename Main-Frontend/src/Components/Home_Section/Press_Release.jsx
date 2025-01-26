@@ -2,14 +2,13 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getPosts, removePost } from "../../Reducers/postSlice";
-// import { getPosts, removePost } from "../../reducers/postSlice";
 
 const Press_Release = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
   // Fetch posts and status from the Redux store
-  const { posts, status, error } = useSelector((state) => state.posts);
+  const { bulletines, status, error } = useSelector((state) => state.bulletines);
 
   // Fetch posts when the component loads
   useEffect(() => {
@@ -51,7 +50,7 @@ const Press_Release = () => {
 
       <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px] lg:flex-row lg:justify-center p-5">
         {/* {posts.length === 3 && posts.map((news) => ( */}
-        {posts.map((news) =>(
+        {bulletines.map((news) =>(
           <div
             key={news._id}
             className="flex flex-col items-center w-[90%] md:w-[55%] lg:w-[30%] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"

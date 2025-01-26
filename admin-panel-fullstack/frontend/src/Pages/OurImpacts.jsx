@@ -7,7 +7,7 @@ import { MdEdit, MdDelete } from "react-icons/md";
 const OurImpacts = () => {
   const dispatch = useDispatch();
   const { ourImpacts, status } = useSelector((state) => state.ourImpacts);
-  const maxLength = 100;
+  const maxLength = 60;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
@@ -210,17 +210,17 @@ const OurImpacts = () => {
           ourImpacts?.map((impact) => (
             <div
               key={impact._id}
-              className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center"
+              className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center justify-center"
             >
               <img
                 src={impact?.image || "https://via.placeholder.com/150"}
                 alt="Impact"
                 className="w-full h-40 object-cover rounded"
               />
-              <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
+              <h3 className=" line-clamp-2 mt-2 font-bold text-xl">
                 {impact?.total_services}
               </h3>
-              <p className="w-fulltext-center  line-clamp-2 mt-1 text-sm text-gray-600">
+              <p className="w-full text-center  line-clamp-2 mt-1 text-sm text-gray-600">
                 {impact?.description}
               </p>
               <div className="mt-4 flex gap-4">

@@ -24,7 +24,7 @@ const Whatsapp = () => {
     <div className="">
       <FloatingWhatsApp
         phoneNumber="918439406670"
-        accountName="Tarun Misra"
+        accountName="Soul Of Braj Federation"
         allowEsc
         allowClickAway
         notification
