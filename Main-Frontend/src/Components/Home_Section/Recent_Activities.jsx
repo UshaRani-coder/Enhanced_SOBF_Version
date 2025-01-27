@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getBulletine } from "../../Reducers/bulletinSlice";
 import InfiniteScroll from "react-infinite-scroll-component";
+import loader from '../../assets/loader.webp'
 
 const Recent_Activities = React.memo(() => {
   const location = useLocation();
@@ -85,7 +86,7 @@ const Recent_Activities = React.memo(() => {
         dataLength={displayedPosts.length}
         next={loadMorePosts} // Trigger the function to load more posts
         hasMore={hasMorePosts} // Check if there are more posts to load
-        loader={<h4 className="text-center w-[100%]">Loading more...</h4>} // Show loader while loading
+        loader={<img src={loader} alt="Loading..." className="w-[20px] h-[20px] align-center"/>} // Show loader while loading
         scrollableTarget="scrollableDiv"
         style={{ display: "flex", flexDirection: "column-reverse" }} // To put endMessage and loader at the top
         inverse={true}
