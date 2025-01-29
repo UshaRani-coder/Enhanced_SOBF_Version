@@ -5,52 +5,145 @@ const bulletineModal = require("../models/newspost.model");
 //! CREATE 
 const createNewsBulletine = async (req, res) => {
   try {
+    let videosArr = []
+    let imageArr = [];
     const { title, description } = req.body;
-    if (!title || !description) {
-      return res.status(400).json({ error: 'All fields including files are required' });
+    if (!title || title.trim().length < 3) {
+      return res.status(400).json({
+        error: "Title must be a string with at least 3 characters",
+      });
     }
-    const images = req.images
-    // const videos = req.videos
-    const post = new bulletineModal({ title, description, images });
+
+    if (!description || description.trim().length < 5) {
+      return res.status(400).json({
+        error: "Description must be a string with at least 5 characters",
+      });
+    }
+    // for images 
+    const images = req.files.images || [];
+    if (images.length > 0) {
+      for (let index = 0; index < images.length; index++) {
+        const image = images[index];
+        imageArr.push(image.filename)
+      }
+    }
+    // for videos
+    const videos = req.files.videos || [];
+    if (videos.length > 0) {
+      for (let index = 0; index < videos.length; index++) {
+        const video = videos[index];
+        videosArr.push(video.filename)
+      }
+    }
+    // Save post to database
+    const post = new bulletineModal({ title, description, images: imageArr, videos: videosArr });
     await post.save();
-    res.status(201).json({ success: true, message: 'News/Bulletine created successfully', post });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while creating news/bulletine post", error: error.message });
+    res.status(201).json({ success: true, message: "Post created successfully", post });
+  }
+  catch (error) {
+    res.status(500).json({ success: false, message: "Error creating post", error: error.message });
   }
 };
 
 //! GET ALL POSTS
 const getNewsBulletine = async (req, res) => {
   try {
-    const posts = await bulletineModal.find({})
-    res.status(200).json({ success: true, message: "Successfully fetched all the new/bulletine posts .", posts });
+    const posts = await bulletineModal.find({});
+    const baseURL = process.env.BASE_URL || "http://localhost:5000";
+
+    if (posts.length > 0) {
+      posts.forEach(post => {
+        // Format images and videos URLs
+        if (Array.isArray(post.images)) {
+          post.images = post.images.map(image => image ? `${baseURL}/uploads/news-bulletine/${image}` : image);
+        }
+
+        if (Array.isArray(post.videos)) {
+          post.videos = post.videos.map(video => video ? `${baseURL}/uploads/news-bulletine/${video}` : video);
+        }
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Successfully fetched all the news/bulletin posts.",
+      posts,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while getting news/bulletine post", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while getting news/bulletin post",
+      error: error.message,
+    });
   }
 };
+
 
 
 //!  UPDATE  POST BASED ON ID 
 const updateNewsBulletine = async (req, res) => {
   try {
     const { id } = req.params;
-    const updates = { ...req.body };
-    if (req.files === undefined || !req.files) {
-      return res.status(404).json({ error: "file not found " });
-    }
-    // if (req.files) {
-    const images = req.images
-    // const videos = req.videos
-    if (images) updates.images = images
-    // if (videos) updates.videos = videos
-    // }
-    const updatedPost = await bulletineModal.findByIdAndUpdate(id, updates, { new: true });
-    if (!updatedPost) {
-      return res.status(404).json({ error: 'News/Bulletine not found' });
+    // Fetch the existing post
+    const existingPost = await bulletineModal.findById(id);
+    if (!existingPost) {
+      return res.status(404).json({ error: "Post not found" });
     }
 
-    res.status(200).json({ success: true, message: 'News/Bulletine updated successfully', updatedPost });
-  } catch (error) {
+    const { title, description } = req.body;
+
+    // Validate fields
+    if (title && (typeof title !== "string" || title.trim().length < 3)) {
+      return res.status(400).json({ error: "Title must be a string with at least 3 characters" });
+    }
+
+    if (description && (typeof description !== "string" || description.trim().length < 5)) {
+      return res.status(400).json({ error: "Description must be a string with at least 5 characters" });
+    }
+
+    // Initialize updated data with existing values
+    const updates = {
+      title: title || existingPost.title,
+      description: description || existingPost.description,
+      images: existingPost.images,
+      videos: existingPost.videos,
+    };
+
+    // Handle updated images if provided
+    const images = req.files?.images || [];
+    if (images.length > 0) {
+      const updatedImages = [];
+      for (let index = 0; index < images.length; index++) {
+        updatedImages.push(images[index].filename);
+      }
+      updates.images = updatedImages;
+    }
+
+    // Handle updated videos if provided
+    const videos = req.files?.videos || [];
+    if (videos.length > 0) {
+      const updatedVideos = [];
+      for (let index = 0; index < videos.length; index++) {
+        updatedVideos.push(videos[index].filename);
+      }
+      updates.videos = updatedVideos;
+    }
+
+    // Update the post
+    const updatedPost = await bulletineModal.findByIdAndUpdate(id, updates, { new: true });
+    if (!updatedPost) {
+      return res.status(404).json({ error: "Bulletine Post not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Bulletine Post updated successfully",
+      updatedPost,
+    });
+
+
+  }
+  catch (error) {
     res.status(500).json({ success: false, message: "Something went wrong while updating news/bulletine post", error: error.message });
   }
 };

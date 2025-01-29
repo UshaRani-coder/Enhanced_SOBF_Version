@@ -20,12 +20,11 @@ const Video = () => {
 				<hr className="mt-1 border-light-lavender border-[1px]" />
 			</h1>
 			{/* Video List */}
-			<div className="mt-6 flex flex-col items-center justify-center md:flex-row flex-wrap  gap-6 justify-center">
+			<div className="mt-6 flex flex-col items-center md:flex-row flex-wrap  gap-6 justify-center">
 				{featuredVideo?.length > 0 ? (
 					featuredVideo.map((video) => {
 						// Safely extract video ID
 						const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || "";
-
 						return (
 							<div
 								key={video?._id}
@@ -37,7 +36,8 @@ const Video = () => {
 										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 										allowFullScreen
 										title="YouTube Video"
-										className="w-full h-60 object-cover rounded"></iframe>
+										className="w-full h-40 object-cover rounded"
+									></iframe>
 								) : (
 									<p className="text-red-500 text-center">Invalid Video URL</p>
 								)}

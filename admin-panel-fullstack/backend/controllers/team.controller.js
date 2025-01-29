@@ -1,19 +1,42 @@
 const Team = require("../models/team.model");
 
+
+
+//! Get all team members
+const getTeamMembers = async (req, res) => {
+  try {
+    const teamMembers = await Team.find();
+    if (teamMembers.length > 0) {
+      for (let index = 0; index < teamMembers.length; index++) {
+        const teamMember = teamMembers[index];
+        teamMember.image = process.env.BASE_URL + "/uploads/team-member/" + teamMember.image;
+      }
+    }
+    return res.status(200).json({ success: true, teamMembers });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
 // ! Create a new team member
 const createTeamMember = async (req, res) => {
   try {
     const { name, role, linkedIn, instagram } = req.body;
-    const image = req.image;
-
+    if (req.file.filename === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: 'Image is required '
+      });
+    }
+    const filename = req.file.filename;
     // Check if the required fields are provided
-    if (!name || !role || !linkedIn || !instagram || !image) {
+    if (!name || !role || !linkedIn || !instagram) {
       return res.status(400).json({
         success: false,
         message: 'All fields are required'
       });
     }
-
     // Validate URL format for LinkedIn and Instagram
     const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)(\/[a-zA-Z0-9_-]+)*\/?$/;
     if (!urlRegex.test(linkedIn)) {
@@ -22,25 +45,22 @@ const createTeamMember = async (req, res) => {
         message: 'Invalid LinkedIn URL format'
       });
     }
-
     if (!urlRegex.test(instagram)) {
       return res.status(400).json({
         success: false,
         message: 'Invalid Instagram URL format'
       });
     }
-
-
     // Proceed with creating the team member
-    const teamMember = new Team({ name, role, linkedIn, instagram, image });
+    const teamMember = new Team({ name, role, linkedIn, instagram, image: filename || "" });
     await teamMember.save();
-
+    teamMember.image = process.env.BASE_URL + "/uploads/team-member/" + teamMember.image;
     return res.status(201).json({
       success: true,
       teamMember
     });
-
   } catch (error) {
+    console.log("error while creating team member  ", error)
     return res.status(500).json({
       success: false,
       message: 'Failed to create team member',
@@ -50,41 +70,58 @@ const createTeamMember = async (req, res) => {
 };
 
 
-//! Get all team members
-const getTeamMembers = async (req, res) => {
-  try {
-    const teamMembers = await Team.find();
-    return res.status(200).json({ success: true, teamMembers });
-  } catch (error) {
-    return res.status(500).json({ success: false, message: 'Failed to fetch team members', error: error.message });
-  }
-};
 
 //! Update a team member
 const updateTeam = async (req, res) => {
   try {
     const { id } = req.params;
-
     // Fetch the existing team member
     const existingTeamMember = await Team.findById(id);
     if (!existingTeamMember) {
       return res.status(404).json({ success: false, message: "Team member not found" });
     }
 
-    // Prepare updates
-    const updates = { ...req.body };
-    const image = req.image;
+    // Prepare updates from request body
+    const { name, role, linkedIn, instagram } = req.body;
 
-    // Retain the existing image if no new image is uploaded
-    updates.image = image || existingTeamMember.image;
+    // Validate LinkedIn and Instagram URLs if they are provided
+    const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)(\/[a-zA-Z0-9_-]+)*\/?$/;
+    if (linkedIn && !urlRegex.test(linkedIn)) {
+      return res.status(400).json({ success: false, message: 'Invalid LinkedIn URL format' });
+    }
+    if (instagram && !urlRegex.test(instagram)) {
+      return res.status(400).json({ success: false, message: 'Invalid Instagram URL format' });
+    }
+
+    // Check if a new image is provided; otherwise, keep the existing one
+    const image = req.file ? req.file.filename : existingTeamMember.image;
+
+    // Prepare the updated fields
+    const updates = {
+      name: name || existingTeamMember.name,
+      role: role || existingTeamMember.role,
+      linkedIn: linkedIn || existingTeamMember.linkedIn,
+      instagram: instagram || existingTeamMember.instagram,
+      image,
+    };
 
     // Update the team member
     const updatedTeam = await Team.findByIdAndUpdate(id, updates, { new: true });
+
+    // Append the full image URL
+    updatedTeam.image = process.env.BASE_URL + "/uploads/team-member/" + updatedTeam.image;
+
     return res.status(200).json({ success: true, updatedTeam });
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Failed to update team member', error: error.message });
+    console.log("Error while updating team member: ", error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to update team member',
+      error: error.message,
+    });
   }
 };
+
 
 
 //! Delete a team member
@@ -92,7 +129,7 @@ const deleteTeam = async (req, res) => {
   try {
     const { id } = req.params;
     await Team.findByIdAndDelete(id);
-    return res.status(200).json({ success: true, message: 'Team member deleted successfully' });
+    return res.status(200).json({ success: true });
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Failed to delete team member', error: error.message });
   }

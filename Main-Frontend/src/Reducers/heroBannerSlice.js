@@ -3,7 +3,9 @@ import { getHeroBanner, createHeroBanner, updateHeroBanner, deleteHeroBanner } f
 
 export const getHeroBanners = createAsyncThunk('heroBanner/getHeroBanners', async () => {
   const response = await getHeroBanner();
-  return response.data.posts;
+
+  
+  return response.data.banners;
 });
 
 export const addHeroBanner = createAsyncThunk('heroBanner/addHeroBanner', async (postData) => {

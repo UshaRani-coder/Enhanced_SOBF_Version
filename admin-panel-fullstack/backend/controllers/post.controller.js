@@ -4,50 +4,91 @@ const PostModel = require("../models/post.model");
 // Helper Function: Validate ID format
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
-// CREATE
-const createPost = async (req, res) => {
-  try {
-    const { title, description } = req.body;
 
-    // Validate required fields
-    if (!title || typeof title !== "string" || title.trim().length < 3) {
-      return res.status(400).json({ error: "Title must be a string with at least 3 characters" });
-    }
-
-    if (!description || typeof description !== "string" || description.trim().length < 5) {
-      return res.status(400).json({ error: "Description must be a string with at least 5 characters" });
-    }
-
-    // Validate files
-    const images = req.images;
-    const videos = req.videos;
-
-    if (!images || !Array.isArray(images) || images.some(img => typeof img !== "string")) {
-      return res.status(400).json({ error: "Images must be an array of valid strings" });
-    }
-
-    // if (!videos || !Array.isArray(videos) || videos.some(video => typeof video !== "string")) {
-    //   return res.status(400).json({ error: "Videos must be an array of valid strings" });
-    // }
-
-    // Save the post
-    const post = new PostModel({ title, description, images, videos });
-    await post.save();
-    res.status(201).json({ success: true, message: "Post created successfully", post });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while creating post", error: error.message });
-  }
-};
 
 // GET ALL POSTS
 const getPosts = async (req, res) => {
   try {
     const posts = await PostModel.find({});
-    res.status(200).json({ success: true, message: "Successfully fetched all posts", posts });
+    const baseURL = process.env.BASE_URL;
+
+    if (posts.length > 0) {
+      for (let index = 0; index < posts.length; index++) {
+        const post = posts[index];
+
+        if (post.images && Array.isArray(post.images)) {
+          post.images = post.images.map((image) =>
+            image ? `${baseURL}/uploads/recent-activities/${image}` : image
+          );
+        }
+
+        // Check and update the videos array with full URLs
+        if (post.videos && Array.isArray(post.videos)) {
+          post.videos = post.videos.map((video) =>
+            video ? `${baseURL}/uploads/recent-activities/${video}` : video
+          );
+        }
+      }
+    }
+    res.status(200).json({
+      success: true,
+      message: "Successfully fetched all posts",
+      posts,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while fetching posts", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching posts",
+      error: error.message,
+    });
   }
 };
+
+
+// CREATE POST
+const createPost = async (req, res) => {
+  try {
+    let videosArr = []
+    let imageArr = [];
+    const { title, description } = req.body;
+    if (!title || title.trim().length < 3) {
+      return res.status(400).json({
+        error: "Title must be a string with at least 3 characters",
+      });
+    }
+
+    if (!description || description.trim().length < 5) {
+      return res.status(400).json({
+        error: "Description must be a string with at least 5 characters",
+      });
+    }
+    // for images 
+    const images = req.files.images || [];
+    if (images.length > 0) {
+      for (let index = 0; index < images.length; index++) {
+        const image = images[index];
+        imageArr.push(image.filename)
+      }
+    }
+    // for videos
+    const videos = req.files.videos || [];
+    if (videos.length > 0) {
+      for (let index = 0; index < videos.length; index++) {
+        const video = videos[index];
+        videosArr.push(video.filename)
+      }
+    }
+    // Save post to database
+    const post = new PostModel({ title, description, images: imageArr, videos: videosArr });
+    await post.save();
+    res.status(201).json({ success: true, message: "Post created successfully", post });
+  } 
+  catch (error) {
+    res.status(500).json({ success: false, message: "Error creating post", error: error.message });
+  }
+};
+
+
 
 // UPDATE POST BASED ON ID
 const updatePost = async (req, res) => {
@@ -59,8 +100,13 @@ const updatePost = async (req, res) => {
       return res.status(400).json({ error: "Invalid post ID" });
     }
 
-    const updates = { ...req.body };
-    const { title, description } = updates;
+    // Fetch the existing post
+    const existingPost = await PostModel.findById(id);
+    if (!existingPost) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const { title, description } = req.body;
 
     // Validate fields
     if (title && (typeof title !== "string" || title.trim().length < 3)) {
@@ -71,17 +117,33 @@ const updatePost = async (req, res) => {
       return res.status(400).json({ error: "Description must be a string with at least 5 characters" });
     }
 
-    // Validate files
-    const images = req.images;
-    const videos = req.videos;
+    // Initialize updated data with existing values
+    const updates = {
+      title: title || existingPost.title,
+      description: description || existingPost.description,
+      images: existingPost.images,
+      videos: existingPost.videos,
+    };
 
-    if (images && (!Array.isArray(images) || images.some(img => typeof img !== "string"))) {
-      return res.status(400).json({ error: "Images must be an array of valid strings" });
+    // Handle updated images if provided
+    const images = req.files?.images || [];
+    if (images.length > 0) {
+      const updatedImages = [];
+      for (let index = 0; index < images.length; index++) {
+        updatedImages.push(images[index].filename);
+      }
+      updates.images = updatedImages;
     }
 
-
-    if (images) updates.images = images;
-    if (videos) updates.videos = videos;
+    // Handle updated videos if provided
+    const videos = req.files?.videos || [];
+    if (videos.length > 0) {
+      const updatedVideos = [];
+      for (let index = 0; index < videos.length; index++) {
+        updatedVideos.push(videos[index].filename);
+      }
+      updates.videos = updatedVideos;
+    }
 
     // Update the post
     const updatedPost = await PostModel.findByIdAndUpdate(id, updates, { new: true });
@@ -89,11 +151,26 @@ const updatePost = async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    res.status(200).json({ success: true, message: "Post updated successfully", updatedPost });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while updating post", error: error.message });
+    res.status(200).json({
+      success: true,
+      message: "Post updated successfully",
+      updatedPost,
+    });
+
+
+  } 
+  catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong while updating the post",
+      error: error.message,
+    });
   }
 };
+
+
+
+
 
 // DELETE POST BASED ON ID
 const deletePost = async (req, res) => {

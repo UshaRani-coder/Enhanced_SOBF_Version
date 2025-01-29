@@ -7,27 +7,26 @@ import { addService, getServices, removeService, updateService, } from "../Reduc
 const OurService = () => {
   const dispatch = useDispatch();
   const { services, status } = useSelector((state) => state.services);
-  const maxLength = 300; // Max character limit for title
+  const maxLength = 500; // Max character limit for description
   const maxImages = 5; // Max number of service images allowed
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    logo: null, // For storing the logo file
-    images: [], // For storing multiple service images
+    logo: null,
+    images: [],
   });
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(getServices());   //? getting posts 
+      dispatch(getServices()); // Fetching posts
     }
   }, [status, dispatch]);
 
-
-
-  // ? adding post 
+  // ! Add a post
   const handleAddPost = () => {
     if (!formData.title.trim()) {
       toast.error("Title is required and cannot be empty");
@@ -45,6 +44,7 @@ const OurService = () => {
       toast.error("At least one service image is required");
       return;
     }
+
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
@@ -52,53 +52,55 @@ const OurService = () => {
     formData.images.forEach((image) => {
       formDataToSend.append("images", image);
     });
+
+    setIsLoading(true); // Start loading
     dispatch(addService(formDataToSend))
       .unwrap()
       .then(() => {
         toast.success("Post added successfully!");
         setIsModalOpen(false);
         resetForm();
+        dispatch(getServices()); // Re-fetch services after adding a post
       })
       .catch((error) => {
         toast.error(error || "Failed to add post");
-      });
+      })
+      .finally(() => setIsLoading(false)); // End loading
   };
 
 
-
-  // ? Updating post 
+  //!  Update a post
   const handleUpdatePost = () => {
     const updatedData = new FormData();
     updatedData.append("title", formData.title);
     updatedData.append("description", formData.description);
-    if (formData.logo) {
-      updatedData.append("logo", formData.logo);
-    }
-    formData.images.forEach((image) => {
-      updatedData.append("images", image);
-    });
+    if (formData.logo) updatedData.append("logo", formData.logo);
+    formData.images.forEach((image) => updatedData.append("images", image));
+
+    setIsLoading(true);
     dispatch(updateService({ id: currentPost?._id, updatedData }))
       .unwrap()
       .then(() => {
-        toast.success("Post updated successfully!"); 
-        setIsModalOpen(false); 
+        toast.success("Post updated successfully!");
+        setIsModalOpen(false);
         resetForm();
+        setIsModalOpen(false);
+        dispatch(getServices());
       })
       .catch((error) => {
         toast.error(error || "Failed to update post");
       })
       .finally(() => {
+        setIsLoading(false)
         setIsModalOpen(false);
+        dispatch(getServices());
       });
   };
 
-
-// ? deleting post
+  // ! Delete a post
   const handleDeletePost = (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this post?"
-    );
-    if (confirmDelete) {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      setIsLoading(true); // Start loading
       dispatch(removeService(id))
         .unwrap()
         .then(() => {
@@ -106,41 +108,64 @@ const OurService = () => {
         })
         .catch((error) => {
           toast.error(error || "Failed to delete post");
-        });
+        }).finally(() => setIsLoading(false)); // End loading;
     }
   };
+
 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (value.length <= maxLength) {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === "description" && value.length > maxLength) {
+      toast.error(`Description exceeds the maximum character limit of ${maxLength}.`);
+      return;
+    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlePaste = (e) => {
+    const { name } = e.target;
+    const pastedText = e.clipboardData.getData("text");
+    if (name === "description") {
+      const combinedText = formData.description + pastedText;
+      setFormData((prev) => ({ ...prev, [name]: combinedText }));
     }
   };
 
+
+  // ! Handle file changes 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
+    const allowedImageTypes = ["image/jpeg", "image/png", "image/gif", "image/avif", "image/webp"];
     if (name === "logo") {
-      // Handle single logo file
-      setFormData((prev) => ({ ...prev, logo: files[0] }));
-    } else if (name === "images") {
-      // Handle multiple service images
-      if (files.length > maxImages) {
-        toast.error(`You can upload a maximum of ${maxImages} images`);
+      if (files[0] && !allowedImageTypes.includes(files[0].type)) {
+        toast.error("Only image files (JPEG, PNG, GIF, WebP) are allowed for the logo.");
         return;
       }
-      const newImages = Array.from(files);
+      setFormData((prev) => ({ ...prev, logo: files[0] }));
+    } else if (name === "images") {
+      const invalidFiles = Array.from(files).filter((file) => !allowedImageTypes.includes(file.type));
+      if (invalidFiles.length > 0) {
+        toast.error("Only image files (JPEG, PNG, GIF, WebP) are allowed for service images.");
+        return;
+      }
+      if (files.length > maxImages) {
+        toast.error(`You can upload a maximum of ${maxImages} images.`);
+        return;
+      }
       setFormData((prev) => ({
         ...prev,
-        images: [...prev.images, ...newImages].slice(0, maxImages), // Limit to maxImages
+        images: [...prev.images, ...Array.from(files)].slice(0, maxImages),
       }));
     }
   };
 
+  //! reset form data
   const resetForm = () => {
     setFormData({ title: "", description: "", logo: null, images: [] });
     setCurrentPost(null);
   };
+
 
   const openUpdateModal = (post) => {
     setIsModalOpen(true);
@@ -153,6 +178,7 @@ const OurService = () => {
       images: [],
     });
   };
+
 
   return (
     <div className="container mx-auto">
@@ -188,21 +214,19 @@ const OurService = () => {
                   className="w-full px-4 py-2 border rounded"
                   placeholder="Enter title"
                 />
-                <p className="mt-1 text-sm text-gray-500">
-                  {maxLength - formData.title.length} characters remaining
-                </p>
               </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Description</label>
                 <textarea
                   name="description"
-                  value={formData?.description}
+                  value={formData.description}
                   onChange={handleInputChange}
+                  onPaste={handlePaste}
                   className="w-full px-4 py-2 border rounded"
                   placeholder="Enter description"
-                  rows={4}
                 ></textarea>
               </div>
+              
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Logo</label>
                 <input
@@ -212,13 +236,6 @@ const OurService = () => {
                   onChange={handleFileChange}
                   className=""
                 />
-                {formData && formData?.logo && (
-                  <img
-                    src={URL.createObjectURL(formData?.logo)}
-                    alt="Logo Preview"
-                    className="h-20 w-20 object-cover rounded mt-2"
-                  />
-                )}
               </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Images</label>
@@ -234,14 +251,16 @@ const OurService = () => {
                   You can upload up to {maxImages} images.
                 </p>
                 <div className="flex gap-3 mt-4">
-                  {formData && formData?.images.map((image, index) => (
-                    <img
-                      key={image._id}
-                      src={URL.createObjectURL(image)}
-                      alt={`Preview ${index + 1}`}
-                      className="h-20 w-20 object-cover rounded"
-                    />
-                  ))}
+                  {
+                    formData && formData?.images.map((image, index) => (
+                      <img
+                        key={image._id}
+                        src={URL.createObjectURL(image)}
+                        alt={`Preview ${index + 1}`}
+                        className="h-14 w-14 object-cover rounded"
+                      />
+                    ))
+                  }
                 </div>
               </div>
               <div className="flex justify-end gap-2">
@@ -255,9 +274,24 @@ const OurService = () => {
                 <button
                   type="button"
                   className="px-4 py-2 bg-green-600 text-white rounded"
+                  disabled={isLoading}
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
                 >
-                  {isUpdateMode ? "Update Post" : "Add Post"}
+                  {isLoading ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin h-5 w-5 mr-3 border-t-2 border-b-2 border-white rounded-full"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      Processing...
+                    </span>
+                  ) : isUpdateMode ? (
+                    "Update"
+                  ) : (
+                    "Add"
+                  )}
+
                 </button>
               </div>
             </form>

@@ -1,107 +1,95 @@
 const express = require("express");
+const { deletePost, updatePost, getPosts, createPost, } = require("../controllers/post.controller");
+// const { uploadMultipleFile, uploadSingleFile, uploadSinglePDFfile, uploadOurServicesFile, } = require("../middleware/upload");
+const { createNewsBulletine, getNewsBulletine, updateNewsBulletine, deleteNewsBulletine, } = require("../controllers/newspost.controller");
+const { createHeroBanner, getHeroBanner, updateHeroBanner, deleteHeroBanner, } = require("../controllers/hero-banner.controler");
+const { createOurImpacts, getOurImpacts, updateOurImpacts, deleteOurImpacts, } = require("../controllers/our-impacts.controller");
 const {
-  deletePost,
-  updatePost,
-  getPosts,
-  createPost,
-} = require("../controllers/post.controller");
-const upload = require("../middleware/multer");
-const {
-	uploadMultipleFile,
-	uploadSingleFile,
-	uploadSinglePDFfile,
-	uploadOurServicesFile,
-} = require("../middleware/upload");
-const {
-  createNewsBulletine,
-  getNewsBulletine,
-  updateNewsBulletine,
-  deleteNewsBulletine,
-} = require("../controllers/newspost.controller");
-const {
-  createHeroBanner,
-  getHeroBanner,
-  updateHeroBanner,
-  deleteHeroBanner,
-} = require("../controllers/hero-banner.controler");
-const {
-  createOurImpacts,
-  getOurImpacts,
-  updateOurImpacts,
-  deleteOurImpacts,
-} = require("../controllers/our-impacts.controller");
-const {
-  createFeaturedVideo,
-  getFeaturedVideo,
-  updateFeaturedVideo,
-  deleteFeaturedVideo,
-  getLegalDocument,
-  createLegalDocument,
-  updateLegalDocument,
-  deleteLegalDocument,
-} = require("../controllers/other.controller");
-const {
-  createTeamMember,
-  getTeamMembers,
-  updateTeam,
-  deleteTeam,
-} = require("../controllers/team.controller");
-
+	createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo, getLegalDocument, createLegalDocument, updateLegalDocument, deleteLegalDocument, } = require("../controllers/other.controller");
+const { createTeamMember, getTeamMembers, updateTeam, deleteTeam, } = require("../controllers/team.controller");
 const { createGalleryController, getAllGalleryImagesController, updateGalleryController, deleteGalleryController } = require("../controllers/gallery.controller");
 const { getAllServices, createService, updateService, deleteService } = require("../controllers/ourservices.controller");
 
+
+
+//? UPLOADING MIDDLEWARES  TO LOCAL UPLOADS FOLDER .....
+const { uploadRecentActivities, uploadTeamMember, uploadHeroBanner, uploadlegalDocuments, uploadOurServices, uploadNewsBulletine, uploadGallery, uploadOurImpacts } = require("../middleware/multer");
+
 const router = express.Router();
 
-//! FOR RECENT ACTIVITIES.....
-router.post(
-	"/create-post",
-	upload.fields([
-		{ name: "images", maxCount: 5 },
-		{ name: "videos", maxCount: 5 },
-	]),
-	uploadMultipleFile,
-	createPost
-);
+
+
+// ! Our Team Members  # DONE
+router.post("/create-team", uploadTeamMember.single("image"), createTeamMember);
+router.get("/get-team", getTeamMembers);
+router.put("/update-team/:id", uploadTeamMember.single("image"), updateTeam);
+router.delete("/delete-team/:id", deleteTeam);
+
+
+//! FOR RECENT ACTIVITIES.....    # DONE
+router.post("/create-post", uploadRecentActivities.fields([{ name: "images", maxCount: 5 }, { name: "videos", maxCount: 5 }]), createPost);
 router.get("/get-posts", getPosts);
-router.put(
-	"/update/:id",
-	upload.fields([
-		{ name: "images", maxCount: 5 },
-		{ name: "videos", maxCount: 5 },
-	]),
-	uploadMultipleFile,
-	updatePost
-);
+router.put("/update/:id", uploadRecentActivities.fields([{ name: "images", maxCount: 5 }, { name: "videos", maxCount: 5 }]),updatePost);
 router.delete("/delete/:id", deletePost);
+
+
+
+// ! Legal documents  ... #DONE 
+router.post("/create-legal-doc", uploadlegalDocuments.single("file"), createLegalDocument);
+router.get("/get-legal-doc", getLegalDocument);
+router.put("/update-legal-doc/:id", uploadlegalDocuments.single("file"), updateLegalDocument);
+router.delete("/delete-legal-doc/:id", deleteLegalDocument);
+
+
+// ! Our Services endpoint   ... #DONE 
+router.get("/get-services", getAllServices)
+router.post("/create-services", uploadOurServices.fields([{ name: "images", maxCount: 5 }, { name: "logo", maxCount: 1 },
+]), createService)
+router.put("/update-services/:id", uploadOurServices.fields([{ name: "images", maxCount: 5 }, { name: "logo", maxCount: 1 }]), updateService)
+router.delete("/delete-services/:id", deleteService)
+
+
+// ! Hero banner  
+router.post("/create-banner", uploadHeroBanner.single("image"), createHeroBanner);
+router.get("/get-hero-banner", getHeroBanner);
+router.put("/update-hero-banner/:id", uploadHeroBanner.single("image"), updateHeroBanner);
+router.delete("/delete-hero-banner/:id", deleteHeroBanner);
+
 
 //! FOR NEWS BULLETINE POST ....
 router.post("/create-newspost",
-	upload.fields([
-		{ name: "images", maxCount: 5 },
-		{ name: "videos", maxCount: 5 },
-	]),
-	uploadMultipleFile,
-	createNewsBulletine
-);
+	uploadNewsBulletine.fields([{ name: "images", maxCount: 5 }, { name: "videos", maxCount: 5 }]), createNewsBulletine);
 router.get("/get-newspost", getNewsBulletine);
-router.put("/update-news-post/:id",
-	upload.fields([
-		{ name: "images", maxCount: 5 },
-		{ name: "videos", maxCount: 5 },
-	]), uploadMultipleFile, updateNewsBulletine);
+router.put("/update-news-post/:id", uploadNewsBulletine.fields([{ name: "images", maxCount: 5 }, { name: "videos", maxCount: 5 }]), updateNewsBulletine);
 router.delete("/delete-news-post/:id", deleteNewsBulletine);
 
-// ! Hero banner  
-router.post("/create-banner", upload.single("image"), uploadSingleFile, createHeroBanner);
-router.get("/get-hero-banner", getHeroBanner);
-router.put("/update-hero-banner/:id", upload.single("image"), uploadSingleFile, updateHeroBanner);
-router.delete("/delete-hero-banner/:id", deleteHeroBanner);
+
+
+// ! Our Gallery
+router.post("/create-gallery-image", uploadGallery.single("image"), createGalleryController);
+router.get("/get-gallery-image", getAllGalleryImagesController);
+router.put("/update-gallery-image/:id", uploadGallery.single("image"), updateGalleryController);
+router.delete("/delete-gallery-image/:id", deleteGalleryController);
+
+
+
+
 
 // ! Our impacts
-router.post("/create-impacts", upload.single("image"), uploadSingleFile, createOurImpacts);
+router.post("/create-impacts", uploadOurImpacts.single("image"), createOurImpacts);
 router.get("/get-impacts", getOurImpacts);
-router.put("/update-impacts/:id", upload.single("image"), uploadSingleFile, updateOurImpacts);
+router.put("/update-impacts/:id", uploadOurImpacts.single("image"), updateOurImpacts);
 router.delete("/delete-impacts/:id", deleteOurImpacts);
+
+
+
+
+
+
+
+
+
+
 
 // ! Featured Videos
 router.post("/create-featured-video", createFeaturedVideo);
@@ -109,36 +97,10 @@ router.get("/get-featured-video", getFeaturedVideo);
 router.put("/update-featured-video/:id", updateFeaturedVideo);
 router.delete("/delete-featured-video/:id", deleteFeaturedVideo);
 
-// ! Legal documents
-router.post("/create-legal-doc", upload.single("file"), uploadSinglePDFfile, createLegalDocument);
-router.get("/get-legal-doc", getLegalDocument);
-router.put("/update-legal-doc/:id", upload.single("file"), uploadSinglePDFfile, updateLegalDocument);
-router.delete("/delete-legal-doc/:id", deleteLegalDocument);
-
-// ! Our Team Members
-router.post("/create-team", upload.single("image"), uploadSingleFile, createTeamMember);
-router.get("/get-team", getTeamMembers);
-router.put("/update-team/:id", upload.single("image"), uploadSingleFile, updateTeam);
-router.delete("/delete-team/:id", deleteTeam);
-
-// ! Our Gallery
-router.post("/create-gallery-image", upload.single("image"), uploadSingleFile, createGalleryController);
-router.get("/get-gallery-image", getAllGalleryImagesController);
-router.put("/update-gallery-image/:id", upload.single("image"), uploadSingleFile, updateGalleryController);
-router.delete("/delete-gallery-image/:id", deleteGalleryController);
 
 
-// ! Our Services endpoint
-router.get("/get-services", getAllServices)
-router.post("/create-services", upload.fields([
-	{ name: "images", maxCount: 5 }, // For multiple images
-	{ name: "logo", maxCount: 1 }, // For the logo
-]), uploadOurServicesFile, createService)
-router.put("/update-services/:id", upload.fields([
-	{ name: "images", maxCount: 5 }, // For multiple images
-	{ name: "logo", maxCount: 1 }, // For the logo
-]), uploadOurServicesFile, updateService)
-router.delete("/delete-services/:id", deleteService)
+
+
 
 
 

@@ -15,6 +15,8 @@ const Hero = () => {
     );
   };
 
+  console.log("heroBanner", heroBanner); 
+  
   const scrollRight = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner.length);
   };
@@ -32,7 +34,7 @@ const Hero = () => {
 
       return () => clearInterval(interval);
     }
-  }, [currentIndex, heroBanner.length]);
+  }, [currentIndex, heroBanner?.length]);
 
   useEffect(() => {
     // Animate text when currentIndex changes
@@ -50,9 +52,9 @@ const Hero = () => {
         textElement.removeEventListener("animationend", handleTextAnimationEnd);
       };
     }
-  }, [currentIndex, heroBanner.length]);
+  }, [currentIndex, heroBanner?.length]);
 
-  if (status === "loading" || heroBanner.length === 0) {
+  if (status === "loading" || heroBanner?.length === 0) {
     return (
       <div className="hero flex items-center justify-center w-full h-[100vh]">
         <p className="text-white font-bold text-xl">Loading...</p>

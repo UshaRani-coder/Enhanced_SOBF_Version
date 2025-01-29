@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import {addOurImpact,getOurImpact,updateOurImpact,removeOurImpact,} from "../Reducers/ourImpactsSlice";
+import { addOurImpact, getOurImpact, updateOurImpact, removeOurImpact } from "../Reducers/ourImpactsSlice";
 import { MdEdit, MdDelete } from "react-icons/md";
+
 
 const OurImpacts = () => {
   const dispatch = useDispatch();
   const { ourImpacts, status } = useSelector((state) => state.ourImpacts);
+  const [isLoading, setIsLoading] = useState(false);
   const maxLength = 100;
 
+  const [errorMessage, setErrorMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentImpact, setCurrentImpact] = useState(null);
@@ -20,65 +23,106 @@ const OurImpacts = () => {
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(getOurImpact()); //? getting posts 
+      dispatch(getOurImpact()); //? getting posts
     }
   }, [status, dispatch]);
 
-
-  //? adding post 
-  const handleAddPost = () => {
-    if (!formData.total_services.trim()) {
+  // ! Validating form data
+  const validateForm = () => {
+    const { total_services, description, image } = formData;
+    if (!total_services.trim()) {
       toast.error("Total services is required and cannot be empty");
-      return;
+      return false;
     }
-    if (!formData.description.trim()) {
+    if (!description.trim()) {
       toast.error("Description is required and cannot be empty");
-      return;
+      return false;
     }
-    if (!formData.image) {
+    if (!image) {
       toast.error("Image is required");
       return;
     }
+    // Validate image
+    if (image) {
+      const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (!allowedImageTypes.includes(image.type)) {
+        toast.error("Only JPG, PNG, or JPG images are allowed.");
+        return false;
+      }
+    }
+    return true;
+  };
+
+  // ! Adding post 
+  const handleAddPost = () => {
+    if (!validateForm()) return;
     const formDataToSend = new FormData();
     formDataToSend.append("total_services", formData.total_services);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("image", formData.image);
+    setIsLoading(true); // Start loading
     dispatch(addOurImpact(formDataToSend))
       .unwrap()
       .then(() => {
         toast.success("Our impact added successfully!");
         setIsModalOpen(false);
         resetForm();
+        dispatch(getOurImpact());
       })
       .catch((error) => {
         toast.error(error || "Failed to add our impact");
-      });
+      })
+      .finally(() => setIsLoading(false)); // End loading
   };
 
-  // ? updating post 
+  // ! Updating post 
   const handleUpdatePost = () => {
+    if (!formData.total_services) {
+      toast.error("Total services is required and cannot be empty");
+      return;
+    }
+    if (!formData.description) {
+      toast.error("Description is required and cannot be empty");
+      return;
+    }
+    // Validate image (if provided)
+    if (formData.image) {
+      const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (!allowedImageTypes.includes(formData.image.type)) {
+        toast.error("Only JPG, PNG, or JPG images are allowed.");
+        return;
+      }
+    }
     const updatedData = new FormData();
     updatedData.append("total_services", formData.total_services);
     updatedData.append("description", formData.description);
     if (formData.image) updatedData.append("image", formData.image);
-    dispatch(updateOurImpact({ id: currentImpact._id, updatedData }))
+    if (!currentImpact || !currentImpact._id) {
+      toast.error("No impact selected for updating.");
+      return;
+    }
+    // Start loading
+    setIsLoading(true);
+    dispatch(updateOurImpact({ id: currentImpact?._id, updatedData }))
       .unwrap()
       .then(() => {
         toast.success("Our impact updated successfully!");
         setIsModalOpen(false);
         resetForm();
+        dispatch(getOurImpact());
       })
       .catch((error) => {
-        toast.error(error || "Failed to update our impact");
-      });
+        console.error("Update Error:", error);
+        toast.error(error?.message || "Failed to update our impact");
+      })
+      .finally(() => setIsLoading(false)); // End loading
   };
 
-  // ? deleting post 
+  // ! Deleting post 
   const handleDelete = (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this impact? This action cannot be undone."
-    );
+    const confirmDelete = window.confirm("Are you sure you want to delete this impact? This action cannot be undone.");
     if (confirmDelete) {
+      setIsLoading(true); // Start loading
       dispatch(removeOurImpact(id))
         .unwrap()
         .then(() => {
@@ -86,25 +130,26 @@ const OurImpacts = () => {
         })
         .catch((error) => {
           toast.error(error || "Failed to delete our impact");
-        });
+        })
+        .finally(() => setIsLoading(false)); // End loading
     }
   };
 
+  // ! Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (value.length <= maxLength) {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrorMessage("");
   };
 
+  // ! Handle file input changes
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData((prev) => ({ ...prev, [name]: files[0] }));
+    setErrorMessage("");
   };
 
+  // ! Reset form data 
   const resetForm = () => {
     setFormData({ total_services: "", description: "", image: null });
     setCurrentImpact(null);
@@ -157,7 +202,7 @@ const OurImpacts = () => {
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                   maxLength={maxLength}
-                  placeholder="Numbers only eg. 2 3 "
+                  placeholder="Numbers only eg. 2 3"
                 />
               </div>
               <div className="mb-4">
@@ -196,8 +241,22 @@ const OurImpacts = () => {
                   type="button"
                   className="px-4 py-2 bg-blue-600 text-white rounded"
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
+                  disabled={isLoading}
                 >
-                  {isUpdateMode ? "Update Impact" : "Add Impact"}
+                  {isLoading ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin h-5 w-5 mr-3 border-t-2 border-b-2 border-white rounded-full"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      Processing...
+                    </span>
+                  ) : isUpdateMode ? (
+                    "Update"
+                  ) : (
+                    "Add"
+                  )}
                 </button>
               </div>
             </form>
@@ -205,43 +264,35 @@ const OurImpacts = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap justify-center gap-4">
-        {ourImpacts && ourImpacts?.length > 0 ? (
-          ourImpacts?.map((impact) => (
-            <div
-              key={impact._id}
-              className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center"
-            >
-              <img
-                src={impact?.image || "https://via.placeholder.com/150"}
-                alt="Impact"
-                className="w-full h-40 object-cover rounded"
-              />
-              <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
-                {impact?.total_services}
-              </h3>
-              <p className="w-fulltext-center  line-clamp-2 mt-1 text-sm text-gray-600">
-                {impact?.description}
-              </p>
-              <div className="mt-4 flex gap-4">
-                <button
-                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={() => openUpdateModal(impact)}
-                >
-                  <MdEdit className="text-blue-800 text-2xl" />
-                </button>
-                <button
-                  className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={() => handleDelete(impact?._id)}
-                >
-                  <MdDelete className="text-red-800 text-2xl" />
-                </button>
-              </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        {ourImpacts&&ourImpacts?.map((impact) => (
+          <div
+            key={impact._id}
+            className="border rounded-lg p-4 flex flex-col items-center"
+          >
+            <img
+              src={impact?.image}
+              alt="Impact"
+              className="w-full h-48 object-cover rounded-lg mb-4"
+            />
+            <h2 className="text-lg font-semibold">{impact?.total_services}</h2>
+            <p className="text-sm text-gray-600 mb-4">{impact?.description}</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => openUpdateModal(impact)}
+                className="text-blue-500 hover:text-blue-700"
+              >
+                <MdEdit />
+              </button>
+              <button
+                onClick={() => handleDelete(impact._id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <MdDelete />
+              </button>
             </div>
-          ))
-        ) : (
-          <p>No impacts found.</p>
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );

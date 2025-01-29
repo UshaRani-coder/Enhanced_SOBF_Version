@@ -7,10 +7,10 @@ export const getLegalDocuments = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getLegalDocs();
-      if (!response.data || !response.data.posts) {
+      if (!response.data || !response.data.docs) {
         throw new Error('Invalid data received from server.');
       }
-      return response.data.posts;
+      return response.data.docs;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }

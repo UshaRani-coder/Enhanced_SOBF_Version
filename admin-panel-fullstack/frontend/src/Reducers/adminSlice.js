@@ -22,11 +22,8 @@ export const addAdmin = createAsyncThunk(
   async (adminData, { rejectWithValue }) => {
     try {
       const response = await createTeam(adminData);
-      // toast.success('Admin added successfully!');
       return response.data;
     } catch (error) {
-      console.error("Add Admin Error:", error.response?.data || error.message);
-      // toast.error(error.response?.data || error.message );
       return rejectWithValue("Error while adding Admin");
     }
   }
@@ -37,10 +34,8 @@ export const removeAdmin = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       await deleteAdmin(id);
-      // toast.success('Admin deleted successfully!');
       return id;
     } catch (error) {
-      // toast.error(error.response?.data?.message || 'Failed to delete admin');
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
@@ -51,10 +46,8 @@ export const updateAdmin = createAsyncThunk(
   async ({ id, adminData }, { rejectWithValue }) => {
     try {
       const response = await updateAdmins(id, adminData);
-      // toast.success('Admin updated successfully!');
       return response.data;
     } catch (error) {
-      // toast.error(error.response?.data?.message || 'Failed to update admin');
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
@@ -76,7 +69,6 @@ const adminSlice = createSlice({
       .addCase(getAdmins.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
-        // toast.error(`Error fetching admins: ${action.payload}`);
       })
       .addCase(addAdmin.fulfilled, (state, action) => {
         state.admins.push(action.payload);

@@ -4,15 +4,10 @@ import { toast } from "react-toastify";
 import { Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import { MdEdit, MdDelete, MdPreview } from "react-icons/md";
-import { pdfjs } from "pdfjs-dist";
-import {
-  addLegalDocument,
-  getLegalDocuments,
-  removeLegalDocument,
-  updateLegalDocumentById,
-} from "../Reducers/legalDocSlice";
+import { Link } from "react-router-dom";
+import { addLegalDocument, getLegalDocuments, removeLegalDocument, updateLegalDocumentById, } from "../Reducers/legalDocSlice";
 
-// pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
 
 
 const LegalDoc = () => {
@@ -31,7 +26,7 @@ const LegalDoc = () => {
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(getLegalDocuments()).unwrap(); //? getting post 
+      dispatch(getLegalDocuments()).unwrap();
     }
   }, [status, dispatch]);
 
@@ -71,6 +66,7 @@ const LegalDoc = () => {
       .catch(() => toast.error("Error adding document"));
     setIsModalOpen(false);
     resetForm();
+    dispatch(getLegalDocuments()).unwrap();
   };
 
 
@@ -86,7 +82,8 @@ const LegalDoc = () => {
       await dispatch(
         updateLegalDocumentById({ id: currentDoc._id, updatedData })
       ).unwrap();
-      toast.success("Successfully updated legal document");
+      toast.success("Successfully updated legal document")
+      dispatch(getLegalDocuments()).unwrap();
     } catch {
       toast.error("Error while updating document");
     } finally {
@@ -250,12 +247,17 @@ const LegalDoc = () => {
                 >
                   <MdDelete className="text-red-800 text-2xl" /> Delete
                 </button>
-                <button
-                  className="bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
-                  onClick={() => handlePreview(doc?.fileUrl)}
+                {/* <button
+                  className="bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2" 
+                  onClick={() => window.open(doc?.filename, "_blank")}
                 >
                   <MdPreview className="text-green-800 text-2xl" /> Preview
-                </button>
+                </button>  */}
+                <Link to={doc?.fileName} target="_blank"
+                  className="bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
+                >
+                  <MdPreview className="text-green-800 text-2xl" /> Preview
+                </Link>
               </div>
             </div>
           ))

@@ -10,10 +10,9 @@ const FeaturedVideomodel = mongoose.model("FeaturedVideomodel", featuredVideoSch
 //! Adding new legal documents
 
 const legalDocSchema = mongoose.Schema({
-  title: { type: String,required: true,trim: true, },
-  description: {type: String,required: true,trim: true,},
-  fileUrl: { type: String,required: true,},
-  publicId: { type: String, required: true,},
+  title: { type: String,required: true,trim: true },
+  description: {type: String,required: true,trim: true},
+  fileName: { type: String,required: true},
   uploadedAt: {type: Date,default: Date.now,},
 });
 

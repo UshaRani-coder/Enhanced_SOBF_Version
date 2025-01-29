@@ -107,11 +107,40 @@ const validateFields = ({ title, description }) => {
   return errors;
 };
 
-// Create a new legal document
 
+
+
+// //////////////////////////////////////////////////////////////////////////////////////
+// Get all legal documents
+const getLegalDocument = async (req, res) => {
+  try {
+    const docs = await LegalDoc.find({});
+    if (docs.length > 0) {
+      for (let index = 0; index < docs.length; index++) {
+        const doc = docs[index];
+        doc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + doc.fileName;
+      }
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Successfully fetched all legal documents.',
+      docs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while fetching legal documents.',
+      error: error.message,
+    });
+  }
+};
+
+
+// Create a new legal document
 const createLegalDocument = async (req, res) => {
   try {
     const { title, description } = req.body;
+    console.log("req.file", req.file)
     // Validate fields
     if (!title || !description) {
       return res.status(400).json({
@@ -120,23 +149,23 @@ const createLegalDocument = async (req, res) => {
       });
     }
 
-    if (!req.fileUrl || !req.publicId) {
+    if (req.file.filename === undefined) {
       return res.status(400).json({
         success: false,
-        message: "File upload failed. Please try again.",
+        message: 'pdf is required '
       });
     }
+    const filename = req.file.filename;
 
     // Create a new legal document
     const newLegalDoc = new LegalDoc({
       title: title.trim(),
       description: description.trim(),
-      fileUrl: req.fileUrl, // Cloudinary secure URL
-      publicId: req.publicId, // Cloudinary public ID
+      fileName: filename
     });
 
     await newLegalDoc.save();
-
+    newLegalDoc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + newLegalDoc.fileName;
     res.status(201).json({
       success: true,
       message: "Legal document created successfully.",
@@ -153,84 +182,58 @@ const createLegalDocument = async (req, res) => {
 };
 
 
-
-
-// Get all legal documents
-const getLegalDocument = async (req, res) => {
-  try {
-    const posts = await LegalDoc.find({});
-    res.status(200).json({
-      success: true,
-      message: 'Successfully fetched all legal documents.',
-      posts,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Something went wrong while fetching legal documents.',
-      error: error.message,
-    });
-  }
-};
-
-// Update legal document by ID
-
+// Update an existing legal document
 const updateLegalDocument = async (req, res) => {
   try {
     const { id } = req.params;
+    // Validate the document ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, error: "Invalid document ID." });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid document ID."
+      });
     }
-    const { title, description } = req.body;
-    // Find the document by ID
+
+    // Find the existing legal document by ID
     const existingDoc = await LegalDoc.findById(id);
     if (!existingDoc) {
-      return res.status(404).json({ success: false, error: "Document not found." });
+      return res.status(404).json({
+        success: false,
+        message: "Legal document not found.",
+      });
     }
 
-    // Prepare the fields to be updated
-    const updates = { title: title?.trim(), description: description?.trim() };
-    if (req.file) {
-      if (!req.fileUrl || !req.publicId) {
-        return res.status(400).json({
-          success: false,
-          message: "File upload failed. Please try again.",
-        });
-      }
+    // Extract fields from request body
+    const { title, description } = req.body
 
-      // If a new file is provided, update the file fields
-      updates.fileUrl = req.fileUrl;
-      updates.publicId = req.publicId;
+    // Prepare updated fields
+    const updates = {
+      title: title?.trim() || existingDoc.title,
+      description: description?.trim() || existingDoc.description,
+      fileName: req.file ? req.file.filename : existingDoc.fileName,
+    };
 
-      // Optionally, delete the old file from Cloudinary (if needed)
-      if (existingDoc.publicId) {
-        await cloudinary.uploader.destroy(existingDoc.publicId, {
-          resource_type: "raw", // Use "raw" for PDFs
-        });
-      }
-    } else {
-      // If no new file is uploaded, retain the old file data
-      updates.fileUrl = existingDoc.fileUrl;
-      updates.publicId = existingDoc.publicId;
-    }
-
-    // Update the document in the database
+    // Update the document
     const updatedDoc = await LegalDoc.findByIdAndUpdate(id, updates, { new: true });
 
-    res.status(200).json({
+    // Append the full file URL
+    updatedDoc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + updatedDoc.fileName;
+
+    return res.status(200).json({
       success: true,
       message: "Legal document updated successfully.",
       updatedDoc,
     });
   } catch (error) {
     console.error("Error in updateLegalDocument:", error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Something went wrong while updating the legal document.",
       error: error.message,
     });
   }
 };
+
 
 
 

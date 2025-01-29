@@ -10,6 +10,7 @@ const FeaturedVideo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [URL, setURL] = useState("");
   const [error, setError] = useState("");
 
@@ -26,18 +27,18 @@ const FeaturedVideo = () => {
     return regex.test(url);
   };
 
-  //? Add video
+  //! Add video
   const handleAddVideo = () => {
     if (!URL) {
-      setError("Please provide a URL.");
+      toast.error("Please provide a URL.");
       return;
     }
     if (!validateURL(URL)) {
       setError("Invalid video URL.");
       return;
     }
-
     setError(""); // Clear any previous errors
+    setIsLoading(true); // Start loading
     dispatch(addfeaturedVideo({ URL }))
       .then(() => {
         toast.success("Video added successfully!");
@@ -46,22 +47,26 @@ const FeaturedVideo = () => {
       })
       .catch(() => {
         toast.error("Failed to add video!");
+      }).finally(() => {
+        setIsLoading(false)
+        dispatch(getfeaturedVideo());
       });
+    // End loading;
   };
 
-  //? Update video
+  //! Update video
   const handleUpdateVideo = () => {
     if (!URL) {
-      setError("Please provide a URL.");
+      toast.error("Please provide a URL.");
       return;
     }
     if (!validateURL(URL)) {
-      setError("Invalid video URL.");
       toast.error("Invalid video URL")
       return;
     }
     setError(""); // Clear any previous errors
     if (currentVideo) {
+      setIsLoading(true); // Start loading
       dispatch(updatefeaturedVideo({ id: currentVideo?._id, URL }))
         .then(() => {
           toast.success("Video updated successfully!");
@@ -70,6 +75,9 @@ const FeaturedVideo = () => {
         })
         .catch(() => {
           toast.error("Failed to update video!");
+        }).finally(() => {
+          setIsLoading(false)
+          dispatch(getfeaturedVideo());
         });
     }
   };
@@ -78,6 +86,7 @@ const FeaturedVideo = () => {
   const handleDeleteVideo = (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this video?");
     if (confirmed) {
+      setIsLoading(true); // Start loading
       dispatch(removefeaturedVideo(id))
         .then(() => toast.success("Video deleted successfully!"))
         .catch(() => toast.error("Failed to delete video!"));
@@ -131,7 +140,7 @@ const FeaturedVideo = () => {
                   className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:ring-blue-300"
                   placeholder="e.g https://www.youtube.com/watch?v=5346fdDV"
                 />
-                {error && <p className="text-red-500">{error}</p>}
+                {/* {error && <p className="text-red-500">{error}</p>} */}
               </div>
               <div className="flex justify-end gap-2">
                 <button

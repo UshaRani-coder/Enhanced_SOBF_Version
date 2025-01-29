@@ -3,19 +3,16 @@ const GalleryModel = require("../models/gallery.model");
 const createGalleryController = async (req, res) => {
   try {
     const { tag } = req.body; 
-    const image = req.image;
-
-    // Validate if image is provided
-    if (!image) {
+    if (req.file.filename === undefined) {
       return res.status(400).json({
         success: false,
-        message: "Image is required to create a gallery post.",
+        message: 'Image is required '
       });
     }
-
-    const post = new GalleryModel({ image, tag });
+    const filename = req.file.filename;
+    const post = new GalleryModel({ image: filename || "", tag });
     await post.save();
-
+    post.image = process.env.BASE_URL + "/uploads/gallery/" + post.image;
     res.status(201).json({
       success: true,
       message: "Gallery post has been created successfully",
@@ -32,14 +29,16 @@ const createGalleryController = async (req, res) => {
 
 
 
-
-
-
 // Fetch all gallery images from the database
 const getAllGalleryImagesController = async (req, res) => {
   try {
     const posts = await GalleryModel.find({});
-
+    if (posts.length > 0) {
+      for (let index = 0; index < posts.length; index++) {
+        const post = posts[index];
+        post.image = process.env.BASE_URL + "/uploads/gallery/" + post.image;
+      }
+    }
     res.status(200).json({
       success: true,
       message: "Gallery posts retrieved successfully",
@@ -61,22 +60,49 @@ const updateGalleryController = async (req, res) => {
   try {
     const { id } = req.params;
     const { tag } = req.body;
-    const updates = { ...req.body };
-    const image = req.image;
 
-    // If image is present, validate the image
-    if (image) updates.image = image;
-
-    const updatedPost = await GalleryModel.findByIdAndUpdate(id, updates, { new: true });
-    if (!updatedPost) {
-      return res.status(404).json({ error: 'Post not found' });
+    // Fetch the existing gallery post
+    const existingPost = await GalleryModel.findById(id);
+    if (!existingPost) {
+      return res.status(404).json({ success: false, message: 'Gallery post not found' });
     }
 
-    res.status(200).json({ success: true, message: 'Gallery post updated successfully', updatedPost });
+    // Prepare the updates from the request body
+    const updates = { tag: tag || existingPost.tag };
+
+    // Check if a new image is provided; otherwise, keep the existing one
+    const image = req.file ? req.file.filename : existingPost.image;
+
+    // Update the image if a new one is provided
+    if (image) {
+      updates.image = image;
+    }
+
+    // Update the gallery post in the database
+    const updatedPost = await GalleryModel.findByIdAndUpdate(id, updates, { new: true });
+
+    if (!updatedPost) {
+      return res.status(404).json({ success: false, message: 'Post update failed' });
+    }
+
+    // Append the full image URL (like the `updateTeam` controller)
+    updatedPost.image = process.env.BASE_URL + "/uploads/gallery/" + updatedPost.image;
+
+    res.status(200).json({
+      success: true,
+      message: 'Gallery post updated successfully',
+      updatedPost,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while updating Gallery post", error: error.message });
+    console.log("Error while updating gallery post: ", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while updating Gallery post",
+      error: error.message,
+    });
   }
 };
+
 
 // Delete Gallery post validation
 const deleteGalleryController = async (req, res) => {

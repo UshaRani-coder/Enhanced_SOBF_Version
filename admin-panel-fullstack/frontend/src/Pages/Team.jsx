@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { toast } from 'react-toastify';
-import { MdEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-import { addTeam, getTeamData, removeTeam, updateTeamData } from "../Reducers/TeamSlice";
+import { toast } from "react-toastify";
+import { MdEdit, MdDelete } from "react-icons/md";
+import {
+  addTeam,
+  getTeamData,
+  removeTeam,
+  updateTeamData,
+} from "../Reducers/TeamSlice";
 
 const Team = () => {
   const dispatch = useDispatch();
   const { teams, status } = useSelector((state) => state.teams);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [formData, setFormData] = useState({
-    name: "",
-    role: "",
-    linkedIn: "",
-    instagram: "",
-    image: null,
-  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({ name: "", role: "", linkedIn: "", instagram: "", image: null });
 
   // Fetch teams data
   useEffect(() => {
@@ -27,124 +27,160 @@ const Team = () => {
     }
   }, [status, dispatch]);
 
-  useEffect(() => {
-    if (!isModalOpen) {
-      setErrorMessage("");
-    }
-  }, [isModalOpen]);
-
-  //? Handle form submission for adding a new team member
+  // Validate form data
   const validateForm = () => {
-    if (!formData.name || !formData.role) {
-      setErrorMessage("Name and Role are required fields.");
+    const { name, role, linkedIn, instagram, image } = formData;
+    if (!name || !role) {
+      toast.error("Name and Role are required fields.");
       return false;
     }
-    const urlRegex = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
-    if (formData.linkedIn && !urlRegex.test(formData.linkedIn)) {
-      setErrorMessage("Invalid LinkedIn URL format.");
+
+    // Validate LinkedIn and Instagram URLs
+    const linkedInRegex = /^https:\/\/([a-z]{2,3}\.)?linkedin\.com\/.*$/i;
+    const instagramRegex = /^https:\/\/([a-z]{2,3}\.)?instagram\.com\/.*$/i;
+
+    if (!linkedIn) {
+      toast.error("linkedIn is required ");
       return false;
     }
-    if (formData.instagram && !urlRegex.test(formData.instagram)) {
-      setErrorMessage("Invalid Instagram URL format.");
+    if (!linkedIn || !linkedInRegex.test(linkedIn)) {
+      toast.error("Invalid LinkedIn URL. It should start with 'https://linkedin.com'.");
+      return false;
+    }
+    if (!instagram) {
+      toast.error("Instagram is required ");
+      return false;
+    }
+    if (!instagram || !instagramRegex.test(instagram)) {
+      toast.error("Invalid Instagram URL. It should start with 'https://instagram.com'.");
+      return false;
+    }
+
+    if (!image) {
+      toast.error("Profile image is required.");
+      return false;
+    }
+    // Validate image type
+    const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (!image || !allowedImageTypes.includes(image.type)) {
+      toast.error("Profile image is required and must be jpg ,png  or jpeg .");
       return false;
     }
     return true;
   };
 
-
-  //? add team members
+  //! Add team member
   const handleAddTeamMember = async () => {
-    if (!validateForm()) {
-      toast.error("Please fill all the required fields correctly.");
-      return;
-    }
+    if (!validateForm()) return;
+
     const newTeam = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       newTeam.append(key, value);
     });
-
     try {
+      setIsLoading(true); // Start loading
       await dispatch(addTeam(newTeam)).unwrap();
       resetForm();
       setIsModalOpen(false);
       toast.success("Team member added successfully.");
+      dispatch(getTeamData());
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || "Failed to add team member.");
     }
+    setIsLoading(false);
   };
 
-  //? Handle form submission for updating an existing team member
+
+
+  //! Update team member
   const handleUpdateTeamMember = async () => {
-    if (!validateForm()) {
-      toast.error("Please fill all the required fields correctly.");
+    const { name, image, role } = formData;
+    if (!name || !role) {
+      toast.error("Name and Role are required fields.");
+      return false;
+    }
+    //! Validate image type
+    const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+    if (image && !allowedImageTypes.includes(image.type)) {
+      toast.error("Profile image is required and must be jpg ,png  or jpeg .");
       return;
     }
     const teamData = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       teamData.append(key, value);
     });
-
     try {
-      await dispatch(updateTeamData({ id: currentPost._id, teamData: teamData })).unwrap();
-      setIsModalOpen(false);
+      setIsLoading(true); // Start loading
+      await dispatch(updateTeamData({ id: currentPost._id, teamData })).unwrap();
       resetForm();
+      setIsModalOpen(false);
       toast.success("Team member updated successfully.");
+      dispatch(getTeamData());
     } catch (error) {
       toast.error(error.message || "Failed to update team member.");
     }
+    setIsLoading(false);
   };
 
-  //? Handle deleting a team member
+
+
+  //! Delete team member
   const handleDeleteTeamMember = async (id) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this team member?");
-    if (isConfirmed) {
+    if (window.confirm("Are you sure you want to delete this team member?")) {
       try {
+        setIsLoading(true); 
         await dispatch(removeTeam(id)).unwrap();
         toast.success("Successfully deleted team member.");
       } catch (error) {
-        toast.error("Failed to delete team member.");
+        toast.error(error.message || "Failed to delete team member.");
       }
     }
+    setIsLoading(false)
   };
 
-  // Handle input changes
+
+  //! Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrorMessage("");
   };
 
-  // Handle file input changes
+
+  //! Handle file input changes
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData((prev) => ({ ...prev, [name]: files[0] }));
+    setErrorMessage("");
   };
 
-  // Reset the form to its initial state
+
+  //! Reset form to initial state
   const resetForm = () => {
-    setFormData({
-      name: "",
-      role: "",
-      linkedIn: "",
-      instagram: "",
-      image: null,
-    });
+    setFormData({ name: "", role: "", linkedIn: "", instagram: "", image: null });
     setCurrentPost(null);
     setErrorMessage("");
   };
 
-  // Open modal for updating an existing team member
+  //! Open modal for updating team member
   const openUpdateModal = (post) => {
     setIsModalOpen(true);
     setIsUpdateMode(true);
     setCurrentPost(post);
     setFormData({
-      name: post?.name || "",
-      role: post?.role || "",
+      name: post.name || "",
+      role: post.role || "",
       linkedIn: post.linkedIn || "",
       instagram: post.instagram || "",
       image: null,
     });
   };
+
+
+
+
+
+
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center mx-4 my-4">
@@ -249,8 +285,22 @@ const Team = () => {
                   onClick={
                     isUpdateMode ? handleUpdateTeamMember : handleAddTeamMember
                   }
+                  disabled={isLoading}
                 >
-                  {isUpdateMode ? "Update Member" : "Add Member"}
+                  {isLoading ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin h-5 w-5 mr-3 border-t-2 border-b-2 border-white rounded-full"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      Processing...
+                    </span>
+                  ) : isUpdateMode ? (
+                    "Update"
+                  ) : (
+                    "Add"
+                  )}
                 </button>
               </div>
             </form>

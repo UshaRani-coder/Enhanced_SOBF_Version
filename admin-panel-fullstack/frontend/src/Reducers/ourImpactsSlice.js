@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { createOurImpacts, updateOurImpacts, deleteOurImpacts, getOurImpacts } from '../api/api';
-import { toast } from "react-toastify";
 
 // Thunks
 

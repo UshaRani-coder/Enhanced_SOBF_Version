@@ -9,15 +9,15 @@ const RecentActivityPostPage = () => {
   const dispatch = useDispatch();
   const { posts, status } = useSelector((state) => state.posts);
 
-  
+  const [errorMessage, setErrorMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    images: null,
-    videos: null,
+    images: [],
+    videos: [],
   });
 
   useEffect(() => {
@@ -26,25 +26,66 @@ const RecentActivityPostPage = () => {
     }
   }, [status, dispatch]);
 
-  const handleAddPost = () => {
-    if (!formData.title.trim() ) {
-      toast.error("Title is  required.");
-      return;
+  const validateForm = () => {
+    if (!formData.title.trim()) {
+      toast.error("Title is required.");
+      return false;
     }
+
     if (!formData.description.trim()) {
-      toast.error("Description are required.");
-      return;
+      toast.error("Description is required.");
+      return false;
     }
-    if (!formData.images ) {
-      toast.error("Either images or videos is required.");
-      return;
+
+    if (!formData.images && !formData.videos) {
+      toast.error("Either images or videos are required.");
+      return false;
     }
+
+    // Validate images
+    const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/avif"];
+    if (formData.images) {
+      for (let i = 0; i < formData.images.length; i++) {
+        if (!validImageTypes.includes(formData.images[i].type)) {
+          toast.error("Only valid image files (JPEG, PNG, GIF, WEBP) are allowed in the Images section.");
+          return false;
+        }
+      }
+    }
+
+    // Validate videos
+    const validVideoTypes = ["video/mp4", "video/avi", "video/mkv", "video/webm"];
+    if (formData.videos) {
+      for (let i = 0; i < formData.videos.length; i++) {
+        if (!validVideoTypes.includes(formData.videos[i].type)) {
+          toast.error("Only valid video files (MP4, AVI, MKV, WEBM) are allowed in the Videos section.");
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+
+
+  const handleAddPost = () => {
+    if (!validateForm())  return;
+
 
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
-    if (formData.images) formDataToSend.append("images", formData.images);
-    if (formData.videos) formDataToSend.append("videos", formData.videos);
+
+    if (formData.images) {
+      for (let i = 0; i < formData.images.length; i++) {
+        formDataToSend.append("images", formData.images[i]);
+      }
+    }
+    if (formData.videos) {
+      for (let i = 0; i < formData.videos.length; i++) {
+        formDataToSend.append("videos", formData.videos[i]);
+      }
+    }
 
     dispatch(addPost(formDataToSend))
       .unwrap()
@@ -52,6 +93,7 @@ const RecentActivityPostPage = () => {
         toast.success("Post added successfully!");
         setIsModalOpen(false);
         resetForm();
+        dispatch(getPosts())
       })
       .catch((error) => {
         toast.error(error || "Failed to add post.");
@@ -64,15 +106,46 @@ const RecentActivityPostPage = () => {
       return;
     }
     if (!formData.description.trim()) {
-      toast.error("Description are required.");
+      toast.error("Description is required.");
       return;
+    }
+
+    // Validate images
+    const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/avif"];
+    if (formData.images) {
+      for (let i = 0; i < formData.images.length; i++) {
+        if (!validImageTypes.includes(formData.images[i].type)) {
+          toast.error("Only valid image files (JPEG, PNG, GIF, WEBP) are allowed in the Images section.");
+          return;
+        }
+      }
+    }
+
+    // Validate videos
+    const validVideoTypes = ["video/mp4"];
+    if (formData.videos) {
+      for (let i = 0; i < formData.videos.length; i++) {
+        if (!validVideoTypes.includes(formData.videos[i].type)) {
+          toast.error("Only mp4  video files are valid.");
+          return;
+        }
+      }
     }
 
     const updatedData = new FormData();
     updatedData.append("title", formData.title);
     updatedData.append("description", formData.description);
-    if (formData.images) updatedData.append("images", formData.images);
-    if (formData.videos) updatedData.append("videos", formData.videos);
+
+    if (formData.images) {
+      for (let i = 0; i < formData.images.length; i++) {
+        updatedData.append("images", formData.images[i]);
+      }
+    }
+    if (formData.videos) {
+      for (let i = 0; i < formData.videos.length; i++) {
+        updatedData.append("videos", formData.videos[i]);
+      }
+    }
 
     dispatch(updatePost({ id: currentPost._id, updatedData }))
       .unwrap()
@@ -80,12 +153,13 @@ const RecentActivityPostPage = () => {
         toast.success("Post updated successfully!");
         setIsModalOpen(false);
         resetForm();
+        dispatch(getPosts());
       })
       .catch((error) => {
         toast.error(error || "Failed to update post.");
       });
-    setIsModalOpen(false);
   };
+
 
   const handleDeletePost = (id) => {
     const confirmDelete = window.confirm(
@@ -104,7 +178,15 @@ const RecentActivityPostPage = () => {
     }
   };
 
+  const handleRemoveImage = (index) => {
+    setFormData((prev) => {
+      const updatedImages = prev.images.filter((_, i) => i !== index);
+      return { ...prev, images: updatedImages };
+    });
+  };
 
+
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -115,7 +197,10 @@ const RecentActivityPostPage = () => {
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: files[0] }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: [...(prev[name] || []), ...files],
+    }));
   };
 
   const resetForm = () => {
@@ -192,12 +277,29 @@ const RecentActivityPostPage = () => {
                   className="w-full"
                 />
               </div>
+              <div className="flex gap-3 mt-4">
+                {formData?.images &&
+                  Array.isArray(formData.images) &&
+                  formData.images.length > 0 &&
+                  formData.images.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={image instanceof File ? URL.createObjectURL(image) : image}
+                        alt={`Image Preview ${index + 1}`}
+                        className="w-24 h-24 object-cover rounded-md"
+                      />
+                      <svg className="absolute top-0 right-0" onClick={() => handleRemoveImage(index)} width={16} height={16} id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 122.88"><defs><style dangerouslySetInnerHTML={{ __html: ".cls-1{fill:#ff4141;fill-rule:evenodd;}" }} /></defs><title>cross</title><path className="cls-1" d="M6,6H6a20.53,20.53,0,0,1,29,0l26.5,26.49L87.93,6a20.54,20.54,0,0,1,29,0h0a20.53,20.53,0,0,1,0,29L90.41,61.44,116.9,87.93a20.54,20.54,0,0,1,0,29h0a20.54,20.54,0,0,1-29,0L61.44,90.41,35,116.9a20.54,20.54,0,0,1-29,0H6a20.54,20.54,0,0,1,0-29L32.47,61.44,6,34.94A20.53,20.53,0,0,1,6,6Z" /></svg>
+                    </div>
+                  ))}
+              </div>
+
               <div className="mb-4">
                 <label className="block font-semibold mb-2">videos</label>
                 <input
                   type="file"
                   name="videos"
-                  accept="videos/*"
+                  accept="video/*"
+                  multiple
                   onChange={handleFileChange}
                   className="w-full"
                 />
@@ -231,7 +333,7 @@ const RecentActivityPostPage = () => {
               className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center"
             >
               <img
-                src={post?.images || "https://via.placeholder.com/150"}
+                src={post?.images && (post?.images[0] || "https://via.placeholder.com/150")}
                 alt="Recent Activity Post"
                 className="w-full h-40 object-cover rounded"
               />
