@@ -168,7 +168,7 @@ const Gallery = () => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center mx-4 my-4">
-        <h1 className="text-2xl font-semibold">Gallery</h1>
+        <h1 className="text-2xl small-range:text-3xl md:text-4xl font-semibold">Gallery</h1>
         <button
           className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 rounded-3xl shadow-lg hover:scale-105 hover:shadow-2xl"
           onClick={() => {

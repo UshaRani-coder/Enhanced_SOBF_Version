@@ -8,7 +8,6 @@ import { MdDelete } from "react-icons/md";
 const HeroBanner = () => {
   const dispatch = useDispatch();
   const { heroBanner, status } = useSelector((state) => state.heroBanner);
-  const maxLength = 60;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
@@ -75,7 +74,7 @@ const HeroBanner = () => {
     if (formData.image && !validImageTypes.includes(formData.image.type)) {
       toast.error("Only image files (JPEG, PNG and JPG) are allowed.");
       setIsLoading(false);
-      return; 
+      return;
     }
     const updatedData = new FormData();
     updatedData.append("quotes", formData.quotes);
@@ -87,7 +86,7 @@ const HeroBanner = () => {
         setIsModalOpen(false);
         resetForm();
         dispatch(getHeroBanners())
-        
+
       })
       .catch((error) => {
         toast.error(error || "Failed to update Hero Banner.");
@@ -121,12 +120,8 @@ const HeroBanner = () => {
   // ! Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (value.length <= maxLength) {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+    setFormData({ ...formData, [name]: value });
+
   };
 
   // ! Handle file input changes
@@ -184,10 +179,9 @@ const HeroBanner = () => {
                   value={formData.quotes}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
-                  maxLength={maxLength}
                 />
                 <p className="mt-2 text-sm text-gray-500">
-                  {maxLength - formData?.quotes?.length} characters remaining
+
                 </p>
               </div>
 
@@ -252,15 +246,20 @@ const HeroBanner = () => {
               />
               <div className="p-4">
                 <p className="text-gray-800 font-semibold">{post?.quotes}</p>
-                <div className="flex justify-end gap-3 mt-4">
-                  <MdEdit
-                    className="text-xl text-yellow-500 cursor-pointer"
+                <div className=" flex justify-center gap-4 mt-6">
+                  <button
+                    className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl hover:translate-2 flex items-center gap-2"
                     onClick={() => openUpdateModal(post)}
-                  />
-                  <MdDelete
-                    className="text-xl text-red-500 cursor-pointer"
+                  >
+                    <MdEdit className="text-blue-800 text-2xl" /> Edit
+                  </button>
+
+                  <button
+                    className=" bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
                     onClick={() => handleDeletePost(post?._id)}
-                  />
+                  >
+                    <MdDelete className="text-red-800 text-2xl" /> Delete
+                  </button>
                 </div>
               </div>
             </div>

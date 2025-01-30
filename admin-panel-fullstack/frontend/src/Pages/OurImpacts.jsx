@@ -196,7 +196,7 @@ const OurImpacts = () => {
                   Total Services
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="total_services"
                   value={formData.total_services}
                   onChange={handleInputChange}
@@ -264,35 +264,43 @@ const OurImpacts = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {ourImpacts&&ourImpacts?.map((impact) => (
-          <div
-            key={impact._id}
-            className="border rounded-lg p-4 flex flex-col items-center"
-          >
-            <img
-              src={impact?.image}
-              alt="Impact"
-              className="w-full h-48 object-cover rounded-lg mb-4"
-            />
-            <h2 className="text-lg font-semibold">{impact?.total_services}</h2>
-            <p className="text-sm text-gray-600 mb-4">{impact?.description}</p>
-            <div className="flex gap-2">
-              <button
-                onClick={() => openUpdateModal(impact)}
-                className="text-blue-500 hover:text-blue-700"
-              >
-                <MdEdit />
-              </button>
-              <button
-                onClick={() => handleDelete(impact._id)}
-                className="text-red-500 hover:text-red-700"
-              >
-                <MdDelete />
-              </button>
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
+        {ourImpacts && ourImpacts?.length > 0 ? (
+          ourImpacts?.map((impact) => (
+            <div
+              key={impact._id}
+              className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center"
+            >
+              <img
+                src={impact?.image || "https://via.placeholder.com/150"}
+                alt="Impact"
+                className="w-full h-40 object-cover rounded"
+              />
+              <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
+                {impact?.total_services}
+              </h3>
+              <p className="w-fulltext-center  line-clamp-2 mt-1 text-sm text-gray-600">
+                {impact?.description}
+              </p>
+              <div className="mt-4 flex gap-4">
+                <button
+                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
+                  onClick={() => openUpdateModal(impact)}
+                >
+                  <MdEdit className="text-blue-800 text-2xl" />
+                </button>
+                <button
+                  className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
+                  onClick={() => handleDelete(impact?._id)}
+                >
+                  <MdDelete className="text-red-800 text-2xl" />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No impacts found.</p>
+        )}
       </div>
     </div>
   );

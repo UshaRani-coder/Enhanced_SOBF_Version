@@ -11,9 +11,9 @@ const Partners = () => {
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>
       <ul className=' flex items-center justify-center  mt-[20px] [&_li]:mx-2 [&_img]:max-w-none gap-[10px]'>
-       <Link to="https://raturi.org/"> <li ><img src={raturiFoundationLogo} alt="raturi-foundation" className='cursor-pointer cdw-[78px] lg:w-[110px] object-cover' /></li></Link>
-        <li><img src={hinduFoundationLogo} alt="hindu-foundation" className='cursor-pointer cdw-[70px] lg:w-[100px] object-cover' /></li>
-        <li><img src={curiousBusinessSolutions} alt="curious-business-solutions" className='cursor-pointer cdw-[70px] lg:w-[100px] object-cover' /></li>
+       <Link to="https://raturi.org/"> <li ><img src={raturiFoundationLogo} alt="raturi-foundation" className='cursor-pointer w-[78px] lg:w-[110px] object-cover' /></li></Link>
+        <li><img src={hinduFoundationLogo} alt="hindu-foundation" className='cursor-pointer w-[70px] lg:w-[100px] object-cover' /></li>
+        <li><img src={curiousBusinessSolutions} alt="curious-business-solutions" className='cursor-pointer w-[70px] lg:w-[100px] object-cover' /></li>
       </ul>
     </div>
   )

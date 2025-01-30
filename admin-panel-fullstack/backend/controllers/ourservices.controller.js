@@ -4,11 +4,13 @@ const Service = require("../models/ourservices.model");
 // Create a new service
 const createService = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, small_description , color } = req.body;
+    console.log("req.body", req.body);
+    
     let imageArr = [];
     let logo = req?.files?.logo[0]?.filename || ""
     // Basic validation
-    if (!title || !description) {
+    if (!title || !description ) {
       return res.status(400).json({ message: "All required fields must be filled." });
     }
     // for images 
@@ -19,7 +21,7 @@ const createService = async (req, res) => {
         imageArr.push(image.filename)
       }
     }
-    const newService = new Service({ title, description, images: imageArr, logo });
+    const newService = new Service({ title, description, small_description, color, images: imageArr, logo });
     await newService.save();
     newService.logo = process.env.BASE_URL + "/uploads/our-services/" + newService.logo;
     res.status(201).json({ message: "Service created successfully", service: newService });
@@ -34,7 +36,7 @@ const createService = async (req, res) => {
 const updateService = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description } = req.body;
+    const { title, description , small_description  , color} = req.body;
     let imageArr = [];
 
     // Validate ID
@@ -79,7 +81,7 @@ const updateService = async (req, res) => {
     const logo = req.files.logo ? req.files.logo[0].filename : existingService.logo;
 
     // Prepare updates object
-    const updates = { title, description, images: imageArr, logo };
+    const updates = { title, description, small_description,color, images: imageArr, logo };
 
     // Update the service in the database
     const updatedService = await Service.findByIdAndUpdate(id, updates, { new: true });
@@ -122,8 +124,6 @@ const getAllServices = async (req, res) => {
 const deleteService = async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Validate ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: "Invalid post ID" });
     }

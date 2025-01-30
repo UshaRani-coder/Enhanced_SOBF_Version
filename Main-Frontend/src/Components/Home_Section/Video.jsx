@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getfeaturedVideo } from "../../Reducers/featuredVideoSlice";
+import InfiniteScroll from "react-infinite-scroll-component";
+import loader from '../../assets/loader.webp'
 
 const Video = () => {
-	const dispatch = useDispatch();
-	const { featuredVideo, status } = useSelector((state) => state.featuredVideo);
+  const dispatch = useDispatch();
+  const { featuredVideo, status } = useSelector((state) => state.featuredVideo);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [videosToShow, setVideosToShow] = useState(3);
 
 	// Fetch videos on component load
 	useEffect(() => {
@@ -20,11 +27,12 @@ const Video = () => {
 				<hr className="mt-1 border-light-lavender border-[1px]" />
 			</h1>
 			{/* Video List */}
-			<div className="mt-6 flex flex-col items-center md:flex-row flex-wrap  gap-6 justify-center">
+			<div className="mt-6 flex flex-col items-center justify-center md:flex-row flex-wrap  gap-6 justify-center">
 				{featuredVideo?.length > 0 ? (
 					featuredVideo.map((video) => {
 						// Safely extract video ID
 						const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || "";
+
 						return (
 							<div
 								key={video?._id}
@@ -36,8 +44,7 @@ const Video = () => {
 										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 										allowFullScreen
 										title="YouTube Video"
-										className="w-full h-40 object-cover rounded"
-									></iframe>
+										className="w-full h-60 object-cover rounded"></iframe>
 								) : (
 									<p className="text-red-500 text-center">Invalid Video URL</p>
 								)}

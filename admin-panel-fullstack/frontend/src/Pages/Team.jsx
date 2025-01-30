@@ -128,7 +128,7 @@ const Team = () => {
   const handleDeleteTeamMember = async (id) => {
     if (window.confirm("Are you sure you want to delete this team member?")) {
       try {
-        setIsLoading(true); 
+        setIsLoading(true);
         await dispatch(removeTeam(id)).unwrap();
         toast.success("Successfully deleted team member.");
       } catch (error) {
@@ -309,15 +309,15 @@ const Team = () => {
       )}
 
 
-      <div className="mt-6 flex flex-col items-center p-6 small-max:p-0 md:p-6 justify-center md:flex-row md:flex-wrap md:justify-center  lg:w-[100%] md:gap-x-[40px] gap-y-[45px] md:gap-y-[60px] lg:gap-y-[40px] lg:gap-x-[100px]">
+      <div className="mt-6 flex flex-col items-center md:items-stretch p-6 small-max:p-0 md:p-6 justify-center md:flex-row md:flex-wrap md:justify-center  w-[100%] md:gap-x-[40px] gap-y-[45px] md:gap-y-[60px] lg:gap-y-[40px] lg:gap-x-[100px]">
         {teams && teams?.length > 0 ? (
           teams?.map((member) => (
             <div
-              key={member?._id}
-              className="flex items-center flex-1 flex-col gap-y-[5px] md:gap-y-[10px] bg-white p-2  w-[300px]"
+              key={member._id}
+              className="flex items-center flex-1 flex-col gap-y-[5px] md:gap-y-[10px]  w-[300px]"
             >
               <div
-                className="w-[150px] h-[150px] rounded-full"
+                className="w-[200px] h-[200px] rounded-full"
                 style={{
                   backgroundImage: `url(${member?.image || "https://via.placeholder.com/150"
                     })`,

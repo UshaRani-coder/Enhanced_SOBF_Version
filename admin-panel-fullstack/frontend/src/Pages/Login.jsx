@@ -52,8 +52,7 @@ const Login = ({ setIsAuthenticated }) => {
         import.meta.env.VITE_JWT_SECRET
       ).toString();
 
-      // const response = await axios.post("https://backend.sobf.in/api/admin/login", {
-        const response = await axios.post("http://localhost:5000/api/admin/login", {
+      const response = await axios.post("https://backend.sobf.in/api/admin/login", {
         data: encryptedData,
       });
 

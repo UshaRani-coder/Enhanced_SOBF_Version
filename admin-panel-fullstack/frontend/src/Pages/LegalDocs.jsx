@@ -247,12 +247,6 @@ const LegalDoc = () => {
                 >
                   <MdDelete className="text-red-800 text-2xl" /> Delete
                 </button>
-                {/* <button
-                  className="bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2" 
-                  onClick={() => window.open(doc?.filename, "_blank")}
-                >
-                  <MdPreview className="text-green-800 text-2xl" /> Preview
-                </button>  */}
                 <Link to={doc?.fileName} target="_blank"
                   className="bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
                 >

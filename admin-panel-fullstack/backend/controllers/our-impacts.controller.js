@@ -37,8 +37,8 @@ const createOurImpacts = async (req, res) => {
   try {
     const { total_services, description } = req.body;
     // Validate total_services
-    if (!total_services || !isValidNumber(Number(total_services))) {
-      return res.status(400).json({ error: "Invalid 'total_services'. It must be a non-negative number." });
+    if (!total_services) {
+      return res.status(400).json({ error: "Invalid 'total_services' is required" });
     }
     // Validate description
     if (!description || !isValidString(description)) {

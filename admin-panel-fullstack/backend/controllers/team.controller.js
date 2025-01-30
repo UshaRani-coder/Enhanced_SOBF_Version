@@ -37,20 +37,6 @@ const createTeamMember = async (req, res) => {
         message: 'All fields are required'
       });
     }
-    // Validate URL format for LinkedIn and Instagram
-    const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)(\/[a-zA-Z0-9_-]+)*\/?$/;
-    if (!urlRegex.test(linkedIn)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid LinkedIn URL format'
-      });
-    }
-    if (!urlRegex.test(instagram)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid Instagram URL format'
-      });
-    }
     // Proceed with creating the team member
     const teamMember = new Team({ name, role, linkedIn, instagram, image: filename || "" });
     await teamMember.save();

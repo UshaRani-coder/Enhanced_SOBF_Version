@@ -101,6 +101,15 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
+              to="/videos"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              onClick={closeMenu}
+            >
+              Videos
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/contact-us"
               className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
               onClick={closeMenu}

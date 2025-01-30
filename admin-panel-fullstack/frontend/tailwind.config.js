@@ -1,4 +1,3 @@
-
 /** @type {import('tailwindcss').Config} */
 const plugin = require('tailwind-scrollbar');
 
@@ -10,8 +9,17 @@ export default {
   theme: {
     extend: {
       screens: {
-        'small-range': '375px', 
-        'small-max': '425px' , 
+        'small-range': '375px',
+        'small-max': '425px',
+      },
+    },
+    scrollbar: {
+      none: {
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '-ms-overflow-style': 'none',
+        'scrollbar-width': 'none',
       },
     },
   },
