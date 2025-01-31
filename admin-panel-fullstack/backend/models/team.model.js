@@ -5,8 +5,8 @@ const teamMemberSchema = new mongoose.Schema({
   role: { type: String, required: true },
   linkedIn: { type: String, required: false },
   instagram: { type: String, required: false },
-  image: { type: String, required: false }
+  image: { type: String, required: false },
 });
 
 const Team = mongoose.model('TeamMember', teamMemberSchema);
-module.exports = Team
+module.exports = Team;

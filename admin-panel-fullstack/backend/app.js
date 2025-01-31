@@ -1,12 +1,10 @@
-require("dotenv").config();
-const express = require("express");
-const connectDB = require("./config/db");
-const cors = require("cors");
-const router = require("./routes/post.route");
-const admin_router = require("./routes/admin.route");
-const path = require("path");
-
-
+require('dotenv').config();
+const express = require('express');
+const connectDB = require('./config/db');
+const cors = require('cors');
+const router = require('./routes/post.route');
+const admin_router = require('./routes/admin.route');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,44 +13,58 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/uploads'));
 
-
-
-//1. for team members 
-app.use("/uploads/team-member", express.static(path.join(__dirname, 'uploads/team-member')));
-
+//1. for team members
+app.use(
+  '/uploads/team-member',
+  express.static(path.join(__dirname, 'uploads/team-member')),
+);
 
 //2. for hero banner
-app.use("/uploads/hero-banner", express.static(path.join(__dirname, 'uploads/hero-banner')));
+app.use(
+  '/uploads/hero-banner',
+  express.static(path.join(__dirname, 'uploads/hero-banner')),
+);
 
-
-//3 for recent activites 
-app.use("/uploads/recent-activities", express.static(path.join(__dirname, 'uploads/recent-activities')));
-
+//3 for recent activites
+app.use(
+  '/uploads/recent-activities',
+  express.static(path.join(__dirname, 'uploads/recent-activities')),
+);
 
 //4. for news bulletine
-app.use("/uploads/news-bulletine", express.static(path.join(__dirname, 'uploads/news-bulletine')));
+app.use(
+  '/uploads/news-bulletine',
+  express.static(path.join(__dirname, 'uploads/news-bulletine')),
+);
 
 //5. for legal documents
-app.use("/uploads/legal-documents", express.static(path.join(__dirname, 'uploads/legal-documents')));
-
+app.use(
+  '/uploads/legal-documents',
+  express.static(path.join(__dirname, 'uploads/legal-documents')),
+);
 
 //6. for our services
-app.use("/uploads/our-services", express.static(path.join(__dirname, 'uploads/our-services')));
-
+app.use(
+  '/uploads/our-services',
+  express.static(path.join(__dirname, 'uploads/our-services')),
+);
 
 //7. for gallery
-app.use("/uploads/gallery", express.static(path.join(__dirname, 'uploads/gallery')));
-
+app.use(
+  '/uploads/gallery',
+  express.static(path.join(__dirname, 'uploads/gallery')),
+);
 
 //8. for our impacts
-app.use("/uploads/our-impacts", express.static(path.join(__dirname, 'uploads/our-impacts')));
+app.use(
+  '/uploads/our-impacts',
+  express.static(path.join(__dirname, 'uploads/our-impacts')),
+);
 
+app.use('/api/admin', admin_router); //  admin routes
+app.use('/api/post', router); // post routes
 
-
-app.use("/api/admin", admin_router); //  admin routes
-app.use("/api/post", router); // post routes
-
-app.get("/", (req, res) => res.send("Welcome to SOBF - 🙏"));
+app.get('/', (req, res) => res.send('Welcome to SOBF - 🙏'));
 
 app.listen(PORT, console.log(`Server running on port ${PORT}`));
 connectDB();

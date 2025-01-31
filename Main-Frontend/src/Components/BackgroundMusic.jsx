@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import audio from "../assets/soothingMusic.mp3";
+import React, { useRef, useState } from 'react';
+import audio from '../assets/soothingMusic.mp3';
 
 const BackgroundMusic = () => {
   const audioRef = useRef(null);
@@ -11,7 +11,7 @@ const BackgroundMusic = () => {
         audioRef.current.pause();
       } else {
         audioRef.current.play().catch((error) => {
-          console.error("Error playing audio:", error);
+          console.error('Error playing audio:', error);
         });
       }
       setIsPlaying(!isPlaying);
@@ -25,8 +25,8 @@ const BackgroundMusic = () => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 320 512"
-            height={"15px"}
-            width={"15px"}
+            height={'15px'}
+            width={'15px'}
             fill="#000"
             className="md:w-[20px] md:h-[20px]"
           >
@@ -35,8 +35,8 @@ const BackgroundMusic = () => {
         ) : (
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={"15px"}
-            height={"15px"}
+            width={'15px'}
+            height={'15px'}
             viewBox="0 0 384 512"
             className="md:w-[20px] md:h-[20px]"
           >
@@ -49,7 +49,7 @@ const BackgroundMusic = () => {
         src={audio}
         loop
         volume={1}
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
       >
         Your browser does not support the audio element.
       </audio>

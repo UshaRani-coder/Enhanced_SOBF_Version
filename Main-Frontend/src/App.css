@@ -20,7 +20,7 @@
 }
 
 .nav-items {
-  font-family: "Work Sans", sans-serif;
+  font-family: 'Work Sans', sans-serif;
 }
 
 @media screen and (max-width: 768px) {
@@ -32,7 +32,7 @@
     bottom: 0;
     height: 100vh;
     transition: 0.5s ease;
-    font-family: "Work Sans", sans-serif;
+    font-family: 'Work Sans', sans-serif;
     width: 150px;
     background-color: #001d23;
     color: #ffffff;
@@ -63,7 +63,7 @@
 .hero::after,
 .hero-community-service:after,
 .home-about::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -76,7 +76,7 @@
 .hero-donate::after,
 .hero-donate-community-service:after,
 .home-donate-about::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -86,7 +86,7 @@
   mix-blend-mode: multiply;
 }
 .home-about::after {
-  background-color:rgba(1,0,124,0.8);
+  background-color: rgba(1, 0, 124, 0.8);
 }
 
 @keyframes fadeInOut {
@@ -101,7 +101,7 @@
 }
 
 .hero::before {
-  content: "";
+  content: '';
   display: inline-block;
   position: absolute;
   top: 20px;
@@ -115,7 +115,7 @@
   animation: fadeInOut 3s infinite;
 }
 
-.hero-donate::before{
+.hero-donate::before {
   display: inline-block;
   position: absolute;
   top: 20px;
@@ -146,14 +146,12 @@
 }
 @media screen and (min-width: 320px) {
   .hero-text {
-    
     font-size: 24px;
   }
 }
 @media screen and (min-width: 375px) {
   .hero-text {
     left: 25%;
-    
   }
 }
 
@@ -161,7 +159,6 @@
   .hero-text {
     font-size: 30px;
     left: 15%;
-   
   }
 }
 
@@ -169,25 +166,24 @@
 
 /* overriding whatsapp-button internal styles */
 .floating-whatsapp-button {
-  position: fixed !important; 
-  bottom: 20px !important;       
-  right: 10px !important;        
-  z-index: 1000 !important;   
-  width: 40px  !important;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 10px !important;
+  z-index: 1000 !important;
+  width: 40px !important;
   height: 40px !important;
-  
 }
-.floating-whatsapp-button svg[viewBox="0 0 24 24"] {
+.floating-whatsapp-button svg[viewBox='0 0 24 24'] {
   width: 40px !important;
   height: 40px !important;
   fill: #f1f2f1 !important;
 }
-@media screen and (min-width:768px){
-  .floating-whatsapp-button{
-    width: 60px  !important;
-  height: 60px !important;
+@media screen and (min-width: 768px) {
+  .floating-whatsapp-button {
+    width: 60px !important;
+    height: 60px !important;
   }
-  .floating-whatsapp-button svg[viewBox="0 0 24 24"] {
+  .floating-whatsapp-button svg[viewBox='0 0 24 24'] {
     width: 50px !important;
     height: 50px !important;
   }
@@ -197,7 +193,7 @@
   box-shadow: none !important;
 }
 .floating-whatsapp-button::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -220,8 +216,3 @@
     opacity: 0;
   }
 }
-
-
-
-
-

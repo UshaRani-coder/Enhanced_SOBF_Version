@@ -1,6 +1,4 @@
-const Team = require("../models/team.model");
-
-
+const Team = require('../models/team.model');
 
 //! Get all team members
 const getTeamMembers = async (req, res) => {
@@ -9,7 +7,8 @@ const getTeamMembers = async (req, res) => {
     if (teamMembers.length > 0) {
       for (let index = 0; index < teamMembers.length; index++) {
         const teamMember = teamMembers[index];
-        teamMember.image = process.env.BASE_URL + "/uploads/team-member/" + teamMember.image;
+        teamMember.image =
+          process.env.BASE_URL + '/uploads/team-member/' + teamMember.image;
       }
     }
     return res.status(200).json({ success: true, teamMembers });
@@ -18,7 +17,6 @@ const getTeamMembers = async (req, res) => {
   }
 };
 
-
 // ! Create a new team member
 const createTeamMember = async (req, res) => {
   try {
@@ -26,7 +24,7 @@ const createTeamMember = async (req, res) => {
     if (req.file.filename === undefined) {
       return res.status(400).json({
         success: false,
-        message: 'Image is required '
+        message: 'Image is required ',
       });
     }
     const filename = req.file.filename;
@@ -34,28 +32,33 @@ const createTeamMember = async (req, res) => {
     if (!name || !role || !linkedIn || !instagram) {
       return res.status(400).json({
         success: false,
-        message: 'All fields are required'
+        message: 'All fields are required',
       });
     }
     // Proceed with creating the team member
-    const teamMember = new Team({ name, role, linkedIn, instagram, image: filename || "" });
+    const teamMember = new Team({
+      name,
+      role,
+      linkedIn,
+      instagram,
+      image: filename || '',
+    });
     await teamMember.save();
-    teamMember.image = process.env.BASE_URL + "/uploads/team-member/" + teamMember.image;
+    teamMember.image =
+      process.env.BASE_URL + '/uploads/team-member/' + teamMember.image;
     return res.status(201).json({
       success: true,
-      teamMember
+      teamMember,
     });
   } catch (error) {
-    console.log("error while creating team member  ", error)
+    console.log('error while creating team member  ', error);
     return res.status(500).json({
       success: false,
       message: 'Failed to create team member',
-      error: error
+      error: error,
     });
   }
 };
-
-
 
 //! Update a team member
 const updateTeam = async (req, res) => {
@@ -64,19 +67,26 @@ const updateTeam = async (req, res) => {
     // Fetch the existing team member
     const existingTeamMember = await Team.findById(id);
     if (!existingTeamMember) {
-      return res.status(404).json({ success: false, message: "Team member not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Team member not found' });
     }
 
     // Prepare updates from request body
     const { name, role, linkedIn, instagram } = req.body;
 
     // Validate LinkedIn and Instagram URLs if they are provided
-    const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)(\/[a-zA-Z0-9_-]+)*\/?$/;
+    const urlRegex =
+      /^(https?:\/\/)?([a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)(\/[a-zA-Z0-9_-]+)*\/?$/;
     if (linkedIn && !urlRegex.test(linkedIn)) {
-      return res.status(400).json({ success: false, message: 'Invalid LinkedIn URL format' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid LinkedIn URL format' });
     }
     if (instagram && !urlRegex.test(instagram)) {
-      return res.status(400).json({ success: false, message: 'Invalid Instagram URL format' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid Instagram URL format' });
     }
 
     // Check if a new image is provided; otherwise, keep the existing one
@@ -92,14 +102,17 @@ const updateTeam = async (req, res) => {
     };
 
     // Update the team member
-    const updatedTeam = await Team.findByIdAndUpdate(id, updates, { new: true });
+    const updatedTeam = await Team.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
 
     // Append the full image URL
-    updatedTeam.image = process.env.BASE_URL + "/uploads/team-member/" + updatedTeam.image;
+    updatedTeam.image =
+      process.env.BASE_URL + '/uploads/team-member/' + updatedTeam.image;
 
     return res.status(200).json({ success: true, updatedTeam });
   } catch (error) {
-    console.log("Error while updating team member: ", error);
+    console.log('Error while updating team member: ', error);
     return res.status(500).json({
       success: false,
       message: 'Failed to update team member',
@@ -108,8 +121,6 @@ const updateTeam = async (req, res) => {
   }
 };
 
-
-
 //! Delete a team member
 const deleteTeam = async (req, res) => {
   try {
@@ -117,8 +128,14 @@ const deleteTeam = async (req, res) => {
     await Team.findByIdAndDelete(id);
     return res.status(200).json({ success: true });
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Failed to delete team member', error: error.message });
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Failed to delete team member',
+        error: error.message,
+      });
   }
 };
 
-module.exports = { createTeamMember, getTeamMembers, updateTeam, deleteTeam, };
+module.exports = { createTeamMember, getTeamMembers, updateTeam, deleteTeam };

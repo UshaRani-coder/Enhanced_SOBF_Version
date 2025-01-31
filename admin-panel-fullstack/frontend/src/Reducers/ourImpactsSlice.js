@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createOurImpacts, updateOurImpacts, deleteOurImpacts, getOurImpacts } from '../api/api';
+import {
+  createOurImpacts,
+  updateOurImpacts,
+  deleteOurImpacts,
+  getOurImpacts,
+} from '../api/api';
 
 // Thunks
 
@@ -10,13 +15,12 @@ export const getOurImpact = createAsyncThunk(
       const response = await getOurImpacts();
       return response.data.posts;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch impacts");
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to fetch impacts',
+      );
     }
-  }
+  },
 );
-
-
-
 
 // Add Hero Banner
 export const addOurImpact = createAsyncThunk(
@@ -26,13 +30,12 @@ export const addOurImpact = createAsyncThunk(
       const response = await createOurImpacts(postData);
       return response.data.post;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to add impact");
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to add impact',
+      );
     }
-  }
+  },
 );
-
-
-
 
 export const updateOurImpact = createAsyncThunk(
   'ourImpacts/updateOurImpact',
@@ -41,9 +44,11 @@ export const updateOurImpact = createAsyncThunk(
       const response = await updateOurImpacts(id, updatedData);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to update impact");
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to update impact',
+      );
     }
-  }
+  },
 );
 
 export const removeOurImpact = createAsyncThunk(
@@ -53,9 +58,11 @@ export const removeOurImpact = createAsyncThunk(
       await deleteOurImpacts(id);
       return id;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to delete impact");
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to delete impact',
+      );
     }
-  }
+  },
 );
 
 // Slice
@@ -92,7 +99,9 @@ const ourImpactSlice = createSlice({
 
       // Update Impact
       .addCase(updateOurImpact.fulfilled, (state, action) => {
-        const index = state.ourImpacts.findIndex((impact) => impact._id === action.payload._id);
+        const index = state.ourImpacts.findIndex(
+          (impact) => impact._id === action.payload._id,
+        );
         if (index !== -1) state.ourImpacts[index] = action.payload;
       })
       .addCase(updateOurImpact.rejected, (state, action) => {
@@ -101,7 +110,9 @@ const ourImpactSlice = createSlice({
 
       // Delete Impact
       .addCase(removeOurImpact.fulfilled, (state, action) => {
-        state.ourImpacts = state.ourImpacts.filter((impact) => impact._id !== action.payload);
+        state.ourImpacts = state.ourImpacts.filter(
+          (impact) => impact._id !== action.payload,
+        );
       })
       .addCase(removeOurImpact.rejected, (state, action) => {
         state.error = action.payload;

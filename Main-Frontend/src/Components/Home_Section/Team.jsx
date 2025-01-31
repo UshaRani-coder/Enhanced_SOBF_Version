@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getTeams } from "../../Reducers/TeamSlice";
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTeams } from '../../Reducers/TeamSlice';
 
 const Team = () => {
   const { teams, status, error } = useSelector((state) => state.teams);
@@ -20,20 +20,23 @@ const Team = () => {
         </h1>
       </div>
 
-      {status === "loading" && <p className="text-white">Loading...</p>}
-      {status === "failed" && <p className="text-red-500">Error: {error}</p>}
+      {status === 'loading' && <p className="text-white">Loading...</p>}
+      {status === 'failed' && <p className="text-red-500">Error: {error}</p>}
 
       <div className="mt-[50px] team-cards flex flex-col items-center md:items-stretch p-3 justify-center md:flex-row md:flex-wrap md:w-[100%] md:gap-x-[40px] gap-y-[25px] md:gap-y-[20px] lg:gap-y-[40px] lg:gap-x-[100px]">
         {teams.map((item) => (
-          <div key={item._id} className="flex items-center  flex-col gap-y-[5px] md:w-[300px]">
+          <div
+            key={item._id}
+            className="flex items-center  flex-col gap-y-[5px] md:w-[300px]"
+          >
             {/* Team Member Image */}
             <div
               className="w-[200px] h-[200px] rounded-full"
               style={{
-                backgroundImage: `url(${item.image || "/default-avatar.png"})`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
+                backgroundImage: `url(${item.image || '/default-avatar.png'})`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
               }}
             ></div>
 
@@ -74,13 +77,71 @@ const Team = () => {
 
                 {item.instagram && (
                   <a
-                    href={item.instagram.startsWith("http") ? item.instagram : `http://${item.instagram}`}
+                    href={
+                      item.instagram.startsWith('http')
+                        ? item.instagram
+                        : `http://${item.instagram}`
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     className=" hover:scale-[1.2] cursor-pointer"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-[25px] h-[25px]" x="0px" y="0px" width="10" height="10" viewBox="0 0 48 48">
-                      <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1" cx="19.38" cy="42.035" r="44.899" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#fd5"></stop><stop offset=".328" stopColor="#ff543f"></stop><stop offset=".348" stopColor="#fc5245"></stop><stop offset=".504" stopColor="#e64771"></stop><stop offset=".643" stopColor="#d53e91"></stop><stop offset=".761" stopColor="#cc39a4"></stop><stop offset=".841" stopColor="#c837ab"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><radialGradient id="yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2" cx="11.786" cy="5.54" r="29.813" gradientTransform="matrix(1 0 0 .6663 0 1.849)" gradientUnits="userSpaceOnUse"><stop offset="0" stopColor="#4168c9"></stop><stop offset=".999" stopColor="#4168c9" stopOpacity="0"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><path fill="#fff" d="M24,31c-3.859,0-7-3.14-7-7s3.141-7,7-7s7,3.14,7,7S27.859,31,24,31z M24,19c-2.757,0-5,2.243-5,5	s2.243,5,5,5s5-2.243,5-5S26.757,19,24,19z"></path><circle cx="31.5" cy="16.5" r="1.5" fill="#fff"></circle><path fill="#fff" d="M30,37H18c-3.859,0-7-3.14-7-7V18c0-3.86,3.141-7,7-7h12c3.859,0,7,3.14,7,7v12	C37,33.86,33.859,37,30,37z M18,13c-2.757,0-5,2.243-5,5v12c0,2.757,2.243,5,5,5h12c2.757,0,5-2.243,5-5V18c0-2.757-2.243-5-5-5H18z"></path>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-[25px] h-[25px]"
+                      x="0px"
+                      y="0px"
+                      width="10"
+                      height="10"
+                      viewBox="0 0 48 48"
+                    >
+                      <radialGradient
+                        id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1"
+                        cx="19.38"
+                        cy="42.035"
+                        r="44.899"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop offset="0" stopColor="#fd5"></stop>
+                        <stop offset=".328" stopColor="#ff543f"></stop>
+                        <stop offset=".348" stopColor="#fc5245"></stop>
+                        <stop offset=".504" stopColor="#e64771"></stop>
+                        <stop offset=".643" stopColor="#d53e91"></stop>
+                        <stop offset=".761" stopColor="#cc39a4"></stop>
+                        <stop offset=".841" stopColor="#c837ab"></stop>
+                      </radialGradient>
+                      <path
+                        fill="url(#yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1)"
+                        d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"
+                      ></path>
+                      <radialGradient
+                        id="yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2"
+                        cx="11.786"
+                        cy="5.54"
+                        r="29.813"
+                        gradientTransform="matrix(1 0 0 .6663 0 1.849)"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop offset="0" stopColor="#4168c9"></stop>
+                        <stop
+                          offset=".999"
+                          stopColor="#4168c9"
+                          stopOpacity="0"
+                        ></stop>
+                      </radialGradient>
+                      <path
+                        fill="url(#yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2)"
+                        d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"
+                      ></path>
+                      <path
+                        fill="#fff"
+                        d="M24,31c-3.859,0-7-3.14-7-7s3.141-7,7-7s7,3.14,7,7S27.859,31,24,31z M24,19c-2.757,0-5,2.243-5,5	s2.243,5,5,5s5-2.243,5-5S26.757,19,24,19z"
+                      ></path>
+                      <circle cx="31.5" cy="16.5" r="1.5" fill="#fff"></circle>
+                      <path
+                        fill="#fff"
+                        d="M30,37H18c-3.859,0-7-3.14-7-7V18c0-3.86,3.141-7,7-7h12c3.859,0,7,3.14,7,7v12	C37,33.86,33.859,37,30,37z M18,13c-2.757,0-5,2.243-5,5v12c0,2.757,2.243,5,5,5h12c2.757,0,5-2.243,5-5V18c0-2.757-2.243-5-5-5H18z"
+                      ></path>
                     </svg>
                   </a>
                 )}

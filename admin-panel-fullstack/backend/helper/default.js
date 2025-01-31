@@ -1,9 +1,7 @@
-const fs = require("fs")
-
+const fs = require('fs');
 
 const createInitialAdmin = async () => {
   try {
-
     const username = 'Test'; // Set default username
     const email = 'test@example.com'; // Set default email
     const password = 'test@123'; // Set default password
@@ -16,7 +14,7 @@ const createInitialAdmin = async () => {
       username,
       email,
       password: hashedPassword,
-      isAdmin: true
+      isAdmin: true,
     });
 
     await newAdmin.save();
@@ -26,11 +24,10 @@ const createInitialAdmin = async () => {
   }
 };
 
-
 //  !FOLDER CREATING IF NOT ...
 const createDirectoryIfDoesntExist = (dirPath) => {
   try {
-    console.log("dirPath", dirPath)
+    console.log('dirPath', dirPath);
     if (!fs.existsSync(dirPath)) {
       console.log(`Creating directory: ${dirPath}`);
       fs.mkdirSync(dirPath, { recursive: true });
@@ -38,7 +35,7 @@ const createDirectoryIfDoesntExist = (dirPath) => {
       console.log(`Directory already exists: ${dirPath}`);
     }
   } catch (error) {
-    console.log("error while creating folders")
+    console.log('error while creating folders');
   }
-}
-module.exports = {createDirectoryIfDoesntExist}
+};
+module.exports = { createDirectoryIfDoesntExist };

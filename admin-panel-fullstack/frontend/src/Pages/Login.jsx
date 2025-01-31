@@ -1,45 +1,43 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { toast } from "react-toastify";
-import CryptoJS from "crypto-js";
-import Logo from '../assets/logo.avif'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import CryptoJS from 'crypto-js';
+import Logo from '../assets/logo.avif';
 
 const Login = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
   const validateForm = () => {
     let isValid = true;
 
     if (!email) {
-      setEmailErrorMessage("Email is required.");
-      toast.error("Email is required.");
+      setEmailErrorMessage('Email is required.');
+      toast.error('Email is required.');
       isValid = false;
     } else {
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailPattern.test(email)) {
-        setEmailErrorMessage("Please enter a valid email address.");
-        toast.error("Please enter a valid email address.");
+        setEmailErrorMessage('Please enter a valid email address.');
+        toast.error('Please enter a valid email address.');
         isValid = false;
       } else {
-        setEmailErrorMessage("");
+        setEmailErrorMessage('');
       }
     }
     if (!password) {
-      setPasswordErrorMessage("Password is required.");
-      toast.error("Password is required.");
+      setPasswordErrorMessage('Password is required.');
+      toast.error('Password is required.');
       isValid = false;
     } else {
-      setPasswordErrorMessage("");
+      setPasswordErrorMessage('');
     }
     return isValid;
   };
-
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -49,41 +47,46 @@ const Login = ({ setIsAuthenticated }) => {
       // Encrypt the payload
       const encryptedData = CryptoJS.AES.encrypt(
         JSON.stringify({ email, password }),
-        import.meta.env.VITE_JWT_SECRET
+        import.meta.env.VITE_JWT_SECRET,
       ).toString();
 
-      const response = await axios.post("https://backend.sobf.in/api/admin/login", {
-        data: encryptedData,
-      });
-
-      // const response = await axios.post("http://localhost:5000/api/admin/login", {
+      // const response = await axios.post("https://backend.sobf.in/api/admin/login", {
       //   data: encryptedData,
       // });
 
-
+      const response = await axios.post(
+        'http://localhost:5000/api/admin/login',
+        {
+          data: encryptedData,
+        },
+      );
 
       // console.log("response in login " , response);
 
       const { token } = response?.data;
       if (token) {
-        localStorage.setItem("adminToken", token);
+        localStorage.setItem('adminToken', token);
         setIsAuthenticated(true);
-        toast.success("Login successful!");
-        navigate("/dashboard");
+        toast.success('Login successful!');
+        navigate('/dashboard');
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || "Login failed. Please try again.";
+      const errorMessage =
+        err.response?.data?.message || 'Login failed. Please try again.';
       toast.error(errorMessage);
     }
   };
-
 
   return (
     <section className="bg-gray-100 h-screen">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <img src={Logo} alt="logo" className="mx-auto w-[70px] md:w-[100px]" />
+            <img
+              src={Logo}
+              alt="logo"
+              className="mx-auto w-[70px] md:w-[100px]"
+            />
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Sign in to your account
             </h1>
@@ -107,7 +110,9 @@ const Login = ({ setIsAuthenticated }) => {
                   required
                 />
                 {emailErrorMessage && (
-                  <div className="text-red-500 text-sm">{emailErrorMessage}</div>
+                  <div className="text-red-500 text-sm">
+                    {emailErrorMessage}
+                  </div>
                 )}
               </div>
 
@@ -130,7 +135,9 @@ const Login = ({ setIsAuthenticated }) => {
                   required
                 />
                 {passwordErrorMessage && (
-                  <div className="text-red-500 text-sm">{passwordErrorMessage}</div>
+                  <div className="text-red-500 text-sm">
+                    {passwordErrorMessage}
+                  </div>
                 )}
               </div>
 

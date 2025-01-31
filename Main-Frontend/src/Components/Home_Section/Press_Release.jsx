@@ -1,8 +1,8 @@
-import React, { useEffect,useCallback,useMemo,useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { getPosts, removePost } from "../../Reducers/postSlice";
-import InfiniteScroll from "react-infinite-scroll-component";
+import React, { useEffect, useCallback, useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { getPosts, removePost } from '../../Reducers/postSlice';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Press_Release = React.memo(() => {
   const location = useLocation();
@@ -10,40 +10,40 @@ const Press_Release = React.memo(() => {
 
   // Fetch posts and status from the Redux store
   const { bulletines, status, error } = useSelector(
-    (state) => state.bulletines
+    (state) => state.bulletines,
   );
 
   // Fetch posts when the component loads
   useEffect(() => {
-    if (status === "idle") {
+    if (status === 'idle') {
       dispatch(getPosts());
     }
   }, [status, dispatch]);
 
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
   }, []);
 
   // Scroll to top when path changes
   useEffect(() => {
-    if (location.pathname === "/press-release") {
+    if (location.pathname === '/press-release') {
       window.scrollTo({
         top: 0,
-        behavior: "smooth", // Enables smooth scrolling
+        behavior: 'smooth', // Enables smooth scrolling
       });
     }
   }, [location.pathname]);
 
   // Memoizing whether the page is the home page or not
   const isHomePage = useMemo(
-    () => location.pathname === "/",
-    [location.pathname]
+    () => location.pathname === '/',
+    [location.pathname],
   );
 
   // Managing pagination state
@@ -70,7 +70,7 @@ const Press_Release = React.memo(() => {
   return (
     <div
       className={`flex flex-col items-center mb-[30px] ${
-        isHomePage ? "mt-[30px]" : "mt-[120px]"
+        isHomePage ? 'mt-[30px]' : 'mt-[120px]'
       }`}
     >
       <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
@@ -86,8 +86,8 @@ const Press_Release = React.memo(() => {
       </h1>
 
       {/* Display Loading or Error Messages */}
-      {status === "loading" && <p>Loading posts...</p>}
-      {status === "failed" && <p className="text-red-500">{error}</p>}
+      {status === 'loading' && <p>Loading posts...</p>}
+      {status === 'failed' && <p className="text-red-500">{error}</p>}
 
       <InfiniteScroll
         dataLength={displayedPosts.length}
@@ -95,7 +95,7 @@ const Press_Release = React.memo(() => {
         hasMore={hasMorePosts} // Check if there are more posts to load
         loader={<h4 className="text-center w-[100%]">Loading more...</h4>} // Show loader while loading
         scrollableTarget="scrollableDiv"
-        style={{ display: "flex", flexDirection: "column-reverse" }} // To put endMessage and loader at the top
+        style={{ display: 'flex', flexDirection: 'column-reverse' }} // To put endMessage and loader at the top
         inverse={true}
       >
         <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px] lg:flex-row lg:justify-center p-5">
@@ -108,7 +108,7 @@ const Press_Release = React.memo(() => {
                 src={
                   news.images && news.images.length > 0
                     ? news.images[0]
-                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9SRRmhH4X5N2e4QalcoxVbzYsD44C-sQv-w&s"
+                    : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9SRRmhH4X5N2e4QalcoxVbzYsD44C-sQv-w&s'
                 }
                 alt="media"
                 className="w-full h-full md:h-[300px] rounded-t-lg "

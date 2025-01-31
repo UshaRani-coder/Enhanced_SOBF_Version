@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import ImgBanner from "./ImgBanner";
-import { Link } from "react-router-dom";
-import Img1 from "../../../assets/Sobf Images/health_and_awareness_camp/hac2.avif";
-import Img2 from "../../../assets/Sobf Images/health_and_awareness_camp/hac3.avif";
-import Img3 from "../../../assets/Sobf Images/health_and_awareness_camp/hac4.avif";
+import React from 'react';
+import ImgBanner from './ImgBanner';
+import { Link } from 'react-router-dom';
+import Img1 from '../../../assets/Sobf Images/health_and_awareness_camp/hac2.avif';
+import Img2 from '../../../assets/Sobf Images/health_and_awareness_camp/hac3.avif';
+import Img3 from '../../../assets/Sobf Images/health_and_awareness_camp/hac4.avif';
 
 const HealthCamp = ({ setService }) => {
   const images = [
@@ -20,7 +20,7 @@ const HealthCamp = ({ setService }) => {
   ];
   return (
     <div className="w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto">
-      {location.pathname == "/" && (
+      {location.pathname == '/' && (
         <button
           aria-label="Back to Services"
           className="back-button my-4 px-4 py-2 bg-gray-800 text-white rounded hover:bg-indigo-500 hover:text-white hover:scale-105 transform transition-all duration-300 ease-in-out"
@@ -47,16 +47,12 @@ const HealthCamp = ({ setService }) => {
           </p>
           <button>
             <Link
-            to="/donate-us"
+              to="/donate-us"
               href=""
               className="px-8 py-3.5 relative rounded-lg group overflow-hidden font-semibold bg-orange text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
             >
               <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
-              <span className="relative z-10">
-             
-                  Donate
-                
-              </span>
+              <span className="relative z-10">Donate</span>
             </Link>
           </button>
         </div>

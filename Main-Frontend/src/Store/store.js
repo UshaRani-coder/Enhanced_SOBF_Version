@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import adminReducer from '../Reducers/adminSlice';
 import postReducer from '../Reducers/postSlice';
-import bulletinReducer from "../Reducers/bulletinSlice"
+import bulletinReducer from '../Reducers/bulletinSlice';
 import ourImpactsReducer from '../Reducers/ourImpactsSlice';
-import featuredVideoReducer from "../Reducers/featuredVideoSlice"
-import heroBannerReducer from "../Reducers/heroBannerSlice"
+import featuredVideoReducer from '../Reducers/featuredVideoSlice';
+import heroBannerReducer from '../Reducers/heroBannerSlice';
 import addLegalDocReducer from '../Reducers/legalDocSlice';
-import teamReducer from "../Reducers/TeamSlice"
-import galleryReducer from "../Reducers/gallerySlice"
+import teamReducer from '../Reducers/TeamSlice';
+import galleryReducer from '../Reducers/gallerySlice';
 
 const store = configureStore({
   reducer: {
@@ -19,8 +19,8 @@ const store = configureStore({
     heroBanner: heroBannerReducer,
     legalDocs: addLegalDocReducer,
     teams: teamReducer,
-    gallery: galleryReducer
+    gallery: galleryReducer,
   },
 });
 
-export default store
+export default store;

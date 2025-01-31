@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import React, { useRef, useState, useEffect } from "react";
-import emailjs from "@emailjs/browser";
-import Support from "../Components/Home_Section/Support";
+import React, { useRef, useState, useEffect } from 'react';
+import emailjs from '@emailjs/browser';
+import Support from '../Components/Home_Section/Support';
 
 // npm i @emailjs/browser
 
@@ -11,16 +11,16 @@ const ContactUsPage = () => {
 
   // State to store form data
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
+    name: '',
+    email: '',
+    message: '',
   });
 
   // State to manage form submission status
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // State to store submission message
-  const [submitMessage, setSubmitMessage] = useState("");
+  const [submitMessage, setSubmitMessage] = useState('');
 
   // Handler to update form data state on input change
   const handleChange = (e) =>
@@ -37,21 +37,21 @@ const ContactUsPage = () => {
         import.meta.env.VITE_CONTACT_SERVICE_ID, // Service ID
         import.meta.env.VITE_CONTACT_TEMPLATE_ID, // Template ID
         form.current, // Form reference
-        import.meta.env.VITE_CONTACT_USER_ID // User ID
+        import.meta.env.VITE_CONTACT_USER_ID, // User ID
       )
       .then(
         (result) => {
           // console.log(result.text);
-          setSubmitMessage("Message sent successfully!");
-          setFormData({ name: "", email: "", message: "" }); // Reset form data
+          setSubmitMessage('Message sent successfully!');
+          setFormData({ name: '', email: '', message: '' }); // Reset form data
           form.current.reset(); // Reset the form fields
         },
         (error) => {
           // console.log(error.message);
-          setSubmitMessage("Failed to send. Please try again later.");
-          setFormData({ name: "", email: "", message: "" }); // Reset form data
+          setSubmitMessage('Failed to send. Please try again later.');
+          setFormData({ name: '', email: '', message: '' }); // Reset form data
           form.current.reset(); // Reset the form fields
-        }
+        },
       )
       // Set isSubmitting to false after the form submission is complete
       .finally(() => {
@@ -67,7 +67,7 @@ const ContactUsPage = () => {
       // Set a timer to hide the message after 3 seconds
       const timer = setTimeout(() => {
         setVisible(false);
-        setSubmitMessage(""); // Clear the submit message after 3 seconds
+        setSubmitMessage(''); // Clear the submit message after 3 seconds
       }, 3000);
 
       return () => clearTimeout(timer);
@@ -79,9 +79,9 @@ const ContactUsPage = () => {
     return (
       <p
         className={`mt-4 text-center ${
-          submitMessage.includes("success")
-            ? "text-green-600 delay-75 duration-200"
-            : "text-red-600"
+          submitMessage.includes('success')
+            ? 'text-green-600 delay-75 duration-200'
+            : 'text-red-600'
         }`}
       >
         {submitMessage}
@@ -142,12 +142,13 @@ const ContactUsPage = () => {
             </div>
             {/* Submit button */}
             <div className="flex justify-center md:p-4 p-2">
-               <button aria-label="Play Video"
+              <button
+                aria-label="Play Video"
                 type="submit"
                 className="bg-blue text-white md:py-2 md:px-6 py-1.5 px-5  rounded-full hover:bg-logoYellow transition duration-300"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Submitting..." : "Submit"}
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </div>
           </form>

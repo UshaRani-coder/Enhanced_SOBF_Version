@@ -14,14 +14,16 @@ export const addPost = createAsyncThunk('posts/addPost', async (postData) => {
 });
 
 // ! Update post
-export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, updatedData }) => {
-  try {
-    const response = await updatePostApi(id, updatedData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
+export const updatePost = createAsyncThunk(
+  'posts/updatePost',
+  async ({ id, updatedData }) => {
+    try {
+      const response = await updatePostApi(id, updatedData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 );
 
 // ! Remove post

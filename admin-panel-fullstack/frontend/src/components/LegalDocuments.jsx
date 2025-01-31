@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Document, Page } from "react-pdf";
-import "@react-pdf-viewer/core/lib/styles/index.css";
+import React, { useState } from 'react';
+import { Document, Page } from 'react-pdf';
+import '@react-pdf-viewer/core/lib/styles/index.css';
 
 const LegalDocuments = ({ docs }) => {
   const [selectedPdf, setSelectedPdf] = useState(null);
@@ -42,7 +42,7 @@ const LegalDocuments = ({ docs }) => {
           <Document
             file={selectedPdf}
             onLoadError={(error) =>
-              console.error("Error while loading PDF:", error)
+              console.error('Error while loading PDF:', error)
             }
             className="overflow-auto"
           >

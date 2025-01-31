@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchPosts, createPost, deletePost, updatePostApi } from '../api/api';
 
-
-
 // ! Get posts
 export const getPosts = createAsyncThunk('posts/getPosts', async () => {
   const response = await fetchPosts();
@@ -15,31 +13,33 @@ export const addPost = createAsyncThunk('posts/addPost', async (postData) => {
   return response.data;
 });
 
-
 // ! Update post
-export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, updatedData }) => {
-  try {
-    const response = await updatePostApi(id, updatedData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-}
+export const updatePost = createAsyncThunk(
+  'posts/updatePost',
+  async ({ id, updatedData }) => {
+    try {
+      const response = await updatePostApi(id, updatedData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 );
 
 // ! Remove post
-export const removePost = createAsyncThunk('posts/removePost',
+export const removePost = createAsyncThunk(
+  'posts/removePost',
   async (id, { rejectWithValue }) => {
     try {
       await deletePost(id);
       return id;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to delete hero banner");
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to delete hero banner',
+      );
     }
-  }
+  },
 );
-
-
 
 const postSlice = createSlice({
   name: 'posts',
@@ -68,7 +68,9 @@ const postSlice = createSlice({
       })
       // update
       .addCase(updatePost.fulfilled, (state, action) => {
-        const index = state.posts.findIndex((post) => post._id === action.payload._id);
+        const index = state.posts.findIndex(
+          (post) => post._id === action.payload._id,
+        );
         if (index !== -1) {
           state.posts[index] = action.payload;
         }
@@ -82,7 +84,7 @@ const postSlice = createSlice({
       })
       .addCase(removePost.rejected, (state, action) => {
         state.error = action.payload;
-      })
+      });
   },
 });
 

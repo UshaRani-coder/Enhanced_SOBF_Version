@@ -1,30 +1,29 @@
-const { default: mongoose } = require("mongoose");
-const bulletineModal = require("../models/newspost.model");
+const { default: mongoose } = require('mongoose');
+const bulletineModal = require('../models/newspost.model');
 
-
-//! CREATE 
+//! CREATE
 const createNewsBulletine = async (req, res) => {
   try {
-    let videosArr = []
+    let videosArr = [];
     let imageArr = [];
     const { title, description } = req.body;
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
-        error: "Title must be a string with at least 3 characters",
+        error: 'Title must be a string with at least 3 characters',
       });
     }
 
     if (!description || description.trim().length < 5) {
       return res.status(400).json({
-        error: "Description must be a string with at least 5 characters",
+        error: 'Description must be a string with at least 5 characters',
       });
     }
-    // for images 
+    // for images
     const images = req.files.images || [];
     if (images.length > 0) {
       for (let index = 0; index < images.length; index++) {
         const image = images[index];
-        imageArr.push(image.filename)
+        imageArr.push(image.filename);
       }
     }
     // for videos
@@ -32,16 +31,28 @@ const createNewsBulletine = async (req, res) => {
     if (videos.length > 0) {
       for (let index = 0; index < videos.length; index++) {
         const video = videos[index];
-        videosArr.push(video.filename)
+        videosArr.push(video.filename);
       }
     }
     // Save post to database
-    const post = new bulletineModal({ title, description, images: imageArr, videos: videosArr });
+    const post = new bulletineModal({
+      title,
+      description,
+      images: imageArr,
+      videos: videosArr,
+    });
     await post.save();
-    res.status(201).json({ success: true, message: "Post created successfully", post });
-  }
-  catch (error) {
-    res.status(500).json({ success: false, message: "Error creating post", error: error.message });
+    res
+      .status(201)
+      .json({ success: true, message: 'Post created successfully', post });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Error creating post',
+        error: error.message,
+      });
   }
 };
 
@@ -49,56 +60,67 @@ const createNewsBulletine = async (req, res) => {
 const getNewsBulletine = async (req, res) => {
   try {
     const posts = await bulletineModal.find({});
-    // const baseURL = process.env.BASE_URL || "http://localhost:5000";
-    const baseURL = process.env.BASE_URL || "https://backend.sobf.in";
+    const baseURL = process.env.BASE_URL || 'http://localhost:5000';
+    // const baseURL = process.env.BASE_URL || "https://backend.sobf.in";
     if (posts.length > 0) {
-      posts.forEach(post => {
+      posts.forEach((post) => {
         // Format images and videos URLs
         if (Array.isArray(post.images)) {
-          post.images = post.images.map(image => image ? `${baseURL}/uploads/news-bulletine/${image}` : image);
+          post.images = post.images.map((image) =>
+            image ? `${baseURL}/uploads/news-bulletine/${image}` : image,
+          );
         }
 
         if (Array.isArray(post.videos)) {
-          post.videos = post.videos.map(video => video ? `${baseURL}/uploads/news-bulletine/${video}` : video);
+          post.videos = post.videos.map((video) =>
+            video ? `${baseURL}/uploads/news-bulletine/${video}` : video,
+          );
         }
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Successfully fetched all the news/bulletin posts.",
+      message: 'Successfully fetched all the news/bulletin posts.',
       posts,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong while getting news/bulletin post",
+      message: 'Something went wrong while getting news/bulletin post',
       error: error.message,
     });
   }
 };
 
-
-
-//!  UPDATE  POST BASED ON ID 
+//!  UPDATE  POST BASED ON ID
 const updateNewsBulletine = async (req, res) => {
   try {
     const { id } = req.params;
     // Fetch the existing post
     const existingPost = await bulletineModal.findById(id);
     if (!existingPost) {
-      return res.status(404).json({ error: "Post not found" });
+      return res.status(404).json({ error: 'Post not found' });
     }
 
     const { title, description } = req.body;
 
     // Validate fields
-    if (title && (typeof title !== "string" || title.trim().length < 3)) {
-      return res.status(400).json({ error: "Title must be a string with at least 3 characters" });
+    if (title && (typeof title !== 'string' || title.trim().length < 3)) {
+      return res
+        .status(400)
+        .json({ error: 'Title must be a string with at least 3 characters' });
     }
 
-    if (description && (typeof description !== "string" || description.trim().length < 5)) {
-      return res.status(400).json({ error: "Description must be a string with at least 5 characters" });
+    if (
+      description &&
+      (typeof description !== 'string' || description.trim().length < 5)
+    ) {
+      return res
+        .status(400)
+        .json({
+          error: 'Description must be a string with at least 5 characters',
+        });
     }
 
     // Initialize updated data with existing values
@@ -130,24 +152,28 @@ const updateNewsBulletine = async (req, res) => {
     }
 
     // Update the post
-    const updatedPost = await bulletineModal.findByIdAndUpdate(id, updates, { new: true });
+    const updatedPost = await bulletineModal.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
     if (!updatedPost) {
-      return res.status(404).json({ error: "Bulletine Post not found" });
+      return res.status(404).json({ error: 'Bulletine Post not found' });
     }
 
     res.status(200).json({
       success: true,
-      message: "Bulletine Post updated successfully",
+      message: 'Bulletine Post updated successfully',
       updatedPost,
     });
-
-
-  }
-  catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while updating news/bulletine post", error: error.message });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Something went wrong while updating news/bulletine post',
+        error: error.message,
+      });
   }
 };
-
 
 //! DELETE POST BASED ON ID
 const deleteNewsBulletine = async (req, res) => {
@@ -164,9 +190,19 @@ const deleteNewsBulletine = async (req, res) => {
     }
     res.status(200).json({ success: true, message: 'Post deleted ' });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while deleting news/bulletine post", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Something went wrong while deleting news/bulletine post',
+        error: error.message,
+      });
   }
 };
 
-
-module.exports = { getNewsBulletine, createNewsBulletine, updateNewsBulletine, deleteNewsBulletine }
+module.exports = {
+  getNewsBulletine,
+  createNewsBulletine,
+  updateNewsBulletine,
+  deleteNewsBulletine,
+};

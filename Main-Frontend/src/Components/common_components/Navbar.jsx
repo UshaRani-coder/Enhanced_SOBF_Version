@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import "../../App.css";
-import logo from "../../assets/logo.avif";
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import '../../App.css';
+import logo from '../../assets/logo.avif';
 
 const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
@@ -15,14 +15,13 @@ const Navbar = () => {
   const handleSmoothScroll = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
 
   return (
     <div className="w-full fixed top-[1px] lg:top-1 z-50 flex justify-center mt-10">
       <nav className="cursor-pointer w-[100%] bg-white shadow-2xl p-2  flex justify-between items-center ">
-
         {/* Logo on the left */}
         <Link to="/" className="flex-shrink-0" onClick={handleSmoothScroll}>
           <img src={logo} alt="logo" className="w-20 object-cover" />
@@ -30,8 +29,9 @@ const Navbar = () => {
 
         {/* Navigation items in the center */}
         <ul
-          className={`nav-items ${isActive ? "flex" : "hidden"
-            } lg:flex  flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-8 xl:gap-x-10 absolute lg:static top-full left-0 w-full  bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
+          className={`nav-items ${
+            isActive ? 'flex' : 'hidden'
+          } lg:flex  flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-8 xl:gap-x-10 absolute lg:static top-full left-0 w-full  bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
         >
           <li>
             <Link
@@ -144,8 +144,9 @@ const Navbar = () => {
         </div>
         {/* Hamburger menu for mobile and large screens */}
         <div
-          className={`ham-menu lg:hidden cursor-pointer flex flex-col justify-center gap-1 relative w-[25px] h-[25px] ${isActive ? "active" : ""
-            }`}
+          className={`ham-menu lg:hidden cursor-pointer flex flex-col justify-center gap-1 relative w-[25px] h-[25px] ${
+            isActive ? 'active' : ''
+          }`}
           onClick={toggleMenu}
         >
           <span className="block w-[100%] h-[3.5px] rounded-[20px] absolute top-[25%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue"></span>

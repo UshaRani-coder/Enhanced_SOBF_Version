@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createAdmin, deleteAdmin, fetchAdmins, updateAdmins } from '../api/api'; // Import the API functions
+import {
+  createAdmin,
+  deleteAdmin,
+  fetchAdmins,
+  updateAdmins,
+} from '../api/api'; // Import the API functions
 // import { toast } from 'react-toastify';
 
 export const getAdmins = createAsyncThunk(
@@ -12,10 +17,8 @@ export const getAdmins = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
-
-
 
 export const addAdmin = createAsyncThunk(
   'admins/addAdmin',
@@ -24,9 +27,9 @@ export const addAdmin = createAsyncThunk(
       const response = await createTeam(adminData);
       return response.data;
     } catch (error) {
-      return rejectWithValue("Error while adding Admin");
+      return rejectWithValue('Error while adding Admin');
     }
-  }
+  },
 );
 
 export const removeAdmin = createAsyncThunk(
@@ -38,7 +41,7 @@ export const removeAdmin = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
 
 export const updateAdmin = createAsyncThunk(
@@ -50,7 +53,7 @@ export const updateAdmin = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
 
 const adminSlice = createSlice({
@@ -77,13 +80,17 @@ const adminSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(removeAdmin.fulfilled, (state, action) => {
-        state.admins = state.admins.filter((admin) => admin._id !== action.payload);
+        state.admins = state.admins.filter(
+          (admin) => admin._id !== action.payload,
+        );
       })
       .addCase(removeAdmin.rejected, (state, action) => {
         state.error = action.payload;
       })
       .addCase(updateAdmin.fulfilled, (state, action) => {
-        const index = state.admins.findIndex((admin) => admin._id === action.payload._id);
+        const index = state.admins.findIndex(
+          (admin) => admin._id === action.payload._id,
+        );
         if (index !== -1) {
           state.admins[index] = action.payload;
         }

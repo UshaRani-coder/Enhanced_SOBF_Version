@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import "../../App.css";
-import { useDispatch, useSelector } from "react-redux";
-import { getHeroBanners } from "../../Reducers/heroBannerSlice";
+import React, { useState, useEffect, useRef } from 'react';
+import '../../App.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getHeroBanners } from '../../Reducers/heroBannerSlice';
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -11,12 +11,12 @@ const Hero = () => {
 
   const scrollLeft = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + heroBanner.length) % heroBanner.length
+      (prevIndex) => (prevIndex - 1 + heroBanner.length) % heroBanner.length,
     );
   };
 
-  console.log("heroBanner", heroBanner); 
-  
+  console.log('heroBanner', heroBanner);
+
   const scrollRight = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner.length);
   };
@@ -40,21 +40,21 @@ const Hero = () => {
     // Animate text when currentIndex changes
     if (heroBanner.length > 0) {
       setTextAnimation(true);
-      const textElement = document.querySelector(".hero-text");
-      textElement.classList.add("text-animate");
+      const textElement = document.querySelector('.hero-text');
+      textElement.classList.add('text-animate');
       const handleTextAnimationEnd = () => {
-        textElement.classList.remove("text-animate");
-        textElement.removeEventListener("animationend", handleTextAnimationEnd);
+        textElement.classList.remove('text-animate');
+        textElement.removeEventListener('animationend', handleTextAnimationEnd);
       };
-      textElement.addEventListener("animationend", handleTextAnimationEnd);
+      textElement.addEventListener('animationend', handleTextAnimationEnd);
 
       return () => {
-        textElement.removeEventListener("animationend", handleTextAnimationEnd);
+        textElement.removeEventListener('animationend', handleTextAnimationEnd);
       };
     }
   }, [currentIndex, heroBanner?.length]);
 
-  if (status === "loading" || heroBanner?.length === 0) {
+  if (status === 'loading' || heroBanner?.length === 0) {
     return (
       <div className="hero flex items-center justify-center w-full h-[100vh]">
         <p className="text-white font-bold text-xl">Loading...</p>
@@ -82,22 +82,20 @@ const Hero = () => {
       backgroundRepeat: "no-repeat", // Prevents repeating the image
     }}
   ></div> */}
-  <div
-    className="hero-img object-cover w-full h-full bg-fixed transition-all ease-in-out duration-700"
-    style={{
-      backgroundImage: `url(${heroBanner[currentIndex]?.image})`,
-      backgroundSize: "cover",  
-      backgroundPosition: "center",  
-      backgroundRepeat: "no-repeat",
-      backgroundAttachment: "fixed",  // Creates a parallax effect
-    }}
-  ></div>
-
-  
+      <div
+        className="hero-img object-cover w-full h-full bg-fixed transition-all ease-in-out duration-700"
+        style={{
+          backgroundImage: `url(${heroBanner[currentIndex]?.image})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed', // Creates a parallax effect
+        }}
+      ></div>
 
       <div
         className="scroll-arrow hidden lg:block absolute top-[50%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10] cursor-pointer"
-        style={{ transform: "translateY(-50%)" }}
+        style={{ transform: 'translateY(-50%)' }}
         onClick={scrollLeft}
       >
         <svg
@@ -111,7 +109,7 @@ const Hero = () => {
       </div>
       <div
         className="scroll-arrow hidden lg:block absolute top-[50%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10] cursor-pointer"
-        style={{ transform: "translateY(-50%)" }}
+        style={{ transform: 'translateY(-50%)' }}
         onClick={scrollRight}
       >
         <svg
@@ -124,10 +122,11 @@ const Hero = () => {
         </svg>
       </div>
       <p
-        className={`absolute  font-bold top-[38%] lg:top-[40.5%] xl:top-[43.0%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] md:text-[40px] lg:text-[50px] lg:w-[700px] ${textAnimation ? "text-animate" : ""
-          }`}
+        className={`absolute  font-bold top-[38%] lg:top-[40.5%] xl:top-[43.0%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[300px] md:w-[600px] md:text-[40px] lg:text-[50px] lg:w-[700px] ${
+          textAnimation ? 'text-animate' : ''
+        }`}
       >
-        {heroBanner[currentIndex]?.quotes || ""}
+        {heroBanner[currentIndex]?.quotes || ''}
       </p>
     </div>
   );

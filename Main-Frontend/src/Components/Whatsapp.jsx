@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FloatingWhatsApp } from "react-floating-whatsapp";
+import React, { useEffect, useState } from 'react';
+import { FloatingWhatsApp } from 'react-floating-whatsapp';
 import Avatar from '../assets/OurTeam/TarunMisra.avif';
 import '../App.css';
 

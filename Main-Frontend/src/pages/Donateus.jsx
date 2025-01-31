@@ -1,18 +1,17 @@
-import React, { useState } from "react";
-import { useSpring, animated } from "react-spring";
-import education from "../assets/banner2.avif";
-import food from "../assets/Sobf Images/food distribution/FoodDonation.avif";
-import objective from "../assets/objective.avif";
-import donate from "../assets/donateMotive.avif";
-import { donors_words } from "../Constant/data";
-import { our_donors } from "../Constant/data";
-import Donate_hero from "../Components/Donate_page/donate_hero.jsx";
-import PaymentScreenshot from  "../assets/Sobf Images/PaymentScreenshot.png";
-
+import React, { useState } from 'react';
+import { useSpring, animated } from 'react-spring';
+import education from '../assets/banner2.avif';
+import food from '../assets/Sobf Images/food distribution/FoodDonation.avif';
+import objective from '../assets/objective.avif';
+import donate from '../assets/donateMotive.avif';
+import { donors_words } from '../Constant/data';
+import { our_donors } from '../Constant/data';
+import Donate_hero from '../Components/Donate_page/donate_hero.jsx';
+import PaymentScreenshot from '../assets/Sobf Images/PaymentScreenshot.png';
 
 const Donateus = () => {
-  const [activeTab, setActiveTab] = useState("whydonate");
-  
+  const [activeTab, setActiveTab] = useState('whydonate');
+
   // Number animation
   function Number({ n }) {
     const { number } = useSpring({
@@ -27,7 +26,7 @@ const Donateus = () => {
   // Function to render content based on active tab
   const renderContent = () => {
     switch (activeTab) {
-      case "whydonate":
+      case 'whydonate':
         return (
           <div className="flex flex-col lg:flex-row lg:gap-10 sm:gap-10 justify-center">
             <div className="lg:w-1/2 md:w-full lg:ml-0 ">
@@ -55,7 +54,7 @@ const Donateus = () => {
           </div>
         );
 
-      case "howweuse":
+      case 'howweuse':
         return (
           <div className="flex flex-col lg:flex-row gap-10 justify-center">
             <div className="lg:w-1/2 md:w-full lg:ml-0 ">
@@ -83,7 +82,7 @@ const Donateus = () => {
           </div>
         );
 
-      case "whereweuse":
+      case 'whereweuse':
         return (
           <div className="flex flex-col lg:flex-row gap-10 justify-center">
             <div className="lg:w-1/2 md:w-full lg:ml-0 ">
@@ -119,38 +118,41 @@ const Donateus = () => {
   return (
     <div>
       {/* Hero section */}
-      <Donate_hero/>
+      <Donate_hero />
 
       {/* Tabs */}
       <div className="w-full lg:w-full p-10 mt-4">
         <div className="flex">
-           <button aria-label="Play Video"
+          <button
+            aria-label="Play Video"
             className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm md:text-lg ${
-              activeTab === "whydonate"
-                ? "text-white bg-logoYellow"
-                : "bg-light-lavender text-gray-700"
+              activeTab === 'whydonate'
+                ? 'text-white bg-logoYellow'
+                : 'bg-light-lavender text-gray-700'
             }`}
-            onClick={() => setActiveTab("whydonate")}
+            onClick={() => setActiveTab('whydonate')}
           >
             Why donate us
           </button>
-           <button aria-label="Play Video"
+          <button
+            aria-label="Play Video"
             className={`poppins-medium w-[33.3%] px-4 py-3 text-sm md:text-lg  ${
-              activeTab === "howweuse"
-                ? "text-white bg-logoYellow"
-                : "bg-light-lavender text-gray-700"
+              activeTab === 'howweuse'
+                ? 'text-white bg-logoYellow'
+                : 'bg-light-lavender text-gray-700'
             }`}
-            onClick={() => setActiveTab("howweuse")}
+            onClick={() => setActiveTab('howweuse')}
           >
             How we use
           </button>
-           <button aria-label="Play Video"
+          <button
+            aria-label="Play Video"
             className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm md:text-lg  ${
-              activeTab === "whereweuse"
-                ? "text-white bg-logoYellow"
-                : "bg-light-lavender text-gray-700"
+              activeTab === 'whereweuse'
+                ? 'text-white bg-logoYellow'
+                : 'bg-light-lavender text-gray-700'
             }`}
-            onClick={() => setActiveTab("whereweuse")}
+            onClick={() => setActiveTab('whereweuse')}
           >
             Where we use
           </button>
@@ -175,14 +177,16 @@ const Donateus = () => {
 
             <li className="flex flex-col items-center group p-6 rounded-xl hover:shadow-xl">
               {/* SVG and content for yamuna waste and garbage */}
-              <svg viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg"fill="currentColor"
-                className="w-12 h-12 text-[#001d23] group-hover:text-peacock-green-hover">
-
-<path d="M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6v29.1L364.3 320h29.1c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z"></path>
-
-</svg>
+              <svg
+                viewBox="0 0 576 512"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                className="w-12 h-12 text-[#001d23] group-hover:text-peacock-green-hover"
+              >
+                <path d="M566.6 54.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192-34.7-34.7c-4.2-4.2-10-6.6-16-6.6c-12.5 0-22.6 10.1-22.6 22.6v29.1L364.3 320h29.1c12.5 0 22.6-10.1 22.6-22.6c0-6-2.4-11.8-6.6-16l-34.7-34.7 192-192zM341.1 353.4L222.6 234.9c-42.7-3.7-85.2 11.7-115.8 42.3l-8 8C76.5 307.5 64 337.7 64 369.2c0 6.8 7.1 11.2 13.2 8.2l51.1-25.5c5-2.5 9.5 4.1 5.4 7.9L7.3 473.4C2.7 477.6 0 483.6 0 489.9C0 502.1 9.9 512 22.1 512l173.3 0c38.8 0 75.9-15.4 103.4-42.8c30.6-30.6 45.9-73.1 42.3-115.8z"></path>
+              </svg>
               <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
-                <Number n={10} /> 
+                <Number n={10} />
                 <br />
                 Tons
               </span>
@@ -207,10 +211,12 @@ const Donateus = () => {
                 <path d="M390.34 441.59V291H322.6c-28.71 5.15-57.43 20.71-86.15 38.8h-52.61c-23.81 1.43-36.28 25.57-13.15 41.43 18.45 13.52 42.79 12.76 67.74 10.52 17.2-.85 17.95 22.28 0 22.36-6.23.48-13.02-.98-18.93-.98-31.14-.03-56.79-5.99-72.49-30.59l-7.89-18.41-78.26-38.8c-39.16-12.9-66.99 28.07-38.14 56.56 56.68 41.24 114.82 75.17 174.27 102.58 43.19 26.27 86.37 25.38 129.56 0l63.79-32.88zM26.61 295.84C13.26 274.78 5.03 248.03.07 213.49c-.38-2.71.81-5.29 2.87-6.8 1.16-25.91 13.69-39.74 37.53-48.27 2.14-18.68 16.9-31.73 34.98-34.86 25.04-25.44 65.94-33.03 99-20.35 1.14.44 4.7 2.24 7.92 3.86.5.25.78.5.94.72 11.09-8.54 23.81-13.07 36.47-14.37 9.14-.93 18.27-.19 26.74 1.94l42.11-84.37c3.84-7.5 9.98-14.67 21.91-8.88 3.19 1.55 6 3.94 7.87 6.83 5.41 8.3.87 14.09-3.25 21.24l-45.58 75.58c9.12 6.43 16.4 15.39 19.04 26.41 3.95 1.12 7.74 2.37 11.34 3.76l53.07-88.26c4.43-7.18 11.13-13.83 22.55-7.11 3.06 1.8 5.67 4.41 7.31 7.43 4.73 8.71-.26 14.12-4.94 20.92l-55.4 78.84c20.12 14.12 32.83 36.04 27.22 61.26-.3 1.41.32 1.93.32 3.47l-.06.92c-.16 2.81-.4 5.62-.7 8.43-1.76 16.5-5.96 32.94-13.17 48.51H322.6c-.86 0-1.71.06-2.53.2 8.53-16.08 13.29-33.44 15.09-50.88H15.52c5.13 30.94 13.25 54.57 26.01 72.76-5.29.44-10.3 1.62-14.92 3.42zm231-103.63c-3.97 0-7.18-3.21-7.18-7.17 0-3.97 3.21-7.18 7.18-7.18h16.07c3.97 0 7.18 3.21 7.18 7.18 0 3.96-3.21 7.17-7.18 7.17h-16.07zm-3.88-47.66a7.155 7.155 0 1 1-5.83 13.07l-14.66-6.59a7.155 7.155 0 0 1-3.62-9.45 7.155 7.155 0 0 1 9.45-3.62l14.66 6.59zm-81.67 4.82a7.208 7.208 0 0 1-3.98-9.38 7.22 7.22 0 0 1 9.39-3.98l16.07 6.56a7.22 7.22 0 0 1 3.98 9.39 7.223 7.223 0 0 1-9.39 3.97l-16.07-6.56zm-5.53 42.84c-3.96 0-7.18-3.21-7.18-7.17a7.18 7.18 0 0 1 7.18-7.18h16.07c3.97 0 7.18 3.21 7.18 7.18 0 3.96-3.21 7.17-7.18 7.17h-16.07zm-54.6-32.63a7.155 7.155 0 0 1-9.45-3.62 7.155 7.155 0 0 1 3.62-9.45l14.66-6.59c3.61-1.61 7.84.01 9.45 3.62a7.155 7.155 0 0 1-3.62 9.45l-14.66 6.59zm-31.65 32.63c-3.97 0-7.18-3.21-7.18-7.17 0-3.97 3.21-7.18 7.18-7.18h16.07a7.18 7.18 0 0 1 7.18 7.18c0 3.96-3.22 7.17-7.18 7.17H80.28zm-62.88 13.1 318.54-.01c6.91-33.52-27.73-53.61-55.3-60.43-2.85-.7-5.1-3.13-5.41-6.22-1.43-13.91-14.66-23.51-26.9-27.81-8.3-2.92-17.69-4.14-27.09-3.17-11.1 1.13-22.23 5.35-31.62 13.43a7.118 7.118 0 0 1-5.13 2.16c-3.36 0-11.38-5.21-15.14-6.65-28.36-10.88-64.32-4.09-85.15 18.54a7.134 7.134 0 0 1-4.49 2.27c-13.94 1.55-25.12 11.2-25.21 25.77a7.184 7.184 0 0 1-5.02 7.33c-19.1 5.97-30.51 13.81-32.08 34.79zM44 238.06a5.723 5.723 0 0 1 3.45-7.32c2.97-1.06 6.25.48 7.32 3.46 3.91 10.84 8.9 21.3 14.91 31.14 1.65 2.7.8 6.23-1.9 7.87-2.7 1.65-6.23.8-7.88-1.9-6.39-10.47-11.75-21.71-15.9-33.25zm25.64 47.5a5.745 5.745 0 0 1 1.08-8.04 5.743 5.743 0 0 1 8.03 1.08c4.69 6.14 9.81 11.83 15.55 17a5.748 5.748 0 0 1 .43 8.1 5.73 5.73 0 0 1-8.1.43c-6.2-5.59-11.92-11.95-16.99-18.57zm433.5-9.03h-83.55c-4.88 0-8.87 3.98-8.87 8.86v162.46c0 4.88 3.99 8.87 8.87 8.87h83.55c4.87 0 8.86-3.99 8.86-8.87V285.39c0-4.88-3.99-8.86-8.86-8.86zm-41.78 27.35c-7.27 0-13.17 5.9-13.17 13.18 0 7.27 5.9 13.17 13.17 13.17 7.28 0 13.17-5.9 13.17-13.17 0-7.28-5.89-13.18-13.17-13.18z" />
               </svg>
               <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
-                <Number n={100000} /> <br/>
-                 Plates
+                <Number n={100000} /> <br />
+                Plates
               </span>
-              <p className="text-center text-base mt-2">More than 1,00,000 Food Plate Seva accomplished</p>
+              <p className="text-center text-base mt-2">
+                More than 1,00,000 Food Plate Seva accomplished
+              </p>
             </li>
 
             {/* Sanitary napkins */}
@@ -228,7 +234,9 @@ const Donateus = () => {
               <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
                 <Number n={12000} /> <br /> Units
               </span>
-              <p className="text-center text-base mt-2">More than 12,000 Sanitary napkins distributed</p>
+              <p className="text-center text-base mt-2">
+                More than 12,000 Sanitary napkins distributed
+              </p>
             </li>
 
             {/* Underserved Children */}
@@ -248,7 +256,9 @@ const Donateus = () => {
               <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
                 <Number n={200} /> <br /> Children
               </span>
-              <p className="text-center text-base mt-2">More than 200 Underserved Children were served</p>
+              <p className="text-center text-base mt-2">
+                More than 200 Underserved Children were served
+              </p>
             </li>
 
             {/* Donation received */}
@@ -276,7 +286,9 @@ const Donateus = () => {
               <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
                 <Number n={1} /> <br /> Crore ₹
               </span>
-              <p className="text-center text-base mt-2">More than 1 crore Rupees of Donation received</p>
+              <p className="text-center text-base mt-2">
+                More than 1 crore Rupees of Donation received
+              </p>
             </li>
           </ul>
         </div>
@@ -286,7 +298,7 @@ const Donateus = () => {
       <div className="mt-5 max-w[90%] text-center">
         {/* Title section for Donors words about us */}
         <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-blue ">
-        Donors words about us
+          Donors words about us
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h1>
       </div>
@@ -321,9 +333,7 @@ const Donateus = () => {
                 </div>
               </div>
               {/* Review text from the donor */}
-              <p className="text-gray-800 text-justify">
-                {item.reviews}
-              </p>
+              <p className="text-gray-800 text-justify">{item.reviews}</p>
             </div>
           ))}
         </div>
@@ -363,7 +373,7 @@ const Donateus = () => {
       <div className="mt-5 max-w[90%] text-center">
         {/* Title section for Recent Donors */}
         <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-blue ">
-        Our Donors
+          Our Donors
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h1>
       </div>
@@ -600,23 +610,26 @@ const Donateus = () => {
                 </div>
               </div>
               <div className="md:col-span-5 flex flex-col  md:flex-row justify-center pt-10 md:gap-10 gap-3">
-                 <button aria-label="Play Video" className="text-white bg-blue hover:bg-logoYellow border-gray-300 focus:outline-none  focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
-                Pay Now
-              </button>
-                </div>
+                <button
+                  aria-label="Play Video"
+                  className="text-white bg-blue hover:bg-logoYellow border-gray-300 focus:outline-none  focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
+                >
+                  Pay Now
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-
-      
       {/* Donation opportunity Image*/}
       <div className="pt-10">
-        <img src={donate} alt="donation oppurtunity" className="w-full object-cover"/>
+        <img
+          src={donate}
+          alt="donation oppurtunity"
+          className="w-full object-cover"
+        />
       </div>
-
-      
     </div>
   );
 };

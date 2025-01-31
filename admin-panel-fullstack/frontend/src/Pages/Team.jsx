@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { MdEdit, MdDelete } from "react-icons/md";
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { MdEdit, MdDelete } from 'react-icons/md';
 import {
   addTeam,
   getTeamData,
   removeTeam,
   updateTeamData,
-} from "../Reducers/TeamSlice";
+} from '../Reducers/TeamSlice';
 
 const Team = () => {
   const dispatch = useDispatch();
@@ -16,13 +16,19 @@ const Team = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({ name: "", role: "", linkedIn: "", instagram: "", image: null });
+  const [formData, setFormData] = useState({
+    name: '',
+    role: '',
+    linkedIn: '',
+    instagram: '',
+    image: null,
+  });
 
   // Fetch teams data
   useEffect(() => {
-    if (status === "idle") {
+    if (status === 'idle') {
       dispatch(getTeamData());
     }
   }, [status, dispatch]);
@@ -31,7 +37,7 @@ const Team = () => {
   const validateForm = () => {
     const { name, role, linkedIn, instagram, image } = formData;
     if (!name || !role) {
-      toast.error("Name and Role are required fields.");
+      toast.error('Name and Role are required fields.');
       return false;
     }
 
@@ -40,30 +46,34 @@ const Team = () => {
     const instagramRegex = /^https:\/\/([a-z]{2,3}\.)?instagram\.com\/.*$/i;
 
     if (!linkedIn) {
-      toast.error("linkedIn is required ");
+      toast.error('linkedIn is required ');
       return false;
     }
     if (!linkedIn || !linkedInRegex.test(linkedIn)) {
-      toast.error("Invalid LinkedIn URL. It should start with 'https://linkedin.com'.");
+      toast.error(
+        "Invalid LinkedIn URL. It should start with 'https://linkedin.com'.",
+      );
       return false;
     }
     if (!instagram) {
-      toast.error("Instagram is required ");
+      toast.error('Instagram is required ');
       return false;
     }
     if (!instagram || !instagramRegex.test(instagram)) {
-      toast.error("Invalid Instagram URL. It should start with 'https://instagram.com'.");
+      toast.error(
+        "Invalid Instagram URL. It should start with 'https://instagram.com'.",
+      );
       return false;
     }
 
     if (!image) {
-      toast.error("Profile image is required.");
+      toast.error('Profile image is required.');
       return false;
     }
     // Validate image type
-    const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (!image || !allowedImageTypes.includes(image.type)) {
-      toast.error("Profile image is required and must be jpg ,png  or jpeg .");
+      toast.error('Profile image is required and must be jpg ,png  or jpeg .');
       return false;
     }
     return true;
@@ -82,27 +92,25 @@ const Team = () => {
       await dispatch(addTeam(newTeam)).unwrap();
       resetForm();
       setIsModalOpen(false);
-      toast.success("Team member added successfully.");
+      toast.success('Team member added successfully.');
       dispatch(getTeamData());
     } catch (error) {
-      toast.error(error.message || "Failed to add team member.");
+      toast.error(error.message || 'Failed to add team member.');
     }
     setIsLoading(false);
   };
-
-
 
   //! Update team member
   const handleUpdateTeamMember = async () => {
     const { name, image, role } = formData;
     if (!name || !role) {
-      toast.error("Name and Role are required fields.");
+      toast.error('Name and Role are required fields.');
       return false;
     }
     //! Validate image type
-    const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (image && !allowedImageTypes.includes(image.type)) {
-      toast.error("Profile image is required and must be jpg ,png  or jpeg .");
+      toast.error('Profile image is required and must be jpg ,png  or jpeg .');
       return;
     }
     const teamData = new FormData();
@@ -111,55 +119,58 @@ const Team = () => {
     });
     try {
       setIsLoading(true); // Start loading
-      await dispatch(updateTeamData({ id: currentPost._id, teamData })).unwrap();
+      await dispatch(
+        updateTeamData({ id: currentPost._id, teamData }),
+      ).unwrap();
       resetForm();
       setIsModalOpen(false);
-      toast.success("Team member updated successfully.");
+      toast.success('Team member updated successfully.');
       dispatch(getTeamData());
     } catch (error) {
-      toast.error(error.message || "Failed to update team member.");
+      toast.error(error.message || 'Failed to update team member.');
     }
     setIsLoading(false);
   };
 
-
-
   //! Delete team member
   const handleDeleteTeamMember = async (id) => {
-    if (window.confirm("Are you sure you want to delete this team member?")) {
+    if (window.confirm('Are you sure you want to delete this team member?')) {
       try {
         setIsLoading(true);
         await dispatch(removeTeam(id)).unwrap();
-        toast.success("Successfully deleted team member.");
+        toast.success('Successfully deleted team member.');
       } catch (error) {
-        toast.error(error.message || "Failed to delete team member.");
+        toast.error(error.message || 'Failed to delete team member.');
       }
     }
-    setIsLoading(false)
+    setIsLoading(false);
   };
-
 
   //! Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrorMessage("");
+    setErrorMessage('');
   };
-
 
   //! Handle file input changes
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData((prev) => ({ ...prev, [name]: files[0] }));
-    setErrorMessage("");
+    setErrorMessage('');
   };
-
 
   //! Reset form to initial state
   const resetForm = () => {
-    setFormData({ name: "", role: "", linkedIn: "", instagram: "", image: null });
+    setFormData({
+      name: '',
+      role: '',
+      linkedIn: '',
+      instagram: '',
+      image: null,
+    });
     setCurrentPost(null);
-    setErrorMessage("");
+    setErrorMessage('');
   };
 
   //! Open modal for updating team member
@@ -168,18 +179,13 @@ const Team = () => {
     setIsUpdateMode(true);
     setCurrentPost(post);
     setFormData({
-      name: post.name || "",
-      role: post.role || "",
-      linkedIn: post.linkedIn || "",
-      instagram: post.instagram || "",
+      name: post.name || '',
+      role: post.role || '',
+      linkedIn: post.linkedIn || '',
+      instagram: post.instagram || '',
       image: null,
     });
   };
-
-
-
-
-
 
   return (
     <div className="container mx-auto">
@@ -188,7 +194,7 @@ const Team = () => {
           Our Team Members
         </h1>
         <button
-          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[13px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-4 small-max:py-1.5 text-[13px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -202,9 +208,9 @@ const Team = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 max-h-[90%] md:max-h-full overflow-y-auto md:overflow-y-hidden">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 max-h-[90%] md:max-h-full overflow-y-auto md:scrollbar-none">
             <h2 className="text-xl font-bold mb-4">
-              {isUpdateMode ? "Update Team Member" : "Add New Team Member"}
+              {isUpdateMode ? 'Update Team Member' : 'Add New Team Member'}
             </h2>
             <form>
               {/* Name */}
@@ -215,7 +221,7 @@ const Team = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded focus:outline-none"
+                  className="w-full px-4 py-2 border rounded focus:outline-none text-[13px] small-range:text-[16px]"
                   placeholder="Enter your name here"
                 />
               </div>
@@ -227,7 +233,7 @@ const Team = () => {
                   name="role"
                   value={formData.role}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded focus:outline-none"
+                  className="w-full px-4 py-2 border rounded focus:outline-none text-[13px] small-range:text-[16px]"
                   placeholder="Enter your  role and responsibility "
                 ></textarea>
               </div>
@@ -240,7 +246,7 @@ const Team = () => {
                   name="linkedIn"
                   value={formData.linkedIn}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded focus:outline-none"
+                  className="w-full px-4 py-2 border rounded focus:outline-none text-[13px] small-range:text-[16px]"
                   placeholder="Enter your linkedin profile link "
                 />
               </div>
@@ -253,7 +259,7 @@ const Team = () => {
                   name="instagram"
                   value={formData.instagram}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded focus:outline-none"
+                  className="w-full px-4 py-2 border rounded focus:outline-none text-[13px] small-range:text-[16px]"
                   placeholder="Enter your instagram profile link "
                 />
               </div>
@@ -274,14 +280,14 @@ const Team = () => {
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
-                  className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+                  className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 font-semibold"
                   onClick={() => setIsModalOpen(false)}
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
                   onClick={
                     isUpdateMode ? handleUpdateTeamMember : handleAddTeamMember
                   }
@@ -297,9 +303,9 @@ const Team = () => {
                       Processing...
                     </span>
                   ) : isUpdateMode ? (
-                    "Update"
+                    'Update'
                   ) : (
-                    "Add"
+                    'Add'
                   )}
                 </button>
               </div>
@@ -307,7 +313,6 @@ const Team = () => {
           </div>
         </div>
       )}
-
 
       <div className="mt-6 flex flex-col items-center md:items-stretch p-6 small-max:p-0 md:p-6 justify-center md:flex-row md:flex-wrap md:justify-center  w-[100%] md:gap-x-[40px] gap-y-[45px] md:gap-y-[60px] lg:gap-y-[40px] lg:gap-x-[100px]">
         {teams && teams?.length > 0 ? (
@@ -319,11 +324,12 @@ const Team = () => {
               <div
                 className="w-[200px] h-[200px] rounded-full"
                 style={{
-                  backgroundImage: `url(${member?.image || "https://via.placeholder.com/150"
-                    })`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
+                  backgroundImage: `url(${
+                    member?.image || 'https://via.placeholder.com/150'
+                  })`,
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
                 }}
               ></div>
               <div className="flex flex-col  items-center">
@@ -344,7 +350,7 @@ const Team = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
-                    width={"20px"}
+                    width={'20px'}
                     fill="#146EBE"
                   >
                     <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />

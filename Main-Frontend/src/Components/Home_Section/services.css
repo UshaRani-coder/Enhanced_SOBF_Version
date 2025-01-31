@@ -5,50 +5,48 @@
 .services .service5::before,
 .services .service6::before,
 .services .service7::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("../../assets/Sobf Images/women empowerment/communityService.avif"); 
+  background-image: url('../../assets/Sobf Images/women empowerment/communityService.avif');
   background-size: cover;
   background-position: center;
   transition: transform 0.5s ease-in-out;
   transform: translateY(100%);
 }
 .services .service2::before {
-  background-image: url("../../assets/Sobf Images/food distribution/FoodDonation.avif");
+  background-image: url('../../assets/Sobf Images/food distribution/FoodDonation.avif');
 }
 .services .service3::before {
-  background-image: url("../../assets/Sobf Images/child_education_and_empowerment/cee6.avif");
+  background-image: url('../../assets/Sobf Images/child_education_and_empowerment/cee6.avif');
 }
 .services .service4::before {
-  background-image: url("../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.jpg");
+  background-image: url('../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.jpg');
 }
 .services .service:hover:before {
   transform: translateY(0);
 }
 .services .service5::before {
-  background-image: url("../../assets/Sobf Images/food distribution/sadhuSeva.jpg");
+  background-image: url('../../assets/Sobf Images/food distribution/sadhuSeva.jpg');
 }
 .services .service6::before {
-  background-image: url("../../assets/Sobf Images/health_and_awareness_camp/hac2.avif");
+  background-image: url('../../assets/Sobf Images/health_and_awareness_camp/hac2.avif');
 }
 
-
-
 .services .service7::before {
-  background-image: url("../../assets/Sobf Images/women empowerment/we1.avif");
+  background-image: url('../../assets/Sobf Images/women empowerment/we1.avif');
 }
 
 .services .service:hover::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(1, 29, 36, 0.8); 
+  background-color: rgba(1, 29, 36, 0.8);
   pointer-events: none; /* Prevents accidental clicks on the overlay */
 }

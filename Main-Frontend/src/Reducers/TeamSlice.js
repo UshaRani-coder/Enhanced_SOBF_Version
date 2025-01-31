@@ -1,18 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { createTeam, deleteTeam, getTeam, updateTeam } from '../api/api';
 
-
 export const getTeams = createAsyncThunk('team/getTeam', async () => {
   const response = await getTeam();
 
   return response.data.teamMembers;
 });
 
-export const createTeamMember = createAsyncThunk('team/addTeam', async (postData) => {
-  const response = await createTeam(postData);
-  // console.log("postData for create team " + postData);
-  return response.data;
-});
+export const createTeamMember = createAsyncThunk(
+  'team/addTeam',
+  async (postData) => {
+    const response = await createTeam(postData);
+    // console.log("postData for create team " + postData);
+    return response.data;
+  },
+);
 
 export const updateTeamMember = createAsyncThunk(
   'team/updateTeam',
@@ -20,13 +22,16 @@ export const updateTeamMember = createAsyncThunk(
     const response = await updateTeam(id, updatedData);
     // console.log("response of updateTeam", response);
     return response.data;
-  }
+  },
 );
 
-export const removeTeamMember = createAsyncThunk('team/removeTeam', async (id) => {
-  await deleteTeam(id);
-  return id;
-});
+export const removeTeamMember = createAsyncThunk(
+  'team/removeTeam',
+  async (id) => {
+    await deleteTeam(id);
+    return id;
+  },
+);
 
 const teamSlice = createSlice({
   name: 'teams',
@@ -49,11 +54,15 @@ const teamSlice = createSlice({
         state.teams.push(action.payload);
       })
       .addCase(updateTeamMember.fulfilled, (state, action) => {
-        const index = state.teams.findIndex((impact) => impact._id === action.payload._id);
+        const index = state.teams.findIndex(
+          (impact) => impact._id === action.payload._id,
+        );
         if (index !== -1) state.teams[index] = action.payload;
       })
       .addCase(removeTeamMember.fulfilled, (state, action) => {
-        state.teams = state.teams.filter((impact) => impact._id !== action.payload);
+        state.teams = state.teams.filter(
+          (impact) => impact._id !== action.payload,
+        );
       });
   },
 });

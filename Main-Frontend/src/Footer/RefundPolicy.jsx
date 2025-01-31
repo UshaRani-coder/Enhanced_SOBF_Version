@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const RefundPolicy = () => {
   return (
@@ -26,8 +26,8 @@ const RefundPolicy = () => {
               No Cancellation / Refund Policy
             </h2>
             <p>
-              For any problems/issues, please contact us on{" "}
-              <strong>+91 8439406670</strong> or{" "}
+              For any problems/issues, please contact us on{' '}
+              <strong>+91 8439406670</strong> or{' '}
               <a href="mailto:soulofbraj@gmail.com">soulofbraj@gmail.com</a>.
             </p>
             <p>

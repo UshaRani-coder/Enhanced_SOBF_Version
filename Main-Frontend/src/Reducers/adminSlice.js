@@ -1,25 +1,38 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createAdmin, deleteAdmin, fetchAdmins, updateAdmins } from '../api/api'; // Import the update API
+import {
+  createAdmin,
+  deleteAdmin,
+  fetchAdmins,
+  updateAdmins,
+} from '../api/api'; // Import the update API
 
 export const getAdmins = createAsyncThunk('admins/getAdmins', async () => {
   const response = await fetchAdmins();
   return response?.data?.data;
 });
 
-export const addAdmin = createAsyncThunk('admins/addAdmin', async (adminData) => {
-  const response = await createAdmin(adminData);
-  return response.data;
-});
+export const addAdmin = createAsyncThunk(
+  'admins/addAdmin',
+  async (adminData) => {
+    const response = await createAdmin(adminData);
+    return response.data;
+  },
+);
 
-export const removeAdmin = createAsyncThunk('admins/removeAdmin', async (id) => {
-  await deleteAdmin(id);
-  return id;
-});
+export const removeAdmin = createAsyncThunk(
+  'admins/removeAdmin',
+  async (id) => {
+    await deleteAdmin(id);
+    return id;
+  },
+);
 
-export const updateAdmin = createAsyncThunk("admins/updateAdmin", async ({ id, adminData }) => {
-  const response = await updateAdmins(id, adminData); // Call the update API
-  return response.data;
-}
+export const updateAdmin = createAsyncThunk(
+  'admins/updateAdmin',
+  async ({ id, adminData }) => {
+    const response = await updateAdmins(id, adminData); // Call the update API
+    return response.data;
+  },
 );
 
 const adminSlice = createSlice({
@@ -43,10 +56,14 @@ const adminSlice = createSlice({
         state.admins.push(action.payload);
       })
       .addCase(removeAdmin.fulfilled, (state, action) => {
-        state.admins = state.admins.filter((admin) => admin._id !== action.payload);
+        state.admins = state.admins.filter(
+          (admin) => admin._id !== action.payload,
+        );
       })
       .addCase(updateAdmin.fulfilled, (state, action) => {
-        const index = state.admins.findIndex((admin) => admin._id === action.payload._id);
+        const index = state.admins.findIndex(
+          (admin) => admin._id === action.payload._id,
+        );
         if (index !== -1) {
           state.admins[index] = action.payload; // Update the admin in the state
         }

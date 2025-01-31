@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 //import { heroes } from "../../../Constant/data";
 
-const ImgBanner = ({banners}) => {
+const ImgBanner = ({ banners }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const imageElement = useRef(null);
   const timerRef = useRef(null);
@@ -9,7 +9,7 @@ const ImgBanner = ({banners}) => {
   // Move to the previous slide
   const scrollLeft = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + banners.length) % banners.length
+      (prevIndex) => (prevIndex - 1 + banners.length) % banners.length,
     );
   };
 
@@ -41,12 +41,12 @@ const ImgBanner = ({banners}) => {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "ArrowLeft") scrollLeft();
-      if (e.key === "ArrowRight") scrollRight();
+      if (e.key === 'ArrowLeft') scrollLeft();
+      if (e.key === 'ArrowRight') scrollRight();
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   return (
@@ -60,15 +60,15 @@ const ImgBanner = ({banners}) => {
         className="absolute w-full h-full transition-all duration-1000"
         style={{
           backgroundImage: `url(${banners[currentIndex].img})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       ></div>
 
       {/* Left Arrow */}
       <div
         className="scroll-arrow hidden lg:block absolute top-[50%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8px] px-[10px] rounded-full z-[10] cursor-pointer"
-        style={{ transform: "translateY(-50%)" }}
+        style={{ transform: 'translateY(-50%)' }}
         onClick={scrollLeft}
       >
         <svg
@@ -84,7 +84,7 @@ const ImgBanner = ({banners}) => {
       {/* Right Arrow */}
       <div
         className="scroll-arrow hidden lg:block absolute top-[50%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8px] px-[10px] rounded-full z-[10] cursor-pointer"
-        style={{ transform: "translateY(-50%)" }}
+        style={{ transform: 'translateY(-50%)' }}
         onClick={scrollRight}
       >
         <svg
@@ -102,10 +102,9 @@ const ImgBanner = ({banners}) => {
         {banners.map((_, index) => (
           <div
             key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-500 ${currentIndex === index
-                ? "bg-white scale-125"
-                : " bg-black/50"
-              } cursor-pointer`}
+            className={`w-3 h-3 rounded-full transition-all duration-500 ${
+              currentIndex === index ? 'bg-white scale-125' : ' bg-black/50'
+            } cursor-pointer`}
             onClick={() => setCurrentIndex(index)}
           ></div>
         ))}

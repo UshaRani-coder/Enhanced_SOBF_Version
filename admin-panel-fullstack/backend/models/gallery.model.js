@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const gallerySchema = new mongoose.Schema({
-  tag:{type:String , required:true},
-  image: { type: String, required: true }
+  tag: { type: String, required: true },
+  image: { type: String, required: true },
 });
 
-const GalleryModel = new mongoose.model("GalleryModel", gallerySchema);
+const GalleryModel = new mongoose.model('GalleryModel', gallerySchema);
 
 module.exports = GalleryModel;

@@ -1,34 +1,50 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {updateNewsPostsApi, deleteNewsPosts, fetchNewsPosts, createNewsPosts } from '../api/api';
+import {
+  updateNewsPostsApi,
+  deleteNewsPosts,
+  fetchNewsPosts,
+  createNewsPosts,
+} from '../api/api';
 
 // ! Get posts
-export const getBulletine = createAsyncThunk('bulletines/getBulletine', async () => {
-  const response = await fetchNewsPosts();
-  return response.data.posts;
-});
+export const getBulletine = createAsyncThunk(
+  'bulletines/getBulletine',
+  async () => {
+    const response = await fetchNewsPosts();
+    return response.data.posts;
+  },
+);
 
 // ! Add new post
-export const addBulletine = createAsyncThunk('bulletines/addBulletine', async (postData) => {
-  const response = await createNewsPosts(postData);
-  return response.data;
-});
+export const addBulletine = createAsyncThunk(
+  'bulletines/addBulletine',
+  async (postData) => {
+    const response = await createNewsPosts(postData);
+    return response.data;
+  },
+);
 
 // ! Update post
-export const updateBulletine = createAsyncThunk('bulletines/updatePost', async ({ id, updatedData }) => {
+export const updateBulletine = createAsyncThunk(
+  'bulletines/updatePost',
+  async ({ id, updatedData }) => {
     try {
       const response = await updateNewsPostsApi(id, updatedData);
-      return response.data; 
+      return response.data;
     } catch (error) {
-      throw error; 
+      throw error;
     }
-  }
+  },
 );
 
 // ! Remove post
-export const removeBulletine = createAsyncThunk('bulletines/removeBulletine', async (id) => {
-  await deleteNewsPosts(id);
-  return id;
-});
+export const removeBulletine = createAsyncThunk(
+  'bulletines/removeBulletine',
+  async (id) => {
+    await deleteNewsPosts(id);
+    return id;
+  },
+);
 
 const bulletinSlice = createSlice({
   name: 'bulletines',
@@ -54,7 +70,9 @@ const bulletinSlice = createSlice({
       })
       // Remove post
       .addCase(removeBulletine.fulfilled, (state, action) => {
-        state.bulletines = state.bulletines.filter((post) => post._id !== action.payload);
+        state.bulletines = state.bulletines.filter(
+          (post) => post._id !== action.payload,
+        );
       });
   },
 });

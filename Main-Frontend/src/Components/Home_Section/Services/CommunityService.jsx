@@ -1,17 +1,17 @@
-import React from "react";
-import { useLocation } from "react-router-dom"; // Import useLocation
-import ImgBanner from "./ImgBanner";
-import { Link } from "react-router-dom";
-import { heroes } from "../../../Constant/data";
+import React from 'react';
+import { useLocation } from 'react-router-dom'; // Import useLocation
+import ImgBanner from './ImgBanner';
+import { Link } from 'react-router-dom';
+import { heroes } from '../../../Constant/data';
 
 const CommunityService = ({ setService }) => {
   const location = useLocation();
-  const isHomePage = location.pathname === "/"; // Check if the current page is the home page
+  const isHomePage = location.pathname === '/'; // Check if the current page is the home page
 
   return (
     <div
       className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
-        isHomePage ? "" : "mt-20 mb-20" 
+        isHomePage ? '' : 'mt-20 mb-20'
       }`}
     >
       {/* Only show the "Back to Services" button if on the home page */}
@@ -37,21 +37,17 @@ const CommunityService = ({ setService }) => {
             <span className="text-logo-yellow">“Soul of Braj”</span> is focused
             on Community service as it is not only a way to give back, but it is
             great for volunteers as well. Helping others makes us feel better.
-            By giving back, we help ourselves. Service to a just cause
-            rewards the workers with more real happiness and satisfaction than
-            any other venture of life.
+            By giving back, we help ourselves. Service to a just cause rewards
+            the workers with more real happiness and satisfaction than any other
+            venture of life.
           </p>
           <button>
             <Link
-            to="/donate-us"
+              to="/donate-us"
               className="px-8 py-3.5 relative rounded-lg group overflow-hidden font-semibold bg-orange text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
             >
               <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
-              <span className="relative z-10">
-                
-                  Donate
-               
-              </span>
+              <span className="relative z-10">Donate</span>
             </Link>
           </button>
         </div>

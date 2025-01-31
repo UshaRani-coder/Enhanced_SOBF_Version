@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import aboutus from "../assets/aboutUsImage.avif";
-import cee14 from "../assets/Sobf Images/child_education_and_empowerment/cee14.avif";
-import cee11 from "../assets/Sobf Images/child_education_and_empowerment/cee11.avif";
-import ca5 from "../assets/Sobf Images/children_activities/ca5.avif";
-import ca15 from "../assets/Sobf Images/children_activities/ca3.avif";
-import hac4 from "../assets/Sobf Images/health_and_awareness_camp/hac4.avif";
-import ca6 from "../assets/Sobf Images/children_activities/ca6.avif";
-import ourStory from "../assets/ourStoryImg.avif";
+import React, { useState } from 'react';
+import aboutus from '../assets/aboutUsImage.avif';
+import cee14 from '../assets/Sobf Images/child_education_and_empowerment/cee14.avif';
+import cee11 from '../assets/Sobf Images/child_education_and_empowerment/cee11.avif';
+import ca5 from '../assets/Sobf Images/children_activities/ca5.avif';
+import ca15 from '../assets/Sobf Images/children_activities/ca3.avif';
+import hac4 from '../assets/Sobf Images/health_and_awareness_camp/hac4.avif';
+import ca6 from '../assets/Sobf Images/children_activities/ca6.avif';
+import ourStory from '../assets/ourStoryImg.avif';
 
 const AboutUs = () => {
-  const [activeTab, setActiveTab] = useState("mission");
+  const [activeTab, setActiveTab] = useState('mission');
 
   const renderContent = () => {
     switch (activeTab) {
-      case "mission":
+      case 'mission':
         return (
           <p className="text-gray-600 text-justify">
             We aim to simplify complex processes, enhance efficiency, and drive
@@ -21,14 +21,14 @@ const AboutUs = () => {
             solutions, we enable to navigate the ever-changing tech landscape.
           </p>
         );
-      case "vision":
+      case 'vision':
         return (
           <p className="text-gray-600  text-justify">
             Our vision is to be the leading provider of innovative tech
             solutions that empower businesses to reach their full potential.
           </p>
         );
-      case "objective":
+      case 'objective':
         return (
           <p className="text-gray-600  text-justify">
             Our objective is to deliver high-quality, efficient, and reliable
@@ -40,15 +40,7 @@ const AboutUs = () => {
     }
   };
 
-  const images = [
-   cee14,
-    ca5,
-    hac4,
-    cee11,
-    ca15,
-    ca6,
-
-  ];
+  const images = [cee14, ca5, hac4, cee11, ca15, ca6];
 
   return (
     <div className="pt-[100px]">
@@ -58,9 +50,9 @@ const AboutUs = () => {
         className="w-full h-[200px] md:h-[300px] lg:h-[450px]"
         style={{
           backgroundImage: `url(${aboutus})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
       ></div>
       {/* toggler  */}
@@ -76,33 +68,36 @@ const AboutUs = () => {
 
         <div className="w-[99%] lg:w-[50%] mt-4">
           <div className="flex ">
-             <button aria-label="Play Video"
+            <button
+              aria-label="Play Video"
               className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm lg:text-lg ${
-                activeTab === "mission"
-                  ? "text-white bg-peacock-green-hover"
-                  : "bg-light-lavender text-gray-700"
+                activeTab === 'mission'
+                  ? 'text-white bg-peacock-green-hover'
+                  : 'bg-light-lavender text-gray-700'
               }`}
-              onClick={() => setActiveTab("mission")}
+              onClick={() => setActiveTab('mission')}
             >
               Our Mission
             </button>
-             <button aria-label="Play Video"
+            <button
+              aria-label="Play Video"
               className={`poppins-medium w-[33.3%] px-4 py-3 text-sm lg:text-lg  ${
-                activeTab === "vision"
-                  ? "text-white hover:bg bg-peacock-green-hover"
-                  : "bg-light-lavender text-gray-700"
+                activeTab === 'vision'
+                  ? 'text-white hover:bg bg-peacock-green-hover'
+                  : 'bg-light-lavender text-gray-700'
               }`}
-              onClick={() => setActiveTab("vision")}
+              onClick={() => setActiveTab('vision')}
             >
               Our Vision
             </button>
-             <button aria-label="Play Video"
+            <button
+              aria-label="Play Video"
               className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm lg:text-lg  ${
-                activeTab === "objective"
-                  ? "text-white bg-peacock-green-hover "
-                  : "bg-light-lavender text-gray-700"
+                activeTab === 'objective'
+                  ? 'text-white bg-peacock-green-hover '
+                  : 'bg-light-lavender text-gray-700'
               }`}
-              onClick={() => setActiveTab("objective")}
+              onClick={() => setActiveTab('objective')}
             >
               Our Objective
             </button>
@@ -123,7 +118,7 @@ const AboutUs = () => {
           <p className="text-lg text-gray-700 mt-4 text-justify">
             <span className="text-xl text-purple-700 font-bold hover:underline">
               Soul Of Braj Federation
-            </span>{" "}
+            </span>{' '}
             is a Section-8 Recognized Non Profit Organization, dedicated to
             Serve Society members in Shri Vrindavan Dham, Since 2020, SOBF is
             Dedicated to Serve the Poorest of the Poor Residents of Vrindavan

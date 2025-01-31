@@ -1,9 +1,8 @@
-
-import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { testimonials } from "../../Constant/testimonialData.jsx";
+import React from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { testimonials } from '../../Constant/testimonialData.jsx';
 import './testimonial.css';
 
 const Testimonials = () => {
@@ -24,7 +23,7 @@ const Testimonials = () => {
           slidesToScroll: 2,
           arrows: false,
           dots: true,
-        }
+        },
       },
       {
         breakpoint: 768,
@@ -33,7 +32,7 @@ const Testimonials = () => {
           slidesToScroll: 1,
           arrows: false,
           dots: true,
-        }
+        },
       },
       {
         breakpoint: 480,
@@ -42,9 +41,9 @@ const Testimonials = () => {
           slidesToScroll: 1,
           arrows: false,
           dots: true,
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
 
   return (
@@ -58,20 +57,27 @@ const Testimonials = () => {
       <div className="testimonials-slider w-[90%] md:w-[80%] lg:w-[90%] mt-[30px]">
         <Slider {...settings}>
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="testimonial-slide p-[10px] flex flex-col items-center">
+            <div
+              key={index}
+              className="testimonial-slide p-[10px] flex flex-col items-center"
+            >
               <div className="testimonial-card flex flex-col items-center rounded-lg relative w-[100%] bg-[#ffffff] my-[30px] p-[20px]">
                 <div
                   className="testimonial-image box-border w-[70px] h-[70px] md:w-[100px] md:h-[100px] rounded-full absolute top-[-40px] left-[38%] md:left-[42%] lg:left-[38%] border-[rgb(237,241,255)] border-[10px]"
                   style={{
                     backgroundImage: `url(${testimonial.img})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
                   }}
                 ></div>
                 <div className="testimonial-content flex flex-col items-center   flex-1">
-                  <h1 className="font-sans font-bold mt-[10px] ">{testimonial.name}</h1>
-                  <h2 className="font-sans font-bold text-[rgba(0,18,51,0.4)] text-[12px]">{testimonial.profession}</h2>
+                  <h1 className="font-sans font-bold mt-[10px] ">
+                    {testimonial.name}
+                  </h1>
+                  <h2 className="font-sans font-bold text-[rgba(0,18,51,0.4)] text-[12px]">
+                    {testimonial.profession}
+                  </h2>
                   <p className="testimonial-description font-workSans text-[14px] md:text-[16px] relative mt-[50px]">
                     {testimonial.description}
                   </p>

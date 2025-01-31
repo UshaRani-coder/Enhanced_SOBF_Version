@@ -1,6 +1,5 @@
-
-const { default: mongoose } = require("mongoose");
-const { FeaturedVideomodel, LegalDoc } = require("../models/other.model");
+const { default: mongoose } = require('mongoose');
+const { FeaturedVideomodel, LegalDoc } = require('../models/other.model');
 
 //? create a new featured video
 const createFeaturedVideo = async (req, res) => {
@@ -8,24 +7,30 @@ const createFeaturedVideo = async (req, res) => {
     const { URL } = req.body;
 
     // Validation: Check if URL is provided
-    if (!URL) return res.status(400).json({ success: false, message: "Please enter URL." });
+    if (!URL)
+      return res
+        .status(400)
+        .json({ success: false, message: 'Please enter URL.' });
 
     // Validation: Check if URL is a valid YouTube URL
     const regex = /^(https?:\/\/)?(www\.)?(youtube|vimeo)\.(com|tv|in)\/.+$/;
-    if (!regex.test(URL)) return res.status(400).json({ success: false, message: "Invalid video URL." });
+    if (!regex.test(URL))
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid video URL.' });
 
     const post = new FeaturedVideomodel({ URL });
     await post.save();
 
     res.status(201).json({
       success: true,
-      message: "Featured video post has been created successfully",
+      message: 'Featured video post has been created successfully',
       post,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong while creating Featured video post",
+      message: 'Something went wrong while creating Featured video post',
       error: error.message,
     });
   }
@@ -38,60 +43,103 @@ const updateFeaturedVideo = async (req, res) => {
     const updates = { ...req.body };
 
     // Validation: Check if URL is provided
-    if (!updates.URL) return res.status(400).json({ success: false, message: "Please provide a URL." });
+    if (!updates.URL)
+      return res
+        .status(400)
+        .json({ success: false, message: 'Please provide a URL.' });
 
     // Validation: Check if URL is valid
     const regex = /^(https?:\/\/)?(www\.)?(youtube|vimeo)\.(com|tv|in)\/.+$/;
-    if (!regex.test(updates.URL)) return res.status(400).json({ success: false, message: "Invalid video URL." });
+    if (!regex.test(updates.URL))
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid video URL.' });
 
-    const updatedPost = await FeaturedVideomodel.findByIdAndUpdate(id, updates, { new: true });
+    const updatedPost = await FeaturedVideomodel.findByIdAndUpdate(
+      id,
+      updates,
+      { new: true },
+    );
 
     if (!updatedPost) {
-      return res.status(404).json({ success: false, message: "Post not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
 
-    res.status(200).json({ success: true, message: "Featured video post updated successfully", updatedPost });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Featured video post updated successfully',
+        updatedPost,
+      });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Something went wrong while updating Featured video post",
+      message: 'Something went wrong while updating Featured video post',
       error: error.message,
     });
   }
 };
 
-
 //? get a new featured video
 const getFeaturedVideo = async (req, res) => {
   try {
     const posts = await FeaturedVideomodel.find({});
-    res.status(200).json({ success: true, message: "Successfully fetched all the data of our featured videos from backend.", posts });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message:
+          'Successfully fetched all the data of our featured videos from backend.',
+        posts,
+      });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while fetching featured videos data from backend.", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message:
+          'Something went wrong while fetching featured videos data from backend.',
+        error: error.message,
+      });
   }
-}
-
+};
 
 //? delete featured video based on its ID
 const deleteFeaturedVideo = async (req, res) => {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid post ID' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid post ID' });
     }
 
     const post = await FeaturedVideomodel.findByIdAndDelete(id);
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
 
-    res.status(200).json({ success: true, message: 'Featured video post deleted successfully' });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: 'Featured video post deleted successfully',
+      });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Something went wrong while deleting the featured video post", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Something went wrong while deleting the featured video post',
+        error: error.message,
+      });
   }
-}
-
-
+};
 
 // Helper function to validate fields
 const validateFields = ({ title, description }) => {
@@ -107,9 +155,6 @@ const validateFields = ({ title, description }) => {
   return errors;
 };
 
-
-
-
 // //////////////////////////////////////////////////////////////////////////////////////
 // Get all legal documents
 const getLegalDocument = async (req, res) => {
@@ -118,7 +163,8 @@ const getLegalDocument = async (req, res) => {
     if (docs.length > 0) {
       for (let index = 0; index < docs.length; index++) {
         const doc = docs[index];
-        doc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + doc.fileName;
+        doc.fileName =
+          process.env.BASE_URL + '/uploads/legal-documents/' + doc.fileName;
       }
     }
     res.status(200).json({
@@ -135,24 +181,23 @@ const getLegalDocument = async (req, res) => {
   }
 };
 
-
 // Create a new legal document
 const createLegalDocument = async (req, res) => {
   try {
     const { title, description } = req.body;
-    console.log("req.file", req.file)
+    console.log('req.file', req.file);
     // Validate fields
     if (!title || !description) {
       return res.status(400).json({
         success: false,
-        message: "Title and description are required.",
+        message: 'Title and description are required.',
       });
     }
 
     if (req.file.filename === undefined) {
       return res.status(400).json({
         success: false,
-        message: 'pdf is required '
+        message: 'pdf is required ',
       });
     }
     const filename = req.file.filename;
@@ -161,26 +206,26 @@ const createLegalDocument = async (req, res) => {
     const newLegalDoc = new LegalDoc({
       title: title.trim(),
       description: description.trim(),
-      fileName: filename
+      fileName: filename,
     });
 
     await newLegalDoc.save();
-    newLegalDoc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + newLegalDoc.fileName;
+    newLegalDoc.fileName =
+      process.env.BASE_URL + '/uploads/legal-documents/' + newLegalDoc.fileName;
     res.status(201).json({
       success: true,
-      message: "Legal document created successfully.",
+      message: 'Legal document created successfully.',
       legalDoc: newLegalDoc,
     });
   } catch (error) {
-    console.error("Error in createLegalDocument:", error);
+    console.error('Error in createLegalDocument:', error);
     res.status(500).json({
       success: false,
-      message: "Something went wrong while creating the legal document.",
+      message: 'Something went wrong while creating the legal document.',
       error: error.message,
     });
   }
 };
-
 
 // Update an existing legal document
 const updateLegalDocument = async (req, res) => {
@@ -190,7 +235,7 @@ const updateLegalDocument = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid document ID."
+        message: 'Invalid document ID.',
       });
     }
 
@@ -199,12 +244,12 @@ const updateLegalDocument = async (req, res) => {
     if (!existingDoc) {
       return res.status(404).json({
         success: false,
-        message: "Legal document not found.",
+        message: 'Legal document not found.',
       });
     }
 
     // Extract fields from request body
-    const { title, description } = req.body
+    const { title, description } = req.body;
 
     // Prepare updated fields
     const updates = {
@@ -214,29 +259,28 @@ const updateLegalDocument = async (req, res) => {
     };
 
     // Update the document
-    const updatedDoc = await LegalDoc.findByIdAndUpdate(id, updates, { new: true });
+    const updatedDoc = await LegalDoc.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
 
     // Append the full file URL
-    updatedDoc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + updatedDoc.fileName;
+    updatedDoc.fileName =
+      process.env.BASE_URL + '/uploads/legal-documents/' + updatedDoc.fileName;
 
     return res.status(200).json({
       success: true,
-      message: "Legal document updated successfully.",
+      message: 'Legal document updated successfully.',
       updatedDoc,
     });
   } catch (error) {
-    console.error("Error in updateLegalDocument:", error);
+    console.error('Error in updateLegalDocument:', error);
     return res.status(500).json({
       success: false,
-      message: "Something went wrong while updating the legal document.",
+      message: 'Something went wrong while updating the legal document.',
       error: error.message,
     });
   }
 };
-
-
-
-
 
 // Delete legal document by ID
 const deleteLegalDocument = async (req, res) => {
@@ -244,18 +288,21 @@ const deleteLegalDocument = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, error: 'Invalid document ID.' });
+      return res
+        .status(400)
+        .json({ success: false, error: 'Invalid document ID.' });
     }
     const post = await LegalDoc.findByIdAndDelete(id);
 
     if (!post) {
-      return res.status(404).json({ success: false, error: 'Document not found.' });
+      return res
+        .status(404)
+        .json({ success: false, error: 'Document not found.' });
     }
 
     res.status(200).json({
       success: true,
       message: 'Legal document deleted successfully.',
-
     });
   } catch (error) {
     res.status(500).json({
@@ -266,12 +313,13 @@ const deleteLegalDocument = async (req, res) => {
   }
 };
 
-
-
-
-
 module.exports = {
-  createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo,
-  createLegalDocument, getLegalDocument, updateLegalDocument, deleteLegalDocument,
-
-}
+  createFeaturedVideo,
+  getFeaturedVideo,
+  updateFeaturedVideo,
+  deleteFeaturedVideo,
+  createLegalDocument,
+  getLegalDocument,
+  updateLegalDocument,
+  deleteLegalDocument,
+};

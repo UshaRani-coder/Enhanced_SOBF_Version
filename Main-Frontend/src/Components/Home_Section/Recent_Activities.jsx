@@ -1,10 +1,9 @@
-
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { getBulletine } from "../../Reducers/bulletinSlice";
-import InfiniteScroll from "react-infinite-scroll-component";
-import loader from '../../assets/loader.webp'
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { getBulletine } from '../../Reducers/bulletinSlice';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import loader from '../../assets/loader.webp';
 
 const Recent_Activities = React.memo(() => {
   const location = useLocation();
@@ -14,33 +13,36 @@ const Recent_Activities = React.memo(() => {
   // Memoizing the date formatting function
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
   }, []);
 
   // Dispatching the getBulletine action when status is idle
   useEffect(() => {
-    if (status === "idle") {
+    if (status === 'idle') {
       dispatch(getBulletine());
     }
   }, [status, dispatch]);
 
   // Scroll to top when path changes
   useEffect(() => {
-    if (location.pathname === "/recent-activities") {
+    if (location.pathname === '/recent-activities') {
       window.scrollTo({
         top: 0,
-        behavior: "smooth", // Enables smooth scrolling
+        behavior: 'smooth', // Enables smooth scrolling
       });
     }
   }, [location.pathname]);
 
   // Memoizing whether the page is the home page or not
-  const isHomePage = useMemo(() => location.pathname === "/", [location.pathname]);
+  const isHomePage = useMemo(
+    () => location.pathname === '/',
+    [location.pathname],
+  );
 
   // Managing pagination state
   const [page, setPage] = useState(1);
@@ -65,7 +67,7 @@ const Recent_Activities = React.memo(() => {
 
   return (
     <div
-      className={`flex flex-col items-center mb-[30px] ${isHomePage ? "mt-[30px]" : "mt-[120px]"}`}
+      className={`flex flex-col items-center mb-[30px] ${isHomePage ? 'mt-[30px]' : 'mt-[120px]'}`}
     >
       <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
         Recent Activities
@@ -79,16 +81,22 @@ const Recent_Activities = React.memo(() => {
         undertaken to make a difference in our communities.
       </h1>
 
-      {status === "loading" && <p>Loading activities...</p>}
-      {status === "failed" && <p className="text-red-500">{error}</p>}
+      {status === 'loading' && <p>Loading activities...</p>}
+      {status === 'failed' && <p className="text-red-500">{error}</p>}
 
       <InfiniteScroll
         dataLength={displayedPosts.length}
         next={loadMorePosts} // Trigger the function to load more posts
         hasMore={hasMorePosts} // Check if there are more posts to load
-        loader={<img src={loader} alt="Loading..." className="w-[20px] h-[20px] align-center"/>} // Show loader while loading
+        loader={
+          <img
+            src={loader}
+            alt="Loading..."
+            className="w-[20px] h-[20px] align-center"
+          />
+        } // Show loader while loading
         scrollableTarget="scrollableDiv"
-        style={{ display: "flex", flexDirection: "column-reverse" }} // To put endMessage and loader at the top
+        style={{ display: 'flex', flexDirection: 'column-reverse' }} // To put endMessage and loader at the top
         inverse={true}
       >
         <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px] lg:flex-row lg:justify-center p-5">
@@ -98,7 +106,11 @@ const Recent_Activities = React.memo(() => {
               className="flex flex-col items-center w-[90%] small-range:w-[85%]  md:w-[55%] lg:w-[30%] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
-                src={activity.images && activity.images.length > 0 ? activity.images[0] : "https://via.placeholder.com/300"}
+                src={
+                  activity.images && activity.images.length > 0
+                    ? activity.images[0]
+                    : 'https://via.placeholder.com/300'
+                }
                 alt={activity.title}
                 className="w-full h-full md:h-[300px] rounded-t-lg object-cover"
               />
@@ -148,7 +160,5 @@ const Recent_Activities = React.memo(() => {
     </div>
   );
 });
-
-
 
 export default Recent_Activities;

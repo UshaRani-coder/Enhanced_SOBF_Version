@@ -107,15 +107,15 @@
 
 // export default Gallery;
 
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import aboutus from "../assets/aboutUsImage.avif";
-import { getGalleryImages } from "../Reducers/gallerySlice";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import aboutus from '../assets/aboutUsImage.avif';
+import { getGalleryImages } from '../Reducers/gallerySlice';
 
 const Gallery = () => {
   const dispatch = useDispatch();
   const { gallery, status } = useSelector((state) => state.gallery);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
@@ -128,7 +128,7 @@ const Gallery = () => {
 
   // Filter gallery images based on selected category
   const filteredImages =
-    selectedCategory === "all"
+    selectedCategory === 'all'
       ? gallery
       : gallery.filter((image) => image.title === selectedCategory);
 
@@ -157,30 +157,30 @@ const Gallery = () => {
           {/* Filter Buttons */}
           <div className="flex flex-col small-range:flex-row justify-center small-range:items-center flex-wrap mb-4 gap-4">
             {[
-              "all",
-              "child_activites",
-              "sadhu_seva",
-              "health_awaraness",
-              "child_education",
-              "Yamuna Cleaning",
+              'all',
+              'child_activites',
+              'sadhu_seva',
+              'health_awaraness',
+              'child_education',
+              'Yamuna Cleaning',
             ].map((category) => (
               <button
                 key={category}
                 onClick={() => handleFilterChange(category)}
                 className={`px-3 lg:px-4 py-1 lg:py-2 font-bold rounded ${
                   selectedCategory === category
-                    ? "bg-blue text-white"
-                    : "bg-gray-200"
+                    ? 'bg-blue text-white'
+                    : 'bg-gray-200'
                 }`}
               >
-                {category.replace("_", " ")}
+                {category.replace('_', ' ')}
               </button>
             ))}
           </div>
         </div>
 
         {/* Gallery Grid */}
-        {status === "loading" ? (
+        {status === 'loading' ? (
           <p className="text-center text-gray-500">Loading...</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 items-center justify-center md:grid-cols-3 gap-5">

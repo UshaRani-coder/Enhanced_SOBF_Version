@@ -1,15 +1,14 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
-import img1 from "../../../assets/Sobf Images/food distribution/fd2.avif";
-import img2 from "../../../assets/Sobf Images/food distribution/fd7.avif";
-import img3 from "../../../assets/Sobf Images/food distribution/fd9.avif";
-import ImgBanner from "./ImgBanner";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import img1 from '../../../assets/Sobf Images/food distribution/fd2.avif';
+import img2 from '../../../assets/Sobf Images/food distribution/fd7.avif';
+import img3 from '../../../assets/Sobf Images/food distribution/fd9.avif';
+import ImgBanner from './ImgBanner';
+import { Link } from 'react-router-dom';
 
 const GopalaBhog = ({ setService }) => {
-
   const location = useLocation();
-  const isHomePage = location.pathname === "/"; // Check if the current page is the home page
+  const isHomePage = location.pathname === '/'; // Check if the current page is the home page
   const images = [
     {
       img: img1,
@@ -25,7 +24,7 @@ const GopalaBhog = ({ setService }) => {
   return (
     <div
       className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
-        isHomePage ? "" : "mt-20 mb-20" 
+        isHomePage ? '' : 'mt-20 mb-20'
       }`}
     >
       {/* Only show the "Back to Services" button if on the home page */}
@@ -40,11 +39,10 @@ const GopalaBhog = ({ setService }) => {
       )}
 
       <div className="flex flex-col lg:flex-row items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[100px] gap-y-[10px] mt-[30px] ">
-       
         <ImgBanner banners={images} />
         <div className="flex flex-col items-center md:items-start mx-[20px] w-[90%] lg:w-[50%] justify-center lg:mt-[50px]">
           <h1 className="text-center text-heading4 lg:text-[1.9rem] font-bold mt-[10px]">
-          A Plate of Hope
+            A Plate of Hope
           </h1>
           <p className="text-gray-700 text-center text-[16px] lg:text-[18px]  font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px]">
             Anna Vitran Seva Outlet in Shri Vrindavan Dham is not only serving
@@ -56,16 +54,12 @@ const GopalaBhog = ({ setService }) => {
           </p>
           <button>
             <Link
-            to="/donate-us"
+              to="/donate-us"
               href=""
               className="px-8 py-3.5 relative rounded-lg group overflow-hidden font-semibold bg-orange text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
             >
               <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
-              <span className="relative z-10">
-                
-                  Donate
-                
-              </span>
+              <span className="relative z-10">Donate</span>
             </Link>
           </button>
         </div>

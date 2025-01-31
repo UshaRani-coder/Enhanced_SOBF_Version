@@ -66,22 +66,27 @@
 
 // export default App;
 
-import React, { useState, useEffect, Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import loader from "./assets/loader.webp";
+import React, { useState, useEffect, Suspense, lazy } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
+import loader from './assets/loader.webp';
 // Lazy loading components
-const ProtectedLayout = lazy(() => import("./components/ProtectedLayout"));
-const Login = lazy(() => import("./Pages/Login.jsx"));
-const NotFound = lazy(() => import("./Pages/NotFound.jsx"));
+const ProtectedLayout = lazy(() => import('./components/ProtectedLayout'));
+const Login = lazy(() => import('./Pages/Login.jsx'));
+const NotFound = lazy(() => import('./Pages/NotFound.jsx'));
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem("adminToken") !== null;
+    return localStorage.getItem('adminToken') !== null;
   });
 
   useEffect(() => {
     if (isAuthenticated) {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem('adminToken');
       if (!token) {
         setIsAuthenticated(false); // If no token exists, logout user
       }
@@ -93,7 +98,8 @@ const App = () => {
       <Suspense
         fallback={
           <div className="flex justify-center items-center h-screen">
-            <p>{loader}</p> {/* Customize the fallback with a spinner if needed */}
+            <p>{<img src={loader} alt="Loader" className="w-[100px]" />}</p>{' '}
+            {/* Customize the fallback with a spinner if needed */}
           </div>
         }
       >

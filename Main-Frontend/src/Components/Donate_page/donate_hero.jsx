@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import "../../App.css";
-import { heroes_donate } from "../../Constant/data";
-import { Link as ScrollLink } from "react-scroll";
+import React, { useState, useEffect, useRef } from 'react';
+import '../../App.css';
+import { heroes_donate } from '../../Constant/data';
+import { Link as ScrollLink } from 'react-scroll';
 
 const donate_hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -11,7 +11,7 @@ const donate_hero = () => {
   const scrollLeft = () => {
     setCurrentIndex(
       (prevIndex) =>
-        (prevIndex - 1 + heroes_donate.length) % heroes_donate.length
+        (prevIndex - 1 + heroes_donate.length) % heroes_donate.length,
     );
   };
 
@@ -30,16 +30,16 @@ const donate_hero = () => {
   useEffect(() => {
     // Animate text when currentIndex changes
     setTextAnimation(true);
-    const textElement = document.querySelector(".hero-text");
-    textElement.classList.add("text-animate");
+    const textElement = document.querySelector('.hero-text');
+    textElement.classList.add('text-animate');
     const handleTextAnimationEnd = () => {
-      textElement.classList.remove("text-animate");
-      textElement.removeEventListener("animationend", handleTextAnimationEnd);
+      textElement.classList.remove('text-animate');
+      textElement.removeEventListener('animationend', handleTextAnimationEnd);
     };
-    textElement.addEventListener("animationend", handleTextAnimationEnd);
+    textElement.addEventListener('animationend', handleTextAnimationEnd);
 
     return () => {
-      textElement.removeEventListener("animationend", handleTextAnimationEnd);
+      textElement.removeEventListener('animationend', handleTextAnimationEnd);
     };
   }, [currentIndex]);
 
@@ -51,15 +51,15 @@ const donate_hero = () => {
         key={currentIndex}
         style={{
           backgroundImage: `url(${heroes_donate[currentIndex].img})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
         }}
       ></div>
 
       <div
         className="scroll-arrow hidden cursor-pointer lg:block absolute top-[60%] left-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
-        style={{ transform: "translateY(-50%)" }}
+        style={{ transform: 'translateY(-50%)' }}
         onClick={scrollLeft}
       >
         <svg
@@ -73,7 +73,7 @@ const donate_hero = () => {
       </div>
       <div
         className="scroll-arrow hidden cursor-pointer lg:block absolute top-[60%] right-[10px] bg-[rgba(0,0,0,0.5)] text-[#ffffff] py-[8.5px] px-[10px] rounded-full z-[10]"
-        style={{ transform: "translateY(-50%)" }}
+        style={{ transform: 'translateY(-50%)' }}
         onClick={scrollRight}
       >
         <svg
@@ -87,7 +87,7 @@ const donate_hero = () => {
       </div>
       <p
         className={`absolute px-2 font-bold top-[35%] lg:top-[50.5%] xl:top-[42.5%] left-1/2 transform -translate-x-1/2 text-white z-[10] text-center hero-text w-[320px] md:w-[600px] lg:w-[700px] sm:text-[25px] md:text-[30px] lg:text-[45px]  ${
-          textAnimation ? "text-animate" : ""
+          textAnimation ? 'text-animate' : ''
         }`}
       >
         {heroes_donate[currentIndex].text}
@@ -98,7 +98,10 @@ const donate_hero = () => {
           duration={1200}
           className="z-[10] transform -translate-x-1/2"
         >
-           <button aria-label="Play Video" className="text-white bg-logoYellow font-semibold rounded-lg md:text-[1.25rem] text-heading5 px-5 py-2.5 me-2 md:mb-7 md:mt-7 mb:5 mt-5">
+          <button
+            aria-label="Play Video"
+            className="text-white bg-logoYellow font-semibold rounded-lg md:text-[1.25rem] text-heading5 px-5 py-2.5 me-2 md:mb-7 md:mt-7 mb:5 mt-5"
+          >
             Donate
           </button>
         </ScrollLink>

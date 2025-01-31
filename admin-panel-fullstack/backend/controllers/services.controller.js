@@ -1,23 +1,37 @@
-const { ImpactModel, Services, Team, SuppportedBy } = require("../models/services.model");
+const {
+  ImpactModel,
+  Services,
+  Team,
+  SuppportedBy,
+} = require('../models/services.model');
 
-
-//! Our Impacts Starts from here 
+//! Our Impacts Starts from here
 
 //! Creating
 const createImpact = async (req, res) => {
   try {
     try {
-      const { title, stat_number } = req.body
+      const { title, stat_number } = req.body;
       if (!(title, stat_number)) {
-        return res.status(404).json({ success: false, mesasge: "all fields are required " })
+        return res
+          .status(404)
+          .json({ success: false, mesasge: 'all fields are required ' });
       }
-      const images = req.images
-      const videos = req.videos
+      const images = req.images;
+      const videos = req.videos;
       const post = new PostModel({ title, description, images, videos });
       await post.save();
-      res.status(201).json({ success: true, message: 'Post created successfully', post });
+      res
+        .status(201)
+        .json({ success: true, message: 'Post created successfully', post });
     } catch (error) {
-      res.status(500).json({ success: false, message: "Something went wrong while creating post", error: error.message });
+      res
+        .status(500)
+        .json({
+          success: false,
+          message: 'Something went wrong while creating post',
+          error: error.message,
+        });
     }
     const impact = new ImpactModel(req.body);
     await impact.save();
@@ -26,9 +40,6 @@ const createImpact = async (req, res) => {
     res.status(500).send(err.message);
   }
 };
-
-
-
 
 //! Get All Impacts
 const getImpacts = async (req, res) => {
@@ -43,11 +54,15 @@ const getImpacts = async (req, res) => {
 //! Update Impacts
 const updateImpact = async (req, res) => {
   try {
-    const impact = await ImpactModel.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!impact) return res.status(404).send("Impact not found");
+    const impact = await ImpactModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    if (!impact) return res.status(404).send('Impact not found');
     res.send(impact);
   } catch (err) {
     res.status(500).send(err.message);
@@ -58,16 +73,14 @@ const updateImpact = async (req, res) => {
 const deleteImpact = async (req, res) => {
   try {
     const impact = await ImpactModel.findByIdAndDelete(req.params.id);
-    if (!impact) return res.status(404).send("Impact not found");
+    if (!impact) return res.status(404).send('Impact not found');
     res.send(impact);
   } catch (err) {
     res.status(500).send(err.message);
   }
 };
 
-
-
-//! OUR SERVICES SECTION STARTS FREM HERE 
+//! OUR SERVICES SECTION STARTS FREM HERE
 
 //! Create
 const createServices = async (req, res) => {
@@ -97,7 +110,7 @@ const updateServices = async (req, res) => {
       new: true,
       runValidators: true,
     });
-    if (!service) return res.status(404).send("Service not found");
+    if (!service) return res.status(404).send('Service not found');
     res.send(service);
   } catch (err) {
     res.status(500).send(err.message);
@@ -108,7 +121,7 @@ const updateServices = async (req, res) => {
 const deleteServices = async (req, res) => {
   try {
     const service = await Services.findByIdAndDelete(req.params.id);
-    if (!service) return res.status(404).send("Service not found");
+    if (!service) return res.status(404).send('Service not found');
     res.send(service);
   } catch (err) {
     res.status(500).send(err.message);
@@ -144,7 +157,7 @@ const updateTeam = async (req, res) => {
       new: true,
       runValidators: true,
     });
-    if (!teamMember) return res.status(404).send("Team member not found");
+    if (!teamMember) return res.status(404).send('Team member not found');
     res.send(teamMember);
   } catch (err) {
     res.status(500).send(err.message);
@@ -155,7 +168,7 @@ const updateTeam = async (req, res) => {
 const deleteTeam = async (req, res) => {
   try {
     const teamMember = await Team.findByIdAndDelete(req.params.id);
-    if (!teamMember) return res.status(404).send("Team member not found");
+    if (!teamMember) return res.status(404).send('Team member not found');
     res.send(teamMember);
   } catch (err) {
     res.status(500).send(err.message);
@@ -164,7 +177,7 @@ const deleteTeam = async (req, res) => {
 
 //!  SupportedBy Start from here
 
-//! Creating 
+//! Creating
 const createSupportBy = async (req, res) => {
   try {
     const supported = new SuppportedBy(req.body);
@@ -175,7 +188,7 @@ const createSupportBy = async (req, res) => {
   }
 };
 
-//! Getting All data 
+//! Getting All data
 const getSupportedBy = async (req, res) => {
   try {
     const supported = await SuppportedBy.find();
@@ -188,11 +201,15 @@ const getSupportedBy = async (req, res) => {
 //! Update
 const updateSupportedBy = async (req, res) => {
   try {
-    const supported = await SuppportedBy.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!supported) return res.status(404).send("Supported entry not found");
+    const supported = await SuppportedBy.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    if (!supported) return res.status(404).send('Supported entry not found');
     res.send(supported);
   } catch (err) {
     res.status(500).send(err.message);
@@ -203,13 +220,12 @@ const updateSupportedBy = async (req, res) => {
 const deleteSupportedBy = async (req, res) => {
   try {
     const supported = await SuppportedBy.findByIdAndDelete(req.params.id);
-    if (!supported) return res.status(404).send("Supported entry not found");
+    if (!supported) return res.status(404).send('Supported entry not found');
     res.send(supported);
   } catch (err) {
     res.status(500).send(err.message);
   }
 };
-
 
 module.exports = {
   createImpact,
@@ -227,5 +243,5 @@ module.exports = {
   createSupportBy,
   getSupportedBy,
   updateSupportedBy,
-  deleteSupportedBy
-}
+  deleteSupportedBy,
+};

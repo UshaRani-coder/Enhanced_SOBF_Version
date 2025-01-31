@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getLegalDocs, createLegalDocs, updateLegalDocs, deleteLegalDocs } from '../api/api';
+import {
+  getLegalDocs,
+  createLegalDocs,
+  updateLegalDocs,
+  deleteLegalDocs,
+} from '../api/api';
 
 // Async Thunks
 export const getLegalDocuments = createAsyncThunk(
@@ -14,7 +19,7 @@ export const getLegalDocuments = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
 
 export const addLegalDocument = createAsyncThunk(
@@ -26,7 +31,7 @@ export const addLegalDocument = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
 
 export const updateLegalDocumentById = createAsyncThunk(
@@ -36,9 +41,11 @@ export const updateLegalDocumentById = createAsyncThunk(
       const response = await updateLegalDocs(id, updatedData);
       return response.data.updatedDoc;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || "Failed to update legal documents");
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to update legal documents',
+      );
     }
-  }
+  },
 );
 
 export const removeLegalDocument = createAsyncThunk(
@@ -50,7 +57,7 @@ export const removeLegalDocument = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
 
 // Slice
@@ -89,7 +96,9 @@ const legalDocSlice = createSlice({
       })
       .addCase(updateLegalDocumentById.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        const index = state.legalDocs.findIndex((doc) => doc._id === action.payload._id);
+        const index = state.legalDocs.findIndex(
+          (doc) => doc._id === action.payload._id,
+        );
         if (index !== -1) {
           state.legalDocs[index] = action.payload;
         }
@@ -104,7 +113,9 @@ const legalDocSlice = createSlice({
       })
       .addCase(removeLegalDocument.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.legalDocs = state.legalDocs.filter((doc) => doc._id !== action.payload);
+        state.legalDocs = state.legalDocs.filter(
+          (doc) => doc._id !== action.payload,
+        );
       })
       .addCase(removeLegalDocument.rejected, (state, action) => {
         state.status = 'failed';

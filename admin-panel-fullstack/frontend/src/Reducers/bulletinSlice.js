@@ -1,37 +1,58 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { updateNewsPostsApi, deleteNewsPosts, fetchNewsPosts, createNewsPosts } from '../api/api';
+import {
+  updateNewsPostsApi,
+  deleteNewsPosts,
+  fetchNewsPosts,
+  createNewsPosts,
+} from '../api/api';
 
 // ! Get posts
-export const getBulletine = createAsyncThunk('bulletines/getBulletine', async () => {
-  const response = await fetchNewsPosts();
-  return response.data.posts;
-});
+export const getBulletine = createAsyncThunk(
+  'bulletines/getBulletine',
+  async () => {
+    const response = await fetchNewsPosts();
+    return response.data.posts;
+  },
+);
 
 // ! Add new post
-export const addBulletine = createAsyncThunk('bulletines/addBulletine', async (postData) => {
-  const response = await createNewsPosts(postData);
-  return response.data;
-});
+export const addBulletine = createAsyncThunk(
+  'bulletines/addBulletine',
+  async (postData) => {
+    const response = await createNewsPosts(postData);
+    return response.data;
+  },
+);
 
 // ! Update post
-export const updateBulletine = createAsyncThunk('bulletines/updatePost', async ({ id, updatedData }) => {
-  try {
-    const response = await updateNewsPostsApi(id, updatedData);
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(error.response?.data?.message || "Failed to update bulletin");
-  }
-});
+export const updateBulletine = createAsyncThunk(
+  'bulletines/updatePost',
+  async ({ id, updatedData }) => {
+    try {
+      const response = await updateNewsPostsApi(id, updatedData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to update bulletin',
+      );
+    }
+  },
+);
 
 // ! Remove post
-export const removeBulletine = createAsyncThunk('bulletines/removeBulletine', async (id, { rejectWithValue }) => {
-  try {
-    await deleteNewsPosts(id);
-    return id;
-  } catch (error) {
-    return rejectWithValue(error.response?.data?.message || "Failed to delete bulletin");
-  }
-});
+export const removeBulletine = createAsyncThunk(
+  'bulletines/removeBulletine',
+  async (id, { rejectWithValue }) => {
+    try {
+      await deleteNewsPosts(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to delete bulletin',
+      );
+    }
+  },
+);
 
 const bulletinSlice = createSlice({
   name: 'bulletines',
@@ -60,7 +81,9 @@ const bulletinSlice = createSlice({
       })
       // Update post
       .addCase(updateBulletine.fulfilled, (state, action) => {
-        const index = state.bulletines.findIndex((bulletin) => bulletin._id === action.payload._id);
+        const index = state.bulletines.findIndex(
+          (bulletin) => bulletin._id === action.payload._id,
+        );
         if (index !== -1) {
           state.bulletines[index] = action.payload;
         }
@@ -70,7 +93,9 @@ const bulletinSlice = createSlice({
       })
       // Remove post
       .addCase(removeBulletine.fulfilled, (state, action) => {
-        state.bulletines = state.bulletines.filter((bulletin) => bulletin._id !== action.payload);
+        state.bulletines = state.bulletines.filter(
+          (bulletin) => bulletin._id !== action.payload,
+        );
       })
       .addCase(removeBulletine.rejected, (state, action) => {
         state.error = action.payload;

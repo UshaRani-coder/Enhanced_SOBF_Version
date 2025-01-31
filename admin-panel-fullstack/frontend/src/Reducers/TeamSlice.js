@@ -1,17 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {  createTeam, deleteTeam, getTeam, updateTeam } from '../api/api'; 
+import { createTeam, deleteTeam, getTeam, updateTeam } from '../api/api';
 import { toast } from 'react-toastify';
 
 export const getTeamData = createAsyncThunk(
   'team/getTeamData', // Unique action type
   async (_, { rejectWithValue }) => {
     try {
-      const response = await getTeam();      
+      const response = await getTeam();
       return response?.data?.teamMembers;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
 
 export const addTeam = createAsyncThunk(
@@ -23,18 +23,19 @@ export const addTeam = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
 
 export const removeTeam = createAsyncThunk(
-  'team/removeTeam', async (id, { rejectWithValue }) => {
+  'team/removeTeam',
+  async (id, { rejectWithValue }) => {
     try {
       await deleteTeam(id);
       return id;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
 
 export const updateTeamData = createAsyncThunk(
@@ -46,9 +47,8 @@ export const updateTeamData = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
-  }
+  },
 );
-
 
 const teamSlice = createSlice({
   name: 'teams',
@@ -74,13 +74,17 @@ const teamSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(removeTeam.fulfilled, (state, action) => {
-        state.teams = state.teams.filter((admin) => admin._id !== action.payload);
+        state.teams = state.teams.filter(
+          (admin) => admin._id !== action.payload,
+        );
       })
       .addCase(removeTeam.rejected, (state, action) => {
         state.error = action.payload;
       })
       .addCase(updateTeamData.fulfilled, (state, action) => {
-        const index = state.teams.findIndex((admin) => admin._id === action.payload._id);
+        const index = state.teams.findIndex(
+          (admin) => admin._id === action.payload._id,
+        );
         if (index !== -1) {
           state.teams[index] = action.payload;
         }
@@ -90,6 +94,5 @@ const teamSlice = createSlice({
       });
   },
 });
-
 
 export default teamSlice.reducer;

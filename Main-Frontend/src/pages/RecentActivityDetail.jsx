@@ -1,6 +1,6 @@
-import React from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const RecentActivityDetails = () => {
   const navigate = useNavigate();
@@ -17,15 +17,15 @@ const RecentActivityDetails = () => {
   }
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
   };
   const handleBack = () => {
-    navigate("/recent-activities", { state: { scrollTo: "recentActivities" } });
+    navigate('/recent-activities', { state: { scrollTo: 'recentActivities' } });
   };
   return (
     <div className="flex flex-col items-center w-full mt-[100px] md:mt-[140px]  p-4">
@@ -36,8 +36,8 @@ const RecentActivityDetails = () => {
         <div
           className={`w-full lg:w-[60%] ${
             activity.images?.length === 1
-              ? ""
-              : "grid grid-cols-1 md:grid-cols-2 gap-4"
+              ? ''
+              : 'grid grid-cols-1 md:grid-cols-2 gap-4'
           }`}
         >
           {activity.images && activity.images.length > 0 ? (
@@ -77,7 +77,7 @@ const RecentActivityDetails = () => {
               className="w-[10px]"
             >
               <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
-            </svg>{" "}
+            </svg>{' '}
             {formatDate(activity.date)}
           </div>
           <p className="text-lg text-gray-700  mb-4">{activity.description}</p>
