@@ -160,7 +160,7 @@
 
 // export default Statistics;
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect,useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOurImpact } from '../../Reducers/ourImpactsSlice.js';
@@ -180,13 +180,15 @@ const Statistics = () => {
     });
     return <animated.span>{number.to((n) => n.toFixed(0))}</animated.span>;
   }
-
+ 
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getOurImpact());
     }
   }, [status, dispatch]);
-
+  
+  
+  
   return (
     <div className="mt-2 text-center">
       <h2 className="inline-block text-heading3 lg:text-heading2 font-bold p-5 text-blue">
@@ -199,28 +201,27 @@ const Statistics = () => {
         {status === 'failed' && <p className="text-red-500">{error}</p>}
         <div className="max-w-6xl w-full">
           <ul className="w-full grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 lg:gap-6 gap-4">
+          {/* <ul className="w-full flex flex-col items-center md:flex-row md:flex-wrap md:justify-evenly lg:gap-6 gap-4"> */}
             {ourImpacts.map((impact, index) => (
               <li
                 key={impact.id || index}
-                className="flex flex-col items-center group p-6 rounded-xl hover:shadow-xl w-full"
+                className="flex flex-col items-center group p-6 rounded-xl hover:shadow-xl w-[250px]"
               >
-                {/* Dynamic SVG Icon */}
-                {/* <div dangerouslySetInnerHTML={{ __html: impact.image }} className="w-12 h-12 text-[#001d23] group-hover:text-peacock-green-hover"></div> */}
+               
                 <img
                   src={impact.image}
-                  alt=""
+                  alt="impact"
                   className="text-[#001d23] w-[70px] transition-transform duration-300 group-hover:scale-110"
                 />
                 {/* Animated Count */}
 
                 <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
                   <Number n={impact.total_services} />
-
                   <br />
                 </span>
 
                 {/* Description */}
-                <p className="text-center w-full text-lg mt-2">
+                <p className="text-center w-[90%] overflow-hidden  mt-2">
                   {impact.description}
                 </p>
               </li>

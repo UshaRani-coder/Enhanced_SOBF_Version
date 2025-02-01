@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import education from '../assets/banner2.avif';
 import food from '../assets/Sobf Images/food distribution/FoodDonation.avif';
@@ -11,6 +12,15 @@ import PaymentScreenshot from '../assets/Sobf Images/PaymentScreenshot.png';
 
 const Donateus = () => {
   const [activeTab, setActiveTab] = useState('whydonate');
+  const location = useLocation();
+  useEffect(() => {
+      if (location.pathname === '/donate-us') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }
+    }, [location.pathname]);
 
   // Number animation
   function Number({ n }) {

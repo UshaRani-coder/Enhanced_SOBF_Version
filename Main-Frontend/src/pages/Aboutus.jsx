@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import aboutus from '../assets/aboutUsImage.avif';
 import cee14 from '../assets/Sobf Images/child_education_and_empowerment/cee14.avif';
 import cee11 from '../assets/Sobf Images/child_education_and_empowerment/cee11.avif';
@@ -10,7 +11,16 @@ import ourStory from '../assets/ourStoryImg.avif';
 
 const AboutUs = () => {
   const [activeTab, setActiveTab] = useState('mission');
-
+  const location = useLocation();
+// Scroll to top when path changes
+  useEffect(() => {
+    if (location.pathname === '/about-us') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth', // Enables smooth scrolling
+      });
+    }
+  }, [location.pathname]);
   const renderContent = () => {
     switch (activeTab) {
       case 'mission':

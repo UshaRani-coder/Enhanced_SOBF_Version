@@ -181,7 +181,7 @@ const Video = () => {
         <div className="text-center mt-6">
           <button
             onClick={handleShowMore}
-            className="bg-[#2d335d] text-white font-semibold py-2 px-6 rounded-full hover:bg-logoYellow transition-all"
+            className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"
           >
             Show More
           </button>

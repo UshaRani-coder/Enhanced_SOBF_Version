@@ -1,10 +1,21 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import { useLocation } from 'react-router-dom';
 import aboutus from '../assets/aboutUsImage.avif';
 import VisionImg from '../assets/Vision.avif';
 import MisionImg from '../assets/Mission.avif';
 import ObjectiveImg from '../assets/objective.avif';
 
 const Vision = () => {
+  const location = useLocation();
+  // Scroll to top when path changes
+    useEffect(() => {
+      if (location.pathname === '/vision') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth', // Enables smooth scrolling
+        });
+      }
+    }, [location.pathname]);
   return (
     <div className="pt-[100px]">
       {/* Header Image */}

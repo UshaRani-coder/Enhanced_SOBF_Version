@@ -45,7 +45,7 @@ const TermsAndConditions = lazy(
 const CommunityService = lazy(
   () => import('./Components/Home_Section/Services/CommunityService.jsx'),
 );
-
+const NotFound = lazy(() => import('./pages/NotFound.jsx'),)
 const App = () => {
   return (
     <Suspense
@@ -79,6 +79,7 @@ const App = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/*"  element={<NotFound />} />
       </Routes>
       <BackgroundMusic />
       <Whatsapp />

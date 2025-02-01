@@ -153,7 +153,7 @@ const OurImpacts = () => {
                   Total Services
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   name="total_services"
                   value={formData.total_services}
                   onChange={handleInputChange}
@@ -217,7 +217,7 @@ const OurImpacts = () => {
               <img
                 src={impact?.image || 'https://via.placeholder.com/150'}
                 alt="Impact"
-                className="w-full h-40 object-content rounded"
+                className="w-[50%] h-20 object-content rounded"
               />
 
               <h3 className=" line-clamp-2 mt-2 font-bold text-xl">

@@ -151,7 +151,7 @@ const Recent_Activities = React.memo(() => {
       {isHomePage && posts.length > 3 && (
         <div className="text-center mt-5">
           <Link to="/recent-activities">
-            <button className="bg-[#2d335d] text-white font-semibold py-2 px-6 rounded-full hover:bg-logoYellow transition-all">
+            <button className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300">
               See More
             </button>
           </Link>

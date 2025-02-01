@@ -80,3 +80,13 @@ export const updateGallery = (id, updatedPost) =>
   api.put(`/api/post/update-gallery-image/${id}`, updatedPost);
 export const deleteGallery = (id) =>
   api.delete(`/api/post/delete-gallery-image/${id}`);
+
+
+// ! Our Services Endpoints
+export const createOurServices = (postData) =>
+  apiClient.post('/api/post/create-services', postData);
+export const getOurServices = () => apiClient.get('/api/post/get-services');
+export const updateOurServices = (id, updatedPost) =>
+  apiClient.put(`/api/post/update-services/${id}`, updatedPost);
+export const deleteOurServices = (id) =>
+  apiClient.delete(`/api/post/delete-services/${id}`);

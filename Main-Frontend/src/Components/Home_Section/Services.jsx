@@ -1,19 +1,31 @@
 /* eslint-disable react/no-unknown-property */
 import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import CommunityService from './Services/CommunityService';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './services.css';
 import GopalaBhog from './Services/AnnaVitranSeva.jsx';
 import Brajkulam from './Services/Brajkulam.jsx';
-
 import SadhuSeva from './Services/SadhuSeva.jsx';
 import HealthCamp from './Services/HealthCamp.jsx';
 import SwachhVrindavan from './Services/SwachhVrindavan.jsx';
-
+import { getServices, removeService } from '../../Reducers/servicesSlice.js';
 const Services = () => {
   const [service, setService] = useState(null);
   const ourServicesRef = useRef(null);
+  const dispatch = useDispatch();
+
+  // Fetch posts and status from the Redux store
+  const { services, status, error } = useSelector(
+      (state) => state.services,
+    );
+
+    useEffect(() => {
+        if (status === 'idle') {
+          dispatch(getServices());
+        }
+      }, [status, dispatch]);
   useEffect(() => {
     // Function to handle screen resizing and update AOS attributes
     const handleResize = () => {
