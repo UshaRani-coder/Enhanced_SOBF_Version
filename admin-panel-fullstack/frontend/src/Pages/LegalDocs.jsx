@@ -250,7 +250,7 @@ const [isLoading, setIsLoading] = useState(false);
               key={doc?._id}
               className="border p-4 rounded w-[90%] small-range:w-[80%] sm:w-[48%] lg:w-[35%] hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center"
             >
-              <h2 className="text-2xl font-semibold mb-4 text-gray-800 line-clamp-2">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800 line-clamp-2 text-left w-[100%]">
                 {doc?.title}
               </h2>
               <p className="text-gray-600 line-clamp-4 mb-6">

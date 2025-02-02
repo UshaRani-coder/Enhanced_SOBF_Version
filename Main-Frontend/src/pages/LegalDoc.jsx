@@ -48,9 +48,9 @@ const LegalDoc = () => {
           {legalDocs.map((doc) => (
             <div
               key={doc._id} // Ensure _id exists in `doc`
-              className="flex flex-col justify-between mb-8 w-full sm:w-[48%] lg:w-[30%] p-6 border border-gray-300 bg-white shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 hover:shadow-2xl"
+              className="flex flex-col items-stretch justify-between mb-8 w-full sm:w-[48%] lg:w-[400px] p-6 border border-gray-300 bg-white shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 hover:shadow-2xl"
             >
-              <div>
+              <div className='flex-1'>
                 <h2 className="text-2xl font-semibold mb-4 text-gray-800">
                   {doc.title}
                 </h2>

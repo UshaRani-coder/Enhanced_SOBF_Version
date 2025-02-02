@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-//import { heroes } from "../../../Constant/data";
 
 const ImgBanner = ({ banners }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const imageElement = useRef(null);
   const timerRef = useRef(null);
 
   // Move to the previous slide
   const scrollLeft = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + banners.length) % banners.length,
-    );
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + banners.length) % banners.length);
   };
 
   // Move to the next slide
@@ -38,20 +34,9 @@ const ImgBanner = ({ banners }) => {
     }, 3000);
   };
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowLeft') scrollLeft();
-      if (e.key === 'ArrowRight') scrollRight();
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
   return (
     <div
-      className="relative flex items-center justify-center overflow-hidden w-[90%]  lg:w-[50%] h-[60vh]  mx-auto rounded-2xl"
+      className="relative flex items-center justify-center overflow-hidden w-[90%]  h-[60vh]  rounded-2xl"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -59,7 +44,7 @@ const ImgBanner = ({ banners }) => {
       <div
         className="absolute w-full h-full transition-all duration-1000"
         style={{
-          backgroundImage: `url(${banners[currentIndex].img})`,
+          backgroundImage: `url(${banners[currentIndex]})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -103,7 +88,7 @@ const ImgBanner = ({ banners }) => {
           <div
             key={index}
             className={`w-3 h-3 rounded-full transition-all duration-500 ${
-              currentIndex === index ? 'bg-white scale-125' : ' bg-black/50'
+              currentIndex === index ? 'bg-white scale-125' : 'bg-black/50'
             } cursor-pointer`}
             onClick={() => setCurrentIndex(index)}
           ></div>

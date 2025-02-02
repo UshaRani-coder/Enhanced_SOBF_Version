@@ -214,6 +214,11 @@ const OurService = () => {
       images: [],
     });
   };
+  const truncateDescription = (description) => {
+    const maxLength = 60; // Set your desired truncation length
+    return description.length > maxLength ? `${description.slice(0, maxLength)}...` : description;
+  };
+  
 
   return (
     <div className="container mx-auto">
@@ -303,7 +308,11 @@ const OurService = () => {
                   onPaste={handlePaste}
                   className="w-full px-4 py-2 border rounded"
                   placeholder="Enter small description"
+                  maxLength={60}
                 ></textarea>
+                <p className="text-sm text-gray-500">
+            {formData?.small_description.length} / 50 characters
+          </p>
               </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Description</label>
@@ -439,6 +448,7 @@ const OurService = () => {
           <p className="col-span-full text-center">No posts found.</p>
         )}
       </div> */}
+      
       <div className=" gap-6 p-4 flex flex-col items-center lg:grid lg:grid-cols-2">
         {services && services.length > 0 ? (
           services.map((post) => (
@@ -456,9 +466,14 @@ const OurService = () => {
               <h2 className="text-lg font-bold line-clamp-2">{post?.title}</h2>
 
               {/* Short Description */}
-              <p className="text-md font-medium text-gray-600 mt-2 line-clamp-1">
+              {/* <p className="text-md font-medium text-gray-600 mt-2 line-clamp-1">
                 {post?.small_description}
-              </p>
+              </p> */}
+              <p className="mt-2 line-clamp-1">
+          {expandedItem?.id === post._id
+            ? post?.small_description
+            : truncateDescription(post?.small_description)}
+        </p>
 
               {/* Detailed Description */}
               <p className="text-sm text-gray-500 mt-1 line-clamp-3">
