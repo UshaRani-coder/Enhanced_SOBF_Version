@@ -6,7 +6,7 @@ const createNewsBulletine = async (req, res) => {
   try {
     let videosArr = [];
     let imageArr = [];
-    const { title, description } = req.body;
+    const { title, description ,date } = req.body;
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
         error: 'Title must be a string with at least 3 characters',
@@ -38,6 +38,7 @@ const createNewsBulletine = async (req, res) => {
     const post = new bulletineModal({
       title,
       description,
+      date,
       images: imageArr,
       videos: videosArr,
     });
@@ -60,8 +61,8 @@ const createNewsBulletine = async (req, res) => {
 const getNewsBulletine = async (req, res) => {
   try {
     const posts = await bulletineModal.find({});
-    const baseURL = process.env.BASE_URL || 'http://localhost:5000';
-    // const baseURL = process.env.BASE_URL || "https://backend.sobf.in";
+    // const baseURL = process.env.BASE_URL || 'http://localhost:5000';
+    const baseURL = process.env.BASE_URL || "https://backend.sobf.in";
     if (posts.length > 0) {
       posts.forEach((post) => {
         // Format images and videos URLs

@@ -162,7 +162,7 @@ const OurService = () => {
     if (name === 'logo') {
       if (files[0] && !allowedImageTypes.includes(files[0].type)) {
         toast.error(
-          'Only image files (JPEG, PNG, GIF, WebP) are allowed for the logo.',
+          'Only image files (JPEG, PNG, JPG) are allowed for the logo.',
         );
         return;
       }

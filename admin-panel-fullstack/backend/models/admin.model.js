@@ -13,7 +13,11 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+},
+  {
+    timestamps: true
+  }
+);
 
 // Pre-save middleware to hash password before saving
 adminSchema.pre('save', async function (next) {

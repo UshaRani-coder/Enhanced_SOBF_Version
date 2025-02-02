@@ -82,7 +82,7 @@ const HeroBanner = () => {
     const updatedData = new FormData();
     updatedData.append('quotes', formData.quotes);
     if (formData.image) updatedData.append('image', formData.image);
-    dispatch(updateHeroBanners({ id: currentPost._id, updatedData }))
+    dispatch(updateHeroBanners({ id: currentPost?._id, updatedData }))
       .unwrap()
       .then(() => {
         toast.success('Hero Banner updated successfully!');

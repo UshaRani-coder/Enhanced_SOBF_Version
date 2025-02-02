@@ -6,7 +6,11 @@ const teamMemberSchema = new mongoose.Schema({
   linkedIn: { type: String, required: false },
   instagram: { type: String, required: false },
   image: { type: String, required: false },
-});
+},
+  {
+    timestamps: true
+  }
+);
 
 const Team = mongoose.model('TeamMember', teamMemberSchema);
 module.exports = Team;

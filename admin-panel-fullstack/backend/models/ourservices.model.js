@@ -7,7 +7,11 @@ const serviceSchema = new mongoose.Schema({
   description: { type: [String], required: true },
   images: { type: [String], default: [] },
   color: { type: String, required: true },
-});
+},
+  {
+    timestamps: true
+  }
+);
 
 const Service = mongoose.model('Service', serviceSchema);
 

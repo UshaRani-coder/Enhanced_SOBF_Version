@@ -13,7 +13,8 @@ const OurImpacts = () => {
   const dispatch = useDispatch();
   const { ourImpacts, status } = useSelector((state) => state.ourImpacts);
   const maxLength = 60;
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentImpact, setCurrentImpact] = useState(null);
@@ -29,88 +30,131 @@ const OurImpacts = () => {
     }
   }, [status, dispatch]);
 
-  //? adding post
+  // ! Validating form data
+  const validateForm = () => {
+    const { total_services, description, image } = formData;
+    if (!total_services.trim()) {
+      toast.error("Total services is required and cannot be empty");
+      return false;
+    }
+    if (!description.trim()) {
+      toast.error("Description is required and cannot be empty");
+      return false;
+    }
+    if (!image) {
+      toast.error("Image is required");
+      return;
+    }
+    // Validate image
+    if (image) {
+      const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (!allowedImageTypes.includes(image.type)) {
+        toast.error("Only JPG, PNG, or JPG images are allowed.");
+        return false;
+      }
+    }
+    return true;
+  };
+
+  // ! Adding post 
   const handleAddPost = () => {
-    if (!formData.total_services.trim()) {
-      toast.error('Total services is required and cannot be empty');
-      return;
-    }
-    if (!formData.description.trim()) {
-      toast.error('Description is required and cannot be empty');
-      return;
-    }
-    if (!formData.image) {
-      toast.error('Image is required');
-      return;
-    }
+    if (!validateForm()) return;
     const formDataToSend = new FormData();
-    formDataToSend.append('total_services', formData.total_services);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('image', formData.image);
+    formDataToSend.append("total_services", formData.total_services);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("image", formData.image);
+    setIsLoading(true); // Start loading
     dispatch(addOurImpact(formDataToSend))
       .unwrap()
       .then(() => {
-        toast.success('Our impact added successfully!');
+        toast.success("Our impact added successfully!");
         setIsModalOpen(false);
         resetForm();
+        dispatch(getOurImpact());
       })
       .catch((error) => {
-        toast.error(error || 'Failed to add our impact');
-      });
+        toast.error(error || "Failed to add our impact");
+      })
+      .finally(() => setIsLoading(false)); // End loading
   };
 
-  // ? updating post
+  // ! Updating post 
   const handleUpdatePost = () => {
+    if (!formData.total_services) {
+      toast.error("Total services is required and cannot be empty");
+      return;
+    }
+    if (!formData.description) {
+      toast.error("Description is required and cannot be empty");
+      return;
+    }
+    // Validate image (if provided)
+    if (formData.image) {
+      const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+      if (!allowedImageTypes.includes(formData.image.type)) {
+        toast.error("Only JPG, PNG, or JPG images are allowed.");
+        return;
+      }
+    }
     const updatedData = new FormData();
-    updatedData.append('total_services', formData.total_services);
-    updatedData.append('description', formData.description);
-    if (formData.image) updatedData.append('image', formData.image);
-    dispatch(updateOurImpact({ id: currentImpact._id, updatedData }))
+    updatedData.append("total_services", formData.total_services);
+    updatedData.append("description", formData.description);
+    if (formData.image) updatedData.append("image", formData.image);
+    if (!currentImpact || !currentImpact._id) {
+      toast.error("No impact selected for updating.");
+      return;
+    }
+    // Start loading
+    setIsLoading(true);
+    dispatch(updateOurImpact({ id: currentImpact?._id, updatedData }))
       .unwrap()
       .then(() => {
-        toast.success('Our impact updated successfully!');
+        toast.success("Our impact updated successfully!");
         setIsModalOpen(false);
         resetForm();
+        dispatch(getOurImpact());
       })
       .catch((error) => {
-        toast.error(error || 'Failed to update our impact');
-      });
+        console.error("Update Error:", error);
+        toast.error(error?.message || "Failed to update our impact");
+      })
+      .finally(() => setIsLoading(false)); // End loading
   };
 
-  // ? deleting post
+  // ! Deleting post 
   const handleDelete = (id) => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this impact? This action cannot be undone.',
-    );
+    const confirmDelete = window.confirm("Are you sure you want to delete this impact? This action cannot be undone.");
     if (confirmDelete) {
+      setIsLoading(true); // Start loading
       dispatch(removeOurImpact(id))
         .unwrap()
         .then(() => {
-          toast.success('Our impact deleted successfully!');
+          toast.success("Our impact deleted successfully!");
         })
         .catch((error) => {
-          toast.error(error || 'Failed to delete our impact');
-        });
+          toast.error(error || "Failed to delete our impact");
+        })
+        .finally(() => setIsLoading(false)); // End loading
     }
   };
 
+  // ! Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (value.length <= maxLength) {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrorMessage("");
   };
 
+  // ! Handle file input changes
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData((prev) => ({ ...prev, [name]: files[0] }));
+    setErrorMessage("");
   };
 
+  // ! Reset form data 
   const resetForm = () => {
-    setFormData({ total_services: '', description: '', image: null });
+    setFormData({ total_services: "", description: "", image: null });
     setCurrentImpact(null);
   };
 
@@ -119,12 +163,11 @@ const OurImpacts = () => {
     setIsUpdateMode(true);
     setCurrentImpact(impact);
     setFormData({
-      total_services: impact?.total_services || '',
-      description: impact?.description || '',
+      total_services: impact?.total_services || "",
+      description: impact?.description || "",
       image: null,
     });
   };
-
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center mx-4 my-4">
@@ -153,7 +196,7 @@ const OurImpacts = () => {
                   Total Services
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="total_services"
                   value={formData.total_services}
                   onChange={handleInputChange}
@@ -199,7 +242,21 @@ const OurImpacts = () => {
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
                 >
-                  {isUpdateMode ? 'Update Impact' : 'Add Impact'}
+                  {/* {isUpdateMode ? 'Update Impact' : 'Add Impact'} */}
+                  {isLoading ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin h-5 w-5 mr-3 border-t-2 border-b-2 border-white rounded-full"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      Processing...
+                    </span>
+                  ) : isUpdateMode ? (
+                    "Update"
+                  ) : (
+                    "Add"
+                  )}
                 </button>
               </div>
             </form>
@@ -217,7 +274,7 @@ const OurImpacts = () => {
               <img
                 src={impact?.image || 'https://via.placeholder.com/150'}
                 alt="Impact"
-                className="w-[50%] h-20 object-content rounded"
+                className="w-full h-40 object-content rounded"
               />
 
               <h3 className=" line-clamp-2 mt-2 font-bold text-xl">

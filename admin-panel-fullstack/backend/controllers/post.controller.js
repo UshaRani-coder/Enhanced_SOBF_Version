@@ -47,7 +47,7 @@ const createPost = async (req, res) => {
   try {
     let videosArr = [];
     let imageArr = [];
-    const { title, description } = req.body;
+    const { title, description, date } = req.body;
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
         error: 'Title must be a string with at least 3 characters',
@@ -79,6 +79,7 @@ const createPost = async (req, res) => {
     const post = new PostModel({
       title,
       description,
+      date,
       images: imageArr,
       videos: videosArr,
     });
@@ -113,7 +114,7 @@ const updatePost = async (req, res) => {
       return res.status(404).json({ error: 'Post not found' });
     }
 
-    const { title, description } = req.body;
+    const { title, description, date } = req.body;
 
     // Validate fields
     if (title && (typeof title !== 'string' || title.trim().length < 3)) {
@@ -139,6 +140,7 @@ const updatePost = async (req, res) => {
       description: description || existingPost.description,
       images: existingPost.images,
       videos: existingPost.videos,
+      date: date || existingPost.date
     };
 
     // Handle updated images if provided

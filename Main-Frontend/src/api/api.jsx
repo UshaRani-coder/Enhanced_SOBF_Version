@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const api = axios.create({ baseURL: 'https://backend.sobf.in' });
-const api = axios.create({ baseURL: 'http://localhost:5000' });
+const api = axios.create({ baseURL: 'https://backend.sobf.in' });
+// const api = axios.create({ baseURL: 'http://localhost:5000' });
 
 //! Admin Endpoints
 export const fetchAdmins = () => api.get('/api/admin/get-admin');
@@ -82,11 +82,12 @@ export const deleteGallery = (id) =>
   api.delete(`/api/post/delete-gallery-image/${id}`);
 
 
+
 // ! Our Services Endpoints
 export const createOurServices = (postData) =>
-  apiClient.post('/api/post/create-services', postData);
-export const getOurServices = () => apiClient.get('/api/post/get-services');
+  api.post('/api/post/create-services', postData);
+export const getOurServices = () => api.get('/api/post/get-services');
 export const updateOurServices = (id, updatedPost) =>
-  apiClient.put(`/api/post/update-services/${id}`, updatedPost);
+  api.put(`/api/post/update-services/${id}`, updatedPost);
 export const deleteOurServices = (id) =>
-  apiClient.delete(`/api/post/delete-services/${id}`);
+  api.delete(`/api/post/delete-services/${id}`);

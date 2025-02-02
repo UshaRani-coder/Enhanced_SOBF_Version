@@ -35,70 +35,68 @@ const FeaturedVideo = () => {
   //! Add video
   const handleAddVideo = () => {
     if (!URL) {
-      toast.error('Please provide a URL.');
+      toast.error("Please provide a URL.");
       return;
     }
     if (!validateURL(URL)) {
-      setError('Invalid video URL.');
+      toast.error("Invalid video URL. Please enter a valid YouTube.");
       return;
     }
-    setError(''); // Clear any previous errors
+    setError(""); // Clear any previous errors
     setIsLoading(true); // Start loading
     dispatch(addfeaturedVideo({ URL }))
       .then(() => {
-        toast.success('Video added successfully!');
+        toast.success("Video added successfully!");
         setIsModalOpen(false);
-        setURL('');
+        setURL("");
+        dispatch(getfeaturedVideo());
       })
       .catch(() => {
-        toast.error('Failed to add video!');
-      })
-      .finally(() => {
+        toast.error("Failed to add video!");
+      }).finally(() => {
         setIsLoading(false);
         dispatch(getfeaturedVideo());
       });
-    // End loading;
   };
 
   //! Update video
   const handleUpdateVideo = () => {
     if (!URL) {
-      toast.error('Please provide a URL.');
+      toast.error("Please provide a URL.");
       return;
     }
     if (!validateURL(URL)) {
-      toast.error('Invalid video URL');
+      toast.error("Invalid video URL. Please enter a valid YouTube or Vimeo link.");
       return;
     }
-    setError(''); // Clear any previous errors
+    setError("");
     if (currentVideo) {
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
       dispatch(updatefeaturedVideo({ id: currentVideo?._id, URL }))
         .then(() => {
-          toast.success('Video updated successfully!');
+          toast.success("Video updated successfully!");
           setIsModalOpen(false);
-          setURL('');
+          setURL("");
+          dispatch(getfeaturedVideo());
         })
         .catch(() => {
-          toast.error('Failed to update video!');
-        })
-        .finally(() => {
+          toast.error("Failed to update video!");
+        }).finally(() => {
           setIsLoading(false);
           dispatch(getfeaturedVideo());
         });
     }
   };
 
+
   //? Delete video
   const handleDeleteVideo = (id) => {
-    const confirmed = window.confirm(
-      'Are you sure you want to delete this video?',
-    );
+    const confirmed = window.confirm("Are you sure you want to delete this video?");
     if (confirmed) {
       setIsLoading(true); // Start loading
       dispatch(removefeaturedVideo(id))
-        .then(() => toast.success('Video deleted successfully!'))
-        .catch(() => toast.error('Failed to delete video!'));
+        .then(() => toast.success("Video deleted successfully!"))
+        .catch(() => toast.error("Failed to delete video!"));
     }
   };
 
@@ -163,7 +161,21 @@ const FeaturedVideo = () => {
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
                   onClick={isUpdateMode ? handleUpdateVideo : handleAddVideo}
                 >
-                  {isUpdateMode ? 'Update Video' : 'Add Video'}
+                  {/* {isUpdateMode ? 'Update Video' : 'Add Video'} */}
+                  {isLoading ? (
+                    <span className="flex items-center gap-2">
+                      <svg
+                        className="animate-spin h-5 w-5 border-t-2 border-white rounded-full"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      Processing...
+                    </span>
+                  ) : isUpdateMode ? (
+                    'Update Banner'
+                  ) : (
+                    'Add Banner'
+                  )}
                 </button>
               </div>
             </form>

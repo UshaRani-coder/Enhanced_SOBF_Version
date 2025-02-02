@@ -13,6 +13,7 @@ const PostPage = () => {
   const dispatch = useDispatch();
   const { bulletines, status } = useSelector((state) => state.bulletines);
   const [expandedItem, setExpandedItem] = useState(null); // For expanded post details modal
+  const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
@@ -94,6 +95,7 @@ const PostPage = () => {
     const formDataToSend = new FormData();
     formDataToSend.append('title', formData.title);
     formDataToSend.append('description', formData.description);
+    formDataToSend.append('date', formData.date);
     if (formData.images) {
       for (let i = 0; i < formData.images.length; i++) {
         formDataToSend.append('images', formData.images[i]);
@@ -104,7 +106,7 @@ const PostPage = () => {
         formDataToSend.append('videos', formData.videos[i]);
       }
     }
-
+    setIsLoading(true);
     dispatch(addBulletine(formDataToSend))
       .unwrap()
       .then(() => {
@@ -115,6 +117,7 @@ const PostPage = () => {
       })
       .catch((error) => {
         toast.error(error || 'Failed to add post.');
+        setIsLoading(false);
       });
   };
 
@@ -132,15 +135,13 @@ const PostPage = () => {
     const validImageTypes = [
       'image/jpeg',
       'image/png',
-      'image/gif',
-      'image/webp',
-      'image/avif',
+      'image/jpg'
     ];
     if (formData.images) {
       for (let i = 0; i < formData.images.length; i++) {
         if (!validImageTypes.includes(formData.images[i].type)) {
           toast.error(
-            'Only valid image files (JPEG, PNG, GIF, WEBP) are allowed in the Images section.',
+            'Only valid image files (JPEG, PNG, JPG) are allowed in the Images section.',
           );
           return;
         }
@@ -161,7 +162,7 @@ const PostPage = () => {
     const updatedData = new FormData();
     updatedData.append('title', formData.title);
     updatedData.append('description', formData.description);
-
+    updatedData.append('date', formData.date);
     if (formData.images) {
       for (let i = 0; i < formData.images.length; i++) {
         updatedData.append('images', formData.images[i]);
@@ -172,7 +173,7 @@ const PostPage = () => {
         updatedData.append('videos', formData.videos[i]);
       }
     }
-
+    setIsLoading(true);
     dispatch(updateBulletine({ id: currentPost._id, updatedData }))
       .unwrap()
       .then(() => {
@@ -183,6 +184,7 @@ const PostPage = () => {
       })
       .catch((error) => {
         toast.error(error || 'Failed to update post.');
+        setIsLoading(false);
       });
   };
 
@@ -192,6 +194,7 @@ const PostPage = () => {
     );
 
     if (confirmDelete) {
+      setIsLoading(true);
       dispatch(removeBulletine(id))
         .unwrap()
         .then(() => {
@@ -199,6 +202,7 @@ const PostPage = () => {
         })
         .catch((error) => {
           toast.error(error.message);
+          setIsLoading(false);
         });
     }
   };
@@ -230,6 +234,7 @@ const PostPage = () => {
     setFormData({
       title: '',
       description: '',
+      date: "",
       images: null,
       videos: null,
     });
@@ -241,8 +246,9 @@ const PostPage = () => {
     setIsUpdateMode(true);
     setCurrentPost(post);
     setFormData({
-      title: post?.title,
-      description: post?.description,
+      title: post?.title || '',
+      description: post?.description || '',
+      adte: post?.date || '',
       images: null,
       videos: null,
     });
@@ -295,7 +301,7 @@ const PostPage = () => {
 
             {/* Images */}
             {Array.isArray(expandedItem?.images) &&
-            expandedItem.images.length > 0 ? (
+              expandedItem.images.length > 0 ? (
               expandedItem.images.map((image, index) => (
                 <img
                   key={index}
@@ -311,11 +317,11 @@ const PostPage = () => {
             {/* Videos */}
             {expandedItem?.videos?.length > 0
               ? expandedItem?.videos?.map((video, index) => (
-                  <video key={index} controls className="w-full rounded mb-4">
-                    <source src={video} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ))
+                <video key={index} controls className="w-full rounded mb-4">
+                  <source src={video} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ))
               : null}
           </div>
         </div>
@@ -435,7 +441,20 @@ const PostPage = () => {
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
                 >
-                  {isUpdateMode ? 'Update Post' : 'Add Post'}
+                  {isLoading ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin h-5 w-5 mr-3 border-t-2 border-b-2 border-white rounded-full"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      Processing...
+                    </span>
+                  ) : isUpdateMode ? (
+                    "Update"
+                  ) : (
+                    "Add"
+                  )}
                 </button>
               </div>
             </form>

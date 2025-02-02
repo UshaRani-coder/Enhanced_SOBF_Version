@@ -15,7 +15,7 @@ import {
 const LegalDoc = () => {
   const dispatch = useDispatch();
   const { legalDocs, status } = useSelector((state) => state.legalDocs);
-
+const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentDoc, setCurrentDoc] = useState(null);
@@ -60,12 +60,13 @@ const LegalDoc = () => {
     formDataToSend.append('title', formData.title);
     formDataToSend.append('description', formData.description);
     if (formData.file) formDataToSend.append('file', formData.file);
-
+    setIsLoading(true); 
     dispatch(addLegalDocument(formDataToSend))
       .unwrap()
       .then(() => toast.success('Successfully added legal document'))
       .catch(() => toast.error('Error adding document'));
     setIsModalOpen(false);
+    setIsLoading(false);
     resetForm();
     dispatch(getLegalDocuments()).unwrap();
   };
@@ -79,6 +80,7 @@ const LegalDoc = () => {
     if (formData.file) updatedData.append('file', formData.file);
 
     try {
+      setIsLoading(true);
       await dispatch(
         updateLegalDocumentById({ id: currentDoc._id, updatedData }),
       ).unwrap();
@@ -89,6 +91,7 @@ const LegalDoc = () => {
     } finally {
       setIsModalOpen(false);
       resetForm();
+      setIsLoading(false);
     }
   };
 
@@ -98,10 +101,12 @@ const LegalDoc = () => {
       'Are you sure you want to delete this legal document? This action cannot be undone.',
     );
     if (confirmDelete) {
+      setIsLoading(true);
       dispatch(removeLegalDocument(id))
         .unwrap()
         .then(() => toast.success('Document deleted successfully!'))
         .catch(() => toast.error('Failed to delete legal document'));
+      setIsLoading(false);
     }
   };
 
@@ -217,7 +222,20 @@ const LegalDoc = () => {
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
                   onClick={isUpdateMode ? handleUpdateDoc : handleAddDoc}
                 >
-                  {isUpdateMode ? 'Update' : 'Add Document'}
+                  {isLoading ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin h-5 w-5 mr-3 border-t-2 border-b-2 border-white rounded-full"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      Processing...
+                    </span>
+                  ) : isUpdateMode ? (
+                    "Update"
+                  ) : (
+                    "Add"
+                  )}
                 </button>
               </div>
             </form>

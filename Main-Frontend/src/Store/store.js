@@ -8,7 +8,11 @@ import heroBannerReducer from '../Reducers/heroBannerSlice';
 import addLegalDocReducer from '../Reducers/legalDocSlice';
 import teamReducer from '../Reducers/TeamSlice';
 import galleryReducer from '../Reducers/gallerySlice';
-import serviceReducer from '../Reducers/servicesSlice.js'
+import ourServiceRducer from "../Reducers/OurServicesSlice"
+
+
+
+
 const store = configureStore({
   reducer: {
     admins: adminReducer,
@@ -20,7 +24,7 @@ const store = configureStore({
     legalDocs: addLegalDocReducer,
     teams: teamReducer,
     gallery: galleryReducer,
-    services:serviceReducer
+    services: ourServiceRducer,
   },
 });
 

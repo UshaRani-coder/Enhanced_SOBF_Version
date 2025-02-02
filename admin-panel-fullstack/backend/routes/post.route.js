@@ -17,23 +17,23 @@ const {
   getHeroBanner,
   updateHeroBanner,
   deleteHeroBanner,
-} = require('../controllers/hero-banner.controler');
+} = require('../controllers/hero-banner.controller');
 const {
   createOurImpacts,
   getOurImpacts,
   updateOurImpacts,
   deleteOurImpacts,
 } = require('../controllers/our-impacts.controller');
-const {
-  createFeaturedVideo,
-  getFeaturedVideo,
-  updateFeaturedVideo,
-  deleteFeaturedVideo,
-  getLegalDocument,
-  createLegalDocument,
-  updateLegalDocument,
-  deleteLegalDocument,
-} = require('../controllers/other.controller');
+// const {
+//   createFeaturedVideo,
+//   getFeaturedVideo,
+//   updateFeaturedVideo,
+//   deleteFeaturedVideo,
+//   getLegalDocument,
+//   createLegalDocument,
+//   updateLegalDocument,
+//   deleteLegalDocument,
+// } = require('../controllers/other.controller');
 const {
   createTeamMember,
   getTeamMembers,
@@ -64,6 +64,8 @@ const {
   uploadGallery,
   uploadOurImpacts,
 } = require('../middleware/multer');
+const { createLegalDocument, updateLegalDocument, deleteLegalDocument, getLegalDocument } = require('../controllers/legaldoc.controller');
+const { createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo } = require('../controllers/featuredvideos.controller');
 
 const router = express.Router();
 

@@ -13,6 +13,7 @@ const RecentActivityPostPage = () => {
   const dispatch = useDispatch();
   const { posts, status } = useSelector((state) => state.posts);
   const [expandedItem, setExpandedItem] = useState(null); // For expanded post details modal
+  const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
@@ -25,48 +26,48 @@ const RecentActivityPostPage = () => {
   });
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === "idle") {
       dispatch(getPosts());
     }
   }, [status, dispatch]);
 
   const validateForm = () => {
     if (!formData.title.trim()) {
-      toast.error('Title is required.');
+      toast.error("Title is required.");
       return false;
     }
 
     if (!formData.description.trim()) {
-      toast.error('Description is required.');
+      toast.error("Description is required.");
+      return false;
+    }
+    if (!formData.date) {
+      toast.error("Pls pick a date of your choice ");
       return false;
     }
 
     if (!formData.images && !formData.videos) {
-      toast.error('Either images or videos are required.');
+      toast.error("Either images or videos are required.");
       return false;
     }
 
     // Validate images
-    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
     if (formData.images) {
       for (let i = 0; i < formData.images.length; i++) {
         if (!validImageTypes.includes(formData.images[i].type)) {
-          toast.error(
-            'Only valid image files (JPEG, PNG,JPG) are allowed in the Images section.',
-          );
+          toast.error("Only valid image files (JPEG, PNG,JPG) are allowed in the Images section.");
           return false;
         }
       }
     }
 
     // Validate videos
-    const validVideoTypes = ['video/mp4', 'video/mkv'];
+    const validVideoTypes = ["video/mp4", "video/mkv"]
     if (formData.videos) {
       for (let i = 0; i < formData.videos.length; i++) {
         if (!validVideoTypes.includes(formData.videos[i].type)) {
-          toast.error(
-            'Only valid video files (MP4, MKV) are allowed in the Videos section.',
-          );
+          toast.error("Only valid video files (MP4, MKV) are allowed in the Videos section.");
           return false;
         }
       }
@@ -76,11 +77,12 @@ const RecentActivityPostPage = () => {
 
   const handleExpandPost = (post) => {
     if (!post) {
-      console.error('Post data is invalid or undefined.');
+      console.error("Post data is invalid or undefined.");
       return;
     }
     setExpandedItem(post);
   };
+
 
   const closeExpandedModal = () => {
     setExpandedItem(null);
@@ -89,114 +91,112 @@ const RecentActivityPostPage = () => {
   const handleAddPost = () => {
     if (!validateForm()) return;
     const formDataToSend = new FormData();
-    formDataToSend.append('title', formData.title);
-    formDataToSend.append('description', formData.description);
-
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("date", formData.date);
     if (formData.images) {
       for (let i = 0; i < formData.images.length; i++) {
-        formDataToSend.append('images', formData.images[i]);
+        formDataToSend.append("images", formData.images[i]);
       }
     }
     if (formData.videos) {
       for (let i = 0; i < formData.videos.length; i++) {
-        formDataToSend.append('videos', formData.videos[i]);
+        formDataToSend.append("videos", formData.videos[i]);
       }
     }
-
+    setIsLoading(true);
     dispatch(addPost(formDataToSend))
       .unwrap()
       .then(() => {
-        toast.success('Post added successfully!');
+        toast.success("Post added successfully!");
         setIsModalOpen(false);
         resetForm();
-        dispatch(getPosts());
+        dispatch(getPosts())
       })
       .catch((error) => {
-        toast.error(error || 'Failed to add post.');
+        toast.error(error || "Failed to add post.");
+        setIsLoading(false);
       });
   };
 
+  // updating
   const handleUpdatePost = () => {
     if (!formData.title.trim()) {
-      toast.error('Title is required.');
+      toast.error("Title is required.");
       return;
     }
     if (!formData.description.trim()) {
-      toast.error('Description is required.');
+      toast.error("Description is required.");
       return;
     }
 
     // Validate images
-    const validImageTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-      'image/webp',
-      'image/avif',
-    ];
+    const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/avif"];
     if (formData.images) {
       for (let i = 0; i < formData.images.length; i++) {
         if (!validImageTypes.includes(formData.images[i].type)) {
-          toast.error(
-            'Only valid image files (JPEG, PNG, GIF, WEBP) are allowed in the Images section.',
-          );
+          toast.error("Only valid image files (JPEG, PNG, GIF, WEBP) are allowed in the Images section.");
           return;
         }
       }
     }
 
     // Validate videos
-    const validVideoTypes = ['video/mp4'];
+    const validVideoTypes = ["video/mp4"];
     if (formData.videos) {
       for (let i = 0; i < formData.videos.length; i++) {
         if (!validVideoTypes.includes(formData.videos[i].type)) {
-          toast.error('Only mp4  video files are valid.');
+          toast.error("Only mp4  video files are valid.");
           return;
         }
       }
     }
 
     const updatedData = new FormData();
-    updatedData.append('title', formData.title);
-    updatedData.append('description', formData.description);
+    updatedData.append("title", formData.title);
+    updatedData.append("description", formData.description);
 
     if (formData.images) {
       for (let i = 0; i < formData.images.length; i++) {
-        updatedData.append('images', formData.images[i]);
+        updatedData.append("images", formData.images[i]);
       }
     }
     if (formData.videos) {
       for (let i = 0; i < formData.videos.length; i++) {
-        updatedData.append('videos', formData.videos[i]);
+        updatedData.append("videos", formData.videos[i]);
       }
     }
-
+    setIsLoading(true);
     dispatch(updatePost({ id: currentPost._id, updatedData }))
       .unwrap()
       .then(() => {
-        toast.success('Post updated successfully!');
+        toast.success("Post updated successfully!");
         setIsModalOpen(false);
         resetForm();
         dispatch(getPosts());
       })
       .catch((error) => {
-        toast.error(error || 'Failed to update post.');
+        toast.error(error || "Failed to update post.");
+        setIsLoading(false);
       });
   };
 
+
   const handleDeletePost = (id) => {
     const confirmDelete = window.confirm(
-      'Are you sure you want to delete this Hero Banner? This action cannot be undone.',
+      "Are you sure you want to delete this Hero Banner? This action cannot be undone."
     );
 
     if (confirmDelete) {
+      setIsLoading(true);
       dispatch(removePost(id))
         .unwrap()
         .then(() => {
-          toast.success('Post deleted successfully!');
+          toast.success("Post deleted successfully!");
         })
         .catch((error) => {
           toast.error(error.message);
+          setIsLoading(false);
         });
     }
   };
@@ -230,6 +230,7 @@ const RecentActivityPostPage = () => {
       description: '',
       images: null,
       videos: null,
+      date: ''
     });
     setCurrentPost(null);
   };
@@ -239,10 +240,11 @@ const RecentActivityPostPage = () => {
     setIsUpdateMode(true);
     setCurrentPost(post);
     setFormData({
-      title: post?.title,
-      description: post?.description,
+      title: post?.title || "",
+      description: post?.description || "",
       images: null,
       videos: null,
+      date: post?.date || null
     });
   };
 
@@ -295,7 +297,7 @@ const RecentActivityPostPage = () => {
 
             {/* Images */}
             {Array.isArray(expandedItem?.images) &&
-            expandedItem.images.length > 0 ? (
+              expandedItem.images.length > 0 ? (
               expandedItem.images.map((image, index) => (
                 <img
                   key={index}
@@ -311,11 +313,11 @@ const RecentActivityPostPage = () => {
             {/* Videos */}
             {expandedItem?.videos?.length > 0
               ? expandedItem?.videos?.map((video, index) => (
-                  <video key={index} controls className="w-full rounded mb-4">
-                    <source src={video} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ))
+                <video key={index} controls className="w-full rounded mb-4">
+                  <source src={video} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ))
               : null}
           </div>
         </div>
@@ -349,16 +351,19 @@ const RecentActivityPostPage = () => {
                   placeholder="Enter the description of the activity"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block font-semibold mb-2">Date</label>
-                <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded"
-                />
-              </div>
+              {
+                isUpdateMode ? null : <div className="mb-4">
+                  <label className="block font-semibold mb-2">Date</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border rounded"
+                  />
+                </div>
+              }
+
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Images</label>
                 <input
@@ -435,7 +440,20 @@ const RecentActivityPostPage = () => {
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
                 >
-                  {isUpdateMode ? 'Update Post' : 'Add Post'}
+                  {isLoading ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin h-5 w-5 mr-3 border-t-2 border-b-2 border-white rounded-full"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      Processing...
+                    </span>
+                  ) : isUpdateMode ? (
+                    "Update"
+                  ) : (
+                    "Add"
+                  )}
                 </button>
               </div>
             </form>
