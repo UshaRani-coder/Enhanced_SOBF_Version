@@ -88,6 +88,33 @@ const Services = () => {
     };
   }, []);
 
+  // useEffect(() => {
+  //   // Set the background image dynamically for each service
+  //   document.querySelectorAll(".service").forEach((element) => {
+  //     const bgImage = element.getAttribute("data-bg");
+  //     if (bgImage) {
+  //       element.style.setProperty("--bg-image", `url(${bgImage})`);
+  //     }
+  //   });
+  // }, [services, service]); // Also depends on `service` to handle the state change after clicking a service
+  
+  
+  // useEffect(() => {
+  //   if (services.length > 0) {
+  //     // Use requestAnimationFrame for smoother rendering
+  //     requestAnimationFrame(() => {
+  //       document.querySelectorAll(".service").forEach((element) => {
+  //         const bgImage = element.getAttribute("data-bg");
+  //         if (bgImage) {
+  //           console.log(bgImage,"background image")
+  //           element.style.setProperty("--bg-image", `url(${bgImage})`);
+  //         }
+  //       });
+  //     });
+  //   }
+  // }, [services]);
+  
+  
   const scrollToServices = () => {
     ourServicesRef.current.scrollIntoView({ behavior: 'smooth' });
   };
@@ -106,8 +133,11 @@ const Services = () => {
               key={item.id}
               data-aos="fade-up"
               data-aos-delay={`${index * 100}`}
+              data-bg={item.images[0]}
               className={`service rounded-tl-[50px] rounded-br-[50px] cursor-pointer w-[80%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center`}
-              style={{ backgroundColor: item.color }}
+              style={{ 
+                backgroundColor: item.color,
+               }}
               onClick={() => {
                 setService(item.title);
                 if (isHomePage) {
@@ -142,7 +172,7 @@ const Services = () => {
                 <div className="images-grid w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
                   <ImgBanner banners={serviceData.images} />
                 </div>
-                <div className='flex flex-col items-center w-[90%] lg:w-[60%]'>
+                <div className='flex flex-col items-center md:items-start w-[90%] lg:w-[60%]'>
                 <div className="flex flex-col md:mx-[30px]">
                 <h1 className="text-center text-heading4 lg:text-[1.9rem] mt-[10px] md:text-left font-bold">{serviceData.title}</h1>
                 <p className="text-gray-700 text-center text-[16px] lg:text-[18px] font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px]">{serviceData.description}</p>

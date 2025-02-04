@@ -1,3 +1,4 @@
+
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
@@ -10,8 +11,11 @@ const Press_Release = React.memo(() => {
 
   // Fetch posts and status from the Redux store
   const { bulletines, status, error } = useSelector(
-    (state) => state.bulletines,
+    (state) => state.bulletines
   );
+
+  // Sorting order state
+  const [sortOrder, setSortOrder] = useState('desc'); // Default: Newest first
 
   // Fetch posts when the component loads
   useEffect(() => {
@@ -22,57 +26,51 @@ const Press_Release = React.memo(() => {
 
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
       year: 'numeric',
-      month: 'long',
-      day: 'numeric',
     });
   }, []);
 
-  // Scroll to top when path changes
-  useEffect(() => {
-    if (location.pathname === '/press-release') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth', // Enables smooth scrolling
-      });
-    }
-  }, [location.pathname]);
+  // Sort posts based on selected order
+  const sortedPosts = useMemo(() => {
+    return [...bulletines].sort((a, b) => {
+      return sortOrder === 'asc'
+        ? new Date(a.date) - new Date(b.date) // Oldest first
+        : new Date(b.date) - new Date(a.date); // Newest first
+    });
+  }, [bulletines, sortOrder]);
 
-  // Memoizing whether the page is the home page or not
-  const isHomePage = useMemo(
-    () => location.pathname === '/',
-    [location.pathname],
-  );
+  // Toggle sorting order
+  const handleSortChange = () => {
+    setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
+  };
+
+  // Check if it's the home page
+  const isHomePage = useMemo(() => location.pathname === '/', [location.pathname]);
 
   // Managing pagination state
   const [page, setPage] = useState(1);
   const postsPerPage = 10; // Number of posts per page
 
-  // Adjusting the displayed posts based on the page type
+  // Adjust displayed posts
   const displayedPosts = useMemo(() => {
-    if (isHomePage) {
-      return bulletines.slice(0, 3); // Display only 3 posts for the home page
-    }
-    return bulletines; // Display all posts for the /recent-activities page
-  }, [bulletines, isHomePage]);
+    const visiblePosts = isHomePage ? sortedPosts.slice(0, 3) : sortedPosts;
+    return visiblePosts.slice(0, page * postsPerPage);
+  }, [sortedPosts, isHomePage, page]);
 
-  // Handling Infinite Scroll logic
+  // Load more posts for infinite scroll
   const loadMorePosts = () => {
-    if (bulletines.length > page * postsPerPage) {
-      setPage((prevPage) => prevPage + 1); // Increment page to load more
+    if (sortedPosts.length > page * postsPerPage) {
+      setPage((prevPage) => prevPage + 1);
     }
   };
 
-  const hasMorePosts = bulletines.length > page * postsPerPage;
+  const hasMorePosts = sortedPosts.length > page * postsPerPage;
 
   return (
-    <div
-      className={`flex flex-col items-center mb-[30px] ${
-        isHomePage ? 'mt-[30px]' : 'mt-[120px]'
-      }`}
-    >
+    <div className={`flex flex-col items-center mb-[30px] ${isHomePage ? 'mt-[30px]' : 'mt-[120px]'}`}>
       <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
         Press Release
         <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
@@ -81,9 +79,18 @@ const Press_Release = React.memo(() => {
         Announcing Our Latest Initiatives and Achievements Nationwide
       </h1>
       <h1 className="text-center text-xl mb-4 p-3 text-gray-600">
-        Stay informed about our recent collaborations, upcoming events, and the
-        impact of our efforts across the country.
+        Stay informed about our recent collaborations, upcoming events, and the impact of our efforts across the country.
       </h1>
+
+      {/* Sorting Buttons */}
+      <div className="mb-4">
+        <button
+          className="bg-blue text-white font-bold py-2 px-4 rounded-md hover:bg-logoYellow transition-colors duration-300"
+          onClick={handleSortChange}
+        >
+          Sort by Date: {sortOrder === 'asc' ? 'Oldest First' : 'Newest First'}
+        </button>
+      </div>
 
       {/* Display Loading or Error Messages */}
       {status === 'loading' && <p>Loading posts...</p>}
@@ -91,27 +98,23 @@ const Press_Release = React.memo(() => {
 
       <InfiniteScroll
         dataLength={displayedPosts.length}
-        next={loadMorePosts} // Trigger the function to load more posts
-        hasMore={hasMorePosts} // Check if there are more posts to load
-        loader={<h4 className="text-center w-[100%]">Loading more...</h4>} // Show loader while loading
+        next={loadMorePosts}
+        hasMore={hasMorePosts}
+        loader={<h4 className="text-center w-[100%]">Loading more...</h4>}
         scrollableTarget="scrollableDiv"
-        style={{ display: 'flex', flexDirection: 'column-reverse' }} // To put endMessage and loader at the top
+        style={{ display: 'flex', flexDirection: 'column-reverse' }}
         inverse={true}
       >
         <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px] lg:flex-row lg:justify-center p-5">
           {displayedPosts.map((news) => (
             <div
               key={news._id}
-              className="flex flex-col items-center w-[90%] md:w-[55%] lg:w-[30%] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
+              className="flex flex-col items-start w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
-                src={
-                  news.images && news.images.length > 0
-                    ? news.images[0]
-                    : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9SRRmhH4X5N2e4QalcoxVbzYsD44C-sQv-w&s'
-                }
+                src={news.images && news.images.length > 0 ? news.images[0] : 'https://via.placeholder.com/600'}
                 alt="media"
-                className="w-full h-full md:h-[300px] rounded-t-lg "
+                className="w-full h-full md:h-[300px] rounded-t-lg"
               />
               <div className="px-[20px]">
                 <div className="flex items-center gap-x-[5px] mt-[15px]">
@@ -124,8 +127,8 @@ const Press_Release = React.memo(() => {
                   </svg>
                   <span className="text-[13px]">{formatDate(news.date)}</span>
                 </div>
-                <h1 className="font-bold text-xl line-clamp-2">{news.title}</h1>
-                <p className="md:text-lg line-clamp-4 ">{news.description}</p>
+                <h1 className="font-bold text-xl line-clamp-1">{news.title}</h1>
+                <p className="md:text-lg line-clamp-4">{news.description}</p>
                 <Link to={`/press-release/${news._id}`}>
                   <button
                     aria-label="View Details"
@@ -140,15 +143,6 @@ const Press_Release = React.memo(() => {
           ))}
         </div>
       </InfiniteScroll>
-      {isHomePage && bulletines.length > 3 && (
-        <div className="text-center mt-5">
-          <Link to="/press-release">
-            <button className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300">
-              See More
-            </button>
-          </Link>
-        </div>
-      )}
     </div>
   );
 });

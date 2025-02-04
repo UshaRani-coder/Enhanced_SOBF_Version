@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const ImgBanner = ({ banners }) => {
+  console.log(banners,"Image Banner")
   const [currentIndex, setCurrentIndex] = useState(0);
   const timerRef = useRef(null);
 

@@ -1064,7 +1064,7 @@ const RecentActivityPostPage = () => {
                   className="w-full h-[200px] object-cover rounded"
                 />
               )}
-
+                <div className='flex flex-col items-start w-full'>
               {/* Date */}
               <div className="flex items-center justify-start gap-x-1 mt-2 w-full">
                 <svg
@@ -1110,6 +1110,7 @@ const RecentActivityPostPage = () => {
                   <MdDelete className="text-red-800 text-2xl" />
                 </button>
               </div>
+            </div>
             </div>
           ))
         ) : (

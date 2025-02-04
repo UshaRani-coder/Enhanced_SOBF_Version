@@ -1,46 +1,9 @@
-.services .service1::before,
-.services .service2::before,
-.services .service3::before,
-.services .service4::before,
-.services .service5::before,
-.services .service6::before,
-.services .service7::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('../../assets/Sobf Images/women empowerment/communityService.avif');
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.5s ease-in-out;
-  transform: translateY(100%);
-}
-.services .service2::before {
-  background-image: url('../../assets/Sobf Images/food distribution/FoodDonation.avif');
-}
-.services .service3::before {
-  background-image: url('../../assets/Sobf Images/child_education_and_empowerment/cee6.avif');
-}
-.services .service4::before {
-  background-image: url('../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.jpg');
-}
-.services .service:hover:before {
-  transform: translateY(0);
-}
-.services .service5::before {
-  background-image: url('../../assets/Sobf Images/food distribution/sadhuSeva.jpg');
-}
-.services .service6::before {
-  background-image: url('../../assets/Sobf Images/health_and_awareness_camp/hac2.avif');
-}
 
-.services .service7::before {
-  background-image: url('../../assets/Sobf Images/women empowerment/we1.avif');
+.services .service {
+  position: relative;
+  overflow: hidden;
 }
-
-.services .service:hover::after {
+.services .service:hover::before {
   content: '';
   position: absolute;
   top: 0;
@@ -48,5 +11,13 @@
   width: 100%;
   height: 100%;
   background-color: rgba(1, 29, 36, 0.8);
-  pointer-events: none; /* Prevents accidental clicks on the overlay */
+  pointer-events: none; 
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.4);
+  z-index: -1;
+  transition: all 30s ease-in-out;
 }
+

@@ -269,12 +269,12 @@ const OurImpacts = () => {
           ourImpacts?.map((impact) => (
             <div
               key={impact._id}
-              className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center justify-center"
+              className="border p-4 py-10 rounded w-64 hover:shadow-lg flex flex-col items-center justify-center"
             >
               <img
                 src={impact?.image || 'https://via.placeholder.com/150'}
                 alt="Impact"
-                className="w-full h-40 object-content rounded"
+                className="w-[70px] object-content rounded"
               />
 
               <h3 className=" line-clamp-2 mt-2 font-bold text-xl">

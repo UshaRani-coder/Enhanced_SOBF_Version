@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -7,38 +7,46 @@ const NewsBulletinDetails = () => {
   const { id } = useParams();
   const bulletines = useSelector((state) => state.bulletines.bulletines); // Redux posts
   const activity = bulletines.find((bulletin) => bulletin._id === id);
-
+  console.log(activity);
   if (!activity) {
     return (
       <div className="flex flex-col items-center w-full mt-[150px] p-4">
-        Activity not found!
+        <p className="text-lg text-red-500">Activity not found!</p>
       </div>
     );
   }
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
+    return date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
       year: 'numeric',
-      month: 'long',
-      day: 'numeric',
     });
   };
+
   const handleBack = () => {
+    // Scroll to the top of the page
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  
+    // Navigate to the 'Press Release' page with state
     navigate('/press-release', { state: { scrollTo: 'pressRelease' } });
   };
+  
 
   return (
-    <div className="flex flex-col items-center w-full mt-[100px] md:mt-[140px]  p-4">
+    <div className="flex flex-col items-center w-[100%] md:w-[80%]  mx-auto mt-[100px] md:mt-[140px]  p-4">
       <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-[30px]">
         {activity.title}
       </h1>
-      <div className="flex flex-col lg:flex-row w-full lg:gap-[20px]">
+      <div className="flex flex-col items-center w-full ">
         <div
-          className={`w-full lg:w-[60%] ${
+          className={`w-full  ${
             activity.images?.length === 1
               ? ''
-              : 'grid grid-cols-1 md:grid-cols-2 gap-4'
+              : 'flex flex-wrap justify-center gap-4 '
           }`}
         >
           {activity.images && activity.images.length > 0 ? (
@@ -56,7 +64,7 @@ const NewsBulletinDetails = () => {
                   key={index}
                   src={image}
                   alt={`${activity.title} - ${index + 1}`}
-                  className="w-full h-auto object-cover rounded-lg shadow-lg"
+                  className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
                 />
               ))
             )
@@ -70,8 +78,37 @@ const NewsBulletinDetails = () => {
           )}
         </div>
 
-        <div className="w-full lg:w-1/2 flex flex-col justify-start p-4">
-          <div className="text-sm text-gray-500 mb-4 flex items-center gap-x-[5px]">
+        <div
+          className={`w-full mt-[20px] ${
+            activity.videos?.length === 1
+              ? ''
+              : 'flex flex-wrap justify-center gap-4'
+          }`}
+        >
+          {activity.videos && activity.videos.length > 0 ? (
+            activity.videos.length === 1 ? (
+              // Single Video
+              <video
+                controls
+                src={activity.videos[0]}
+                className="w-full h-full object-cover rounded-lg shadow-lg"
+              />
+            ) : (
+              // Multiple Videos
+              activity.videos.map((video, index) => (
+                <video
+                  key={index}
+                  controls
+                  src={video}
+                  className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                />
+              ))
+            )
+          ) : null}
+        </div>
+
+        <div className="w-full  flex flex-col justify-start p-4">
+          <div className="text-sm text-gray-500  flex items-center gap-x-[5px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
@@ -81,7 +118,7 @@ const NewsBulletinDetails = () => {
             </svg>{' '}
             {formatDate(activity.date)}
           </div>
-          <p className="text-lg text-gray-700  mb-4">{activity.description}</p>
+          <p className="text-lg text-gray-700">{activity.description}</p>
           <div className="flex">
             <button
               className="px-4 py-2 font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all mt-4"
@@ -94,7 +131,7 @@ const NewsBulletinDetails = () => {
             <h2 className="text-2xl font-bold text-center mb-4 text-indigo-700">
               Make a Difference!
             </h2>
-            <p className="text-center text-gray-700 mb-4">
+            <p className="text-center text-gray-700 mb-4 lg:mx-[200px]">
               Your support helps us continue our mission of making the world a
               better place. Every contribution brings us closer to achieving our
               goals and empowering the community.
