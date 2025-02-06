@@ -172,9 +172,9 @@ const FeaturedVideo = () => {
                       Processing...
                     </span>
                   ) : isUpdateMode ? (
-                    'Update Banner'
+                    'Update Video'
                   ) : (
-                    'Add Banner'
+                    'Add Video'
                   )}
                 </button>
               </div>
@@ -186,12 +186,12 @@ const FeaturedVideo = () => {
       {/* Video List */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {featuredVideo && featuredVideo?.length > 0 ? (
-          featuredVideo?.map((video) => {
+          featuredVideo?.map((video,index) => {
             // Safely extract video ID
             const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || '';
             return (
               <div
-                key={video?._id}
+                key={video?._id || index}
                 className="border p-4 rounded w-64 small-range:w-80 md:w-64 hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center"
               >
                 {videoId ? (

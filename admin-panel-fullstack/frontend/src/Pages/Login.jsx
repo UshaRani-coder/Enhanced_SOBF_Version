@@ -61,7 +61,6 @@ const Login = ({ setIsAuthenticated }) => {
       //   },
       // );
 
-      // console.log("response in login " , response);
 
       const { token } = response?.data;
       if (token) {

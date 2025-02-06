@@ -9,17 +9,8 @@ const Hero = () => {
   const dispatch = useDispatch();
   const { heroBanner, status } = useSelector((state) => state.heroBanner);
   
-  const scrollLeft = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + heroBanner.length) % heroBanner.length,
-    );
-  };
-
-
-  const scrollRight = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner.length);
-  };
-
+  
+  
   useEffect(() => {
     dispatch(getHeroBanners());
   }, [dispatch]);
@@ -69,7 +60,6 @@ const Hero = () => {
       </div>
     );
   }
-
   return (
     <div className="relative overflow-hidden font-quicksand w-[100%] h-[100vh] mt-[100px]">
       <AnimatePresence>
@@ -83,13 +73,13 @@ const Hero = () => {
           exit="exit"
         >
           {/* Ken Burns Effect (Optional - Uncomment if needed) */}
-          {/* <motion.div
+          <motion.div
             className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: currentImage ? `url(${currentImage})` : 'none' }}
             initial={{ scale: 1 }}
-            animate={{ scale: 1.1 }}
+            animate={{ scale: 1.2 }}
             transition={{ duration: 3, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
-          /> */}
+          />
 
           <div className="absolute inset-0 bg-black opacity-75" />
         </motion.div>

@@ -27,7 +27,7 @@ const RecentActivityDetails = () => {
     navigate('/recent-activities', { state: { scrollTo: 'recentActivities' } });
   };
   return (
-     <div className="flex flex-col items-center w-[100%] md:w-[80%]  mx-auto mt-[100px] md:mt-[140px]  p-4">
+     <div className="flex flex-col items-center w-[100%] md:w-[80%]  mx-auto mt-[50px]   ">
           <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-[30px]">
             {activity.title}
           </h1>

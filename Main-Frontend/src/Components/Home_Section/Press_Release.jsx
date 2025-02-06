@@ -84,12 +84,12 @@ const Press_Release = React.memo(() => {
 
       {/* Sorting Buttons */}
       <div className="mb-4">
-        <button
+      {displayedPosts.length>=2 && <button
           className="bg-blue text-white font-bold py-2 px-4 rounded-md hover:bg-logoYellow transition-colors duration-300"
           onClick={handleSortChange}
         >
           Sort by Date: {sortOrder === 'asc' ? 'Oldest First' : 'Newest First'}
-        </button>
+        </button>}
       </div>
 
       {/* Display Loading or Error Messages */}
@@ -109,14 +109,14 @@ const Press_Release = React.memo(() => {
           {displayedPosts.map((news) => (
             <div
               key={news._id}
-              className="flex flex-col items-start w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
+              className="flex flex-col items-start p-[15px] w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
                 src={news.images && news.images.length > 0 ? news.images[0] : 'https://via.placeholder.com/600'}
                 alt="media"
-                className="w-full h-full md:h-[300px] rounded-t-lg"
+                className="w-full h-full md:h-[300px] rounded-lg"
               />
-              <div className="px-[20px]">
+              <div className="px-[10px]">
                 <div className="flex items-center gap-x-[5px] mt-[15px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

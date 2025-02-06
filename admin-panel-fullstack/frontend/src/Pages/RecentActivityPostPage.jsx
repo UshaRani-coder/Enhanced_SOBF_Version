@@ -1033,9 +1033,9 @@ const RecentActivityPostPage = () => {
       {/* rendering all posts  */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {posts && posts?.length > 0 ? (
-          posts.map((post) => (
+          posts.map((post,index) => (
             <div
-              key={post._id}
+              key={post._id || index}
               className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
               onClick={() => handleExpandPost(post)}
             >

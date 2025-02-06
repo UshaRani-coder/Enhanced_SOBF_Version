@@ -12,7 +12,9 @@ import {
 const OurService = () => {
   const dispatch = useDispatch();
   const { services, status } = useSelector((state) => state.services);
-  const maxLength = 500; // Max character limit for description
+  const descriptionMaxLength = 450; // Max character limit for description
+  const smallDescriptionMaxLength = 80;
+  const titleMaxLength = 20;
   const maxImages = 5; // Max number of service images allowed
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState(null);
@@ -34,6 +36,7 @@ const OurService = () => {
     }
   }, [status, dispatch]);
 
+  
   // ! Add a post
   const handleAddPost = () => {
     if (!formData.title.trim()) {
@@ -141,9 +144,20 @@ const OurService = () => {
   const closeExpandedModal = () => {
     setExpandedItem(null);
   };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({ ...prev, [name]: value }));
+  // };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'description') {
+      const truncatedValue = value.slice(0, descriptionMaxLength);
+      console.log("Truncated Value:", truncatedValue); // <-- Add this console log
+      console.log("Truncated Length:", truncatedValue.length); // <-- Add this console log
+      setFormData((prev) => ({ ...prev, [name]: truncatedValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handlePaste = (e) => {
@@ -216,9 +230,10 @@ const OurService = () => {
   };
   const truncateDescription = (description) => {
     const maxLength = 60; // Set your desired truncation length
-    return description.length > maxLength ? `${description.slice(0, maxLength)}...` : description;
+    return description.length > maxLength
+      ? `${description.slice(0, maxLength)}...`
+      : description;
   };
-  
 
   return (
     <div className="container mx-auto">
@@ -286,7 +301,7 @@ const OurService = () => {
               {isUpdateMode ? 'Update Post' : 'Add New Post'}
             </h2>
             <form>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label className="block font-semibold mb-2">Title</label>
                 <input
                   type="text"
@@ -324,7 +339,60 @@ const OurService = () => {
                   className="w-full px-4 py-2 border rounded"
                   placeholder="Enter description"
                 ></textarea>
+              </div> */}
+              <div className="mb-4">
+                <label className="block font-semibold mb-2">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  maxLength={titleMaxLength}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="Enter title"
+                />
+                <p className="text-sm text-gray-500">
+                  {titleMaxLength - formData.title.length} characters remaining
+                </p>
               </div>
+
+              <div className="mb-4">
+                <label className="block font-semibold mb-2">
+                  Small Description
+                </label>
+                <textarea
+                  name="small_description"
+                  value={formData.small_description}
+                  onChange={handleInputChange}
+                  onPaste={handlePaste}
+                  maxLength={smallDescriptionMaxLength}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="Enter small description"
+                ></textarea>
+                <p className="text-sm text-gray-500">
+                  {smallDescriptionMaxLength -
+                    formData.small_description.length}{' '}
+                  characters remaining
+                </p>
+              </div>
+
+              <div className="mb-4">
+                <label className="block font-semibold mb-2">Description</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  onPaste={handlePaste}
+                  maxLength={descriptionMaxLength}
+                  className="w-full px-4 py-2 border rounded"
+                  placeholder="Enter description"
+                ></textarea>
+                <p className="text-sm text-gray-500">
+                  {descriptionMaxLength - formData.description.length}{' '}
+                  characters remaining
+                </p>
+              </div>
+
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Logo</label>
                 <input
@@ -411,44 +479,6 @@ const OurService = () => {
           </div>
         </div>
       )}
-
-      {/* Posts */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-        {services && services?.length > 0 ? (
-          services.map((post) => (
-            <div
-              key={post._id}
-              className="border rounded-lg p-4 shadow hover:shadow-lg transition"
-            >
-              <img
-                src={post?.logo}
-                alt="Logo"
-                className="h-20 w-20 object-cover rounded-full mt-2"
-              />
-              <h2 className="text-lg font-bold line-clamp-2">{post?.title}</h2>
-              <p className=" mt-2 line-clamp-1">{post?.small_description}</p>
-              <p className=" mt-2 line-clamp-3">{post?.description}</p>
-              <div className="flex gap-2 mt-4">
-                <button
-                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={() => openUpdateModal(post)}
-                >
-                  <MdEdit />
-                </button>
-                <button
-                  className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={() => handleDeletePost(post?._id)}
-                >
-                  <MdDelete />
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="col-span-full text-center">No posts found.</p>
-        )}
-      </div> */}
-      
       <div className=" gap-6 p-4 flex flex-col items-center lg:grid lg:grid-cols-2">
         {services && services.length > 0 ? (
           services.map((post) => (
@@ -470,10 +500,10 @@ const OurService = () => {
                 {post?.small_description}
               </p> */}
               <p className="mt-2 line-clamp-1">
-          {expandedItem?.id === post._id
-            ? post?.small_description
-            : truncateDescription(post?.small_description)}
-        </p>
+                {expandedItem?.id === post._id
+                  ? post?.small_description
+                  : truncateDescription(post?.small_description)}
+              </p>
 
               {/* Detailed Description */}
               <p className="text-sm text-gray-500 mt-1 line-clamp-3">

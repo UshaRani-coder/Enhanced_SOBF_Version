@@ -110,15 +110,27 @@ const Video = () => {
 
   return (
     <div className="">
+      <div className='flex flex-col items-center'>
       <h1
-        className={`text-center text-heading3 lg:text-heading2 font-bold my-4 p-5 text-[#2d335d] relative transition-all ease-in-out ${
-          location.pathname === '/videos' ? 'hidden' : ''
+        className={`text-center text-heading3 lg:text-heading2 font-bold pt-8  text-[#2d335d] relative transition-all ease-in-out ${
+          location.pathname === '/videos' ? 'mt-[120px] ' : ''
         }`}
       >
         Our Featured Videos
-        <hr className="mt-1 border-light-lavender border-[1px]" />
+        
       </h1>
+      <hr className="mt-1 border-light-lavender border-[1px] w-1/2" />
+      <h1 className="text-center text-2xl font-bold pt-5">
+      Discover the powerful stories and moments captured in our latest videos.
+      </h1>
+      <h1 className="text-center text-xl mb-4 p-3 text-gray-600">
+      Witness the impact of our work through inspiring stories and community-driven moments captured in our latest videos.
+      </h1>
+      </div>
 
+      {status === 'loading' && <p> Videos loading...</p>}
+      {status === 'failed' && <p className="text-red-500">{error}</p>}
+      
       {/* Video List with InfiniteScroll */}
       <InfiniteScroll
         dataLength={videosToDisplay.length}
@@ -137,9 +149,8 @@ const Video = () => {
         className="flex flex-col items-center justify-center"
       >
         <div
-          className={`${
-            location.pathname === '/videos' ? 'mt-[120px]' : 'mt-6'
-          } flex flex-col items-center justify-center md:flex-row flex-wrap gap-4 justify-center w-full`}
+          className={`
+           flex flex-col items-center justify-center md:flex-row flex-wrap gap-4 justify-center w-full mt-6`}
         >
           {videosToDisplay.length > 0 ? (
             videosToDisplay.map((video) => {

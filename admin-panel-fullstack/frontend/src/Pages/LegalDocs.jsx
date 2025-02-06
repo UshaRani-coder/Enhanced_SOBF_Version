@@ -253,10 +253,10 @@ const [isLoading, setIsLoading] = useState(false);
               <h2 className="text-2xl font-semibold mb-4 text-gray-800 line-clamp-2 text-left w-[100%]">
                 {doc?.title}
               </h2>
-              <p className="text-gray-600 line-clamp-4 mb-6">
+              <p className="text-gray-600 line-clamp-4 mb-6 text-left w-full">
                 {doc?.description}
               </p>
-              <div className="mt-4 flex gap-4 flex-wrap">
+              <div className="mt-4 flex gap-4 flex-wrap justify-end w-full">
                 <button
                   className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
                   onClick={() => openUpdateModal(doc)}

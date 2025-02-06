@@ -151,6 +151,7 @@ const HeroBanner = () => {
     setFormData({
       quotes: post.quotes || '',
       image: null,
+      // image: e.tagert.files[0]
     });
   };
 

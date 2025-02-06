@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes,useLocation } from 'react-router-dom';
 import './App.css';
 import loader from './assets/loader.webp';
 
@@ -47,6 +47,29 @@ const CommunityService = lazy(
 );
 const NotFound = lazy(() => import('./pages/NotFound.jsx'),)
 const App = () => {
+  const location = useLocation();
+  const validRoutes = [
+        '/',
+        '/about-us',
+        '/contact-us',
+        '/vision',
+        '/gallery',
+        '/donate-us',
+        '/press-release',
+        '/press-release/:id',
+        '/recent-activities',
+        '/recent-activities/:id',
+        '/videos',
+        '/legal-doc',
+        '/anna-vitran-seva',
+        '/community-service',
+        '/swachh-vrindavan',
+        '/brajkulam',
+        '/privacy-policy',
+        '/refund-policy',
+        '/terms-and-conditions'
+      ];
+      const isNotFound = !validRoutes.includes(location.pathname);
   return (
     <Suspense
       fallback={
@@ -55,7 +78,8 @@ const App = () => {
         </div>
       }
     >
-      <Header />
+      {/* <Header /> */}
+      {!isNotFound && <Header />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about-us" element={<AboutUs />} />
@@ -81,11 +105,79 @@ const App = () => {
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/*"  element={<NotFound />} />
       </Routes>
-      <BackgroundMusic />
-      <Whatsapp />
-      <Footer />
+      {!isNotFound && <BackgroundMusic />}
+       {!isNotFound &&<Whatsapp />}
+       {!isNotFound &&<Footer />}
     </Suspense>
   );
 };
 
 export default App;
+
+// import React, { Suspense, lazy } from 'react';
+// import { Route, Routes, useLocation } from 'react-router-dom';
+// import './App.css';
+// import loader from './assets/loader.webp';
+
+// // Lazy loading the components
+// const Header = lazy(() => import('./Components/common_components/Header.jsx'));
+// const Footer = lazy(() => import('./Components/common_components/Footer.jsx'));
+// const BackgroundMusic = lazy(() => import('./Components/BackgroundMusic.jsx'));
+// const Whatsapp = lazy(() => import('./Components/Whatsapp.jsx'));
+// const HomePage = lazy(() => import('./pages/Home.jsx'));
+// const AboutUs = lazy(() => import('./pages/Aboutus.jsx'));
+// const ContactUsPage = lazy(() => import('./pages/ContactUs.jsx'));
+// const Vision = lazy(() => import('./pages/Vision.jsx'));
+// const Gallery = lazy(() => import('./pages/Gallery.jsx'));
+// const Donateus = lazy(() => import('./pages/Donateus.jsx'));
+// const NotFound = lazy(() => import('./pages/NotFound.jsx'));
+
+// const App = () => {
+//   const location = useLocation();
+
+//   // List of valid routes
+//   const validRoutes = [
+//     '/',
+//     '/about-us',
+//     '/contact-us',
+//     '/vision',
+//     '/gallery',
+//     '/donate-us',
+//   ];
+
+//   // Check if the current route is not a valid route
+//   const isNotFound = !validRoutes.includes(location.pathname);
+
+//   return (
+//     <Suspense
+//       fallback={
+//         <div className="flex justify-center items-center h-screen">
+//           <img src={loader} alt="Loading..." className="w-20" />
+//         </div>
+//       }
+//     >
+//       {/* Conditionally render common components only if it's not a 404 page */}
+//       {!isNotFound && <Header />} {/* Render Header if it's not the catch-all 404 route */}
+      
+//       <Routes>
+//         <Route path="/" element={<HomePage />} />
+//         <Route path="/about-us" element={<AboutUs />} />
+//         <Route path="/contact-us" element={<ContactUsPage />} />
+//         <Route path="/vision" element={<Vision />} />
+//         <Route path="/gallery" element={<Gallery />} />
+//         <Route path="/donate-us" element={<Donateus />} />
+        
+//         {/* Render 404 page for unmatched routes */}
+//         <Route path="*" element={<NotFound />} />
+//       </Routes>
+
+//       {/* Conditionally render common components only if it's not a 404 page */}
+//       {!isNotFound && <BackgroundMusic />} {/* Render BackgroundMusic if it's not the catch-all 404 route */}
+//       {!isNotFound && <Whatsapp />} {/* Render Whatsapp if it's not the catch-all 404 route */}
+//       {!isNotFound && <Footer />} {/* Render Footer if it's not the catch-all 404 route */}
+//     </Suspense>
+//   );
+// };
+
+// export default App;
+

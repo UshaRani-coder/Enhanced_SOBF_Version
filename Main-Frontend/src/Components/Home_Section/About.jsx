@@ -34,9 +34,9 @@ const About = () => {
           Basis.
           <br />
           <br />
-          <div className="lg:mt-0 font-bold text-xl">
+          <span className="lg:mt-0 font-bold text-xl">
             Focused And Ongoing Initiatives :
-          </div>{' '}
+          </span >{' '}
           Anna Vitran Seva (affordable food prasadam for all), Swasth aur Swachh
           Vrindavan, Give Me A Chance, Say Yes To Me, Brajkulam Community
           Center.

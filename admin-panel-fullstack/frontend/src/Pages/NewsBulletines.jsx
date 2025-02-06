@@ -465,12 +465,13 @@ const PostPage = () => {
       {/* rendering all posts  */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {bulletines && bulletines?.length > 0 ? (
-          bulletines.map((bulletin) => (
+          bulletines.map((bulletin,index) => (
             <div
-              key={bulletin._id}
+              key={bulletin._id || index}
               className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
               onClick={() => handleExpandPost(bulletin)}
             >
+              
               {/* Conditional rendering for media */}
               {!bulletin?.videos ? (
                 <video controls className="w-full rounded mb-4">

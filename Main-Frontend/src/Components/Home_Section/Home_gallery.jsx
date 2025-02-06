@@ -77,7 +77,7 @@ const Home_Gallery = () => {
       {/* Modal for Full-Size Image */}
       {selectedImage && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="relative w-[90%]  bg-white bg-opacity-30 backdrop-blur-md p-4 rounded-xl shadow-2xl border border-gray-300">
+          <div className="relative w-[90%]  bg-black bg-opacity-30 backdrop-blur-md p-4 rounded-xl shadow-2xl border border-gray-300">
             <img
               src={selectedImage}
               alt="Full size"

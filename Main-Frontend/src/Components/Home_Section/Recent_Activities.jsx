@@ -87,17 +87,17 @@ const Recent_Activities = React.memo(() => {
         undertaken to make a difference in our communities.
       </h1>
 
-      {status === 'loading' && <p>Loading activities...</p>}
+      {status === 'loading' && <p>Loading Activities...</p>}
       {status === 'failed' && <p className="text-red-500">{error}</p>}
-
+     
       {/* Sort Button */}
       <div className="mb-5">
-        <button
+       {displayedPosts.length>=2 && <button
           onClick={toggleSortOrder}
           className="bg-blue text-white font-bold py-2 px-4 rounded-md hover:bg-logoYellow transition-colors duration-300"
         >
           Sort by Date: {sortOrder === 'asc' ? 'Oldest First' : 'Newest First'}
-        </button>
+        </button>}
       </div>
 
       <InfiniteScroll
@@ -113,14 +113,14 @@ const Recent_Activities = React.memo(() => {
           {displayedPosts.map((activity) => (
             <div
               key={activity._id}
-              className="flex flex-col items-start w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
+              className="flex flex-col items-start p-[15px] w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
                 src={activity.images && activity.images.length > 0 ? activity.images[0] : 'https://via.placeholder.com/300'}
                 alt={activity.title}
-                className="w-full h-full md:h-[300px] rounded-t-lg object-cover"
+                className="w-full h-full md:h-[300px] rounded-lg object-cover"
               />
-              <div className="px-[15px]">
+              <div className="px-[10px]">
                 <div className="flex items-center gap-x-[5px] mt-[15px]">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-[10px]">
                     <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
