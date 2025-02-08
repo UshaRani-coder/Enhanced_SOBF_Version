@@ -62,12 +62,12 @@ const Press_Release = React.memo(() => {
 
   // Load more posts for infinite scroll
   const loadMorePosts = () => {
-    if (sortedPosts.length > page * postsPerPage) {
+    if (sortedPosts?.length > page * postsPerPage) {
       setPage((prevPage) => prevPage + 1);
     }
   };
 
-  const hasMorePosts = sortedPosts.length > page * postsPerPage;
+  const hasMorePosts = sortedPosts?.length > page * postsPerPage;
 
   return (
     <div className={`flex flex-col items-center mb-[30px] ${isHomePage ? 'mt-[30px]' : 'mt-[120px]'}`}>
@@ -84,7 +84,7 @@ const Press_Release = React.memo(() => {
 
       {/* Sorting Buttons */}
       <div className="mb-4">
-      {displayedPosts.length>=2 && <button
+        {displayedPosts?.length >= 2 && <button
           className="bg-blue text-white font-bold py-2 px-4 rounded-md hover:bg-logoYellow transition-colors duration-300"
           onClick={handleSortChange}
         >
@@ -94,10 +94,9 @@ const Press_Release = React.memo(() => {
 
       {/* Display Loading or Error Messages */}
       {status === 'loading' && <p>Loading posts...</p>}
-      {status === 'failed' && <p className="text-red-500">{error}</p>}
 
       <InfiniteScroll
-        dataLength={displayedPosts.length}
+        dataLength={displayedPosts?.length}
         next={loadMorePosts}
         hasMore={hasMorePosts}
         loader={<h4 className="text-center w-[100%]">Loading more...</h4>}

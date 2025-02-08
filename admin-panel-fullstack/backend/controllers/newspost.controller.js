@@ -61,8 +61,8 @@ const createNewsBulletine = async (req, res) => {
 const getNewsBulletine = async (req, res) => {
   try {
     const posts = await bulletineModal.find({});
-    // const baseURL = process.env.BASE_URL || 'http://localhost:5000';
-    const baseURL = process.env.BASE_URL || "https://backend.sobf.in";
+    const baseURL = process.env.BASE_URL || 'http://localhost:5000';
+    // const baseURL = process.env.BASE_URL || "https://backend.sobf.in";
     if (posts.length > 0) {
       posts.forEach((post) => {
         // Format images and videos URLs

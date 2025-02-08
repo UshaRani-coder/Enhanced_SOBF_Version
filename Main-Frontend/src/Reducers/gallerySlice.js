@@ -1,77 +1,44 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  createGallery,
-  deleteGallery,
-  getGallery,
-  updateGallery,
-} from '../api/api';
+import { getGallery } from '../api/api';
+import fallbackGallery from "../defaultData/gallery.json"
 
+
+// ! Fetch Gallery Images
 export const getGalleryImages = createAsyncThunk(
   'gallery/getGalleryImage',
-  async () => {
-    const response = await getGallery();
-    return response.data.posts;
-  },
-);
-
-export const addGallery = createAsyncThunk(
-  'gallery/addGalleryImage',
-  async (postData) => {
-    const response = await createGallery(postData);
-    return response.data;
-  },
-);
-
-export const updateGalleryImage = createAsyncThunk(
-  'gallery/updateGalleryImages',
-  async ({ id, updatedData }) => {
-    const response = await updateGallery(id, updatedData);
-    return response.data;
-  },
-);
-
-export const removeGallery = createAsyncThunk(
-  'gallery/removeGalleryImage',
-  async (id) => {
-    await deleteGallery(id);
-    return id;
-  },
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getGallery();
+      return response?.data?.posts || fallbackGallery; // Use API data or fallback
+    } catch (error) {
+      return rejectWithValue(fallbackGallery); // Use fallback data if API fails
+    }
+  }
 );
 
 const gallerySlice = createSlice({
   name: 'gallery',
-  initialState: { gallery: [], status: 'idle', error: null },
+  initialState: {
+    gallery: fallbackGallery, // Show fallback data immediately
+    status: 'idle',
+    error: null
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getGalleryImages.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'loading'; // Keep existing data but show loading state
       })
       .addCase(getGalleryImages.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.gallery = action.payload;
+        state.gallery = action.payload; // Replace fallback with actual data
       })
       .addCase(getGalleryImages.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(addGallery.fulfilled, (state, action) => {
-        state.gallery.push(action.payload);
-      })
-      .addCase(updateGalleryImage.fulfilled, (state, action) => {
-        const index = state.gallery.findIndex(
-          (post) => post._id === action.payload._id,
-        );
-        if (index !== -1) {
-          state.gallery[index] = action.payload;
-        }
-      })
-      .addCase(removeGallery.fulfilled, (state, action) => {
-        state.gallery = state.gallery.filter(
-          (post) => post._id !== action.payload,
-        );
+        state.error = 'Failed to fetch gallery. Showing fallback images.';
+        state.gallery = fallbackGallery; // Use fallback data if API fails
       });
-  },
+  }
 });
 
 export default gallerySlice.reducer;

@@ -1,58 +1,29 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  updateNewsPostsApi,
-  deleteNewsPosts,
-  fetchNewsPosts,
-  createNewsPosts,
-} from '../api/api';
+import { fetchNewsPosts } from '../api/api';
+import hardcodedBulletins from "../defaultData/newsbulletine.json"
 
-// ! Get posts
+
+// ! Get bulletins
 export const getBulletine = createAsyncThunk(
   'bulletines/getBulletine',
-  async () => {
-    const response = await fetchNewsPosts();
-    return response.data.posts;
-  },
-);
-
-// ! Add new post
-export const addBulletine = createAsyncThunk(
-  'bulletines/addBulletine',
-  async (postData) => {
-    const response = await createNewsPosts(postData);
-    return response.data;
-  },
-);
-
-// ! Update post
-export const updateBulletine = createAsyncThunk(
-  'bulletines/updatePost',
-  async ({ id, updatedData }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await updateNewsPostsApi(id, updatedData);
-      return response.data;
+      const response = await fetchNewsPosts();
+      return response?.data?.posts || hardcodedBulletins;
     } catch (error) {
-      throw error;
+      return rejectWithValue(hardcodedBulletins);
     }
-  },
-);
-
-// ! Remove post
-export const removeBulletine = createAsyncThunk(
-  'bulletines/removeBulletine',
-  async (id) => {
-    await deleteNewsPosts(id);
-    return id;
-  },
+  }
 );
 
 const bulletinSlice = createSlice({
-  name: 'bulletines',
+  name: hardcodedBulletins, // Show fallback data immediately
+  // name: 'bulletines',
   initialState: { bulletines: [], status: 'idle', error: null },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Get posts
+      // Get bulletins
       .addCase(getBulletine.pending, (state) => {
         state.status = 'loading';
       })
@@ -62,17 +33,8 @@ const bulletinSlice = createSlice({
       })
       .addCase(getBulletine.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
-      })
-      // Add post
-      .addCase(addBulletine.fulfilled, (state, action) => {
-        state.bulletines.push(action.payload);
-      })
-      // Remove post
-      .addCase(removeBulletine.fulfilled, (state, action) => {
-        state.bulletines = state.bulletines.filter(
-          (post) => post._id !== action.payload,
-        );
+        state.error = action.error?.message;
+        state.bulletines = hardcodedBulletins; // Assign fallback data on failure
       });
   },
 });

@@ -100,7 +100,7 @@ const Video = () => {
     () =>
       location.pathname === '/videos'
         ? featuredVideo
-        : featuredVideo.slice(0, videosToShow),
+        : featuredVideo?.slice(0, videosToShow),
     [location.pathname, featuredVideo, videosToShow],
   );
 
@@ -133,9 +133,9 @@ const Video = () => {
       
       {/* Video List with InfiniteScroll */}
       <InfiniteScroll
-        dataLength={videosToDisplay.length}
+        dataLength={videosToDisplay?.length}
         next={loadMoreVideos}
-        hasMore={videosToDisplay.length < featuredVideo.length}
+        hasMore={videosToDisplay?.length < featuredVideo?.length}
         loader={
           status === 'loading' ? (
             <img
@@ -152,8 +152,8 @@ const Video = () => {
           className={`
            flex flex-col items-center justify-center md:flex-row flex-wrap gap-4 justify-center w-full mt-6`}
         >
-          {videosToDisplay.length > 0 ? (
-            videosToDisplay.map((video) => {
+          {videosToDisplay?.length > 0 ? (
+            videosToDisplay?.map((video) => {
               // Safely extract video ID
               const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || '';
 
@@ -188,7 +188,7 @@ const Video = () => {
       </InfiniteScroll>
 
       {/* Show More button for homepage */}
-      {location.pathname !== '/videos' && featuredVideo.length > 3 && (
+      {location.pathname !== '/videos' && featuredVideo?.length > 3 && (
         <div className="text-center mt-6">
           <button
             onClick={handleShowMore}

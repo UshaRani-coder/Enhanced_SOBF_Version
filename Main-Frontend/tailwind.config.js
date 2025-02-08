@@ -1,9 +1,38 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      animation: {
+        heartbeat: "heartbeat 2s infinite",
+        'infinite-scroll': 'infinite-scroll 80s linear infinite',
+        'partners-infinite-scroll': 'infinite-scroll 5s linear infinite',
+        'infinite-scroll-reverse': 'infinite-scroll-reverse 80s linear infinite',
+        zoomIn: 'zoomIn 2.5s forwards',
+        scroll: 'scroll 20s linear infinite',
+      },
+      keyframes: {
+        heartbeat: {
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.1)" },
+        },
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
+        },
+        'infinite-scroll-reverse': {
+          from: { transform: 'translateX(-100%)' },
+          to: { transform: 'translateX(0)' },
+        },
+        zoomIn: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.2)' },
+        },
+        scroll: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+      },
       screens: {
         'small-range': '375px',
         'small-max': '425px',

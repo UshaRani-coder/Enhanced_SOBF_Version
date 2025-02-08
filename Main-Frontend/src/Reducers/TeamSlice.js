@@ -1,40 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createTeam, deleteTeam, getTeam, updateTeam } from '../api/api';
+import { getTeam } from '../api/api';
+import teamData from '../defaultData/team.json'; 
 
-export const getTeams = createAsyncThunk('team/getTeam', async () => {
-  const response = await getTeam();
-
-  return response.data.teamMembers;
+export const getTeams = createAsyncThunk('team/getTeam', async (_, { rejectWithValue }) => {
+  try {
+    const response = await getTeam();
+    return response?.data?.teamMembers || teamData;
+  } catch (error) {
+    return rejectWithValue(teamData);
+  }
 });
 
-export const createTeamMember = createAsyncThunk(
-  'team/addTeam',
-  async (postData) => {
-    const response = await createTeam(postData);
-    // console.log("postData for create team " + postData);
-    return response.data;
-  },
-);
-
-export const updateTeamMember = createAsyncThunk(
-  'team/updateTeam',
-  async ({ id, updatedData }) => {
-    const response = await updateTeam(id, updatedData);
-    // console.log("response of updateTeam", response);
-    return response.data;
-  },
-);
-
-export const removeTeamMember = createAsyncThunk(
-  'team/removeTeam',
-  async (id) => {
-    await deleteTeam(id);
-    return id;
-  },
-);
-
 const teamSlice = createSlice({
-  name: 'teams',
+  // name: 'teams',
+  name: teamData,
   initialState: { teams: [], status: 'idle', error: null },
   reducers: {},
   extraReducers: (builder) => {
@@ -48,21 +27,8 @@ const teamSlice = createSlice({
       })
       .addCase(getTeams.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(createTeamMember.fulfilled, (state, action) => {
-        state.teams.push(action.payload);
-      })
-      .addCase(updateTeamMember.fulfilled, (state, action) => {
-        const index = state.teams.findIndex(
-          (impact) => impact._id === action.payload._id,
-        );
-        if (index !== -1) state.teams[index] = action.payload;
-      })
-      .addCase(removeTeamMember.fulfilled, (state, action) => {
-        state.teams = state.teams.filter(
-          (impact) => impact._id !== action.payload,
-        );
+        state.error = action.payload;
+        state.teams = teamData; // Use hardcoded data when API fails
       });
   },
 });

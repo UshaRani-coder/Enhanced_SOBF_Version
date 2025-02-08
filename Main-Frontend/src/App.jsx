@@ -1,7 +1,8 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes,useLocation } from 'react-router-dom';
 import './App.css';
 import loader from './assets/loader.webp';
+import Popup from './Components/common_components/Popup.jsx';
 
 // Lazy loading the components
 const Header = lazy(() => import('./Components/common_components/Header.jsx'));
@@ -48,6 +49,27 @@ const CommunityService = lazy(
 const NotFound = lazy(() => import('./pages/NotFound.jsx'),)
 const App = () => {
   const location = useLocation();
+  const [showPopup, setShowPopup] = useState(false);
+
+
+
+
+  useEffect(() => {
+    const hasPopupShown = sessionStorage.getItem("popupShown");
+
+    if (!hasPopupShown) {
+      setShowPopup(true);
+      sessionStorage.setItem("popupShown", "true");
+    }
+  }, []);
+
+  const closePopup = () => {
+    setShowPopup(false);
+    localStorage.setItem("popupClosed", "true"); // Store the flag in localStorage
+  };
+
+
+
   const validRoutes = [
         '/',
         '/about-us',
@@ -79,6 +101,7 @@ const App = () => {
       }
     >
       {/* <Header /> */}
+      {showPopup && <Popup onClose={closePopup} />}
       {!isNotFound && <Header />}
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -106,8 +129,8 @@ const App = () => {
         <Route path="/*"  element={<NotFound />} />
       </Routes>
       {!isNotFound && <BackgroundMusic />}
-       {!isNotFound &&<Whatsapp />}
-       {!isNotFound &&<Footer />}
+      {!isNotFound &&<Whatsapp />}
+      {!isNotFound &&<Footer />}
     </Suspense>
   );
 };

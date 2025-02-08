@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,7 +7,8 @@ import { useLocation } from 'react-router-dom';
 const LegalDoc = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { legalDocs, status, error } = useSelector((state) => state.legalDocs);
+  const { legalDocs, status, error } = useSelector((state) => state.legalDocs); 
+
 
   useEffect(() => {
     if (location.pathname === '/legal-doc') {
@@ -73,7 +73,6 @@ const LegalDoc = () => {
         for more information.
       </p>
       {status === 'loading' && <p>Loading Documents...</p>}
-      {status === 'failed' && <p className="text-red-500">{error}</p>}
 
       {/* Ensure legalDocs is an array and has elements */}
       {legalDocs?.length > 0 ? (

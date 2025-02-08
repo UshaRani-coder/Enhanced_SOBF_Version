@@ -1,46 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  getHeroBanner,
-  createHeroBanner,
-  updateHeroBanner,
-  deleteHeroBanner,
-} from '../api/api';
+import { getHeroBanner } from '../api/api';
+import hardcodedHeroBanners from "../defaultData/hero-banner.json"
 
+// ! Get Hero Banners
 export const getHeroBanners = createAsyncThunk(
   'heroBanner/getHeroBanners',
-  async () => {
-    const response = await getHeroBanner();
-
-    return response.data.banners;
-  },
-);
-
-export const addHeroBanner = createAsyncThunk(
-  'heroBanner/addHeroBanner',
-  async (postData) => {
-    const response = await createHeroBanner(postData);
-    return response.data;
-  },
-);
-
-export const updateHeroBanners = createAsyncThunk(
-  'heroBanner/updateHeroBanners',
-  async ({ id, updatedData }) => {
-    const response = await updateHeroBanner(id, updatedData);
-    return response.data;
-  },
-);
-
-export const removeHeroBanner = createAsyncThunk(
-  'heroBanner/removeHeroBanner',
-  async (id) => {
-    await deleteHeroBanner(id);
-    return id;
-  },
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getHeroBanner();
+      return response?.data?.banners || hardcodedHeroBanners ;
+    } catch (error) {
+      return rejectWithValue(hardcodedHeroBanners); // Return fallback data on failure
+    }
+  }
 );
 
 const heroBannerSlice = createSlice({
-  name: 'heroBanner',
+  // name: 'heroBanner',
+  name: hardcodedHeroBanners,
   initialState: { heroBanner: [], status: 'idle', error: null },
   reducers: {},
   extraReducers: (builder) => {
@@ -54,23 +31,8 @@ const heroBannerSlice = createSlice({
       })
       .addCase(getHeroBanners.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
-      })
-      .addCase(addHeroBanner.fulfilled, (state, action) => {
-        state.heroBanner.push(action.payload);
-      })
-      .addCase(updateHeroBanners.fulfilled, (state, action) => {
-        const index = state.heroBanner.findIndex(
-          (post) => post._id === action.payload._id,
-        );
-        if (index !== -1) {
-          state.heroBanner[index] = action.payload;
-        }
-      })
-      .addCase(removeHeroBanner.fulfilled, (state, action) => {
-        state.heroBanner = state.heroBanner.filter(
-          (post) => post._id !== action.payload,
-        );
+        state.error = action.error?.message;
+        state.heroBanner = hardcodedHeroBanners;
       });
   },
 });

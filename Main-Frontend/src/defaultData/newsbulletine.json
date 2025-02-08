@@ -1,0 +1,61 @@
+[
+  {
+    "_id":1,
+    "title": "Gratitude for Media Recognition: Dainik Bhaskar Features Our Initiatives in Braj",
+    "description": "We are pleased to share our latest News Coverage in Dainik Bhaskar Newspaper. We are thankful to the Dainik Bhaskar team for writing about our initiatives, programs, and services in the Braj region. We extend our gratitude to all our respected donors and supporters who have shown faith in our services. We are committed to serving our society and community more effectively and meaningfully.",
+    "images":[ "https://res.cloudinary.com/dpxilylu2/image/upload/v1738908612/NEWS-BULLETIN/ep7hsmnduwydjjbdrtjy.jpg"],
+    "date": "January 24, 2024"
+  },
+  {
+    "_id": 2,
+    "title": "शिक्षा और स्वास्थ्य सुधार हेतु सोल ऑफ़ ब्रज फेडरेशन की पहल: संस्थापक तरुण मिश्रा की जिला बेसिक शिक्षा अधिकारी से महत्वपूर्ण भेंट",
+    "description": "सोल ऑफ़ ब्रज फेडरेशन के संस्थापक तरुण मिश्रा ने जिला बेसिक शिक्षा अधिकारी मथुरा से मुलाकात की। इस मुलाकात का उद्देश्य सरकारी स्कूलों में वंचित परिवारों के बच्चों का दाखिला, स्वास्थ्य जागरूकता अभियान, और प्राथमिक विद्यालयों के नवीनीकरण से जुड़ा था। बैठक में भविष्य में ब्रज में सीएसआर फंडिंग को बढ़ावा देने पर भी जोर दिया गया।",
+    "images": ["https://res.cloudinary.com/dpxilylu2/image/upload/v1738908612/NEWS-BULLETIN/elchz0cqjrqjuu2v75bh.jpg"],
+    "date": "June 24, 2024"
+  },
+  {
+    "_id": 3,
+    "title": "Soul of Braj Federation Hosts Health-Sanitation Camp for Underprivileged Children in Vrindavan",
+    "description": "Soul of Braj Federation organized a health-sanitation camp for more than 100 underprivileged children in Sri Vrindavan Dham. Children were made aware of cleanliness, and their health was checked. Issues like toothache, stomachache, and allergies were observed in some children, and they were provided medicines. Dr. N. G. Gaur and Dr. Opt. Shalu Sharma provided their services. Face masks and Dettol soaps were distributed. The organization plans to continue such camps in the future to promote health and education.",
+    "images": ["https://res.cloudinary.com/dpxilylu2/image/upload/v1738908613/NEWS-BULLETIN/jdhgxdverrtwomsyewc7.jpg"],
+    "date": "June 24, 2024"
+  },
+  {
+    "_id": 4,
+    "title": "Recognition of Selfless Service: Empowering Deprived Children in Braj",
+    "description": "It's an amazing feeling when society recognizes our efforts and selfless service. We serve those who are in serious need of help and support. We would love to hear your valuable thoughts on our efforts for the betterment of deprived children in the Braj region.",
+    "images": ["https://res.cloudinary.com/dpxilylu2/image/upload/v1738908612/NEWS-BULLETIN/kapkg5hlbcrikyge0vzz.jpg"],
+  "date": "February 14, 2024"
+  },
+  {
+    "_id": 5,
+    "title": "Brajkulam Nukkad Pathshala: A Hope for Underserved Children in Vrindavan",
+    "description": "Many underserved children lack basic education. Through our Brajkulam Community Centre, we are launching 'Brajkulam Nukkad Pathshala' Centres in Shri Vrindavan Dham to support these children. These centres will provide education, food, and healthcare facilities. Our goal is to enroll 500+ underserved children within a year. We invite you and your company to join hands with us for the betterment of hundreds of children in Vrindavan.",
+    "images": ["https://res.cloudinary.com/dpxilylu2/image/upload/v1738908613/NEWS-BULLETIN/pkogayobcpissnftgaka.jpg"],
+    "date": "January 10, 2025"
+  },
+  {
+    "_id": 6,
+    "title": "Soul of Braj Federation and Barsana Dham Gurukulam Unite for Girls' Health & Hygiene",
+    "description": "Soul of Braj Federation and Shri Barsana Dham Gurukulam Girls School have joined hands to promote health and hygiene initiatives for hundreds of girls in Shri Barsana Dham. As part of this initiative, we have opened a free Sanitary Pad Bank for all schoolgirls and will distribute Dettol soaps on a monthly basis.",
+    "images": ["https://res.cloudinary.com/dpxilylu2/image/upload/v1738908612/NEWS-BULLETIN/u7b7wwrt7m1tnkveqrej.jpg"],
+    "date": "June 24, 2025"
+  },
+  {
+    "_id": 7,
+    "title": "Soul of Braj Federation Becomes Partner in Welfare Work with Raturi Foundation and The Hindu Diaspora Foundation",
+    "description": "Soul of Braj Federation has partnered with Raturi Foundation and The Hindu Diaspora Foundation to strengthen welfare initiatives. This collaboration aims to uplift underprivileged communities by providing essential services and resources.",
+    "images": ["https://res.cloudinary.com/dpxilylu2/image/upload/v1738908612/NEWS-BULLETIN/nzboh6tcc3dx5xepbnha.jpg"],
+    "date": "February 24, 2024",
+    "button": "Read More"
+  },
+  {
+    "_id": 8,
+    "title": "Soul of Braj Federation Becomes Partner in Welfare Work with Raturi Foundation and The Hindu Diaspora Foundation",
+    "description": "Soul of Braj Federation has partnered with Raturi Foundation and The Hindu Diaspora Foundation to strengthen welfare initiatives. This collaboration aims to uplift underprivileged communities by providing essential services and resources.",
+    "images": ["https://res.cloudinary.com/dpxilylu2/image/upload/v1738908611/NEWS-BULLETIN/h1cvuq85et7hiscqg4ee.jpg"],
+    "date": "January 12, 2025",
+    "button": "Read More"
+  
+  }
+]

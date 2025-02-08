@@ -1,38 +1,28 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { createOurServices, deleteOurServices, getOurServices, updateOurServices } from '../api/api';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getOurServices } from "../api/api";
+import hardcodedServices from "../defaultData/ourServices.json"
 
 
-// Axios Instance
-const apiClient = axios.create({ baseURL: "https://backend.sobf.in" });
-// const apiClient = axios.create({ baseURL: 'http://localhost:5000' });
-
-
-// Get Services
+// Async thunk to fetch services
 export const getServices = createAsyncThunk(
   'services/getServices',
   async (_, { rejectWithValue }) => {
     try {
       const response = await getOurServices();
-      console.log("response.data", response.data);
-      return response.data;
+      return response?.data || hardcodedServices;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Failed to fetch services',
-      );
+      return rejectWithValue(hardcodedServices);
     }
-  },
+  }
 );
 
-
-// Slice Definition
 const servicesSlice = createSlice({
-  name: 'services',
+  // name: 'services',
+  name: hardcodedServices,
   initialState: { services: [], status: 'idle', error: null },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Get Services
       .addCase(getServices.pending, (state) => {
         state.status = 'loading';
       })
@@ -43,8 +33,9 @@ const servicesSlice = createSlice({
       .addCase(getServices.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
-      })
-  }
+        state.services = hardcodedServices; // Set hardcoded data on failure
+      });
+  },
 });
 
 export default servicesSlice.reducer;

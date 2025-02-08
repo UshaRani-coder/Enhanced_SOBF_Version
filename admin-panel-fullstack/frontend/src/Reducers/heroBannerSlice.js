@@ -2,14 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getHeroBanner, createHeroBanner, updateHeroBanner } from '../api/api';
 import axios from 'axios';
 
-const apiClient = axios.create({ baseURL: "https://backend.sobf.in" });
-// const apiClient = axios.create({ baseURL: 'http://localhost:5000' });
+// const apiClient = axios.create({ baseURL: "https://backend.sobf.in" });
+const apiClient = axios.create({ baseURL: import.meta.env.VITE_BASE_URL });
 
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('adminToken');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+
 
 // Get Hero Banners
 export const getHeroBanners = createAsyncThunk(

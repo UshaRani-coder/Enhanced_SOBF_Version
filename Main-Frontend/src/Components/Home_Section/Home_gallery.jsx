@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const Home_Gallery = () => {
   const dispatch = useDispatch();
   const { gallery, status, error } = useSelector((state) => state.gallery);
+  console.log("gallery", gallery); 
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -47,14 +48,14 @@ const Home_Gallery = () => {
         <div className="container mx-auto p-0 px-4 lg:px-20">
           {/* Gallery Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-            {displayedImages.map((image, index) => (
+            {displayedImages?.map((image, index) => (
               <div
                 key={index}
                 className="w-full hover:opacity-90 relative group cursor-pointer"
-                onClick={() => openModal(image.image)} // Open modal on click
+                onClick={() => openModal(image?.image)} // Open modal on click
               >
                 <img
-                  src={image.image}
+                  src={image?.image}
                   alt={`Shot ${index + 1}`}
                   className="w-full h-72 object-cover transform transition-transform duration-500 ease-in-out hover:scale-105 rounded-lg"
                 />

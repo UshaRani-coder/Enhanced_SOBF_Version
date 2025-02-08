@@ -39,21 +39,21 @@ const RecentActivityDetails = () => {
                   : 'flex flex-wrap justify-center gap-4 '
               }`}
             >
-              {activity.images && activity.images.length > 0 ? (
-                activity.images.length === 1 ? (
+              {activity?.images && activity?.images?.length > 0 ? (
+                activity?.images?.length === 1 ? (
                   // Single Image
                   <img
-                    src={activity.images[0]}
-                    alt={activity.title}
+                    src={activity?.images[0]}
+                    alt={activity?.title}
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 ) : (
                   // Multiple Images
-                  activity.images.map((image, index) => (
+                  activity?.images?.map((image, index) => (
                     <img
                       key={index}
                       src={image}
-                      alt={`${activity.title} - ${index + 1}`}
+                      alt={`${activity?.title} - ${index + 1}`}
                       className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
                     />
                   ))
@@ -75,17 +75,17 @@ const RecentActivityDetails = () => {
                   : 'flex flex-wrap justify-center gap-4'
               }`}
             >
-              {activity.videos && activity.videos.length > 0 ? (
-                activity.videos.length === 1 ? (
+              {activity?.videos && activity?.videos?.length > 0 ? (
+                activity?.videos?.length === 1 ? (
                   // Single Video
                   <video
                     controls
-                    src={activity.videos[0]}
+                    src={activity?.videos[0]}
                     className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 ) : (
                   // Multiple Videos
-                  activity.videos.map((video, index) => (
+                  activity?.videos?.map((video, index) => (
                     <video
                       key={index}
                       controls

@@ -47,7 +47,7 @@ const Recent_Activities = React.memo(() => {
 
   // Sorting the posts based on date in the selected order
   const displayedPosts = useMemo(() => {
-    if (!posts || posts.length === 0) return [];
+    if (!posts || posts?.length === 0) return [];
 
     // Sort posts by date based on the sortOrder
     const sortedPosts = [...posts].sort((a, b) => {
@@ -61,12 +61,12 @@ const Recent_Activities = React.memo(() => {
 
   // Handling Infinite Scroll logic
   const loadMorePosts = () => {
-    if (posts.length > page * postsPerPage) {
+    if (posts?.length > page * postsPerPage) {
       setPage((prevPage) => prevPage + 1);
     }
   };
 
-  const hasMorePosts = posts.length > page * postsPerPage;
+  const hasMorePosts = posts?.length > page * postsPerPage;
 
   // Toggle sorting order
   const toggleSortOrder = () => {
@@ -88,11 +88,10 @@ const Recent_Activities = React.memo(() => {
       </h1>
 
       {status === 'loading' && <p>Loading Activities...</p>}
-      {status === 'failed' && <p className="text-red-500">{error}</p>}
      
       {/* Sort Button */}
       <div className="mb-5">
-       {displayedPosts.length>=2 && <button
+        {displayedPosts?.length>=2 && <button
           onClick={toggleSortOrder}
           className="bg-blue text-white font-bold py-2 px-4 rounded-md hover:bg-logoYellow transition-colors duration-300"
         >
@@ -101,7 +100,7 @@ const Recent_Activities = React.memo(() => {
       </div>
 
       <InfiniteScroll
-        dataLength={displayedPosts.length}
+        dataLength={displayedPosts?.length}
         next={loadMorePosts}
         hasMore={hasMorePosts}
         loader={<img src={loader} alt="Loading..." className="w-[20px] h-[20px] align-center" />}
@@ -110,13 +109,13 @@ const Recent_Activities = React.memo(() => {
         inverse={true}
       >
         <div className="flex flex-col items-center flex-wrap gap-[30px] lg:gap-[50px] lg:flex-row lg:justify-center p-5">
-          {displayedPosts.map((activity) => (
+          {displayedPosts?.map((activity) => (
             <div
               key={activity._id}
               className="flex flex-col items-start p-[15px] w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
-                src={activity.images && activity.images.length > 0 ? activity.images[0] : 'https://via.placeholder.com/300'}
+                src={activity?.images && activity?.images?.length > 0 ? activity.images[0] : 'https://via.placeholder.com/300'}
                 alt={activity.title}
                 className="w-full h-full md:h-[300px] rounded-lg object-cover"
               />
@@ -144,7 +143,7 @@ const Recent_Activities = React.memo(() => {
         </div>
       </InfiniteScroll>
 
-      {isHomePage && posts.length > 3 && (
+      {isHomePage && posts?.length > 3 && (
         <div className="text-center mt-5">
           <Link to="/recent-activities">
             <button className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300">

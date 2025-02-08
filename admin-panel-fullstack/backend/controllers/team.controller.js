@@ -75,20 +75,6 @@ const updateTeam = async (req, res) => {
     // Prepare updates from request body
     const { name, role, linkedIn, instagram } = req.body;
 
-    // Validate LinkedIn and Instagram URLs if they are provided
-    const urlRegex =
-      /^(https?:\/\/)?([a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+)(\/[a-zA-Z0-9_-]+)*\/?$/;
-    if (linkedIn && !urlRegex.test(linkedIn)) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Invalid LinkedIn URL format' });
-    }
-    if (instagram && !urlRegex.test(instagram)) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Invalid Instagram URL format' });
-    }
-
     // Check if a new image is provided; otherwise, keep the existing one
     const image = req.file ? req.file.filename : existingTeamMember.image;
 

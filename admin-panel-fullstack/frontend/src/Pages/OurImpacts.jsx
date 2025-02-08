@@ -216,7 +216,7 @@ const OurImpacts = () => {
                   placeholder="Enter description here"
                 ></textarea>
                 <p className="mt-2 text-sm text-gray-500">
-                  {maxLength - formData.description.length} characters remaining
+                  {maxLength - formData.description?.length} characters remaining
                 </p>
               </div>
               <div className="mb-4">
