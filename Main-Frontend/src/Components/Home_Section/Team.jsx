@@ -41,11 +41,11 @@ const Team = () => {
             ></div>
 
             {/* Team Member Details */}
-            <div className="flex flex-col gap-y-[10px] items-center">
+            <div className="flex flex-col gap-y-[5px] items-center">
               <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px]">
                 {item.name}
               </span>
-              <p className="text-[12px] lg:text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
+              <p className="text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
                 {item.role}
               </p>
 

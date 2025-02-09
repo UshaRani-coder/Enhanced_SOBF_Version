@@ -33,7 +33,7 @@ const RecentActivityDetails = () => {
           </h1>
           <div className="flex flex-col items-center w-full ">
             <div
-              className={`w-full ${
+              className={`w-full p-4 ${
                 activity.images?.length === 1
                   ? ''
                   : 'flex flex-wrap justify-center gap-4 '
@@ -45,7 +45,7 @@ const RecentActivityDetails = () => {
                   <img
                     src={activity.images[0]}
                     alt={activity.title}
-                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                    className="w-full h-full object-cover rounded-lg shadow-lg p-4"
                   />
                 ) : (
                   // Multiple Images
@@ -54,7 +54,7 @@ const RecentActivityDetails = () => {
                       key={index}
                       src={image}
                       alt={`${activity.title} - ${index + 1}`}
-                      className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                      className="p-4 w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
                     />
                   ))
                 )
@@ -63,13 +63,13 @@ const RecentActivityDetails = () => {
                 <img
                   src="https://via.placeholder.com/600"
                   alt="Placeholder"
-                  className="w-full h-full object-cover rounded-lg shadow-lg"
+                  className="p-4 w-full h-full object-cover rounded-lg shadow-lg"
                 />
               )}
             </div>
     
-            <div
-              className={`w-full mt-[20px] ${
+           {activity.videos?.length === 1 && <div
+              className={`p-4 w-full mt-[5px] ${
                 activity.videos?.length === 1
                   ? ''
                   : 'flex flex-wrap justify-center gap-4'
@@ -81,7 +81,7 @@ const RecentActivityDetails = () => {
                   <video
                     controls
                     src={activity.videos[0]}
-                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                    className="p-4 w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 ) : (
                   // Multiple Videos
@@ -90,14 +90,14 @@ const RecentActivityDetails = () => {
                       key={index}
                       controls
                       src={video}
-                      className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                      className="p-4 w-full sm:w-[48%] h-auto object-cover rounded-lg shadow-lg"
                     />
                   ))
                 )
               ) : null}
-            </div>
+            </div>}
     
-            <div className="w-full  flex flex-col justify-start p-4">
+            <div className="w-full  flex flex-col justify-start p-6 pt-0">
               <div className="text-sm text-gray-500 flex items-center gap-x-[5px]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

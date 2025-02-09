@@ -182,13 +182,13 @@ const Services = () => {
           <div className="flex flex-col lg:flex-row w-[100%] lg:items-stretch items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[10px] lg:mt-[120px]">
             {services.filter(serviceData => serviceData.title === service).map(serviceData => (
               <div key={serviceData.id || serviceData._id} className="flex flex-col justify-center  items-center mx-[20px] lg:flex-row  justify-center w-[100%] lg:mx-0"> {/* Use serviceData.id if available, otherwise serviceData._id */}
-                <div className="images-grid h-full w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
+                <div className="images-grid h-full w-[100%] md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
                   <ImgBanner banners={serviceData.images} />
                 </div>
                 <div className='flex flex-col items-center md:items-start w-[90%] lg:w-[60%] h-full'>
                 <div className="flex flex-col md:mx-[30px]">
-                <h1 className="text-center text-heading4 lg:text-[1.9rem] mt-[10px] md:text-left font-bold">{serviceData.title}</h1>
-                <p className="text-gray-700 text-center text-[16px] lg:text-[18px] font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px]">{serviceData.description}</p>
+                <h1 className="text-center text-heading4 lg:text-[1.9rem] mt-[15px] md:text-left font-bold">{serviceData.title}</h1>
+                <p className="text-gray-700 text-center text-[16px] lg:text-[18px] font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px] mt-[10px]">{serviceData.description}</p>
                 </div>
                 <button className='md:self-start md:ml-[30px]'>
                   <Link to="/donate-us" className="px-8 py-3.5 relative rounded-lg group overflow-hidden font-semibold bg-orange text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">

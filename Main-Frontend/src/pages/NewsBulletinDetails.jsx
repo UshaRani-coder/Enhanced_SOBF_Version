@@ -37,7 +37,7 @@ const NewsBulletinDetails = () => {
   
 
   return (
-    <div className="flex flex-col items-center w-[100%] md:w-[80%]  mx-auto mt-[50px]">
+    <div className="flex flex-col items-center w-[100%] md:w-[80%] p-6   mx-auto mt-[50px]">
       <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-[30px]">
         {activity.title}
       </h1>
@@ -82,7 +82,7 @@ const NewsBulletinDetails = () => {
           className={`w-full mt-[20px] ${
             activity.videos?.length === 1
               ? ''
-              : 'flex flex-wrap justify-center gap-4'
+              : 'flex flex-wrap justify-center gap-4 '
           }`}
         >
           {activity.videos && activity.videos.length > 0 ? (
@@ -91,7 +91,7 @@ const NewsBulletinDetails = () => {
               <video
                 controls
                 src={activity.videos[0]}
-                className="w-full h-full object-cover rounded-lg shadow-lg"
+                className="w-full h-full object-cover rounded-lg shadow-lg mb-[20px]"
               />
             ) : (
               // Multiple Videos
@@ -100,14 +100,14 @@ const NewsBulletinDetails = () => {
                   key={index}
                   controls
                   src={video}
-                  className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                  className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg mb-[20px]"
                 />
               ))
             )
           ) : null}
         </div>
 
-        <div className="w-full  flex flex-col justify-start p-4">
+        <div className="w-full  flex flex-col justify-start p-2 pt-0">
           <div className="text-sm text-gray-500  flex items-center gap-x-[5px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"

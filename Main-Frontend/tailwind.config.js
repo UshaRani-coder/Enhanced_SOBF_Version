@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwind-scrollbar');
 export default {
-  
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
@@ -19,7 +19,7 @@ export default {
         seashell: '#fdf7f4',
         'creamy-white': '#EFDFCB',
         background_clr: '#EBF1FA',
-        'peacock-green': '#379e90 ',
+        'peacock-green': '#379e90',
         'peacock-green-hover': '#19675d',
         'light-lavender': '#edf1ffdb',
         'logo-blue': '#2C325C',
@@ -55,13 +55,12 @@ export default {
         heading3: '2.25rem',
         heading4: '1.5rem',
         heading5: '1rem',
-        headong6: '10px',
+        heading6: '10px', // Fixed typo (was "headong6")
       },
       animation: {
         'infinite-scroll': 'infinite-scroll 80s linear infinite',
         'partners-infinite-scroll': 'infinite-scroll 5s linear infinite',
-        'infinite-scroll-reverse':
-          'infinite-scroll-reverse 80s linear infinite',
+        'infinite-scroll-reverse': 'infinite-scroll-reverse 80s linear infinite',
         zoomIn: 'zoomIn 2.5s forwards',
         scroll: 'scroll 20s linear infinite',
       },
@@ -84,8 +83,18 @@ export default {
         },
       },
     },
+    scrollbar: {
+      none: {
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '-ms-overflow-style': 'none',
+        'scrollbar-width': 'none',
+      },
+    },
   },
   plugins: [
+    require('tailwind-scrollbar')({ nocompatible: true }),
     function ({ addUtilities }) {
       addUtilities({
         '.transition-bg-image': {
@@ -94,4 +103,7 @@ export default {
       });
     },
   ],
+  variants: {
+    scrollbar: ['rounded'], // Add 'rounded' scrollbar support
+  },
 };

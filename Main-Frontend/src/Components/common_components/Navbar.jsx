@@ -31,7 +31,7 @@ const Navbar = () => {
         <ul
           className={`nav-items ${
             isActive ? 'flex' : 'hidden'
-          } lg:flex  flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-8 xl:gap-x-10 absolute lg:static top-full left-0 w-full  bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
+          } lg:flex max-h-[450px] overflow-y-auto scrollbar-none flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-8 xl:gap-x-10 absolute lg:static top-full left-0 w-full  bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
         >
           <li>
             <Link
