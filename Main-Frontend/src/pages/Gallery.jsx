@@ -138,16 +138,18 @@ const Gallery = () => {
       {/* Modal to display full image */}
       {selectedImage && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="relative w-[90%]  bg-white bg-opacity-30 backdrop-blur-md p-4 rounded-xl shadow-2xl border border-gray-300">
-
+          <div className="relative w-[90%]  bg-black bg-opacity-30 backdrop-blur-md p-4 rounded-xl shadow-2xl border border-gray-300">
             <img
               src={selectedImage}
               alt="Full size"
-              className="w-full max-h-[90vh] object-contain mx-2 rounded-lg"
+              className="w-[100%] max-h-[90vh] object-contain "
             />
             <button
-              onClick={closeModal}
-              className="absolute top-[-10px] right-[-10px] p-1.5 text-white bg-[#ffffff] rounded-full"
+              onClick={() => {
+                closeModal();
+                setSelectedImage(null);
+              }}
+              className="absolute top-[-10px] right-[-10px]   p-1.5 text-white bg-[#ffffff] rounded-full"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

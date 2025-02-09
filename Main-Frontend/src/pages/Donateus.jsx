@@ -37,7 +37,7 @@ const Donateus = () => {
               />
             </div>
             <div className="lg:w-1/2 pt-[40px]  ">
-              <p className="text-gray-600 text-center lg:text-left">
+              <p className="text-gray-600 text-center md:text-left">
                 Donating to us means contributing to a mission dedicated to
                 simplifying complex processes, enhancing efficiency, and driving
                 growth through innovative services. We empower communities to
@@ -65,7 +65,7 @@ const Donateus = () => {
               />
             </div>
             <div className="lg:w-1/2   ">
-              <p className="text-gray-600 text-center lg:text-left">
+              <p className="text-gray-600 text-center md:text-left">
                 We utilize donations strategically to maximize their impact on
                 the communities we serve. Funds are allocated to various
                 programs that address critical needs such as food distribution,
@@ -93,7 +93,7 @@ const Donateus = () => {
               />
             </div>
             <div className="lg:w-1/2   ">
-              <p className="text-gray-600 text-center lg:text-left">
+              <p className="text-gray-600 text-center md:text-left">
                 Your generous donations are used across multiple impactful
                 programs and initiatives. Our focus areas include addressing
                 poverty, hunger, health and well-being, quality education,

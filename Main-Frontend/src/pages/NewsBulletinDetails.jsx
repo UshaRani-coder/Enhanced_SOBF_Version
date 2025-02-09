@@ -11,7 +11,7 @@ const NewsBulletinDetails = () => {
   if (!activity) {
     return (
       <div className="flex flex-col items-center w-full mt-[150px] p-4">
-        <p className="text-lg text-red-500">Activity not found!</p>
+        <p className="text-lg text-red-500">News not found!</p>
       </div>
     );
   }

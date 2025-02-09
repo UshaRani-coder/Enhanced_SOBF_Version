@@ -60,14 +60,14 @@ const LegalDoc = () => {
   return (
     <div
       className={`flex flex-col items-center mb-[30px] ${
-        location.pathname === '/legal-doc' ? 'mt-[120px]' : 'mt-[30px]'
+        location.pathname === '/legal-doc' ? 'mt-[150px]' : 'mt-[30px]'
       }`}
     >
-      <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
+      <h1 className=" text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 text-[#2d335d]   transition-all ease-in-out">
         Our Legal Documents
         <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
       </h1>
-      <p className="text-center text-lg lg:text-xl mb-8 text-gray-600 max-w-3xl mx-auto p-5">
+      <p className="text-center text-lg lg:text-xl mb-8 text-gray-600  px-3">
         Below, you will find important legal documents that showcase our NGO’s
         mission, goals, and legal standing. Feel free to view or download them
         for more information.

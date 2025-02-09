@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const Home_Gallery = () => {
   const dispatch = useDispatch();
   const { gallery, status, error } = useSelector((state) => state.gallery);
-  console.log("gallery", gallery); 
+ 
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -40,7 +40,7 @@ const Home_Gallery = () => {
     <div className="py-14">
       <div className="container mx-auto p-0 px-4 lg:px-20">
         <div className="w-full text-center mb-8">
-          <h1 className="inline-block text-[30px] lg:text-heading2 font-bold p-1 lg:p-5 text-blue">
+          <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold p-1 lg:p-5 text-blue">
             Featured Gallery
             <hr className="mt-1 border-light-lavender border-[1px]" />
           </h1>
@@ -82,7 +82,7 @@ const Home_Gallery = () => {
             <img
               src={selectedImage}
               alt="Full size"
-              className="w-[100%] max-h-[90vh] object-contain mx-2"
+              className="w-[100%] max-h-[90vh] object-contain "
             />
             <button
               onClick={() => {

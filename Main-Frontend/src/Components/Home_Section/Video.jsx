@@ -51,7 +51,7 @@ const Video = () => {
     <div>
       <div className='flex flex-col items-center'>
         <h1
-          className={`text-center text-heading3 lg:text-heading2 font-bold pt-8 text-[#2d335d] relative transition-all ease-in-out ${
+          className={`text-center text-[30px] md:text-heading3 lg:text-heading2 font-bold pt-8 text-[#2d335d] relative transition-all ease-in-out ${
             location.pathname === '/videos' ? 'mt-[120px]' : ''
           }`}
         >

@@ -5,12 +5,12 @@ const TermsAndConditions = () => {
     <div className="w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto mt-32">
       <div className="flex flex-col lg:flex-row items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[100px] gap-y-[10px]">
         <div className="flex flex-col items-center md:items-center mx-[20px] w-[90%] lg:w-[70%] justify-center">
-          <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
+          <h1 className="text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 p-2 text-[#2d335d] relative transition-all ease-in-out">
             Terms and Conditions
             <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
           </h1>
 
-          <div className="text-gray-700 text-justify text-[16px] lg:text-[18px] mt-2 font-workSans xl:mt-0 pb-[30px] lg:leading-[30px]">
+          <div className="text-gray-700  text-[16px] lg:text-[18px] mt-2 font-workSans xl:mt-0 pb-[30px] lg:leading-[30px]">
             <p className="mb-4">
               The terms "We" / "Us" / "Our"/"Company" individually and
               collectively refer to{' '}
@@ -67,15 +67,22 @@ const TermsAndConditions = () => {
 
             <p className="mb-4">
               Visitors are prohibited from violating or attempting to violate
-              the security of the Web site, including, without limitation, (1)
-              accessing data not intended for such user or logging into a server
-              or account which the user is not authorised to access, (2)
+              the security of the Web site, including, without limitation, 
+              <br />
+              (1) accessing data not intended for such user or logging into a server
+              or account which the user is not authorised to access, 
+              <br />
+              (2)
               attempting to probe, scan or test the vulnerability of a system or
               network or to breach security or authentication measures without
-              proper authorisation, (3) attempting to interfere with service to
+              proper authorisation,
+              <br />
+               (3) attempting to interfere with service to
               any user, host or network, including, without limitation, via
               means of submitting a virus or "Trojan horse" to the Website,
-              overloading, "flooding", "mail bombing" or "crashing", or (4)
+              overloading, "flooding", "mail bombing" or "crashing", or 
+              <br />
+              (4)
               sending unsolicited electronic mail, including promotions and/or
               advertising of products or services. Violations of system or
               network security may result in civil or criminal liability. The
@@ -92,12 +99,15 @@ const TermsAndConditions = () => {
 
             <p className="mb-4">
               Visitors may not use the Web Site in order to transmit,
-              distribute, store or destroy material (a) that could constitute or
+              distribute, store or destroy material <br />
+              (a) that could constitute or
               encourage conduct that would be considered a criminal offence or
-              violate any applicable law or regulation, (b) in a manner that
+              violate any applicable law or regulation, <br />
+              (b) in a manner that
               will infringe the copyright, trademark, trade secret or other
               intellectual property rights of others or violate the privacy or
-              publicity of other personal rights of others, or (c) that is
+              publicity of other personal rights of others, or <br />
+              (c) that is
               libellous, defamatory, pornographic, profane, obscene,
               threatening, abusive or hateful.
             </p>

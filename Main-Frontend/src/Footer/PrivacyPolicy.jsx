@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
             <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
           </h1>
 
-          <div className="text-gray-700 text-justify text-[16px] lg:text-[18px] mt-2 font-workSans xl:mt-0 pb-[30px] lg:leading-[30px]">
+          <div className="text-gray-700  text-[16px] lg:text-[18px] mt-2 font-workSans xl:mt-0 pb-[30px] lg:leading-[30px]">
             <p>
               This Privacy Policy is an electronic record in the form of an
               electronic contract formed under the Information Technology Act,
@@ -74,10 +74,27 @@ const PrivacyPolicy = () => {
             <p>
               To avail certain services on our Website, users are required to
               provide certain information for the registration process
-              including: a) your name, b) email address, c) sex, d) age, e) PIN
-              code, f) credit card or debit card details g) medical records and
-              history h) sexual orientation, i) biometric information, j)
-              password etc., and / or your occupation, interests, and the like.
+              including: 
+              <br />
+              a) Your Name
+              <br /> 
+              b) Email Address 
+              <br />
+              c) Sex 
+              <br />
+              d) Age 
+              <br />
+              e) PIN Code 
+              <br />
+              f) Credit Card or Debit Card details 
+              <br />
+              g) Medical Records and History 
+              <br />
+              h) Sexual Orientation 
+              <br />
+              i) Biometric Information 
+              <br />
+              j) Password etc., and / or your occupation, interests, and the like.
               The Information as supplied by the users enables us to improve our
               sites and provide you the most user-friendly experience.
             </p>

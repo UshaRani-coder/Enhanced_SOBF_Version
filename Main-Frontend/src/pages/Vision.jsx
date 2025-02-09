@@ -8,14 +8,14 @@ import ObjectiveImg from '../assets/objective.avif';
 const Vision = () => {
   const location = useLocation();
   // Scroll to top when path changes
-    useEffect(() => {
-      if (location.pathname === '/vision') {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth', // Enables smooth scrolling
-        });
-      }
-    }, [location.pathname]);
+    // useEffect(() => {
+    //   if (location.pathname === '/vision') {
+    //     window.scrollTo({
+    //       top: 0,
+    //       behavior: 'smooth', // Enables smooth scrolling
+    //     });
+    //   }
+    // }, [location.pathname]);
   return (
     <div className="pt-[100px]">
       {/* Header Image */}
@@ -30,7 +30,7 @@ const Vision = () => {
       ></div>
 
       {/* 1st Card */}
-      <div className="flex gap-4 lg:flex-row flex-col justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
+      <div className="lg:mt-10 flex gap-4 lg:flex-row flex-col flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
         <div className="w-[99%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none">
           <img
             src={VisionImg}
@@ -39,11 +39,11 @@ const Vision = () => {
           />
         </div>
         <div className="w-[99%] lg:w-[50%] order-2 lg:order-none">
-          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mt-10 mb-2 pb-5 text-logoYellow flex lg:justify-normal  justify-center items-center lg:items-start">
+          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mt-10 mb-2  text-logoYellow flex lg:justify-normal  justify-center items-center lg:items-start">
             Our Vision
           </h1>
           <hr className="mt-1 border-light-lavender border-[1px]" />
-          <p className="text-lg text-justify text-gray-700 mt-4">
+          <p className="text-lg  text-gray-700 mt-4 text-center md:text-left">
             Our vision for the next upcoming years is to make Shri Vrindavan
             Dham a cleaner, healthier, and more beautiful place. By doing so, we
             hope to provide a better living experience for the residents of Braj
@@ -56,13 +56,13 @@ const Vision = () => {
       </div>
 
       {/* 2nd Card */}
-      <div className="flex gap-4 lg:flex-row flex-col justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
+      <div className="flex gap-4 lg:flex-row flex-col flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
         <div className="w-[99%] lg:w-[50%] order-2 lg:order-none">
-          <h1 className="text-heading3 lg:text-heading2 font-bold mt-10 mb-2 pb-5 text-logo-blue flex lg:justify-normal  justify-center items-center lg:items-start">
+          <h1 className="text-heading3 lg:text-heading2 font-bold mt-10 mb-2  text-logo-blue flex lg:justify-normal  justify-center items-center lg:items-start">
             Our Mission
           </h1>
           <hr className="mt-1 border-light-lavender border-[1px]" />
-          <p className="text-lg text-justify text-gray-700 mt-4">
+          <p className="text-lg  text-gray-700 mt-4 text-center md:text-left">
             Our mission over the next 2-3 years is to significantly contribute
             to the cleanliness and spiritual vibrancy of Shri Vrindavan Dham. We
             will achieve this by maintaining a clean environment, offering pure
@@ -73,7 +73,7 @@ const Vision = () => {
             Dham.
           </p>
         </div>
-        <div className="w-[90%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none">
+        <div className="w-[99%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none">
           <img
             src={MisionImg}
             alt="Mission"
@@ -83,8 +83,8 @@ const Vision = () => {
       </div>
 
       {/* 3rd Card */}
-      <div className="flex gap-4 lg:flex-row flex-col justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
-        <div className="w-[90%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none">
+      <div className="mb-20 flex gap-4 lg:flex-row flex-col flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
+        <div className="w-[99%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none">
           <img
             src={ObjectiveImg}
             alt="Objective"
@@ -92,11 +92,11 @@ const Vision = () => {
           />
         </div>
         <div className="w-[99%] lg:w-[50%] order-2 lg:order-none">
-          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mt-10 mb-2 pb-5 text-logoYellow flex lg:justify-normal  justify-center items-center lg:items-start">
+          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mt-10 mb-2 text-logoYellow flex lg:justify-normal  justify-center items-center lg:items-start">
             Our Objective
           </h1>
           <hr className="mt-1 border-light-lavender border-[1px]" />
-          <p className="text-lg text-justify text-gray-700 mt-4 px-4 lg:p-0">
+          <p className="text-lg  text-gray-700 mt-4 lg:p-0 text-center md:text-left">
             Our objective is to create a harmonious and holistic environment in
             Vrindavan by offering affordable and nutritious Sattvik food,
             maintaining a clean and healthy living space, and providing

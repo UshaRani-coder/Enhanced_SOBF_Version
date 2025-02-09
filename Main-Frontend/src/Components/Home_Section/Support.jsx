@@ -20,13 +20,13 @@ const Support = () => {
     // Main container for the Contact Us section
     <div className=" p-5 w-full pt-[10px] text-center">
       {/* Section title */}
-      <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold my-4 p-5 text-blue relative  transition-all ease-in-out ">
+      <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold my-4  text-blue relative  transition-all ease-in-out ">
         Your Support can change lives
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>
 
       {/* Container for the contact information cards */}
-      <div className="flex flex-col md:flex-row justify-center gap-3 md:px-32  ">
+      <div className="flex flex-col md:flex-row justify-center gap-3 lg:px-32  ">
         {/* Location Card */}
         <div className="p-5  lg:w-[33%] w-[99%]">
           {/* Container for the location card */}
@@ -59,7 +59,7 @@ const Support = () => {
             </button>
             {/* Container for the location card text */}
             <div className="text-center">
-              <h1 className="p-5 font-bold lg:text-2xl md:text-xl text-2xl">
+              <h1 className="p-5 font-bold lg:text-2xl md:text-xl text-2xl pb-0">
                 Our Location
               </h1>
               <h2 className="max-w-xs text-gray-600 lg:text-[16px] md:text-[13px] text-[16px]">
@@ -95,7 +95,7 @@ const Support = () => {
             </button>
             {/* Container for the contact us card text */}
             <div className="text-center">
-              <h1 className="p-5 font-bold lg:text-2xl md:text-xl text-2xl">
+              <h1 className="p-5 font-bold lg:text-2xl md:text-xl text-2xl pb-0">
                 Contact Us
               </h1>
               <h2 className="max-w-xs text-gray-600 md:text-[16px] text-[16px]">
@@ -131,7 +131,7 @@ const Support = () => {
             </button>
             {/* Container for the get in touch card text */}
             <div className="text-center">
-              <h1 className="p-5 font-bold lg:text-2xl md:text-xl text-2xl">
+              <h1 className="p-5 font-bold lg:text-2xl md:text-xl text-2xl pb-0">
                 Get in touch
               </h1>
               <h2 className="max-w-xs text-gray-600 md:text-[16px] text-[16px]">

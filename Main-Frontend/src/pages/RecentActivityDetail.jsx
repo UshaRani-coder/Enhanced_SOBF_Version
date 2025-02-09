@@ -54,7 +54,7 @@ const RecentActivityDetails = () => {
                       key={index}
                       src={image}
                       alt={`${activity?.title} - ${index + 1}`}
-                      className="p-4 w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                      className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
                     />
                   ))
                 )
@@ -69,7 +69,7 @@ const RecentActivityDetails = () => {
             </div>
     
            {activity.videos?.length === 1 && <div
-              className={`p-4 w-full mt-[5px] ${
+              className={` w-full mt-[5px] p-4 ${
                 activity.videos?.length === 1
                   ? ''
                   : 'flex flex-wrap justify-center gap-4'
@@ -81,7 +81,7 @@ const RecentActivityDetails = () => {
                   <video
                     controls
                     src={activity?.videos[0]}
-                    className="p-4 w-full h-full object-cover rounded-lg shadow-lg"
+                    className=" w-full h-full object-cover rounded-lg shadow-lg"
                   />
                 ) : (
                   // Multiple Videos
@@ -90,7 +90,7 @@ const RecentActivityDetails = () => {
                       key={index}
                       controls
                       src={video}
-                      className="p-4 w-full sm:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                      className=" w-full sm:w-[48%] h-auto object-cover rounded-lg shadow-lg"
                     />
                   ))
                 )

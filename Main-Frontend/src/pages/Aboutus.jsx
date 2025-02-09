@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import aboutus from '../assets/aboutUsImage.avif';
 import cee14 from '../assets/Sobf Images/child_education_and_empowerment/cee14.avif';
 import cee11 from '../assets/Sobf Images/child_education_and_empowerment/cee11.avif';
@@ -25,7 +25,7 @@ const AboutUs = () => {
     switch (activeTab) {
       case 'mission':
         return (
-          <p className="text-gray-600 text-justify">
+          <p className="text-gray-600 text-center small-max:text-left">
             We aim to simplify complex processes, enhance efficiency, and drive
             growth through our innovative software and services. By providing
             solutions, we enable to navigate the ever-changing tech landscape.
@@ -33,14 +33,14 @@ const AboutUs = () => {
         );
       case 'vision':
         return (
-          <p className="text-gray-600  text-justify">
+          <p className="text-gray-600  text-center small-max:text-left">
             Our vision is to be the leading provider of innovative tech
             solutions that empower businesses to reach their full potential.
           </p>
         );
       case 'objective':
         return (
-          <p className="text-gray-600  text-justify">
+          <p className="text-gray-600  text-center small-max:text-left">
             Our objective is to deliver high-quality, efficient, and reliable
             software solutions that meet the evolving needs of our clients.
           </p>
@@ -119,42 +119,38 @@ const AboutUs = () => {
       </div>
 
       {/* about us data */}
-      <div className="flex py-12 px-4 lg:px-12 gap-3 lg:gap-24 justify-around flex-col lg:flex-row ">
+      <div className="flex py-12 px-4 lg:px-12 gap-3 lg:gap-24 justify-around flex-col items-center w-full lg:flex-row ">
         <div className="w-[99%] lg:w-[50%] p-0 lg:p-4 text-start">
-          <h1 className="inline-block text-heading3 lg:text-heading1 font-bold mb-1 pb-5 text-logoYellow ">
+          <h1 className="inline-block text-heading3 lg:text-heading1 font-bold mb-1  text-logoYellow ">
             Our Story
           </h1>
-          <hr className="mt-1 border-light-lavender border-[1px]" />
-          <p className="text-lg text-gray-700 mt-4 text-justify">
-            <span className="text-xl text-purple-700 font-bold hover:underline">
+          <hr className="mt-1 border-light-lavender border-[1px] mb-6" />
+          <p className="text-md md:text-lg leading-[25px] md:leading-[30px] text-gray-700 mt-4 ">
+            <span className="text-xl text-blue font-bold hover:underline">
               Soul Of Braj Federation
             </span>{' '}
-            is a Section-8 Recognized Non Profit Organization, dedicated to
-            Serve Society members in Shri Vrindavan Dham, Since 2020, SOBF is
-            Dedicated to Serve the Poorest of the Poor Residents of Vrindavan
-            and the Braj region of Uttar Pradesh, ( Bharat ). Particularly
-            Adolescent Girls and Women by Providing Comprehensive, Essential
-            Community Services. Our Initiatives are, Clean and Healthy
-            Vrindavan, Affordable Food , Providing Basic Education, Skill
-            Training, Health-Hygiene Care, Distribution of free Meals / Ration
-            Kits ,Waste Management Projects, Currently we are Impacting more
-            than 1000+ Beneficiaries on Daily Basis. Focused And On Going
-            Initiatives: Anna Vitran Seva( Affordable Food Prasadam For All ),
-            Swasth aur Swachh Vrindavan, Give Me A Chance, Say Yes To Me,
-            Brajkulam Community Centre.
+            is a Section-8 recognized non-profit organization dedicated to serving society members in Shri Vrindavan Dham. Since 2020, SOBF has been committed to serving the poorest of the poor residents of Vrindavan and the Braj region of Uttar Pradesh (Bharat), particularly adolescent girls and women, by providing comprehensive and essential community services. Our initiatives include Clean and Healthy Vrindavan, Affordable Food, Basic Education, Skill Training, Health and Hygiene Care, distribution of free meals/ration kits, and waste management projects. Currently, we are impacting more than 1,000 beneficiaries on a daily basis.
+            <br />
+            <span className="inline-block mt-6 lg:mt-2 font-bold text-xl w-[100%]">
+            Focused And On Going Initiatives:
+            </span>
+            <br />
+            Anna Vitran Seva (affordable food prasadam for all), Swasth aur Swachh
+          Vrindavan, Give Me A Chance, Say Yes To Me, Brajkulam Community
+          Center.
           </p>
         </div>
         <div className="w-[99%] lg:w-[50%] ">
           <img
             src={ourStory}
-            className="rounded-xl shadow-xl w-[570px] lg:w-[550px]"
+            className="rounded-xl shadow-xl "
             alt=""
           />
         </div>
       </div>
 
       {/* collected shots */}
-      <div className="container mx-auto p-0 lg:p-4 px-4 lg:px-20 text-center">
+      <div className="container mx-auto p-0 lg:p-4 px-4 lg:px-20 text-center mb-20">
         <h1 className=" text-heading3 lg:text-heading1 inline-block font-bold mb-4 pb-5 text-logoYellow ">
           Collected Shots
           <hr className="mt-1 border-light-lavender border-[1px]" />
@@ -170,6 +166,16 @@ const AboutUs = () => {
             </div>
           ))}
         </div>
+         {/* See More Button */}
+                  <div className="flex justify-center mt-10">
+                    <Link
+                      to="/gallery"
+                      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                      className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"
+                    >
+                      See More
+                    </Link>
+                  </div>
       </div>
     </div>
   );

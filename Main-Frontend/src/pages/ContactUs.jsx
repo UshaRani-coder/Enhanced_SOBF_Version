@@ -102,10 +102,10 @@ const ContactUsPage = () => {
   return (
     <>
       {/* Contact Us Form parent div */}
-      <div className="flex flex-col lg:flex-row mx-[3rem] lg:gap-10 gap-16 md:mt-40 mt-36 ">
+      <div className="flex flex-col lg:flex-row mx-6 lg:mx-[3rem] lg:gap-10 gap-16 md:mt-40 mt-36 ">
         {/*  Form div */}
-        <div className="lg:w-[50%] w-[100%] text-start ">
-          <h3 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 pb-5 text-logoYellow ">
+        <div className="lg:w-[50%] w-[100%] md:text-start ">
+          <h3 className="inline-block  text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4  text-logoYellow ">
             Have any questions?
             <hr className="mt-1 border-light-lavender border-[1px]" />
           </h3>
@@ -176,7 +176,7 @@ const ContactUsPage = () => {
         </div>
       </div>
       {/* Support us section */}
-      <div className="md:py-0 py-10">
+      <div className="md:py-0 py-10 mb-[20px]">
         <Support />
       </div>
     </>

@@ -43,7 +43,7 @@ const Team = () => {
               <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px]">
                 {item.name}
               </span>
-              <p className="text-[14px] font-workSans text-[rgba(255,255,255,0.5)]">
+              <p className="text-[14px] lg:text-[16px] font-workSans text-[rgba(255,255,255,0.5)]">
                 {item.role}
               </p>
 
@@ -59,7 +59,7 @@ const Team = () => {
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 48 48"
-                      className="w-[25px] h-[25px]"
+                      className="w-[30px] h-[30px]"
                     >
                       <path
                         fill="#0288D1"
@@ -86,7 +86,7 @@ const Team = () => {
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="w-[25px] h-[25px]"
+                      className="w-[30px] h-[30px]"
                       x="0px"
                       y="0px"
                       width="10"

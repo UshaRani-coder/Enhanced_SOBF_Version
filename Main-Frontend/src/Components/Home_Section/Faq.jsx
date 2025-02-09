@@ -18,27 +18,27 @@ function Accordion() {
 
   return (
     // Outer container with full width and padding
-    <div className="w-full max-w-full p-5">
+    <div className="w-full max-w-full ">
       {/* Inner container for centering content */}
       <div className="flex flex-col items-center justify-center p-4">
         {/* Content wrapper with maximum width */}
         <div className="w-full max-w-[1200px] text-center">
-          <h1 className="inline-block text-heading3 lg:text-heading2  font-bold mb-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
+          <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2  font-bold mb-4 text-[#2d335d] relative  transition-all ease-in-out ">
             Frequently Asked Questions
             <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
           </h1>
-          <h1 className="text-center text-2xl font-bold">
+          <h1 className="text-center text-lg small-range:text-[20px] md:text-2xl font-bold w-full">
             We work with Satisfaction, encourage groups, and our members are
             nationwide
           </h1>
-          <h1 className="text-center text-xl mb-12 p-3 text-gray-600">
+          <h1 className="text-center text-md small-range:text-lg md:text-xl mb-6 md:mb-10 mt-2 text-gray-600 w-full">
             Explore common inquiries about collaborating, volunteering,
             donations, and our mission to help people in need.
           </h1>
           {/* Flex container for columns, switches to row layout on medium screens */}
           <div className="flex flex-col md:flex-row gap-[20px] lg:gap-[80px]">
             {/* Left column */}
-            <div className="w-full md:w-1/2 space-y-4 text-justify">
+            <div className="w-full md:w-1/2 space-y-4 text-left">
               {leftColumnData.map((dataItem) => (
                 <AccordionItem
                   key={dataItem.id}
@@ -49,7 +49,7 @@ function Accordion() {
               ))}
             </div>
             {/* Right column */}
-            <div className="w-full md:w-1/2 space-y-4 text-justify">
+            <div className="w-full md:w-1/2 space-y-4 text-left">
               {rightColumnData.map((dataItem) => (
                 <AccordionItem
                   key={dataItem.id}
@@ -79,7 +79,7 @@ function AccordionItem({ dataItem, isSelected, onSelect }) {
           {dataItem.question}
         </h2>
         {/* Toggle icon, changes based on selected state */}
-        <span className="text-2xl font-bold flex-shrink-0 text-logo-yellow">
+        <span className="text-2xl font-bold flex-shrink-0 text-logo-yellow cursor-pointer">
           {isSelected ? '-' : '+'}
         </span>
       </div>
