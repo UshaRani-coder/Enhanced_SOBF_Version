@@ -49,8 +49,8 @@ const NewsBulletinDetails = () => {
               : 'flex flex-wrap justify-center gap-4 '
           }`}
         >
-          {activity.images && activity.images.length > 0 ? (
-            activity.images.length === 1 ? (
+          {activity.images && activity?.images?.length > 0 ? (
+            activity.images?.length === 1 ? (
               // Single Image
               <img
                 src={activity.images[0]}
@@ -85,8 +85,8 @@ const NewsBulletinDetails = () => {
               : 'flex flex-wrap justify-center gap-4 '
           }`}
         >
-          {activity.videos && activity.videos.length > 0 ? (
-            activity.videos.length === 1 ? (
+          {activity?.videos && activity?.videos?.length > 0 ? (
+            activity?.videos?.length === 1 ? (
               // Single Video
               <video
                 controls

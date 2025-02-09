@@ -12,15 +12,15 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
 
- 
-    useEffect(() => {
-      if (location.pathname === '/about-us') {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth', 
-        });
-      }
-    }, [location.pathname]); 
+
+  useEffect(() => {
+    if (location.pathname === '/about-us') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     dispatch(getGalleryImages()); // Fetch gallery images when component mounts
@@ -31,14 +31,14 @@ const Gallery = () => {
   };
 
   // Extract unique tags
-  const tags = ["all", 
+  const tags = ["all",
     ...new Set(
       gallery
         .flatMap((image) => (image.tag ? image.tag.split(",") : [])) // Remove empty tags
-        .filter((tag) => tag.trim() !== "") 
+        .filter((tag) => tag.trim() !== "")
     ),
   ];
-  
+
 
   // Filter gallery images based on selected category
   const filteredImages =
@@ -86,19 +86,18 @@ const Gallery = () => {
           </div> */}
 
           {/* Filter Buttons */}
-<div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4">
-  {tags.map((category) => (
-    <button
-      key={category}
-      onClick={() => handleFilterChange(category)}
-      className={`px-4 py-2 font-bold rounded ${
-        selectedCategory === category ? 'bg-blue text-white' : 'bg-gray-200'
-      }`}
-    >
-      {category.replace('_', ' ')}
-    </button>
-  ))}
-</div>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4">
+            {tags.map((category) => (
+              <button
+                key={category}
+                onClick={() => handleFilterChange(category)}
+                className={`px-4 py-2 font-bold rounded ${selectedCategory === category ? 'bg-blue text-white' : 'bg-gray-200'
+                  }`}
+              >
+                {category.replace('_', ' ')}
+              </button>
+            ))}
+          </div>
 
         </div>
 
@@ -108,12 +107,12 @@ const Gallery = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 ">
 
-            {filteredImages.length > 0 ? (
-              filteredImages.map((image, index) => (
+            {filteredImages?.length > 0 ? (
+              filteredImages?.map((image, index) => (
                 <div
                   key={index}
                   className="relative group cursor-pointer transition transform hover:scale-95 duration-300"
-                  onClick={() => openModal(image.image)}
+                  onClick={() => openModal(image?.image)}
                 >
                   <img
                     src={image.image}
@@ -139,8 +138,8 @@ const Gallery = () => {
       {/* Modal to display full image */}
       {selectedImage && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-         <div className="relative w-[90%]  bg-white bg-opacity-30 backdrop-blur-md p-4 rounded-xl shadow-2xl border border-gray-300">
-          
+          <div className="relative w-[90%]  bg-white bg-opacity-30 backdrop-blur-md p-4 rounded-xl shadow-2xl border border-gray-300">
+
             <img
               src={selectedImage}
               alt="Full size"

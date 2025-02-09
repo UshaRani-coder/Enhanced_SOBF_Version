@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTeams } from '../../Reducers/TeamSlice';
 
 const Team = () => {
-  const { teams, status, error } = useSelector((state) => state.teams);
+  const { teams, status } = useSelector((state) => state.teams);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,10 +21,8 @@ const Team = () => {
       </div>
 
       {status === 'loading' && <p className="text-white">Loading...</p>}
-      {status === 'failed' && <p className="text-red-500">Error: {error}</p>}
-
       <div className="mt-[50px] team-cards flex flex-col items-center md:items-stretch p-3 justify-center md:flex-row md:flex-wrap md:w-[100%] md:gap-x-[40px] gap-y-[25px] md:gap-y-[20px] lg:gap-y-[40px] lg:gap-x-[100px]">
-        {teams.map((item) => (
+        {teams && teams?.map((item) => (
           <div
             key={item._id}
             className="flex items-center  flex-col gap-y-[5px] md:w-[300px]"
@@ -52,8 +50,8 @@ const Team = () => {
               {/* Social Links */}
               <div className="socials flex gap-x-[5px]">
                 {item.linkedIn && (
-                  <a
-                    href={item.linkedIn}
+                  <Link
+                    to={item.linkedIn}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="   hover:scale-[1.2] cursor-pointer"
@@ -72,12 +70,12 @@ const Team = () => {
                         d="M12 19H17V36H12zM14.485 17h-.028C12.965 17 12 15.888 12 14.499 12 13.08 12.995 12 14.514 12c1.521 0 2.458 1.08 2.486 2.499C17 15.887 16.035 17 14.485 17zM36 36h-5v-9.099c0-2.198-1.225-3.698-3.192-3.698-1.501 0-2.313 1.012-2.707 1.99C24.957 25.543 25 26.511 25 27v9h-5V19h5v2.616C25.721 20.5 26.85 19 29.738 19c3.578 0 6.261 2.25 6.261 7.274L36 36 36 36z"
                       ></path>
                     </svg>
-                  </a>
+                  </Link>
                 )}
 
-                {item.instagram && (
-                  <a
-                    href={
+                {item?.instagram && (
+                  <Link
+                    to={
                       item.instagram.startsWith('http')
                         ? item.instagram
                         : `http://${item.instagram}`
@@ -143,7 +141,7 @@ const Team = () => {
                         d="M30,37H18c-3.859,0-7-3.14-7-7V18c0-3.86,3.141-7,7-7h12c3.859,0,7,3.14,7,7v12	C37,33.86,33.859,37,30,37z M18,13c-2.757,0-5,2.243-5,5v12c0,2.757,2.243,5,5,5h12c2.757,0,5-2.243,5-5V18c0-2.757-2.243-5-5-5H18z"
                       ></path>
                     </svg>
-                  </a>
+                  </Link>
                 )}
               </div>
             </div>

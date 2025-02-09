@@ -1,8 +1,4 @@
 import React from 'react';
-// import education from "../../assets/education.avif";
-// import food1 from "../../assets/food1.avif";
-// import goodhealth from "../../assets/good-health1.avif";
-// import cleanwater from "../../assets/clean-water1.avif";
 import zeroHunger from '../../assets/Sobf Images/sdg/Zero Hunger.jpg';
 import goodHealth from '../../assets/Sobf Images/sdg/Good Health and Well-Being.jpg';
 import qualityEducation from '../../assets/Sobf Images/sdg/Quality Education.jpg';

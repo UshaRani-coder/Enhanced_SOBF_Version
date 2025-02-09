@@ -16,10 +16,10 @@ const Hero = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (heroBanner && heroBanner.length > 0) { // Check if heroBanner exists
+    if (heroBanner && heroBanner?.length > 0) { // Check if heroBanner exists
       setCurrentImage(heroBanner[currentIndex]?.image);
       const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner.length);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner?.length);
       }, 3000);
       return () => clearInterval(interval);
     }
@@ -53,7 +53,7 @@ const Hero = () => {
     },
   };
 
-  if (status === "loading" || !heroBanner || heroBanner.length === 0) { // Handle null or undefined
+  if (status === "loading" || !heroBanner || heroBanner?.length === 0) { // Handle null or undefined
     return (
       <div className="hero flex items-center justify-center w-full h-screen">
         <p className="text-white font-bold text-xl">Loading...</p>
@@ -88,7 +88,7 @@ const Hero = () => {
       {/* Scroll Arrows */}
       <div className="absolute top-[50%] left-[20px] z-20 transform -translate-y-1/2">
         <button
-          onClick={() => setCurrentIndex((prevIndex) => (prevIndex - 1 + heroBanner.length) % heroBanner.length)}
+          onClick={() => setCurrentIndex((prevIndex) => (prevIndex - 1 + heroBanner?.length) % heroBanner?.length)}
           className="hidden md:block md:cursor-pointer bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="w-[15px] font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -99,7 +99,7 @@ const Hero = () => {
 
       <div className="absolute top-[50%] right-[20px] z-20 transform -translate-y-1/2">
         <button
-          onClick={() => setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner.length)}
+          onClick={() => setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner?.length)}
           className="hidden md:block md:cursor-pointer bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="w-[15px] font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor">

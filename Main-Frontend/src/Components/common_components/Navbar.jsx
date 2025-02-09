@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <div className="w-full fixed top-[1px] lg:top-1 z-50 flex justify-center mt-10">
-      <nav className="cursor-pointer w-[100%] bg-white shadow-2xl p-2  flex justify-between items-center ">
+      <nav className="cursor-pointer w-[100%] bg-white shadow-2xl p-2  flex justify-between items-center z-20">
         {/* Logo on the left */}
         <Link to="/" className="flex-shrink-0" onClick={handleSmoothScroll}>
           <img src={logo} alt="logo" className="w-20 object-cover" />

@@ -37,7 +37,7 @@ const Video = () => {
 
     return location.pathname === '/videos'
       ? featuredVideo // Show all videos on the /videos page
-      : featuredVideo.slice(0, 3); // Show only 3 videos on the homepage
+      : featuredVideo?.slice(0, 3); // Show only 3 videos on the homepage
   }, [location.pathname, featuredVideo]);
 
   // Infinite Scroll - Load more videos
@@ -71,9 +71,9 @@ const Video = () => {
 
       {/* Video List with InfiniteScroll */}
       <InfiniteScroll
-        dataLength={videosToDisplay.length}
+        dataLength={videosToDisplay?.length}
         next={loadMoreVideos}
-        hasMore={location.pathname === '/videos' && videosToDisplay.length < featuredVideo.length}
+        hasMore={location.pathname === '/videos' && videosToDisplay?.length < featuredVideo?.length}
         loader={
           status === 'loading' ? (
             <img
@@ -91,9 +91,9 @@ const Video = () => {
             location.pathname === '/videos' ? 'mb-[100px]  md:gap-6 md:px-[20px]' : ''
           }`}
         >
-          {videosToDisplay.length > 0 ? (
-            videosToDisplay.map((video) => {
-              // Extract video ID safely
+          {videosToDisplay?.length > 0 ? (
+            videosToDisplay?.map((video) => {
+              // Safely extract video ID
               const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || '';
 
               return (
@@ -125,7 +125,7 @@ const Video = () => {
       </InfiniteScroll>
 
       {/* Show More button for homepage */}
-      {location.pathname !== '/videos' && featuredVideo.length > 3 && (
+      {location.pathname !== '/videos' && featuredVideo?.length > 3 && (
         <div className="text-center mt-6">
           <button
             onClick={handleShowMore}

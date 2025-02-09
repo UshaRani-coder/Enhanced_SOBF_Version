@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import {
   createOurServices,
   deleteOurServices,
@@ -7,15 +6,8 @@ import {
   updateOurServices,
 } from '../api/api';
 
-// Axios Instance
-// const apiClient = axios.create({ baseURL: "https://backend.sobf.in" });
-const apiClient = axios.create({ baseURL: 'http://localhost:5000' });
 
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('adminToken');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+
 
 // Get Services
 export const getServices = createAsyncThunk(

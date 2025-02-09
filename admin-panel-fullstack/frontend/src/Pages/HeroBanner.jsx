@@ -122,7 +122,7 @@ const HeroBanner = () => {
   // ! Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (value.length <= maxLength) {
+    if (value?.length <= maxLength) {
       setFormData({
         ...formData,
         [name]: value,

@@ -91,21 +91,20 @@ const Services = () => {
 
 
   useEffect(() => {
-    if (services.length > 0) {
+    if (services?.length > 0) {
       // Use requestAnimationFrame for smoother rendering
       requestAnimationFrame(() => {
-        document.querySelectorAll(".service").forEach((element) => {
+        document.querySelectorAll(".service")?.forEach((element) => {
           const bgImage = element.getAttribute("data-bg");
           if (bgImage) {
-            console.log(bgImage,"background image")
             element.style.setProperty("--bg-image", `url(${bgImage})`);
           }
         });
       });
     }
   }, [services]);
-  
-  
+
+
   const scrollToServices = () => {
     ourServicesRef.current.scrollIntoView({ behavior: 'smooth' });
   };
@@ -117,11 +116,10 @@ const Services = () => {
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>
       {status === 'loading' && <p>Loading Services...</p>}
-      {status === 'failed' && <p className="text-red-500">{error}</p>}
 
       {service === null ? (
         <ul className="services w-[100%] mt-[20px] flex flex-col items-center gap-y-[30px] md:gap-y-[70px] md:flex-row md:justify-center md:gap-x-[60px] lg:gap-x-[30px] md:flex-wrap">
-          {services.map((item, index) => (
+          {services && services?.map((item, index) => (
             <li
               key={item._id}
               data-aos="fade-up"
@@ -130,12 +128,13 @@ const Services = () => {
               // onMouseEnter={() => setHoveredService(item._id)}
               onMouseOver={() => {
                 setHoveredService(item._id);
-                console.log("Mouse Over triggered for service:", item._id); }}
+                console.log("Mouse Over triggered for service:", item._id);
+              }}
               onMouseLeave={() => setHoveredService(null)}
               className={`service rounded-tl-[50px] rounded-br-[50px] cursor-pointer w-[80%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center`}
-              style={{ 
+              style={{
                 backgroundColor: item.color,
-               }}
+              }}
               onClick={() => {
                 setService(item.title);
                 if (isHomePage) {
@@ -143,18 +142,17 @@ const Services = () => {
                 }
               }}
             >
-              {console.log(hoveredService,item._id,item.images,item.images.length)}
-              {hoveredService === item._id && item.images && item.images.length > 0 && (
+              {hoveredService === item._id && item.images && item?.images?.length > 0 && (
                 <div
                   className="absolute inset-0 w-full h-full transition-all duration-500"
-                  style={{ 
+                  style={{
                     backgroundImage: `url(${item.images[0]})`,
-                    backgroundColor: 'rgba(1, 29, 36, 0.8)', 
+                    backgroundColor: 'rgba(1, 29, 36, 0.8)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     filter: 'brightness(0.4)',
-                    zIndex: -1, 
+                    zIndex: -1,
                   }}
                 ></div>
               )}
@@ -180,7 +178,7 @@ const Services = () => {
             </div>
           )}
           <div className="flex flex-col lg:flex-row w-[100%] lg:items-stretch items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[10px] lg:mt-[120px]">
-            {services.filter(serviceData => serviceData.title === service).map(serviceData => (
+              {services?.filter(serviceData => serviceData.title === service)?.map(serviceData => (
               <div key={serviceData.id || serviceData._id} className="flex flex-col justify-center  items-center mx-[20px] lg:flex-row  justify-center w-[100%] lg:mx-0"> {/* Use serviceData.id if available, otherwise serviceData._id */}
                 <div className="images-grid h-full w-[100%] md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
                   <ImgBanner banners={serviceData.images} />

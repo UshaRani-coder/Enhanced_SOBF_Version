@@ -53,7 +53,7 @@ const PostPage = () => {
     // Validate images
     const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (formData.images) {
-      for (let i = 0; i < formData.images.length; i++) {
+      for (let i = 0; i < formData?.images?.length; i++) {
         if (!validImageTypes.includes(formData.images[i].type)) {
           toast.error(
             'Only valid image files (JPEG, PNG,JPG) are allowed in the Images section.',
@@ -66,7 +66,7 @@ const PostPage = () => {
     // Validate videos
     const validVideoTypes = ['video/mp4', 'video/mkv'];
     if (formData.videos) {
-      for (let i = 0; i < formData.videos.length; i++) {
+      for (let i = 0; i < formData.videos?.length; i++) {
         if (!validVideoTypes.includes(formData.videos[i].type)) {
           toast.error(
             'Only valid video files (MP4, MKV) are allowed in the Videos section.',
@@ -97,12 +97,12 @@ const PostPage = () => {
     formDataToSend.append('description', formData.description);
     formDataToSend.append('date', formData.date);
     if (formData.images) {
-      for (let i = 0; i < formData.images.length; i++) {
+      for (let i = 0; i < formData.images?.length; i++) {
         formDataToSend.append('images', formData.images[i]);
       }
     }
     if (formData.videos) {
-      for (let i = 0; i < formData.videos.length; i++) {
+      for (let i = 0; i < formData.videos?.length; i++) {
         formDataToSend.append('videos', formData.videos[i]);
       }
     }
@@ -138,7 +138,7 @@ const PostPage = () => {
       'image/jpg'
     ];
     if (formData.images) {
-      for (let i = 0; i < formData.images.length; i++) {
+      for (let i = 0; i < formData.images?.length; i++) {
         if (!validImageTypes.includes(formData.images[i].type)) {
           toast.error(
             'Only valid image files (JPEG, PNG, JPG) are allowed in the Images section.',
@@ -151,7 +151,7 @@ const PostPage = () => {
     // Validate videos
     const validVideoTypes = ['video/mp4'];
     if (formData.videos) {
-      for (let i = 0; i < formData.videos.length; i++) {
+      for (let i = 0; i < formData.videos?.length; i++) {
         if (!validVideoTypes.includes(formData.videos[i].type)) {
           toast.error('Only mp4  video files are valid.');
           return;
@@ -164,12 +164,12 @@ const PostPage = () => {
     updatedData.append('description', formData.description);
     updatedData.append('date', formData.date);
     if (formData.images) {
-      for (let i = 0; i < formData.images.length; i++) {
+      for (let i = 0; i < formData.images?.length; i++) {
         updatedData.append('images', formData.images[i]);
       }
     }
     if (formData.videos) {
-      for (let i = 0; i < formData.videos.length; i++) {
+      for (let i = 0; i < formData.videos?.length; i++) {
         updatedData.append('videos', formData.videos[i]);
       }
     }
@@ -301,7 +301,7 @@ const PostPage = () => {
 
             {/* Images */}
             {Array.isArray(expandedItem?.images) &&
-              expandedItem.images.length > 0 ? (
+              expandedItem.images?.length > 0 ? (
               expandedItem.images.map((image, index) => (
                 <img
                   key={index}
@@ -379,7 +379,7 @@ const PostPage = () => {
               <div className="flex gap-3 mt-4">
                 {formData?.images &&
                   Array.isArray(formData.images) &&
-                  formData.images.length > 0 &&
+                  formData.images?.length > 0 &&
                   formData.images.map((image, index) => (
                     <div key={index} className="relative">
                       <img

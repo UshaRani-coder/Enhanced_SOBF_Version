@@ -153,7 +153,7 @@ const OurService = () => {
     if (name === 'description') {
       const truncatedValue = value.slice(0, descriptionMaxLength);
       console.log("Truncated Value:", truncatedValue); // <-- Add this console log
-      console.log("Truncated Length:", truncatedValue.length); // <-- Add this console log
+      console.log("Truncated Length:", truncatedValue?.length); // <-- Add this console log
       setFormData((prev) => ({ ...prev, [name]: truncatedValue }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
@@ -185,13 +185,13 @@ const OurService = () => {
       const invalidFiles = Array.from(files).filter(
         (file) => !allowedImageTypes.includes(file.type),
       );
-      if (invalidFiles.length > 0) {
+      if (invalidFiles?.length > 0) {
         toast.error(
           'Only image files (JPEG, PNG, JPG) are allowed for service images.',
         );
         return;
       }
-      if (files.length > maxImages) {
+      if (files?.length > maxImages) {
         toast.error(`You can upload a maximum of ${maxImages} images.`);
         return;
       }
@@ -230,7 +230,7 @@ const OurService = () => {
   };
   const truncateDescription = (description) => {
     const maxLength = 60; // Set your desired truncation length
-    return description.length > maxLength
+    return description?.length > maxLength
       ? `${description.slice(0, maxLength)}...`
       : description;
   };
@@ -277,7 +277,7 @@ const OurService = () => {
 
             {/* Images */}
             {Array.isArray(expandedItem?.images) &&
-            expandedItem.images.length > 0 ? (
+            expandedItem.images?.length > 0 ? (
               expandedItem.images.map((image, index) => (
                 <img
                   key={index}
@@ -326,7 +326,7 @@ const OurService = () => {
                   maxLength={60}
                 ></textarea>
                 <p className="text-sm text-gray-500">
-            {formData?.small_description.length} / 50 characters
+            {formData?.small_description?.length} / 50 characters
           </p>
               </div>
               <div className="mb-4">
@@ -352,7 +352,7 @@ const OurService = () => {
                   placeholder="Enter title"
                 />
                 <p className="text-sm text-gray-500">
-                  {titleMaxLength - formData.title.length} characters remaining
+                  {titleMaxLength - formData?.title?.length} characters remaining
                 </p>
               </div>
 
@@ -371,7 +371,7 @@ const OurService = () => {
                 ></textarea>
                 <p className="text-sm text-gray-500">
                   {smallDescriptionMaxLength -
-                    formData.small_description.length}{' '}
+                    formData.small_description?.length}{' '}
                   characters remaining
                 </p>
               </div>
@@ -388,7 +388,7 @@ const OurService = () => {
                   placeholder="Enter description"
                 ></textarea>
                 <p className="text-sm text-gray-500">
-                  {descriptionMaxLength - formData.description.length}{' '}
+                  {descriptionMaxLength - formData.description?.length}{' '}
                   characters remaining
                 </p>
               </div>
@@ -480,7 +480,7 @@ const OurService = () => {
         </div>
       )}
       <div className=" gap-6 p-4 flex flex-col items-center lg:grid lg:grid-cols-2">
-        {services && services.length > 0 ? (
+        {services && services?.length > 0 ? (
           services.map((post) => (
             <div
               key={post._id}

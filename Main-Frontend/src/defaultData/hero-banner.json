@@ -1,0 +1,22 @@
+[
+  {
+    "_id": "1",
+    "image": "https://res.cloudinary.com/dpxilylu2/image/upload/v1738909699/OUR-SERVICES/bqenv7ubdrau7iwlhgtc.jpg",
+    "quotes": "He has a desire to go to School, your support can fulfill his Dream",
+    "__v": 0
+  },
+  {
+    "_id": "2",
+    "image": "https://res.cloudinary.com/dpxilylu2/image/upload/v1738910116/OUR-SERVICES/nli157lm5h1v9yl4wmgc.jpg",
+    "quotes": "Women empowerment ",
+    "__v": 0
+  },
+  {
+    "_id": "3",
+    "image": "https://res.cloudinary.com/dpxilylu2/image/upload/v1738909271/OUR-SERVICES/kwserej5wcjvyyufezw4.avif",
+    "quotes": "Sadhu Seva",
+    "createdAt": "2025-02-02T06:18:00.039Z",
+    "updatedAt": "2025-02-02T06:18:00.039Z",
+    "__v": 0
+  }
+]

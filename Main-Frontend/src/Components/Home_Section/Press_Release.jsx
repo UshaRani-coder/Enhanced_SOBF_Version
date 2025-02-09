@@ -218,7 +218,7 @@ const Press_Release = React.memo(() => {
       )}
 
       <InfiniteScroll
-        dataLength={displayedPosts.length}
+        dataLength={displayedPosts?.length}
         next={loadMorePosts}
         hasMore={hasMorePosts}
         loader={<h4 className="text-center w-[100%]">Loading more...</h4>}
