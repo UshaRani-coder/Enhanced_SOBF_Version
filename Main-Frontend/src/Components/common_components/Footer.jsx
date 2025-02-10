@@ -1,7 +1,7 @@
 import sobfLogo from '../../assets/sobfLogo.avif';
 import { Link } from 'react-router-dom';
 import LegalDoc from '../../pages/LegalDoc';
-// import { Services } from '/src/Components/Home_Section/Services.jsx';
+
 const Footer = () => {
   const handleRedirectMap = () => {
     window.open(
@@ -161,36 +161,6 @@ const Footer = () => {
                       </li>
                     </ul>
                   </nav>
-
-                  {/* About us links
-                  <nav className="lg:ml-[22%] md:ml-[25%]" aria-labelledby="footer-about-5-logo">
-                    <h3 className="mb-6 text-base font-medium text-gray-200" id="footer-about-5-logo">
-                      About us
-                    </h3>
-                    <ul>
-                      <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
-                          About us
-                        </Link>
-                      </li>
-                      <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
-                          Services
-                        </Link>
-                      </li>
-                      <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
-                          Contact Us
-                        </Link>
-                      </li>
-                      <li className="mb-2 leading-6">
-                        <Link href="#" className="transition-colors duration-300 hover:text-white focus:text-white">
-                          Volunteering
-                        </Link>
-                      </li>
-                    </ul>
-                  </nav> */}
-
                   {/* Legal links */}
                   <nav
                     className="lg:ml-[30%]"
@@ -294,16 +264,6 @@ const Footer = () => {
               />
             </svg>
           </Link>
-          {/* Twitter */}
-          {/* <Link href="javascript:;"
-      class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 72 72"
-      fill="none">
-      <path
-        d="M40.7568 32.1716L59.3704 11H54.9596L38.7974 29.383L25.8887 11H11L30.5205 38.7983L11 61H15.4111L32.4788 41.5869L46.1113 61H61L40.7557 32.1716H40.7568ZM34.7152 39.0433L32.7374 36.2752L17.0005 14.2492H23.7756L36.4755 32.0249L38.4533 34.7929L54.9617 57.8986H48.1865L34.7152 39.0443V39.0433Z"
-        fill="#111827" />
-      </svg>
-      </Link> */}
           {/* Whatsapp */}
           <Link
             onClick={handleRedirectWhatsapp}
@@ -347,16 +307,6 @@ const Footer = () => {
               />
             </svg>
           </Link>
-          {/* Telegram */}
-          {/* <Link href="https://t.me/918439406670"  rel="noopener noreferrer"
-      class="p-2 rounded-lg flex items-center border bg-gray-300 justify-center transition-all duration-500 hover:border-gray-100 hover:bg-gray-100">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 72 72"
-      fill="none">
-      <path
-        d="M17.5822 33.5652C17.5822 33.5652 36.2102 25.7194 42.6707 22.9567C45.1473 21.8518 53.546 18.3155 53.546 18.3155C53.546 18.3155 57.4224 16.7685 57.0993 20.5256C56.9916 22.0728 56.1302 27.4874 55.2688 33.3442C53.9767 41.6322 52.5769 50.6935 52.5769 50.6935C52.5769 50.6935 52.3615 53.2352 50.5311 53.6772C48.7006 54.1192 45.6856 52.1302 45.1473 51.6881C44.7165 51.3566 37.0715 46.3838 34.272 43.9527C33.5182 43.2897 32.6569 41.9637 34.3796 40.4166C38.256 36.7699 42.886 32.2392 45.6856 29.3661C46.9778 28.04 48.2698 24.9459 42.886 28.703C35.2411 34.1178 27.7038 39.201 27.7038 39.201C27.7038 39.201 25.9809 40.306 22.7507 39.3115C19.5203 38.317 15.7516 36.9909 15.7516 36.9909C15.7516 36.9909 13.1675 35.3334 17.5822 33.5652Z"
-        fill="#111827" />
-      </svg>
-      </Link> */}
           {/* Gmail */}
           <Link
             onClick={handleRedirectMail}

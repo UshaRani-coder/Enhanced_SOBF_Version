@@ -315,20 +315,6 @@ const Gallery = () => {
                 <MdDelete />
               </button>
             </div>
-            {/* <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 text-white flex items-center justify-center gap-4 opacity-0 hover:opacity-100 transition-opacity">
-              <button
-                onClick={() => openUpdateModal(item)}
-                className="p-2 bg-blue-600 rounded-full"
-              >
-                <MdEdit />
-              </button>
-              <button
-                onClick={() => handleDeletePost(item._id)}
-                className="p-2 bg-red-600 rounded-full"
-              >
-                <MdDelete />
-              </button>
-            </div> */}
           </div>
         ))}
       </div>

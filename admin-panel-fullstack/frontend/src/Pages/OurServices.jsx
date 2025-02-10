@@ -36,7 +36,6 @@ const OurService = () => {
     }
   }, [status, dispatch]);
 
-  
   // ! Add a post
   const handleAddPost = () => {
     if (!formData.title.trim()) {
@@ -144,20 +143,18 @@ const OurService = () => {
   const closeExpandedModal = () => {
     setExpandedItem(null);
   };
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({ ...prev, [name]: value }));
-  // };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'description') {
-      const truncatedValue = value.slice(0, descriptionMaxLength);
-      console.log("Truncated Value:", truncatedValue); // <-- Add this console log
-      console.log("Truncated Length:", truncatedValue?.length); // <-- Add this console log
-      setFormData((prev) => ({ ...prev, [name]: truncatedValue }));
-    } else {
+    // console.log(name,value)
+    // if (name === 'description') {
+    //   const truncatedValue = value.slice(0, descriptionMaxLength);
+    //   console.log('descMaxLength', descriptionMaxLength);
+    //   console.log('Truncated Value:', truncatedValue); // <-- Add this console log
+    //   console.log('Truncated Length:', truncatedValue?.length); // <-- Add this console log
+    //   setFormData((prev) => ({ ...prev, [name]: truncatedValue }));
+    // } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    // }
   };
 
   const handlePaste = (e) => {
@@ -301,45 +298,6 @@ const OurService = () => {
               {isUpdateMode ? 'Update Post' : 'Add New Post'}
             </h2>
             <form>
-              {/* <div className="mb-4">
-                <label className="block font-semibold mb-2">Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData?.title}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded"
-                  placeholder="Enter title"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-semibold mb-2">
-                  Small Description
-                </label>
-                <textarea
-                  name="small_description"
-                  value={formData.small_description}
-                  onChange={handleInputChange}
-                  onPaste={handlePaste}
-                  className="w-full px-4 py-2 border rounded"
-                  placeholder="Enter small description"
-                  maxLength={60}
-                ></textarea>
-                <p className="text-sm text-gray-500">
-            {formData?.small_description?.length} / 50 characters
-          </p>
-              </div>
-              <div className="mb-4">
-                <label className="block font-semibold mb-2">Description</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  onPaste={handlePaste}
-                  className="w-full px-4 py-2 border rounded"
-                  placeholder="Enter description"
-                ></textarea>
-              </div> */}
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Title</label>
                 <input
@@ -352,10 +310,10 @@ const OurService = () => {
                   placeholder="Enter title"
                 />
                 <p className="text-sm text-gray-500">
-                  {titleMaxLength - formData?.title?.length} characters remaining
+                  {titleMaxLength - formData?.title?.length} characters
+                  remaining
                 </p>
               </div>
-
               <div className="mb-4">
                 <label className="block font-semibold mb-2">
                   Small Description
@@ -388,7 +346,11 @@ const OurService = () => {
                   placeholder="Enter description"
                 ></textarea>
                 <p className="text-sm text-gray-500">
-                  {descriptionMaxLength - formData.description?.length}{' '}
+                  {isUpdateMode
+                    ? descriptionMaxLength -
+                      (formData.description[0]?.length)
+                    : descriptionMaxLength -
+                      (formData.description?.length)}{' '}
                   characters remaining
                 </p>
               </div>
@@ -496,9 +458,6 @@ const OurService = () => {
               <h2 className="text-lg font-bold line-clamp-2">{post?.title}</h2>
 
               {/* Short Description */}
-              {/* <p className="text-md font-medium text-gray-600 mt-2 line-clamp-1">
-                {post?.small_description}
-              </p> */}
               <p className="mt-2 line-clamp-1">
                 {expandedItem?.id === post._id
                   ? post?.small_description
@@ -533,7 +492,7 @@ const OurService = () => {
             </div>
           ))
         ) : (
-          <p className="col-span-full text-center">No posts found.</p>
+          <p className="col-span-full text-center">No Services found.</p>
         )}
       </div>
     </div>

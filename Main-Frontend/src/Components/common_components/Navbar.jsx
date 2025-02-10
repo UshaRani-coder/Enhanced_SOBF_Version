@@ -36,7 +36,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/"
-              className="text-blue hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              className="text-blue hover:text-logoYellow text-lg lg:text-[16px]  font-bold font-sans"
               onClick={() => {
                 closeMenu();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -48,7 +48,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/about-us"
-              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px]  font-bold font-sans"
               onClick={closeMenu}
             >
               About
@@ -57,7 +57,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/vision"
-              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px]  font-bold font-sans"
               onClick={closeMenu}
             >
               Vision
@@ -66,7 +66,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/gallery"
-              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px]  font-bold font-sans"
               onClick={closeMenu}
             >
               Gallery
@@ -75,7 +75,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/press-release"
-              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px]  font-bold font-sans"
               onClick={closeMenu}
             >
               Press Release
@@ -84,7 +84,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/recent-activities"
-              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px]  font-bold font-sans"
               onClick={closeMenu}
             >
               Recent Activities
@@ -93,7 +93,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/legal-doc"
-              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px]  font-bold font-sans"
               onClick={closeMenu}
             >
               Legal Documents
@@ -102,7 +102,7 @@ const Navbar = () => {
           <li>
             <NavLink
               to="/videos"
-              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px]  font-bold font-sans"
               onClick={closeMenu}
             >
               Videos
@@ -111,7 +111,7 @@ const Navbar = () => {
           <li>
             <NavLink
               to="/contact-us"
-              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px] xl:text-lg font-bold font-sans"
+              className="text-blue  hover:text-logoYellow text-lg lg:text-[16px]  font-bold font-sans"
               onClick={closeMenu}
             >
               Contact

@@ -8,14 +8,14 @@ import ObjectiveImg from '../assets/objective.avif';
 const Vision = () => {
   const location = useLocation();
   // Scroll to top when path changes
-    // useEffect(() => {
-    //   if (location.pathname === '/vision') {
-    //     window.scrollTo({
-    //       top: 0,
-    //       behavior: 'smooth', // Enables smooth scrolling
-    //     });
-    //   }
-    // }, [location.pathname]);
+    useEffect(() => {
+      if (location.pathname === '/vision') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth', // Enables smooth scrolling
+        });
+      }
+    }, [location.pathname]);
   return (
     <div className="pt-[100px]">
       {/* Header Image */}

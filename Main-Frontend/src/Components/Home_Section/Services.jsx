@@ -96,6 +96,7 @@ const Services = () => {
       requestAnimationFrame(() => {
         document.querySelectorAll(".service")?.forEach((element) => {
           const bgImage = element.getAttribute("data-bg");
+          
           if (bgImage) {
             element.style.setProperty("--bg-image", `url(${bgImage})`);
           }
@@ -116,6 +117,7 @@ const Services = () => {
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>
       {status === 'loading' && <p>Loading Services...</p>}
+      {status === 'failed' && <p className="text-red-500">{error}</p>}
 
       {service === null ? (
         <ul className="services w-[100%] mt-[20px] flex flex-col items-center gap-y-[30px] md:gap-y-[70px] md:flex-row md:justify-center md:gap-x-[60px] lg:gap-x-[30px] md:flex-wrap">
@@ -125,13 +127,11 @@ const Services = () => {
               data-aos="fade-up"
               data-aos-delay={`${index * 100}`}
               data-bg={item.images[0]}
-              // onMouseEnter={() => setHoveredService(item._id)}
               onMouseOver={() => {
                 setHoveredService(item._id);
-                console.log("Mouse Over triggered for service:", item._id);
               }}
               onMouseLeave={() => setHoveredService(null)}
-              className={`service rounded-tl-[50px] rounded-br-[50px] cursor-pointer w-[80%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center`}
+              className={`service rounded-tl-[50px] rounded-br-[50px] cursor-pointer mx-2 w-[90%] small-max:w-[85%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center`}
               style={{
                 backgroundColor: item.color,
               }}

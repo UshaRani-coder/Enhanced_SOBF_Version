@@ -37,19 +37,7 @@ const Press_Release = React.memo(() => {
     });
   }, []);
 
-  // // Sort posts based on selected order
-  // const sortedPosts = useMemo(() => {
-  //   return [...bulletines].sort((a, b) => {
-  //     return sortOrder === 'asc'
-  //       ? new Date(a.date) - new Date(b.date) // Oldest first
-  //       : new Date(b.date) - new Date(a.date); // Newest first
-  //   });
-  // }, [bulletines, sortOrder]);
-
-  // Toggle sorting order
-  // const handleSortChange = () => {
-  //   setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
-  // };
+  
 
   // Check if it's the home page
   const isHomePage = useMemo(() => location.pathname === '/', [location.pathname]);
@@ -199,17 +187,7 @@ const Press_Release = React.memo(() => {
           ))}
         </select>
 
-        {/* Sort Button */}
-        {/* {displayedPosts.length >= 2 && (
-    <button
-      onClick={() => setSortOrder((prev) => (prev === 'desc' ? 'asc' : 'desc'))}
-      className="bg-logoBlue text-white font-semibold py-2 px-5 rounded-lg shadow-md 
-                 hover:bg-logoYellow hover:text-logoBlue transition-all duration-300 
-                 focus:ring-2 focus:ring-logoYellow focus:ring-offset-2"
-    >
-      Sort by Date: {sortOrder === 'asc' ? 'Oldest First' : 'Newest First'}
-    </button>
-  )} */}
+       
       </div>
       {noPostsMessage && (
         <p className="text-center text-lg font-semibold text-gray-700 mt-4">

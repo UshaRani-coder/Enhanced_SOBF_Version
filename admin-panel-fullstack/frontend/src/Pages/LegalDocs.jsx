@@ -269,11 +269,6 @@ const [isLoading, setIsLoading] = useState(false);
                 >
                   <MdDelete className="text-red-800 text-2xl" />
                 </button>
-                {/* <Link to={doc?.fileName} target="_blank"
-                  className="bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
-                >
-                  <MdPreview className="text-green-800 text-2xl" /> 
-                </Link> */}
                 <Link
                   to={doc?.fileName}
                   target="_blank"
