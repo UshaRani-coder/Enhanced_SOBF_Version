@@ -6,16 +6,18 @@ const createNewsBulletine = async (req, res) => {
   try {
     let videosArr = [];
     let imageArr = [];
-    const { title, description ,date } = req.body;
+    const { title, description, date } = req.body;
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
-        error: 'Title must be a string with at least 3 characters',
+        success: false,
+        message: 'Title must be a string with at least 3 characters',
       });
     }
 
     if (!description || description.trim().length < 5) {
       return res.status(400).json({
-        error: 'Description must be a string with at least 5 characters',
+        success: false,
+        message: 'Description must be a string with at least 5 characters',
       });
     }
     // for images
@@ -51,8 +53,7 @@ const createNewsBulletine = async (req, res) => {
       .status(500)
       .json({
         success: false,
-        message: 'Error creating post',
-        error: error.message,
+        message: 'Error creating post'
       });
   }
 };
@@ -88,8 +89,7 @@ const getNewsBulletine = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while getting news/bulletin post',
-      error: error.message,
+      message: 'Something went wrong while getting news/bulletin post'
     });
   }
 };
@@ -101,7 +101,7 @@ const updateNewsBulletine = async (req, res) => {
     // Fetch the existing post
     const existingPost = await bulletineModal.findById(id);
     if (!existingPost) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Post not found' });
     }
 
     const { title, description } = req.body;
@@ -110,7 +110,7 @@ const updateNewsBulletine = async (req, res) => {
     if (title && (typeof title !== 'string' || title.trim().length < 3)) {
       return res
         .status(400)
-        .json({ error: 'Title must be a string with at least 3 characters' });
+        .json({ success: false, message: 'Title must be a string with at least 3 characters' });
     }
 
     if (
@@ -120,7 +120,8 @@ const updateNewsBulletine = async (req, res) => {
       return res
         .status(400)
         .json({
-          error: 'Description must be a string with at least 5 characters',
+          success: false,
+          message: 'Description must be a string with at least 5 characters',
         });
     }
 
@@ -157,7 +158,7 @@ const updateNewsBulletine = async (req, res) => {
       new: true,
     });
     if (!updatedPost) {
-      return res.status(404).json({ error: 'Bulletine Post not found' });
+      return res.status(404).json({ success: false, message: 'Bulletine Post not found' });
     }
 
     res.status(200).json({
@@ -170,8 +171,7 @@ const updateNewsBulletine = async (req, res) => {
       .status(500)
       .json({
         success: false,
-        message: 'Something went wrong while updating news/bulletine post',
-        error: error.message,
+        message: 'Something went wrong while updating news/bulletine post'
       });
   }
 };
@@ -195,8 +195,7 @@ const deleteNewsBulletine = async (req, res) => {
       .status(500)
       .json({
         success: false,
-        message: 'Something went wrong while deleting news/bulletine post',
-        error: error.message,
+        message: 'Something went wrong while deleting news/bulletine post'
       });
   }
 };

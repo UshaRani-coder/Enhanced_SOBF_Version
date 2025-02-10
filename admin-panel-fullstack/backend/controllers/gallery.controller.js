@@ -21,8 +21,7 @@ const createGalleryController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while creating Gallery post',
-      error: error.message,
+      message: 'Something went wrong while creating Gallery post'
     });
   }
 };
@@ -45,8 +44,7 @@ const getAllGalleryImagesController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while retrieving gallery posts',
-      error: error.message,
+      message: 'Something went wrong while retrieving gallery posts'
     });
   }
 };
@@ -100,8 +98,7 @@ const updateGalleryController = async (req, res) => {
     console.log('Error while updating gallery post: ', error);
     return res.status(500).json({
       success: false,
-      message: 'Something went wrong while updating Gallery post',
-      error: error.message,
+      message: 'Something went wrong while updating Gallery post'
     });
   }
 };
@@ -112,7 +109,7 @@ const deleteGalleryController = async (req, res) => {
     const { id } = req.params;
     const post = await GalleryModel.findByIdAndDelete(id);
     if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Post not found' });
     }
     res
       .status(200)
@@ -122,8 +119,7 @@ const deleteGalleryController = async (req, res) => {
       .status(500)
       .json({
         success: false,
-        message: 'Something went wrong while deleting the Gallery post',
-        error: error.message,
+        message: 'Something went wrong while deleting the Gallery post'
       });
   }
 };

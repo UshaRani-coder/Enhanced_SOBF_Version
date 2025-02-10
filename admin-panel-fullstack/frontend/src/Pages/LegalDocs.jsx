@@ -15,7 +15,8 @@ import {
 const LegalDoc = () => {
   const dispatch = useDispatch();
   const { legalDocs, status } = useSelector((state) => state.legalDocs);
-const [isLoading, setIsLoading] = useState(false);
+  const maxLength = 150;
+  const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentDoc, setCurrentDoc] = useState(null);
@@ -60,7 +61,7 @@ const [isLoading, setIsLoading] = useState(false);
     formDataToSend.append('title', formData.title);
     formDataToSend.append('description', formData.description);
     if (formData.file) formDataToSend.append('file', formData.file);
-    setIsLoading(true); 
+    setIsLoading(true);
     dispatch(addLegalDocument(formDataToSend))
       .unwrap()
       .then(() => toast.success('Successfully added legal document'))
@@ -184,6 +185,7 @@ const [isLoading, setIsLoading] = useState(false);
                 <textarea
                   name="title"
                   value={formData.title}
+                  maxLength={maxLength}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                   placeholder="Enter title of the document"
@@ -194,10 +196,14 @@ const [isLoading, setIsLoading] = useState(false);
                 <textarea
                   name="description"
                   value={formData.description}
+                  maxLength={maxLength}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                   placeholder="Enter the description..."
                 ></textarea>
+                <p className="mt-2 text-sm text-gray-500">
+                  {maxLength - formData.description?.length} characters remaining
+                </p>
               </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">File</label>
@@ -269,6 +275,11 @@ const [isLoading, setIsLoading] = useState(false);
                 >
                   <MdDelete className="text-red-800 text-2xl" />
                 </button>
+                {/* <Link to={doc?.fileName} target="_blank"
+                  className="bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
+                >
+                  <MdPreview className="text-green-800 text-2xl" /> 
+                </Link> */}
                 <Link
                   to={doc?.fileName}
                   target="_blank"

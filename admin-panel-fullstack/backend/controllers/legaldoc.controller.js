@@ -23,8 +23,7 @@ const getLegalDocument = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while fetching legal documents.',
-      error: error.message,
+      message: 'Something went wrong while fetching legal documents.'
     });
   }
 };
@@ -74,8 +73,7 @@ const createLegalDocument = async (req, res) => {
     console.error("Error in createLegalDocument:", error);
     res.status(500).json({
       success: false,
-      message: "Something went wrong while creating the legal document.",
-      error: error.message,
+      message: "Something went wrong while creating the legal document."
     });
   }
 };
@@ -127,8 +125,7 @@ const updateLegalDocument = async (req, res) => {
     console.error("Error in updateLegalDocument:", error);
     return res.status(500).json({
       success: false,
-      message: "Something went wrong while updating the legal document.",
-      error: error.message,
+      message: "Something went wrong while updating the legal document."
     });
   }
 };
@@ -140,14 +137,14 @@ const deleteLegalDocument = async (req, res) => {
 
     // Validate document ID format
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, error: 'Invalid document ID.' });
+      return res.status(400).json({ success: false, message: 'Invalid document ID.' });
     }
 
     // Find and delete the document from the database
     const post = await LegalDoc.findByIdAndDelete(id);
 
     if (!post) {
-      return res.status(404).json({ success: false, error: 'Document not found.' });
+      return res.status(404).json({ success: false, message: 'Document not found.' });
     }
 
     res.status(200).json({
@@ -157,8 +154,7 @@ const deleteLegalDocument = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while deleting the legal document.',
-      error: error.message,
+      message: 'Something went wrong while deleting the legal document.'
     });
   }
 };

@@ -28,9 +28,7 @@ const getOurImpacts = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message:
-        'Something went wrong while fetching Our Impacts data from the backend.',
-      error: error.message,
+      message: 'Something went wrong while fetching Our Impacts data from the backend.'
     });
   }
 };
@@ -43,14 +41,15 @@ const createOurImpacts = async (req, res) => {
     if (!total_services) {
       return res
         .status(400)
-        .json({ error: "Invalid 'total_services' is required" });
+        .json({ success: false, message: "Invalid 'total_services' is required" });
     }
     // Validate description
     if (!description || !isValidString(description)) {
       return res
         .status(400)
         .json({
-          error: "Invalid 'description'. It must be a non-empty string.",
+          success: false,
+          message: "Invalid 'description'. It must be a non-empty string.",
         });
     }
 
@@ -77,13 +76,11 @@ const createOurImpacts = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while creating Our Impacts post',
-      error: error.message,
+      message: 'Something went wrong while creating Our Impacts post'
     });
   }
 };
 
-//! Update an "Our Impacts" post based on ID
 //! Update an "Our Impacts" post based on ID
 const updateOurImpacts = async (req, res) => {
   try {
@@ -135,8 +132,7 @@ const updateOurImpacts = async (req, res) => {
     console.log('Error while updating Our Impacts post: ', error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to update Our Impacts post',
-      error: error.message,
+      message: 'Failed to update Our Impacts post'
     });
   }
 };
@@ -148,13 +144,13 @@ const deleteOurImpacts = async (req, res) => {
 
     // Validate ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid post ID' });
+      return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
 
     const post = await OurImpactsModel.findByIdAndDelete(id);
 
     if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Post not found' });
     }
 
     res.status(200).json({
@@ -164,8 +160,7 @@ const deleteOurImpacts = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while deleting Our Impacts post',
-      error: error.message,
+      message: 'Something went wrong while deleting Our Impacts post'
     });
   }
 };

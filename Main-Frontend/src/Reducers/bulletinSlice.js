@@ -9,6 +9,11 @@ export const getBulletine = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchNewsPosts();
+      if (!response || response.status !== 200 || !response.data?.posts) {
+        return hardcodedBulletins
+      }
+      console.log("response?.data?.posts", response?.data?.posts);
+      
       return response?.data?.posts || hardcodedBulletins;
     } catch (error) {
       return rejectWithValue(hardcodedBulletins);

@@ -1,9 +1,11 @@
+/* eslint-disable react/display-name */
 
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation,useNavigate } from 'react-router-dom';
 import { getPosts } from '../../Reducers/postSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { getBulletine } from '../../Reducers/bulletinSlice';
 
 const Press_Release = React.memo(() => {
   const location = useLocation();
@@ -11,12 +13,10 @@ const Press_Release = React.memo(() => {
   const dispatch = useDispatch();
   const [selectedYear, setSelectedYear] = useState(''); // Filter by year
   const [selectedMonth, setSelectedMonth] = useState(''); // Filter by month
-  
 
   // Fetch posts and status from the Redux store
-  const { bulletines, status, error } = useSelector(
-    (state) => state.bulletines
-  );
+  const { bulletines, status } = useSelector((state) => state.bulletines);
+  console.log("bulletines in /press-release ", bulletines);
 
   // Sorting order state
   const [sortOrder, setSortOrder] = useState('desc'); // Default: Newest first
@@ -24,7 +24,8 @@ const Press_Release = React.memo(() => {
   // Fetch posts when the component loads
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(getPosts());
+      // getBulletine
+      dispatch(getBulletine());
     }
   }, [status, dispatch]);
 
@@ -134,7 +135,6 @@ const Press_Release = React.memo(() => {
 
       {/* Display Loading or Error Messages */}
       {status === 'loading' && <p>Loading posts...</p>}
-      {status === 'failed' && <p className="text-red-500">{error}</p>}
 
        {/* Filter and Sort Controls */}
 

@@ -12,7 +12,7 @@ import { MdEdit, MdDelete } from 'react-icons/md';
 const OurImpacts = () => {
   const dispatch = useDispatch();
   const { ourImpacts, status } = useSelector((state) => state.ourImpacts);
-  const maxLength = 60;
+  const maxLength = 150;
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -22,8 +22,7 @@ const createFeaturedVideo = async (req, res) => {
     // Handle any errors during creation
     res.status(500).json({
       success: false,
-      message: "Something went wrong while creating Featured video post",
-      error: error.message,
+      message: "Something went wrong while creating Featured video post"
     });
   }
 };
@@ -49,8 +48,7 @@ const updateFeaturedVideo = async (req, res) => {
     // Handle any errors during update
     res.status(500).json({
       success: false,
-      message: "Something went wrong while updating Featured video post",
-      error: error.message,
+      message: "Something went wrong while updating Featured video post"
     });
   }
 };
@@ -63,7 +61,7 @@ const getFeaturedVideo = async (req, res) => {
     res.status(200).json({ success: true, message: "Successfully fetched all featured videos.", posts });
   } catch (error) {
     // Handle any errors during retrieval
-    res.status(500).json({ success: false, message: "Something went wrong while fetching featured videos.", error: error.message });
+    res.status(500).json({ success: false, message: "Something went wrong while fetching featured videos." });
   }
 }
 
@@ -86,7 +84,7 @@ const deleteFeaturedVideo = async (req, res) => {
     res.status(200).json({ success: true, message: 'Featured video post deleted successfully' });
   } catch (error) {
     // Handle any errors during deletion
-    res.status(500).json({ success: false, message: "Something went wrong while deleting the featured video post", error: error.message });
+    res.status(500).json({ success: false, message: "Something went wrong while deleting the featured video post" });
   }
 }
 

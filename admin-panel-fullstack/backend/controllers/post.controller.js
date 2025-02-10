@@ -37,7 +37,6 @@ const getPosts = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Something went wrong while fetching posts',
-      error: error.message,
     });
   }
 };
@@ -50,13 +49,15 @@ const createPost = async (req, res) => {
     const { title, description, date } = req.body;
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
-        error: 'Title must be a string with at least 3 characters',
+        success: false,
+        message: 'Title must be a string with at least 3 characters',
       });
     }
 
     if (!description || description.trim().length < 5) {
       return res.status(400).json({
-        error: 'Description must be a string with at least 5 characters',
+        success: false,
+        message: 'Description must be a string with at least 5 characters',
       });
     }
     // for images
@@ -92,8 +93,7 @@ const createPost = async (req, res) => {
       .status(500)
       .json({
         success: false,
-        message: 'Error creating post',
-        error: error.message,
+        message: 'Error creating post'
       });
   }
 };
@@ -105,13 +105,13 @@ const updatePost = async (req, res) => {
 
     // Validate ID format
     if (!isValidObjectId(id)) {
-      return res.status(400).json({ error: 'Invalid post ID' });
+      return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
 
     // Fetch the existing post
     const existingPost = await PostModel.findById(id);
     if (!existingPost) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Post not found' });
     }
 
     const { title, description, date } = req.body;
@@ -120,7 +120,7 @@ const updatePost = async (req, res) => {
     if (title && (typeof title !== 'string' || title.trim().length < 3)) {
       return res
         .status(400)
-        .json({ error: 'Title must be a string with at least 3 characters' });
+        .json({ success: false, message: 'Title must be a string with at least 3 characters' });
     }
 
     if (
@@ -130,7 +130,7 @@ const updatePost = async (req, res) => {
       return res
         .status(400)
         .json({
-          error: 'Description must be a string with at least 5 characters',
+          success: false, message: 'Description must be a string with at least 5 characters',
         });
     }
 
@@ -168,7 +168,7 @@ const updatePost = async (req, res) => {
       new: true,
     });
     if (!updatedPost) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Post not found' });
     }
 
     res.status(200).json({
@@ -179,8 +179,7 @@ const updatePost = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while updating the post',
-      error: error.message,
+      message: 'Something went wrong while updating the post'
     });
   }
 };
@@ -192,13 +191,13 @@ const deletePost = async (req, res) => {
 
     // Validate ID format
     if (!isValidObjectId(id)) {
-      return res.status(400).json({ error: 'Invalid post ID' });
+      return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
 
     // Delete the post
     const post = await PostModel.findByIdAndDelete(id);
     if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Post not found' });
     }
 
     res
@@ -209,8 +208,7 @@ const deletePost = async (req, res) => {
       .status(500)
       .json({
         success: false,
-        message: 'Something went wrong while deleting post',
-        error: error.message,
+        message: 'Something went wrong while deleting post'
       });
   }
 };

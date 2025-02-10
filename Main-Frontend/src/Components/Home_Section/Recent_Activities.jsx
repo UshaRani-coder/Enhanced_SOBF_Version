@@ -1,14 +1,16 @@
+/* eslint-disable react/display-name */
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { getBulletine } from '../../Reducers/bulletinSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import loader from '../../assets/loader.webp';
+import { getPosts } from '../../Reducers/postSlice';
 
 const Recent_Activities = React.memo(() => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { posts, status, error } = useSelector((state) => state.posts);
+  const {  posts, status, error } = useSelector((state) => state.posts);
 
   const [page, setPage] = useState(1);
   const postsPerPage = 10;
@@ -28,7 +30,7 @@ const Recent_Activities = React.memo(() => {
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(getBulletine());
+      dispatch(getPosts());
     }
   }, [status, dispatch]);
 

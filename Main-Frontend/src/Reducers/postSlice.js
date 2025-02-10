@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchPosts } from '../api/api'; 
+import { fetchPosts } from '../api/api';
 import hardcodedPosts from "../defaultData/recent-activities.json"
 
 
@@ -8,6 +8,9 @@ export const getPosts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchPosts();
+      if (!response || response.status !== 200 || !response.data?.posts) {
+        return hardcodedPosts
+      }
       return response?.data?.posts || hardcodedPosts;
     } catch (error) {
       return rejectWithValue(hardcodedPosts);

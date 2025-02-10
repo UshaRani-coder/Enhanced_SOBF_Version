@@ -9,6 +9,9 @@ export const getGalleryImages = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getGallery();
+      if (!response || response.status !== 200 || !response.data?.posts) {
+        return fallbackGallery
+      }
       return response?.data?.posts || fallbackGallery; // Use API data or fallback
     } catch (error) {
       return rejectWithValue(fallbackGallery); // Use fallback data if API fails
@@ -35,7 +38,7 @@ const gallerySlice = createSlice({
       })
       .addCase(getGalleryImages.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = 'Failed to fetch gallery. Showing fallback images.';
+        // state.error = 'Failed to fetch gallery. Showing fallback images.';
         state.gallery = fallbackGallery; // Use fallback data if API fails
       });
   }

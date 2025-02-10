@@ -1,24 +1,29 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getHeroBanner } from '../api/api';
-import hardcodedHeroBanners from "../defaultData/hero-banner.json"
+import hardcodedHeroBanners from "../defaultData/hero-banner.json";
 
 // ! Get Hero Banners
 export const getHeroBanners = createAsyncThunk(
   'heroBanner/getHeroBanners',
-  async (_, { rejectWithValue }) => {
+  async () => {
     try {
       const response = await getHeroBanner();
-      return response?.data?.banners || hardcodedHeroBanners ;
-    } catch (error) {
-      return rejectWithValue(hardcodedHeroBanners); // Return fallback data on failure
+
+      // If response is not valid or status is not 200, return hardcoded data
+      if (!response || response.status !== 200 || !response.data?.banners) {
+        return hardcodedHeroBanners;
+      }
+
+      return response.data.banners;
+    } catch {
+      return hardcodedHeroBanners; // Return fallback data on any error
     }
   }
 );
 
 const heroBannerSlice = createSlice({
-  // name: 'heroBanner',
-  name: hardcodedHeroBanners,
-  initialState: { heroBanner: [], status: 'idle', error: null },
+  name: "heroBanner",
+  initialState: { heroBanner: hardcodedHeroBanners, status: 'idle' },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -31,8 +36,7 @@ const heroBannerSlice = createSlice({
       })
       .addCase(getHeroBanners.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error?.message;
-        state.heroBanner = hardcodedHeroBanners;
+        state.gallery = hardcodedHeroBanners; // Use fallback data if API fails
       });
   },
 });

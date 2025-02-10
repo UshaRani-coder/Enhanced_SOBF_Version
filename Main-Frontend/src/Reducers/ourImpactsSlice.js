@@ -8,6 +8,9 @@ export const getOurImpact = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getOurImpacts();
+      if (!response || response.status !== 200 || !response.data?.posts) {
+        return hardcodedImpacts
+      }
       return response?.data?.posts || hardcodedImpacts;
     } catch (error) {
       return rejectWithValue(hardcodedImpacts);

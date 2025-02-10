@@ -13,7 +13,7 @@ const getTeamMembers = async (req, res) => {
     }
     return res.status(200).json({ success: true, teamMembers });
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, message: "Something went wrong while retriving data " });
   }
 };
 
@@ -54,8 +54,7 @@ const createTeamMember = async (req, res) => {
     console.log('error while creating team member  ', error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to create team member',
-      error: error,
+      message: 'Failed to create team member'
     });
   }
 };
@@ -101,8 +100,7 @@ const updateTeam = async (req, res) => {
     console.log('Error while updating team member: ', error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to update team member',
-      error: error.message,
+      message: 'Failed to update team member'
     });
   }
 };
@@ -118,8 +116,7 @@ const deleteTeam = async (req, res) => {
       .status(500)
       .json({
         success: false,
-        message: 'Failed to delete team member',
-        error: error.message,
+        message: 'Failed to delete team member'
       });
   }
 };

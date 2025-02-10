@@ -41,7 +41,10 @@ const PostPage = () => {
       toast.error('Description is required.');
       return false;
     }
-
+    if (!formData.date) {
+      toast.error('Pls pick a date of your choice either it could be today or any specific.');
+      return false;
+    }
     if (!formData.images) {
       toast.error('Atleast one images is required. Video can be optional.');
       setFormData({
@@ -106,7 +109,7 @@ const PostPage = () => {
         formDataToSend.append('videos', formData.videos[i]);
       }
     }
-    setIsLoading(true);
+    // setIsLoading(true);
     dispatch(addBulletine(formDataToSend))
       .unwrap()
       .then(() => {
@@ -173,7 +176,7 @@ const PostPage = () => {
         updatedData.append('videos', formData.videos[i]);
       }
     }
-    setIsLoading(true);
+    // setIsLoading(true);
     dispatch(updateBulletine({ id: currentPost._id, updatedData }))
       .unwrap()
       .then(() => {
@@ -201,7 +204,7 @@ const PostPage = () => {
           toast.success('Post deleted successfully!');
         })
         .catch((error) => {
-          toast.error(error.message);
+          toast.error(error.message || "Something went wrong while deleting post!");
           setIsLoading(false);
         });
     }
@@ -465,13 +468,13 @@ const PostPage = () => {
       {/* rendering all posts  */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {bulletines && bulletines?.length > 0 ? (
-          bulletines.map((bulletin,index) => (
+          bulletines.map((bulletin, index) => (
             <div
               key={bulletin._id || index}
               className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
               onClick={() => handleExpandPost(bulletin)}
             >
-              
+
               {/* Conditional rendering for media */}
               {!bulletin?.videos ? (
                 <video controls className="w-full rounded mb-4">
@@ -486,52 +489,52 @@ const PostPage = () => {
                 />
               )}
               <div className='flex flex-col items-start w-full'>
-              {/* Date */}
-              <div className="flex items-center justify-start gap-x-1 mt-2 w-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                  className="w-4 h-4 text-gray-600 mr-1"
-                >
-                  <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
-                </svg>
-                <span className="text-gray-700">
-                  {bulletin?.date
-                    ? new Date(bulletin.date).toLocaleDateString()
-                    : 'Date not available'}
-                </span>
+                {/* Date */}
+                <div className="flex items-center justify-start gap-x-1 mt-2 w-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="w-4 h-4 text-gray-600 mr-1"
+                  >
+                    <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
+                  </svg>
+                  <span className="text-gray-700">
+                    {bulletin?.date
+                      ? new Date(bulletin.date).toLocaleDateString()
+                      : 'Date not available'}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
+                  {bulletin?.title}
+                </h3>
+
+                {/* Description */}
+                <p className="mt-2  line-clamp-4">{bulletin?.description}</p>
+
+                {/* Edit/Delete Buttons */}
+                <div className="mt-4 flex gap-4">
+                  <button
+                    className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openUpdateModal(bulletin);
+                    }}
+                  >
+                    <MdEdit className="text-blue-800 text-2xl" />
+                  </button>
+                  <button
+                    className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeletePost(bulletin?._id);
+                    }}
+                  >
+                    <MdDelete className="text-red-800 text-2xl" />
+                  </button>
+                </div>
               </div>
-
-              {/* Title */}
-              <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
-                {bulletin?.title}
-              </h3>
-
-              {/* Description */}
-              <p className="mt-2  line-clamp-4">{bulletin?.description}</p>
-
-              {/* Edit/Delete Buttons */}
-              <div className="mt-4 flex gap-4">
-                <button
-                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openUpdateModal(bulletin);
-                  }}
-                >
-                  <MdEdit className="text-blue-800 text-2xl" />
-                </button>
-                <button
-                  className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeletePost(bulletin?._id);
-                  }}
-                >
-                  <MdDelete className="text-red-800 text-2xl" />
-                </button>
-              </div>
-            </div>
             </div>
           ))
         ) : (

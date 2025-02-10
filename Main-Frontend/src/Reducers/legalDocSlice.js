@@ -10,6 +10,9 @@ export const getLegalDocuments = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getLegalDocs();
+      if (!response || response.status !== 200 || !response.data?.docs) {
+        return fallbackLegalDocs
+      }
       return response?.data?.docs || fallbackLegalDocs; // Use API data or fallback
     } catch (error) {
       return rejectWithValue(fallbackLegalDocs); // Use fallback data if API fails
@@ -37,8 +40,7 @@ const legalDocSlice = createSlice({
       })
       .addCase(getLegalDocuments.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = 'Failed to fetch legal documents. Showing fallback data.';
-        state.legalDocs = action.payload; // Use fallback data if API fails
+        state.legalDocs = fallbackLegalDocs // Use fallback data if API fails
       });
   }
 });

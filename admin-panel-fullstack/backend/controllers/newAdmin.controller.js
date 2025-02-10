@@ -12,16 +12,16 @@ const registerAdmin = async (req, res) => {
     // Check if admin already exists
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
-      return res.status(400).json({ message: 'Admin already exists' });
+      return res.status(400).json({ success: false, message: 'Admin already exists' });
     }
 
     const newAdmin = new Admin({ email, password });
     await newAdmin.save();
     res
       .status(201)
-      .json({ message: 'Admin registered successfully', newAdmin });
+      .json({ success: true, message: 'Admin registered successfully', newAdmin });
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
@@ -36,69 +36,25 @@ const loginAdmin = async (req, res) => {
     console.log({ decryptedData });
     // Proceed with authentication logic as usual
     const admin = await Admin.findOne({ email });
-    console.log({ admin });
     if (!admin) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ success: false, message: 'User not found with this email ID Pls register yourself.' });
     }
 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ success: false, message: 'Invalid email or password' });
     }
 
     const token = jwt.sign({ id: admin._id }, JWT_SECRET, {
       expiresIn: '1h',
     });
-
-    console.log('>>>>>>>>> JWT_SECRET', process.env.JWT_SECRET);
-
     res.status(200).json({
       message: 'Login successful',
       token,
     });
   } catch (err) {
-    console.log('login admin >>>>>>>>>>>> ', err);
-    res.status(500).json({ message: 'Server error', error: err.message });
+    res.status(500).json({ message: 'Server error while login ' });
   }
 };
 
 module.exports = { registerAdmin, loginAdmin };
-
-
-// const loginAdmin = async (req, res) => {
-//   try {
-//     // Decrypt the incoming data
-//     console.log(req.body);
-//     const bytes = CryptoJS.AES.decrypt(req.body.data, 'fgdsgsdfty4362365fhfg');
-//     const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-
-//     const { email, password } = decryptedData;
-//     console.log({ decryptedData });
-//     // Proceed with authentication logic as usual
-//     const admin = await Admin.findOne({ email });
-//     console.log({ admin });
-//     if (!admin) {
-//       return res.status(400).json({ message: 'user not found ' });
-//     }
-
-//     const isMatch = await bcrypt.compare(password, admin.password);
-//     if (!isMatch) {
-//       return res.status(400).json({ message: 'Invalid email or password' });
-//     }
-
-//     const token = jwt.sign({ id: admin._id }, JWT_SECRET, {
-//       expiresIn: '1h',
-//     });
-
-//     console.log('>>>>>>>>> JWT_SECRET', process.env.JWT_SECRET);
-
-//     res.status(200).json({
-//       message: 'Login successful',
-//       token,
-//     });
-//   } catch (err) {
-//     console.log('login admin >>>>>>>>>>>> ', err);
-//     res.status(500).json({ message: 'Server error', error: err.message });
-//   }
-// };
-// module.exports = { registerAdmin, loginAdmin }

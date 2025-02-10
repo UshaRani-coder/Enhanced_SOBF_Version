@@ -5,15 +5,13 @@ const Service = require('../models/ourservices.model');
 const createService = async (req, res) => {
   try {
     const { title, description, small_description, color } = req.body;
-    console.log('req.body', req.body);
-
     let imageArr = [];
     let logo = req?.files?.logo[0]?.filename || '';
     // Basic validation
     if (!title || !description) {
       return res
         .status(400)
-        .json({ message: 'All required fields must be filled.' });
+        .json({ success: false, message: 'All required fields must be filled.' });
     }
     // for images
     const images = req.files.images || [];
@@ -37,11 +35,11 @@ const createService = async (req, res) => {
     res
       .status(201)
       .json({ message: 'Service created successfully', service: newService });
-  } catch (error) {
-    console.log('error', error);
+  } catch (message) {
+    console.log('message', message);
     res
       .status(500)
-      .json({ message: 'Error creating service', error: error.message });
+      .json({ success: false, message: 'message creating service' });
   }
 };
 
@@ -54,19 +52,21 @@ const updateService = async (req, res) => {
 
     // Validate ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid service ID' });
+      return res.status(400).json({ success: false, message: 'Invalid service ID' });
     }
 
     // Validate title and description
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
-        error: 'Title must be a string with at least 3 characters',
+        success: false,
+        message: 'Title must be a string with at least 3 characters',
       });
     }
 
     if (!description || description.trim().length < 5) {
       return res.status(400).json({
-        error: 'Description must be a string with at least 5 characters',
+        success: false,
+        message: 'Description must be a string with at least 5 characters',
       });
     }
 
@@ -74,7 +74,7 @@ const updateService = async (req, res) => {
     const existingService = await Service.findById(id);
 
     if (!existingService) {
-      return res.status(404).json({ message: 'Service not found' });
+      return res.status(404).json({ success: false, message: 'Service not found' });
     }
 
     // Handle images (preserve existing images and add new ones)
@@ -113,13 +113,14 @@ const updateService = async (req, res) => {
     res
       .status(200)
       .json({
+        success: true,
         message: 'Service updated successfully',
         service: updatedService,
       });
-  } catch (error) {
+  } catch (message) {
     res
       .status(500)
-      .json({ message: 'Error updating service', error: error.message });
+      .json({ success: false, message: 'message updating service' });
   }
 };
 
@@ -141,10 +142,10 @@ const getAllServices = async (req, res) => {
       }
     }
     res.status(200).json(services);
-  } catch (error) {
+  } catch (message) {
     res
       .status(500)
-      .json({ message: 'Error fetching services', error: error.message });
+      .json({ success: false, message: 'message fetching services' });
   }
 };
 
@@ -153,18 +154,18 @@ const deleteService = async (req, res) => {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid post ID' });
+      return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
     const deletedService = await Service.findByIdAndDelete(id);
     if (!deletedService) {
-      return res.status(404).json({ message: 'Service not found' });
+      return res.status(404).json({ success: false, message: 'Service not found' });
     }
 
-    res.status(200).json({ message: 'Service deleted successfully' });
-  } catch (error) {
+    res.status(200).json({ success: false, message: 'Service deleted successfully' });
+  } catch (message) {
     res
       .status(500)
-      .json({ message: 'Error deleting service', error: error.message });
+      .json({ success: false, message: 'message deleting service' });
   }
 };
 
