@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import aboutus from '../assets/aboutUsImage.avif';
+import aboutus from '../assets/aboutUsImage.png';
 import { getGalleryImages } from '../Reducers/gallerySlice';
 
 const Gallery = () => {

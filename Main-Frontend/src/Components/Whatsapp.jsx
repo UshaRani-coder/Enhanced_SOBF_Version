@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FloatingWhatsApp } from 'react-floating-whatsapp';
-import Avatar from '../assets/OurTeam/TarunMisra.avif';
+import Avatar from '../assets/OurTeam/TarunMisra.png';
 import '../App.css';
 
 const Whatsapp = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
-import aboutBackgroundImg from '../../assets/Sobf Images/food distribution/fd7.avif';
+import aboutBackgroundImg from '../../assets/Sobf Images/food distribution/fd7.png';
 import aboutImg from '../../assets/Sobf Images/children_activities/aboutUs.jpg';
 const About = () => {
   return (

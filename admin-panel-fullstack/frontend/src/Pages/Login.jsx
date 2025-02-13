@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import CryptoJS from 'crypto-js';
-import Logo from '../assets/logo.avif';
+import Logo from '../assets/logo.png';
 
 const Login = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();

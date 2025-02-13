@@ -1,6 +1,6 @@
 // dummy data
-import news1 from '../assets/Sobf Images/Press Release/news1.avif';
-import news2 from '../assets/Sobf Images/Press Release/news2.avif';
+import news1 from '../assets/Sobf Images/Press Release/news1.png';
+import news2 from '../assets/Sobf Images/Press Release/news2.png';
 import news3 from '../assets/Sobf Images/Press Release/News3.jpeg';
 
 const News = [

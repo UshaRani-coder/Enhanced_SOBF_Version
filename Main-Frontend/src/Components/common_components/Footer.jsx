@@ -1,4 +1,4 @@
-import sobfLogo from '../../assets/sobfLogo.avif';
+import sobfLogo from '../../assets/sobfLogo.png';
 import { Link } from 'react-router-dom';
 import LegalDoc from '../../pages/LegalDoc';
 

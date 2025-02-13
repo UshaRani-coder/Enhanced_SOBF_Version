@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/sobfLogo.avif';
+import logo from '../assets/sobfLogo.png';
 import { FaPen, FaChartBar, FaTable } from 'react-icons/fa';
 import { FiTarget } from 'react-icons/fi';
 import { FaYoutube } from 'react-icons/fa';

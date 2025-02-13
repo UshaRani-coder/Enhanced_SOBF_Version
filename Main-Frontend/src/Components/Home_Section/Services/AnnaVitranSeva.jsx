@@ -1,8 +1,8 @@
 import React,{useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
-import img1 from '../../../assets/Sobf Images/food distribution/fd2.avif';
-import img2 from '../../../assets/Sobf Images/food distribution/fd7.avif';
-import img3 from '../../../assets/Sobf Images/food distribution/fd9.avif';
+import img1 from '../../../assets/Sobf Images/food distribution/fd2.png';
+import img2 from '../../../assets/Sobf Images/food distribution/fd7.png';
+import img3 from '../../../assets/Sobf Images/food distribution/fd9.png';
 import ImgBanner from './ImgBanner';
 import { Link } from 'react-router-dom';
 

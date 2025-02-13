@@ -1,5 +1,5 @@
-import activity1Img from '../assets/banner1.avif';
-import activity2Img from '../assets/banner2.avif';
+import activity1Img from '../assets/banner1.png';
+import activity2Img from '../assets/banner2.png';
 import we3 from '../assets/Sobf Images/women empowerment/we3.avif';
 const recentActivities = [
   {

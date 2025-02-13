@@ -1,8 +1,8 @@
 import React,{useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
-import Img1 from '../../../assets/Sobf Images/child_education_and_empowerment/cee1.avif';
-import Img2 from '../../../assets/Sobf Images/child_education_and_empowerment/cee12.avif';
-import Img3 from '../../../assets/Sobf Images/child_education_and_empowerment/cee25.avif';
+import Img1 from '../../../assets/Sobf Images/child_education_and_empowerment/cee1.png';
+import Img2 from '../../../assets/Sobf Images/child_education_and_empowerment/cee12.png';
+import Img3 from '../../../assets/Sobf Images/child_education_and_empowerment/cee25.png';
 import ImgBanner from './ImgBanner';
 import { Link } from 'react-router-dom';
 

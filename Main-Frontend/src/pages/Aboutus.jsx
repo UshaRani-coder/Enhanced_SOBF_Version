@@ -1,13 +1,13 @@
 import React, { useState,useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import aboutus from '../assets/aboutUsImage.avif';
-import cee14 from '../assets/Sobf Images/child_education_and_empowerment/cee14.avif';
-import cee11 from '../assets/Sobf Images/child_education_and_empowerment/cee11.avif';
-import ca5 from '../assets/Sobf Images/children_activities/ca5.avif';
-import ca15 from '../assets/Sobf Images/children_activities/ca3.avif';
-import hac4 from '../assets/Sobf Images/health_and_awareness_camp/hac4.avif';
-import ca6 from '../assets/Sobf Images/children_activities/ca6.avif';
-import ourStory from '../assets/ourStoryImg.avif';
+import aboutus from '../assets/aboutUsImage.png';
+import cee14 from '../assets/Sobf Images/child_education_and_empowerment/cee14.png';
+import cee11 from '../assets/Sobf Images/child_education_and_empowerment/cee11.png';
+import ca5 from '../assets/Sobf Images/children_activities/ca5.png';
+import ca15 from '../assets/Sobf Images/children_activities/ca3.png';
+import hac4 from '../assets/Sobf Images/health_and_awareness_camp/hac4.png';
+import ca6 from '../assets/Sobf Images/children_activities/ca6.png';
+import ourStory from '../assets/ourStoryImg.png';
 
 const AboutUs = () => {
   const [activeTab, setActiveTab] = useState('mission');
@@ -26,23 +26,19 @@ const AboutUs = () => {
       case 'mission':
         return (
           <p className="text-gray-600 text-center small-max:text-left">
-            We aim to simplify complex processes, enhance efficiency, and drive
-            growth through our innovative software and services. By providing
-            solutions, we enable to navigate the ever-changing tech landscape.
+           To serve the underprivileged in Vrindavan and Braj by providing food, education, healthcare, and skill training, ensuring dignity, empowerment, and sustainable development for a better and self-reliant future.
           </p>
         );
       case 'vision':
         return (
           <p className="text-gray-600  text-center small-max:text-left">
-            Our vision is to be the leading provider of innovative tech
-            solutions that empower businesses to reach their full potential.
+           Our vision is to uplift Vrindavan and Braj’s poorest by ensuring nutritious food, education, skill training, clean surroundings, and healthcare, fostering a self-sustaining, empowered, and compassionate community.
           </p>
         );
       case 'objective':
         return (
           <p className="text-gray-600  text-center small-max:text-left">
-            Our objective is to deliver high-quality, efficient, and reliable
-            software solutions that meet the evolving needs of our clients.
+           To create lasting social impact by addressing poverty, hunger, education, and healthcare needs, fostering skill development, promoting environmental sustainability, and empowering communities for a healthier, educated, and self-sufficient Braj region.
           </p>
         );
       default:
@@ -112,7 +108,7 @@ const AboutUs = () => {
               Our Objective
             </button>
           </div>
-          <div className="p-4 py-8 bg-gray-50 rounded-b-lg text-lg rounded-lg border ">
+          <div className="p-4 py-8 bg-gray-50 rounded-b-lg md:text-lg rounded-lg border ">
             {renderContent()}
           </div>
         </div>

@@ -2,9 +2,9 @@
 import React from 'react';
 import ImgBanner from './ImgBanner';
 import { Link } from 'react-router-dom';
-import Img1 from '../../../assets/Sobf Images/health_and_awareness_camp/hac2.avif';
-import Img2 from '../../../assets/Sobf Images/health_and_awareness_camp/hac3.avif';
-import Img3 from '../../../assets/Sobf Images/health_and_awareness_camp/hac4.avif';
+import Img1 from '../../../assets/Sobf Images/health_and_awareness_camp/hac2.png';
+import Img2 from '../../../assets/Sobf Images/health_and_awareness_camp/hac3.png';
+import Img3 from '../../../assets/Sobf Images/health_and_awareness_camp/hac4.png';
 
 const HealthCamp = ({ setService }) => {
   const images = [

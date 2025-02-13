@@ -1,8 +1,8 @@
-import testimonialImg1 from '../assets/Sobf Images/people/Sanjeev Kapoor.avif';
-import testimonialImg2 from '../assets/Sobf Images/people/Kanika Garg.avif';
-import testimonialImg3 from '../assets/Sobf Images/people/Dr.Prakash Kumar.avif';
-import testimonialImg4 from '../assets/Sobf Images/people/Sushant Srdhana.avif';
-import testimonialImg5 from '../assets/Sobf Images/people/Naresh Traikha.avif';
+import testimonialImg1 from '../assets/Sobf Images/people/Sanjeev Kapoor.png';
+import testimonialImg2 from '../assets/Sobf Images/people/Kanika Garg.png';
+import testimonialImg3 from '../assets/Sobf Images/people/Dr.Prakash Kumar.png';
+import testimonialImg4 from '../assets/Sobf Images/people/Sushant Srdhana.png';
+import testimonialImg5 from '../assets/Sobf Images/people/Naresh Traikha.png';
 const testimonials = [
   {
     img: testimonialImg1,

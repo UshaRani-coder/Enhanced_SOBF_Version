@@ -1,6 +1,6 @@
 import React from 'react';
-import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFoundation2.avif';
-import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundation.avif';
+import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFoundation2.png';
+import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundation.png';
 import curiousBusinessSolutions from '../../assets/Sobf Images/partners/curiousBusinessSolutions.jpg';
 import { Link } from 'react-router-dom';
 const Partners = () => {

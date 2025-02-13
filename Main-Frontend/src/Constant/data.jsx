@@ -1,11 +1,11 @@
-import Boy from '../assets/banner1.avif';
+import Boy from '../assets/banner1.png';
 import FoodDonation from '../assets/Sobf Images/food distribution/FoodDonation.png';
-import Nature from '../assets/banner2.avif';
-import we1 from '../assets/Sobf Images/women empowerment/we1.avif';
-import cee14 from '../assets/Sobf Images/child_education_and_empowerment/cee14.avif';
-import hac4 from '../assets/Sobf Images/health_and_awareness_camp/hac4.avif';
+import Nature from '../assets/banner2.png';
+import we1 from '../assets/Sobf Images/women empowerment/we1.png';
+import cee14 from '../assets/Sobf Images/child_education_and_empowerment/cee14.png';
+import hac4 from '../assets/Sobf Images/health_and_awareness_camp/hac4.png';
 import pic1 from '../assets/Sobf Images/partners/Soul Of Braj_files/pic1.png';
-import banner1 from '../assets/banner1.avif';
+import banner1 from '../assets/banner1.png';
 
 //Donors words Images
 import AishaKhan from '../assets/Donors_words/AishaKhan.avif';
@@ -30,61 +30,61 @@ import SinchanaSRao from '../assets/OurDonors/SinchanaSRao.avif';
 import ArjunMRao from '../assets/OurDonors/ArjunMRao.avif';
 
 // child activites
-import one from '../assets/Sobf Images/children_activities/ca1.avif';
-import two from '../assets/Sobf Images/children_activities/ca2.avif';
-import three from '../assets/Sobf Images/children_activities/ca3.avif';
-import four from '../assets/Sobf Images/children_activities/ca4.avif';
-import five from '../assets/Sobf Images/children_activities/ca5.avif';
-import six from '../assets/Sobf Images/children_activities/ca6.avif';
-import seven from '../assets/Sobf Images/children_activities/ca7.avif';
-import eight from '../assets/Sobf Images/children_activities/ca8.avif';
-import nine from '../assets/Sobf Images/children_activities/ca9.avif';
-import ten from '../assets/Sobf Images/children_activities/ca10.avif';
+import one from '../assets/Sobf Images/children_activities/ca1.png';
+import two from '../assets/Sobf Images/children_activities/ca2.png';
+import three from '../assets/Sobf Images/children_activities/ca3.png';
+import four from '../assets/Sobf Images/children_activities/ca4.png';
+import five from '../assets/Sobf Images/children_activities/ca5.png';
+import six from '../assets/Sobf Images/children_activities/ca6.png';
+import seven from '../assets/Sobf Images/children_activities/ca7.png';
+import eight from '../assets/Sobf Images/children_activities/ca8.png';
+import nine from '../assets/Sobf Images/children_activities/ca9.png';
+import ten from '../assets/Sobf Images/children_activities/ca10.png';
 
 // face mask distribution
-import f1 from '../assets/Sobf Images/Face_mask_distribution/fmd1.avif';
-import f2 from '../assets/Sobf Images/Face_mask_distribution/fmd2.avif';
-import f3 from '../assets/Sobf Images/Face_mask_distribution/fmd3.avif';
-import f4 from '../assets/Sobf Images/Face_mask_distribution/fmd4.avif';
-import f5 from '../assets/Sobf Images/Face_mask_distribution/fmd5.avif';
+import f1 from '../assets/Sobf Images/Face_mask_distribution/fmd1.png';
+import f2 from '../assets/Sobf Images/Face_mask_distribution/fmd2.png';
+import f3 from '../assets/Sobf Images/Face_mask_distribution/fmd3.png';
+import f4 from '../assets/Sobf Images/Face_mask_distribution/fmd4.png';
+import f5 from '../assets/Sobf Images/Face_mask_distribution/fmd5.png';
 
 // health awaraness
-import hel1 from '../assets/Sobf Images/health_and_awareness_camp/hac1.avif';
-import hel2 from '../assets/Sobf Images/health_and_awareness_camp/hac2.avif';
-import hel3 from '../assets/Sobf Images/health_and_awareness_camp/hac3.avif';
-import hel4 from '../assets/Sobf Images/health_and_awareness_camp/hac4.avif';
-import hel5 from '../assets/Sobf Images/health_and_awareness_camp/hac5.avif';
+import hel1 from '../assets/Sobf Images/health_and_awareness_camp/hac1.png';
+import hel2 from '../assets/Sobf Images/health_and_awareness_camp/hac2.png';
+import hel3 from '../assets/Sobf Images/health_and_awareness_camp/hac3.png';
+import hel4 from '../assets/Sobf Images/health_and_awareness_camp/hac4.png';
+import hel5 from '../assets/Sobf Images/health_and_awareness_camp/hac5.png';
 
 // child education
-import childEdu1 from '../assets/Sobf Images/child_education_and_empowerment/cee1.avif';
-import childEdu2 from '../assets/Sobf Images/child_education_and_empowerment/cee12.avif';
-import childEdu3 from '../assets/Sobf Images/child_education_and_empowerment/cee3.avif';
-import childEdu4 from '../assets/Sobf Images/child_education_and_empowerment/cee11.avif';
-import childEdu5 from '../assets/Sobf Images/child_education_and_empowerment/cee5.avif';
-import childEdu6 from '../assets/Sobf Images/child_education_and_empowerment/cee6.avif';
-import childEdu7 from '../assets/Sobf Images/child_education_and_empowerment/cee7.avif';
-import childEdu8 from '../assets/Sobf Images/child_education_and_empowerment/cee8.avif';
-import childEdu9 from '../assets/Sobf Images/child_education_and_empowerment/cee9.avif';
-import childEdu10 from '../assets/Sobf Images/child_education_and_empowerment/cee10.avif';
+import childEdu1 from '../assets/Sobf Images/child_education_and_empowerment/cee1.png';
+import childEdu2 from '../assets/Sobf Images/child_education_and_empowerment/cee12.png';
+import childEdu3 from '../assets/Sobf Images/child_education_and_empowerment/cee3.png';
+import childEdu4 from '../assets/Sobf Images/child_education_and_empowerment/cee11.png';
+import childEdu5 from '../assets/Sobf Images/child_education_and_empowerment/cee5.png';
+import childEdu6 from '../assets/Sobf Images/child_education_and_empowerment/cee6.png';
+import childEdu7 from '../assets/Sobf Images/child_education_and_empowerment/cee7.png';
+import childEdu8 from '../assets/Sobf Images/child_education_and_empowerment/cee8.png';
+import childEdu9 from '../assets/Sobf Images/child_education_and_empowerment/cee9.png';
+import childEdu10 from '../assets/Sobf Images/child_education_and_empowerment/cee10.png';
 
 // sanitary pads distribution
-import sanitary1 from '../assets/Sobf Images/Sanitary_pads_distribution/spd1.avif';
-import sanitary2 from '../assets/Sobf Images/Sanitary_pads_distribution/spd2.avif';
-import sanitary3 from '../assets/Sobf Images/Sanitary_pads_distribution/spd3.avif';
-import sanitary4 from '../assets/Sobf Images/Sanitary_pads_distribution/spd4.avif';
-import sanitary5 from '../assets/Sobf Images/Sanitary_pads_distribution/spd5.avif';
+import sanitary1 from '../assets/Sobf Images/Sanitary_pads_distribution/spd1.png';
+import sanitary2 from '../assets/Sobf Images/Sanitary_pads_distribution/spd2.png';
+import sanitary3 from '../assets/Sobf Images/Sanitary_pads_distribution/spd3.png';
+import sanitary4 from '../assets/Sobf Images/Sanitary_pads_distribution/spd4.png';
+import sanitary5 from '../assets/Sobf Images/Sanitary_pads_distribution/spd5.png';
 
-import childSobf from '../assets/child_sobf.avif';
-import Mission from '../assets/Mission.avif';
+import childSobf from '../assets/child_sobf.png';
+import Mission from '../assets/Mission.png'
 
-import sysv1 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv1.avif';
-import sysv2 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv2.avif';
-import sysv3 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv3.avif';
-import sysv4 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv4.avif';
+import sysv1 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv1.png';
+import sysv2 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv2.png';
+import sysv3 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv3.png';
+import sysv4 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv4.png';
 
-import ss1 from '../assets/Sobf Images/Sadhu Seva/cropped-ss1.avif';
-import ss2 from '../assets/Sobf Images/Sadhu Seva/cropped-ss2.avif';
-import ss3 from '../assets/Sobf Images/Sadhu Seva/cropped-ss3.avif';
+import ss1 from '../assets/Sobf Images/Sadhu Seva/cropped-ss1.png';
+import ss2 from '../assets/Sobf Images/Sadhu Seva/cropped-ss2.png';
+import ss3 from '../assets/Sobf Images/Sadhu Seva/cropped-ss3.png';
 
 export const data = [
   {

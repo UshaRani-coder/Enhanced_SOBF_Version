@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
-import education from '../assets/banner2.avif';
+import education from '../assets/banner2.png';
 import food from '../assets/Sobf Images/food distribution/FoodDonation.png';
-import objective from '../assets/objective.avif';
-import donate from '../assets/donateMotive.avif';
+import objective from '../assets/objective.png';
+import donate from '../assets/donateMotive.png';
 import { donors_words } from '../Constant/data';
 import { our_donors } from '../Constant/data';
 import Donate_hero from '../Components/Donate_page/donate_hero.jsx';
