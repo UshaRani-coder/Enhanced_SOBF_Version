@@ -144,7 +144,7 @@ const Footer = () => {
                             window.scrollTo({ top: 0, behavior: 'smooth' })
                           }
                         >
-                          Swachh & Swasth Vrindavan
+                          Swachh Yamuna & Swasth Vrindavan
                         </Link>
                       </li>
 

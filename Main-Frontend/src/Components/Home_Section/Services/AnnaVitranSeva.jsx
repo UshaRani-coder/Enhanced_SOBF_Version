@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 import img1 from '../../../assets/Sobf Images/food distribution/fd2.avif';
 import img2 from '../../../assets/Sobf Images/food distribution/fd7.avif';
@@ -20,11 +20,21 @@ const GopalaBhog = ({ setService }) => {
       img: img3,
     },
   ];
-
+ 
+ const bannerS = images.map((image) => image.img);
+  useEffect(() => {
+     if (location.pathname === '/anna-vitran-seva') {
+       window.scrollTo({
+         top: 0,
+         behavior: 'smooth',
+       });
+     }
+   }, [location.pathname]);
+ 
   return (
     <div
       className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
-        isHomePage ? '' : 'mt-20 mb-20'
+        isHomePage ? '' : 'mt-[120px]  mb-20'
       }`}
     >
       {/* Only show the "Back to Services" button if on the home page */}
@@ -39,7 +49,9 @@ const GopalaBhog = ({ setService }) => {
       )}
 
       <div className="flex flex-col lg:flex-row items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[100px] gap-y-[10px] mt-[30px] ">
-        <ImgBanner banners={images} />
+      <div className='w-[100%] flex justify-center lg:w-[50%]'>
+        <ImgBanner banners={bannerS} />
+        </div>
         <div className="flex flex-col items-center md:items-start mx-[20px] w-[90%] lg:w-[50%] justify-center lg:mt-[50px]">
           <h1 className="text-center text-heading4 lg:text-[1.9rem] font-bold mt-[10px]">
             A Plate of Hope

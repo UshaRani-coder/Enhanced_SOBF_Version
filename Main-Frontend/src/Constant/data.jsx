@@ -1,10 +1,10 @@
 import Boy from '../assets/banner1.avif';
-import FoodDonation from '../assets/Sobf Images/food distribution/FoodDonation.avif';
+import FoodDonation from '../assets/Sobf Images/food distribution/FoodDonation.png';
 import Nature from '../assets/banner2.avif';
 import we1 from '../assets/Sobf Images/women empowerment/we1.avif';
 import cee14 from '../assets/Sobf Images/child_education_and_empowerment/cee14.avif';
 import hac4 from '../assets/Sobf Images/health_and_awareness_camp/hac4.avif';
-import pic1 from '../assets/Sobf Images/partners/Soul Of Braj_files/pic1.avif';
+import pic1 from '../assets/Sobf Images/partners/Soul Of Braj_files/pic1.png';
 import banner1 from '../assets/banner1.avif';
 
 //Donors words Images

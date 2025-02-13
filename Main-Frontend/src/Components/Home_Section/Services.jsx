@@ -186,7 +186,7 @@ const Services = () => {
                 <div className='flex flex-col items-center md:items-start w-[90%] lg:w-[60%] h-full'>
                 <div className="flex flex-col md:mx-[30px]">
                 <h1 className="text-center text-heading4 lg:text-[1.9rem] mt-[15px] md:text-left font-bold">{serviceData.title}</h1>
-                <p className="text-gray-700 text-center text-[16px] lg:text-[18px] font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px] mt-[10px]">{serviceData.description}</p>
+                <p className="text-gray-700  text-center text-[16px] lg:text-[18px] font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px] mt-[10px]">{serviceData.description}</p>
                 </div>
                 <button className='md:self-start md:ml-[30px]'>
                   <Link to="/donate-us" className="px-8 py-3.5 relative rounded-lg group overflow-hidden font-semibold bg-orange text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
