@@ -5,6 +5,7 @@ import loader from './assets/loader.webp';
 import Popup from './Components/common_components/Popup.jsx';
 
 // Lazy loading the components
+
 const Header = lazy(() => import('./Components/common_components/Header.jsx'));
 const Footer = lazy(() => import('./Components/common_components/Footer.jsx'));
 const BackgroundMusic = lazy(() => import('./Components/BackgroundMusic.jsx'));
@@ -33,6 +34,9 @@ const AnnaVitranSeva = lazy(
 );
 const SwachhVrindavan = lazy(
   () => import('./Components/Home_Section/Services/SwachhVrindavan.jsx'),
+);
+const SadhuSeva = lazy(
+  () => import('./Components/Home_Section/Services/SadhuSeva.jsx'),
 );
 const Brajkulam = lazy(
   () => import('./Components/Home_Section/Services/Brajkulam.jsx'),
@@ -86,6 +90,7 @@ const App = () => {
         '/anna-vitran-seva',
         '/community-service',
         '/swachh-vrindavan',
+        '/sadhu-seva',
         '/brajkulam',
         '/privacy-policy',
         '/refund-policy',
@@ -122,6 +127,7 @@ const App = () => {
         <Route path="/anna-vitran-seva" element={<AnnaVitranSeva />} />
         <Route path="/community-service" element={<CommunityService />} />
         <Route path="/swachh-vrindavan" element={<SwachhVrindavan />} />
+        <Route path="/sadhu-seva" element={<SadhuSeva/>} />
         <Route path="/brajkulam" element={<Brajkulam />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />

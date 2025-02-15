@@ -14,11 +14,12 @@ import Home_Gallery from '../Components/Home_Section/Home_gallery.jsx';
 import Partners from '../Components/Home_Section/Partners.jsx';
 import Press_Release from '../Components/Home_Section/Press_Release.jsx';
 import Recent_Activities from '../Components/Home_Section/Recent_Activities.jsx';
-
+import SidePopup from '../Components/sidePopup.jsx';
 const HomePage = () => {
-  return (
+ return (
     <div className="flex flex-col items-center ">
       <Hero />
+      <SidePopup />
       <Impacts />
       <Programms />
       <About />

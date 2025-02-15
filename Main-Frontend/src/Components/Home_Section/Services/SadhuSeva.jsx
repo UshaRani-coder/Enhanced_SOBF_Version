@@ -1,10 +1,14 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import sadhuSevaImg1 from '../../../assets/Sobf Images/food distribution/sadhuSeva.jpg';
 import sadhuSevaImg2 from '../../../assets/Sobf Images/food distribution/sadhuSeva1.jpg';
-import sadhuSevaImg3 from '../../../assets/Sobf Images/food distribution/sadhuSeva2.jpg';
+import sadhuSevaImg3 from '../../../assets/Sobf Images/Sadhu Seva/ss7.jpg';
 import ImgBanner from './ImgBanner';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 const SadhuSeva = ({ setService }) => {
+   const location = useLocation();
+  const isHomePage = location.pathname === '/';
+   
   const images = [
     {
       img: sadhuSevaImg1,
@@ -16,9 +20,23 @@ const SadhuSeva = ({ setService }) => {
       img: sadhuSevaImg3,
     },
   ];
+   useEffect(() => {
+      if (location.pathname === '/swachh-vrindavan') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }
+    }, [location.pathname]);
+  const bannerS = images.map((image) => image.img);
   return (
-    <div className="w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto">
+    <div
+    className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
+      isHomePage ? '' : 'mt-[100px] lg:mt-[150px]  mb-20'
+    }`}
+  >
       <div className="sm:mb-5 mb-5 lg:-mb-28">
+      {location.pathname == '/' && (
         <button
           aria-label="Back to Services"
           className="back-button mb-2 px-4 py-2 bg-gray-800 text-white rounded hover:bg-indigo-500 hover:text-white hover:scale-105 transform transition-all duration-300 ease-in-out"
@@ -26,10 +44,13 @@ const SadhuSeva = ({ setService }) => {
         >
           Back to Services
         </button>
+      )}
       </div>
 
       <div className="flex flex-col lg:flex-row items-center lg:justify-center lg:mt-[120px] lg:gap-x-[30px] xl:gap-x-[100px] gap-y-[10px]">
-        <ImgBanner banners={images} />
+      <div className="w-[100%] flex justify-center lg:w-[50%]">
+          <ImgBanner banners={bannerS} />
+        </div>
         <div className="flex flex-col md:items-start items-center mx-[20px] w-[90%] lg:w-[50%] justify-center">
           <h1 className="text-center text-heading4 lg:text-[1.9rem] font-bold mt-[10px]">
             Vrindavan Sadhu Seva

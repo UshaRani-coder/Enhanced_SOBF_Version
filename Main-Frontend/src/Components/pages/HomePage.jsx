@@ -9,11 +9,12 @@ import Services from '../Home Page/Services.jsx';
 import Team from '../Home Page/Team.jsx';
 import Testimonials from '../Home_Section/Testimonials.jsx';
 import Partners from '../Home_Section/Partners.jsx';
+import SidePopup from '../sidePopup.jsx';
 const HomePage = () => {
-  useEffect(() => console.log('HomePage'), []);
   return (
     <div className="flex flex-col items-center ">
       <Hero />
+      <SidePopup />
       <Statistics />
       <About />
       <Services />

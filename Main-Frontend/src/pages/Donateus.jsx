@@ -14,14 +14,14 @@ import QRCode from '../assets/QRCode.png';
 const Donateus = () => {
   const [activeTab, setActiveTab] = useState('whydonate');
   const location = useLocation();
-  useEffect(() => {
-      if (location.pathname === '/donate-us') {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
-      }
-    }, [location.pathname]);
+  // useEffect(() => {
+  //     if (location.pathname === '/donate-us') {
+  //       window.scrollTo({
+  //         top: 0,
+  //         behavior: 'smooth',
+  //       });
+  //     }
+  //   }, [location.pathname]);
 
   // Function to render content based on active tab
   const renderContent = () => {
@@ -33,11 +33,11 @@ const Donateus = () => {
               <img
                 src={objective} // Use curly braces here, not angle brackets
                 alt="Community Service Projects"
-                className="mt-4 md:w-full sm:w-1/2 lg:h-[80%] sm:h-auto rounded-lg grayscale hover:grayscale-0 delay-150 transition duration-500 ease-in-out"
+                className="mt-4 md:w-full sm:w-1/2 lg:h-[60vh] sm:h-auto rounded-lg grayscale hover:grayscale-0 delay-150 transition duration-500 ease-in-out"
               />
             </div>
-            <div className="lg:w-1/2 pt-[40px]  ">
-              <p className="text-gray-600 text-center md:text-left">
+            <div className="lg:w-1/2 pt-[20px] md:pt-0  ">
+              <p className="text-[16px] md:text-lg text-gray-600 text-center md:text-left lg:leading-[30px]">
                 Donating to us means contributing to a mission dedicated to
                 simplifying complex processes, enhancing efficiency, and driving
                 growth through innovative services. We empower communities to
@@ -65,7 +65,7 @@ const Donateus = () => {
               />
             </div>
             <div className="lg:w-1/2   ">
-              <p className="text-gray-600 text-center md:text-left">
+              <p className="text-[16px] md:text-lg text-gray-600 text-center md:text-left lg:leading-[30px]">
                 We utilize donations strategically to maximize their impact on
                 the communities we serve. Funds are allocated to various
                 programs that address critical needs such as food distribution,
@@ -93,7 +93,7 @@ const Donateus = () => {
               />
             </div>
             <div className="lg:w-1/2   ">
-              <p className="text-gray-600 text-center md:text-left">
+              <p className="text-[16px] md:text-lg text-gray-600 text-center md:text-left ">
                 Your generous donations are used across multiple impactful
                 programs and initiatives. Our focus areas include addressing
                 poverty, hunger, health and well-being, quality education,
@@ -249,17 +249,17 @@ const Donateus = () => {
                       </div>
                       </div>
                      
-                     <div className='flex flex-col items-center gap-[15px] md:mt-[20px] hidden md:block md:w-[40%] lg:w-[30%] ' >
+                     <div className='flex flex-col items-center  gap-[15px] md:mt-[20px] hidden md:block md:w-[200px] lg:w-[30%] ' >
                        <p
                         
-                         className="block text-lg font-semibold "
+                         className=" text-lg font-semibold "
                        >
                          Scan the QR code to proceed:
                        </p>
                        <img
                          src={QRCode}
                          alt="QR Code"
-                         className="w-32 h-32 md:w-[200px] md:h-[200px] mx-auto md:mx-0"
+                         className="w-32 h-32 md:w-[200px] md:h-[200px] mt-4 mx-auto md:mx-0"
                        />
                      
                    </div>
@@ -348,7 +348,7 @@ const Donateus = () => {
                         />
                       </div>
                       <div className="md:col-span-5 md:hidden">
-                        <div className='flex flex-col items-center gap-[15px] md:mt-[20px] ' >
+                        <div className='flex flex-col items-center gap-[15px] mt-[20px] ' >
                           <p
                             className="block text-md small-range:text-lg font-semibold"
                           >

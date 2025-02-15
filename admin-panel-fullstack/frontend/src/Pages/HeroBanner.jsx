@@ -18,7 +18,7 @@ const HeroBanner = () => {
   const [currentPost, setCurrentPost] = useState(null);
   const [formData, setFormData] = useState({ quotes: '', image: null });
   const [isLoading, setIsLoading] = useState(false); // New loading state
-  const maxLength = 60;
+  const maxLength = 80;
 
   useEffect(() => {
     if (status === 'idle') {

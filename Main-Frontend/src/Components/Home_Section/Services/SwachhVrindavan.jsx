@@ -2,9 +2,9 @@
 
 import React,{useEffect} from 'react';
 import { useLocation} from 'react-router-dom';
-import Img1 from '../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.png';
-import Img2 from '../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan2.png';
-import Img3 from '../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan3.png';
+import Img1 from '../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.jpg';
+import Img2 from '../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan2.jpg';
+import Img3 from '../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan3.jpg';
 import ImgBanner from './ImgBanner';
 import { Link } from 'react-router-dom';
 const SwachhVrindavan = ({ setService }) => {
