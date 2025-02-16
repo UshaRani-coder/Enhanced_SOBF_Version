@@ -97,6 +97,8 @@ const App = () => {
         '/terms-and-conditions'
       ];
       const isNotFound = !validRoutes.includes(location.pathname);
+  console.log(import.meta.env.MODE);
+      
   return (
     <Suspense
       fallback={
@@ -105,6 +107,7 @@ const App = () => {
         </div>
       }
     >
+
       {/* <Header /> */}
       {showPopup && <Popup onClose={closePopup} />}
       {!isNotFound && <Header />}

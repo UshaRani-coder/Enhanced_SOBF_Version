@@ -8,40 +8,36 @@ const path = require('path');
 const app = express();
 
 
-// const NODE_ENV = process.env.NODE_ENV || "production"
-// dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
-// app.set("env", process.env);
-// global.NODE_ENV = app.get("env");
-// console.log(`Your env is ${process.env.NODE_ENV}`);
-// console.log(`Your PORT is ${process.env.PORT}`);
 
 require("dotenv").config({path: `.env.${process.env.NODE_ENV || "development"}`});
-
+console.log(`Your env is ${process.env.NODE_ENV}`);
+console.log(`Your PORT is ${process.env.PORT}`);
 const PORT = process.env.PORT || 5000;
 
 
-// const allowedOrigins = [
-//   "http://localhost:5173",
-//   "http://localhost:5174",
-//   "https://sobf.in",
-//   "https://admin.sobf.in/dashboard",
-//   "https://admin.sobf.in/dashboard",
-// ];
-// // Configure CORS dynamically
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true); // Allow request
-//     } else {
-//       callback(new Error("CORS not allowed for this origin"));
-//     }
-//   },
-//   methods: "GET,POST,PUT,DELETE",
-//   credentials: true, // Allow cookies & auth headers
-//   allowedHeaders: "Content-Type,Authorization",
-// };
 
-// app.use(cors(corsOptions));
+// Allowed origins for CORS
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'https://sobf.in',
+  'https://admin.sobf.in',
+  'https://backend.sobf.in/'
+];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed for this origin'));
+    }
+  },
+  methods: 'GET,POST,PUT,DELETE',
+  credentials: true, // Allow cookies & auth headers
+  allowedHeaders: 'Content-Type,Authorization'
+};
+
+app.use(cors(corsOptions));
 
 
 
