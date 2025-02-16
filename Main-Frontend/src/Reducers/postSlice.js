@@ -8,9 +8,10 @@ export const getPosts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchPosts();
-      if (!response || response.status !== 200 || !response.data?.posts) {
-        return hardcodedPosts
+      if (!response || response.status !== 200 || !response.data?.posts?.length) {
+        return hardcodedPosts; // Fallback when API fails
       }
+      console.log('response?.data?.posts', response.data?.posts);
       return response?.data?.posts || hardcodedPosts;
     } catch (error) {
       return rejectWithValue(hardcodedPosts);
@@ -19,9 +20,9 @@ export const getPosts = createAsyncThunk(
 );
 
 const postSlice = createSlice({
-  // name: 'posts',
-  name: hardcodedPosts,
-  initialState: { posts: [], status: 'idle', error: null },
+  name: 'posts',
+  initialState: {
+    posts: hardcodedPosts, status: 'idle', error: null },
   reducers: {},
   extraReducers: (builder) => {
     builder

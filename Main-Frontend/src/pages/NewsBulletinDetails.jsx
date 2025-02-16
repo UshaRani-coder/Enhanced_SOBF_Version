@@ -1,13 +1,27 @@
 import React, { useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBulletine } from '../Reducers/bulletinSlice';
 
 const NewsBulletinDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const bulletines = useSelector((state) => state.bulletines.bulletines); // Redux posts
-  const activity = bulletines.find((bulletin) => bulletin._id === id);
-  
+  const { bulletines, status } = useSelector((state) => state.bulletines); // Redux posts
+  console.log("bulletines", bulletines); 
+  const dispatch = useDispatch();
+
+
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(getBulletine());
+    }
+  }, [status, dispatch]);
+
+
+  // ✅ Ensure bulletines exist before searching
+  const activity = bulletines?.find((bulletin) => String(bulletin._id) === String(id));
+
   if (!activity) {
     return (
       <div className="flex flex-col items-center w-full mt-[150px] p-4">

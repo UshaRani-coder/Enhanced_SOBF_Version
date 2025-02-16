@@ -9,7 +9,7 @@ export const getGalleryImages = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getGallery();
-      if (!response || response.status !== 200 || !response.data?.posts) {
+      if (!response || response.status !== 200 || response.data?.posts?.length === 0) {
         return fallbackGallery
       }
       return response?.data?.posts || fallbackGallery; // Use API data or fallback

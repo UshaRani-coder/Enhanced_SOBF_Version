@@ -10,7 +10,7 @@ import { getPosts } from '../../Reducers/postSlice';
 const Recent_Activities = React.memo(() => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const {  posts, status, error } = useSelector((state) => state.posts);
+  const { posts, status, error } = useSelector((state) => state.posts);
 
   const [page, setPage] = useState(1);
   const postsPerPage = 10;
@@ -27,6 +27,7 @@ const Recent_Activities = React.memo(() => {
       year: 'numeric',
     });
   }, []);
+
 
   useEffect(() => {
     if (status === 'idle') {

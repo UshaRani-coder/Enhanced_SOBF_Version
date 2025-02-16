@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchNewsPosts } from '../api/api';
-import hardcodedBulletins from "../defaultData/newsbulletine.json"
-
+import hardcodedBulletins from '../defaultData/newsbulletine.json';
 
 // ! Get bulletins
 export const getBulletine = createAsyncThunk(
@@ -9,26 +8,27 @@ export const getBulletine = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchNewsPosts();
-      if (!response || response.status !== 200 || !response.data?.posts) {
-        return hardcodedBulletins
+      if (!response || response.status !== 200 || !response.data?.posts?.length) {
+        return hardcodedBulletins; // Fallback when API fails
       }
-      console.log("response?.data?.posts", response?.data?.posts);
-      
-      return response?.data?.posts || hardcodedBulletins;
+      console.log('response?.data?.posts', response?.data?.posts);
+      return response?.data?.posts;
     } catch (error) {
-      return rejectWithValue(hardcodedBulletins);
+      return rejectWithValue(hardcodedBulletins); // Return fallback data on failure
     }
   }
 );
 
 const bulletinSlice = createSlice({
-  name: hardcodedBulletins, // Show fallback data immediately
-  // name: 'bulletines',
-  initialState: { bulletines: [], status: 'idle', error: null },
+  name: 'bulletines', // ✅ Correct slice name
+  initialState: {
+    bulletines: hardcodedBulletins, // ✅ Set fallback data initially
+    status: 'idle',
+    error: null
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Get bulletins
       .addCase(getBulletine.pending, (state) => {
         state.status = 'loading';
       })
@@ -39,7 +39,7 @@ const bulletinSlice = createSlice({
       .addCase(getBulletine.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error?.message;
-        state.bulletines = hardcodedBulletins; // Assign fallback data on failure
+        state.bulletines = hardcodedBulletins; // ✅ Ensure fallback data is assigned
       });
   },
 });

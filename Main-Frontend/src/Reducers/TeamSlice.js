@@ -5,7 +5,7 @@ import teamData from '../defaultData/team.json';
 export const getTeams = createAsyncThunk('team/getTeam', async (_, { rejectWithValue }) => {
   try {
     const response = await getTeam();
-    if (!response || response.status !== 200 || !response.data?.teamMembers) {
+    if (!response || response.status !== 200 || response.data?.teamMembers?.length === 0) {
       return teamData
     }
     return response?.data?.teamMembers || teamData;

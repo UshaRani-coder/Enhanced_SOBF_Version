@@ -179,7 +179,7 @@ const Services = () => {
           )}
           <div className="flex flex-col lg:flex-row w-[100%] lg:items-stretch items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[10px] lg:mt-[120px]">
               {services?.filter(serviceData => serviceData.title === service)?.map(serviceData => (
-              <div key={serviceData.id || serviceData._id} className="flex flex-col justify-center  items-center mx-[20px] lg:flex-row  justify-center w-[100%] lg:mx-0"> {/* Use serviceData.id if available, otherwise serviceData._id */}
+              <div key={serviceData.id || serviceData._id} className="flex flex-col items-center mx-[20px] lg:flex-row  justify-center w-[100%] lg:mx-0"> {/* Use serviceData.id if available, otherwise serviceData._id */}
                 <div className="images-grid h-full w-[100%] md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
                   <ImgBanner banners={serviceData.images} />
                 </div>

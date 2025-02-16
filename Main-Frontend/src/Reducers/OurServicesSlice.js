@@ -9,7 +9,7 @@ export const getServices = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getOurServices();
-      if (!response || response.status !== 200 || !response.data) {
+      if (!response || response.status !== 200 || response.data.length === 0) {
         return hardcodedServices
       }
       return response?.data || hardcodedServices;
