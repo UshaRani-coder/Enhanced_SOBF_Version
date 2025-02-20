@@ -18,33 +18,41 @@ const PORT = process.env.PORT || 5000;
 
 
 // Allowed origins for CORS
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'https://sobf.in',
-  'https://admin.sobf.in',
-  'https://backend.sobf.in'
-];
+// const allowedOrigins = [
+//   'http://localhost:5173',
+//   'http://localhost:5174',
+//   'https://sobf.in',
+//   'https://admin.sobf.in',
+//   'https://backend.sobf.in'
+// ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS not allowed for this origin'));
-    }
-  },
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('CORS not allowed for this origin'));
+//     }
+//   },
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   credentials: true,
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+// };
+
+// // Apply CORS middleware
+// app.use(cors(corsOptions));
+
+// Ensure preflight requests are handled
+// app.options('*', cors(corsOptions));
+
+
+//  ! new cors setup 
+app.use(cors({
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
-// Apply CORS middleware
-app.use(cors(corsOptions));
-
-// Ensure preflight requests are handled
-app.options('*', cors(corsOptions));
-
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
