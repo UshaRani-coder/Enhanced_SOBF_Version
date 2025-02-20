@@ -47,12 +47,47 @@ const PORT = process.env.PORT || 5000;
 
 
 //  ! new cors setup 
-app.use(cors({
-  origin: '*',
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'https://sobf.in',
+  'https://admin.sobf.in',
+  'https://backend.sobf.in'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed for this origin'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+};
+
+// Apply CORS Middleware
+app.use(cors(corsOptions));
+
+// Apply CSP Middleware (without Helmet)
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy",
+    "default-src 'self'; " +
+    "script-src 'self' https://trusted-script-source.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "img-src 'self' data: https://trusted-image-source.com; " +
+    "connect-src 'self' https://backend.sobf.in; " +
+    "frame-src 'none'; " +
+    "object-src 'none'; " +
+    "upgrade-insecure-requests"
+  );
+  next();
+});
+
+// Ensure preflight requests are handled
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
