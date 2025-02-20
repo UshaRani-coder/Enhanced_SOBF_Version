@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 5000;
 
 
 
+
 // Allowed origins for CORS
 const allowedOrigins = [
   'http://localhost:5173',
@@ -34,22 +35,15 @@ const corsOptions = {
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true, // Allow cookies & auth headers
+  credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
-
+// Ensure preflight requests are handled
 app.options('*', cors(corsOptions));
-
-
 
 
 app.use(express.json());
