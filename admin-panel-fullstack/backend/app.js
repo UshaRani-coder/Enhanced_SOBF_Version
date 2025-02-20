@@ -22,8 +22,9 @@ const allowedOrigins = [
   'http://localhost:5174',
   'https://sobf.in',
   'https://admin.sobf.in',
-  'https://backend.sobf.in/'
+  'https://backend.sobf.in'
 ];
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -32,16 +33,25 @@ const corsOptions = {
       callback(new Error('CORS not allowed for this origin'));
     }
   },
-  methods: 'GET,POST,PUT,DELETE',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true, // Allow cookies & auth headers
-  allowedHeaders: 'Content-Type,Authorization'
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+app.options('*', cors(corsOptions));
 
 
-app.use(cors());
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/uploads'));

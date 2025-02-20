@@ -167,7 +167,7 @@ const OurService = () => {
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    const maxFileSize = 200 * 1024; // 200KB in bytes
+    const maxFileSize = 100 * 1024; // 100KB in bytes
 
     if (name === 'logo') {
       if (files[0]) {
@@ -176,7 +176,7 @@ const OurService = () => {
           return;
         }
         if (files[0].size > maxFileSize) {
-          toast.error('Logo size must be less than 200KB.');
+          toast.error('Logo size must be less than 100KB.');
           return;
         }
         setFormData((prev) => ({ ...prev, logo: files[0] }));
@@ -193,7 +193,7 @@ const OurService = () => {
       }
 
       if (oversizedFiles.length > 0) {
-        toast.error('Each image must be less than 200KB.');
+        toast.error('Each image must be less than 100KB.');
         return;
       }
 
