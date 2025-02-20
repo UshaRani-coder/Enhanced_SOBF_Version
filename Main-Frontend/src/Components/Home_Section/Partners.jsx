@@ -21,6 +21,7 @@ const Partners = () => {
             />
           </li>
         </Link>
+        <Link to="https://thehindudiaspora.com/">
         <li>
           <img
             src={hinduFoundationLogo}
@@ -28,6 +29,8 @@ const Partners = () => {
             className="cursor-pointer w-[70px] lg:w-[100px] object-cover"
           />
         </li>
+        </Link>
+        <Link to= "https://curiousdevelopers.in/">
         <li>
           <img
             src={curiousBusinessSolutions}
@@ -35,6 +38,7 @@ const Partners = () => {
             className="cursor-pointer w-[70px] lg:w-[100px] object-cover"
           />
         </li>
+        </Link>
       </ul>
     </div>
   );

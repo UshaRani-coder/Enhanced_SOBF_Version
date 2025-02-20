@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTeams } from '../../Reducers/TeamSlice';
-
+import DOMPurify from 'dompurify';
 const Team = () => {
   const { teams, status } = useSelector((state) => state.teams);
   const dispatch = useDispatch();
@@ -43,9 +43,15 @@ const Team = () => {
               <span className="font-sans text-white font-bold mt-[10px] text-[16px] lg:text-[18px]">
                 {item.name}
               </span>
-              <p className="text-[14px] lg:text-[16px] font-workSans text-[rgba(255,255,255,0.5)]">
-                {item.role}
-              </p>
+              <div
+                  className="text-[14px] lg:text-[16px] font-workSans text-[rgba(255,255,255,0.5)]"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(item.role).replace(
+                      /<a /g,
+                      '<a style="color: #4a90e2; " ',
+                    ),
+                  }}
+                />
 
               {/* Social Links */}
               <div className="socials flex gap-x-[5px]">

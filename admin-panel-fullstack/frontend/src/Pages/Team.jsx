@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdEdit, MdDelete } from 'react-icons/md';
@@ -8,11 +8,15 @@ import {
   removeTeam,
   updateTeamData,
 } from '../Reducers/TeamSlice';
-
+import DOMPurify from 'dompurify';
+import ReactQuill from 'react-quill';
+import Quill from 'quill';
+import 'react-quill/dist/quill.snow.css';
 const Team = () => {
   const dispatch = useDispatch();
   const { teams, status } = useSelector((state) => state.teams);
-
+  ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
+  const quillRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
@@ -148,9 +152,22 @@ const Team = () => {
 
   //! Handle input changes
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
     setErrorMessage('');
+    if (e.target) {
+      // For regular input fields
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      // For ReactQuill (custom object)
+      const { name, value } = e;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   //! Handle file input changes
@@ -208,7 +225,7 @@ const Team = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 max-h-[90%] md:max-h-full overflow-y-auto md:scrollbar-none">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 max-h-[90%]  overflow-y-auto scrollbar-none">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? 'Update Team Member' : 'Add New Team Member'}
             </h2>
@@ -225,19 +242,26 @@ const Team = () => {
                   placeholder="Enter your name here"
                 />
               </div>
-
               {/* Role */}
               <div className="mb-4">
+                <style>
+                  {`
+                                                   .ql-editor.ql-blank::before {
+                                                   font-style: normal !important;
+                                                  }
+                                               `}
+                </style>
                 <label className="block font-semibold mb-2">Role</label>
-                <textarea
-                  name="role"
-                  value={formData.role}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded focus:outline-none text-[13px] small-range:text-[16px]"
+                <ReactQuill
+                  value={formData.role || ''}
+                  ref={quillRef}
+                  onChange={(value) =>
+                    handleInputChange({ name: 'role', value })
+                  }
+                  className="w-full rounded focus:outline-none text-[13px] small-range:text-[16px]"
                   placeholder="Enter your  role and responsibility "
-                ></textarea>
+                />
               </div>
-
               {/* LinkedIn */}
               <div className="mb-4">
                 <label className="block font-semibold mb-2">LinkedIn</label>
@@ -316,7 +340,7 @@ const Team = () => {
 
       <div className="mt-6 flex flex-col items-center md:items-stretch p-6 small-max:p-0 md:p-6 justify-center md:flex-row md:flex-wrap md:justify-center  w-[100%] md:gap-x-[40px] gap-y-[45px] md:gap-y-[60px] lg:gap-y-[40px] lg:gap-x-[100px]">
         {teams && teams?.length > 0 ? (
-          teams?.map((member,index) => (
+          teams?.map((member, index) => (
             <div
               key={member._id || index}
               className="flex items-center flex-1 flex-col gap-y-[5px] md:gap-y-[10px]  w-[300px]"
@@ -324,8 +348,9 @@ const Team = () => {
               <div
                 className="w-[200px] h-[200px] rounded-full"
                 style={{
-                  backgroundImage: `url(${member?.image || 'https://via.placeholder.com/150'
-                    })`,
+                  backgroundImage: `url(${
+                    member?.image || 'https://via.placeholder.com/150'
+                  })`,
                   backgroundPosition: 'center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
@@ -335,10 +360,17 @@ const Team = () => {
                 <span className=" font-bold mt-[10px] text-[16px] lg:text-[18px]">
                   {member?.name}
                 </span>
-                <p className="text-[14px] md:text-[16px] break-words max-w-[280px] text-center">
-                  {member?.role}
-                </p>
+                <div
+                  className="text-[14px] md:text-[16px] break-words max-w-[280px] text-center"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(member.role).replace(
+                      /<a /g,
+                      '<a style="color: #4a90e2; text-decoration: underline;" ',
+                    ),
+                  }}
+                />
               </div>
+              
               <div className="flex justify-center gap-x-[12px] ">
                 <a
                   href={member?.linkedIn}

@@ -19,12 +19,12 @@ export default function SidePopup() {
   }, []);
 
   return (
-    <div className="fixed bottom-[80px]  left-[10px] lg:left-[20px] flex flex-col items-center md:items-end z-50">
+    <div className="fixed bottom-[70px] md:bottom-[80px]  left-[10px] lg:left-[20px] flex flex-col items-center md:items-end z-50">
       {/* Floating Button with Side-to-Side Animation */}
       {showButton && (
         <motion.button
-          initial={{ x: 0, opacity: 0 }}
-          animate={{ x: [0, -15, 15, -15, 15, 0], opacity: 1 }}
+          // initial={{ x: 0, opacity: 0 }}
+          animate={{ x: [-15, 15, -15, 15], opacity: 1 }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
@@ -36,7 +36,7 @@ export default function SidePopup() {
           <span className="hidden md:block">Support Initiative</span>
 
           {/* Close (X) Button Inside the Floating Button */}
-          <button
+          <div
             onClick={(e) => {
               e.stopPropagation();
               setShowButton(false);
@@ -44,7 +44,7 @@ export default function SidePopup() {
             className="absolute -top-2 -right-0 bg-red-500 text-white rounded-full p-1 hover:bg-red-700 transition"
           >
             <X size={10} />
-          </button>
+          </div>
         </motion.button>
       )}
 
@@ -107,3 +107,4 @@ export default function SidePopup() {
     </div>
   );
 }
+

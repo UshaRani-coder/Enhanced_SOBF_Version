@@ -2,10 +2,11 @@
 
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation,useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getPosts } from '../../Reducers/postSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getBulletine } from '../../Reducers/bulletinSlice';
+import DOMPurify from 'dompurify';
 
 const Press_Release = React.memo(() => {
   const location = useLocation();
@@ -16,7 +17,6 @@ const Press_Release = React.memo(() => {
 
   // Fetch posts and status from the Redux store
   const { bulletines, status } = useSelector((state) => state.bulletines);
-  console.log("bulletines in /press-release ", bulletines);
 
   // Sorting order state
   const [sortOrder, setSortOrder] = useState('desc'); // Default: Newest first
@@ -38,90 +38,90 @@ const Press_Release = React.memo(() => {
     });
   }, []);
 
-  
-
   // Check if it's the home page
-  const isHomePage = useMemo(() => location.pathname === '/', [location.pathname]);
+  const isHomePage = useMemo(
+    () => location.pathname === '/',
+    [location.pathname],
+  );
 
   // Managing pagination state
   const [page, setPage] = useState(1);
   const postsPerPage = 10; // Number of posts per page
 
-  
   // **Extract unique years and months**
-    const availableYears = useMemo(() => {
-      const years = new Set(
-        bulletines.map((bulletin) => new Date(bulletin.date).getFullYear()),
-      );
-      return Array.from(years).sort((a, b) => b - a); // Sort descending
-    }, [bulletines]);
+  const availableYears = useMemo(() => {
+    const years = new Set(
+      bulletines.map((bulletin) => new Date(bulletin.date).getFullYear()),
+    );
+    return Array.from(years).sort((a, b) => b - a); // Sort descending
+  }, [bulletines]);
 
+  const availableMonths = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
-  
-    const availableMonths = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-  
-    // **Filtering logic**
-    const filteredPosts = useMemo(() => {
-      return bulletines.filter((bulletin) => {
-        const postDate = new Date(bulletin.date);
-        const postYear = postDate.getFullYear();
-        const postMonth = postDate.getMonth(); // 0 = January, 1 = February
-  
-        const matchesYear = selectedYear
-          ? postYear === parseInt(selectedYear)
-          : true;
-        const matchesMonth = selectedMonth
-          ? postMonth === availableMonths.indexOf(selectedMonth)
-          : true;
-  
-        return matchesYear && matchesMonth;
-      });
-    }, [bulletines, selectedYear, selectedMonth]);
-  
-    const noPostsMessage = useMemo(() => {
-      if (bulletines.length === 0) return 'No News found. Check back later!';
-      if (filteredPosts.length === 0)
-        return 'No news match your selected filters.';
-      return null;
-    }, [filteredPosts, bulletines.length, selectedYear, selectedMonth]);
-  
-    const displayedPosts = useMemo(() => {
-      if (!filteredPosts || filteredPosts.length === 0) return [];
-      const sortedPosts = [...filteredPosts].sort((a, b) =>
-        sortOrder === 'desc'
-          ? new Date(b.date) - new Date(a.date)
-          : new Date(a.date) - new Date(b.date),
-      );
-      return isHomePage ? sortedPosts.slice(0, 3) : sortedPosts;
-    }, [filteredPosts, isHomePage, sortOrder]);
-  
-    // **Infinite Scroll**
-    const loadMorePosts = () => {
-      if (filteredPosts.length > page * postsPerPage) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    };
-  
-    const hasMorePosts = filteredPosts.length > page * postsPerPage;
+  // **Filtering logic**
+  const filteredPosts = useMemo(() => {
+    return bulletines.filter((bulletin) => {
+      const postDate = new Date(bulletin.date);
+      const postYear = postDate.getFullYear();
+      const postMonth = postDate.getMonth(); // 0 = January, 1 = February
 
-    const handleSeeMore = () => {
-          navigate('/press-release');
-        };
+      const matchesYear = selectedYear
+        ? postYear === parseInt(selectedYear)
+        : true;
+      const matchesMonth = selectedMonth
+        ? postMonth === availableMonths.indexOf(selectedMonth)
+        : true;
+
+      return matchesYear && matchesMonth;
+    });
+  }, [bulletines, selectedYear, selectedMonth]);
+
+  const noPostsMessage = useMemo(() => {
+    if (bulletines.length === 0) return 'No News found. Check back later!';
+    if (filteredPosts.length === 0)
+      return 'No news match your selected filters.';
+    return null;
+  }, [filteredPosts, bulletines.length, selectedYear, selectedMonth]);
+
+  const displayedPosts = useMemo(() => {
+    if (!filteredPosts || filteredPosts.length === 0) return [];
+    const sortedPosts = [...filteredPosts].sort((a, b) =>
+      sortOrder === 'desc'
+        ? new Date(b.date) - new Date(a.date)
+        : new Date(a.date) - new Date(b.date),
+    );
+    return isHomePage ? sortedPosts.slice(0, 3) : sortedPosts;
+  }, [filteredPosts, isHomePage, sortOrder]);
+
+  // **Infinite Scroll**
+  const loadMorePosts = () => {
+    if (filteredPosts.length > page * postsPerPage) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const hasMorePosts = filteredPosts.length > page * postsPerPage;
+
+  const handleSeeMore = () => {
+    navigate('/press-release');
+  };
   return (
-    <div className={`flex flex-col items-center mb-[30px] ${isHomePage ? 'mt-[30px]' : 'mt-[120px]'}`}>
+    <div
+      className={`flex flex-col items-center mb-[30px] ${isHomePage ? 'mt-[30px]' : 'mt-[120px]'}`}
+    >
       <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold p-5 text-[#2d335d] relative transition-all ease-in-out">
         Press Release
         <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
@@ -130,15 +130,16 @@ const Press_Release = React.memo(() => {
         Announcing Our Latest Initiatives and Achievements Nationwide
       </h1>
       <h1 className="text-center text-md small-range:text-lg md:text-xl mb-4 p-3 text-gray-600">
-        Stay informed about our recent collaborations, upcoming events, and the impact of our efforts across the country.
+        Stay informed about our recent collaborations, upcoming events, and the
+        impact of our efforts across the country.
       </h1>
 
       {/* Display Loading or Error Messages */}
       {status === 'loading' && <p>Loading posts...</p>}
 
-       {/* Filter and Sort Controls */}
+      {/* Filter and Sort Controls */}
 
-       <div className="flex flex-wrap gap-4 mb-5 items-center">
+      <div className="flex flex-wrap gap-4 mb-5 items-center">
         {/* Year Filter (Scrollable, Navy Blue) */}
         <select
           className="border-2 border-none  border-[rgb(30,58,138)] bg-[rgb(221,231,253)] text-[rgb(23,37,84)] 
@@ -186,8 +187,6 @@ const Press_Release = React.memo(() => {
             </option>
           ))}
         </select>
-
-       
       </div>
       {noPostsMessage && (
         <p className="text-center text-lg font-semibold text-gray-700 mt-4">
@@ -211,7 +210,11 @@ const Press_Release = React.memo(() => {
               className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
-                src={news.images && news.images.length > 0 ? news.images[0] : 'https://via.placeholder.com/600'}
+                src={
+                  news.images && news.images.length > 0
+                    ? news.images[0]
+                    : 'https://via.placeholder.com/600'
+                }
                 alt={news.title}
                 className="w-full h-full md:h-[300px] rounded-lg object-cover"
               />
@@ -227,7 +230,15 @@ const Press_Release = React.memo(() => {
                   <span className="text-[13px]">{formatDate(news.date)}</span>
                 </div>
                 <h1 className="font-bold text-xl line-clamp-1">{news.title}</h1>
-                <p className="md:text-lg line-clamp-4">{news.description}</p>
+                <p
+                  className="md:text-lg line-clamp-4"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(news?.description).replace(
+                      /<a /g,
+                      '<a style="color: #4a90e2; " ',
+                    ),
+                  }}
+                ></p>
                 <Link to={`/press-release/${news._id}`}>
                   <button
                     aria-label="View Details"
@@ -243,15 +254,14 @@ const Press_Release = React.memo(() => {
         </div>
       </InfiniteScroll>
       {isHomePage && bulletines.length > 3 && (
-              <div className="text-center mt-5">
-               
-                <button
+        <div className="text-center mt-5">
+          <button
             onClick={handleSeeMore}
             className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"
           >
             See More
           </button>
-              </div>
+        </div>
       )}
     </div>
   );

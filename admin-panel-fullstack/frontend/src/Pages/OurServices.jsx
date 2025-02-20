@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdEdit, MdDelete, MdClose } from 'react-icons/md';
@@ -8,12 +8,16 @@ import {
   removeService,
   updateService,
 } from '../Reducers/OurServicesSlice';
+import DOMPurify from 'dompurify';
+import ReactQuill from 'react-quill';
+import Quill from 'quill';
+import 'react-quill/dist/quill.snow.css';
 
 const OurService = () => {
   const dispatch = useDispatch();
-  
+  ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
+  const quillRef = useRef(null);
   const { services, status } = useSelector((state) => state.services);
-  const descriptionMaxLength = 450; // Max character limit for description 
   const smallDescriptionMaxLength = 80;
   const titleMaxLength = 20;
   const maxImages = 5; // Max number of service images allowed
@@ -36,8 +40,6 @@ const OurService = () => {
       dispatch(getServices()); // Fetching posts
     }
   }, [status, dispatch]);
-
-  
 
   // ! Add a post
   const handleAddPost = () => {
@@ -90,7 +92,6 @@ const OurService = () => {
       .finally(() => setIsLoading(false));
   };
 
-  
   //!  Update a post
   const handleUpdatePost = () => {
     const updatedData = new FormData();
@@ -147,13 +148,25 @@ const OurService = () => {
   const closeExpandedModal = () => {
     setExpandedItem(null);
   };
-  
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value })); 
-  };
-  
 
+  const handleInputChange = (e) => {
+    if (e.target) {
+      // For regular input fields
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      // For ReactQuill (custom object)
+      const { name, value } = e;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  }; 
+  
   const handlePaste = (e) => {
     const { name } = e.target;
     const pastedText = e.clipboardData.getData('text');
@@ -229,7 +242,6 @@ const OurService = () => {
       : description;
   };
 
-  
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center p-4">
@@ -268,11 +280,18 @@ const OurService = () => {
               {expandedItem?.small_description}
             </p>
             {/* Description */}
-            <p className="mb-2 text-gray-500">{expandedItem?.description}</p>
-
+            <p
+              className="mb-2 text-gray-500"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(expandedItem?.description).replace(
+                  /<a /g,
+                  '<a style="color: #4a90e2; " ',
+                ),
+              }}
+            ></p>
             {/* Images */}
             {Array.isArray(expandedItem?.images) &&
-              expandedItem.images?.length > 0 ? (
+            expandedItem.images?.length > 0 ? (
               expandedItem.images.map((image, index) => (
                 <img
                   key={index}
@@ -308,7 +327,8 @@ const OurService = () => {
                   placeholder="Enter title"
                 />
                 <p className="text-sm text-gray-500">
-                  {titleMaxLength - formData?.title?.length} characters remaining
+                  {titleMaxLength - formData?.title?.length} characters
+                  remaining
                 </p>
               </div>
 
@@ -322,7 +342,7 @@ const OurService = () => {
                   onChange={handleInputChange}
                   onPaste={handlePaste}
                   maxLength={smallDescriptionMaxLength}
-                  className="w-full px-4 py-2 border rounded"
+                  className="w-full px-4 py-3  border rounded"
                   placeholder="Enter small description"
                 ></textarea>
                 <p className="text-sm text-gray-500">
@@ -331,24 +351,26 @@ const OurService = () => {
                   characters remaining
                 </p>
               </div>
-
               <div className="mb-4">
+                <style>
+                  {`
+                                    .ql-editor.ql-blank::before {
+                                    font-style: normal !important;
+                                   }
+                                `}
+                </style>
                 <label className="block font-semibold mb-2">Description</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
+                <ReactQuill
+                  value={formData.description || ''}
+                  ref={quillRef}
+                  onChange={(value) =>
+                    handleInputChange({ name: 'description', value })
+                  }
                   onPaste={handlePaste}
-                  maxLength={descriptionMaxLength}
-                  className="w-full px-4 py-2 border rounded"
-                  placeholder="Enter description"
-                ></textarea>
-                <p className="text-sm text-gray-500">
-                  {descriptionMaxLength - formData.description?.length}{' '}
-                  characters remaining
-                </p> 
+                  className="w-full "
+                  placeholder="Enter the description of Service"
+                />
               </div>
-
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Logo</label>
                 <input
@@ -436,7 +458,6 @@ const OurService = () => {
         </div>
       )}
       <div className=" gap-6 p-4 flex flex-col items-center lg:items-stretch lg:grid lg:grid-cols-2">
-       
         {services && services?.length > 0 ? (
           services.map((post) => (
             <div
@@ -452,7 +473,6 @@ const OurService = () => {
 
               <h2 className="text-lg font-bold line-clamp-2">{post?.title}</h2>
 
-              
               <p className="mt-2 line-clamp-1">
                 {expandedItem?.id === post._id
                   ? post?.small_description
@@ -460,10 +480,15 @@ const OurService = () => {
               </p>
 
               {/* Detailed Description */}
-              <p className="text-sm text-gray-500 mt-1 line-clamp-3">
-                {post?.description}
-              </p>
-
+              <p
+                  className="text-sm text-gray-500 mt-1 line-clamp-3"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(post?.description).replace(
+                      /<a /g,
+                      '<a style="color: #4a90e2; " ',
+                    ),
+                  }}
+                ></p>
               <div className="flex gap-2 mt-4">
                 <button
                   className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"

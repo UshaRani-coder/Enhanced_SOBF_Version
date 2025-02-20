@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import DOMPurify from 'dompurify';
 
 const NewsBulletinDetails = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const NewsBulletinDetails = () => {
   
 
   return (
-    <div className="flex flex-col items-center w-[100%] md:w-[80%] p-6   mx-auto mt-[50px]">
+    <div className="flex flex-col items-center w-[100%] md:w-[90%] p-6   mx-auto mt-[100px] lg:mt-[130px]">
       <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-[30px]">
         {activity.title}
       </h1>
@@ -118,7 +119,15 @@ const NewsBulletinDetails = () => {
             </svg>{' '}
             {formatDate(activity.date)}
           </div>
-          <p className="text-lg text-gray-700">{activity.description}</p>
+          <p className="text-lg text-gray-700"  
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(activity.description).replace(
+              /<a /g,
+              '<a style="color: #4a90e2; " ',
+            ),
+          }}
+          ></p>
+          
           <div className="flex">
             <button
               className="px-4 py-2 font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all mt-4"
@@ -127,11 +136,11 @@ const NewsBulletinDetails = () => {
               Back to Press Release
             </button>
           </div>
-          <div className="mt-12 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 rounded-lg shadow-lg">
+          {/* <div className="mt-12 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold text-center mb-4 text-indigo-700">
               Make a Difference!
             </h2>
-            <p className="text-center text-gray-700 mb-4 lg:mx-[200px]">
+            <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
               Your support helps us continue our mission of making the world a
               better place. Every contribution brings us closer to achieving our
               goals and empowering the community.
@@ -142,7 +151,23 @@ const NewsBulletinDetails = () => {
             >
               Donate Now
             </Link>
-          </div>
+          </div> */}
+          <div className="mt-12 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 rounded-lg shadow-lg">
+  <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-indigo-700">
+    🌍 Make a Difference! ✨
+  </h2>
+  <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
+    Your support ❤️ helps us continue our mission of making the world a better place.  
+    Every contribution 💰 brings us closer to achieving our goals and empowering the community 🤝.
+  </p>
+  <Link
+    to="/donate-us"
+    className="px-6 py-3 bg-logoYellow text-white rounded-lg shadow-lg hover:bg-logo-blue transition-all text-lg font-semibold"
+  >
+    Donate Now 
+  </Link>
+</div>
+
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdEdit, MdDelete, MdClose } from 'react-icons/md';
@@ -8,8 +8,14 @@ import {
   removePost,
   updatePost,
 } from '../Reducers/RecentActivityPostPageSlice';
+import DOMPurify from 'dompurify';
+import ReactQuill from 'react-quill';
+import Quill from 'quill';
+import 'react-quill/dist/quill.snow.css';
 
 const RecentActivityPostPage = () => {
+  ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
+  const quillRef = useRef(null);
   const dispatch = useDispatch();
   const { posts, status } = useSelector((state) => state.posts);
   const [expandedItem, setExpandedItem] = useState(null); // For expanded post details modal
@@ -26,48 +32,52 @@ const RecentActivityPostPage = () => {
   });
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === 'idle') {
       dispatch(getPosts());
     }
   }, [status, dispatch]);
 
   const validateForm = () => {
     if (!formData.title.trim()) {
-      toast.error("Title is required.");
+      toast.error('Title is required.');
       return false;
     }
 
     if (!formData.description.trim()) {
-      toast.error("Description is required.");
+      toast.error('Description is required.');
       return false;
     }
     if (!formData.date) {
-      toast.error("Pls pick a date of your choice ");
+      toast.error('Pls pick a date of your choice ');
       return false;
     }
 
     if (!formData.images && !formData.videos) {
-      toast.error("Either images or videos are required.");
+      toast.error('Either images or videos are required.');
       return false;
     }
 
     // Validate images
-    const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (formData?.images) {
       for (let i = 0; i < formData.images?.length; i++) {
         if (!validImageTypes.includes(formData?.images[i].type)) {
-          toast.error("Only valid image files (JPEG, PNG,JPG) are allowed in the Images section.");
+          toast.error(
+            'Only valid image files (JPEG, PNG,JPG) are allowed in the Images section.',
+          );
           return false;
         }
       }
     }
 
     // Validate videos
-    const validVideoTypes = ["video/mp4", "video/mkv"]
+    const validVideoTypes = ['video/mp4', 'video/mkv'];
     if (formData.videos) {
       for (let i = 0; i < formData.videos?.length; i++) {
         if (!validVideoTypes.includes(formData?.videos[i].type)) {
-          toast.error("Only valid video files (MP4, MKV) are allowed in the Videos section.");
+          toast.error(
+            'Only valid video files (MP4, MKV) are allowed in the Videos section.',
+          );
           return false;
         }
       }
@@ -77,12 +87,11 @@ const RecentActivityPostPage = () => {
 
   const handleExpandPost = (post) => {
     if (!post) {
-      console.error("Post data is invalid or undefined.");
+      console.error('Post data is invalid or undefined.');
       return;
     }
     setExpandedItem(post);
   };
-
 
   const closeExpandedModal = () => {
     setExpandedItem(null);
@@ -91,30 +100,30 @@ const RecentActivityPostPage = () => {
   const handleAddPost = () => {
     if (!validateForm()) return;
     const formDataToSend = new FormData();
-    formDataToSend.append("title", formData.title);
-    formDataToSend.append("description", formData.description);
-    formDataToSend.append("date", formData.date);
+    formDataToSend.append('title', formData.title);
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('date', formData.date);
     if (formData.images) {
       for (let i = 0; i < formData?.images?.length; i++) {
-        formDataToSend.append("images", formData?.images[i]);
+        formDataToSend.append('images', formData?.images[i]);
       }
     }
     if (formData.videos) {
       for (let i = 0; i < formData?.videos?.length; i++) {
-        formDataToSend.append("videos", formData.videos[i]);
+        formDataToSend.append('videos', formData.videos[i]);
       }
     }
     setIsLoading(true);
     dispatch(addPost(formDataToSend))
       .unwrap()
       .then(() => {
-        toast.success("Post added successfully!");
+        toast.success('Post added successfully!');
         setIsModalOpen(false);
         resetForm();
-        dispatch(getPosts())
+        dispatch(getPosts());
       })
       .catch((error) => {
-        toast.error(error || "Failed to add post.");
+        toast.error(error || 'Failed to add post.');
         setIsLoading(false);
       });
   };
@@ -122,69 +131,76 @@ const RecentActivityPostPage = () => {
   // updating
   const handleUpdatePost = () => {
     if (!formData.title.trim()) {
-      toast.error("Title is required.");
+      toast.error('Title is required.');
       return;
     }
     if (!formData.description.trim()) {
-      toast.error("Description is required.");
+      toast.error('Description is required.');
       return;
     }
 
     // Validate images
-    const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/avif"];
+    const validImageTypes = [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/webp',
+      'image/avif',
+    ];
     if (formData.images) {
       for (let i = 0; i < formData?.images?.length; i++) {
         if (!validImageTypes.includes(formData?.images[i].type)) {
-          toast.error("Only valid image files (JPEG, PNG, GIF, WEBP) are allowed in the Images section.");
+          toast.error(
+            'Only valid image files (JPEG, PNG, GIF, WEBP) are allowed in the Images section.',
+          );
           return;
         }
       }
     }
 
     // Validate videos
-    const validVideoTypes = ["video/mp4"];
+    const validVideoTypes = ['video/mp4'];
     if (formData.videos) {
       for (let i = 0; i < formData?.videos?.length; i++) {
         if (!validVideoTypes.includes(formData.videos[i].type)) {
-          toast.error("Only mp4  video files are valid.");
+          toast.error('Only mp4  video files are valid.');
           return;
         }
       }
     }
 
     const updatedData = new FormData();
-    updatedData.append("title", formData.title);
-    updatedData.append("description", formData.description);
+    updatedData.append('title', formData.title);
+    updatedData.append('description', formData.description);
 
     if (formData.images) {
       for (let i = 0; i < formData.images?.length; i++) {
-        updatedData.append("images", formData.images[i]);
+        updatedData.append('images', formData.images[i]);
       }
     }
     if (formData.videos) {
       for (let i = 0; i < formData.videos?.length; i++) {
-        updatedData.append("videos", formData?.videos[i]);
+        updatedData.append('videos', formData?.videos[i]);
       }
     }
     setIsLoading(true);
     dispatch(updatePost({ id: currentPost._id, updatedData }))
       .unwrap()
       .then(() => {
-        toast.success("Post updated successfully!");
+        toast.success('Post updated successfully!');
         setIsModalOpen(false);
         resetForm();
         dispatch(getPosts());
       })
       .catch((error) => {
-        toast.error(error || "Failed to update post.");
+        toast.error(error || 'Failed to update post.');
         setIsLoading(false);
       });
   };
 
-
   const handleDeletePost = (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this Hero Banner? This action cannot be undone."
+      'Are you sure you want to delete this Hero Banner? This action cannot be undone.',
     );
 
     if (confirmDelete) {
@@ -192,7 +208,7 @@ const RecentActivityPostPage = () => {
       dispatch(removePost(id))
         .unwrap()
         .then(() => {
-          toast.success("Post deleted successfully!");
+          toast.success('Post deleted successfully!');
         })
         .catch((error) => {
           toast.error(error.message);
@@ -209,11 +225,21 @@ const RecentActivityPostPage = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (e.target) {
+      // For regular input fields
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      // For ReactQuill (custom object)
+      const { name, value } = e;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleFileChange = (e) => {
@@ -230,7 +256,7 @@ const RecentActivityPostPage = () => {
       description: '',
       images: null,
       videos: null,
-      date: ''
+      date: '',
     });
     setCurrentPost(null);
   };
@@ -240,11 +266,11 @@ const RecentActivityPostPage = () => {
     setIsUpdateMode(true);
     setCurrentPost(post);
     setFormData({
-      title: post?.title || "",
-      description: post?.description || "",
+      title: post?.title || '',
+      description: post?.description || '',
       images: null,
       videos: null,
-      date: post?.date || null
+      date: post?.date || null,
     });
   };
 
@@ -277,10 +303,16 @@ const RecentActivityPostPage = () => {
                 <MdClose className="text-2xl text-gray-600" />
               </button>
             </div>
-
             {/* Description */}
-            <p className="mb-2">{expandedItem?.description}</p>
-
+            <p
+              className="mb-2"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(expandedItem?.description).replace(
+                  /<a /g,
+                  '<a style="color: #4a90e2; " ',
+                ),
+              }}
+            ></p>
             {/* Date */}
             <p className="text-gray-700 my-2 flex items-center gap-x-[5px]">
               <svg
@@ -297,7 +329,7 @@ const RecentActivityPostPage = () => {
 
             {/* Images */}
             {Array.isArray(expandedItem?.images) &&
-              expandedItem.images?.length > 0 ? (
+            expandedItem.images?.length > 0 ? (
               expandedItem?.images?.map((image, index) => (
                 <img
                   key={index}
@@ -313,11 +345,11 @@ const RecentActivityPostPage = () => {
             {/* Videos */}
             {expandedItem?.videos?.length > 0
               ? expandedItem?.videos?.map((video, index) => (
-                <video key={index} controls className="w-full rounded mb-4">
-                  <source src={video} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              ))
+                  <video key={index} controls className="w-full rounded mb-4">
+                    <source src={video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ))
               : null}
           </div>
         </div>
@@ -342,17 +374,26 @@ const RecentActivityPostPage = () => {
                 />
               </div>
               <div className="mb-4">
+                <style>
+                  {`
+                     .ql-editor.ql-blank::before {
+                     font-style: normal !important;
+                    }
+                 `}
+                </style>
                 <label className="block font-semibold mb-2">Description</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded"
+                <ReactQuill
+                  value={formData.description || ''}
+                  ref={quillRef}
+                  onChange={(value) =>
+                    handleInputChange({ name: 'description', value })
+                  }
+                  className="w-full bg-white"
                   placeholder="Enter the description of the activity"
                 />
               </div>
-              {
-                isUpdateMode ? null : <div className="mb-4">
+              {isUpdateMode ? null : (
+                <div className="mb-4">
                   <label className="block font-semibold mb-2">Date</label>
                   <input
                     type="date"
@@ -362,7 +403,7 @@ const RecentActivityPostPage = () => {
                     className="w-full px-4 py-2 border rounded"
                   />
                 </div>
-              }
+              )}
 
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Images</label>
@@ -450,9 +491,9 @@ const RecentActivityPostPage = () => {
                       Processing...
                     </span>
                   ) : isUpdateMode ? (
-                    "Update"
+                    'Update'
                   ) : (
-                    "Add"
+                    'Add'
                   )}
                 </button>
               </div>
@@ -464,7 +505,7 @@ const RecentActivityPostPage = () => {
       {/* rendering all posts  */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {posts && posts?.length > 0 ? (
-          posts.map((post,index) => (
+          posts.map((post, index) => (
             <div
               key={post._id || index}
               className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
@@ -482,53 +523,61 @@ const RecentActivityPostPage = () => {
                   className="w-full h-[200px] object-cover rounded"
                 />
               )}
-                <div className='flex flex-col items-start w-full'>
-              {/* Date */}
-              <div className="flex items-center justify-start gap-x-1 mt-2 w-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                  className="w-4 h-4 text-gray-600 mr-1"
-                >
-                  <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
-                </svg>
-                <span className="text-gray-700">
-                  {post?.date
-                    ? new Date(post.date).toLocaleDateString()
-                    : 'Date not available'}
-                </span>
-              </div>
+              <div className="flex flex-col items-start w-full">
+                {/* Date */}
+                <div className="flex items-center justify-start gap-x-1 mt-2 w-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="w-4 h-4 text-gray-600 mr-1"
+                  >
+                    <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
+                  </svg>
+                  <span className="text-gray-700">
+                    {post?.date
+                      ? new Date(post.date).toLocaleDateString()
+                      : 'Date not available'}
+                  </span>
+                </div>
 
-              {/* Title */}
-              <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
-                {post?.title}
-              </h3>
+                {/* Title */}
+                <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
+                  {post?.title}
+                </h3>
 
-              {/* Description */}
-              <p className="mt-2  line-clamp-4">{post?.description}</p>
-
-              {/* Edit/Delete Buttons */}
-              <div className="mt-4 flex gap-4">
-                <button
-                  className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openUpdateModal(post);
+                {/* Description */}
+                <p
+                  className="mt-2  line-clamp-4"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(post?.description).replace(
+                      /<a /g,
+                      '<a style="color: #4a90e2; " ',
+                    ),
                   }}
-                >
-                  <MdEdit className="text-blue-800 text-2xl" />
-                </button>
-                <button
-                  className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeletePost(post._id);
-                  }}
-                >
-                  <MdDelete className="text-red-800 text-2xl" />
-                </button>
+                ></p>
+
+                {/* Edit/Delete Buttons */}
+                <div className="mt-4 flex gap-4">
+                  <button
+                    className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openUpdateModal(post);
+                    }}
+                  >
+                    <MdEdit className="text-blue-800 text-2xl" />
+                  </button>
+                  <button
+                    className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeletePost(post._id);
+                    }}
+                  >
+                    <MdDelete className="text-red-800 text-2xl" />
+                  </button>
+                </div>
               </div>
-            </div>
             </div>
           ))
         ) : (
@@ -540,4 +589,3 @@ const RecentActivityPostPage = () => {
 };
 
 export default RecentActivityPostPage;
-

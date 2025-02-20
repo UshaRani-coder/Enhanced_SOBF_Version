@@ -8,8 +8,12 @@ import {
   removeBulletine,
   updateBulletine,
 } from '../Reducers/bulletinSlice';
-
+import DOMPurify from 'dompurify';
+import ReactQuill from 'react-quill';
+import Quill from "quill"; 
+import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 const PostPage = () => {
+  ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
   const dispatch = useDispatch();
   const { bulletines, status } = useSelector((state) => state.bulletines);
   const [expandedItem, setExpandedItem] = useState(null); // For expanded post details modal
@@ -42,7 +46,9 @@ const PostPage = () => {
       return false;
     }
     if (!formData.date) {
-      toast.error('Pls pick a date of your choice either it could be today or any specific.');
+      toast.error(
+        'Pls pick a date of your choice either it could be today or any specific.',
+      );
       return false;
     }
     if (!formData.images) {
@@ -135,11 +141,7 @@ const PostPage = () => {
     }
 
     // Validate images
-    const validImageTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/jpg'
-    ];
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (formData.images) {
       for (let i = 0; i < formData.images?.length; i++) {
         if (!validImageTypes.includes(formData.images[i].type)) {
@@ -204,7 +206,9 @@ const PostPage = () => {
           toast.success('Post deleted successfully!');
         })
         .catch((error) => {
-          toast.error(error.message || "Something went wrong while deleting post!");
+          toast.error(
+            error.message || 'Something went wrong while deleting post!',
+          );
           setIsLoading(false);
         });
     }
@@ -218,12 +222,23 @@ const PostPage = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (e.target) {
+      // For regular input fields
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    } else {
+      // For ReactQuill (custom object)
+      const { name, value } = e;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
+  
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
@@ -237,7 +252,7 @@ const PostPage = () => {
     setFormData({
       title: '',
       description: '',
-      date: "",
+      date: '',
       images: null,
       videos: null,
     });
@@ -286,7 +301,16 @@ const PostPage = () => {
             </div>
 
             {/* Description */}
-            <p className="mb-2 ">{expandedItem?.description}</p>
+
+            <p
+              className="mb-2"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(expandedItem?.description).replace(
+                  /<a /g,
+                  '<a style="color: #4a90e2; " ',
+                ),
+              }}
+            ></p>
 
             {/* Date */}
             <p className="text-gray-700 my-2 flex items-center gap-x-[5px]">
@@ -304,7 +328,7 @@ const PostPage = () => {
 
             {/* Images */}
             {Array.isArray(expandedItem?.images) &&
-              expandedItem.images?.length > 0 ? (
+            expandedItem.images?.length > 0 ? (
               expandedItem.images.map((image, index) => (
                 <img
                   key={index}
@@ -320,11 +344,11 @@ const PostPage = () => {
             {/* Videos */}
             {expandedItem?.videos?.length > 0
               ? expandedItem?.videos?.map((video, index) => (
-                <video key={index} controls className="w-full rounded mb-4">
-                  <source src={video} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              ))
+                  <video key={index} controls className="w-full rounded mb-4">
+                    <source src={video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ))
               : null}
           </div>
         </div>
@@ -349,12 +373,19 @@ const PostPage = () => {
                 />
               </div>
               <div className="mb-4">
+              <style>
+                  {`
+                     .ql-editor.ql-blank::before {
+                     font-style: normal !important;
+                    }
+                 `}
+                </style>
                 <label className="block font-semibold mb-2">Description</label>
-                <textarea
-                  name="description"
+                <ReactQuill
                   value={formData.description}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded"
+                  onChange={(value) => handleInputChange({ name: "description", value })}
+                   name="description"
+                  className="w-full bg-white"
                   placeholder="Enter the description of the news"
                 />
               </div>
@@ -454,9 +485,9 @@ const PostPage = () => {
                       Processing...
                     </span>
                   ) : isUpdateMode ? (
-                    "Update"
+                    'Update'
                   ) : (
-                    "Add"
+                    'Add'
                   )}
                 </button>
               </div>
@@ -474,7 +505,6 @@ const PostPage = () => {
               className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
               onClick={() => handleExpandPost(bulletin)}
             >
-
               {/* Conditional rendering for media */}
               {!bulletin?.videos ? (
                 <video controls className="w-full rounded mb-4">
@@ -488,7 +518,7 @@ const PostPage = () => {
                   className="w-full h-[200px] object-cover rounded"
                 />
               )}
-              <div className='flex flex-col items-start w-full'>
+              <div className="flex flex-col items-start w-full">
                 {/* Date */}
                 <div className="flex items-center justify-start gap-x-1 mt-2 w-full">
                   <svg
@@ -509,9 +539,16 @@ const PostPage = () => {
                 <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
                   {bulletin?.title}
                 </h3>
-
                 {/* Description */}
-                <p className="mt-2  line-clamp-4">{bulletin?.description}</p>
+                <p
+                  className="mt-2  line-clamp-4"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(bulletin?.description).replace(
+                      /<a /g,
+                      '<a style="color: #4a90e2; " ',
+                    ),
+                  }}
+                ></p>
 
                 {/* Edit/Delete Buttons */}
                 <div className="mt-4 flex gap-4">

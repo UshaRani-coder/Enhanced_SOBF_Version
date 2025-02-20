@@ -12,7 +12,7 @@ export const getBulletine = createAsyncThunk(
       if (!response || response.status !== 200 || !response.data?.posts) {
         return hardcodedBulletins
       }
-      console.log("response?.data?.posts", response?.data?.posts);
+     
       
       return response?.data?.posts || hardcodedBulletins;
     } catch (error) {

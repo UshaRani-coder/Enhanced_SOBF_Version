@@ -6,7 +6,7 @@ import { getBulletine } from '../../Reducers/bulletinSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import loader from '../../assets/loader.webp';
 import { getPosts } from '../../Reducers/postSlice';
-
+import DOMPurify from 'dompurify';
 const Recent_Activities = React.memo(() => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -221,9 +221,15 @@ const Recent_Activities = React.memo(() => {
                 <h1 className="font-bold text-xl line-clamp-1">
                   {activity.title}
                 </h1>
-                <p className="md:text-lg line-clamp-4">
-                  {activity.description}
-                </p>
+                <p
+                  className="md:text-lg line-clamp-4"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(activity.description).replace(
+                      /<a /g,
+                      '<a style="color: #4a90e2; " ',
+                    ),
+                  }}
+                ></p>
                 <Link to={`/recent-activities/${activity._id}`}>
                   {' '}
                   <button
