@@ -41,6 +41,54 @@ const getPosts = async (req, res) => {
   }
 };
 
+
+//! GET SPECIFIC POST BY ID
+const getPostById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ID format
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid post ID' });
+    }
+
+    // Find post by ID
+    const post = await PostModel.findById(id);
+    if (!post) {
+      return res.status(404).json({ success: false, message: 'Post not found' });
+    }
+
+    const baseURL = process.env.BASE_URL;
+
+    // Format images and videos URLs
+    if (Array.isArray(post.images)) {
+      post.images = post.images.map((image) =>
+        image ? `${baseURL}/uploads/recent-activities/${image}` : image
+      );
+    }
+
+    if (Array.isArray(post.videos)) {
+      post.videos = post.videos.map((video) =>
+        video ? `${baseURL}/uploads/recent-activities/${video}` : video
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Successfully fetched the news/bulletin post.',
+      post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while fetching the news/bulletin post',
+    });
+  }
+};
+
+
+
+
 // CREATE POST
 const createPost = async (req, res) => {
   try {
@@ -213,4 +261,4 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = { deletePost, updatePost, getPosts, createPost };
+module.exports = { deletePost, updatePost, getPosts, createPost, getPostById };

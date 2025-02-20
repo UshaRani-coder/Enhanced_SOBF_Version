@@ -1,28 +1,32 @@
-import React, { useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBulletine } from '../Reducers/bulletinSlice';
-
+import {  getSpecificBulletine } from '../Reducers/bulletinSlice';
+import hardcodedPosts from "../defaultData/newsbulletine.json"
 const NewsBulletinDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { bulletines, status } = useSelector((state) => state.bulletines); // Redux posts
-  console.log("bulletines", bulletines); 
+  const { specificBulletine, status } = useSelector((state) => state.bulletines); // Redux posts
   const dispatch = useDispatch();
 
 
-
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(getBulletine());
+    if (id) {
+      dispatch(getSpecificBulletine(id)); // Dispatch action to fetch bulletin by ID
     }
-  }, [status, dispatch]);
+  }, [dispatch, id]);
 
 
-  // ✅ Ensure bulletines exist before searching
-  const activity = bulletines?.find((bulletin) => String(bulletin._id) === String(id));
 
-  if (!activity) {
+  // Find the post from API data or fallback to hardcoded data
+  const activity = useMemo(() => specificBulletine || hardcodedPosts.find(item => String(item._id) === String(id)), [specificBulletine, id]);
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
+
+
+  if (!specificBulletine) {
     return (
       <div className="flex flex-col items-center w-full mt-[150px] p-4">
         <p className="text-lg text-red-500">News not found!</p>
@@ -53,31 +57,31 @@ const NewsBulletinDetails = () => {
   return (
     <div className="flex flex-col items-center w-[100%] md:w-[80%] p-6   mx-auto mt-[50px]">
       <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-[30px]">
-        {activity.title}
+        {specificBulletine?.title}
       </h1>
       <div className="flex flex-col items-center w-full ">
         <div
           className={`w-full  ${
-            activity.images?.length === 1
+            specificBulletine?.images?.length === 1
               ? ''
               : 'flex flex-wrap justify-center gap-4 '
           }`}
         >
-          {activity.images && activity?.images?.length > 0 ? (
-            activity.images?.length === 1 ? (
+          {specificBulletine?.images && specificBulletine?.images?.length > 0 ? (
+            specificBulletine?.images?.length === 1 ? (
               // Single Image
               <img
-                src={activity.images[0]}
-                alt={activity.title}
+                src={specificBulletine?.images[0]}
+                alt={specificBulletine?.title}
                 className="w-full h-full object-cover rounded-lg shadow-lg"
               />
             ) : (
               // Multiple Images
-              activity.images.map((image, index) => (
+              specificBulletine.images.map((image, index) => (
                 <img
                   key={index}
                   src={image}
-                  alt={`${activity.title} - ${index + 1}`}
+                  alt={`${specificBulletine.title} - ${index + 1}`}
                   className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
                 />
               ))
@@ -94,22 +98,22 @@ const NewsBulletinDetails = () => {
 
         <div
           className={`w-full mt-[20px] ${
-            activity.videos?.length === 1
+            specificBulletine.videos?.length === 1
               ? ''
               : 'flex flex-wrap justify-center gap-4 '
           }`}
         >
-          {activity?.videos && activity?.videos?.length > 0 ? (
-            activity?.videos?.length === 1 ? (
+          {specificBulletine?.videos && specificBulletine?.videos?.length > 0 ? (
+            specificBulletine?.videos?.length === 1 ? (
               // Single Video
               <video
                 controls
-                src={activity.videos[0]}
+                src={specificBulletine?.videos[0]}
                 className="w-full h-full object-cover rounded-lg shadow-lg mb-[20px]"
               />
             ) : (
               // Multiple Videos
-              activity.videos.map((video, index) => (
+              specificBulletine?.videos?.map((video, index) => (
                 <video
                   key={index}
                   controls
@@ -130,9 +134,9 @@ const NewsBulletinDetails = () => {
             >
               <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
             </svg>{' '}
-            {formatDate(activity.date)}
+            {formatDate(specificBulletine?.date)}
           </div>
-          <p className="text-lg text-gray-700">{activity.description}</p>
+          <p className="text-lg text-gray-700">{specificBulletine?.description}</p>
           <div className="flex">
             <button
               className="px-4 py-2 font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all mt-4"

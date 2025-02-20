@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchNewsPosts } from '../api/api';
+import { fetchNewsPosts, fetchNewsPostById } from '../api/api';
 import hardcodedBulletins from '../defaultData/newsbulletine.json';
 
-// ! Get bulletins
+// ! Get all bulletins
 export const getBulletine = createAsyncThunk(
   'bulletines/getBulletine',
   async (_, { rejectWithValue }) => {
@@ -11,7 +11,6 @@ export const getBulletine = createAsyncThunk(
       if (!response || response.status !== 200 || !response.data?.posts?.length) {
         return hardcodedBulletins; // Fallback when API fails
       }
-      console.log('response?.data?.posts', response?.data?.posts);
       return response?.data?.posts;
     } catch (error) {
       return rejectWithValue(hardcodedBulletins); // Return fallback data on failure
@@ -19,12 +18,34 @@ export const getBulletine = createAsyncThunk(
   }
 );
 
+// ! Get a specific bulletin by ID
+export const getSpecificBulletine = createAsyncThunk(
+  'bulletines/getSpecificBulletine',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await fetchNewsPostById(id);
+      if (!response || response.status !== 200 || !response.data) {
+        throw new Error('Bulletin not found');
+      }
+      return response?.data?.post;
+    } catch (error) {
+      // If API fails, find the post in dummy data
+      const fallbackPost = hardcodedBulletins.find((item) => String(item._id) === String(id));
+      if (fallbackPost) {
+        return fallbackPost; // Return dummy data if available
+      }
+      return rejectWithValue('Post not found in both API and fallback data');
+    }
+  }
+);
+
 const bulletinSlice = createSlice({
-  name: 'bulletines', // ✅ Correct slice name
+  name: 'bulletines',
   initialState: {
     bulletines: hardcodedBulletins, // ✅ Set fallback data initially
+    specificBulletine: null,
     status: 'idle',
-    error: null
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -38,8 +59,19 @@ const bulletinSlice = createSlice({
       })
       .addCase(getBulletine.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error?.message;
-        state.bulletines = hardcodedBulletins; // ✅ Ensure fallback data is assigned
+        state.error = action.payload;
+        state.bulletines = hardcodedBulletins;
+      })
+      .addCase(getSpecificBulletine.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getSpecificBulletine.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.specificBulletine = action.payload;
+      })
+      .addCase(getSpecificBulletine.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
       });
   },
 });

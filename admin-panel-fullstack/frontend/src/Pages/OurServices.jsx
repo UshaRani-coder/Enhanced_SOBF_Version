@@ -167,34 +167,48 @@ const OurService = () => {
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const maxFileSize = 200 * 1024; // 200KB in bytes
+
     if (name === 'logo') {
-      if (files[0] && !allowedImageTypes.includes(files[0].type)) {
-        toast.error(
-          'Only image files (JPEG, PNG, JPG) are allowed for the logo.',
-        );
-        return;
+      if (files[0]) {
+        if (!allowedImageTypes.includes(files[0].type)) {
+          toast.error('Only image files (JPEG, PNG, JPG) are allowed for the logo.');
+          return;
+        }
+        if (files[0].size > maxFileSize) {
+          toast.error('Logo size must be less than 200KB.');
+          return;
+        }
+        setFormData((prev) => ({ ...prev, logo: files[0] }));
       }
-      setFormData((prev) => ({ ...prev, logo: files[0] }));
     } else if (name === 'images') {
-      const invalidFiles = Array.from(files).filter(
-        (file) => !allowedImageTypes.includes(file.type),
-      );
-      if (invalidFiles?.length > 0) {
-        toast.error(
-          'Only image files (JPEG, PNG, JPG) are allowed for service images.',
-        );
+      const newImages = Array.from(files);
+
+      const oversizedFiles = newImages.filter((file) => file.size > maxFileSize);
+      const invalidFiles = newImages.filter((file) => !allowedImageTypes.includes(file.type));
+
+      if (invalidFiles.length > 0) {
+        toast.error('Only image files (JPEG, PNG, JPG) are allowed for service images.');
         return;
       }
-      if (files?.length > maxImages) {
+
+      if (oversizedFiles.length > 0) {
+        toast.error('Each image must be less than 200KB.');
+        return;
+      }
+
+      if (newImages.length > maxImages) {
         toast.error(`You can upload a maximum of ${maxImages} images.`);
         return;
       }
+
       setFormData((prev) => ({
         ...prev,
-        images: [...prev.images, ...Array.from(files)].slice(0, maxImages),
+        images: [...prev.images, ...newImages].slice(0, maxImages),
       }));
     }
   };
+
 
   //! reset form data
   const resetForm = () => {

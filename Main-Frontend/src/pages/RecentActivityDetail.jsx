@@ -1,75 +1,88 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPosts } from '../Reducers/postSlice';
+import hardcodedPosts from "../defaultData/newsbulletine.json"
+import { getPostById } from '../Reducers/postSlice';
 
-const RecentActivityDetails = () => {
+const NewsBulletinDetails = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
   const { id } = useParams();
-  const { posts, status } = useSelector((state) => state.posts);
-
+  const { post, status } = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(getPosts());
+    if (id) {
+      dispatch(getPostById(id));
     }
-  }, [status, dispatch]);
-  console.log("posts", posts);
+  }, [dispatch, id]);
 
 
 
-  const activity = posts?.find((post) => String(post._id) === String(id));
-  if (!activity) {
-    return (
-      <div className="flex flex-col items-center w-full mt-[150px] p-4">
-        <p className="text-lg text-red-500">Activity not found!</p>
-      </div>
-    );
+  // Find the post from API data or fallback to hardcoded data
+  const activity = useMemo(() => post || hardcodedPosts.find(item => String(item._id) === String(id)), [post, id]);
+  if (status === 'loading') {
+    return <p>Loading...</p>;
   }
 
 
-  console.log("posts", posts); 
-  const formatDate = useCallback((dateString) => {
+  if (!post) {
+    return (
+      <div className="flex flex-col items-center w-full mt-[150px] p-4">
+        <p className="text-lg text-red-500">News not found!</p>
+      </div>
+    );
+  }
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-GB', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
-  }, []);
-  const handleBack = () => {
-    navigate('/recent-activities', { state: { scrollTo: 'recentActivities' } });
   };
+
+  const handleBack = () => {
+    // Scroll to the top of the page
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
+
+    // Navigate to the 'Press Release' page with state
+    navigate('/recent-activities', { state: { scrollTo: 'pressRelease' } });
+  };
+
+
   return (
-    <div className="flex flex-col items-center w-[100%] md:w-[80%]  mx-auto mt-[50px]   ">
-      <h1 className="text-6xl md:text-8xl font-bold text-center mb-4 md:mb-[30px]">
-        {activity.title}
+    <div className="flex flex-col items-center w-[100%] md:w-[80%] p-6   mx-auto mt-[50px]">
+      <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-[30px]">
+        {post?.title}
       </h1>
       <div className="flex flex-col items-center w-full ">
         <div
-          className={`w-full p-4 ${activity.images?.length === 1
-              ? ''
-              : 'flex flex-wrap justify-center gap-4 '
+          className={`w-full  ${post?.images?.length === 1
+            ? ''
+            : 'flex flex-wrap justify-center gap-4 '
             }`}
         >
-          {activity?.images && activity?.images?.length > 0 ? (
-            activity?.images?.length === 1 ? (
+          {post?.images && post?.images?.length > 0 ? (
+            post?.images?.length === 1 ? (
               // Single Image
               <img
-                src={activity?.images[0]}
-                alt={activity?.title}
+                src={post?.images[0]}
+                alt={post?.title}
                 className="w-full h-full object-cover rounded-lg shadow-lg"
               />
             ) : (
               // Multiple Images
-              activity?.images?.map((image, index) => (
+              post.images.map((image, index) => (
                 <img
                   key={index}
                   src={image}
-                  alt={`${activity?.title} - ${index + 1}`}
+                  alt={`${post.title} - ${index + 1}`}
                   className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
                 />
               ))
@@ -79,41 +92,41 @@ const RecentActivityDetails = () => {
             <img
               src="https://via.placeholder.com/600"
               alt="Placeholder"
-              className="p-4 w-full h-full object-cover rounded-lg shadow-lg"
+              className="w-full h-full object-cover rounded-lg shadow-lg"
             />
           )}
         </div>
 
-        {activity.videos?.length === 1 && <div
-          className={` w-full mt-[5px] p-4 ${activity.videos?.length === 1
-              ? ''
-              : 'flex flex-wrap justify-center gap-4'
+        <div
+          className={`w-full mt-[20px] ${post.videos?.length === 1
+            ? ''
+            : 'flex flex-wrap justify-center gap-4 '
             }`}
         >
-          {activity?.videos && activity?.videos?.length > 0 ? (
-            activity?.videos?.length === 1 ? (
+          {post?.videos && post?.videos?.length > 0 ? (
+            post?.videos?.length === 1 ? (
               // Single Video
               <video
                 controls
-                src={activity?.videos[0]}
-                className=" w-full h-full object-cover rounded-lg shadow-lg"
+                src={post?.videos[0]}
+                className="w-full h-full object-cover rounded-lg shadow-lg mb-[20px]"
               />
             ) : (
               // Multiple Videos
-              activity?.videos?.map((video, index) => (
+              post?.videos?.map((video, index) => (
                 <video
                   key={index}
                   controls
                   src={video}
-                  className=" w-full sm:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                  className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg mb-[20px]"
                 />
               ))
             )
           ) : null}
-        </div>}
+        </div>
 
-        <div className="w-full  flex flex-col justify-start p-6 pt-0">
-          <div className="text-sm text-gray-500 flex items-center gap-x-[5px]">
+        <div className="w-full  flex flex-col justify-start p-2 pt-0">
+          <div className="text-sm text-gray-500  flex items-center gap-x-[5px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
@@ -121,15 +134,15 @@ const RecentActivityDetails = () => {
             >
               <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
             </svg>{' '}
-            {formatDate(activity.date)}
+            {formatDate(post?.date)}
           </div>
-          <p className="text-lg text-gray-700  ">{activity.description}</p>
+          <p className="text-lg text-gray-700">{post?.description}</p>
           <div className="flex">
             <button
               className="px-4 py-2 font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all mt-4"
               onClick={handleBack}
             >
-              Back to Recent Activities
+              Back to Press Release
             </button>
           </div>
           <div className="mt-12 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 rounded-lg shadow-lg">
@@ -154,4 +167,4 @@ const RecentActivityDetails = () => {
   );
 };
 
-export default RecentActivityDetails;
+export default NewsBulletinDetails;

@@ -4,6 +4,7 @@ const {
   updatePost,
   getPosts,
   createPost,
+  getPostById,
 } = require('../controllers/post.controller');
 // const { uploadMultipleFile, uploadSingleFile, uploadSinglePDFfile, uploadOurServicesFile, } = require("../middleware/upload");
 const {
@@ -11,6 +12,7 @@ const {
   getNewsBulletine,
   updateNewsBulletine,
   deleteNewsBulletine,
+  getNewsBulletineById,
 } = require('../controllers/newspost.controller');
 const {
   createHeroBanner,
@@ -85,6 +87,7 @@ router.post(
   createPost,
 );
 router.get('/get-posts', getPosts);
+router.get('/get-post/:id', getPostById);
 router.put(
   '/update/:id',
   uploadRecentActivities.fields([
@@ -152,7 +155,8 @@ router.post(
   ]),
   createNewsBulletine,
 );
-router.get('/get-newspost', getNewsBulletine);
+router.get('/get-newspost', getNewsBulletine); 
+router.get('/news-bulletine/:id', getNewsBulletineById);
 router.put(
   '/update-news-post/:id',
   uploadNewsBulletine.fields([
