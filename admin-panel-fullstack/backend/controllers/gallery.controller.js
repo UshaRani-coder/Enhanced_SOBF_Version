@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const GalleryModel = require('../models/gallery.model');
 
 const createGalleryController = async (req, res) => {
@@ -95,7 +96,7 @@ const updateGalleryController = async (req, res) => {
       updatedPost,
     });
   } catch (error) {
-    console.log('Error while updating gallery post: ', error);
+    logger.warning('Error while updating gallery post: ', error);
     return res.status(500).json({
       success: false,
       message: 'Something went wrong while updating Gallery post'

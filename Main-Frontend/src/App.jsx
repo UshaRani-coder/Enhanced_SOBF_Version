@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { Route, Routes,useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import loader from './assets/loader.webp';
 import Popup from './Components/common_components/Popup.jsx';
@@ -75,30 +75,29 @@ const App = () => {
 
 
   const validRoutes = [
-        '/',
-        '/about-us',
-        '/contact-us',
-        '/vision',
-        '/gallery',
-        '/donate-us',
-        '/press-release',
-        '/press-release/:id',
-        '/recent-activities',
-        '/recent-activities/:id',
-        '/videos',
-        '/legal-doc',
-        '/anna-vitran-seva',
-        '/community-service',
-        '/swachh-vrindavan',
-        '/sadhu-seva',
-        '/brajkulam',
-        '/privacy-policy',
-        '/refund-policy',
-        '/terms-and-conditions'
-      ];
-      const isNotFound = !validRoutes.includes(location.pathname);
-  console.log(import.meta.env.MODE);
-      
+    '/',
+    '/about-us',
+    '/contact-us',
+    '/vision',
+    '/gallery',
+    '/donate-us',
+    '/press-release',
+    '/press-release/:id',
+    '/recent-activities',
+    '/recent-activities/:id',
+    '/videos',
+    '/legal-doc',
+    '/anna-vitran-seva',
+    '/community-service',
+    '/swachh-vrindavan',
+    '/sadhu-seva',
+    '/brajkulam',
+    '/privacy-policy',
+    '/refund-policy',
+    '/terms-and-conditions'
+  ];
+  const isNotFound = !validRoutes.includes(location.pathname);
+
   return (
     <Suspense
       fallback={
@@ -130,16 +129,16 @@ const App = () => {
         <Route path="/anna-vitran-seva" element={<AnnaVitranSeva />} />
         <Route path="/community-service" element={<CommunityService />} />
         <Route path="/swachh-vrindavan" element={<SwachhVrindavan />} />
-        <Route path="/sadhu-seva" element={<SadhuSeva/>} />
+        <Route path="/sadhu-seva" element={<SadhuSeva />} />
         <Route path="/brajkulam" element={<Brajkulam />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-        <Route path="/*"  element={<NotFound />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       {!isNotFound && <BackgroundMusic />}
-      {!isNotFound &&<Whatsapp />}
-      {!isNotFound &&<Footer />}
+      {!isNotFound && <Whatsapp />}
+      {!isNotFound && <Footer />}
     </Suspense>
   );
 };

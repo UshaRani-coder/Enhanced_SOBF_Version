@@ -6,7 +6,6 @@ const {
   createPost,
   getPostById,
 } = require('../controllers/post.controller');
-// const { uploadMultipleFile, uploadSingleFile, uploadSinglePDFfile, uploadOurServicesFile, } = require("../middleware/upload");
 const {
   createNewsBulletine,
   getNewsBulletine,
@@ -26,16 +25,6 @@ const {
   updateOurImpacts,
   deleteOurImpacts,
 } = require('../controllers/our-impacts.controller');
-// const {
-//   createFeaturedVideo,
-//   getFeaturedVideo,
-//   updateFeaturedVideo,
-//   deleteFeaturedVideo,
-//   getLegalDocument,
-//   createLegalDocument,
-//   updateLegalDocument,
-//   deleteLegalDocument,
-// } = require('../controllers/other.controller');
 const {
   createTeamMember,
   getTeamMembers,

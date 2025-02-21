@@ -2,10 +2,10 @@
 import React, { useEffect, useMemo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import hardcodedPosts from "../defaultData/newsbulletine.json"
+import hardcodedPosts from "../defaultData/recent-activities.json"
 import { getPostById } from '../Reducers/postSlice';
 
-const NewsBulletinDetails = () => {
+const RecentActivityDetails  = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { post, status } = useSelector((state) => state.posts);
@@ -167,4 +167,4 @@ const NewsBulletinDetails = () => {
   );
 };
 
-export default NewsBulletinDetails;
+export default RecentActivityDetails ;

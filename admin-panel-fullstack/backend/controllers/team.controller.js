@@ -3,7 +3,7 @@ const Team = require('../models/team.model');
 //! Get all team members
 const getTeamMembers = async (req, res) => {
   try {
-    const teamMembers = await Team.find();
+    const teamMembers = await Team.find({});
     if (teamMembers.length > 0) {
       for (let index = 0; index < teamMembers.length; index++) {
         const teamMember = teamMembers[index];
@@ -51,7 +51,6 @@ const createTeamMember = async (req, res) => {
       teamMember,
     });
   } catch (error) {
-    console.log('error while creating team member  ', error);
     return res.status(500).json({
       success: false,
       message: 'Failed to create team member'
@@ -97,7 +96,6 @@ const updateTeam = async (req, res) => {
 
     return res.status(200).json({ success: true, updatedTeam });
   } catch (error) {
-    console.log('Error while updating team member: ', error);
     return res.status(500).json({
       success: false,
       message: 'Failed to update team member'

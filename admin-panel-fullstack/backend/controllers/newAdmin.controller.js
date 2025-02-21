@@ -28,13 +28,10 @@ const registerAdmin = async (req, res) => {
 const loginAdmin = async (req, res) => {
   try {
     // Decrypt the incoming data
-    console.log(req.body);
     const bytes = CryptoJS.AES.decrypt(req.body.data, 'fgdsgsdfty4362365fhfg');
     const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
     const { email, password } = decryptedData;
-    console.log({ decryptedData });
-    // Proceed with authentication logic as usual
     const admin = await Admin.findOne({ email });
     if (!admin) {
       return res.status(400).json({ success: false, message: 'User not found with this email ID Pls register yourself.' });
@@ -45,9 +42,7 @@ const loginAdmin = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ id: admin._id }, JWT_SECRET, {
-      expiresIn: '1h',
-    });
+    const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({
       message: 'Login successful',
       token,

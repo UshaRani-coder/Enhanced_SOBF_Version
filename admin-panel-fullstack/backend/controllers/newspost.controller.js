@@ -105,15 +105,12 @@ const getNewsBulletineById = async (req, res) => {
     }
 
     // Find post by ID
-    const post = await bulletineModal.findById(id);
-    console.log("post", post);
-    
+    const post = await bulletineModal.findById(id);    
     if (!post) {
       return res.status(404).json({ success: false, message: 'Post not found' });
     }
 
     const baseURL = process.env.BASE_URL;
-
     // Format images and videos URLs
     if (Array.isArray(post.images)) {
       post.images = post.images.map((image) =>
@@ -126,7 +123,6 @@ const getNewsBulletineById = async (req, res) => {
         video ? `${baseURL}/uploads/news-bulletine/${video}` : video
       );
     }
-
     res.status(200).json({
       success: true,
       message: 'Successfully fetched the news/bulletin post.',
@@ -141,11 +137,6 @@ const getNewsBulletineById = async (req, res) => {
 };
 
 
-
-
-
-
-
 //!  UPDATE  POST BASED ON ID
 const updateNewsBulletine = async (req, res) => {
   try {
@@ -155,16 +146,13 @@ const updateNewsBulletine = async (req, res) => {
     if (!existingPost) {
       return res.status(404).json({ success: false, message: 'Post not found' });
     }
-
     const { title, description } = req.body;
-
     // Validate fields
     if (title && (typeof title !== 'string' || title.trim().length < 3)) {
       return res
         .status(400)
         .json({ success: false, message: 'Title must be a string with at least 3 characters' });
     }
-
     if (
       description &&
       (typeof description !== 'string' || description.trim().length < 5)

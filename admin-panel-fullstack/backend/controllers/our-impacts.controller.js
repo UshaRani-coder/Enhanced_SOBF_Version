@@ -54,7 +54,7 @@ const createOurImpacts = async (req, res) => {
     }
 
     // Validate image (if applicable)
-    if (req.file.filename === undefined) {
+    if (req?.file?.filename === undefined) {
       return res.status(400).json({
         success: false,
         message: 'Image is required ',
@@ -100,10 +100,7 @@ const updateOurImpacts = async (req, res) => {
         .status(400)
         .json({ success: false, message: 'Invalid post ID' });
     }
-
-    // Prepare updates from request body
     const { total_services, description } = req.body;
-
     // Check if a new image is provided; otherwise, keep the existing one
     const image = req.file ? req.file.filename : existingOurImpacts.image;
 
@@ -129,7 +126,6 @@ const updateOurImpacts = async (req, res) => {
       updatedPost,
     });
   } catch (error) {
-    console.log('Error while updating Our Impacts post: ', error);
     return res.status(500).json({
       success: false,
       message: 'Failed to update Our Impacts post'
