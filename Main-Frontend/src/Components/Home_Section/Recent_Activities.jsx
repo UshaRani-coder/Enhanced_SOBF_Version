@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/display-name */
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { getBulletine } from '../../Reducers/bulletinSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import loader from '../../assets/loader.webp';
 import { getPosts } from '../../Reducers/postSlice';
@@ -10,7 +10,7 @@ import DOMPurify from 'dompurify';
 const Recent_Activities = React.memo(() => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const {  posts, status, error } = useSelector((state) => state.posts);
+  const { posts, status, error } = useSelector((state) => state.posts);
 
   const [page, setPage] = useState(1);
   const postsPerPage = 10;
@@ -27,6 +27,7 @@ const Recent_Activities = React.memo(() => {
       year: 'numeric',
     });
   }, []);
+
 
   useEffect(() => {
     if (status === 'idle') {
@@ -137,10 +138,10 @@ const Recent_Activities = React.memo(() => {
         {/* Year Filter (Scrollable, Navy Blue) */}
         <select
           className="border-2 border-none  border-[rgb(30,58,138)] bg-[rgb(221,231,253)] text-[rgb(23,37,84)] 
-             font-bold md:px-4 px-2  py-2 rounded-md shadow-md cursor-pointer 
-             transition-all duration-300 hover:bg-[rgb(200,219,252)] hover:border-[rgb(23,37,84)] 
-             focus:ring-2 focus:ring-[rgb(125,168,252)] focus:outline-none 
-             max-h-[300px] overflow-y-auto scrollbar-none "
+            font-bold md:px-4 px-2  py-2 rounded-md shadow-md cursor-pointer 
+            transition-all duration-300 hover:bg-[rgb(200,219,252)] hover:border-[rgb(23,37,84)] 
+            focus:ring-2 focus:ring-[rgb(125,168,252)] focus:outline-none 
+            max-h-[300px] overflow-y-auto scrollbar-none "
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
         >
@@ -161,17 +162,17 @@ const Recent_Activities = React.memo(() => {
         {/* Month Filter (Scrollable, Forest Green) */}
         <select
           className="border-2 border-none border-[rgb(22,101,52)] bg-[rgb(221,242,228)] text-[rgb(16,63,32)] 
-             font-bold md:px-4  px-2 py-2 rounded-md shadow-md cursor-pointer 
-             transition-all duration-300 hover:bg-[rgb(195,230,209)] hover:border-[rgb(16,63,32)] 
-             focus:ring-2 focus:ring-[rgb(125,200,160)] focus:outline-none 
-             max-h-[300px] overflow-y-auto scrollbar-none "
+            font-bold md:px-4  px-2 py-2 rounded-md shadow-md cursor-pointer 
+            transition-all duration-300 hover:bg-[rgb(195,230,209)] hover:border-[rgb(16,63,32)] 
+            focus:ring-2 focus:ring-[rgb(125,200,160)] focus:outline-none 
+            max-h-[300px] overflow-y-auto scrollbar-none "
           value={selectedMonth}
           onChange={(e) => setSelectedMonth(e.target.value)}
         >
           <option value="" className="font-bold">
             Filter by Month
           </option>
-          {availableMonths.map((month) => (
+          {availableMonths?.map((month) => (
             <option
               key={month}
               value={month}
@@ -210,13 +211,13 @@ const Recent_Activities = React.memo(() => {
               className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
-                src={activity?.images && activity?.images?.length > 0 ? activity.images[0] : 'https://via.placeholder.com/300'}
+                src={activity?.images && activity?.images?.length > 0 ? activity?.images[0] : 'https://via.placeholder.com/300'}
                 alt={activity.title}
                 className="w-full h-full md:h-[300px] rounded-lg object-cover"
               />
               <div className="px-[10px] pt-[10px]">
                 <span className="text-[13px] ">
-                  {formatDate(activity.date)}
+                  {formatDate(activity?.date)}
                 </span>
                 <h1 className="font-bold text-xl line-clamp-1">
                   {activity.title}

@@ -10,7 +10,7 @@ export const getLegalDocuments = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getLegalDocs();
-      if (!response || response.status !== 200 || !response.data?.docs) {
+      if (!response || response.status !== 200 || response.data?.docs?.length === 0) {
         return fallbackLegalDocs
       }
       return response?.data?.docs || fallbackLegalDocs; // Use API data or fallback

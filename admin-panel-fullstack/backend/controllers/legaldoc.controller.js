@@ -6,8 +6,6 @@ const getLegalDocument = async (req, res) => {
   try {
     // Fetch all legal documents from the database
     const docs = await LegalDoc.find({});
-
-    // Append full file URL to each document
     if (docs.length > 0) {
       for (let index = 0; index < docs.length; index++) {
         const doc = docs[index];
@@ -33,8 +31,6 @@ const createLegalDocument = async (req, res) => {
   try {
     const { title, description } = req.body;
     console.log("req.file", req.file);
-
-    // Validate required fields
     if (!title || !description) {
       return res.status(400).json({
         success: false,
@@ -60,8 +56,6 @@ const createLegalDocument = async (req, res) => {
 
     // Save the document to the database
     await newLegalDoc.save();
-
-    // Append full file URL
     newLegalDoc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + newLegalDoc.fileName;
 
     res.status(201).json({
@@ -102,8 +96,6 @@ const updateLegalDocument = async (req, res) => {
 
     // Extract updated fields from request body
     const { title, description } = req.body;
-
-    // Prepare updated document fields
     const updates = {
       title: title?.trim() || existingDoc.title,
       description: description?.trim() || existingDoc.description,
@@ -112,8 +104,6 @@ const updateLegalDocument = async (req, res) => {
 
     // Update the document in the database
     const updatedDoc = await LegalDoc.findByIdAndUpdate(id, updates, { new: true });
-
-    // Append full file URL
     updatedDoc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + updatedDoc.fileName;
 
     return res.status(200).json({
@@ -134,7 +124,6 @@ const updateLegalDocument = async (req, res) => {
 const deleteLegalDocument = async (req, res) => {
   try {
     const { id } = req.params;
-
     // Validate document ID format
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ success: false, message: 'Invalid document ID.' });
@@ -142,11 +131,9 @@ const deleteLegalDocument = async (req, res) => {
 
     // Find and delete the document from the database
     const post = await LegalDoc.findByIdAndDelete(id);
-
     if (!post) {
       return res.status(404).json({ success: false, message: 'Document not found.' });
     }
-
     res.status(200).json({
       success: true,
       message: 'Legal document deleted successfully.',
@@ -159,7 +146,6 @@ const deleteLegalDocument = async (req, res) => {
   }
 };
 
-//? Export all controller functions
 module.exports = {
   createLegalDocument,
   getLegalDocument,

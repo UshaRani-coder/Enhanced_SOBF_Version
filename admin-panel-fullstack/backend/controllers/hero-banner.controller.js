@@ -8,8 +8,8 @@ const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 const getHeroBanner = async (req, res) => {
   try {
     const banners = await HeroBannerModel.find({});
-    if (banners.length > 0) {
-      for (let index = 0; index < banners.length; index++) {
+    if (banners?.length > 0) {
+      for (let index = 0; index < banners?.length; index++) {
         const banner = banners[index];
         banner.image =
           process.env.BASE_URL + '/uploads/hero-banner/' + banner.image;
@@ -81,8 +81,6 @@ const updateHeroBanner = async (req, res) => {
         .status(404)
         .json({ success: false, message: 'Hero Banner not found' });
     }
-
-    // Prepare updates from request body
     const { quotes } = req.body;
 
     // Validate quotes if provided
@@ -136,7 +134,6 @@ const deleteHeroBanner = async (req, res) => {
 
     // Delete the hero banner
     const post = await HeroBannerModel.findByIdAndDelete(id);
-
     if (!post) {
       return res.status(404).json({
         success: false,

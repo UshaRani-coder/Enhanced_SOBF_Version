@@ -36,7 +36,6 @@ const createService = async (req, res) => {
       .status(201)
       .json({ message: 'Service created successfully', service: newService });
   } catch (message) {
-    console.log('message', message);
     res
       .status(500)
       .json({ success: false, message: 'message creating service' });
@@ -128,7 +127,7 @@ const updateService = async (req, res) => {
 const getAllServices = async (req, res) => {
   const baseURL = process.env.BASE_URL;
   try {
-    const services = await Service.find();
+    const services = await Service.find({});
     if (services.length > 0) {
       for (let index = 0; index < services.length; index++) {
         const service = services[index];

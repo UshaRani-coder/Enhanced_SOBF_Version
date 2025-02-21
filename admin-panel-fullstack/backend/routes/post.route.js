@@ -4,13 +4,14 @@ const {
   updatePost,
   getPosts,
   createPost,
+  getPostById,
 } = require('../controllers/post.controller');
-// const { uploadMultipleFile, uploadSingleFile, uploadSinglePDFfile, uploadOurServicesFile, } = require("../middleware/upload");
 const {
   createNewsBulletine,
   getNewsBulletine,
   updateNewsBulletine,
   deleteNewsBulletine,
+  getNewsBulletineById,
 } = require('../controllers/newspost.controller');
 const {
   createHeroBanner,
@@ -24,16 +25,6 @@ const {
   updateOurImpacts,
   deleteOurImpacts,
 } = require('../controllers/our-impacts.controller');
-// const {
-//   createFeaturedVideo,
-//   getFeaturedVideo,
-//   updateFeaturedVideo,
-//   deleteFeaturedVideo,
-//   getLegalDocument,
-//   createLegalDocument,
-//   updateLegalDocument,
-//   deleteLegalDocument,
-// } = require('../controllers/other.controller');
 const {
   createTeamMember,
   getTeamMembers,
@@ -85,6 +76,7 @@ router.post(
   createPost,
 );
 router.get('/get-posts', getPosts);
+router.get('/get-post/:id', getPostById);
 router.put(
   '/update/:id',
   uploadRecentActivities.fields([
@@ -152,7 +144,8 @@ router.post(
   ]),
   createNewsBulletine,
 );
-router.get('/get-newspost', getNewsBulletine);
+router.get('/get-newspost', getNewsBulletine); 
+router.get('/news-bulletine/:id', getNewsBulletineById);
 router.put(
   '/update-news-post/:id',
   uploadNewsBulletine.fields([

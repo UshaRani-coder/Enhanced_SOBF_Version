@@ -1,34 +1,55 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchNewsPosts } from '../api/api';
-import hardcodedBulletins from "../defaultData/newsbulletine.json"
+import { fetchNewsPosts, fetchNewsPostById } from '../api/api';
+import hardcodedBulletins from '../defaultData/newsbulletine.json';
 
-
-// ! Get bulletins
+// ! Get all bulletins
 export const getBulletine = createAsyncThunk(
   'bulletines/getBulletine',
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchNewsPosts();
-      if (!response || response.status !== 200 || !response.data?.posts) {
-        return hardcodedBulletins
+      if (!response || response.status !== 200 || !response.data?.posts?.length) {
+        return hardcodedBulletins; // Fallback when API fails
       }
-     
-      
-      return response?.data?.posts || hardcodedBulletins;
+      return response?.data?.posts;
     } catch (error) {
-      return rejectWithValue(hardcodedBulletins);
+      return rejectWithValue(hardcodedBulletins); // Return fallback data on failure
+    }
+  }
+);
+
+// ! Get a specific bulletin by ID
+export const getSpecificBulletine = createAsyncThunk(
+  'bulletines/getSpecificBulletine',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await fetchNewsPostById(id);
+      if (!response || response.status !== 200 || !response.data) {
+        throw new Error('Bulletin not found');
+      }
+      return response?.data?.post;
+    } catch (error) {
+      // If API fails, find the post in dummy data
+      const fallbackPost = hardcodedBulletins.find((item) => String(item._id) === String(id));
+      if (fallbackPost) {
+        return fallbackPost; // Return dummy data if available
+      }
+      return rejectWithValue('Post not found in both API and fallback data');
     }
   }
 );
 
 const bulletinSlice = createSlice({
-  name: hardcodedBulletins, // Show fallback data immediately
-  // name: 'bulletines',
-  initialState: { bulletines: [], status: 'idle', error: null },
+  name: 'bulletines',
+  initialState: {
+    bulletines: hardcodedBulletins, // ✅ Set fallback data initially
+    specificBulletine: null,
+    status: 'idle',
+    error: null,
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Get bulletins
       .addCase(getBulletine.pending, (state) => {
         state.status = 'loading';
       })
@@ -38,8 +59,19 @@ const bulletinSlice = createSlice({
       })
       .addCase(getBulletine.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error?.message;
-        state.bulletines = hardcodedBulletins; // Assign fallback data on failure
+        state.error = action.payload;
+        state.bulletines = hardcodedBulletins;
+      })
+      .addCase(getSpecificBulletine.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getSpecificBulletine.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.specificBulletine = action.payload;
+      })
+      .addCase(getSpecificBulletine.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
       });
   },
 });

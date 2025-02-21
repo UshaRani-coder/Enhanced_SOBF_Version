@@ -5,8 +5,6 @@ const { FeaturedVideomodel } = require("../models/other.model");
 const createFeaturedVideo = async (req, res) => {
   try {
     const { URL } = req.body;
-
-    // Validation: Check if URL is provided
     if (!URL) return res.status(400).json({ success: false, message: "Please enter URL." });
 
     // Create a new featured video document
@@ -19,7 +17,6 @@ const createFeaturedVideo = async (req, res) => {
       post,
     });
   } catch (error) {
-    // Handle any errors during creation
     res.status(500).json({
       success: false,
       message: "Something went wrong while creating Featured video post"
@@ -45,7 +42,6 @@ const updateFeaturedVideo = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Featured video post updated successfully", updatedPost });
   } catch (error) {
-    // Handle any errors during update
     res.status(500).json({
       success: false,
       message: "Something went wrong while updating Featured video post"
@@ -60,7 +56,6 @@ const getFeaturedVideo = async (req, res) => {
     const posts = await FeaturedVideomodel.find({});
     res.status(200).json({ success: true, message: "Successfully fetched all featured videos.", posts });
   } catch (error) {
-    // Handle any errors during retrieval
     res.status(500).json({ success: false, message: "Something went wrong while fetching featured videos." });
   }
 }
@@ -83,12 +78,12 @@ const deleteFeaturedVideo = async (req, res) => {
 
     res.status(200).json({ success: true, message: 'Featured video post deleted successfully' });
   } catch (error) {
-    // Handle any errors during deletion
     res.status(500).json({ success: false, message: "Something went wrong while deleting the featured video post" });
   }
 }
 
-// Export all controller functions
+
+
 module.exports = {
   createFeaturedVideo,
   getFeaturedVideo,

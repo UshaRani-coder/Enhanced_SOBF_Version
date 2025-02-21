@@ -6,7 +6,7 @@ export const getfeaturedVideo = createAsyncThunk(
   'featuredVideo/getFeaturedVideo',
   async () => {
     const response = await getFeaturedVideo();
-    return response.data.posts;
+    return response?.data?.posts;
   },
 );
 

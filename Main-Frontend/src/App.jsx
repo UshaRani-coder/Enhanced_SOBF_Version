@@ -1,6 +1,7 @@
 
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import loader from './assets/loader.webp';
 import Popup from './Components/common_components/Popup.jsx';

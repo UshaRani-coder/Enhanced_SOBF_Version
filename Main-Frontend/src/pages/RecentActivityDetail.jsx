@@ -1,31 +1,61 @@
-import React, { useCallback } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import hardcodedPosts from "../defaultData/recent-activities.json"
+import { getPostById } from '../Reducers/postSlice';
 import DOMPurify from 'dompurify';
-const RecentActivityDetails = () => {
+const RecentActivityDetails  = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const posts = useSelector((state) => state.posts.posts);
-  const activity = posts.find((post) => post._id === id);
+  const { post, status } = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
 
-  if (!activity) {
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getPostById(id));
+    }
+  }, [dispatch, id]);
+
+
+
+  // Find the post from API data or fallback to hardcoded data
+  const activity = useMemo(() => post || hardcodedPosts.find(item => String(item._id) === String(id)), [post, id]);
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
+
+
+  if (!post) {
     return (
       <div className="flex flex-col items-center w-full mt-[150px] p-4">
-        <p className="text-lg text-red-500">Activity not found!</p>
+        <p className="text-lg text-red-500">News not found!</p>
       </div>
     );
   }
-  const formatDate = useCallback((dateString) => {
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-GB', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
-  }, []);
-  const handleBack = () => {
-    navigate('/recent-activities', { state: { scrollTo: 'recentActivities' } });
   };
+
+  const handleBack = () => {
+    // Scroll to the top of the page
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
+
+    // Navigate to the 'Press Release' page with state
+    navigate('/recent-activities', { state: { scrollTo: 'pressRelease' } });
+  };
+
+
   return (
     <div className="flex flex-col items-center w-[100%] md:w-[90%] p-6   mx-auto mt-[100px] lg:mt-[130px]">
       <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-[30px]">
@@ -149,4 +179,4 @@ const RecentActivityDetails = () => {
   );
 };
 
-export default RecentActivityDetails;
+export default RecentActivityDetails ;
