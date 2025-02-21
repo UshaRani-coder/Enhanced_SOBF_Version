@@ -15,10 +15,10 @@ import Partners from '../Components/Home_Section/Partners.jsx';
 import Press_Release from '../Components/Home_Section/Press_Release.jsx';
 import Recent_Activities from '../Components/Home_Section/Recent_Activities.jsx';
 import SidePopup from '../Components/sidePopup.jsx';
-const HomePage = () => {
+const HomePage = ({showPopup}) => {
  return (
     <div className="flex flex-col items-center ">
-      <Hero />
+      <Hero showPopup={showPopup}/>
       <SidePopup />
       <Impacts />
       <Programms />

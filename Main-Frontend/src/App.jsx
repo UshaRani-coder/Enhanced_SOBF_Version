@@ -1,3 +1,4 @@
+
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
@@ -36,16 +37,12 @@ const App = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    const hasPopupShown = sessionStorage.getItem('popupShown');
-    if (!hasPopupShown) {
-      setShowPopup(true);
-      sessionStorage.setItem('popupShown', 'true');
-    }
+    // Always show the popup on every page refresh
+    setShowPopup(true);
   }, []);
 
   const closePopup = () => {
     setShowPopup(false);
-    localStorage.setItem('popupClosed', 'true'); // Store the flag in localStorage
   };
 
   const validRoutes = [
@@ -71,7 +68,7 @@ const App = () => {
     '/terms-and-conditions',
   ];
 
-  // **Fix: Properly check for dynamic routes**
+  // Properly check for dynamic routes
   const isDynamicRoute = validRoutes.some(route =>
     new RegExp(`^${route.replace(/:\w+/g, '[^/]+')}$`).test(location.pathname)
   );
@@ -88,7 +85,7 @@ const App = () => {
       {showPopup && <Popup onClose={closePopup} />}
       {!isNotFound && <Header />}
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage showPopup={showPopup} />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/vision" element={<Vision />} />

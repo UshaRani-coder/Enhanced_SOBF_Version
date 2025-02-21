@@ -3,7 +3,7 @@ import '../../App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHeroBanners } from '../../Reducers/heroBannerSlice';
 import { AnimatePresence, motion } from 'framer-motion';
-const Hero = () => {
+const Hero = ({ showPopup }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loadedImage, setLoadedImage] = useState(null);
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const Hero = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (heroBanner && heroBanner.length > 0) {
+    if (!showPopup && heroBanner && heroBanner.length > 0) {
       if (heroBanner[currentIndex]?.image) {
         const img = new Image();
         img.src = heroBanner[currentIndex]?.image;
@@ -26,7 +26,7 @@ const Hero = () => {
 
       return () => clearInterval(interval);
     }
-  }, [heroBanner, currentIndex]);
+  }, [heroBanner, currentIndex, showPopup]);
 
   const imageVariants = {
     enter: {
@@ -80,20 +80,26 @@ const Hero = () => {
           exit="exit"
         >
           {/* Ken Burns Effect (Optional) */}
+
           <motion.div
             className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat "
             style={{
               backgroundImage: `url(${loadedImage || heroBanner[currentIndex]?.image})`,
             }}
             initial={{ scale: 1 }}
-            animate={{ scale: 1.2 }}
-            transition={{
-              duration: 3,
-              ease: 'easeInOut',
-              repeat: Infinity,
-              repeatType: 'reverse',
-            }}
+            animate={showPopup ? { scale: 1 } : { scale: 1.2 }}
+            transition={
+              showPopup
+                ? { duration: 0 }
+                : {
+                    duration: 3,
+                    ease: 'easeInOut',
+                    repeat: Infinity,
+                    repeatType: 'reverse',
+                  }
+            }
           />
+
           <div className="absolute inset-0 bg-black opacity-75" />
         </motion.div>
       </AnimatePresence>
