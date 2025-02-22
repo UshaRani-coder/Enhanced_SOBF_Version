@@ -37,7 +37,7 @@ const CommunityService = ({ setService }) => {
         </div>
       )}
 
-      <div className="flex flex-col lg:flex-row lg:items-stretch items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[10px] lg:mt-[120px]">
+      <div className="flex flex-col lg:flex-row lg:items-stretch items-center lg:justify-center lg:gap-x-[30px]  lg:mt-[120px]">
         <div className='w-[100%] flex justify-center lg:w-[50%]'>
         <ImgBanner banners={images} />
         </div>
@@ -56,7 +56,7 @@ const CommunityService = ({ setService }) => {
           <button>
             <Link
               to="/donate-us"
-              className="px-8 py-3.5 relative rounded-lg group overflow-hidden font-semibold bg-orange text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
+              className="px-8 py-3.5 relative rounded-lg group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
             >
               <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
               <span className="relative z-10">Donate</span>

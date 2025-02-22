@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { lazy } from 'react';
 import Hero from '../Components/Home_Section/Hero.jsx';
 import Impacts from '../Components/Home_Section/Impacts.jsx';
@@ -15,9 +15,21 @@ import Partners from '../Components/Home_Section/Partners.jsx';
 import Press_Release from '../Components/Home_Section/Press_Release.jsx';
 import Recent_Activities from '../Components/Home_Section/Recent_Activities.jsx';
 import SidePopup from '../Components/sidePopup.jsx';
-const HomePage = ({showPopup}) => {
+import Popup from '../Components/common_components/Popup.jsx';
+const HomePage = () => {
+   const [showPopup, setShowPopup] = useState(false);
+  
+    useEffect(() => {
+      // Always show the popup on every page refresh
+      setShowPopup(true);
+    }, []);
+  
+    const closePopup = () => {
+      setShowPopup(false);
+    };
  return (
     <div className="flex flex-col items-center ">
+      {showPopup && <Popup onClose={closePopup} />}
       <Hero showPopup={showPopup}/>
       <SidePopup />
       <Impacts />

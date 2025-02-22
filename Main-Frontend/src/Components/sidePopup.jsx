@@ -11,7 +11,7 @@ export default function SidePopup() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowButton(window.scrollY > 200); // Show after scrolling 200px
+      setShowButton(window.scrollY > 100); // Show after scrolling 200px
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -77,9 +77,9 @@ export default function SidePopup() {
 
             {/* Sadhu Seva */}
             <div className="mt-4 flex items-start gap-3">
-              <Heart className="text-red-500" size={24} />
+              <Heart className="text-orange" size={24} />
               <div>
-                <h4 className="text-md font-semibold text-red-700">Sadhu Seva</h4>
+                <h4 className="text-md font-semibold text-orange">Sadhu Seva</h4>
                 <p className="text-sm text-gray-600">Support sadhus with food, shelter, and essentials.</p>
               </div>
             </div>
@@ -95,7 +95,7 @@ export default function SidePopup() {
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="bg-red-500 text-white px-4 py-2 rounded-md shadow-md flex-1"
+                className="bg-orange text-white px-4 py-2 rounded-md shadow-md flex-1"
                 onClick={() => navigate("/sadhu-seva")}
               >
                 Help Sadhus ❤️

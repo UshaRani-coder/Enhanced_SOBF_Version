@@ -1,10 +1,9 @@
 
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { Suspense, lazy} from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { Route, Routes, useLocation } from 'react-router-dom';
+
 import './App.css';
 import loader from './assets/loader.webp';
-import Popup from './Components/common_components/Popup.jsx';
 
 // Lazy loading the components
 const Header = lazy(() => import('./Components/common_components/Header.jsx'));
@@ -35,17 +34,6 @@ const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 const App = () => {
   const location = useLocation();
-  const [showPopup, setShowPopup] = useState(false);
-
-  useEffect(() => {
-    // Always show the popup on every page refresh
-    setShowPopup(true);
-  }, []);
-
-  const closePopup = () => {
-    setShowPopup(false);
-  };
-
   const validRoutes = [
     '/',
     '/about-us',
@@ -83,10 +71,9 @@ const App = () => {
         </div>
       }
     >
-      {showPopup && <Popup onClose={closePopup} />}
       {!isNotFound && <Header />}
       <Routes>
-        <Route path="/" element={<HomePage showPopup={showPopup} />} />
+        <Route path="/" element={<HomePage  />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
         <Route path="/vision" element={<Vision />} />
