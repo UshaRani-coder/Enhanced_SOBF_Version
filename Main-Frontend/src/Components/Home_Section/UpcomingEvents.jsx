@@ -1,0 +1,288 @@
+import React, { useState, useEffect } from 'react';
+import img1 from '../../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv3.png';
+import img2 from '../../assets/Sobf Images/health_and_awareness_camp/hac6.jpg';
+import img3 from '../../assets/Sobf Images/women empowerment/we4.png';
+import { MdLocationPin } from 'react-icons/md';
+import { MdAccessTimeFilled } from 'react-icons/md';
+
+const UpcomingEvents = () => {
+  const jsonData = [
+    {
+      id: 1,
+      title: 'Tree Plantation Drive',
+      image: img1,
+      date: '2025-02-25',
+      time: '10:00 AM - 1:00 PM',
+      location: 'Vrindavan Park, Uttar Pradesh',
+      description:
+        'Join us in our mission to make Vrindavan greener by planting trees. Volunteers welcome!',
+    },
+    {
+      id: 2,
+      title: 'Free Medical Camp',
+      image: img2,
+      date: '2025-03-20',
+      time: '9:00 AM - 5:00 PM',
+      location: 'SOBF Health Center, Mathura',
+      description:
+        'Providing free medical checkups and medicines to underprivileged communities.',
+    },
+    {
+      id: 3,
+      title: 'Women Empowerment Workshop',
+      image: img3,
+      date: '2025-02-05',
+      time: '11:00 AM - 3:00 PM',
+      location: 'Online (Zoom Meeting)',
+      description:
+        'The Upcoming Events component is designed to showcase and highlight important upcoming events dynamically. It features an interactive carousel that allows users to browse through various events with smooth transitions. The component also provides filter options, enabling users to select events based on the year and month. This ensures a user-friendly experience while displaying relevant information concisely.',
+    },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('');
+
+  // Get today's date for status comparison
+  const today = new Date().toISOString().split('T')[0];
+
+  // Function to determine event status
+  // const getEventStatus = (eventDate) => {
+  //   if (eventDate === today) {
+  //     return {
+  //       label: 'Happening Now',
+  //       bgColor: 'bg-gradient-to-r from-indigo-500 to-indigo-700',
+  //       icon: '🟢',
+  //       textColor: 'text-white',
+  //       animate: 'animate-bounce',
+  //     };
+  //   }
+  //   return eventDate > today
+  //     ? {
+  //         label: 'Upcoming',
+  //         bgColor: 'bg-gradient-to-r from-green-500 to-green-700',
+  //         icon: '⏳',
+  //         textColor: 'text-white',
+  //         animate: ' '
+
+  //       }
+  //     : {
+  //         label: 'Past Event',
+  //         bgColor: 'bg-gradient-to-r from-red-500 to-red-700',
+  //         icon: '❌',
+  //         textColor: 'text-white',
+  //         animate: '',
+  //       };
+  // };
+  const getEventStatus = (eventDate) => {
+    if (eventDate === today) {
+      return {
+        label: 'Happening Now',
+        bgColor: 'bg-gradient-to-r from-purple-500 to-purple-700',
+        icon: '🟢',
+        textColor: 'text-white',
+        animate: 'animate-bounce',
+      };
+    }
+    return eventDate > today
+      ? {
+          label: 'Upcoming',
+          bgColor: 'bg-gradient-to-r from-indigo-500 to-indigo-700',
+          icon: '⏳',
+          textColor: 'text-white',
+          animate: '',
+        }
+      : {
+          label: 'Completed', // Changed from 'Past Event'
+          bgColor: 'bg-gradient-to-r from-green-500 to-green-700', // Green for success
+          icon: '🎯', // Represents completion
+          textColor: 'text-white',
+          animate: '',
+        };
+  };
+
+  const availableYears = [
+    ...new Set(jsonData.map((event) => event.date.split('-')[0])),
+  ];
+  const availableMonths = [
+    ...new Set(jsonData.map((event) => event.date.split('-')[1])),
+  ];
+
+  // Filter events based on selected year and month
+  const filteredEvents = jsonData
+    .filter((event) =>
+      selectedYear ? event.date.includes(selectedYear) : true,
+    )
+    .filter((event) =>
+      selectedMonth ? event.date.includes(`-${selectedMonth}-`) : true,
+    );
+
+  // Reset currentIndex if it's out of range after filtering
+  useEffect(() => {
+    if (currentIndex >= filteredEvents.length) {
+      setCurrentIndex(0);
+    }
+  }, [filteredEvents.length, currentIndex]);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % jsonData.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? jsonData.length - 1 : prevIndex - 1,
+    );
+  };
+
+  return (
+    <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0">
+      <h1 className="inline-block text-[28px] md:text-heading3 lg:text-heading2 font-bold  p-5 text-[#2d335d] relative transition-all ease-in-out">
+        Upcoming Events
+        <hr className="mt-1 border-blue border-[0.5px]" />
+      </h1>
+      <h2 className="text-center text-lg small-range:text-[20px] md:text-xl lg:text-2xl font-bold small-range:px-2">
+        Get Ready for Our Upcoming Events
+      </h2>
+      <p className="text-center text-md small-range:text-lg md:text-md lg:text-xl mb-6 small-range:px-3 small-range:pb-3 small-range:pt-1 text-gray-600">
+        Stay tuned for impactful events that bring positive change to our
+        community. Join us!
+      </p>
+
+      {/* Filter & Carousel Controls */}
+      <div className="flex flex-col md:flex-row  md:justify-center w-full  max-w-3xl lg:max-w-4xl  items-center gap-4 mb-6">
+        <div className="flex items-center gap-2 small-range:gap-4 ">
+          {/* Filter by Year */}
+          <select
+            className="border-2 border-none  border-[rgb(30,58,138)] bg-[rgb(221,231,253)] text-[rgb(23,37,84)] 
+            font-bold small-max:px-6 md:px-4 px-2  py-2 rounded-md shadow-md cursor-pointer 
+            transition-all duration-300 hover:bg-[rgb(200,219,252)] hover:border-[rgb(23,37,84)] 
+            focus:ring-2 focus:ring-[rgb(125,168,252)] focus:outline-none 
+            max-h-[300px] overflow-y-auto scrollbar-none "
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+          >
+            <option value="" className="font-bold">
+              Filter by Year
+            </option>
+            {availableYears.map((year) => (
+              <option
+                key={year}
+                value={year}
+                className="max-h-[200px] overflow-y-auto font-bold "
+              >
+                {year}
+              </option>
+            ))}
+          </select>
+
+          {/* Filter by Month */}
+          <select
+            className="border-2 border-none border-[rgb(22,101,52)] bg-[rgb(221,242,228)] text-[rgb(16,63,32)] 
+            font-bold small-max:px-6 md:px-4  px-2 py-2 rounded-md shadow-md cursor-pointer 
+            transition-all duration-300 hover:bg-[rgb(195,230,209)] hover:border-[rgb(16,63,32)] 
+            focus:ring-2 focus:ring-[rgb(125,200,160)] focus:outline-none 
+            max-h-[300px] overflow-y-auto scrollbar-none "
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+          >
+            <option value="" className="font-bold">
+              Filter by Month
+            </option>
+            {availableMonths.map((month) => (
+              <option
+                key={month}
+                value={month}
+                className="max-h-[200px] overflow-y-auto font-bold "
+              >
+                {month}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex items-center gap-2 justify-end  small-range:mr-4 small-max:mr-0  w-full">
+          {/* Previous Slide Button */}
+          <button
+            className="bg-gray-700 text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-900 transition-all"
+            onClick={prevSlide}
+          >
+            ❮
+          </button>
+
+          {/* Next Slide Button */}
+          <button
+            className="bg-gray-700 text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-900 transition-all"
+            onClick={nextSlide}
+          >
+            ❯
+          </button>
+        </div>
+      </div>
+      {/* Conditional Rendering: Show events or fallback message */}
+      {filteredEvents.length > 0 ? (
+        <>
+          {/* Carousel Wrapper */}
+          <div className="relative w-full max-w-3xl lg:max-w-4xl overflow-hidden">
+            <div
+              className="flex transition-transform duration-700 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {filteredEvents.map((event) => {
+                const status = getEventStatus(event.date);
+                return (
+                  <div key={event.id} className="min-w-full">
+                    <div className="bg-white rounded-xl overflow-hidden">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="w-full h-full md:h-[350px] bg-cover rounded-t-xl"
+                      />
+                      <div className="p-3.5 small-range:p-5 text-start">
+                        <span
+                          className={`px-3 py-1 text-[10px] md:text-sm mb-4 inline-block font-bold ${status.bgColor} ${status.textColor} rounded-full shadow-md ${status.animate}`}
+                        >
+                          {status.icon} {status.label}
+                        </span>
+                        <div className="flex items-start w-full mb-2 lg:gap-4">
+                          <div className="flex flex-row items-start gap-1 w-1/2 lg:w-auto ">
+                            <MdAccessTimeFilled className="w-[20px] h-[20px] text-[#1890CE] " />
+                            <p className="text-gray-600 flex flex-col md:flex-row md:gap-1 text-[10px] small-range:text-[12px] md:text-[14px]">
+                              {event.date}
+                              <span className="hidden md:inline">|</span>
+                              <span>{event.time}</span>
+                            </p>
+                          </div>
+
+                          <div className="flex flex-row items-start w-1/2 lg:w-auto ">
+                            <MdLocationPin className="w-[30px] h-[20px] text-[#E82327] " />
+                            <p className="text-gray-500 text-[10px] small-range:text-[12px] md:text-[14px]">
+                              {event.location}
+                            </p>
+                          </div>
+                        </div>
+                        <h3 className="text-xl lg:text-2xl font-semibold text-[#2d335d]">
+                          {event.title}
+                        </h3>
+                        <p className="text-gray-700 lg:text-lg">
+                          {event.description}
+                        </p>
+                        <button className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all">
+                          Register Now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      ) : (
+        <p className="text-gray-600 text-lg mt-6">
+          No events found for the selected filters.
+        </p>
+      )}
+    </div>
+  );
+};
+
+export default UpcomingEvents;

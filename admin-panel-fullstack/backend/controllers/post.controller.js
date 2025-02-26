@@ -41,7 +41,6 @@ const getPosts = async (req, res) => {
   }
 };
 
-
 //! GET SPECIFIC POST BY ID
 const getPostById = async (req, res) => {
   try {
@@ -49,13 +48,17 @@ const getPostById = async (req, res) => {
 
     // Validate ID format
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid post ID' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid post ID' });
     }
 
     // Find post by ID
     const post = await PostModel.findById(id);
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
 
     const baseURL = process.env.BASE_URL;
@@ -63,13 +66,13 @@ const getPostById = async (req, res) => {
     // Format images and videos URLs
     if (Array.isArray(post.images)) {
       post.images = post.images.map((image) =>
-        image ? `${baseURL}/uploads/recent-activities/${image}` : image
+        image ? `${baseURL}/uploads/recent-activities/${image}` : image,
       );
     }
 
     if (Array.isArray(post.videos)) {
       post.videos = post.videos.map((video) =>
-        video ? `${baseURL}/uploads/recent-activities/${video}` : video
+        video ? `${baseURL}/uploads/recent-activities/${video}` : video,
       );
     }
 
@@ -85,9 +88,6 @@ const getPostById = async (req, res) => {
     });
   }
 };
-
-
-
 
 // CREATE POST
 const createPost = async (req, res) => {
@@ -137,12 +137,10 @@ const createPost = async (req, res) => {
       .status(201)
       .json({ success: true, message: 'Post created successfully', post });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Error creating post'
-      });
+    res.status(500).json({
+      success: false,
+      message: 'Error creating post',
+    });
   }
 };
 
@@ -153,13 +151,17 @@ const updatePost = async (req, res) => {
 
     // Validate ID format
     if (!isValidObjectId(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid post ID' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid post ID' });
     }
 
     // Fetch the existing post
     const existingPost = await PostModel.findById(id);
     if (!existingPost) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
 
     const { title, description, date } = req.body;
@@ -168,18 +170,20 @@ const updatePost = async (req, res) => {
     if (title && (typeof title !== 'string' || title.trim().length < 3)) {
       return res
         .status(400)
-        .json({ success: false, message: 'Title must be a string with at least 3 characters' });
+        .json({
+          success: false,
+          message: 'Title must be a string with at least 3 characters',
+        });
     }
 
     if (
       description &&
       (typeof description !== 'string' || description.trim().length < 5)
     ) {
-      return res
-        .status(400)
-        .json({
-          success: false, message: 'Description must be a string with at least 5 characters',
-        });
+      return res.status(400).json({
+        success: false,
+        message: 'Description must be a string with at least 5 characters',
+      });
     }
 
     // Initialize updated data with existing values
@@ -188,7 +192,7 @@ const updatePost = async (req, res) => {
       description: description || existingPost.description,
       images: existingPost.images,
       videos: existingPost.videos,
-      date: date || existingPost.date
+      date: date || existingPost.date,
     };
 
     // Handle updated images if provided
@@ -216,7 +220,9 @@ const updatePost = async (req, res) => {
       new: true,
     });
     if (!updatedPost) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
 
     res.status(200).json({
@@ -227,7 +233,7 @@ const updatePost = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while updating the post'
+      message: 'Something went wrong while updating the post',
     });
   }
 };
@@ -239,25 +245,27 @@ const deletePost = async (req, res) => {
 
     // Validate ID format
     if (!isValidObjectId(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid post ID' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid post ID' });
     }
 
     // Delete the post
     const post = await PostModel.findByIdAndDelete(id);
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
 
     res
       .status(200)
       .json({ success: true, message: 'Post deleted successfully' });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while deleting post'
-      });
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while deleting post',
+    });
   }
 };
 

@@ -246,15 +246,18 @@ const HeroBanner = () => {
           heroBanner?.map((post) => (
             <div
               key={post._id}
-              className="border p-4 rounded w-64 hover:shadow-lg flex flex-col items-center"
+              className="border p-4 rounded w-[90%] small-max:w-[80%] md:w-[70%] lg:w-[40%] hover:shadow-lg flex flex-col items-center"
             >
-              <div className="w-full h-[250px] overflow-hidden">
-                <img
-                  src={post.image || 'https://via.placeholder.com/150'}
-                  alt="Hero Banner"
-                  className="object-cover w-full h-full rounded-lg"
-                />
-              </div>
+              <div
+                className="w-full h-[250px] overflow-hidden"
+                style={{
+                  backgroundImage: `url(${post.image || 'https://via.placeholder.com/150'})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  width: 'full',
+                  height: 'full',
+                }}
+              ></div>
               <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
                 {post.quotes}
               </h3>

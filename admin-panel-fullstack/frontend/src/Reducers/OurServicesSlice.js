@@ -6,9 +6,6 @@ import {
   updateOurServices,
 } from '../api/api';
 
-
-
-
 // Get Services
 export const getServices = createAsyncThunk(
   'services/getServices',

@@ -6,10 +6,12 @@ const router = require('./routes/post.route');
 const admin_router = require('./routes/admin.route');
 const path = require('path');
 const app = express();
-const logger = require("./logger");
-const morgan = require("morgan");
+const logger = require('./logger');
+const morgan = require('morgan');
 
-require("dotenv").config({ path: `.env.${process.env.NODE_ENV || "development"}` });
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV || 'development'}`,
+});
 
 console.log(`Your env is ${process.env.NODE_ENV}`);
 console.log(`Your PORT is ${process.env.PORT}`);
@@ -22,7 +24,7 @@ const allowedOrigins = [
   'http://localhost:5174',
   'https://sobf.in',
   'https://admin.sobf.in',
-  'https://backend.sobf.in'
+  'https://backend.sobf.in',
 ];
 
 // ✅ CORS Middleware
@@ -51,41 +53,51 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'",
-          "https://trusted-script-source.com",
-          isDevelopment ? "'unsafe-eval'" : "", // ✅ Allow eval in dev mode
+          'https://trusted-script-source.com',
+          isDevelopment ? "'unsafe-eval'" : '', // ✅ Allow eval in dev mode
         ].filter(Boolean),
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        imgSrc: ["*"],
-        connectSrc: ["'self'", "https://backend.sobf.in", "http://localhost:5000"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+        imgSrc: ['*'],
+        connectSrc: [
+          "'self'",
+          'https://backend.sobf.in',
+          'http://localhost:5000',
+        ],
         frameSrc: [
           "'self'",
-          "https://www.youtube.com",
-          "https://player.vimeo.com",
-          "https://maps.google.com"
+          'https://www.youtube.com',
+          'https://player.vimeo.com',
+          'https://maps.google.com',
         ],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
       },
     },
-    crossOriginResourcePolicy: { policy: "cross-origin" },
-  })
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  }),
 );
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ Morgan Logging Middleware
-const morganFormat = ":method :url :status :response-time";
+const morganFormat = ':method :url :status :response-time';
 app.use(
   morgan(morganFormat, {
     stream: {
       write: (message) => {
-        const [method, url, status, responseTime] = message.split(" ");
-        logger.info(JSON.stringify({ method, url, status, responseTime: responseTime.replace("ms", "") })); 
+        const [method, url, status, responseTime] = message.split(' ');
+        logger.info(
+          JSON.stringify({
+            method,
+            url,
+            status,
+            responseTime: responseTime.replace('ms', ''),
+          }),
+        );
       },
     },
-  })
+  }),
 );
 
 app.use(express.static(__dirname + '/uploads'));
@@ -138,16 +150,17 @@ app.use(
   express.static(path.join(__dirname, 'uploads/our-impacts')),
 );
 
-
 // ✅ Routes
 app.use('/api/admin', admin_router);
 app.use('/api/post', router);
 app.get('/', (req, res) => res.send('Welcome to SOBF - 🙏'));
 
 // ✅ Connect to Database BEFORE Starting the Server
-connectDB().then(() => {
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-}).catch(err => {
-  console.error("❌ Database connection failed:", err);
-  process.exit(1); // Exit process if DB connection fails
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+  })
+  .catch((err) => {
+    console.error('❌ Database connection failed:', err);
+    process.exit(1); // Exit process if DB connection fails
+  });

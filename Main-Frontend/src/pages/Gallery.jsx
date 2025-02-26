@@ -11,8 +11,6 @@ const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState(null);
 
-
-
   useEffect(() => {
     if (location.pathname === '/about-us') {
       window.scrollTo({
@@ -31,14 +29,14 @@ const Gallery = () => {
   };
 
   // Extract unique tags
-  const tags = ["all",
+  const tags = [
+    'all',
     ...new Set(
       gallery
-        .flatMap((image) => (image.tag ? image.tag.split(",") : [])) // Remove empty tags
-        .filter((tag) => tag.trim() !== "")
+        .flatMap((image) => (image.tag ? image.tag.split(',') : [])) // Remove empty tags
+        .filter((tag) => tag.trim() !== ''),
     ),
   ];
-
 
   // Filter gallery images based on selected category
   const filteredImages =
@@ -91,14 +89,16 @@ const Gallery = () => {
               <button
                 key={category}
                 onClick={() => handleFilterChange(category)}
-                className={`px-4 py-2 font-bold rounded ${selectedCategory === category ? 'bg-blue text-white' : 'bg-gray-200'
-                  }`}
+                className={`px-4 py-2 font-bold rounded ${
+                  selectedCategory === category
+                    ? 'bg-blue text-white'
+                    : 'bg-gray-200'
+                }`}
               >
                 {category.replace('_', ' ')}
               </button>
             ))}
           </div>
-
         </div>
 
         {/* Gallery Grid */}
@@ -106,7 +106,6 @@ const Gallery = () => {
           <p className="text-center text-gray-500">Loading...</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 ">
-
             {filteredImages?.length > 0 ? (
               filteredImages?.map((image, index) => (
                 <div

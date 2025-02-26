@@ -7,10 +7,7 @@ import heroBannerReducer from '../Reducers/heroBannerSlice';
 import addLegalDocReducer from '../Reducers/legalDocSlice';
 import teamReducer from '../Reducers/TeamSlice';
 import galleryReducer from '../Reducers/gallerySlice';
-import ourServiceRducer from "../Reducers/OurServicesSlice"
-
-
-
+import ourServiceRducer from '../Reducers/OurServicesSlice';
 
 const store = configureStore({
   reducer: {
@@ -27,6 +24,3 @@ const store = configureStore({
 });
 
 export default store;
-
-
-

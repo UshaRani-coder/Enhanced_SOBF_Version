@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -63,14 +62,17 @@ const LegalDoc = () => {
   };
 
   return (
-    <div className={`flex flex-col items-center mb-[30px] ${location.pathname === '/legal-doc' ? 'mt-[150px]' : 'mt-[30px]'}`}>
-       <ToastContainer position="top-right" autoClose={3000} />
+    <div
+      className={`flex flex-col items-center mb-[30px] ${location.pathname === '/legal-doc' ? 'mt-[150px]' : 'mt-[30px]'}`}
+    >
+      <ToastContainer position="top-right" autoClose={3000} />
       <h1 className="text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 text-[#2d335d]">
         Our Legal Documents
         <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
       </h1>
       <p className="text-center text-lg lg:text-xl mb-8 text-gray-600 px-3">
-        Below, you will find important legal documents that showcase our NGO’s mission, goals, and legal standing.
+        Below, you will find important legal documents that showcase our NGO’s
+        mission, goals, and legal standing.
       </p>
 
       {status === 'loading' && <p>Loading Documents...</p>}
@@ -79,16 +81,29 @@ const LegalDoc = () => {
       {legalDocs?.length > 0 ? (
         <div className="flex flex-wrap gap-8 justify-center items-stretch p-5">
           {legalDocs.map((doc) => (
-            <div key={doc._id} className="flex flex-col items-stretch justify-between mb-8 w-full sm:w-[48%] md:w-[500px] lg:w-[450px] p-6 border border-gray-300 bg-white shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
+            <div
+              key={doc._id}
+              className="flex flex-col items-stretch justify-between mb-8 w-full sm:w-[48%] md:w-[500px] lg:w-[450px] p-6 border border-gray-300 bg-white shadow-xl rounded-lg transition-transform transform hover:-translate-y-2 hover:shadow-2xl"
+            >
               <div className="flex-1">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-800">{doc.title}</h2>
+                <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                  {doc.title}
+                </h2>
                 <p className="text-gray-600 mb-6">{doc.description}</p>
               </div>
               <div className="mt-auto flex justify-end gap-3 items-center">
-                <Link to={doc.fileName} className="px-4 py-2 bg-peacock-green text-white rounded-md hover:bg-teal-400 transition-colors font-bold" target="_blank" rel="noopener noreferrer">
+                <Link
+                  to={doc.fileName}
+                  className="px-4 py-2 bg-peacock-green text-white rounded-md hover:bg-teal-400 transition-colors font-bold"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   View
                 </Link>
-                <button onClick={() => handleDownload(doc.fileName, doc.title)} className="px-4 py-2 bg-logoYellow text-white rounded-md hover:bg-yellow-600 transition-colors font-bold">
+                <button
+                  onClick={() => handleDownload(doc.fileName, doc.title)}
+                  className="px-4 py-2 bg-logoYellow text-white rounded-md hover:bg-yellow-600 transition-colors font-bold"
+                >
                   Download
                 </button>
               </div>
@@ -103,4 +118,3 @@ const LegalDoc = () => {
 };
 
 export default LegalDoc;
-

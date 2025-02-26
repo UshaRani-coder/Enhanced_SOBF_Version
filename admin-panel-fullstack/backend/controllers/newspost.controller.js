@@ -49,12 +49,10 @@ const createNewsBulletine = async (req, res) => {
       .status(201)
       .json({ success: true, message: 'Post created successfully', post });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Error creating post'
-      });
+    res.status(500).json({
+      success: false,
+      message: 'Error creating post',
+    });
   }
 };
 
@@ -89,7 +87,7 @@ const getNewsBulletine = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while getting news/bulletin post'
+      message: 'Something went wrong while getting news/bulletin post',
     });
   }
 };
@@ -101,26 +99,30 @@ const getNewsBulletineById = async (req, res) => {
 
     // Validate ID format
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid post ID' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid post ID' });
     }
 
     // Find post by ID
-    const post = await bulletineModal.findById(id);    
+    const post = await bulletineModal.findById(id);
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
 
     const baseURL = process.env.BASE_URL;
     // Format images and videos URLs
     if (Array.isArray(post.images)) {
       post.images = post.images.map((image) =>
-        image ? `${baseURL}/uploads/news-bulletine/${image}` : image
+        image ? `${baseURL}/uploads/news-bulletine/${image}` : image,
       );
     }
 
     if (Array.isArray(post.videos)) {
       post.videos = post.videos.map((video) =>
-        video ? `${baseURL}/uploads/news-bulletine/${video}` : video
+        video ? `${baseURL}/uploads/news-bulletine/${video}` : video,
       );
     }
     res.status(200).json({
@@ -136,7 +138,6 @@ const getNewsBulletineById = async (req, res) => {
   }
 };
 
-
 //!  UPDATE  POST BASED ON ID
 const updateNewsBulletine = async (req, res) => {
   try {
@@ -144,25 +145,28 @@ const updateNewsBulletine = async (req, res) => {
     // Fetch the existing post
     const existingPost = await bulletineModal.findById(id);
     if (!existingPost) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
     const { title, description } = req.body;
     // Validate fields
     if (title && (typeof title !== 'string' || title.trim().length < 3)) {
       return res
         .status(400)
-        .json({ success: false, message: 'Title must be a string with at least 3 characters' });
+        .json({
+          success: false,
+          message: 'Title must be a string with at least 3 characters',
+        });
     }
     if (
       description &&
       (typeof description !== 'string' || description.trim().length < 5)
     ) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: 'Description must be a string with at least 5 characters',
-        });
+      return res.status(400).json({
+        success: false,
+        message: 'Description must be a string with at least 5 characters',
+      });
     }
 
     // Initialize updated data with existing values
@@ -198,7 +202,9 @@ const updateNewsBulletine = async (req, res) => {
       new: true,
     });
     if (!updatedPost) {
-      return res.status(404).json({ success: false, message: 'Bulletine Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Bulletine Post not found' });
     }
 
     res.status(200).json({
@@ -207,12 +213,10 @@ const updateNewsBulletine = async (req, res) => {
       updatedPost,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while updating news/bulletine post'
-      });
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while updating news/bulletine post',
+    });
   }
 };
 
@@ -231,12 +235,10 @@ const deleteNewsBulletine = async (req, res) => {
     }
     res.status(200).json({ success: true, message: 'Post deleted ' });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while deleting news/bulletine post'
-      });
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while deleting news/bulletine post',
+    });
   }
 };
 
@@ -245,5 +247,5 @@ module.exports = {
   createNewsBulletine,
   updateNewsBulletine,
   deleteNewsBulletine,
-  getNewsBulletineById
+  getNewsBulletineById,
 };

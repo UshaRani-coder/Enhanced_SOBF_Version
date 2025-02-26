@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getHeroBanner } from '../api/api';
-import hardcodedHeroBanners from "../defaultData/hero-banner.json";
+import hardcodedHeroBanners from '../defaultData/hero-banner.json';
 
 // ! Get Hero Banners
 export const getHeroBanners = createAsyncThunk(
@@ -10,7 +10,11 @@ export const getHeroBanners = createAsyncThunk(
       const response = await getHeroBanner();
 
       // If response is not valid or status is not 200, return hardcoded data
-      if (!response || response.status !== 200 || response.data?.banners?.length === 0) {
+      if (
+        !response ||
+        response.status !== 200 ||
+        response.data?.banners?.length === 0
+      ) {
         return hardcodedHeroBanners;
       }
 
@@ -18,11 +22,11 @@ export const getHeroBanners = createAsyncThunk(
     } catch {
       return hardcodedHeroBanners; // Return fallback data on any error
     }
-  }
+  },
 );
 
 const heroBannerSlice = createSlice({
-  name: "heroBanner",
+  name: 'heroBanner',
   initialState: { heroBanner: hardcodedHeroBanners, status: 'idle' },
   reducers: {},
   extraReducers: (builder) => {

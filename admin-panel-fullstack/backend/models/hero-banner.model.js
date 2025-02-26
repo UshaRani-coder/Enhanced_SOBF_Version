@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
-const heroBannerSchema = new mongoose.Schema({
-  image: { type: String, required: true },
-  quotes: { type: String, required: true },
-},
+const heroBannerSchema = new mongoose.Schema(
   {
-    timestamps: true
-  }
+    image: { type: String, required: true },
+    quotes: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+  },
 );
 
 const HeroBannerModel = new mongoose.model('HeroBannerModel', heroBannerSchema);

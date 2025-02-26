@@ -7,7 +7,9 @@ import { Provider } from 'react-redux';
 import store from './Store/store.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+  <BrowserRouter
+    future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+  >
     <React.StrictMode>
       <Provider store={store}>
         <App />
@@ -16,5 +18,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </React.StrictMode>
   </BrowserRouter>,
 );
-
-

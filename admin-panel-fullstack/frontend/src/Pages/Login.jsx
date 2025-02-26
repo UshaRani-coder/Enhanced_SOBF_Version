@@ -50,7 +50,10 @@ const Login = ({ setIsAuthenticated }) => {
         import.meta.env.VITE_JWT_SECRET,
       ).toString();
 
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/admin/login`, { data: encryptedData });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/admin/login`,
+        { data: encryptedData },
+      );
 
       const { token } = response?.data;
       if (token) {

@@ -35,25 +35,26 @@ const FeaturedVideo = () => {
   //! Add video
   const handleAddVideo = () => {
     if (!URL) {
-      toast.error("Please provide a URL.");
+      toast.error('Please provide a URL.');
       return;
     }
     if (!validateURL(URL)) {
-      toast.error("Invalid video URL. Please enter a valid YouTube.");
+      toast.error('Invalid video URL. Please enter a valid YouTube.');
       return;
     }
-    setError(""); // Clear any previous errors
+    setError(''); // Clear any previous errors
     setIsLoading(true); // Start loading
     dispatch(addfeaturedVideo({ URL }))
       .then(() => {
-        toast.success("Video added successfully!");
+        toast.success('Video added successfully!');
         setIsModalOpen(false);
-        setURL("");
+        setURL('');
         dispatch(getfeaturedVideo());
       })
       .catch(() => {
-        toast.error("Failed to add video!");
-      }).finally(() => {
+        toast.error('Failed to add video!');
+      })
+      .finally(() => {
         setIsLoading(false);
         dispatch(getfeaturedVideo());
       });
@@ -62,41 +63,45 @@ const FeaturedVideo = () => {
   //! Update video
   const handleUpdateVideo = () => {
     if (!URL) {
-      toast.error("Please provide a URL.");
+      toast.error('Please provide a URL.');
       return;
     }
     if (!validateURL(URL)) {
-      toast.error("Invalid video URL. Please enter a valid YouTube or Vimeo link.");
+      toast.error(
+        'Invalid video URL. Please enter a valid YouTube or Vimeo link.',
+      );
       return;
     }
-    setError("");
+    setError('');
     if (currentVideo) {
       setIsLoading(true);
       dispatch(updatefeaturedVideo({ id: currentVideo?._id, URL }))
         .then(() => {
-          toast.success("Video updated successfully!");
+          toast.success('Video updated successfully!');
           setIsModalOpen(false);
-          setURL("");
+          setURL('');
           dispatch(getfeaturedVideo());
         })
         .catch(() => {
-          toast.error("Failed to update video!");
-        }).finally(() => {
+          toast.error('Failed to update video!');
+        })
+        .finally(() => {
           setIsLoading(false);
           dispatch(getfeaturedVideo());
         });
     }
   };
 
-
   //? Delete video
   const handleDeleteVideo = (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this video?");
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this video?',
+    );
     if (confirmed) {
       setIsLoading(true); // Start loading
       dispatch(removefeaturedVideo(id))
-        .then(() => toast.success("Video deleted successfully!"))
-        .catch(() => toast.error("Failed to delete video!"));
+        .then(() => toast.success('Video deleted successfully!'))
+        .catch(() => toast.error('Failed to delete video!'));
     }
   };
 
@@ -109,7 +114,7 @@ const FeaturedVideo = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="flex justify-between mx-4 items-center my-4">
+      <div className="flex justify-between mx-2 small-range:mx-4 items-center my-4">
         <h1 className="text-2xl small-range:text-3xl md:text-3xl lg:text-4xl font-semibold">
           Featured Videos
         </h1>
@@ -184,15 +189,15 @@ const FeaturedVideo = () => {
       )}
 
       {/* Video List */}
-      <div className="mt-6 flex flex-wrap justify-center gap-4">
+      <div className="mt-12 flex flex-wrap justify-center gap-10">
         {featuredVideo && featuredVideo?.length > 0 ? (
-          featuredVideo?.map((video,index) => {
+          featuredVideo?.map((video, index) => {
             // Safely extract video ID
             const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || '';
             return (
               <div
                 key={video?._id || index}
-                className="border p-4 rounded w-64 small-range:w-80 md:w-64 hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center"
+                className="border  rounded w-[270px] small-range:w-80 md:w-64 lg:w-[300px] hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center "
               >
                 {videoId ? (
                   <iframe
@@ -206,7 +211,7 @@ const FeaturedVideo = () => {
                 ) : (
                   <p className="text-red-500 text-center">Invalid Video URL</p>
                 )}
-                <div className="mt-6 flex gap-4">
+                <div className=" p-4 flex gap-4">
                   <button
                     className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
                     onClick={() => openUpdateModal(video)}

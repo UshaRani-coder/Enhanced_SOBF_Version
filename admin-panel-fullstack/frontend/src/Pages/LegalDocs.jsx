@@ -144,11 +144,11 @@ const LegalDoc = () => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center m-4">
-        <h1 className="text-xl small-range:text-2xl small-max:text-3xl lg:text-4xl font-semibold">
+        <h1 className="text-xl small-range:text-2xl  lg:text-4xl font-semibold">
           Legal Documents
         </h1>
         <button
-          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-4 small-max:py-1.5 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-4 small-max:py-1.5 text-[12px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -202,7 +202,8 @@ const LegalDoc = () => {
                   placeholder="Enter the description..."
                 ></textarea>
                 <p className="mt-2 text-sm text-gray-500">
-                  {maxLength - formData.description?.length} characters remaining
+                  {maxLength - formData.description?.length} characters
+                  remaining
                 </p>
               </div>
               <div className="mb-4">
@@ -238,9 +239,9 @@ const LegalDoc = () => {
                       Processing...
                     </span>
                   ) : isUpdateMode ? (
-                    "Update"
+                    'Update'
                   ) : (
-                    "Add"
+                    'Add'
                   )}
                 </button>
               </div>
@@ -254,15 +255,15 @@ const LegalDoc = () => {
           legalDocs?.map((doc) => (
             <div
               key={doc?._id}
-              className="border p-4 rounded w-[90%] small-range:w-[80%] sm:w-[48%] lg:w-[35%] hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center"
+              className="border p-4 rounded w-[90%] small-max:w-[80%] md:w-[65%] lg:w-[40%] hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center"
             >
-              <h2 className="text-2xl font-semibold mb-4 text-gray-800 line-clamp-2 text-left w-[100%]">
+              <h2 className="text-2xl font-semibold mb-3 text-gray-800 line-clamp-2 text-left w-[100%]">
                 {doc?.title}
               </h2>
-              <p className="text-gray-600 line-clamp-4 mb-6 text-left w-full">
+              <p className="text-gray-600 line-clamp-4 mb-2 text-left w-full">
                 {doc?.description}
               </p>
-              <div className="mt-4 flex gap-4 flex-wrap justify-end w-full">
+              <div className="mt-1 flex gap-4 flex-wrap justify-start w-full">
                 <button
                   className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
                   onClick={() => openUpdateModal(doc)}
@@ -275,11 +276,6 @@ const LegalDoc = () => {
                 >
                   <MdDelete className="text-red-800 text-2xl" />
                 </button>
-                {/* <Link to={doc?.fileName} target="_blank"
-                  className="bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
-                >
-                  <MdPreview className="text-green-800 text-2xl" /> 
-                </Link> */}
                 <Link
                   to={doc?.fileName}
                   target="_blank"

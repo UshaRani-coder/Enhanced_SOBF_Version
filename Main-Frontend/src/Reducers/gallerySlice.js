@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getGallery } from '../api/api';
-import fallbackGallery from "../defaultData/gallery.json"
-
+import fallbackGallery from '../defaultData/gallery.json';
 
 // ! Fetch Gallery Images
 export const getGalleryImages = createAsyncThunk(
@@ -9,14 +8,18 @@ export const getGalleryImages = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getGallery();
-      if (!response || response.status !== 200 || response.data?.posts?.length === 0) {
-        return fallbackGallery
+      if (
+        !response ||
+        response.status !== 200 ||
+        response.data?.posts?.length === 0
+      ) {
+        return fallbackGallery;
       }
       return response?.data?.posts || fallbackGallery; // Use API data or fallback
     } catch (error) {
       return rejectWithValue(fallbackGallery); // Use fallback data if API fails
     }
-  }
+  },
 );
 
 const gallerySlice = createSlice({
@@ -24,7 +27,7 @@ const gallerySlice = createSlice({
   initialState: {
     gallery: fallbackGallery, // Show fallback data immediately
     status: 'idle',
-    error: null
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -41,7 +44,7 @@ const gallerySlice = createSlice({
         // state.error = 'Failed to fetch gallery. Showing fallback images.';
         state.gallery = fallbackGallery; // Use fallback data if API fails
       });
-  }
+  },
 });
 
 export default gallerySlice.reducer;

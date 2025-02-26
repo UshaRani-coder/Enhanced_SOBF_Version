@@ -10,7 +10,7 @@ import {
 } from '../Reducers/bulletinSlice';
 import DOMPurify from 'dompurify';
 import ReactQuill from 'react-quill';
-import Quill from "quill"; 
+import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 const PostPage = () => {
   ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
@@ -238,7 +238,6 @@ const PostPage = () => {
       }));
     }
   };
-  
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
@@ -373,18 +372,38 @@ const PostPage = () => {
                 />
               </div>
               <div className="mb-4">
-              <style>
-                  {`
-                     .ql-editor.ql-blank::before {
-                     font-style: normal !important;
-                    }
-                 `}
+                <style>
+                  {`.ql-container {
+      
+      padding: 8px;
+      min-height: 100px;
+    }
+
+    .ql-editor {
+      font-size: 1rem;  /* Same as input fields (16px) */
+      font-weight: normal;
+   
+      line-height: 1.5;
+      letter-spacing:0.5px;
+      padding: 10px; /* Ensure consistent padding */
+    }
+
+    .ql-toolbar {
+      border-radius: 8px 8px 0 0;
+      background-color: #f9fafb; /* Light gray */
+    }
+                                    .ql-editor.ql-blank::before {
+                                    font-style: normal !important;
+                                   }
+                                `}
                 </style>
                 <label className="block font-semibold mb-2">Description</label>
                 <ReactQuill
                   value={formData.description}
-                  onChange={(value) => handleInputChange({ name: "description", value })}
-                   name="description"
+                  onChange={(value) =>
+                    handleInputChange({ name: 'description', value })
+                  }
+                  name="description"
                   className="w-full bg-white"
                   placeholder="Enter the description of the news"
                 />

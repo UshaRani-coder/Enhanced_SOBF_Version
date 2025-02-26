@@ -28,7 +28,6 @@ const Recent_Activities = React.memo(() => {
     });
   }, []);
 
-
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getPosts());
@@ -134,7 +133,7 @@ const Recent_Activities = React.memo(() => {
 
       {/* Filter and Sort Controls */}
 
-      <div className="flex flex-wrap gap-4 mb-5 items-center">
+      <div className="flex  gap-2 small-range:gap-4 mb-5 items-center">
         {/* Year Filter (Scrollable, Navy Blue) */}
         <select
           className="border-2 border-none  border-[rgb(30,58,138)] bg-[rgb(221,231,253)] text-[rgb(23,37,84)] 
@@ -182,7 +181,6 @@ const Recent_Activities = React.memo(() => {
             </option>
           ))}
         </select>
-
       </div>
       {noPostsMessage && (
         <p className="text-center text-lg font-semibold text-gray-700 mt-4">
@@ -211,7 +209,11 @@ const Recent_Activities = React.memo(() => {
               className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
-                src={activity?.images && activity?.images?.length > 0 ? activity?.images[0] : 'https://via.placeholder.com/300'}
+                src={
+                  activity?.images && activity?.images?.length > 0
+                    ? activity?.images[0]
+                    : 'https://via.placeholder.com/300'
+                }
                 alt={activity.title}
                 className="w-full h-full md:h-[300px] rounded-lg object-cover"
               />

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGalleryImages } from '../../Reducers/gallerySlice';
@@ -7,7 +6,6 @@ import { Link } from 'react-router-dom';
 const Home_Gallery = () => {
   const dispatch = useDispatch();
   const { gallery, status, error } = useSelector((state) => state.gallery);
- 
 
   const [selectedImage, setSelectedImage] = useState(null);
 

@@ -23,7 +23,7 @@ const getHeroBanner = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while fetching posts from backend.'
+      message: 'Something went wrong while fetching posts from backend.',
     });
   }
 };
@@ -64,7 +64,7 @@ const createHeroBanner = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while creating hero banner post'
+      message: 'Something went wrong while creating hero banner post',
     });
   }
 };
@@ -114,7 +114,7 @@ const updateHeroBanner = async (req, res) => {
     console.log('Error while updating Hero Banner: ', error);
     return res.status(500).json({
       success: false,
-      message: 'Failed to update Hero Banner'
+      message: 'Failed to update Hero Banner',
     });
   }
 };
@@ -148,7 +148,7 @@ const deleteHeroBanner = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while deleting post'
+      message: 'Something went wrong while deleting post',
     });
   }
 };

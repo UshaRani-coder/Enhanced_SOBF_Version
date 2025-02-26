@@ -1,7 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getOurServices } from "../api/api";
-import hardcodedServices from "../defaultData/ourServices.json"
-
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getOurServices } from '../api/api';
+import hardcodedServices from '../defaultData/ourServices.json';
 
 // Async thunk to fetch services
 export const getServices = createAsyncThunk(
@@ -10,13 +9,13 @@ export const getServices = createAsyncThunk(
     try {
       const response = await getOurServices();
       if (!response || response.status !== 200 || response.data.length === 0) {
-        return hardcodedServices
+        return hardcodedServices;
       }
       return response?.data || hardcodedServices;
     } catch (error) {
       return rejectWithValue(hardcodedServices);
     }
-  }
+  },
 );
 
 const servicesSlice = createSlice({

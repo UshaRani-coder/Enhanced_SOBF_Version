@@ -8,7 +8,7 @@ import addLegalDocReducer from '../Reducers/legalDocSlice';
 import teamReducer from '../Reducers/TeamSlice';
 import galleryReducer from '../Reducers/gallerySlice';
 import ourServiceRducer from '../Reducers/OurServicesSlice';
-
+import upcomingEventReducer from '../Reducers/upcomingEventsSlice.js';
 const store = configureStore({
   reducer: {
     posts: postReducer,
@@ -20,6 +20,7 @@ const store = configureStore({
     teams: teamReducer,
     gallery: galleryReducer,
     services: ourServiceRducer,
+    events: upcomingEventReducer,
   },
 });
 

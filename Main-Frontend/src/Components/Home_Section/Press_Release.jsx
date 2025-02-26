@@ -2,7 +2,7 @@
 /* eslint-disable react/display-name */
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation,  useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getBulletine } from '../../Reducers/bulletinSlice';
 import DOMPurify from 'dompurify';
@@ -37,8 +37,6 @@ const Press_Release = React.memo(() => {
     });
   }, []);
 
-  
-
   // Check if it's the home page
   const isHomePage = useMemo(
     () => location.pathname === '/',
@@ -49,7 +47,6 @@ const Press_Release = React.memo(() => {
   const [page, setPage] = useState(1);
   const postsPerPage = 10; // Number of posts per page
 
-  
   // **Extract unique years and months**
   const availableYears = useMemo(() => {
     const years = new Set(
@@ -141,7 +138,7 @@ const Press_Release = React.memo(() => {
 
       {/* Filter and Sort Controls */}
 
-      <div className="flex flex-wrap gap-4 mb-5 items-center">
+      <div className="flex  gap-2 small-range:gap-4 mb-5 items-center">
         {/* Year Filter (Scrollable, Navy Blue) */}
         <select
           className="border-2 border-none  border-[rgb(30,58,138)] bg-[rgb(221,231,253)] text-[rgb(23,37,84)] 
@@ -212,7 +209,11 @@ const Press_Release = React.memo(() => {
               className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
-                src={news?.images && news?.images?.length > 0 ? news?.images[0] : 'https://via.placeholder.com/600'}
+                src={
+                  news?.images && news?.images?.length > 0
+                    ? news?.images[0]
+                    : 'https://via.placeholder.com/600'
+                }
                 alt={news?.title}
                 className="w-full h-full md:h-[300px] rounded-lg object-cover"
               />
@@ -227,7 +228,9 @@ const Press_Release = React.memo(() => {
                   </svg>
                   <span className="text-[13px]">{formatDate(news?.date)}</span>
                 </div>
-                <h1 className="font-bold text-xl line-clamp-1">{news?.title}</h1>
+                <h1 className="font-bold text-xl line-clamp-1">
+                  {news?.title}
+                </h1>
                 <p
                   className="md:text-lg line-clamp-4"
                   dangerouslySetInnerHTML={{
@@ -253,7 +256,6 @@ const Press_Release = React.memo(() => {
       </InfiniteScroll>
       {isHomePage && bulletines?.length > 3 && (
         <div className="text-center mt-5">
-
           <button
             onClick={handleSeeMore}
             className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"

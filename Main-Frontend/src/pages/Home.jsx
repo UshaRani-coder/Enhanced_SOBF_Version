@@ -1,6 +1,7 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { lazy } from 'react';
 import Hero from '../Components/Home_Section/Hero.jsx';
+import HeroVideo from '../Components/Home_Section/HeroVideo.jsx';
 import Impacts from '../Components/Home_Section/Impacts.jsx';
 import Contactus from '../Components/Home_Section/Support.jsx';
 import Faq from '../Components/Home_Section/Faq.jsx';
@@ -16,21 +17,23 @@ import Press_Release from '../Components/Home_Section/Press_Release.jsx';
 import Recent_Activities from '../Components/Home_Section/Recent_Activities.jsx';
 import SidePopup from '../Components/sidePopup.jsx';
 import Popup from '../Components/common_components/Popup.jsx';
+import UpcomingEvents from '../Components/Home_Section/UpcomingEvents.jsx';
 const HomePage = () => {
-   const [showPopup, setShowPopup] = useState(false);
-  
-    useEffect(() => {
-      // Always show the popup on every page refresh
-      setShowPopup(true);
-    }, []);
-  
-    const closePopup = () => {
-      setShowPopup(false);
-    };
- return (
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    // Always show the popup on every page refresh
+    setShowPopup(true);
+  }, []);
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+  return (
     <div className="flex flex-col items-center ">
       {showPopup && <Popup onClose={closePopup} />}
-      <Hero showPopup={showPopup}/>
+      <Hero showPopup={showPopup} />
+      {/* <HeroVideo /> */}
       <SidePopup />
       <Impacts />
       <Programms />
@@ -43,6 +46,7 @@ const HomePage = () => {
       <Partners />
       <Testimonials />
       <Home_Gallery />
+      <UpcomingEvents />
       <Contactus />
       <Faq />
     </div>

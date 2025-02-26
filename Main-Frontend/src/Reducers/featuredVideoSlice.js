@@ -27,7 +27,7 @@ const featuredVideoSlice = createSlice({
       .addCase(getfeaturedVideo.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-      })
+      });
   },
 });
 

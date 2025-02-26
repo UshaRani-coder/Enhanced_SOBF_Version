@@ -207,11 +207,11 @@ const Team = () => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center mx-4 my-4">
-        <h1 className="text-xl small-range:text-2xl md:text-3xl lg:text-4xl font-semibold">
+        <h1 className="text-lg small-range:text-2xl md:text-3xl lg:text-4xl font-semibold">
           Our Team Members
         </h1>
         <button
-          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-4 small-max:py-1.5 text-[13px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
+          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-4 small-max:py-1.5 text-[12px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl "
           onClick={() => {
             setIsModalOpen(true);
             setIsUpdateMode(false);
@@ -239,17 +239,35 @@ const Team = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded focus:outline-none text-[13px] small-range:text-[16px]"
-                  placeholder="Enter your name here"
+                  placeholder="Enter the name here"
                 />
               </div>
               {/* Role */}
               <div className="mb-4">
                 <style>
-                  {`
-                                                   .ql-editor.ql-blank::before {
-                                                   font-style: normal !important;
-                                                  }
-                                               `}
+                  {`.ql-container {
+      
+      padding: 8px;
+      min-height: 100px;
+    }
+
+    .ql-editor {
+      font-size: 1rem;  /* Same as input fields (16px) */
+      font-weight: normal;
+     
+      line-height: 1.5;
+      letter-spacing:0.5px;
+      padding: 10px; /* Ensure consistent padding */
+    }
+
+    .ql-toolbar {
+      border-radius: 8px 8px 0 0;
+      background-color: #f9fafb; /* Light gray */
+    }
+                                    .ql-editor.ql-blank::before {
+                                    font-style: normal !important;
+                                   }
+                                `}
                 </style>
                 <label className="block font-semibold mb-2">Role</label>
                 <ReactQuill
@@ -259,7 +277,7 @@ const Team = () => {
                     handleInputChange({ name: 'role', value })
                   }
                   className="w-full rounded focus:outline-none text-[13px] small-range:text-[16px]"
-                  placeholder="Enter your  role and responsibility "
+                  placeholder="Enter the role and responsibility "
                 />
               </div>
               {/* LinkedIn */}
@@ -271,7 +289,7 @@ const Team = () => {
                   value={formData.linkedIn}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded focus:outline-none text-[13px] small-range:text-[16px]"
-                  placeholder="Enter your linkedin profile link "
+                  placeholder="Enter the linkedin profile link "
                 />
               </div>
 
@@ -284,7 +302,7 @@ const Team = () => {
                   value={formData.instagram}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded focus:outline-none text-[13px] small-range:text-[16px]"
-                  placeholder="Enter your instagram profile link "
+                  placeholder="Enter the instagram profile link "
                 />
               </div>
 
@@ -370,7 +388,7 @@ const Team = () => {
                   }}
                 />
               </div>
-              
+
               <div className="flex justify-center gap-x-[12px] ">
                 <a
                   href={member?.linkedIn}
@@ -461,7 +479,7 @@ const Team = () => {
                 </button>
 
                 <button
-                  className=" bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
+                  className=" bg-red-100 hover:bg-red-200 hover:shadow-xl text-red-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2"
                   onClick={() => handleDeleteTeamMember(member?._id)}
                 >
                   <MdDelete className="text-red-800 text-2xl" /> Delete

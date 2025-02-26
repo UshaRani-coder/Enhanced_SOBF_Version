@@ -113,7 +113,6 @@
 
 // export default donate_hero;
 
-
 import React, { useState, useEffect } from 'react';
 import '../../App.css';
 import { heroes_donate } from '../../Constant/data';
@@ -158,7 +157,8 @@ const DonateHero = () => {
         <button
           onClick={() =>
             setCurrentIndex(
-              (prevIndex) => (prevIndex - 1 + heroes_donate?.length) % heroes_donate?.length
+              (prevIndex) =>
+                (prevIndex - 1 + heroes_donate?.length) % heroes_donate?.length,
             )
           }
           className="hidden md:block md:cursor-pointer bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition"
@@ -183,7 +183,9 @@ const DonateHero = () => {
       <div className="absolute top-[50%] right-[20px] z-20 transform -translate-y-1/2">
         <button
           onClick={() =>
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % heroes_donate?.length)
+            setCurrentIndex(
+              (prevIndex) => (prevIndex + 1) % heroes_donate?.length,
+            )
           }
           className="hidden md:block md:cursor-pointer bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition"
         >
@@ -229,18 +231,16 @@ const DonateHero = () => {
           </motion.p>
         </motion.div>
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-[30]">
-  <ScrollLink to="donate-form" smooth={true} duration={1200}>
-    <button
-      aria-label="Donate"
-      className="text-white bg-logoYellow font-semibold rounded-full md:text-[1.1rem] text-heading5 px-5 py-2.5 animate-bounce"
-    >
-      Donate
-    </button>
-  </ScrollLink>
-</div>
+          <ScrollLink to="donate-form" smooth={true} duration={1200}>
+            <button
+              aria-label="Donate"
+              className="text-white bg-logoYellow font-semibold rounded-full md:text-[1.1rem] text-heading5 px-5 py-2.5 animate-bounce"
+            >
+              Donate
+            </button>
+          </ScrollLink>
+        </div>
       </AnimatePresence>
-     
-
     </div>
   );
 };

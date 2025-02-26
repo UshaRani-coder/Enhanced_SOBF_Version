@@ -165,8 +165,8 @@ const OurService = () => {
         [name]: value,
       }));
     }
-  }; 
-  
+  };
+
   const handlePaste = (e) => {
     const { name } = e.target;
     const pastedText = e.clipboardData.getData('text');
@@ -185,7 +185,9 @@ const OurService = () => {
     if (name === 'logo') {
       if (files[0]) {
         if (!allowedImageTypes.includes(files[0].type)) {
-          toast.error('Only image files (JPEG, PNG, JPG) are allowed for the logo.');
+          toast.error(
+            'Only image files (JPEG, PNG, JPG) are allowed for the logo.',
+          );
           return;
         }
         if (files[0].size > maxFileSize) {
@@ -197,11 +199,17 @@ const OurService = () => {
     } else if (name === 'images') {
       const newImages = Array.from(files);
 
-      const oversizedFiles = newImages.filter((file) => file.size > maxFileSize);
-      const invalidFiles = newImages.filter((file) => !allowedImageTypes.includes(file.type));
+      const oversizedFiles = newImages.filter(
+        (file) => file.size > maxFileSize,
+      );
+      const invalidFiles = newImages.filter(
+        (file) => !allowedImageTypes.includes(file.type),
+      );
 
       if (invalidFiles.length > 0) {
-        toast.error('Only image files (JPEG, PNG, JPG) are allowed for service images.');
+        toast.error(
+          'Only image files (JPEG, PNG, JPG) are allowed for service images.',
+        );
         return;
       }
 
@@ -221,7 +229,6 @@ const OurService = () => {
       }));
     }
   };
-
 
   //! reset form data
   const resetForm = () => {
@@ -259,7 +266,9 @@ const OurService = () => {
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center p-4">
-        <h1 className="text-3xl  md:text-4xl font-semibold">Our Services</h1>
+        <h1 className="text-2xl small-range:text-3xl md:text-3xl lg:text-4xl font-semibold">
+          Our Services
+        </h1>
         <button
           className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-4 small-max:py-1.5 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
           onClick={() => {
@@ -367,7 +376,25 @@ const OurService = () => {
               </div>
               <div className="mb-4">
                 <style>
-                  {`
+                  {`.ql-container {
+      
+      padding: 8px;
+      min-height: 100px;
+    }
+
+    .ql-editor {
+      font-size: 1rem;  /* Same as input fields (16px) */
+      font-weight: normal;
+    
+      line-height: 1.5;
+      letter-spacing:0.5px;
+      padding: 10px; /* Ensure consistent padding */
+    }
+
+    .ql-toolbar {
+      border-radius: 8px 8px 0 0;
+      background-color: #f9fafb; /* Light gray */
+    }
                                     .ql-editor.ql-blank::before {
                                     font-style: normal !important;
                                    }
@@ -394,6 +421,17 @@ const OurService = () => {
                   onChange={handleFileChange}
                   className=""
                 />
+                <p className="mt-2 text-sm text-blue-600">
+                  Need icons?{' '}
+                  <a
+                    href="https://www.flaticon.com/icon-fonts-most-downloaded?weight=bold&type=uicon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline"
+                  >
+                    Download from Flaticon
+                  </a>
+                </p>
               </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Images</label>
@@ -476,7 +514,7 @@ const OurService = () => {
           services.map((post) => (
             <div
               key={post._id}
-              className="cursor-pointer border lg:flex-1 rounded-lg p-4 shadow hover:shadow-lg transition small-max:w-[90%] md:w-[60%] lg:w-full"
+              className="cursor-pointer border lg:flex-1 rounded-lg p-4 shadow hover:shadow-lg transition small-max:w-[90%] md:w-[75%] lg:w-full"
               onClick={() => handleExpandPost(post)}
             >
               <img
@@ -495,14 +533,14 @@ const OurService = () => {
 
               {/* Detailed Description */}
               <p
-                  className="text-sm text-gray-500 mt-1 line-clamp-3"
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(post?.description).replace(
-                      /<a /g,
-                      '<a style="color: #4a90e2; " ',
-                    ),
-                  }}
-                ></p>
+                className="text-sm text-gray-500 mt-1 line-clamp-3"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(post?.description).replace(
+                    /<a /g,
+                    '<a style="color: #4a90e2; " ',
+                  ),
+                }}
+              ></p>
               <div className="flex gap-2 mt-4">
                 <button
                   className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"

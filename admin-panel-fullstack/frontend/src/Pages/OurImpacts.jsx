@@ -34,74 +34,74 @@ const OurImpacts = () => {
   const validateForm = () => {
     const { total_services, description, image } = formData;
     if (!total_services.trim()) {
-      toast.error("Total services is required and cannot be empty");
+      toast.error('Total services is required and cannot be empty');
       return false;
     }
     if (!description.trim()) {
-      toast.error("Description is required and cannot be empty");
+      toast.error('Description is required and cannot be empty');
       return false;
     }
     if (!image) {
-      toast.error("Image is required");
+      toast.error('Image is required');
       return;
     }
     // Validate image
     if (image) {
-      const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+      const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
       if (!allowedImageTypes.includes(image.type)) {
-        toast.error("Only JPG, PNG, or JPG images are allowed.");
+        toast.error('Only JPG, PNG, or JPG images are allowed.');
         return false;
       }
     }
     return true;
   };
 
-  // ! Adding post 
+  // ! Adding post
   const handleAddPost = () => {
     if (!validateForm()) return;
     const formDataToSend = new FormData();
-    formDataToSend.append("total_services", formData.total_services);
-    formDataToSend.append("description", formData.description);
-    formDataToSend.append("image", formData.image);
+    formDataToSend.append('total_services', formData.total_services);
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('image', formData.image);
     setIsLoading(true); // Start loading
     dispatch(addOurImpact(formDataToSend))
       .unwrap()
       .then(() => {
-        toast.success("Our impact added successfully!");
+        toast.success('Our impact added successfully!');
         setIsModalOpen(false);
         resetForm();
         dispatch(getOurImpact());
       })
       .catch((error) => {
-        toast.error(error || "Failed to add our impact");
+        toast.error(error || 'Failed to add our impact');
       })
       .finally(() => setIsLoading(false)); // End loading
   };
 
-  // ! Updating post 
+  // ! Updating post
   const handleUpdatePost = () => {
     if (!formData.total_services) {
-      toast.error("Total services is required and cannot be empty");
+      toast.error('Total services is required and cannot be empty');
       return;
     }
     if (!formData.description) {
-      toast.error("Description is required and cannot be empty");
+      toast.error('Description is required and cannot be empty');
       return;
     }
     // Validate image (if provided)
     if (formData.image) {
-      const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+      const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
       if (!allowedImageTypes.includes(formData.image.type)) {
-        toast.error("Only JPG, PNG, or JPG images are allowed.");
+        toast.error('Only JPG, PNG, or JPG images are allowed.');
         return;
       }
     }
     const updatedData = new FormData();
-    updatedData.append("total_services", formData.total_services);
-    updatedData.append("description", formData.description);
-    if (formData.image) updatedData.append("image", formData.image);
+    updatedData.append('total_services', formData.total_services);
+    updatedData.append('description', formData.description);
+    if (formData.image) updatedData.append('image', formData.image);
     if (!currentImpact || !currentImpact._id) {
-      toast.error("No impact selected for updating.");
+      toast.error('No impact selected for updating.');
       return;
     }
     // Start loading
@@ -109,30 +109,32 @@ const OurImpacts = () => {
     dispatch(updateOurImpact({ id: currentImpact?._id, updatedData }))
       .unwrap()
       .then(() => {
-        toast.success("Our impact updated successfully!");
+        toast.success('Our impact updated successfully!');
         setIsModalOpen(false);
         resetForm();
         dispatch(getOurImpact());
       })
       .catch((error) => {
-        console.error("Update Error:", error);
-        toast.error(error?.message || "Failed to update our impact");
+        console.error('Update Error:', error);
+        toast.error(error?.message || 'Failed to update our impact');
       })
       .finally(() => setIsLoading(false)); // End loading
   };
 
-  // ! Deleting post 
+  // ! Deleting post
   const handleDelete = (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this impact? This action cannot be undone.");
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this impact? This action cannot be undone.',
+    );
     if (confirmDelete) {
       setIsLoading(true); // Start loading
       dispatch(removeOurImpact(id))
         .unwrap()
         .then(() => {
-          toast.success("Our impact deleted successfully!");
+          toast.success('Our impact deleted successfully!');
         })
         .catch((error) => {
-          toast.error(error || "Failed to delete our impact");
+          toast.error(error || 'Failed to delete our impact');
         })
         .finally(() => setIsLoading(false)); // End loading
     }
@@ -142,19 +144,19 @@ const OurImpacts = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrorMessage("");
+    setErrorMessage('');
   };
 
   // ! Handle file input changes
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData((prev) => ({ ...prev, [name]: files[0] }));
-    setErrorMessage("");
+    setErrorMessage('');
   };
 
-  // ! Reset form data 
+  // ! Reset form data
   const resetForm = () => {
-    setFormData({ total_services: "", description: "", image: null });
+    setFormData({ total_services: '', description: '', image: null });
     setCurrentImpact(null);
   };
 
@@ -163,8 +165,8 @@ const OurImpacts = () => {
     setIsUpdateMode(true);
     setCurrentImpact(impact);
     setFormData({
-      total_services: impact?.total_services || "",
-      description: impact?.description || "",
+      total_services: impact?.total_services || '',
+      description: impact?.description || '',
       image: null,
     });
   };
@@ -193,7 +195,7 @@ const OurImpacts = () => {
             <form>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">
-                  Total Services
+                  Total Impact Count
                 </label>
                 <input
                   type="text"
@@ -202,7 +204,7 @@ const OurImpacts = () => {
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                   maxLength={maxLength}
-                  placeholder="Numbers of Total Impacts"
+                  placeholder="Number of Total Impacts"
                 />
               </div>
               <div className="mb-4">
@@ -216,7 +218,8 @@ const OurImpacts = () => {
                   placeholder="Enter description here"
                 ></textarea>
                 <p className="mt-2 text-sm text-gray-500">
-                  {maxLength - formData.description?.length} characters remaining
+                  {maxLength - formData.description?.length} characters
+                  remaining
                 </p>
               </div>
               <div className="mb-4">
@@ -228,6 +231,17 @@ const OurImpacts = () => {
                   onChange={handleFileChange}
                   className="w-full"
                 />
+                <p className="mt-2 text-sm text-blue-600">
+                  Need icons?{' '}
+                  <a
+                    href="https://www.flaticon.com/icon-fonts-most-downloaded?weight=bold&type=uicon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline"
+                  >
+                    Download from Flaticon
+                  </a>
+                </p>
               </div>
               <div className="flex justify-end gap-2">
                 <button
@@ -253,9 +267,9 @@ const OurImpacts = () => {
                       Processing...
                     </span>
                   ) : isUpdateMode ? (
-                    "Update"
+                    'Update'
                   ) : (
-                    "Add"
+                    'Add'
                   )}
                 </button>
               </div>

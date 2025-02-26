@@ -55,8 +55,18 @@ const {
   uploadGallery,
   uploadOurImpacts,
 } = require('../middleware/multer');
-const { createLegalDocument, updateLegalDocument, deleteLegalDocument, getLegalDocument } = require('../controllers/legaldoc.controller');
-const { createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo } = require('../controllers/featuredvideos.controller');
+const {
+  createLegalDocument,
+  updateLegalDocument,
+  deleteLegalDocument,
+  getLegalDocument,
+} = require('../controllers/legaldoc.controller');
+const {
+  createFeaturedVideo,
+  getFeaturedVideo,
+  updateFeaturedVideo,
+  deleteFeaturedVideo,
+} = require('../controllers/featuredvideos.controller');
 
 const router = express.Router();
 
@@ -144,7 +154,7 @@ router.post(
   ]),
   createNewsBulletine,
 );
-router.get('/get-newspost', getNewsBulletine); 
+router.get('/get-newspost', getNewsBulletine);
 router.get('/news-bulletine/:id', getNewsBulletineById);
 router.put(
   '/update-news-post/:id',

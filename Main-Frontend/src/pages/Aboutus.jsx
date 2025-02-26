@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import aboutus from '../assets/aboutUsImage.png';
 import cee14 from '../assets/Sobf Images/child_education_and_empowerment/cee14.png';
@@ -12,7 +12,7 @@ import ourStory from '../assets/ourStoryImg.png';
 const AboutUs = () => {
   const [activeTab, setActiveTab] = useState('mission');
   const location = useLocation();
-// Scroll to top when path changes
+  // Scroll to top when path changes
   useEffect(() => {
     if (location.pathname === '/about-us') {
       window.scrollTo({
@@ -26,19 +26,28 @@ const AboutUs = () => {
       case 'mission':
         return (
           <p className="text-gray-600 text-center small-max:text-left">
-           To serve the underprivileged in Vrindavan and Braj by providing food, education, healthcare, and skill training, ensuring dignity, empowerment, and sustainable development for a better and self-reliant future.
+            To serve the underprivileged in Vrindavan and Braj by providing
+            food, education, healthcare, and skill training, ensuring dignity,
+            empowerment, and sustainable development for a better and
+            self-reliant future.
           </p>
         );
       case 'vision':
         return (
           <p className="text-gray-600  text-center small-max:text-left">
-           Our vision is to uplift Vrindavan and Braj’s poorest by ensuring nutritious food, education, skill training, clean surroundings, and healthcare, fostering a self-sustaining, empowered, and compassionate community.
+            Our vision is to uplift Vrindavan and Braj’s poorest by ensuring
+            nutritious food, education, skill training, clean surroundings, and
+            healthcare, fostering a self-sustaining, empowered, and
+            compassionate community.
           </p>
         );
       case 'objective':
         return (
           <p className="text-gray-600  text-center small-max:text-left">
-           To create lasting social impact by addressing poverty, hunger, education, and healthcare needs, fostering skill development, promoting environmental sustainability, and empowering communities for a healthier, educated, and self-sufficient Braj region.
+            To create lasting social impact by addressing poverty, hunger,
+            education, and healthcare needs, fostering skill development,
+            promoting environmental sustainability, and empowering communities
+            for a healthier, educated, and self-sufficient Braj region.
           </p>
         );
       default:
@@ -125,23 +134,28 @@ const AboutUs = () => {
             <span className="text-xl text-blue font-bold hover:underline">
               Soul Of Braj Federation
             </span>{' '}
-            is a Section-8 recognized non-profit organization dedicated to serving society members in Shri Vrindavan Dham. Since 2020, SOBF has been committed to serving the poorest of the poor residents of Vrindavan and the Braj region of Uttar Pradesh (Bharat), particularly adolescent girls and women, by providing comprehensive and essential community services. Our initiatives include Clean and Healthy Vrindavan, Affordable Food, Basic Education, Skill Training, Health and Hygiene Care, distribution of free meals/ration kits, and waste management projects. Currently, we are impacting more than 1,000 beneficiaries on a daily basis.
+            is a Section-8 recognized non-profit organization dedicated to
+            serving society members in Shri Vrindavan Dham. Since 2020, SOBF has
+            been committed to serving the poorest of the poor residents of
+            Vrindavan and the Braj region of Uttar Pradesh (Bharat),
+            particularly adolescent girls and women, by providing comprehensive
+            and essential community services. Our initiatives include Clean and
+            Healthy Vrindavan, Affordable Food, Basic Education, Skill Training,
+            Health and Hygiene Care, distribution of free meals/ration kits, and
+            waste management projects. Currently, we are impacting more than
+            1,000 beneficiaries on a daily basis.
             <br />
             <span className="inline-block mt-6 lg:mt-2 font-bold text-xl w-[100%]">
-            Focused And On Going Initiatives:
+              Focused And On Going Initiatives:
             </span>
             <br />
-            Anna Vitran Seva (affordable food prasadam for all), Swasth aur Swachh
-          Vrindavan, Give Me A Chance, Say Yes To Me, Brajkulam Community
-          Center.
+            Anna Vitran Seva (affordable food prasadam for all), Swasth aur
+            Swachh Vrindavan, Give Me A Chance, Say Yes To Me, Brajkulam
+            Community Center.
           </p>
         </div>
         <div className="w-[99%] lg:w-[50%] ">
-          <img
-            src={ourStory}
-            className="rounded-xl shadow-xl "
-            alt=""
-          />
+          <img src={ourStory} className="rounded-xl shadow-xl " alt="" />
         </div>
       </div>
 
@@ -162,16 +176,16 @@ const AboutUs = () => {
             </div>
           ))}
         </div>
-         {/* See More Button */}
-                  <div className="flex justify-center mt-10">
-                    <Link
-                      to="/gallery"
-                      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                      className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"
-                    >
-                      See More
-                    </Link>
-                  </div>
+        {/* See More Button */}
+        <div className="flex justify-center mt-10">
+          <Link
+            to="/gallery"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"
+          >
+            See More
+          </Link>
+        </div>
       </div>
     </div>
   );

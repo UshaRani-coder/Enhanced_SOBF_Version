@@ -24,14 +24,10 @@ const Gallery = () => {
   const [activeTagFilter, setActiveTagFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(false); // New loading state
 
-  const validImageTypes = [
-    'image/jpeg',
-    'image/png',
-    'image/jpg'
-  ];
+  const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === 'idle') {
       dispatch(getGalleryImages());
     }
   }, [status, dispatch]);
@@ -41,12 +37,12 @@ const Gallery = () => {
       if (item?.tag && !acc.includes(item.tag)) acc.push(item.tag);
       return acc;
     }, []);
-    setAvailableTags(["all", ...tags]);
+    setAvailableTags(['all', ...tags]);
   }, [gallery]);
 
   const validateFile = (file) => {
     if (!validImageTypes.includes(file.type)) {
-      toast.error("Only image files (JPEG, PNG, GIF, WEBP) are allowed.");
+      toast.error('Only image files (JPEG, PNG, GIF, WEBP) are allowed.');
       return false;
     }
 
@@ -55,7 +51,7 @@ const Gallery = () => {
 
   const handleAddPost = () => {
     if (!formData.image) {
-      toast.error("Image is required.");
+      toast.error('Image is required.');
       return;
     }
 
@@ -63,27 +59,28 @@ const Gallery = () => {
 
     // Ensure either tag or customTag is filled
     if (!formData.tag && !formData.customTag.trim()) {
-      toast.error("Either a tag or a custom tag is required.");
+      toast.error('Either a tag or a custom tag is required.');
       return;
     }
 
-    let tagToUse = formData.tag || formData.customTag.trim().toLowerCase().replace(" ", "_");
+    let tagToUse =
+      formData.tag || formData.customTag.trim().toLowerCase().replace(' ', '_');
 
     const formDataToSend = new FormData();
-    formDataToSend.append("image", formData.image);
-    formDataToSend.append("tag", tagToUse);
+    formDataToSend.append('image', formData.image);
+    formDataToSend.append('tag', tagToUse);
 
     setIsLoading(true); // Start loading
     dispatch(addGallery(formDataToSend))
       .unwrap()
       .then(() => {
-        toast.success("Gallery post added successfully!");
+        toast.success('Gallery post added successfully!');
         setIsModalOpen(false);
         resetForm();
         dispatch(getGalleryImages());
       })
       .catch((error) => {
-        toast.error(error.message || "Failed to add gallery post.");
+        toast.error(error.message || 'Failed to add gallery post.');
       })
       .finally(() => {
         setIsLoading(false); // Stop loading
@@ -95,28 +92,31 @@ const Gallery = () => {
     const updatedData = new FormData();
     if (formData.image) {
       if (!validateFile(formData.image)) return;
-      updatedData.append("image", formData.image);
+      updatedData.append('image', formData.image);
     }
 
     // Ensure either tag or customTag is filled
     if (!formData.tag && !formData.customTag.trim()) {
-      toast.error("Either a tag or a custom tag is required.");
+      toast.error('Either a tag or a custom tag is required.');
       return;
     }
 
-    updatedData.append("tag", formData.tag || formData.customTag.trim().toLowerCase().replace(" ", "_"));
+    updatedData.append(
+      'tag',
+      formData.tag || formData.customTag.trim().toLowerCase().replace(' ', '_'),
+    );
 
     setIsLoading(true); // Start loading
     dispatch(updateGalleryImage({ id: currentPost?._id, updatedData }))
       .unwrap()
       .then(() => {
-        toast.success("Image updated successfully!");
+        toast.success('Image updated successfully!');
         setIsModalOpen(false);
         resetForm();
         dispatch(getGalleryImages());
       })
       .catch((error) => {
-        toast.error(error || "Failed to update image.");
+        toast.error(error || 'Failed to update image.');
       })
       .finally(() => {
         setIsLoading(false); // Stop loading
@@ -124,10 +124,9 @@ const Gallery = () => {
       });
   };
 
-
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "image") {
+    if (name === 'image') {
       const file = files[0];
       if (file && validateFile(file)) {
         setFormData((prev) => ({ ...prev, image: file }));
@@ -138,7 +137,7 @@ const Gallery = () => {
   };
 
   const resetForm = () => {
-    setFormData({ image: null, tag: "", customTag: "" });
+    setFormData({ image: null, tag: '', customTag: '' });
     setCurrentPost(null);
   };
 
@@ -149,25 +148,23 @@ const Gallery = () => {
     setFormData({ image: null, tag: post.tag });
   };
 
-
-
   const handleDeletePost = (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this gallery image? This action cannot be undone."
+      'Are you sure you want to delete this gallery image? This action cannot be undone.',
     );
     if (confirmDelete) {
       dispatch(removeGallery(id))
         .then(() => {
-          toast.success("Successfully deleted gallery image.");
+          toast.success('Successfully deleted gallery image.');
         })
         .catch((error) => {
-          toast.error(error.message || "Failed to delete gallery image.");
+          toast.error(error.message || 'Failed to delete gallery image.');
         });
     }
   };
 
   const filteredGallery =
-    activeTagFilter === "all"
+    activeTagFilter === 'all'
       ? gallery
       : gallery?.filter((item) => item?.tag === activeTagFilter);
 
@@ -192,10 +189,11 @@ const Gallery = () => {
         {availableTags.map((tag) => (
           <button
             key={tag}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold ${activeTagFilter === tag
+            className={`px-4 py-2 rounded-lg text-sm font-semibold ${
+              activeTagFilter === tag
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-              }`}
+            }`}
             onClick={() => setActiveTagFilter(tag)}
           >
             {tag.replace('_', ' ')}
@@ -238,8 +236,10 @@ const Gallery = () => {
                     ))}
                 </select>
               </div>
-              {
-                isUpdateMode ? <> </> : <div className="mb-4">
+              {isUpdateMode ? (
+                <> </>
+              ) : (
+                <div className="mb-4">
                   <label className="block font-semibold mb-2">Custom Tag</label>
                   <input
                     type="text"
@@ -250,7 +250,7 @@ const Gallery = () => {
                     className="w-full border p-2 rounded-lg"
                   />
                 </div>
-              }
+              )}
 
               <div className="flex justify-end gap-2">
                 <button
@@ -291,7 +291,7 @@ const Gallery = () => {
         {filteredGallery.map((item) => (
           <div
             key={item._id}
-            className=" rounded-lg shadow-lg flex flex-col items-center w-full small-range:w-[80%]"
+            className=" rounded-lg shadow-lg flex flex-col items-center w-full small-range:w-[80%] md:w-[90%] lg:w-[80%]"
           >
             <div className="w-full h-[250px] overflow-hidden">
               <img

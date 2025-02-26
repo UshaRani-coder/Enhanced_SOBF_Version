@@ -11,7 +11,10 @@ const createService = async (req, res) => {
     if (!title || !description) {
       return res
         .status(400)
-        .json({ success: false, message: 'All required fields must be filled.' });
+        .json({
+          success: false,
+          message: 'All required fields must be filled.',
+        });
     }
     // for images
     const images = req.files.images || [];
@@ -51,7 +54,9 @@ const updateService = async (req, res) => {
 
     // Validate ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid service ID' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid service ID' });
     }
 
     // Validate title and description
@@ -73,7 +78,9 @@ const updateService = async (req, res) => {
     const existingService = await Service.findById(id);
 
     if (!existingService) {
-      return res.status(404).json({ success: false, message: 'Service not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Service not found' });
     }
 
     // Handle images (preserve existing images and add new ones)
@@ -109,13 +116,11 @@ const updateService = async (req, res) => {
       new: true,
     });
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Service updated successfully',
-        service: updatedService,
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Service updated successfully',
+      service: updatedService,
+    });
   } catch (message) {
     res
       .status(500)
@@ -153,14 +158,20 @@ const deleteService = async (req, res) => {
   try {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid post ID' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid post ID' });
     }
     const deletedService = await Service.findByIdAndDelete(id);
     if (!deletedService) {
-      return res.status(404).json({ success: false, message: 'Service not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Service not found' });
     }
 
-    res.status(200).json({ success: false, message: 'Service deleted successfully' });
+    res
+      .status(200)
+      .json({ success: false, message: 'Service deleted successfully' });
   } catch (message) {
     res
       .status(500)

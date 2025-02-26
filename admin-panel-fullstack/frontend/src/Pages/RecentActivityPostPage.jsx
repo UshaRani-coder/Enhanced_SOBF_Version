@@ -375,11 +375,29 @@ const RecentActivityPostPage = () => {
               </div>
               <div className="mb-4">
                 <style>
-                  {`
-                     .ql-editor.ql-blank::before {
-                     font-style: normal !important;
-                    }
-                 `}
+                  {`.ql-container {
+      
+      padding: 8px;
+      min-height: 100px;
+    }
+
+    .ql-editor {
+      font-size: 1rem;  /* Same as input fields (16px) */
+      font-weight: normal;
+    
+      line-height: 1.5;
+      letter-spacing:0.5px;
+      padding: 10px; /* Ensure consistent padding */
+    }
+
+    .ql-toolbar {
+      border-radius: 8px 8px 0 0;
+      background-color: #f9fafb; /* Light gray */
+    }
+                                    .ql-editor.ql-blank::before {
+                                    font-style: normal !important;
+                                   }
+                                `}
                 </style>
                 <label className="block font-semibold mb-2">Description</label>
                 <ReactQuill

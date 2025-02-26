@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation
 import ImgBanner from './ImgBanner';
 import { Link } from 'react-router-dom';
@@ -9,21 +9,20 @@ const CommunityService = ({ setService }) => {
   const isHomePage = location.pathname === '/'; // Check if the current page is the home page
   const images = heroes.map((communityService) => communityService.img);
   useEffect(() => {
-       if (location.pathname === '/community-service') {
-         window.scrollTo({
-           top: 0,
-           behavior: 'smooth',
-         });
-       }
-     }, [location.pathname]);
-   
+    if (location.pathname === '/community-service') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+  }, [location.pathname]);
+
   return (
     <div
       className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
         isHomePage ? '' : 'mt-[120px] lg:mt-20 mb-20'
       }`}
     >
-      
       {/* Only show the "Back to Services" button if on the home page */}
       {isHomePage && (
         <div className="sm:mb-5 mb-5 lg:-mb-28 ">
@@ -38,8 +37,8 @@ const CommunityService = ({ setService }) => {
       )}
 
       <div className="flex flex-col lg:flex-row lg:items-stretch items-center lg:justify-center lg:gap-x-[30px]  lg:mt-[120px]">
-        <div className='w-[100%] flex justify-center lg:w-[50%]'>
-        <ImgBanner banners={images} />
+        <div className="w-[100%] flex justify-center lg:w-[50%]">
+          <ImgBanner banners={images} />
         </div>
         <div className="flex flex-col md:items-start items-center  mx-[20px] w-[90%] lg:w-[50%] justify-center">
           <h1 className="text-center text-heading4 lg:text-[1.9rem] mt-[10px] md:mt-0 font-bold ">

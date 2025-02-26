@@ -12,14 +12,20 @@ const registerAdmin = async (req, res) => {
     // Check if admin already exists
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
-      return res.status(400).json({ success: false, message: 'Admin already exists' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Admin already exists' });
     }
 
     const newAdmin = new Admin({ email, password });
     await newAdmin.save();
     res
       .status(201)
-      .json({ success: true, message: 'Admin registered successfully', newAdmin });
+      .json({
+        success: true,
+        message: 'Admin registered successfully',
+        newAdmin,
+      });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server error' });
   }
@@ -34,12 +40,19 @@ const loginAdmin = async (req, res) => {
     const { email, password } = decryptedData;
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      return res.status(400).json({ success: false, message: 'User not found with this email ID Pls register yourself.' });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: 'User not found with this email ID Pls register yourself.',
+        });
     }
 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
-      return res.status(400).json({ success: false, message: 'Invalid email or password' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid email or password' });
     }
 
     const token = jwt.sign({ id: admin._id }, JWT_SECRET, { expiresIn: '1h' });

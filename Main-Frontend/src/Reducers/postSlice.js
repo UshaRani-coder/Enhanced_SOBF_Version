@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchPosts, fetchPostById } from '../api/api';
-import hardcodedPosts from "../defaultData/recent-activities.json";
+import hardcodedPosts from '../defaultData/recent-activities.json';
 
 // Get all posts
 export const getPosts = createAsyncThunk(
@@ -8,14 +8,18 @@ export const getPosts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchPosts();
-      if (!response || response.status !== 200 || !response.data?.posts?.length) {
-        return hardcodedPosts; 
+      if (
+        !response ||
+        response.status !== 200 ||
+        !response.data?.posts?.length
+      ) {
+        return hardcodedPosts;
       }
       return response.data.posts;
     } catch (error) {
       return rejectWithValue(hardcodedPosts);
     }
-  }
+  },
 );
 
 // Get a single post by ID with fallback
@@ -30,13 +34,15 @@ export const getPostById = createAsyncThunk(
       return response?.data?.post;
     } catch (error) {
       // If API fails, find the post in dummy data
-      const fallbackPost = hardcodedPosts.find((item) => String(item._id) === String(id));
+      const fallbackPost = hardcodedPosts.find(
+        (item) => String(item._id) === String(id),
+      );
       if (fallbackPost) {
         return fallbackPost; // Return dummy data if available
       }
       return rejectWithValue('Post not found in both API and fallback data');
     }
-  }
+  },
 );
 
 const postSlice = createSlice({
@@ -45,7 +51,7 @@ const postSlice = createSlice({
     posts: hardcodedPosts, // Initial fallback data
     post: null,
     status: 'idle',
-    error: null
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {

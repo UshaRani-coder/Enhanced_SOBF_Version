@@ -8,14 +8,18 @@ export const getBulletine = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchNewsPosts();
-      if (!response || response.status !== 200 || !response.data?.posts?.length) {
+      if (
+        !response ||
+        response.status !== 200 ||
+        !response.data?.posts?.length
+      ) {
         return hardcodedBulletins; // Fallback when API fails
       }
       return response?.data?.posts;
     } catch (error) {
       return rejectWithValue(hardcodedBulletins); // Return fallback data on failure
     }
-  }
+  },
 );
 
 // ! Get a specific bulletin by ID
@@ -30,13 +34,15 @@ export const getSpecificBulletine = createAsyncThunk(
       return response?.data?.post;
     } catch (error) {
       // If API fails, find the post in dummy data
-      const fallbackPost = hardcodedBulletins.find((item) => String(item._id) === String(id));
+      const fallbackPost = hardcodedBulletins.find(
+        (item) => String(item._id) === String(id),
+      );
       if (fallbackPost) {
         return fallbackPost; // Return dummy data if available
       }
       return rejectWithValue('Post not found in both API and fallback data');
     }
-  }
+  },
 );
 
 const bulletinSlice = createSlice({

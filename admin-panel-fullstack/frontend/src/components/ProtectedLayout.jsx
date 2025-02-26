@@ -12,6 +12,7 @@ import Gallery from '../Pages/Gallery';
 import NotFound from '../Pages/NotFound.jsx';
 import RecentActivityPostPage from '../Pages/RecentActivityPostPage.jsx';
 import OurService from '../Pages/OurServices.jsx';
+import UpcomingEvents from '../Pages/UpcomingEvents.jsx';
 
 const ProtectedLayout = ({ setIsAuthenticated }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Sidebar visibility for small screens
@@ -27,7 +28,8 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
     '/hero-banner',
     '/bulletine',
     '/gallery',
-    '/our-services'
+    '/our-services',
+    '/upcoming-events',
   ];
   const isNotFound = !validRoutes.includes(location.pathname);
   const toggleSidebar = () => {
@@ -49,27 +51,32 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
   return (
     <div className="flex flex-col md:flex-row bg-[#f8f8f8] h-screen">
       {/* Sidebar */}
-      {!isNotFound && <div
-        className={`fixed top-0 left-0 md:static transition-all duration-300  ${isSidebarVisible ? 'translate-x-0' : '-translate-x-full'
-          } md:translate-x-0 ${isCollapsed ? 'md:w-20' : 'md:w-[15rem]'
+      {!isNotFound && (
+        <div
+          className={`fixed top-0 left-0 md:static transition-all duration-300  ${
+            isSidebarVisible ? 'translate-x-0' : '-translate-x-full'
+          } md:translate-x-0 ${
+            isCollapsed ? 'md:w-20' : 'md:w-[15rem]'
           } bg-[#1d1d42] shadow-lg h-full`}
-      >
-        <Sidebar
-          isCollapsed={isCollapsed}
-          onOptionClick={handleSidebarOptionClick}
-        />
-      </div>}
+        >
+          <Sidebar
+            isCollapsed={isCollapsed}
+            onOptionClick={handleSidebarOptionClick}
+          />
+        </div>
+      )}
 
       {/* Main Content */}
       <div
         className={` flex-1 flex flex-col max-h-full overflow-y-auto  transition-all duration-300 `}
       >
         {/* Header */}
-        {!isNotFound && <Header
-          toggleSidebar={toggleSidebar}
-          setIsAuthenticated={setIsAuthenticated}
-        />
-        }
+        {!isNotFound && (
+          <Header
+            toggleSidebar={toggleSidebar}
+            setIsAuthenticated={setIsAuthenticated}
+          />
+        )}
         {/* Main Content */}
         <div className="flex-1 pt-2 pb-2 md:p-4 overflow-auto">
           <Routes>
@@ -85,6 +92,7 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
             <Route path="/bulletine" element={<NewsBulletines />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/our-services" element={<OurService />} />
+            <Route path="/upcoming-events" element={<UpcomingEvents />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

@@ -1,8 +1,7 @@
 // Updated Slice for Legal Documents
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getLegalDocs } from '../api/api';
-import fallbackLegalDocs from "../defaultData/legal-doc.json"
-
+import fallbackLegalDocs from '../defaultData/legal-doc.json';
 
 // Async Thunk: Fetch Legal Documents
 export const getLegalDocuments = createAsyncThunk(
@@ -10,14 +9,18 @@ export const getLegalDocuments = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getLegalDocs();
-      if (!response || response.status !== 200 || response.data?.docs?.length === 0) {
-        return fallbackLegalDocs
+      if (
+        !response ||
+        response.status !== 200 ||
+        response.data?.docs?.length === 0
+      ) {
+        return fallbackLegalDocs;
       }
       return response?.data?.docs || fallbackLegalDocs; // Use API data or fallback
     } catch (error) {
       return rejectWithValue(fallbackLegalDocs); // Use fallback data if API fails
     }
-  }
+  },
 );
 
 // Legal Documents Slice
@@ -26,7 +29,7 @@ const legalDocSlice = createSlice({
   initialState: {
     legalDocs: fallbackLegalDocs, // Show fallback data initially
     status: 'idle',
-    error: null
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -40,9 +43,9 @@ const legalDocSlice = createSlice({
       })
       .addCase(getLegalDocuments.rejected, (state, action) => {
         state.status = 'failed';
-        state.legalDocs = fallbackLegalDocs // Use fallback data if API fails
+        state.legalDocs = fallbackLegalDocs; // Use fallback data if API fails
       });
-  }
+  },
 });
 
 export default legalDocSlice.reducer;

@@ -22,22 +22,22 @@ const Partners = () => {
           </li>
         </Link>
         <Link to="https://thehindudiaspora.com/">
-        <li>
-          <img
-            src={hinduFoundationLogo}
-            alt="hindu-foundation"
-            className="cursor-pointer w-[70px] lg:w-[100px] object-cover"
-          />
-        </li>
+          <li>
+            <img
+              src={hinduFoundationLogo}
+              alt="hindu-foundation"
+              className="cursor-pointer w-[70px] lg:w-[100px] object-cover"
+            />
+          </li>
         </Link>
-        <Link to= "https://curiousdevelopers.in/">
-        <li>
-          <img
-            src={curiousBusinessSolutions}
-            alt="curious-business-solutions"
-            className="cursor-pointer w-[70px] lg:w-[100px] object-cover"
-          />
-        </li>
+        <Link to="https://curiousdevelopers.in/">
+          <li>
+            <img
+              src={curiousBusinessSolutions}
+              alt="curious-business-solutions"
+              className="cursor-pointer w-[70px] lg:w-[100px] object-cover"
+            />
+          </li>
         </Link>
       </ul>
     </div>

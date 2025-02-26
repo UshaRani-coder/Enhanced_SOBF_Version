@@ -28,7 +28,8 @@ const getOurImpacts = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while fetching Our Impacts data from the backend.'
+      message:
+        'Something went wrong while fetching Our Impacts data from the backend.',
     });
   }
 };
@@ -41,16 +42,17 @@ const createOurImpacts = async (req, res) => {
     if (!total_services) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid 'total_services' is required" });
+        .json({
+          success: false,
+          message: "Invalid 'total_services' is required",
+        });
     }
     // Validate description
     if (!description || !isValidString(description)) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Invalid 'description'. It must be a non-empty string.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid 'description'. It must be a non-empty string.",
+      });
     }
 
     // Validate image (if applicable)
@@ -76,7 +78,7 @@ const createOurImpacts = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while creating Our Impacts post'
+      message: 'Something went wrong while creating Our Impacts post',
     });
   }
 };
@@ -128,7 +130,7 @@ const updateOurImpacts = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: 'Failed to update Our Impacts post'
+      message: 'Failed to update Our Impacts post',
     });
   }
 };
@@ -140,13 +142,17 @@ const deleteOurImpacts = async (req, res) => {
 
     // Validate ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid post ID' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid post ID' });
     }
 
     const post = await OurImpactsModel.findByIdAndDelete(id);
 
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Post not found' });
     }
 
     res.status(200).json({
@@ -156,7 +162,7 @@ const deleteOurImpacts = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while deleting Our Impacts post'
+      message: 'Something went wrong while deleting Our Impacts post',
     });
   }
 };

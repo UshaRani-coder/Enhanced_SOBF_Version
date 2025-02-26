@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -49,7 +47,7 @@ const Video = () => {
 
   return (
     <div>
-      <div className='flex flex-col items-center'>
+      <div className="flex flex-col items-center">
         <h1
           className={`text-center text-[30px] md:text-heading3 lg:text-heading2 font-bold pt-8 text-[#2d335d] relative transition-all ease-in-out ${
             location.pathname === '/videos' ? 'mt-[120px]' : ''
@@ -59,10 +57,12 @@ const Video = () => {
         </h1>
         <hr className="mt-1 border-light-lavender border-[1px] w-3/4 md:w-1/2 mb-[20px]" />
         <h1 className="text-center text-lg small-range:text-[20px] md:text-2xl font-bold">
-          Discover the powerful stories and moments captured in our latest videos.
+          Discover the powerful stories and moments captured in our latest
+          videos.
         </h1>
         <h1 className="text-center text-md small-range:text-lg md:text-xl mb-4 p-3 text-gray-600">
-          Witness the impact of our work through inspiring stories and community-driven moments captured in our latest videos.
+          Witness the impact of our work through inspiring stories and
+          community-driven moments captured in our latest videos.
         </h1>
       </div>
 
@@ -73,7 +73,10 @@ const Video = () => {
       <InfiniteScroll
         dataLength={videosToDisplay?.length}
         next={loadMoreVideos}
-        hasMore={location.pathname === '/videos' && videosToDisplay?.length < featuredVideo?.length}
+        hasMore={
+          location.pathname === '/videos' &&
+          videosToDisplay?.length < featuredVideo?.length
+        }
         loader={
           status === 'loading' ? (
             <img
@@ -88,7 +91,9 @@ const Video = () => {
       >
         <div
           className={`flex flex-col items-center justify-center md:flex-row flex-wrap gap-4 w-full mt-6 ${
-            location.pathname === '/videos' ? 'mb-[100px]  md:gap-6 md:px-[20px]' : ''
+            location.pathname === '/videos'
+              ? 'mb-[100px]  md:gap-6 md:px-[20px]'
+              : ''
           }`}
         >
           {videosToDisplay?.length > 0 ? (
@@ -113,7 +118,9 @@ const Video = () => {
                       ></iframe>
                     </div>
                   ) : (
-                    <p className="text-red-500 text-center">Invalid Video URL</p>
+                    <p className="text-red-500 text-center">
+                      Invalid Video URL
+                    </p>
                   )}
                 </div>
               );

@@ -67,25 +67,23 @@ const TermsAndConditions = () => {
 
             <p className="mb-4">
               Visitors are prohibited from violating or attempting to violate
-              the security of the Web site, including, without limitation, 
+              the security of the Web site, including, without limitation,
               <br />
-              (1) accessing data not intended for such user or logging into a server
-              or account which the user is not authorised to access, 
+              (1) accessing data not intended for such user or logging into a
+              server or account which the user is not authorised to access,
               <br />
-              (2)
-              attempting to probe, scan or test the vulnerability of a system or
-              network or to breach security or authentication measures without
-              proper authorisation,
+              (2) attempting to probe, scan or test the vulnerability of a
+              system or network or to breach security or authentication measures
+              without proper authorisation,
               <br />
-               (3) attempting to interfere with service to
-              any user, host or network, including, without limitation, via
-              means of submitting a virus or "Trojan horse" to the Website,
-              overloading, "flooding", "mail bombing" or "crashing", or 
+              (3) attempting to interfere with service to any user, host or
+              network, including, without limitation, via means of submitting a
+              virus or "Trojan horse" to the Website, overloading, "flooding",
+              "mail bombing" or "crashing", or
               <br />
-              (4)
-              sending unsolicited electronic mail, including promotions and/or
-              advertising of products or services. Violations of system or
-              network security may result in civil or criminal liability. The
+              (4) sending unsolicited electronic mail, including promotions
+              and/or advertising of products or services. Violations of system
+              or network security may result in civil or criminal liability. The
               business and / or its associate entities will have the right to
               investigate occurrences that they suspect as involving such
               violations and will have the right to involve, and cooperate with,
@@ -100,15 +98,14 @@ const TermsAndConditions = () => {
             <p className="mb-4">
               Visitors may not use the Web Site in order to transmit,
               distribute, store or destroy material <br />
-              (a) that could constitute or
-              encourage conduct that would be considered a criminal offence or
-              violate any applicable law or regulation, <br />
-              (b) in a manner that
-              will infringe the copyright, trademark, trade secret or other
-              intellectual property rights of others or violate the privacy or
-              publicity of other personal rights of others, or <br />
-              (c) that is
-              libellous, defamatory, pornographic, profane, obscene,
+              (a) that could constitute or encourage conduct that would be
+              considered a criminal offence or violate any applicable law or
+              regulation, <br />
+              (b) in a manner that will infringe the copyright, trademark, trade
+              secret or other intellectual property rights of others or violate
+              the privacy or publicity of other personal rights of others, or{' '}
+              <br />
+              (c) that is libellous, defamatory, pornographic, profane, obscene,
               threatening, abusive or hateful.
             </p>
 

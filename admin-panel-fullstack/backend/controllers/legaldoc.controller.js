@@ -1,5 +1,5 @@
-const { default: mongoose } = require("mongoose");
-const { LegalDoc } = require("../models/other.model");
+const { default: mongoose } = require('mongoose');
+const { LegalDoc } = require('../models/other.model');
 
 //? Get all legal documents
 const getLegalDocument = async (req, res) => {
@@ -9,7 +9,8 @@ const getLegalDocument = async (req, res) => {
     if (docs.length > 0) {
       for (let index = 0; index < docs.length; index++) {
         const doc = docs[index];
-        doc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + doc.fileName;
+        doc.fileName =
+          process.env.BASE_URL + '/uploads/legal-documents/' + doc.fileName;
       }
     }
 
@@ -21,7 +22,7 @@ const getLegalDocument = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while fetching legal documents.'
+      message: 'Something went wrong while fetching legal documents.',
     });
   }
 };
@@ -30,11 +31,11 @@ const getLegalDocument = async (req, res) => {
 const createLegalDocument = async (req, res) => {
   try {
     const { title, description } = req.body;
-    console.log("req.file", req.file);
+    console.log('req.file', req.file);
     if (!title || !description) {
       return res.status(400).json({
         success: false,
-        message: "Title and description are required.",
+        message: 'Title and description are required.',
       });
     }
 
@@ -42,7 +43,7 @@ const createLegalDocument = async (req, res) => {
     if (!req.file || !req.file.filename) {
       return res.status(400).json({
         success: false,
-        message: 'PDF is required.'
+        message: 'PDF is required.',
       });
     }
     const filename = req.file.filename;
@@ -51,23 +52,24 @@ const createLegalDocument = async (req, res) => {
     const newLegalDoc = new LegalDoc({
       title: title.trim(),
       description: description.trim(),
-      fileName: filename
+      fileName: filename,
     });
 
     // Save the document to the database
     await newLegalDoc.save();
-    newLegalDoc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + newLegalDoc.fileName;
+    newLegalDoc.fileName =
+      process.env.BASE_URL + '/uploads/legal-documents/' + newLegalDoc.fileName;
 
     res.status(201).json({
       success: true,
-      message: "Legal document created successfully.",
+      message: 'Legal document created successfully.',
       legalDoc: newLegalDoc,
     });
   } catch (error) {
-    console.error("Error in createLegalDocument:", error);
+    console.error('Error in createLegalDocument:', error);
     res.status(500).json({
       success: false,
-      message: "Something went wrong while creating the legal document."
+      message: 'Something went wrong while creating the legal document.',
     });
   }
 };
@@ -81,7 +83,7 @@ const updateLegalDocument = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid document ID."
+        message: 'Invalid document ID.',
       });
     }
 
@@ -90,7 +92,7 @@ const updateLegalDocument = async (req, res) => {
     if (!existingDoc) {
       return res.status(404).json({
         success: false,
-        message: "Legal document not found.",
+        message: 'Legal document not found.',
       });
     }
 
@@ -103,19 +105,22 @@ const updateLegalDocument = async (req, res) => {
     };
 
     // Update the document in the database
-    const updatedDoc = await LegalDoc.findByIdAndUpdate(id, updates, { new: true });
-    updatedDoc.fileName = process.env.BASE_URL + "/uploads/legal-documents/" + updatedDoc.fileName;
+    const updatedDoc = await LegalDoc.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
+    updatedDoc.fileName =
+      process.env.BASE_URL + '/uploads/legal-documents/' + updatedDoc.fileName;
 
     return res.status(200).json({
       success: true,
-      message: "Legal document updated successfully.",
+      message: 'Legal document updated successfully.',
       updatedDoc,
     });
   } catch (error) {
-    console.error("Error in updateLegalDocument:", error);
+    console.error('Error in updateLegalDocument:', error);
     return res.status(500).json({
       success: false,
-      message: "Something went wrong while updating the legal document."
+      message: 'Something went wrong while updating the legal document.',
     });
   }
 };
@@ -126,13 +131,17 @@ const deleteLegalDocument = async (req, res) => {
     const { id } = req.params;
     // Validate document ID format
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ success: false, message: 'Invalid document ID.' });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid document ID.' });
     }
 
     // Find and delete the document from the database
     const post = await LegalDoc.findByIdAndDelete(id);
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Document not found.' });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Document not found.' });
     }
     res.status(200).json({
       success: true,
@@ -141,7 +150,7 @@ const deleteLegalDocument = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while deleting the legal document.'
+      message: 'Something went wrong while deleting the legal document.',
     });
   }
 };

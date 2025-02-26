@@ -75,7 +75,7 @@ import sanitary4 from '../assets/Sobf Images/Sanitary_pads_distribution/spd4.png
 import sanitary5 from '../assets/Sobf Images/Sanitary_pads_distribution/spd5.png';
 
 import childSobf from '../assets/child_sobf.png';
-import Mission from '../assets/Mission.png'
+import Mission from '../assets/Mission.png';
 
 import sysv1 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv1.png';
 import sysv2 from '../assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv2.png';

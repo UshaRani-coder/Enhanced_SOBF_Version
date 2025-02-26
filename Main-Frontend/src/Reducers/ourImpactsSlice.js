@@ -1,21 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOurImpacts } from '../api/api';
-import hardcodedImpacts from "../defaultData/our-impacts.json"
-
+import hardcodedImpacts from '../defaultData/our-impacts.json';
 
 export const getOurImpact = createAsyncThunk(
   'ourImpacts/getOurImpacts',
   async (_, { rejectWithValue }) => {
     try {
       const response = await getOurImpacts();
-      if (!response || response.status !== 200 || response.data?.posts.length === 0) {
-        return hardcodedImpacts
+      if (
+        !response ||
+        response.status !== 200 ||
+        response.data?.posts.length === 0
+      ) {
+        return hardcodedImpacts;
       }
       return response?.data?.posts || hardcodedImpacts;
     } catch (error) {
       return rejectWithValue(hardcodedImpacts);
     }
-  }
+  },
 );
 
 const ourImpactSlice = createSlice({
@@ -37,7 +40,7 @@ const ourImpactSlice = createSlice({
         state.error = action.error.message;
         state.ourImpacts = hardcodedImpacts; // Assign hardcoded data on rejection
       });
-  }
+  },
 });
 
 export default ourImpactSlice.reducer;

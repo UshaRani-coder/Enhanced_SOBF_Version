@@ -74,29 +74,30 @@ const PrivacyPolicy = () => {
             <p>
               To avail certain services on our Website, users are required to
               provide certain information for the registration process
-              including: 
+              including:
               <br />
               a) Your Name
-              <br /> 
-              b) Email Address 
               <br />
-              c) Sex 
+              b) Email Address
               <br />
-              d) Age 
+              c) Sex
               <br />
-              e) PIN Code 
+              d) Age
               <br />
-              f) Credit Card or Debit Card details 
+              e) PIN Code
               <br />
-              g) Medical Records and History 
+              f) Credit Card or Debit Card details
               <br />
-              h) Sexual Orientation 
+              g) Medical Records and History
               <br />
-              i) Biometric Information 
+              h) Sexual Orientation
               <br />
-              j) Password etc., and / or your occupation, interests, and the like.
-              The Information as supplied by the users enables us to improve our
-              sites and provide you the most user-friendly experience.
+              i) Biometric Information
+              <br />
+              j) Password etc., and / or your occupation, interests, and the
+              like. The Information as supplied by the users enables us to
+              improve our sites and provide you the most user-friendly
+              experience.
             </p>
 
             <p>

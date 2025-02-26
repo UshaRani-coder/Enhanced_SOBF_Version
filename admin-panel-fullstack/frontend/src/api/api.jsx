@@ -2,12 +2,12 @@ import axios from 'axios';
 
 const apiClient = axios.create({ baseURL: import.meta.env.VITE_BASE_URL });
 
-
 //! Admin Endpoints  ======= DONE WITH ALL VALIDATIONS
 export const fetchAdmins = () => apiClient.get('/api/admin/get-admin');
 export const createAdmin = (adminData) =>
   apiClient.post('/api/admin/create-admin', adminData);
-export const updateAdmins = (id, updatedAdmin) =>apiClient.put(`/api/admin/update-admin/${id}`, updatedAdmin);
+export const updateAdmins = (id, updatedAdmin) =>
+  apiClient.put(`/api/admin/update-admin/${id}`, updatedAdmin);
 export const deleteAdmin = (id) =>
   apiClient.delete(`/api/admin/delete-admin/${id}`);
 

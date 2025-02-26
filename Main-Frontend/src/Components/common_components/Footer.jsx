@@ -2,7 +2,6 @@ import sobfLogo from '../../assets/sobfLogo.png';
 import { Link } from 'react-router-dom';
 import LegalDoc from '../../pages/LegalDoc';
 
-
 const Footer = () => {
   const handleRedirectMap = () => {
     window.open(

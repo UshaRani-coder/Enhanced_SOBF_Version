@@ -143,7 +143,6 @@
 
 // export default Popup;
 
-
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -210,18 +209,19 @@ const Popup = ({ onClose }) => {
 
           {/* Donate Button */}
           <Link to={'/donate-us'} onClick={onClose} className="m-2">
-            <button className="bg-gradient-to-r from-yellow-500 to-yellow-700 text-white p-2 px-4 md:px-4 md:py-3 rounded-full 
-                     shadow-lg hover:shadow-yellow-500/50 transition-all duration-300 flex items-center gap-2 animate-bounce">
+            <button
+              className="bg-gradient-to-r from-yellow-500 to-yellow-700 text-white p-2 px-4 md:px-4 md:py-3 rounded-full 
+                     shadow-lg hover:shadow-yellow-500/50 transition-all duration-300 flex items-center gap-2 animate-bounce"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                
                 viewBox="0 0 24 24"
                 fill="currentcolor"
                 stroke="currentcolor"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className='w-[14px] h-[14px]'
+                className="w-[14px] h-[14px]"
               >
                 <path d="M20.8 4.6c-2.3-2.2-6.1-2.1-8.3.3l-.5.6-.5-.6C9.2 2.5 5.4 2.4 3.1 4.6a5.5 5.5 0 0 0 0 7.8l8.2 8.1 8.2-8.1a5.5 5.5 0 0 0 .3-7.8z" />
               </svg>

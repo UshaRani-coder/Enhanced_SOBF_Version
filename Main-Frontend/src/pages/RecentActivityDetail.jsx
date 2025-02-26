@@ -2,15 +2,14 @@
 import React, { useEffect, useMemo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import hardcodedPosts from "../defaultData/recent-activities.json"
+import hardcodedPosts from '../defaultData/recent-activities.json';
 import { getPostById } from '../Reducers/postSlice';
 import DOMPurify from 'dompurify';
-const RecentActivityDetails  = () => {
+const RecentActivityDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { post, status } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     if (id) {
@@ -18,14 +17,15 @@ const RecentActivityDetails  = () => {
     }
   }, [dispatch, id]);
 
-
-
   // Find the post from API data or fallback to hardcoded data
-  const activity = useMemo(() => post || hardcodedPosts.find(item => String(item._id) === String(id)), [post, id]);
+  const activity = useMemo(
+    () =>
+      post || hardcodedPosts.find((item) => String(item._id) === String(id)),
+    [post, id],
+  );
   if (status === 'loading') {
     return <p>Loading...</p>;
   }
-
 
   if (!post) {
     return (
@@ -50,11 +50,9 @@ const RecentActivityDetails  = () => {
       behavior: 'smooth',
     });
 
-
     // Navigate to the 'Press Release' page with state
     navigate('/recent-activities', { state: { scrollTo: 'pressRelease' } });
   };
-
 
   return (
     <div className="flex flex-col items-center w-[100%] md:w-[90%] p-6   mx-auto mt-[100px] lg:mt-[130px]">
@@ -179,4 +177,4 @@ const RecentActivityDetails  = () => {
   );
 };
 
-export default RecentActivityDetails ;
+export default RecentActivityDetails;

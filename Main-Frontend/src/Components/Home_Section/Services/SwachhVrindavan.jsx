@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import React,{useEffect} from 'react';
-import { useLocation} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Img1 from '../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan.jpg';
 import Img2 from '../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan2.jpg';
 import Img3 from '../../../assets/Sobf Images/health_and_awareness_camp/swachhVrindavan3.jpg';

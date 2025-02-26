@@ -9,6 +9,7 @@ import { FaRegNewspaper } from 'react-icons/fa';
 import { GrGallery } from 'react-icons/gr';
 import { RiAdminFill } from 'react-icons/ri';
 import { RiServiceFill } from 'react-icons/ri';
+import { SlCalender } from 'react-icons/sl';
 
 const Sidebar = ({ isCollapsed, onOptionClick }) => {
   const location = useLocation();
@@ -68,6 +69,20 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
               {/* <FaTable className="text-lg ml-4" /> */}
               <FiTarget className="text-xl ml-4 " />
               {!isCollapsed && <span className="ml-4">Our impacts </span>}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/upcoming-events"
+              onClick={onOptionClick}
+              className={`flex items-center pb-2 pt-2 w-[90%] ${
+                location.pathname === '/upcoming-events'
+                  ? 'text-white bg-[rgb(39,39,79)]'
+                  : 'text-[rgba(255,255,255,0.7)]'
+              } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
+            >
+              <SlCalender className="text-lg ml-4" />
+              {!isCollapsed && <span className="ml-4">Upcoming Events</span>}
             </Link>
           </li>
           <li>

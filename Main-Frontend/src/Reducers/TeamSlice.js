@@ -2,17 +2,24 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getTeam } from '../api/api';
 import teamData from '../defaultData/team.json';
 
-export const getTeams = createAsyncThunk('team/getTeam', async (_, { rejectWithValue }) => {
-  try {
-    const response = await getTeam();
-    if (!response || response.status !== 200 || response.data?.teamMembers?.length === 0) {
-      return teamData
+export const getTeams = createAsyncThunk(
+  'team/getTeam',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getTeam();
+      if (
+        !response ||
+        response.status !== 200 ||
+        response.data?.teamMembers?.length === 0
+      ) {
+        return teamData;
+      }
+      return response?.data?.teamMembers || teamData;
+    } catch (error) {
+      return rejectWithValue(teamData);
     }
-    return response?.data?.teamMembers || teamData;
-  } catch (error) {
-    return rejectWithValue(teamData);
-  }
-});
+  },
+);
 
 const teamSlice = createSlice({
   // name: 'teams',

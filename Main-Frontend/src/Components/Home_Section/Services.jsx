@@ -9,7 +9,6 @@ import { useLocation, Link } from 'react-router-dom';
 import ImgBanner from './Services/ImgBanner.jsx';
 import DOMPurify from 'dompurify';
 
-
 const Services = () => {
   const { services, status, error } = useSelector((state) => state.services);
   const dispatch = useDispatch();
@@ -89,22 +88,20 @@ const Services = () => {
     };
   }, []);
 
-
   useEffect(() => {
     if (services?.length > 0) {
       // Use requestAnimationFrame for smoother rendering
       requestAnimationFrame(() => {
-        document.querySelectorAll(".service")?.forEach((element) => {
-          const bgImage = element.getAttribute("data-bg");
-          
+        document.querySelectorAll('.service')?.forEach((element) => {
+          const bgImage = element.getAttribute('data-bg');
+
           if (bgImage) {
-            element.style.setProperty("--bg-image", `url(${bgImage})`);
+            element.style.setProperty('--bg-image', `url(${bgImage})`);
           }
         });
       });
     }
   }, [services]);
-
 
   const scrollToServices = () => {
     ourServicesRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -112,7 +109,10 @@ const Services = () => {
 
   return (
     <div className="w-[100%] flex flex-col justify-center items-center mb-14">
-      <h1 ref={ourServicesRef} className="text-center text-heading3 lg:text-heading2 font-bold my-4 p-5 text-[#2d335d] relative transition-all ease-in-out">
+      <h1
+        ref={ourServicesRef}
+        className="text-center text-heading3 lg:text-heading2 font-bold my-4 p-5 text-[#2d335d] relative transition-all ease-in-out"
+      >
         Our Services
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>
@@ -121,51 +121,65 @@ const Services = () => {
 
       {service === null ? (
         <ul className="services w-[100%] mt-[20px] flex flex-col items-center gap-y-[30px] md:gap-y-[70px] md:flex-row md:justify-center md:gap-x-[60px] lg:gap-x-[30px] md:flex-wrap">
-          {services && services?.map((item, index) => (
-            <li
-              key={item._id}
-              data-aos="fade-up"
-              data-aos-delay={`${index * 100}`}
-              data-bg={item.images[0]}
-              onMouseOver={() => {
-                setHoveredService(item._id);
-              }}
-              onMouseLeave={() => setHoveredService(null)}
-              className={`service rounded-tl-[50px] rounded-br-[50px] cursor-pointer mx-2 w-[90%] small-max:w-[85%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center`}
-              style={{
-                backgroundColor: item.color,
-              }}
-              onClick={() => {
-                setService(item.title);
-                if (isHomePage) {
-                  scrollToServices();
-                }
-              }}
-            >
-              {hoveredService === item._id && item.images && item?.images?.length > 0 && (
-                <div
-                  className="absolute inset-0 w-full h-full transition-all duration-500"
-                  style={{
-                    backgroundImage: `url(${item.images[0]})`,
-                    backgroundColor: 'rgba(1, 29, 36, 0.8)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    filter: 'brightness(0.4)',
-                    zIndex: -1,
-                  }}
-                ></div>
-              )}
-              <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center">
-                <img src={item.logo} alt={item.title + " logo"} className="w-[40px] h-[40px] invert" /> {/* Added alt text */}
-                <h2 className="text-[20px] text-center text-[#ffffff] font-bold">{item.title}</h2>
-                <p className="pt-[5px] text-center text-[16px] lg:text-[18px] text-[#ffffff]">{item.small_description}</p>
-              </div>
-            </li>
-          ))}
+          {services &&
+            services?.map((item, index) => (
+              <li
+                key={item._id}
+                data-aos="fade-up"
+                data-aos-delay={`${index * 100}`}
+                data-bg={item.images[0]}
+                onMouseOver={() => {
+                  setHoveredService(item._id);
+                }}
+                onMouseLeave={() => setHoveredService(null)}
+                className={`service rounded-tl-[50px] rounded-br-[50px] cursor-pointer mx-2 w-[90%] small-max:w-[85%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center`}
+                style={{
+                  backgroundColor: item.color,
+                }}
+                onClick={() => {
+                  setService(item.title);
+                  if (isHomePage) {
+                    scrollToServices();
+                  }
+                }}
+              >
+                {hoveredService === item._id &&
+                  item.images &&
+                  item?.images?.length > 0 && (
+                    <div
+                      className="absolute inset-0 w-full h-full transition-all duration-500"
+                      style={{
+                        backgroundImage: `url(${item.images[0]})`,
+                        backgroundColor: 'rgba(1, 29, 36, 0.8)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        filter: 'brightness(0.4)',
+                        zIndex: -1,
+                      }}
+                    ></div>
+                  )}
+                <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center">
+                  <img
+                    src={item.logo}
+                    alt={item.title + ' logo'}
+                    className="w-[40px] h-[40px] invert"
+                  />{' '}
+                  {/* Added alt text */}
+                  <h2 className="text-[20px] text-center text-[#ffffff] font-bold">
+                    {item.title}
+                  </h2>
+                  <p className="pt-[5px] text-center text-[16px] lg:text-[18px] text-[#ffffff]">
+                    {item.small_description}
+                  </p>
+                </div>
+              </li>
+            ))}
         </ul>
       ) : (
-        <div className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${isHomePage ? '' : 'mt-20 mb-20'}`}>
+        <div
+          className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${isHomePage ? '' : 'mt-20 mb-20'}`}
+        >
           {isHomePage && (
             <div className="sm:mb-5 mb-5 lg:-mb-28 lg:ml-[30px]">
               <button
@@ -178,33 +192,44 @@ const Services = () => {
             </div>
           )}
           <div className="flex flex-col lg:flex-row w-[100%] lg:items-stretch items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[10px] lg:mt-[120px]">
-              {services?.filter(serviceData => serviceData.title === service)?.map(serviceData => (
-              <div key={serviceData.id || serviceData._id} className="flex flex-col items-center mx-[20px] lg:flex-row  justify-center w-[100%] lg:mx-0"> {/* Use serviceData.id if available, otherwise serviceData._id */}
-                <div className="images-grid h-full w-[100%] md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
-                  <ImgBanner banners={serviceData.images} />
+            {services
+              ?.filter((serviceData) => serviceData.title === service)
+              ?.map((serviceData) => (
+                <div
+                  key={serviceData.id || serviceData._id}
+                  className="flex flex-col items-center mx-[20px] lg:flex-row  justify-center w-[100%] lg:mx-0"
+                >
+                  {' '}
+                  {/* Use serviceData.id if available, otherwise serviceData._id */}
+                  <div className="images-grid h-full w-[100%] md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
+                    <ImgBanner banners={serviceData.images} />
+                  </div>
+                  <div className="flex flex-col items-center md:items-start w-[90%] lg:w-[60%] h-full">
+                    <div className="flex flex-col md:mx-[30px]">
+                      <h1 className="text-center text-heading4 lg:text-[1.9rem] mt-[15px] md:text-left font-bold">
+                        {serviceData.title}
+                      </h1>
+                      <p
+                        className="text-gray-700  text-center text-[16px] lg:text-[18px] font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px] mt-[10px]"
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(
+                            serviceData?.description,
+                          ).replace(/<a /g, '<a style="color: #4a90e2; " '),
+                        }}
+                      ></p>
+                    </div>
+                    <button className="md:self-start md:ml-[30px]">
+                      <Link
+                        to="/donate-us"
+                        className="px-8 py-3.5 relative rounded-lg group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
+                      >
+                        <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
+                        <span className="relative z-10">Donate</span>
+                      </Link>
+                    </button>
+                  </div>
                 </div>
-                <div className='flex flex-col items-center md:items-start w-[90%] lg:w-[60%] h-full'>
-                <div className="flex flex-col md:mx-[30px]">
-                <h1 className="text-center text-heading4 lg:text-[1.9rem] mt-[15px] md:text-left font-bold">{serviceData.title}</h1>
-                <p className="text-gray-700  text-center text-[16px] lg:text-[18px] font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px] mt-[10px]"  
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(serviceData?.description).replace(
-                    /<a /g,
-                    '<a style="color: #4a90e2; " ',
-                  ),
-                }}
-                ></p>
-                
-                </div>
-                <button className='md:self-start md:ml-[30px]'>
-                  <Link to="/donate-us" className="px-8 py-3.5 relative rounded-lg group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg">
-                    <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>
-                    <span className="relative z-10">Donate</span>
-                  </Link>
-                </button>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       )}

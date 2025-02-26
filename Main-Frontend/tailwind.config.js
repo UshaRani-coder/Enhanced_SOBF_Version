@@ -5,17 +5,18 @@ export default {
   theme: {
     extend: {
       animation: {
-        heartbeat: "heartbeat 2s infinite",
+        heartbeat: 'heartbeat 2s infinite',
         'infinite-scroll': 'infinite-scroll 80s linear infinite',
         'partners-infinite-scroll': 'infinite-scroll 5s linear infinite',
-        'infinite-scroll-reverse': 'infinite-scroll-reverse 80s linear infinite',
+        'infinite-scroll-reverse':
+          'infinite-scroll-reverse 80s linear infinite',
         zoomIn: 'zoomIn 2.5s forwards',
         scroll: 'scroll 20s linear infinite',
       },
       keyframes: {
         heartbeat: {
-          "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.1)" },
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.1)' },
         },
         'infinite-scroll': {
           from: { transform: 'translateX(0)' },
@@ -90,7 +91,8 @@ export default {
       animation: {
         'infinite-scroll': 'infinite-scroll 80s linear infinite',
         'partners-infinite-scroll': 'infinite-scroll 5s linear infinite',
-        'infinite-scroll-reverse': 'infinite-scroll-reverse 80s linear infinite',
+        'infinite-scroll-reverse':
+          'infinite-scroll-reverse 80s linear infinite',
         zoomIn: 'zoomIn 2.5s forwards',
         scroll: 'scroll 20s linear infinite',
       },

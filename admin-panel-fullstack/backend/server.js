@@ -7,15 +7,12 @@ const admin_router = require('./routes/admin.route');
 const path = require('path');
 const app = express();
 
-
-
-require("dotenv").config({path: `.env.${process.env.NODE_ENV || "development"}`});
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV || 'development'}`,
+});
 console.log(`Your env is ${process.env.NODE_ENV}`);
 console.log(`Your PORT is ${process.env.PORT}`);
 const PORT = process.env.PORT || 5000;
-
-
-
 
 // Allowed origins for CORS
 // const allowedOrigins = [
@@ -45,14 +42,13 @@ const PORT = process.env.PORT || 5000;
 // Ensure preflight requests are handled
 // app.options('*', cors(corsOptions));
 
-
-//  ! new cors setup 
+//  ! new cors setup
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
   'https://sobf.in',
   'https://admin.sobf.in',
-  'https://backend.sobf.in'
+  'https://backend.sobf.in',
 ];
 
 const corsOptions = {
@@ -73,15 +69,16 @@ app.use(cors(corsOptions));
 
 // Apply CSP Middleware (without Helmet)
 app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy",
+  res.setHeader(
+    'Content-Security-Policy',
     "default-src 'self'; " +
-    "script-src 'self' https://trusted-script-source.com; " +
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-    "img-src 'self' data: https://trusted-image-source.com; " +
-    "connect-src 'self' https://backend.sobf.in; " +
-    "frame-src 'none'; " +
-    "object-src 'none'; " +
-    "upgrade-insecure-requests"
+      "script-src 'self' https://trusted-script-source.com; " +
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+      "img-src 'self' data: https://trusted-image-source.com; " +
+      "connect-src 'self' https://backend.sobf.in; " +
+      "frame-src 'none'; " +
+      "object-src 'none'; " +
+      'upgrade-insecure-requests',
   );
   next();
 });
