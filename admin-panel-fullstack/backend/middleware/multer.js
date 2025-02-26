@@ -126,6 +126,20 @@ const storageOurImpacts = multer.diskStorage({
 });
 const uploadOurImpacts = multer({ storage: storageOurImpacts });
 
+
+// ! 9. for upcoming events
+const storageUpcomingEvent = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(process.cwd(), `./uploads/upcoming-events`);
+    createDirectoryIfDoesntExist(uploadDir);
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
+  },
+});
+const uploadUpcomingEvent = multer({ storage: storageUpcomingEvent });
+
 module.exports = {
   upload,
   uploadTeamMember,
@@ -136,4 +150,5 @@ module.exports = {
   uploadNewsBulletine,
   uploadGallery,
   uploadOurImpacts,
+  uploadUpcomingEvent
 };

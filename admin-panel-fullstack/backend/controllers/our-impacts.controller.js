@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const OurImpactsModel = require('../models/our-impacts.model');
+const logger = require('../logger');
 
 // Helper function to validate string fields
 const isValidString = (value) =>
@@ -26,6 +27,7 @@ const getOurImpacts = async (req, res) => {
       posts,
     });
   } catch (error) {
+    logger.error("Something went wrong while fetching Our Impacts data from the backend.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while fetching Our Impacts data from the backend.'
@@ -74,6 +76,7 @@ const createOurImpacts = async (req, res) => {
       post,
     });
   } catch (error) {
+    logger.error("Something went wrong while creating Our Impacts post.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while creating Our Impacts post'
@@ -126,6 +129,7 @@ const updateOurImpacts = async (req, res) => {
       updatedPost,
     });
   } catch (error) {
+    logger.error("Failed to update Our Impacts post.")
     return res.status(500).json({
       success: false,
       message: 'Failed to update Our Impacts post'
@@ -154,6 +158,7 @@ const deleteOurImpacts = async (req, res) => {
       message: 'Our Impacts post has been deleted successfully',
     });
   } catch (error) {
+    logger.error("Something went wrong while deleting Our Impacts post.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while deleting Our Impacts post'

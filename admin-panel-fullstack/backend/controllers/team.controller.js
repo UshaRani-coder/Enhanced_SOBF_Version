@@ -1,3 +1,4 @@
+const logger = require('../logger');
 const Team = require('../models/team.model');
 
 //! Get all team members
@@ -13,7 +14,8 @@ const getTeamMembers = async (req, res) => {
     }
     return res.status(200).json({ success: true, teamMembers });
   } catch (error) {
-    return res.status(500).json({ success: false, message: "Something went wrong while retriving data " });
+    logger.error("Something went wrong while retriving data .")
+    return res.status(500).json({ success: false, message: "Something went wrong while retriving data ." });
   }
 };
 
@@ -51,9 +53,10 @@ const createTeamMember = async (req, res) => {
       teamMember,
     });
   } catch (error) {
+    logger.error("Something went wrong while create team member.")
     return res.status(500).json({
       success: false,
-      message: 'Failed to create team member'
+      message: 'Something went wrong while create team member.'
     });
   }
 };
@@ -96,9 +99,10 @@ const updateTeam = async (req, res) => {
 
     return res.status(200).json({ success: true, updatedTeam });
   } catch (error) {
+    logger.error("Something went wrong while update team member.")
     return res.status(500).json({
       success: false,
-      message: 'Failed to update team member'
+      message: 'Something went wrong while update team member'
     });
   }
 };
@@ -110,11 +114,12 @@ const deleteTeam = async (req, res) => {
     await Team.findByIdAndDelete(id);
     return res.status(200).json({ success: true });
   } catch (error) {
+    logger.error("Something went wrong while delete team member.")
     return res
       .status(500)
       .json({
         success: false,
-        message: 'Failed to delete team member'
+        message: 'Something went wrong while delete team member'
       });
   }
 };

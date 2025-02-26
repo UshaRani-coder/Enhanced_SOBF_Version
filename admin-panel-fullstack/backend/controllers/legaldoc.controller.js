@@ -1,5 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const { LegalDoc } = require("../models/other.model");
+const logger = require("../logger");
 
 //? Get all legal documents
 const getLegalDocument = async (req, res) => {
@@ -19,6 +20,7 @@ const getLegalDocument = async (req, res) => {
       docs,
     });
   } catch (error) {
+    logger.error("Something went wrong while fetching legal documents.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while fetching legal documents.'
@@ -64,7 +66,7 @@ const createLegalDocument = async (req, res) => {
       legalDoc: newLegalDoc,
     });
   } catch (error) {
-    console.error("Error in createLegalDocument:", error);
+    logger.error("Something went wrong while creating the legal document.")
     res.status(500).json({
       success: false,
       message: "Something went wrong while creating the legal document."
@@ -112,7 +114,7 @@ const updateLegalDocument = async (req, res) => {
       updatedDoc,
     });
   } catch (error) {
-    console.error("Error in updateLegalDocument:", error);
+    logger.error("Something went wrong while updating the legal document.")
     return res.status(500).json({
       success: false,
       message: "Something went wrong while updating the legal document."
@@ -139,6 +141,7 @@ const deleteLegalDocument = async (req, res) => {
       message: 'Legal document deleted successfully.',
     });
   } catch (error) {
+    logger.error("Something went wrong while deleting the legal document.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while deleting the legal document.'

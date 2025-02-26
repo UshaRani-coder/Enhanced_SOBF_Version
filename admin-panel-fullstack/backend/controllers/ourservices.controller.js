@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const Service = require('../models/ourservices.model');
+const logger = require('../logger');
 
 // Create a new service
 const createService = async (req, res) => {
@@ -36,9 +37,10 @@ const createService = async (req, res) => {
       .status(201)
       .json({ message: 'Service created successfully', service: newService });
   } catch (message) {
+    logger.error("Something went wrong while creating service.")
     res
       .status(500)
-      .json({ success: false, message: 'message creating service' });
+      .json({ success: false, message: 'Something went wrong while  creating service' });
   }
 };
 
@@ -117,9 +119,10 @@ const updateService = async (req, res) => {
         service: updatedService,
       });
   } catch (message) {
+    logger.error("Something went wrong while  updating service.")
     res
       .status(500)
-      .json({ success: false, message: 'message updating service' });
+      .json({ success: false, message: 'Something went wrong while  updating service' });
   }
 };
 
@@ -142,9 +145,10 @@ const getAllServices = async (req, res) => {
     }
     res.status(200).json(services);
   } catch (message) {
+    logger.error("Something went wrong while  fetching services.")
     res
       .status(500)
-      .json({ success: false, message: 'message fetching services' });
+      .json({ success: false, message: 'Something went wrong while  fetching services' });
   }
 };
 
@@ -162,9 +166,10 @@ const deleteService = async (req, res) => {
 
     res.status(200).json({ success: false, message: 'Service deleted successfully' });
   } catch (message) {
+    logger.error("Something went wrong while  deleting service.")
     res
       .status(500)
-      .json({ success: false, message: 'message deleting service' });
+      .json({ success: false, message: 'Something went wrong while  deleting service' });
   }
 };
 

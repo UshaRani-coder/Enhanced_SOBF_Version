@@ -1,51 +1,44 @@
 const { default: mongoose } = require('mongoose');
-const PostModel = require('../models/post.model');
 const logger = require('../logger');
+const upcomingEvents = require('../models/upcoming-events.model');
+// const upcomingEvents = require('../models/upcomingevents.model');
 
 // Helper Function: Validate ID format
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 // GET ALL POSTS
-const getPosts = async (req, res) => {
+const getEventPosts = async (req, res) => {
   try {
-    const posts = await PostModel.find({});
+    const posts = await upcomingEvents.find({});
     const baseURL = process.env.BASE_URL;
 
     if (posts.length > 0) {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
-
         if (post.images && Array.isArray(post.images)) {
           post.images = post.images.map((image) =>
-            image ? `${baseURL}/uploads/recent-activities/${image}` : image,
-          );
-        }
-
-        // Check and update the videos array with full URLs
-        if (post.videos && Array.isArray(post.videos)) {
-          post.videos = post.videos.map((video) =>
-            video ? `${baseURL}/uploads/recent-activities/${video}` : video,
+            image ? `${baseURL}/uploads/upcoming-events/${image}` : image,
           );
         }
       }
     }
     res.status(200).json({
       success: true,
-      message: 'Successfully fetched all posts',
+      message: 'Successfully fetched all upcoming events posts',
       posts,
     });
   } catch (error) {
-    logger.error("Something went wrong while fetching posts.")
+    logger.error("Something went wrong while fetching upcoming events posts.")
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while fetching posts',
+      message: 'Something went wrong while fetching upcoming events posts',
     });
   }
 };
 
 
 //! GET SPECIFIC POST BY ID
-const getPostById = async (req, res) => {
+const getEventPostById = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -53,51 +46,38 @@ const getPostById = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
-
     // Find post by ID
-    const post = await PostModel.findById(id);
+    const post = await upcomingEvents.findById(id);
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Upcoming events posts not found' });
     }
-
     const baseURL = process.env.BASE_URL;
-
     // Format images and videos URLs
     if (Array.isArray(post.images)) {
       post.images = post.images.map((image) =>
-        image ? `${baseURL}/uploads/recent-activities/${image}` : image
+        image ? `${baseURL}/uploads/upcoming-events/${image}` : image
       );
     }
-
-    if (Array.isArray(post.videos)) {
-      post.videos = post.videos.map((video) =>
-        video ? `${baseURL}/uploads/recent-activities/${video}` : video
-      );
-    }
-
     res.status(200).json({
       success: true,
-      message: 'Successfully fetched the news/bulletin post.',
+      message: 'Successfully fetched all the upcoming events post.',
       post,
     });
   } catch (error) {
-    logger.error("Something went wrong while fetching the news/bulletin post'.")
+    logger.error("Something went wrong while fetching the upcoming events post'.")
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while fetching the news/bulletin post',
+      message: 'Something went wrong while fetching the upcoming events post',
     });
   }
 };
 
 
-
-
 // CREATE POST
-const createPost = async (req, res) => {
+const createEventPost = async (req, res) => {
   try {
-    let videosArr = [];
     let imageArr = [];
-    const { title, description, date } = req.body;
+    const { title, small_description, description, date, location } = req.body;
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
         success: false,
@@ -119,39 +99,33 @@ const createPost = async (req, res) => {
         imageArr.push(image.filename);
       }
     }
-    // for videos
-    const videos = req.files.videos || [];
-    if (videos.length > 0) {
-      for (let index = 0; index < videos.length; index++) {
-        const video = videos[index];
-        videosArr.push(video.filename);
-      }
-    }
+
     // Save post to database
-    const post = new PostModel({
+    const post = new upcomingEvents({
       title,
+      small_description,
       description,
       date,
-      images: imageArr,
-      videos: videosArr,
+      location,
+      images: imageArr
     });
     await post.save();
     res
       .status(201)
-      .json({ success: true, message: 'Post created successfully', post });
+      .json({ success: true, message: 'Upcoming events Post created successfully', post });
   } catch (error) {
     logger.error("Something went wrong while creating post'.")
     res
       .status(500)
       .json({
         success: false,
-        message: 'Something went wrong while creating post'
+        message: 'Something went wrong while creating  upcoming events post'
       });
   }
 };
 
 // UPDATE POST BASED ON ID
-const updatePost = async (req, res) => {
+const updateEventPost = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -161,9 +135,9 @@ const updatePost = async (req, res) => {
     }
 
     // Fetch the existing post
-    const existingPost = await PostModel.findById(id);
+    const existingPost = await upcomingEvents.findById(id);
     if (!existingPost) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Upcoming events Post not found' });
     }
 
     const { title, description, date } = req.body;
@@ -189,10 +163,11 @@ const updatePost = async (req, res) => {
     // Initialize updated data with existing values
     const updates = {
       title: title || existingPost.title,
+      title: title || existingPost.small_description,
       description: description || existingPost.description,
       images: existingPost.images,
-      videos: existingPost.videos,
-      date: date || existingPost.date
+      date: date || existingPost.date,
+      location: title || existingPost.location,
     };
 
     // Handle updated images if provided
@@ -204,28 +179,17 @@ const updatePost = async (req, res) => {
       }
       updates.images = updatedImages;
     }
-
-    // Handle updated videos if provided
-    const videos = req.files?.videos || [];
-    if (videos.length > 0) {
-      const updatedVideos = [];
-      for (let index = 0; index < videos.length; index++) {
-        updatedVideos.push(videos[index].filename);
-      }
-      updates.videos = updatedVideos;
-    }
-
     // Update the post
-    const updatedPost = await PostModel.findByIdAndUpdate(id, updates, {
+    const updatedPost = await upcomingEvents.findByIdAndUpdate(id, updates, {
       new: true,
     });
     if (!updatedPost) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Upcoming-events Post not found' });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Post updated successfully',
+      message: 'Upcoming-events Post updated successfully',
       updatedPost,
     });
   } catch (error) {
@@ -238,7 +202,7 @@ const updatePost = async (req, res) => {
 };
 
 // DELETE POST BASED ON ID
-const deletePost = async (req, res) => {
+const deleteEventPost = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -248,23 +212,22 @@ const deletePost = async (req, res) => {
     }
 
     // Delete the post
-    const post = await PostModel.findByIdAndDelete(id);
+    const post = await upcomingEvents.findByIdAndDelete(id);
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Upcoming events Post not found' });
     }
-
     res
       .status(200)
-      .json({ success: true, message: 'Post deleted successfully' });
+      .json({ success: true, message: 'Upcoming events Post deleted successfully' });
   } catch (error) {
-    logger.error("Something went wrong while deleting post.")
+    logger.error("Something went wrong while deleting Upcoming-events Post .")
     res
       .status(500)
       .json({
         success: false,
-        message: 'Something went wrong while deleting post'
+        message: 'Something went wrong while deleting Upcoming-events Post '
       });
   }
 };
 
-module.exports = { deletePost, updatePost, getPosts, createPost, getPostById };
+module.exports = { getEventPosts, getEventPostById, createEventPost, updateEventPost, deleteEventPost };

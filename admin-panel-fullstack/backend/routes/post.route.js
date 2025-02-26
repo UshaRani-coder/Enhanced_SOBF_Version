@@ -54,9 +54,12 @@ const {
   uploadNewsBulletine,
   uploadGallery,
   uploadOurImpacts,
+  uploadUpcomingEvent,
 } = require('../middleware/multer');
 const { createLegalDocument, updateLegalDocument, deleteLegalDocument, getLegalDocument } = require('../controllers/legaldoc.controller');
 const { createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo } = require('../controllers/featuredvideos.controller');
+const { createEventPost, getEventPostById, getEventPosts, updateEventPost, deleteEventPost } = require('../controllers/upcoming-events.controlller');
+// const { deleteEventPost, getEventPosts, getEventPostById, createEventPost, updateEventPost } = require('../controllers/upcomingevent.controller');
 
 const router = express.Router();
 
@@ -144,7 +147,7 @@ router.post(
   ]),
   createNewsBulletine,
 );
-router.get('/get-newspost', getNewsBulletine); 
+router.get('/get-newspost', getNewsBulletine);
 router.get('/news-bulletine/:id', getNewsBulletineById);
 router.put(
   '/update-news-post/:id',
@@ -189,5 +192,26 @@ router.post('/create-featured-video', createFeaturedVideo);
 router.get('/get-featured-video', getFeaturedVideo);
 router.put('/update-featured-video/:id', updateFeaturedVideo);
 router.delete('/delete-featured-video/:id', deleteFeaturedVideo);
+
+
+// ! Upcoming events 
+router.post(
+  '/create-upcoming-events',
+  uploadUpcomingEvent.fields([
+    { name: 'images', maxCount: 3 }
+  ]),
+  createEventPost,
+);
+router.get('/get-upcoming-events', getEventPosts);
+router.get('/upcoming-events/:id', getEventPostById);
+router.put(
+  '/update-upcoming-events/:id',
+  uploadUpcomingEvent.fields([
+    { name: 'images', maxCount: 3 }
+  ]),
+  updateEventPost,
+);
+router.delete('/delete-upcoming-events/:id', deleteEventPost);
+
 
 module.exports = router;
