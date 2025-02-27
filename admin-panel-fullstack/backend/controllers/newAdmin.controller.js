@@ -2,6 +2,7 @@ const Admin = require('../models/admin.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
+const logger = require('../logger');
 
 const JWT_SECRET = 'fgdsgsdfty4362365fhfg';
 // Admin Registration (Only for first-time setup)
@@ -27,7 +28,8 @@ const registerAdmin = async (req, res) => {
         newAdmin,
       });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Server error' });
+    logger.error("Server error while registering.")
+    res.status(500).json({ success: false, message: 'Server error while registering' });
   }
 };
 
@@ -61,6 +63,7 @@ const loginAdmin = async (req, res) => {
       token,
     });
   } catch (err) {
+    logger.error("Server error while login.")
     res.status(500).json({ message: 'Server error while login ' });
   }
 };

@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const HeroBannerModel = require('../models/hero-banner.model');
+const logger = require('../logger');
 
 //! Helper function to validate ObjectId
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
@@ -21,6 +22,7 @@ const getHeroBanner = async (req, res) => {
       banners,
     });
   } catch (error) {
+    logger.error("Something went wrong while fetching posts from backend.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while fetching posts from backend.',
@@ -62,6 +64,7 @@ const createHeroBanner = async (req, res) => {
       post,
     });
   } catch (error) {
+    logger.error("Something went wrong while creating hero banner post.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while creating hero banner post',
@@ -111,7 +114,7 @@ const updateHeroBanner = async (req, res) => {
 
     return res.status(200).json({ success: true, updatedBanner });
   } catch (error) {
-    console.log('Error while updating Hero Banner: ', error);
+    logger.error("Failed to update Hero Banner.")
     return res.status(500).json({
       success: false,
       message: 'Failed to update Hero Banner',
@@ -146,6 +149,7 @@ const deleteHeroBanner = async (req, res) => {
       message: 'Post deleted successfully',
     });
   } catch (error) {
+    logger.error("Something went wrong while deleting post.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while deleting post',

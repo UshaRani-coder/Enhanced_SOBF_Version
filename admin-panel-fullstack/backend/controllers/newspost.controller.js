@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const bulletineModal = require('../models/newspost.model');
+const logger = require('../logger');
 
 //! CREATE
 const createNewsBulletine = async (req, res) => {
@@ -49,10 +50,13 @@ const createNewsBulletine = async (req, res) => {
       .status(201)
       .json({ success: true, message: 'Post created successfully', post });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error creating post',
-    });
+    logger.error("Error creating post.")
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Error creating post'
+      });
   }
 };
 
@@ -85,6 +89,7 @@ const getNewsBulletine = async (req, res) => {
       posts,
     });
   } catch (error) {
+    logger.error("Something went wrong while getting news/bulletin post.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while getting news/bulletin post',
@@ -131,6 +136,7 @@ const getNewsBulletineById = async (req, res) => {
       post,
     });
   } catch (error) {
+    logger.error("Something went wrong while fetching the news/bulletin post.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while fetching the news/bulletin post',
@@ -213,10 +219,13 @@ const updateNewsBulletine = async (req, res) => {
       updatedPost,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Something went wrong while updating news/bulletine post',
-    });
+    logger.error("Something went wrong while updating news/bulletine post.")
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Something went wrong while updating news/bulletine post'
+      });
   }
 };
 
@@ -235,10 +244,13 @@ const deleteNewsBulletine = async (req, res) => {
     }
     res.status(200).json({ success: true, message: 'Post deleted ' });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Something went wrong while deleting news/bulletine post',
-    });
+    logger.error("Something went wrong while deleting news/bulletine post.")
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Something went wrong while deleting news/bulletine post'
+      });
   }
 };
 

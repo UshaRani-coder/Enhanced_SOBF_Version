@@ -1,5 +1,6 @@
-const { default: mongoose } = require('mongoose');
-const { FeaturedVideomodel } = require('../models/other.model');
+const { default: mongoose } = require("mongoose");
+const { FeaturedVideomodel } = require("../models/other.model");
+const logger = require("../logger");
 
 //? Create a new featured video
 const createFeaturedVideo = async (req, res) => {
@@ -20,6 +21,7 @@ const createFeaturedVideo = async (req, res) => {
       post,
     });
   } catch (error) {
+    logger.error("Something went wrong while creating Featured video post.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while creating Featured video post',
@@ -60,6 +62,7 @@ const updateFeaturedVideo = async (req, res) => {
         updatedPost,
       });
   } catch (error) {
+    logger.error("Something went wrong while updating Featured video post.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while updating Featured video post',
@@ -80,12 +83,8 @@ const getFeaturedVideo = async (req, res) => {
         posts,
       });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while fetching featured videos.',
-      });
+    logger.error("Something went wrong while fetching featured videos.")
+    res.status(500).json({ success: false, message: "Something went wrong while fetching featured videos." });
   }
 };
 
@@ -116,12 +115,8 @@ const deleteFeaturedVideo = async (req, res) => {
         message: 'Featured video post deleted successfully',
       });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while deleting the featured video post',
-      });
+    logger.error("Something went wrong while deleting the featured video post")
+    res.status(500).json({ success: false, message: "Something went wrong while deleting the featured video post" });
   }
 };
 

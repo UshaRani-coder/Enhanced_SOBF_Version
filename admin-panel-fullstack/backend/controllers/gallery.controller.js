@@ -20,6 +20,7 @@ const createGalleryController = async (req, res) => {
       post,
     });
   } catch (error) {
+    logger.error("Something went wrong while creating Gallery post.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while creating Gallery post',
@@ -43,6 +44,7 @@ const getAllGalleryImagesController = async (req, res) => {
       posts,
     });
   } catch (error) {
+    logger.error("Something went wrong while retrieving gallery posts.")
     res.status(500).json({
       success: false,
       message: 'Something went wrong while retrieving gallery posts',
@@ -96,7 +98,7 @@ const updateGalleryController = async (req, res) => {
       updatedPost,
     });
   } catch (error) {
-    logger.warning('Error while updating gallery post: ', error);
+    logger.error("Something went wrong while updating Gallery post.")
     return res.status(500).json({
       success: false,
       message: 'Something went wrong while updating Gallery post',
@@ -118,10 +120,13 @@ const deleteGalleryController = async (req, res) => {
       .status(200)
       .json({ success: true, message: 'Post deleted successfully' });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Something went wrong while deleting the Gallery post',
-    });
+    logger.error("Something went wrong while deleting the Gallery post.")
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Something went wrong while deleting the Gallery post'
+      });
   }
 };
 

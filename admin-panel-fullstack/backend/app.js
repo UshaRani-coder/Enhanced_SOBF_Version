@@ -45,7 +45,6 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Handle preflight requests
 
 // ✅ Helmet Middleware with Custom CSP
-const isDevelopment = process.env.NODE_ENV === 'development';
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -53,22 +52,23 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'",
-          'https://trusted-script-source.com',
-          isDevelopment ? "'unsafe-eval'" : '', // ✅ Allow eval in dev mode
-        ].filter(Boolean),
-        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-        imgSrc: ['*'],
-        connectSrc: [
-          "'self'",
-          'https://backend.sobf.in',
-          'http://localhost:5000',
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "https://trusted-script-source.com",
+          "https://www.youtube.com",
+          "https://player.vimeo.com",
+          "https://cdnjs.cloudflare.com",
+          "https://apis.google.com"
         ],
-        frameSrc: [
+        styleSrc: [
           "'self'",
-          'https://www.youtube.com',
-          'https://player.vimeo.com',
-          'https://maps.google.com',
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+          "https://cdnjs.cloudflare.com"
         ],
+        imgSrc: ["*", "data:"], // Allow images from any source and base64 images
+        connectSrc: ["*", "https://backend.sobf.in", "http://localhost:5000"], // Allow any API requests
+        frameSrc: ["*", "https://www.youtube.com", "https://player.vimeo.com", "https://maps.google.com"],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
       },
@@ -76,6 +76,8 @@ app.use(
     crossOriginResourcePolicy: { policy: 'cross-origin' },
   }),
 );
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -86,15 +88,8 @@ app.use(
   morgan(morganFormat, {
     stream: {
       write: (message) => {
-        const [method, url, status, responseTime] = message.split(' ');
-        logger.info(
-          JSON.stringify({
-            method,
-            url,
-            status,
-            responseTime: responseTime.replace('ms', ''),
-          }),
-        );
+        const [method, url, status, responseTime] = message.split(" ");
+        logger.info(JSON.stringify({ method, url, status, responseTime: responseTime.replace("ms", "") }));
       },
     },
   }),
@@ -149,6 +144,14 @@ app.use(
   '/uploads/our-impacts',
   express.static(path.join(__dirname, 'uploads/our-impacts')),
 );
+
+//9. for our impacts
+app.use(
+  '/uploads/upcoming-events',
+  express.static(path.join(__dirname, 'uploads/upcoming-events')),
+);
+
+
 
 // ✅ Routes
 app.use('/api/admin', admin_router);
