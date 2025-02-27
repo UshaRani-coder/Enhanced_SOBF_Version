@@ -128,4 +128,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 .vercel
-../Admin-Panel-Fullstack/.env
+
+# Large Video
+Main-Frontend/src/assets/video.mp4
+
