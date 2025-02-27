@@ -169,7 +169,7 @@
   position: fixed !important;
   bottom: 20px !important;
   right: 10px !important;
-  z-index: 1000 !important;
+  z-index: 999 !important;
   width: 40px !important;
   height: 40px !important;
 }

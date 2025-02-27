@@ -4,6 +4,9 @@ import img2 from '../../assets/Sobf Images/health_and_awareness_camp/hac6.jpg';
 import img3 from '../../assets/Sobf Images/women empowerment/we4.png';
 import { MdLocationPin } from 'react-icons/md';
 import { MdAccessTimeFilled } from 'react-icons/md';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const UpcomingEvents = () => {
   const jsonData = [
@@ -42,38 +45,44 @@ const UpcomingEvents = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+  const [errors, setErrors] = useState({});
 
-  // Get today's date for status comparison
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!/^\S+@\S+\.\S+$/.test(formData.email))
+      newErrors.email = 'Invalid email format';
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    if (!/^\d{10}$/.test(formData.phone))
+      newErrors.phone = 'Invalid phone number';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    toast.success('Your registration is successful!');
+    setTimeout(() => {
+      setShowForm(false);
+      setFormData({ name: '', email: '', phone: '' });
+    }, 1000);
+   
+  };
+
   const today = new Date().toISOString().split('T')[0];
-
-  // Function to determine event status
-  // const getEventStatus = (eventDate) => {
-  //   if (eventDate === today) {
-  //     return {
-  //       label: 'Happening Now',
-  //       bgColor: 'bg-gradient-to-r from-indigo-500 to-indigo-700',
-  //       icon: '🟢',
-  //       textColor: 'text-white',
-  //       animate: 'animate-bounce',
-  //     };
-  //   }
-  //   return eventDate > today
-  //     ? {
-  //         label: 'Upcoming',
-  //         bgColor: 'bg-gradient-to-r from-green-500 to-green-700',
-  //         icon: '⏳',
-  //         textColor: 'text-white',
-  //         animate: ' '
-
-  //       }
-  //     : {
-  //         label: 'Past Event',
-  //         bgColor: 'bg-gradient-to-r from-red-500 to-red-700',
-  //         icon: '❌',
-  //         textColor: 'text-white',
-  //         animate: '',
-  //       };
-  // };
   const getEventStatus = (eventDate) => {
     if (eventDate === today) {
       return {
@@ -136,6 +145,7 @@ const UpcomingEvents = () => {
 
   return (
     <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0">
+      <ToastContainer />
       <h1 className="inline-block text-[28px] md:text-heading3 lg:text-heading2 font-bold  p-5 text-[#2d335d] relative transition-all ease-in-out">
         Upcoming Events
         <hr className="mt-1 border-blue border-[0.5px]" />
@@ -230,7 +240,7 @@ const UpcomingEvents = () => {
                 const status = getEventStatus(event.date);
                 return (
                   <div key={event.id} className="min-w-full">
-                    <div className="bg-white rounded-xl overflow-hidden">
+                    <div className="bg-white rounded-xl overflow-hidden ">
                       <img
                         src={event.image}
                         alt={event.title}
@@ -265,7 +275,10 @@ const UpcomingEvents = () => {
                         <p className="text-gray-700 lg:text-lg">
                           {event.description}
                         </p>
-                        <button className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all">
+                        <button
+                          onClick={() => setShowForm(true)}
+                          className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
+                        >
                           Register Now
                         </button>
                       </div>
@@ -280,6 +293,76 @@ const UpcomingEvents = () => {
         <p className="text-gray-600 text-lg mt-6">
           No events found for the selected filters.
         </p>
+      )}
+      {showForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000] w-[100%]">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[80%] lg:w-[40%] mt-[80px] flex flex-col items-start">
+            <h2 className="text-xl font-bold mb-4 text-center">
+              Register for the Event
+            </h2>
+            <form onSubmit={handleSubmit} className="w-[100%]">
+              <div className="mb-3 w-full ">
+                <label className="block font-medium mb-[5px]">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-400 p-2 rounded"
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">{errors.name}</p>
+                )}
+              </div>
+
+              <div className="mb-3">
+                <label className="block font-medium mb-[5px]">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-400 p-2 rounded"
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email}</p>
+                )}
+              </div>
+
+              <div className="mb-3">
+                <label className="block font-medium mb-[5px]">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-400 p-2 rounded"
+                />
+                {errors.phone && (
+                  <p className="text-red-500 text-sm">{errors.phone}</p>
+                )}
+              </div>
+
+              <div className="flex justify-end gap-x-2 mt-4">
+                <button
+                  type="button"
+                  className="px-[26px] py-2 bg-gray-500 rounded hover:bg-gray-600 text-white font-medium"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-[26px] py-2 hover:bg-indigo-500 text-white rounded bg-indigo-700 font-medium"
+                >
+                  Register
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

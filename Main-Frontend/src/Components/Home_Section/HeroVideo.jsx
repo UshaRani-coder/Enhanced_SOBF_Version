@@ -106,7 +106,7 @@
 // export default HeroVideo;
 
 import React, { useRef, useEffect } from 'react';
-import video from '../../assets/video.mp4';
+// import video from '../../assets/video.mp4';
 
 const HeroVideo = () => {
   const videoRef = useRef(null);
