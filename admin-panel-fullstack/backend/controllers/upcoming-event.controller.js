@@ -1,7 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const logger = require('../logger');
 const upcomingEvents = require('../models/upcoming-events.model');
-// const upcomingEvents = require('../models/upcomingevents.model');
 
 // Helper Function: Validate ID format
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
@@ -9,7 +8,12 @@ const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 // GET ALL POSTS
 const getEventPosts = async (req, res) => {
   try {
-    const posts = await upcomingEvents.find({});
+    const posts = await upcomingEvents
+      .find({})
+      .populate({
+        path: "registeredUsers",
+        select: "username email",
+      });
     const baseURL = process.env.BASE_URL;
 
     if (posts.length > 0) {
@@ -47,7 +51,8 @@ const getEventPostById = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
     // Find post by ID
-    const post = await upcomingEvents.findById(id);
+    const post = await upcomingEvents.findById(id)
+      .populate('registeredUsers', 'username email');;
     if (!post) {
       return res.status(404).json({ success: false, message: 'Upcoming events posts not found' });
     }
@@ -230,4 +235,10 @@ const deleteEventPost = async (req, res) => {
   }
 };
 
-module.exports = { getEventPosts, getEventPostById, createEventPost, updateEventPost, deleteEventPost };
+module.exports = {
+  getEventPosts,
+  getEventPostById,
+  createEventPost,
+  updateEventPost,
+  deleteEventPost
+};

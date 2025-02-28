@@ -58,7 +58,9 @@ const {
 } = require('../middleware/multer');
 const { createLegalDocument, updateLegalDocument, deleteLegalDocument, getLegalDocument } = require('../controllers/legaldoc.controller');
 const { createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo } = require('../controllers/featuredvideos.controller');
-const { createEventPost, getEventPostById, getEventPosts, updateEventPost, deleteEventPost } = require('../controllers/upcoming-events.controlller');
+const { createEventPost, getEventPostById, getEventPosts, updateEventPost, deleteEventPost } = require('../controllers/upcoming-event.controller');
+const { registerUserForEvent, getUsersWithRegisteredEvents } = require('../controllers/event-users.controller');
+
 // const { deleteEventPost, getEventPosts, getEventPostById, createEventPost, updateEventPost } = require('../controllers/upcomingevent.controller');
 
 const router = express.Router();
@@ -194,7 +196,7 @@ router.put('/update-featured-video/:id', updateFeaturedVideo);
 router.delete('/delete-featured-video/:id', deleteFeaturedVideo);
 
 
-// ! Upcoming events 
+// ! Upcoming events post
 router.post(
   '/create-upcoming-events',
   uploadUpcomingEvent.fields([
@@ -212,6 +214,11 @@ router.put(
   updateEventPost,
 );
 router.delete('/delete-upcoming-events/:id', deleteEventPost);
+
+//! registered user for particular events 
+router.post('/register-event/:eventId', registerUserForEvent);
+router.get("/users-with-events", getUsersWithRegisteredEvents);
+
 
 
 module.exports = router;
