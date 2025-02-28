@@ -1,0 +1,283 @@
+
+import React, { useState } from 'react';
+import { FaSearch, FaFilter } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
+import { RxCross1 } from "react-icons/rx";
+
+const RegisteredUsers = () => {
+  const [search, setSearch] = useState('');
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+
+  const [users] = useState([
+    {
+      id: 1,
+      name: 'John Doe',
+      email: 'john@example.com',
+      event: 'Hackathon',
+      date: '2025-01-20',
+    },
+    {
+      id: 2,
+      name: 'Jane Smith',
+      email: 'jane@example.com',
+      event: 'Webinar',
+      date: '2025-02-05',
+    },
+    {
+      id: 3,
+      name: 'Alexander Theodore Montgomery',
+      email: 'alex.montgomery@example.com',
+      event: 'Advanced ML Workshop',
+      date: '2025-02-15',
+    },
+    {
+      id: 4,
+      name: 'Isabella Charlotte Kensington',
+      email: 'isabella.kensington@example.com',
+      event: 'AI & Future Tech',
+      date: '2025-04-02',
+    },
+    {
+      id: 5,
+      name: 'Christopher Whitmore',
+      email: 'chris.whitmore@example.com',
+      event: 'Blockchain Trends',
+      date: '2025-05-21',
+    },
+    {
+      id: 6,
+      name: 'Olivia Harrington',
+      email: 'olivia.harrington@example.com',
+      event: 'Sustainable Development',
+      date: '2025-06-10',
+    },
+    {
+      id: 7,
+      name: 'Benjamin Hollingsworth',
+      email: 'benjamin.hollingsworth@example.com',
+      event: 'UI/UX Design Strategies',
+      date: '2025-07-05',
+    },
+  ]);
+
+  // Get unique event names for dropdown
+  const eventOptions = [...new Set(users.map((user) => user.event))];
+
+  // Filter logic
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch =
+      user.name.toLowerCase().includes(search.toLowerCase()) ||
+      user.email.toLowerCase().includes(search.toLowerCase());
+    const matchesEvent = selectedEvent ? user.event === selectedEvent : true;
+    const matchesDate =
+      (!startDate || new Date(user.date) >= new Date(startDate)) &&
+      (!endDate || new Date(user.date) <= new Date(endDate));
+
+    return matchesSearch && matchesEvent && matchesDate;
+  });
+
+  const toggleSelectUser = (userId) => {
+    setSelectedUsers((prev) =>
+      prev.includes(userId)
+        ? prev.filter((id) => id !== userId)
+        : [...prev, userId],
+    );
+  };
+
+  const sendEmails = () => {
+    if (selectedUsers.length === 0) {
+      alert('No users selected');
+      return;
+    }
+    alert(
+      `Sending emails to: ${selectedUsers.map((id) => users.find((u) => u.id === id)?.email).join(', ')}`,
+    );
+  };
+
+  return (
+    <div className="p-4 w-full overflow-hidden">
+      <h1 className="text-2xl md:text-3xl font-semibold mb-6 text-center p-0">
+        Registered Users
+      </h1>
+
+      <div className="flex items-center justify-between w-full mb-4 ">
+        {/* Search Bar */}
+        <div className="flex items-center space-x-2 bg-gray-200 rounded-lg px-3 py-2 shadow-sm w-full max-w-md">
+          <FaSearch className="text-gray-500" />
+          <input
+            type="text"
+            placeholder="Search users..."
+            className="bg-transparent outline-none w-full text-gray-700 placeholder-gray-500"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <div className=" ">
+          {/* Filter Button */}
+          <button
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ml-3"
+            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+          >
+            <FaFilter className="text-white" size={13} />
+            <span className="font-normal">Filter</span>
+          </button>
+
+          {/* Filter Dropdown */}
+          {showFilterDropdown && (
+            
+            <div className="fixed rounded-lg right-5 md:right-10 mt-2 bg-gray-200 text-gray-800 border-gray-300 shadow-lg  p-4 w-64 z-50">
+  
+  <button
+    className="absolute top-[-8px] left-[-8px] p-1 border rounded-full bg-black opacity-50 "
+    onClick={() => setShowFilterDropdown(false)}
+  >
+    <RxCross1 className='text-white' size={10} />
+  </button>
+
+  {/* Event Filter */}
+  <label className="block text-gray-700  text-sm mb-1">Filter by Event:</label>
+  <select
+    className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3 cursor-pointer"
+    value={selectedEvent}
+    onChange={(e) => setSelectedEvent(e.target.value)}
+  >
+    <option value="">All Events</option>
+    {eventOptions.map((event) => (
+      <option key={event} value={event}>
+        {event}
+      </option>
+    ))}
+  </select>
+
+  {/* Date Range Filter */}
+  <label className="block text-gray-700 text-sm mb-1">Start Date:</label>
+  <input
+    type="date"
+    className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
+    value={startDate}
+    onChange={(e) => setStartDate(e.target.value)}
+  />
+
+  <label className="block text-gray-700 text-sm mb-1">End Date:</label>
+  <input
+    type="date"
+    className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
+    value={endDate}
+    onChange={(e) => setEndDate(e.target.value)}
+  />
+
+  {/* Reset Filters Button */}
+  <button
+    className="w-full bg-red-500 text-white px-4 py-2 rounded-lg mt-2 hover:bg-red-600 transition"
+    onClick={() => {
+      setSearch('');
+      setSelectedEvent('');
+      setStartDate('');
+      setEndDate('');
+      setShowFilterDropdown(false); // Close modal after reset
+    }}
+  >
+    Reset Filters
+  </button>
+</div>
+
+          )}
+        </div>
+      </div>
+
+      {/* Card View for Small Screens */}
+      <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 ">
+  {filteredUsers.length > 0 ? (
+    filteredUsers.map((user) => (
+      <div
+        key={user.id}
+        className="bg-white p-4 shadow rounded-lg border space-y-1 hover:shadow-lg overflow-hidden"
+      >
+        <input
+          type="checkbox"
+          checked={selectedUsers.includes(user.id)}
+          onChange={() => toggleSelectUser(user.id)}
+          className="mr-2 cursor-pointer"
+        />
+        
+      
+        <h2 className="font-semibold text-lg break-words">{user.name}</h2>
+        
+        <p className="text-gray-600 break-words">{user.email}</p>
+
+       
+        <p className="text-gray-700 text-sm break-words">
+          <strong>Event :</strong> {user.event}
+        </p>
+
+       
+        <p className="text-sm text-gray-700">
+          <strong>Registered Date :</strong> {user.date}
+        </p>
+      </div>
+    ))
+  ) : (
+    <p className="col-span-full text-center text-gray-500">
+      No registered users found.
+    </p>
+  )}
+</div>
+
+
+      {/* Table View */}
+      <div className="hidden lg:block overflow-x-auto rounded-lg">
+        <table className="w-full min-w-[700px] bg-white shadow-md rounded-lg border-collapse rounded-lg">
+          <thead>
+            <tr className="bg-gray-200  text-md">
+              <th className="px-4 py-3 text-left font-medium">Select</th>
+              <th className="px-4 py-3 text-left font-medium">Name</th>
+              <th className="px-4 py-3 text-left font-medium">Email</th>
+              <th className="px-4 py-3 text-left font-medium">Event Name</th>
+              <th className="px-4 py-3 text-left font-medium">Registration Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredUsers.length > 0 ? (
+              filteredUsers.map((user) => (
+                <tr key={user.id} className="border-b text-sm">
+                  <td className="px-4 py-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedUsers.includes(user.id)}
+                      onChange={() => toggleSelectUser(user.id)}
+                      className="cursor-pointer"
+                    />
+                  </td>
+                  <td className="px-4 py-2">{user.name}</td>
+                  <td className="px-4 py-2">{user.email}</td>
+                  <td className="px-4 py-2">{user.event}</td>
+                  <td className="px-4 py-2">{user.date}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="text-center py-4 text-gray-500">
+                  No registered users found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Bulk Action: Send Emails */}
+      <button
+        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-800 flex items-center gap-2"
+        onClick={sendEmails}
+      >
+        <MdEmail /> Send Emails
+      </button>
+    </div>
+  );
+};
+
+export default RegisteredUsers;

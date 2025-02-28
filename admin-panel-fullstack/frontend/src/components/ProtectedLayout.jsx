@@ -13,6 +13,7 @@ import NotFound from '../Pages/NotFound.jsx';
 import RecentActivityPostPage from '../Pages/RecentActivityPostPage.jsx';
 import OurService from '../Pages/OurServices.jsx';
 import UpcomingEvents from '../Pages/UpcomingEvents.jsx';
+import RegisteredUsers from '../Pages/RegisteredUsers.jsx';
 
 const ProtectedLayout = ({ setIsAuthenticated }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Sidebar visibility for small screens
@@ -30,6 +31,7 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
     '/gallery',
     '/our-services',
     '/upcoming-events',
+    '/upcoming-events/registered-users'
   ];
   const isNotFound = !validRoutes.includes(location.pathname);
   const toggleSidebar = () => {
@@ -93,6 +95,7 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/our-services" element={<OurService />} />
             <Route path="/upcoming-events" element={<UpcomingEvents />} />
+            <Route path="/upcoming-events/registered-users" element={<RegisteredUsers />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

@@ -1,19 +1,16 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../assets/sobfLogo.png';
-import { FaPen, FaChartBar, FaTable } from 'react-icons/fa';
 import { FiTarget } from 'react-icons/fi';
-import { FaYoutube } from 'react-icons/fa';
 import { IoDocuments } from 'react-icons/io5';
-import { FaRegNewspaper } from 'react-icons/fa';
 import { GrGallery } from 'react-icons/gr';
-import { RiAdminFill } from 'react-icons/ri';
-import { RiServiceFill } from 'react-icons/ri';
+import { RiAdminFill, RiServiceFill } from 'react-icons/ri';
 import { SlCalender } from 'react-icons/sl';
+import { FaUsers, FaAngleDown, FaAngleUp, FaPen, FaTable, FaYoutube, FaRegNewspaper} from 'react-icons/fa';
 
 const Sidebar = ({ isCollapsed, onOptionClick }) => {
   const location = useLocation();
-
+  const [isEventsOpen, setIsEventsOpen] = useState(false);
   return (
     <div
       className={`transition-all duration-300 h-screen flex flex-col overflow-y-auto scrollbar-none pb-[50px]  ${isCollapsed ? 'w-20' : 'w-64'}`}
@@ -71,7 +68,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
               {!isCollapsed && <span className="ml-4">Our impacts </span>}
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               to="/upcoming-events"
               onClick={onOptionClick}
@@ -84,7 +81,74 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
               <SlCalender className="text-lg ml-4" />
               {!isCollapsed && <span className="ml-4">Upcoming Events</span>}
             </Link>
-          </li>
+          </li> */}
+        <li>
+  <div
+    onClick={() => {
+      setIsEventsOpen(!isEventsOpen);
+      onOptionClick(); // Ensure sidebar hides if needed
+    }}
+    className={`flex items-center pb-2 pt-2 w-[90%] cursor-pointer ${
+      location.pathname.startsWith('/upcoming-events')
+        ? 'text-white bg-[rgb(39,39,79)]'
+        : 'text-[rgba(255,255,255,0.7)]'
+    } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
+  >
+    <SlCalender className="text-lg ml-4" />
+    {!isCollapsed && (
+      <>
+        <span className="ml-4">Upcoming Events</span>
+        {isEventsOpen ? (
+          <FaAngleUp className="ml-auto mr-4" />
+        ) : (
+          <FaAngleDown className="ml-auto mr-4" />
+        )}
+      </>
+    )}
+  </div>
+
+  {/* Submenu Items */}
+  {isEventsOpen && (
+    <ul className="ml-8 space-y-1">
+      <li>
+        <Link
+          to="/upcoming-events"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent closing menu on click
+            onOptionClick();
+          }}
+          className={`flex items-center pb-2 pt-2 mt-2 w-[90%] ${
+            location.pathname === '/upcoming-events'
+              ? 'text-white bg-[rgb(39,39,79)]'
+              : 'text-[rgba(255,255,255,0.7)]'
+          } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
+        >
+
+          <SlCalender className="text-lg ml-4" />
+          {!isCollapsed && <span className="ml-4">Upcoming Events</span>}
+        </Link>
+      </li>
+      <li>
+        <Link
+          to="/upcoming-events/registered-users"
+          onClick={(e) => {
+            e.stopPropagation();
+            onOptionClick();
+          }}
+          className={`flex items-center pb-2 pt-2 w-[90%] mt-2 ${
+            location.pathname === '/upcoming-events/registered-users'
+              ? 'text-white bg-[rgb(39,39,79)]'
+              : 'text-[rgba(255,255,255,0.7)]'
+          } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
+        >
+          <FaUsers className="text-lg ml-4" />
+          {!isCollapsed && <span className="ml-4">Registered Users</span>}
+        </Link>
+      </li>
+    </ul>
+  )}
+</li>
+
           <li>
             <Link
               to="/featured-videos"

@@ -143,6 +143,20 @@ const UpcomingEvents = () => {
     );
   };
 
+  useEffect(() => {
+    // Disable scrolling when the form is open
+    if (showForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  
+    // Cleanup function to reset scrolling when the component unmounts
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showForm]); // Runs whenever showForm changes
+  
   return (
     <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0">
       <ToastContainer />
@@ -295,6 +309,7 @@ const UpcomingEvents = () => {
         </p>
       )}
       {showForm && (
+        
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000] w-[100%]">
           <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[80%] lg:w-[40%] mt-[80px] flex flex-col items-start">
             <h2 className="text-xl font-bold mb-4 text-center">

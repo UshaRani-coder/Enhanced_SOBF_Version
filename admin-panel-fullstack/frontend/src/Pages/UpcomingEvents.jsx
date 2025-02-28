@@ -256,7 +256,7 @@ const UpcomingEvents = () => {
     <div className="container mx-auto">
       {/* Add Post Button */}
       <div className="flex justify-between items-center mx-4 my-4">
-        <h1 className="text-xl small-range:text-2xl small-max:text-3xl md:text-4xl font-semibold">
+        <h1 className="text-[23px] small-range:text-2xl small-max:text-3xl md:text-4xl font-semibold">
           Upcoming Events
         </h1>
         <button
