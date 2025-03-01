@@ -197,20 +197,12 @@ router.delete('/delete-featured-video/:id', deleteFeaturedVideo);
 
 
 // ! Upcoming events post
-router.post(
-  '/create-upcoming-events',
-  uploadUpcomingEvent.fields([
-    { name: 'images', maxCount: 3 }
-  ]),
-  createEventPost,
-);
+router.post('/create-upcoming-events',uploadUpcomingEvent.single('image'),createEventPost,);
 router.get('/get-upcoming-events', getEventPosts);
 router.get('/upcoming-events/:id', getEventPostById);
 router.put(
   '/update-upcoming-events/:id',
-  uploadUpcomingEvent.fields([
-    { name: 'images', maxCount: 3 }
-  ]),
+  uploadUpcomingEvent.single('image'), // Accept only a single image
   updateEventPost,
 );
 router.delete('/delete-upcoming-events/:id', deleteEventPost);

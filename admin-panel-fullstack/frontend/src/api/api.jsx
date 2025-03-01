@@ -91,3 +91,15 @@ export const updateOurServices = (id, updatedPost) =>
   apiClient.put(`/api/post/update-services/${id}`, updatedPost);
 export const deleteOurServices = (id) =>
   apiClient.delete(`/api/post/delete-services/${id}`);
+
+
+
+
+// ! Our Services Endpoints
+export const createEvent = (postData) =>
+  apiClient.post('/api/post/create-upcoming-events', postData);
+export const getEvents = () => apiClient.get('/api/post/get-upcoming-events');
+export const updateEvent = (id, updatedPost) =>
+  apiClient.put(`/api/post/update-upcoming-events/${id}`, updatedPost);
+export const deleteEvent = (id) =>
+  apiClient.delete(`/api/post/delete-upcoming-events/${id}`);

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MdEdit, MdDelete, MdClose } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import DOMPurify from 'dompurify';
@@ -6,12 +6,9 @@ import ReactQuill from 'react-quill';
 import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  addPost,
-  deletePost,
-  updatePost,
-} from '../Reducers/upcomingEventsSlice.js';
+
 import { MdAccessTimeFilled } from 'react-icons/md';
+import { createEventPost, fetchEvents, removeEvent, updateEventPost } from '../Reducers/upcomingEventsSlice';
 
 const UpcomingEvents = () => {
   ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
@@ -29,7 +26,18 @@ const UpcomingEvents = () => {
     location: '',
   });
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.events.posts);
+  const { events, status } = useSelector((state) => state.events);
+
+
+  // Fetch teams data
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchEvents());
+    }
+  }, [status, dispatch]);
+  console.log("events", events);
+
+
   const validateForm = () => {
     if (!formData.title.trim()) {
       toast.error('Title is required.');
@@ -84,12 +92,21 @@ const UpcomingEvents = () => {
       image: imageURL, // Store only URL, not File object
     };
 
-    dispatch(addPost(newPost));
-    toast.success('Event added successfully!');
+    dispatch(createEventPost(newPost)).unwrap()
+      .then(() => {
+        toast.success('Event Post added successfully!');
+        setIsModalOpen(false);
+        resetForm();
+        dispatch(getHeroBanners());
+      })
+      .catch((error) => {
+        toast.error(error || 'Failed to add Event Post.');
+      })
+      .finally(() => setIsLoading(false));
   };
 
   // updating
-  const handleUpdatePost = () => {
+  const handleUpdatePost = async () => {
     if (!formData.title.trim()) {
       toast.error('Title is required.');
       return;
@@ -101,28 +118,36 @@ const UpcomingEvents = () => {
 
     // Validate image (if present)
     const validImageTypes = ['image/jpeg', 'image/png'];
-    if (formData.image && !validImageTypes.includes(formData.image.type)) {
+    if (formData.image && formData.image instanceof File && !validImageTypes.includes(formData.image.type)) {
       toast.error('Only valid image files (JPEG, PNG) are allowed.');
       return;
     }
 
-    // Create updated post object
-    const updatedPost = {
-      id: formData.id,
-      title: formData.title,
-      description: formData.description,
-      location: formData.location,
-      date: formData.date,
-      time: formData.time,
-      image: formData.image
-        ? URL.createObjectURL(formData.image)
-        : currentPost.image,
-    };
-    console.log(updatedPost);
+    // Prepare FormData
+    const updatedPost = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value) {
+        updatedPost.append(key, value);
+      }
+    });
 
-    dispatch(updatePost(updatedPost));
-    toast.success('Event updated successfully!');
+    try {
+      setIsLoading(true); // Start loading
+
+      await dispatch(updateEventPost({ id: currentPost._id, updatedPost })).unwrap();
+
+      resetForm();
+      setIsModalOpen(false);
+      toast.success('Event updated successfully.');
+      dispatch(fetchEvents());
+    } catch (error) {
+      console.error('Update error:', error);
+      toast.error(error.response?.data?.message || 'Failed to update event.');
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
   };
+
 
   const handleDeletePost = (id) => {
     const confirmDelete = window.confirm(
@@ -131,7 +156,7 @@ const UpcomingEvents = () => {
 
     if (confirmDelete) {
       setIsLoading(true);
-      dispatch(deletePost(id));
+      dispatch(removeEvent(id));
     }
   };
   const handleRemoveImage = () => {
@@ -504,30 +529,29 @@ const UpcomingEvents = () => {
 
       {/* rendering all posts  */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
-        {posts && posts.length > 0 ? (
-          posts.map((post, index) => {
+        {events && events.length > 0 ? (
+          events.map((post, index) => {
             // Handle image source correctly
             const imageUrl =
               post.image instanceof File
                 ? URL.createObjectURL(post.image)
                 : post.image &&
-                    typeof post.image === 'string' &&
-                    post.image.startsWith('http')
+                  typeof post.image === 'string' &&
+                  post.image.startsWith('http')
                   ? post.image
                   : null;
             const formattedDateTime =
               post && post.date && post.time
                 ? formatDateAndTime(
-                    new Date(post.date).toLocaleDateString('en-US'), // Convert to US format for parsing
-                    post.time,
-                  )
+                  new Date(post.date).toLocaleDateString('en-US'), // Convert to US format for parsing
+                  post.time,
+                )
                 : 'N/A';
             return (
               <div
                 key={post.id || post._id || index}
                 className="border p-4 rounded w-[90%]  md:w-[80%]  hover:shadow-lg flex flex-col items-center"
               >
-                {console.log(post)}
                 {/* Image Rendering */}
                 {post.image ? (
                   <img

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const upcomingEventsSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String },
-  images: { type: [String], default: [] },
+  image: { type: String, default: "" },
   date: { type: Date, default: Date.now },
   location: { type: String },
   time: { type: String },

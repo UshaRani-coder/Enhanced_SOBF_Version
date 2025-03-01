@@ -5,6 +5,64 @@ const upcomingEvents = require('../models/upcoming-events.model');
 // Helper Function: Validate ID format
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
+
+
+// CREATE POST
+const createEventPost = async (req, res) => {
+  try {
+    const { title, description, date, location, time } = req.body;
+    if (!title || title.trim().length < 3) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title must be a string with at least 3 characters',
+      });
+    }
+
+    if (!description || description.trim().length < 5) {
+      return res.status(400).json({
+        success: false,
+        message: 'Description must be a string with at least 5 characters',
+      });
+    }
+
+
+    // Validate image (if applicable)
+    if (req?.file?.filename === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: 'Image is required ',
+      });
+    }
+
+  
+    const filename = req.file.filename;
+
+
+    // Save post to database
+    const post = new upcomingEvents({
+      title,
+      description,
+      date,
+      location,
+      image: filename || '',
+      time
+    });
+    await post.save();
+    res
+      .status(201)
+      .json({ success: true, message: 'Upcoming events Post created successfully', post });
+  } catch (error) {
+    logger.error("Something went wrong while creating post'.", error)
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: 'Something went wrong while creating  upcoming events post',
+        error
+      });
+  }
+};
+
 // GET ALL POSTS
 const getEventPosts = async (req, res) => {
   try {
@@ -14,23 +72,21 @@ const getEventPosts = async (req, res) => {
         path: "registeredUsers",
         select: "username email",
       });
-    const baseURL = process.env.BASE_URL;
+    console.log("posts", posts);
 
+    const baseURL = process.env.BASE_URL;
     if (posts.length > 0) {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
-        if (post.images && Array.isArray(post.images)) {
-          post.images = post.images.map((image) =>
-            image ? `${baseURL}/uploads/upcoming-events/${image}` : image,
-          );
-        }
+        post.image =
+          process.env.BASE_URL + '/uploads/upcoming-events/' + post.image;
       }
     }
-    res.status(200).json({
-      success: true,
-      message: 'Successfully fetched all upcoming events posts',
-      posts,
-    });
+      res.status(200).json({
+        success: true,
+        message: 'Successfully fetched all upcoming events posts',
+        posts,
+      });
   } catch (error) {
     logger.error("Something went wrong while fetching upcoming events posts.")
     res.status(500).json({
@@ -39,6 +95,7 @@ const getEventPosts = async (req, res) => {
     });
   }
 };
+
 
 
 //! GET SPECIFIC POST BY ID
@@ -78,56 +135,6 @@ const getEventPostById = async (req, res) => {
 };
 
 
-// CREATE POST
-const createEventPost = async (req, res) => {
-  try {
-    let imageArr = [];
-    const { title, small_description, description, date, location } = req.body;
-    if (!title || title.trim().length < 3) {
-      return res.status(400).json({
-        success: false,
-        message: 'Title must be a string with at least 3 characters',
-      });
-    }
-
-    if (!description || description.trim().length < 5) {
-      return res.status(400).json({
-        success: false,
-        message: 'Description must be a string with at least 5 characters',
-      });
-    }
-    // for images
-    const images = req.files.images || [];
-    if (images.length > 0) {
-      for (let index = 0; index < images.length; index++) {
-        const image = images[index];
-        imageArr.push(image.filename);
-      }
-    }
-
-    // Save post to database
-    const post = new upcomingEvents({
-      title,
-      small_description,
-      description,
-      date,
-      location,
-      images: imageArr
-    });
-    await post.save();
-    res
-      .status(201)
-      .json({ success: true, message: 'Upcoming events Post created successfully', post });
-  } catch (error) {
-    logger.error("Something went wrong while creating post'.")
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while creating  upcoming events post'
-      });
-  }
-};
 
 // UPDATE POST BASED ON ID
 const updateEventPost = async (req, res) => {
