@@ -1,10 +1,14 @@
-
-import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
 import { FaSearch, FaFilter } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { RxCross1 } from "react-icons/rx";
+import { getEventsUsersFromDB } from '../Reducers/eventuserSlice';
 
 const RegisteredUsers = () => {
+  const dispatch = useDispatch();
+  const { eventUser } = useSelector((state) => state.eventUser);
+
   const [search, setSearch] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState('');
@@ -64,13 +68,17 @@ const RegisteredUsers = () => {
     },
   ]);
 
+  useEffect(() => {
+    dispatch(getEventsUsersFromDB());
+  }, [dispatch]);
+
   // Get unique event names for dropdown
-  const eventOptions = [...new Set(users.map((user) => user.event))];
+  const eventOptions = [...new Set(eventUser.map((user) => user?.registeredEvents[0]?.title))];
 
   // Filter logic
-  const filteredUsers = users.filter((user) => {
+  const filteredUsers = eventUser.filter((user) => {
     const matchesSearch =
-      user.name.toLowerCase().includes(search.toLowerCase()) ||
+      user.username.toLowerCase().includes(search.toLowerCase()) ||
       user.email.toLowerCase().includes(search.toLowerCase());
     const matchesEvent = selectedEvent ? user.event === selectedEvent : true;
     const matchesDate =
@@ -128,62 +136,62 @@ const RegisteredUsers = () => {
 
           {/* Filter Dropdown */}
           {showFilterDropdown && (
-            
+
             <div className="fixed rounded-lg right-5 md:right-10 mt-2 bg-gray-200 text-gray-800 border-gray-300 shadow-lg  p-4 w-64 z-50">
-  
-  <button
-    className="absolute top-[-8px] left-[-8px] p-1 border rounded-full bg-black opacity-50 "
-    onClick={() => setShowFilterDropdown(false)}
-  >
-    <RxCross1 className='text-white' size={10} />
-  </button>
 
-  {/* Event Filter */}
-  <label className="block text-gray-700  text-sm mb-1">Filter by Event:</label>
-  <select
-    className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3 cursor-pointer"
-    value={selectedEvent}
-    onChange={(e) => setSelectedEvent(e.target.value)}
-  >
-    <option value="">All Events</option>
-    {eventOptions.map((event) => (
-      <option key={event} value={event}>
-        {event}
-      </option>
-    ))}
-  </select>
+              <button
+                className="absolute top-[-8px] left-[-8px] p-1 border rounded-full bg-black opacity-50 "
+                onClick={() => setShowFilterDropdown(false)}
+              >
+                <RxCross1 className='text-white' size={10} />
+              </button>
 
-  {/* Date Range Filter */}
-  <label className="block text-gray-700 text-sm mb-1">Start Date:</label>
-  <input
-    type="date"
-    className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
-    value={startDate}
-    onChange={(e) => setStartDate(e.target.value)}
-  />
+              {/* Event Filter */}
+              <label className="block text-gray-700  text-sm mb-1">Filter by Event:</label>
+              <select
+                className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3 cursor-pointer"
+                value={selectedEvent}
+                onChange={(e) => setSelectedEvent(e.target.value)}
+              >
+                <option value="">All Events</option>
+                {eventOptions.map((event) => (
+                  <option key={event} value={event}>
+                    {event}
+                  </option>
+                ))}
+              </select>
 
-  <label className="block text-gray-700 text-sm mb-1">End Date:</label>
-  <input
-    type="date"
-    className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
-    value={endDate}
-    onChange={(e) => setEndDate(e.target.value)}
-  />
+              {/* Date Range Filter */}
+              <label className="block text-gray-700 text-sm mb-1">Start Date:</label>
+              <input
+                type="date"
+                className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
 
-  {/* Reset Filters Button */}
-  <button
-    className="w-full bg-red-500 text-white px-4 py-2 rounded-lg mt-2 hover:bg-red-600 transition"
-    onClick={() => {
-      setSearch('');
-      setSelectedEvent('');
-      setStartDate('');
-      setEndDate('');
-      setShowFilterDropdown(false); // Close modal after reset
-    }}
-  >
-    Reset Filters
-  </button>
-</div>
+              <label className="block text-gray-700 text-sm mb-1">End Date:</label>
+              <input
+                type="date"
+                className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+
+              {/* Reset Filters Button */}
+              <button
+                className="w-full bg-red-500 text-white px-4 py-2 rounded-lg mt-2 hover:bg-red-600 transition"
+                onClick={() => {
+                  setSearch('');
+                  setSelectedEvent('');
+                  setStartDate('');
+                  setEndDate('');
+                  setShowFilterDropdown(false); // Close modal after reset
+                }}
+              >
+                Reset Filters
+              </button>
+            </div>
 
           )}
         </div>
@@ -191,46 +199,43 @@ const RegisteredUsers = () => {
 
       {/* Card View for Small Screens */}
       <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 ">
-  {filteredUsers.length > 0 ? (
-    filteredUsers.map((user) => (
-      <div
-        key={user.id}
-        className="bg-white p-4 shadow rounded-lg border space-y-1 hover:shadow-lg overflow-hidden"
-      >
-        <input
-          type="checkbox"
-          checked={selectedUsers.includes(user.id)}
-          onChange={() => toggleSelectUser(user.id)}
-          className="mr-2 cursor-pointer"
-        />
-        
-      
-        <h2 className="font-semibold text-lg break-words">{user.name}</h2>
-        
-        <p className="text-gray-600 break-words">{user.email}</p>
-
-       
-        <p className="text-gray-700 text-sm break-words">
-          <strong>Event :</strong> {user.event}
-        </p>
-
-       
-        <p className="text-sm text-gray-700">
-          <strong>Registered Date :</strong> {user.date}
-        </p>
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => (
+            <div
+              key={user._id}
+              className="bg-white p-4 shadow rounded-lg border space-y-1 hover:shadow-lg overflow-hidden"
+            >
+              <input
+                type="checkbox"
+                checked={selectedUsers.includes(user._id)}
+                onChange={() => toggleSelectUser(user._id)}
+                className="mr-2 cursor-pointer"
+              />
+              <h2 className="font-semibold text-lg break-words">{user.username}</h2>
+              <p className="text-gray-600 break-words">{user.email}</p>
+              <p className="text-gray-700 text-sm break-words">
+                <strong>Event :</strong> {user?.registeredEvents[0]?.title}
+              </p>
+              <p className="text-sm text-gray-700">
+                <strong>Registered Date :</strong>  {new Date(user.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p className="col-span-full text-center text-gray-500">
+            No registered users found.
+          </p>
+        )}
       </div>
-    ))
-  ) : (
-    <p className="col-span-full text-center text-gray-500">
-      No registered users found.
-    </p>
-  )}
-</div>
 
 
       {/* Table View */}
       <div className="hidden lg:block overflow-x-auto rounded-lg">
-        <table className="w-full min-w-[700px] bg-white shadow-md rounded-lg border-collapse rounded-lg">
+        <table className="w-full min-w-[700px] bg-white shadow-md rounded-lg border-collapse">
           <thead>
             <tr className="bg-gray-200  text-md">
               <th className="px-4 py-3 text-left font-medium">Select</th>
@@ -241,9 +246,9 @@ const RegisteredUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.length > 0 ? (
-              filteredUsers.map((user) => (
-                <tr key={user.id} className="border-b text-sm">
+            {filteredUsers?.length > 0 ? (
+              filteredUsers?.map((user) => (
+                <tr key={user._id} className="border-b text-sm">
                   <td className="px-4 py-2">
                     <input
                       type="checkbox"
@@ -252,10 +257,14 @@ const RegisteredUsers = () => {
                       className="cursor-pointer"
                     />
                   </td>
-                  <td className="px-4 py-2">{user.name}</td>
+                  <td className="px-4 py-2">{user.username}</td>
                   <td className="px-4 py-2">{user.email}</td>
-                  <td className="px-4 py-2">{user.event}</td>
-                  <td className="px-4 py-2">{user.date}</td>
+                  <td className="px-4 py-2">{user?.registeredEvents[0]?.title}</td>
+                  <td className="px-4 py-2"> {new Date(user.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}</td>
                 </tr>
               ))
             ) : (

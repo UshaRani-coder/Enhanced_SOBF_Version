@@ -1,6 +1,8 @@
 const { default: mongoose } = require('mongoose');
 const logger = require('../logger');
 const upcomingEvents = require('../models/upcoming-events.model');
+const fs = require('fs'); // Needed to remove old images if necessary
+
 
 // Helper Function: Validate ID format
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
@@ -24,8 +26,6 @@ const createEventPost = async (req, res) => {
         message: 'Description must be a string with at least 5 characters',
       });
     }
-
-
     // Validate image (if applicable)
     if (req?.file?.filename === undefined) {
       return res.status(400).json({
@@ -34,10 +34,7 @@ const createEventPost = async (req, res) => {
       });
     }
 
-  
     const filename = req.file.filename;
-
-
     // Save post to database
     const post = new upcomingEvents({
       title,
@@ -72,8 +69,6 @@ const getEventPosts = async (req, res) => {
         path: "registeredUsers",
         select: "username email",
       });
-    console.log("posts", posts);
-
     const baseURL = process.env.BASE_URL;
     if (posts.length > 0) {
       for (let index = 0; index < posts.length; index++) {
@@ -82,11 +77,11 @@ const getEventPosts = async (req, res) => {
           process.env.BASE_URL + '/uploads/upcoming-events/' + post.image;
       }
     }
-      res.status(200).json({
-        success: true,
-        message: 'Successfully fetched all upcoming events posts',
-        posts,
-      });
+    res.status(200).json({
+      success: true,
+      message: 'Successfully fetched all upcoming events posts',
+      posts,
+    });
   } catch (error) {
     logger.error("Something went wrong while fetching upcoming events posts.")
     res.status(500).json({
@@ -140,7 +135,6 @@ const getEventPostById = async (req, res) => {
 const updateEventPost = async (req, res) => {
   try {
     const { id } = req.params;
-
     // Validate ID format
     if (!isValidObjectId(id)) {
       return res.status(400).json({ success: false, message: 'Invalid post ID' });
@@ -149,69 +143,45 @@ const updateEventPost = async (req, res) => {
     // Fetch the existing post
     const existingPost = await upcomingEvents.findById(id);
     if (!existingPost) {
-      return res.status(404).json({ success: false, message: 'Upcoming events Post not found' });
+      return res.status(404).json({ success: false, message: 'Upcoming event post not found' });
     }
+    
+    console.log("existingPost", existingPost); 
+    
 
-    const { title, description, date } = req.body;
+    // Destructure request body
+    const { title, description, date, time, location } = req.body;
+    const image = req.file ? req.file.filename : existingPost.image;
 
-    // Validate fields
-    if (title && (typeof title !== 'string' || title.trim().length < 3)) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Title must be a string with at least 3 characters' });
-    }
-
-    if (
-      description &&
-      (typeof description !== 'string' || description.trim().length < 5)
-    ) {
-      return res
-        .status(400)
-        .json({
-          success: false, message: 'Description must be a string with at least 5 characters',
-        });
-    }
-
-    // Initialize updated data with existing values
+    // Prepare updated data
     const updates = {
       title: title || existingPost.title,
-      title: title || existingPost.small_description,
       description: description || existingPost.description,
-      images: existingPost.images,
+      image,
       date: date || existingPost.date,
-      location: title || existingPost.location,
+      location: location || existingPost.location, 
+      time: time || existingPost.time
     };
 
-    // Handle updated images if provided
-    const images = req.files?.images || [];
-    if (images.length > 0) {
-      const updatedImages = [];
-      for (let index = 0; index < images.length; index++) {
-        updatedImages.push(images[index].filename);
-      }
-      updates.images = updatedImages;
-    }
     // Update the post
-    const updatedPost = await upcomingEvents.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
-    if (!updatedPost) {
-      return res.status(404).json({ success: false, message: 'Upcoming-events Post not found' });
-    }
+    const updatedPost = await upcomingEvents.findByIdAndUpdate(id, updates, { new: true });
+
+    updatedPost.image = process.env.BASE_URL + '/uploads/upcoming-events/' + updatedPost.image;
 
     res.status(200).json({
       success: true,
-      message: 'Upcoming-events Post updated successfully',
+      message: 'Upcoming-events post updated successfully',
       updatedPost,
     });
   } catch (error) {
-    logger.error("Something went wrong while updating the post.")
+    console.error("Error updating post:", error);
     res.status(500).json({
       success: false,
       message: 'Something went wrong while updating the post'
     });
   }
 };
+
 
 // DELETE POST BASED ON ID
 const deleteEventPost = async (req, res) => {

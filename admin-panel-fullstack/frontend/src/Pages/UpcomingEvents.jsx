@@ -35,7 +35,6 @@ const UpcomingEvents = () => {
       dispatch(fetchEvents());
     }
   }, [status, dispatch]);
-  console.log("events", events);
 
 
   const validateForm = () => {
@@ -70,34 +69,24 @@ const UpcomingEvents = () => {
       toast.error('Only valid image files (JPEG, PNG, JPG) are allowed.');
       return false;
     }
-
-    return true; // Add this to ensure the function returns true if everything is valid
+    return true;
   };
 
   const handleAddPost = async () => {
     if (!validateForm()) return;
-    let imageURL = null;
-    if (formData.image) {
-      // Convert File to URL for preview (temporary, resets on page reload)
-      imageURL = URL.createObjectURL(formData.image);
-    }
-
-    const newPost = {
-      id: Date.now(), // Generate a unique ID
-      title: formData.title,
-      description: formData.description,
-      location: formData.location,
-      date: formData.date,
-      time: formData.time,
-      image: imageURL, // Store only URL, not File object
-    };
-
+    const newPost = new FormData();
+    newPost.append('image', formData.image);
+    newPost.append('title', formData.title);
+    newPost.append('description', formData.description);
+    newPost.append('location', formData.location);
+    newPost.append('date', formData.date);
+    newPost.append('time', formData.time);
     dispatch(createEventPost(newPost)).unwrap()
       .then(() => {
         toast.success('Event Post added successfully!');
         setIsModalOpen(false);
         resetForm();
-        dispatch(getHeroBanners());
+        dispatch(fetchEvents());
       })
       .catch((error) => {
         toast.error(error || 'Failed to add Event Post.');
@@ -106,46 +95,46 @@ const UpcomingEvents = () => {
   };
 
   // updating
-  const handleUpdatePost = async () => {
+  const handleUpdatePost = () => {
     if (!formData.title.trim()) {
-      toast.error('Title is required.');
-      return;
+      toast.error("Title is required it can't be empty.");
+      return false;
     }
     if (!formData.description.trim()) {
       toast.error('Description is required.');
+      return false;
+    }
+    // Validate images
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (formData?.image && !validImageTypes.includes(formData?.image.type)) {
+      toast.error('Only valid image files (JPEG, PNG, JPG) are allowed.');
       return;
     }
-
-    // Validate image (if present)
-    const validImageTypes = ['image/jpeg', 'image/png'];
-    if (formData.image && formData.image instanceof File && !validImageTypes.includes(formData.image.type)) {
-      toast.error('Only valid image files (JPEG, PNG) are allowed.');
-      return;
-    }
-
-    // Prepare FormData
+    // Create FormData for updating the post
     const updatedPost = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value) {
-        updatedPost.append(key, value);
-      }
-    });
+    updatedPost.append('title', formData.title);
+    updatedPost.append('description', formData.description);
+    updatedPost.append('location', formData.location);
+    updatedPost.append('date', formData.date);
+    updatedPost.append('time', formData.time);
 
-    try {
-      setIsLoading(true); // Start loading
+    // Handle Image Upload
+    if (formData.image) updatedPost.append('image', formData.image);
 
-      await dispatch(updateEventPost({ id: currentPost._id, updatedPost })).unwrap();
-
-      resetForm();
-      setIsModalOpen(false);
-      toast.success('Event updated successfully.');
-      dispatch(fetchEvents());
-    } catch (error) {
-      console.error('Update error:', error);
-      toast.error(error.response?.data?.message || 'Failed to update event.');
-    } finally {
-      setIsLoading(false); // Stop loading
-    }
+    setIsLoading(true);
+    dispatch(updateEventPost({ id: currentPost._id, updatedData: updatedPost }))
+      .unwrap()
+      .then(() => {
+        toast.success('Event updated successfully!');
+        setIsModalOpen(false);
+        resetForm();
+        dispatch(fetchEvents());
+      })
+      .catch((error) => {
+        console.error('Update Error:', error);
+        toast.error(error?.message || 'Failed to update our Event Post');
+      })
+      .finally(() => setIsLoading(false)); // End loading
   };
 
 
@@ -185,11 +174,9 @@ const UpcomingEvents = () => {
   };
   const handleFileChange = (e) => {
     const { name, files } = e.target; // `files` is an array-like object
-    setFormData((prev) => ({
-      ...prev,
-      [name]: files[0] || null, // Store only the first selected file
-    }));
+    setFormData((prev) => ({ ...prev, [name]: files[0] || null }))
   };
+
   const resetForm = () => {
     setFormData({
       title: '',
@@ -208,48 +195,13 @@ const UpcomingEvents = () => {
     setFormData({
       title: post?.title || '',
       description: post?.description || '',
-      images: null,
+      image: null,
       date: post?.date || null,
       time: post?.time || null,
       location: post?.location || '',
     });
   };
-  const getCurrentLocation = async () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your Google API Key
-          const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=<span class="math-inline">\{latitude\},</span>{longitude}&key=${apiKey}`;
 
-          try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-
-            if (data.status === 'OK' && data.results.length > 0) {
-              const locationDetails = data.results[0].formatted_address;
-              setFormData((prev) => ({
-                ...prev,
-                location: locationDetails,
-              }));
-            } else {
-              alert('Unable to fetch location details.');
-            }
-          } catch (error) {
-            console.error('Error fetching location details:', error);
-            alert('Failed to get location details. Try again later.');
-          }
-        },
-        (error) => {
-          console.error('Error getting location:', error);
-          alert('Failed to get location. Please enable location services.');
-        },
-        { enableHighAccuracy: true },
-      );
-    } else {
-      alert('Geolocation is not supported by your browser.');
-    }
-  };
   function formatDateAndTime(dateString, timeString) {
     // Parse date
     const [month, day, year] = dateString.split('/').map(Number);
@@ -296,66 +248,6 @@ const UpcomingEvents = () => {
         </button>
       </div>
 
-      {/* {expandedItem && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-[90%] md:w-[70%] lg:w-[50%] max-h-[90vh] overflow-y-auto scrollbar-none">
-            
-            <div className="flex justify-between items-center gap-x-[20px] mb-4">
-              <h2 className="text-xl font-bold">{expandedItem?.title}</h2>
-              <button onClick={closeExpandedModal}>
-                <MdClose className="text-2xl text-gray-600" />
-              </button>
-            </div>
-           
-            <p
-              className="mb-2"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(expandedItem?.description).replace(
-                  /<a /g,
-                  '<a style="color: #4a90e2; " ',
-                ),
-              }}
-            ></p>
-            
-            <p className="text-gray-700 my-2 flex items-center gap-x-[5px]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                className="w-[12px] h-[12px] text-gray-600"
-              >
-                <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
-              </svg>
-              {expandedItem?.date
-                ? new Date(expandedItem?.date).toLocaleDateString()
-                : 'Date not available'}
-              {expandedItem?.time}
-            </p>
-         
-            <p className="text-gray-700 my-2 flex items-center gap-x-[5px]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 384 512"
-                className="w-[12px] h-[12px] text-red-600"
-              >
-                <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
-              </svg>
-              {expandedItem?.location}
-            </p>
-            
-            {expandedItem?.image ? (
-              <img
-                key={index}
-                src={image}
-                alt={`Event Image ${index + 1}`}
-                className="w-full  object-cover rounded mb-[20px]"
-              />
-            ) : (
-              'Image not available'
-            )}
-          </div>
-        </div>
-      )} */}
-
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 max-h-[90vh] overflow-y-auto scrollbar-none">
@@ -368,7 +260,7 @@ const UpcomingEvents = () => {
                 <input
                   type="text"
                   name="title"
-                  value={formData.title}
+                  value={formData?.title}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                   placeholder="Enter the title of the Event"
@@ -378,14 +270,14 @@ const UpcomingEvents = () => {
                 <style>
                   {`.ql-container {
       
-                       padding: 8px;
-                       min-height: 100px;
+                      padding: 8px;
+                      min-height: 100px;
                     }
 
                     .ql-editor {
                       font-size: 1rem;  /* Same as input fields (16px) */
                       font-weight: normal;
-                     
+                    
                       line-height: 1.5;
                       letter-spacing:0.5px;
                       padding: 10px; /* Ensure consistent padding */
@@ -396,13 +288,11 @@ const UpcomingEvents = () => {
                       background-color: #f9fafb; /* Light gray */
                     }
                     .ql-editor.ql-blank::before {
-                     font-style: normal !important;
-                                   }
-                                `}
+                    font-style: normal !important;}`}
                 </style>
                 <label className="block font-semibold mb-2">Description</label>
                 <ReactQuill
-                  value={formData.description || ''}
+                  value={formData?.description || ''}
                   ref={quillRef}
                   onChange={(value) =>
                     handleInputChange({ name: 'description', value })
@@ -411,13 +301,12 @@ const UpcomingEvents = () => {
                   placeholder="Enter the description of the Event"
                 />
               </div>
-              {/* {isUpdateMode ? null : ( */}
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Date</label>
                 <input
                   type="date"
                   name="date"
-                  value={formData.date}
+                  value={formData?.date}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                 />
@@ -429,7 +318,7 @@ const UpcomingEvents = () => {
                 <input
                   type="time"
                   name="time"
-                  value={formData.time}
+                  value={formData?.time}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                 />
@@ -440,18 +329,11 @@ const UpcomingEvents = () => {
                 <input
                   type="text"
                   name="location"
-                  value={formData.location}
+                  value={formData?.location}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded "
                   placeholder="Enter event location"
                 />
-                {/* <button
-                  type="button"
-                  className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold"
-                  onClick={getCurrentLocation}
-                >
-                  Use My Current Location
-                </button> */}
               </div>
 
               <div className="mb-4">
@@ -529,27 +411,18 @@ const UpcomingEvents = () => {
 
       {/* rendering all posts  */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
-        {events && events.length > 0 ? (
-          events.map((post, index) => {
-            // Handle image source correctly
-            const imageUrl =
-              post.image instanceof File
-                ? URL.createObjectURL(post.image)
-                : post.image &&
-                  typeof post.image === 'string' &&
-                  post.image.startsWith('http')
-                  ? post.image
-                  : null;
+        {events && events?.length > 0 ? (
+          events?.map((post) => {
             const formattedDateTime =
               post && post.date && post.time
                 ? formatDateAndTime(
-                  new Date(post.date).toLocaleDateString('en-US'), // Convert to US format for parsing
+                  new Date(post.date).toLocaleDateString('en-US'),
                   post.time,
                 )
                 : 'N/A';
             return (
               <div
-                key={post.id || post._id || index}
+                key={post._id}
                 className="border p-4 rounded w-[90%]  md:w-[80%]  hover:shadow-lg flex flex-col items-center"
               >
                 {/* Image Rendering */}

@@ -25,11 +25,7 @@ export const createEventPost = createAsyncThunk(
   async (eventData, { rejectWithValue }) => {
     try {
       const response = await createEvent(eventData);
-      if (response?.data?.event) {
-        return response.data.event;
-      } else {
-        throw new Error("Invalid response format from API");
-      }
+      return response?.data?.event;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || error.message || 'Failed to create event'
@@ -40,22 +36,22 @@ export const createEventPost = createAsyncThunk(
 
 // Update Event
 export const updateEventPost = createAsyncThunk(
-  'events/editEvent',
+  'events/updateEvent',
   async ({ id, updatedData }, { rejectWithValue }) => {
     try {
       const response = await updateEvent(id, updatedData);
-      if (response?.data?.updatedEvent) {
-        return response.data.updatedEvent;
-      } else {
-        throw new Error("No updated event returned from API");
-      }
+      return response?.data;  // Ensure response contains the updated event
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || error.message || 'Failed to update event'
+        error.response?.data?.message || 'Failed to update event'
       );
     }
   }
 );
+
+// Reducer
+
+
 
 // Remove Event
 export const removeEvent = createAsyncThunk(
@@ -100,19 +96,15 @@ const upcomingEventsSlice = createSlice({
       .addCase(createEventPost.rejected, (state, action) => {
         state.error = action.payload;
       })
-      // Update Event
       .addCase(updateEventPost.fulfilled, (state, action) => {
         if (action.payload) {
           const index = state.events.findIndex(
-            (event) => event._id === action.payload._id
+            (event) => event._id === action.payload._id // Ensure correct path
           );
           if (index !== -1) {
-            state.events[index] = action.payload;
+            state.events[index] = { ...state.events[index], ...action.payload };
           }
         }
-      })
-      .addCase(updateEventPost.rejected, (state, action) => {
-        state.error = action.payload;
       })
       // Remove Event
       .addCase(removeEvent.fulfilled, (state, action) => {

@@ -103,3 +103,6 @@ export const updateEvent = (id, updatedPost) =>
   apiClient.put(`/api/post/update-upcoming-events/${id}`, updatedPost);
 export const deleteEvent = (id) =>
   apiClient.delete(`/api/post/delete-upcoming-events/${id}`);
+
+// events user 
+export const getEventUsers = () => apiClient.get('/api/post/users-with-events');
