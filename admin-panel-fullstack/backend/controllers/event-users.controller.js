@@ -12,7 +12,6 @@ const registerUserForEvent = async (req, res) => {
   try {
     let { userId, username, email } = req.body;
     const { eventId } = req.params;
-
     // Validate event ID
     if (!isValidObjectId(eventId)) {
       return res.status(400).json({ success: false, message: "Invalid event ID" });
@@ -167,9 +166,9 @@ const getUsersWithRegisteredEvents = async (req, res) => {
     // Find all users and populate their registered events with full details
     const users = await EventUser.find().populate({
       path: "registeredEvents",
-      model: "upcomingEvents", // Ensure this matches your event model name
+      model: "upcomingEvents", 
     });
-
+    // const users = await EventUser.find().populate({ path:"registeredUsers"})
     res.status(200).json({
       success: true,
       message: "Users with their registered events retrieved successfully",

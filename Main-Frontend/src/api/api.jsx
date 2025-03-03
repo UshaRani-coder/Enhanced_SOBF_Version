@@ -14,3 +14,5 @@ export const getLegalDocs = () => api.get('/api/post/get-legal-doc'); // ? 6  Le
 export const getTeam = () => api.get('/api/post/get-team'); // ? 7 Our Teams Endpoints
 export const getGallery = () => api.get('/api/post/get-gallery-image'); // ? 8 Our Gallery Endpoints
 export const getOurServices = () => api.get('/api/post/get-services'); // ? 9 Our Services Endpoints
+
+export const getEvents = () => api.get('/api/post/get-upcoming-events');
