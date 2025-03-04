@@ -127,15 +127,20 @@ const Services = () => {
                 key={item._id}
                 data-aos="fade-up"
                 data-aos-delay={`${index * 100}`}
-                data-bg={item.images[0]}
-                onMouseOver={() => {
-                  setHoveredService(item._id);
-                }}
-                onMouseLeave={() => setHoveredService(null)}
+                // data-bg={item.images[0]}
+                // onMouseOver={() => {
+                //   setHoveredService(item._id);
+                // }}
+                // onMouseLeave={() => setHoveredService(null)}
                 className={`service rounded-tl-[50px] rounded-br-[50px] cursor-pointer mx-2 w-[90%] small-max:w-[85%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center`}
                 style={{
-                  backgroundColor: item.color,
+                  backgroundColor: item.color, // Set background color
+                  backgroundImage: `linear-gradient(rgba(45, 51, 93, 0.5), rgba(45, 51, 93, 0.5)), url(${item.images[0]})`, // Overlay color with transparency + image
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundBlendMode: "overlay" // Ensures color blends well with image
                 }}
+                
                 onClick={() => {
                   setService(item.title);
                   if (isHomePage) {
@@ -197,20 +202,20 @@ const Services = () => {
               ?.map((serviceData) => (
                 <div
                   key={serviceData.id || serviceData._id}
-                  className="flex flex-col items-center mx-[20px] lg:flex-row  justify-center w-[100%] lg:mx-0"
+                  className="flex flex-col items-center lg:items-stretch mx-[20px] lg:flex-row  justify-center w-[100%] lg:mx-0"
                 >
                   {' '}
-                  {/* Use serviceData.id if available, otherwise serviceData._id */}
-                  <div className="images-grid h-full w-[100%] md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
-                    <ImgBanner banners={serviceData.images} />
+                
+                  <div className="images-grid h-full min-h-full w-[100%] md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
+                    <ImgBanner banners={serviceData.images}/>
                   </div>
-                  <div className="flex flex-col items-center md:items-start w-[90%] lg:w-[60%] h-full">
+                  <div className="flex flex-col items-center md:items-start w-[90%] lg:w-[60%] h-full min-h-full">
                     <div className="flex flex-col md:mx-[30px]">
-                      <h1 className="text-center text-heading4 lg:text-[1.9rem] mt-[15px] md:text-left font-bold">
+                      <h1 className="text-center text-xl small-max:text-2xl lg:text-[1.9rem] mt-[15px] md:text-left font-bold">
                         {serviceData.title}
                       </h1>
                       <p
-                        className="text-gray-700  text-center text-[16px] lg:text-[18px] font-workSans xl:mt-0 pb-[30px] md:text-left lg:leading-[30px] mt-[10px]"
+                        className="text-gray-700  text-center text-[16px] lg:text-[18px] font-workSans  pb-[30px] md:text-left lg:leading-[30px] mt-[10px]"
                         dangerouslySetInnerHTML={{
                           __html: DOMPurify.sanitize(
                             serviceData?.description,

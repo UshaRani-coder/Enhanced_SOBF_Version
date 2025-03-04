@@ -138,7 +138,7 @@ const DonateHero = () => {
   }, [heroes_donate, currentIndex]);
 
   return (
-    <div className="relative overflow-hidden font-quicksand w-[100%] h-[50vh] md:h-[80vh] mt-[100px] lg:mt-[120px]">
+    <div className="relative overflow-hidden font-quicksand w-[100%] h-[50vh] md:h-[85vh]  xl:h-[80vh] mt-[100px] lg:mt-[120px]">
       <AnimatePresence mode="wait">
         <motion.div
           key={heroes_donate[currentIndex]?._id}
@@ -213,7 +213,7 @@ const DonateHero = () => {
           className="absolute top-10 md:inset-0 flex items-center justify-center z-10"
         >
           <motion.p
-            className="text-logoYellow text-center font-bold text-xl leading-[30px] md:leading-[50px] lg:leading-[80px] small-range:text-2xl md:text-3xl lg:text-5xl w-[90%] md:w-[60%]"
+            className="text-logoYellow text-center font-bold text-xl leading-[30px] md:leading-[50px] lg:leading-[80px] small-range:text-2xl md:text-4xl lg:text-5xl w-[90%] md:w-[60%]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}

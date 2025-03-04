@@ -49,7 +49,7 @@ const UpcomingEvents = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
+    // phone: '',
   });
   const [errors, setErrors] = useState({});
 
@@ -63,9 +63,9 @@ const UpcomingEvents = () => {
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!/^\S+@\S+\.\S+$/.test(formData.email))
       newErrors.email = 'Invalid email format';
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    if (!/^\d{10}$/.test(formData.phone))
-      newErrors.phone = 'Invalid phone number';
+    // if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    // if (!/^\d{10}$/.test(formData.phone))
+    //   newErrors.phone = 'Invalid phone number';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -77,7 +77,7 @@ const UpcomingEvents = () => {
     toast.success('Your registration is successful!');
     setTimeout(() => {
       setShowForm(false);
-      setFormData({ name: '', email: '', phone: '' });
+      setFormData({ name: '', email: ''});
     }, 1000);
    
   };
@@ -274,6 +274,7 @@ const UpcomingEvents = () => {
                               <span className="hidden md:inline">|</span>
                               <span>{event.time}</span>
                             </p>
+                        
                           </div>
 
                           <div className="flex flex-row items-start w-1/2 lg:w-auto ">
@@ -289,12 +290,16 @@ const UpcomingEvents = () => {
                         <p className="text-gray-700 lg:text-lg">
                           {event.description}
                         </p>
-                        <button
+                      {event.date >= today ?  
+                      (<button
                           onClick={() => setShowForm(true)}
                           className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
                         >
                           Register Now
-                        </button>
+                        </button>)
+                        :
+                        null}
+                   
                       </div>
                     </div>
                   </div>
@@ -344,7 +349,7 @@ const UpcomingEvents = () => {
                 )}
               </div>
 
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label className="block font-medium mb-[5px]">
                   Phone Number
                 </label>
@@ -358,7 +363,7 @@ const UpcomingEvents = () => {
                 {errors.phone && (
                   <p className="text-red-500 text-sm">{errors.phone}</p>
                 )}
-              </div>
+              </div> */}
 
               <div className="flex justify-end gap-x-2 mt-4">
                 <button

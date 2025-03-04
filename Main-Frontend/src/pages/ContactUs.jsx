@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 // npm i @emailjs/browser
 
 const ContactUsPage = () => {
-  const location = useLocation;
+  const location = useLocation();
   // Reference for the form element
   const form = useRef();
 

@@ -6,7 +6,6 @@ import ReactQuill from 'react-quill';
 import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { MdAccessTimeFilled } from 'react-icons/md';
 import { createEventPost, fetchEvents, removeEvent, updateEventPost } from '../Reducers/upcomingEventsSlice';
 

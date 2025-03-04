@@ -16,14 +16,14 @@ import HealthCampImg2 from '../assets/Sobf Images/health_and_awareness_camp/hac4
 const Vision = () => {
   const location = useLocation();
   // Scroll to top when path changes
-  // useEffect(() => {
-  //   if (location.pathname === '/vision') {
-  //     window.scrollTo({
-  //       top: 0,
-  //       behavior: 'smooth', // Enables smooth scrolling
-  //     });
-  //   }
-  // }, [location.pathname]);
+  useEffect(() => {
+    if (location.pathname === '/vision') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth', // Enables smooth scrolling
+      });
+    }
+  }, [location.pathname]);
   return (
     <div className="pt-[100px]">
       <div
@@ -58,16 +58,17 @@ const Vision = () => {
               />
             </div>
           </div>
-          <div className="w-full md:w-[350px] lg:w-[200px] md:mt-4 mx-auto bg-white shadow-[8px_8px_15px_rgba(0,0,0,0.3)] rounded-lg p-2 ">
+          <div className="w-full md:w-[350px] lg:w-[200px] md:mt-4 mx-auto mt-4 bg-white shadow-[8px_8px_15px_rgba(0,0,0,0.3)] rounded-lg p-2 ">
             <img
               src={HealthCampImg}
               alt="Vision 2"
               className=" h-auto rounded-lg shadow-lg"
             />
           </div>
+         
         </div>
         <div className="w-[99%] lg:w-[50%] order-2 lg:order-none">
-          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mt-10 mb-2 text-logoYellow flex lg:justify-normal justify-center items-center lg:items-start">
+          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold  mb-2 text-logoYellow flex lg:justify-normal justify-center items-center lg:items-start">
             Our Vision
           </h1>
           <hr className="mt-1 border-light-lavender border-[1px]" />
@@ -86,7 +87,7 @@ const Vision = () => {
       {/* 2nd Card */}
       <div className="flex gap-4 lg:flex-row flex-col flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0 lg:mt-10">
         <div className="w-[99%] lg:w-[50%] order-2 lg:order-none">
-          <h1 className="text-heading3 lg:text-heading2 font-bold mt-10 mb-2  text-logo-blue flex lg:justify-normal  justify-center items-center lg:items-start">
+          <h1 className="text-heading3 lg:text-heading2 font-bold  mb-2  text-logo-blue flex lg:justify-normal  justify-center items-center lg:items-start">
             Our Mission
           </h1>
           <hr className="mt-1 border-light-lavender border-[1px]" />
@@ -153,7 +154,7 @@ const Vision = () => {
               />
             </div>
           </div>
-          <div className="w-full md:w-[350px] lg:w-[200px] md:mt-4  mx-auto bg-white shadow-[8px_8px_15px_rgba(0,0,0,0.3)] rounded-lg p-2 ">
+          <div className="w-full mt-4 md:w-[350px] lg:w-[200px] md:mt-4  mx-auto bg-white shadow-[8px_8px_15px_rgba(0,0,0,0.3)] rounded-lg p-2 ">
             <img
               src={childEduImg}
               alt="Objective 2"
@@ -162,7 +163,7 @@ const Vision = () => {
           </div>
         </div>
         <div className="w-[99%] lg:w-[50%] order-2 lg:order-none">
-          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mt-10 mb-2 text-logoYellow flex lg:justify-normal  justify-center items-center lg:items-start">
+          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold  mb-2 text-logoYellow flex lg:justify-normal  justify-center items-center lg:items-start">
             Our Objective
           </h1>
           <hr className="mt-1 border-light-lavender border-[1px]" />

@@ -4,14 +4,17 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getfeaturedVideo } from '../../Reducers/featuredVideoSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import loader from '../../assets/loader.webp';
+import { ArrowLeft } from 'lucide-react';
 
 const Video = () => {
   const dispatch = useDispatch();
   const { featuredVideo, status } = useSelector((state) => state.featuredVideo);
   const location = useLocation();
   const navigate = useNavigate();
-
   const [videosToShow, setVideosToShow] = useState(3);
+  
+
+  
 
   useEffect(() => {
     if (status === 'idle') {
@@ -47,7 +50,8 @@ const Video = () => {
 
   return (
     <div>
-      <div className="flex flex-col items-center">
+      
+      <div className="flex flex-col items-center" id="featured-videos">
         <h1
           className={`text-center text-[30px] md:text-heading3 lg:text-heading2 font-bold pt-8 text-[#2d335d] relative transition-all ease-in-out ${
             location.pathname === '/videos' ? 'mt-[120px]' : ''
@@ -104,7 +108,7 @@ const Video = () => {
               return (
                 <div
                   key={video?._id}
-                  className="border p-2 small-range:mx-2 md:mx-0 rounded w-full small-range:w-[90%] md:w-[42.5%] lg:w-[32%] hover:shadow-lg transition-shadow duration-300"
+                  className="border p-2 small-range:mx-2 md:mx-0 rounded w-[95%] small-range:w-[90%] md:w-[42.5%] lg:w-[32%] hover:shadow-lg transition-shadow duration-300"
                 >
                   {videoId ? (
                     <div className="relative group">
@@ -114,8 +118,8 @@ const Video = () => {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                         title="YouTube Video"
-                        className="w-full h-60 object-cover rounded transition-transform duration-300 group-hover:scale-105"
-                      ></iframe>
+                        className="w-full aspect-video object-cover rounded transition-transform duration-300 group-hover:scale-105"
+                      />
                     </div>
                   ) : (
                     <p className="text-red-500 text-center">

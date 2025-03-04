@@ -113,6 +113,7 @@
   z-index: 10;
   opacity: 0;
   animation: fadeInOut 3s infinite;
+  
 }
 
 .hero-donate::before {
@@ -127,6 +128,7 @@
   opacity: 0;
   animation: fadeInOut 3s infinite;
 }
+
 
 @keyframes textAnimation {
   0% {

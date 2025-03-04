@@ -177,7 +177,8 @@ const Popup = ({ onClose }) => {
   ];
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-[99999]">
-      <div className="relative w-[90%]  md:w-[60%] lg:w-[40%]  h-[75vh] md:h-[85vh] lg:h-[75vh] bg-[#FFFEFA] rounded-lg shadow-lg flex flex-col mt-[100px] md:mt-10 lg:mt-[120px]">
+      {/* <div className="relative w-[90%]  md:w-[60%] lg:w-[60%] xl:w-[40%]  h-[75vh] lg:h-[65vh] xl:h-[70vh]  bg-[#FFFEFA] rounded-lg shadow-lg flex flex-col mt-[100px] md:mt-[70px] lg:mt-0 xl:mt-[120px]"> */}
+      <div className="relative w-[90%] md:w-[60%] lg:w-[60%] xl:w-[40%] bg-[#FFFEFA] rounded-lg shadow-lg flex flex-col mt-[100px] md:mt-[70px] lg:mt-0 xl:mt-[120px] h-[75vh] lg:h-[65vh] xl:h-[70vh] safari:h-[80vh] firefox:h-[70vh] edge:h-[100vh]">
         {/* Close Button */}
         <button
           className="absolute top-[-10px] right-[-10px] text-white font-bold bg-red-500 hover:bg-red-700 rounded-full p-1"
@@ -187,22 +188,25 @@ const Popup = ({ onClose }) => {
         </button>
 
         {/* Images Section (Top Half) */}
-        <div className="flex w-full h-[60%] rounded-lg">
-          {popupImagesArray.map((item, index) => (
-            <div
-              key={index}
-              className="w-1/3 h-full   bg-center bg-no-repeat"
-              style={{
-                backgroundImage: `url(${item.img})`,
-                backgroundSize: '100% 100%',
-              }}
-            />
-          ))}
-        </div>
+        
+        <div className="flex w-full h-[60%] rounded-lg overflow-hidden">
+  {popupImagesArray.map((item, index) => (
+    <div
+      key={index}
+      className={`w-1/3 h-full bg-center bg-no-repeat ${
+        index === 0 ? "rounded-l-lg" : index === popupImagesArray.length - 1 ? "rounded-r-lg" : ""
+      }`}
+      style={{
+        backgroundImage: `url(${item.img})`,
+        backgroundSize: "100% 100%",
+      }}
+    />
+  ))}
+</div>
 
         {/* Description Section (Bottom Half) */}
         <div className="flex flex-col items-center justify-center  px-6 text-center">
-          <p className="text-lg font-bold md:text-2xl max-w-lg p-2 small-range:pt-4">
+          <p className="text-lg font-bold md:text-2xl max-w-lg p-2 small-range:pt-4 lg:pt-6">
             Your support honors sadhus, nurtures young minds, and protects the
             sacred Yamuna.
           </p>
@@ -210,7 +214,7 @@ const Popup = ({ onClose }) => {
           {/* Donate Button */}
           <Link to={'/donate-us'} onClick={onClose} className="m-2">
             <button
-              className="bg-gradient-to-r from-yellow-500 to-yellow-700 text-white p-2 px-4 md:px-4 md:py-3 rounded-full 
+              className="lg:mt-6 xl:mt-0 bg-gradient-to-r from-yellow-500 to-yellow-700 text-white p-2 px-4 md:px-4 md:py-3 rounded-full 
                      shadow-lg hover:shadow-yellow-500/50 transition-all duration-300 flex items-center gap-2 animate-bounce"
             >
               <svg

@@ -2,21 +2,39 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Leaf, Heart } from 'lucide-react';
-
+import { useLocation } from 'react-router-dom';
 export default function SidePopup() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showButton, setShowButton] = useState(false); // Initially hidden
-
+  const location = useLocation();
+  
   useEffect(() => {
     const handleScroll = () => {
-      setShowButton(window.scrollY > 100); // Show after scrolling 200px
+      let scrollThreshold = 500;
+      if (window.innerWidth >= 1280) {
+        scrollThreshold = 1200;
+      } else if (window.innerWidth >= 1024) {
+        scrollThreshold = 1000;
+      } else if (window.innerWidth >= 768) {
+        scrollThreshold = 700;
+      }
+  
+      // Show button when scrolled beyond threshold
+      setShowButton(window.scrollY > scrollThreshold);
     };
-
+  
+    // Always add the scroll listener
     window.addEventListener('scroll', handleScroll);
+    
+    // Show button immediately on non-home pages
+    if (location.pathname !== '/') {
+      setShowButton(true);
+    }
+  
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
+  }, [location.pathname]);
+  
   return (
     <div className="fixed bottom-[70px] md:bottom-[80px]  left-[10px] lg:left-[20px] flex flex-col items-center md:items-end z-50">
       {/* Floating Button with Side-to-Side Animation */}
@@ -100,17 +118,17 @@ export default function SidePopup() {
             <div className="mt-6 flex gap-2">
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="bg-green-600 text-white px-4 py-2 rounded-md shadow-md flex-1"
+                className="bg-green-600 text-white px-2 py-2 rounded-md shadow-md flex-1 text-[12px] small-max:text-[15px]"
                 onClick={() => navigate('/swachh-vrindavan')}
               >
-                Support Yamuna 🌿
+                Support Yamuna 
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="bg-orange text-white px-4 py-2 rounded-md shadow-md flex-1"
+                className="bg-orange text-white px-2 py-2 rounded-md shadow-md flex-1 text-[12px] small-max:text-[15px]"
                 onClick={() => navigate('/sadhu-seva')}
               >
-                Help Sadhus ❤️
+                Help Sadhus 
               </motion.button>
             </div>
           </motion.div>

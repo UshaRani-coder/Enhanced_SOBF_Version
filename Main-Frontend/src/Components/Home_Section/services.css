@@ -1,12 +1,12 @@
-.services .service {
+/* .services .service {
   position: relative;
   overflow: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   transition: all 2500s ease-in-out;
-}
-.services .service:hover::before {
+} */
+/* .services .service:hover::before {
   content: '';
   position: absolute;
   top: 0;
@@ -20,4 +20,4 @@
   filter: brightness(0.4);
   z-index: -1;
   transition: all 2500s ease-in-out;
-}
+} */

@@ -24,7 +24,7 @@ const Footer = () => {
     window.open('https://www.youtube.com/@sobf', '_blank');
 
   return (
-    <footer className="text-start text-slate-500 w-full">
+    <footer className="text-start text-slate-500 w-full z-[10] relative">
       {/* Main footer */}
       <div className="pt-16 text-sm border-t bg-[#101840] max-w-full justify-start font-poppins">
         <div className="container px-4 mx-auto">

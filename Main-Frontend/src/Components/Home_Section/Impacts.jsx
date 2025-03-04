@@ -50,7 +50,7 @@ const Statistics = () => {
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h2>
       )}
-      <div className="flex justify-center px-4 sm:px-6  mb-10">
+      <div className="flex justify-center px-4 sm:px-6  ">
         {status === 'loading' && <p>Impacts Loading...</p>}
         {status === 'failed' && <p className="text-red-500">{error}</p>}
         <div className="max-w-6xl w-full">

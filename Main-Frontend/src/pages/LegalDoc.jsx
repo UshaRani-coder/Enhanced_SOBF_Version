@@ -66,7 +66,7 @@ const LegalDoc = () => {
       className={`flex flex-col items-center mb-[30px] ${location.pathname === '/legal-doc' ? 'mt-[150px]' : 'mt-[30px]'}`}
     >
       <ToastContainer position="top-right" autoClose={3000} />
-      <h1 className="text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 text-[#2d335d]">
+      <h1 className="text-[27px] small-range:text-[30px] md:text-heading3 lg:text-heading2 font-bold mb-4 text-[#2d335d]">
         Our Legal Documents
         <hr className="mt-1 border hover:border-light-lavender hover:border-[1px]" />
       </h1>

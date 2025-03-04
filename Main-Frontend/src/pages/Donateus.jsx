@@ -14,14 +14,14 @@ import QRCode from '../assets/QRCode.png';
 const Donateus = () => {
   const [activeTab, setActiveTab] = useState('whydonate');
   const location = useLocation();
-  // useEffect(() => {
-  //     if (location.pathname === '/donate-us') {
-  //       window.scrollTo({
-  //         top: 0,
-  //         behavior: 'smooth',
-  //       });
-  //     }
-  //   }, [location.pathname]);
+  useEffect(() => {
+      if (location.pathname === '/donate-us') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }
+    }, [location.pathname]);
 
   // Function to render content based on active tab
   const renderContent = () => {
@@ -164,7 +164,7 @@ const Donateus = () => {
 
       {/* dynamic number datas */}
       <div className="max-w[90%] text-center">
-        <h1 className="inline-block text-heading3 lg:text-heading2 font-bold my-4 p-5 text-blue ">
+        <h1 className="inline-block text-[29px] small-range:text-heading3 lg:text-heading2 font-bold my-4 p-5 text-blue ">
           Our Achievements
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h1>

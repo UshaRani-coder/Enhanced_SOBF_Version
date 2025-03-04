@@ -27,6 +27,14 @@ const Press_Release = React.memo(() => {
       dispatch(getBulletine());
     }
   }, [status, dispatch]);
+   useEffect(() => {
+        if (location.pathname === '/press-release') {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+          });
+        }
+      }, [location.pathname]);
 
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString);
@@ -69,7 +77,7 @@ const Press_Release = React.memo(() => {
     'November',
     'December',
   ];
-
+  
   // **Filtering logic**
   const filteredPosts = useMemo(() => {
     return bulletines.filter((bulletin) => {
@@ -206,7 +214,7 @@ const Press_Release = React.memo(() => {
           {displayedPosts?.map((news) => (
             <div
               key={news._id}
-              className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg min-h-[400px] md:min-h-[450px] lg:min-h-[500px]"
+              className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg  md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
                 src={

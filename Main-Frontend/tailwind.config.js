@@ -134,6 +134,11 @@ export default {
         },
       });
     },
+    function ({ addVariant }) {
+      addVariant("safari", "@supports (-webkit-touch-callout: none)");
+      addVariant("firefox", "@supports (-moz-appearance: none)");
+      addVariant("edge", "@supports (-ms-ime-align: auto)");
+    },
   ],
   variants: {
     scrollbar: ['rounded'], // Add 'rounded' scrollbar support

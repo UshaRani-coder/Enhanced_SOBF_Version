@@ -12,7 +12,7 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    if (location.pathname === '/about-us') {
+    if (location.pathname === '/gallery') {
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
@@ -59,7 +59,7 @@ const Gallery = () => {
         alt="About Us"
         className="w-full h-[190px] lg:h-[420px] object-cover"
       />
-      <div className="container mx-auto px-4 lg:px-20">
+      <div className="container mx-auto px-1 small-max:px-4">
         <div className="w-full mb-6 text-center">
           <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-logoYellow">
             Gallery
@@ -105,7 +105,7 @@ const Gallery = () => {
         {status === 'loading' ? (
           <p className="text-center text-gray-500">Loading...</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 px-4 lg:px-20">
             {filteredImages?.length > 0 ? (
               filteredImages?.map((image, index) => (
                 <div
