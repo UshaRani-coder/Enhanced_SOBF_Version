@@ -9,6 +9,10 @@ import teamReducer from '../Reducers/TeamSlice';
 import galleryReducer from '../Reducers/gallerySlice';
 import ourServiceRducer from '../Reducers/OurServicesSlice';
 import upcomingEventReducer from '../Reducers/upcomingEventsSlice.js';
+import eventUserReducer from "../Reducers/eventuserSlice.js"
+
+
+
 const store = configureStore({
   reducer: {
     posts: postReducer,
@@ -21,6 +25,7 @@ const store = configureStore({
     gallery: galleryReducer,
     services: ourServiceRducer,
     events: upcomingEventReducer,
+    eventUser: eventUserReducer
   },
 });
 

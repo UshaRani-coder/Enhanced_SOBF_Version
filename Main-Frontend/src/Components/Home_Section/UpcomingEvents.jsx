@@ -7,40 +7,23 @@ import { MdAccessTimeFilled } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEvents } from '../../Reducers/upcomingeventSlice';
+
+
+
 
 const UpcomingEvents = () => {
-  const jsonData = [
-    {
-      id: 1,
-      title: 'Tree Plantation Drive',
-      image: img1,
-      date: '2025-02-25',
-      time: '10:00 AM - 1:00 PM',
-      location: 'Vrindavan Park, Uttar Pradesh',
-      description:
-        'Join us in our mission to make Vrindavan greener by planting trees. Volunteers welcome!',
-    },
-    {
-      id: 2,
-      title: 'Free Medical Camp',
-      image: img2,
-      date: '2025-03-20',
-      time: '9:00 AM - 5:00 PM',
-      location: 'SOBF Health Center, Mathura',
-      description:
-        'Providing free medical checkups and medicines to underprivileged communities.',
-    },
-    {
-      id: 3,
-      title: 'Women Empowerment Workshop',
-      image: img3,
-      date: '2025-02-05',
-      time: '11:00 AM - 3:00 PM',
-      location: 'Online (Zoom Meeting)',
-      description:
-        'The Upcoming Events component is designed to showcase and highlight important upcoming events dynamically. It features an interactive carousel that allows users to browse through various events with smooth transitions. The component also provides filter options, enabling users to select events based on the year and month. This ensures a user-friendly experience while displaying relevant information concisely.',
-    },
-  ];
+  const dispatch = useDispatch();
+  const { events, status } = useSelector((state) => state.events);
+
+
+  // Fetch teams data
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchEvents());
+    }
+  }, [status, dispatch]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedYear, setSelectedYear] = useState('');
@@ -49,7 +32,6 @@ const UpcomingEvents = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    // phone: '',
   });
   const [errors, setErrors] = useState({});
 
@@ -63,10 +45,6 @@ const UpcomingEvents = () => {
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!/^\S+@\S+\.\S+$/.test(formData.email))
       newErrors.email = 'Invalid email format';
-    // if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    // if (!/^\d{10}$/.test(formData.phone))
-    //   newErrors.phone = 'Invalid phone number';
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -74,12 +52,36 @@ const UpcomingEvents = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-    toast.success('Your registration is successful!');
-    setTimeout(() => {
-      setShowForm(false);
-      setFormData({ name: '', email: ''});
-    }, 1000);
-   
+
+    try {
+      const eventId = filteredEvents[currentIndex]._id; // Get the event ID
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${eventId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: null, // Assuming new user registration
+            username: formData.name,
+            email: formData.email,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        toast.success('Your registration is successful!');
+        setTimeout(() => {
+          setShowForm(false);
+          setFormData({ name: '', email: '' });
+        }, 1000);
+      } else {
+        toast.error(data.message || 'Registration failed');
+      }
+    } catch (error) {
+      toast.error('Something went wrong while registering for the event');
+    }
   };
 
   const today = new Date().toISOString().split('T')[0];
@@ -95,36 +97,56 @@ const UpcomingEvents = () => {
     }
     return eventDate > today
       ? {
-          label: 'Upcoming',
-          bgColor: 'bg-gradient-to-r from-indigo-500 to-indigo-700',
-          icon: '⏳',
-          textColor: 'text-white',
-          animate: '',
-        }
+        label: 'Upcoming',
+        bgColor: 'bg-gradient-to-r from-indigo-500 to-indigo-700',
+        icon: '⏳',
+        textColor: 'text-white',
+        animate: '',
+      }
       : {
-          label: 'Completed', // Changed from 'Past Event'
-          bgColor: 'bg-gradient-to-r from-green-500 to-green-700', // Green for success
-          icon: '🎯', // Represents completion
-          textColor: 'text-white',
-          animate: '',
-        };
+        label: 'Completed', // Changed from 'Past Event'
+        bgColor: 'bg-gradient-to-r from-green-500 to-green-700', // Green for success
+        icon: '🎯', // Represents completion
+        textColor: 'text-white',
+        animate: '',
+      };
   };
 
-  const availableYears = [
-    ...new Set(jsonData.map((event) => event.date.split('-')[0])),
-  ];
-  const availableMonths = [
-    ...new Set(jsonData.map((event) => event.date.split('-')[1])),
-  ];
+  const availableYears = [...new Set(events.map((event) => event.date.split('-')[0]))];
+  const availableMonths = [...new Set(events?.map((event) => event.date.split('-')[1]))];
+
+  function formatDateAndTime(dateString, timeString) {
+    // Parse date
+    const [month, day, year] = dateString.split('/').map(Number);
+    const dateObj = new Date(year, month - 1, day); // Month is 0-indexed
+
+    // Format date
+    const formattedDate = dateObj.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+
+    // Parse time
+    const [hours, minutes] = timeString.split(':').map(Number);
+
+    // Format time
+    let formattedHours = hours % 12;
+    formattedHours = formattedHours === 0 ? 12 : formattedHours; // 12 AM/PM
+    const ampm = hours < 12 ? 'AM' : 'PM';
+
+    const formattedTime = `${String(formattedHours).padStart(2, '0')}:${String(
+      minutes,
+    ).padStart(2, '0')} ${ampm}`;
+
+    return `${formattedDate} ${formattedTime}`;
+  }
+
 
   // Filter events based on selected year and month
-  const filteredEvents = jsonData
-    .filter((event) =>
-      selectedYear ? event.date.includes(selectedYear) : true,
-    )
-    .filter((event) =>
-      selectedMonth ? event.date.includes(`-${selectedMonth}-`) : true,
-    );
+  const filteredEvents = events
+    .filter((event) => selectedYear ? event.date.includes(selectedYear) : true)
+    .filter((event) => selectedMonth ? event.date.includes(`-${selectedMonth}-`) : true);
 
   // Reset currentIndex if it's out of range after filtering
   useEffect(() => {
@@ -134,12 +156,12 @@ const UpcomingEvents = () => {
   }, [filteredEvents.length, currentIndex]);
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % jsonData.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % events?.length);
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? jsonData.length - 1 : prevIndex - 1,
+      prevIndex === 0 ? events?.length - 1 : prevIndex - 1,
     );
   };
 
@@ -150,13 +172,17 @@ const UpcomingEvents = () => {
     } else {
       document.body.style.overflow = "auto";
     }
-  
+
     // Cleanup function to reset scrolling when the component unmounts
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [showForm]); // Runs whenever showForm changes
-  
+
+
+
+
+
   return (
     <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0">
       <ToastContainer />
@@ -251,6 +277,13 @@ const UpcomingEvents = () => {
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {filteredEvents.map((event) => {
+                const formattedDateTime =
+                  event && event.date && event.time
+                    ? formatDateAndTime(
+                      new Date(event.date).toLocaleDateString('en-US'),
+                      event.time,
+                    )
+                    : 'N/A';
                 const status = getEventStatus(event.date);
                 return (
                   <div key={event.id} className="min-w-full">
@@ -270,9 +303,9 @@ const UpcomingEvents = () => {
                           <div className="flex flex-row items-start gap-1 w-1/2 lg:w-auto ">
                             <MdAccessTimeFilled className="w-[20px] h-[20px] text-[#1890CE] " />
                             <p className="text-gray-600 flex flex-col md:flex-row md:gap-1 text-[10px] small-range:text-[12px] md:text-[14px]">
-                              {event.date}
-                              <span className="hidden md:inline">|</span>
-                              <span>{event.time}</span>
+                              {/* {event.date} */}
+                              {/* <span className="hidden md:inline">|</span> */}
+                              <span>{formattedDateTime}</span>
                             </p>
                         
                           </div>
@@ -313,77 +346,61 @@ const UpcomingEvents = () => {
           No events found for the selected filters.
         </p>
       )}
-      {showForm && (
-        
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000] w-[100%]">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[80%] lg:w-[40%] mt-[80px] flex flex-col items-start">
-            <h2 className="text-xl font-bold mb-4 text-center">
-              Register for the Event
-            </h2>
-            <form onSubmit={handleSubmit} className="w-[100%]">
-              <div className="mb-3 w-full ">
-                <label className="block font-medium mb-[5px]">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-400 p-2 rounded"
-                />
-                {errors.name && (
-                  <p className="text-red-500 text-sm">{errors.name}</p>
-                )}
-              </div>
-
-              <div className="mb-3">
-                <label className="block font-medium mb-[5px]">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-400 p-2 rounded"
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm">{errors.email}</p>
-                )}
-              </div>
-
-              {/* <div className="mb-3">
-                <label className="block font-medium mb-[5px]">
-                  Phone Number
-                </label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-400 p-2 rounded"
-                />
-                {errors.phone && (
-                  <p className="text-red-500 text-sm">{errors.phone}</p>
-                )}
-              </div> */}
-
-              <div className="flex justify-end gap-x-2 mt-4">
-                <button
-                  type="button"
-                  className="px-[26px] py-2 bg-gray-500 rounded hover:bg-gray-600 text-white font-medium"
-                  onClick={() => setShowForm(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-[26px] py-2 hover:bg-indigo-500 text-white rounded bg-indigo-700 font-medium"
-                >
-                  Register
-                </button>
-              </div>
-            </form>
+      {
+        showForm && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000] w-[100%]">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[80%] lg:w-[40%] mt-[80px] flex flex-col items-start">
+              <h2 className="text-xl font-bold mb-4 text-center">
+                Register for the Event
+              </h2>
+              <form onSubmit={handleSubmit} className="w-[100%]">
+                <div className="mb-3 w-full ">
+                  <label className="block font-medium mb-[5px]">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-400 p-2 rounded"
+                  />
+                  {errors.name && (
+                    <p className="text-red-500 text-sm">{errors.name}</p>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label className="block font-medium mb-[5px]">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-400 p-2 rounded"
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm">{errors.email}</p>
+                  )}
+                </div>
+                <div className="flex justify-end gap-x-2 mt-4">
+                  <button
+                    type="button"
+                    className="px-[26px] py-2 bg-gray-500 rounded hover:bg-gray-600 text-white font-medium"
+                    onClick={() => setShowForm(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-[26px] py-2 hover:bg-indigo-500 text-white rounded bg-indigo-700 font-medium"
+                    onSubmit={handleSubmit}
+                  >
+                    Register
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </div>
   );
 };

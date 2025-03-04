@@ -106,6 +106,7 @@ const OurImpacts = () => {
     }
     // Start loading
     setIsLoading(true);
+    
     dispatch(updateOurImpact({ id: currentImpact?._id, updatedData }))
       .unwrap()
       .then(() => {
@@ -170,6 +171,7 @@ const OurImpacts = () => {
       image: null,
     });
   };
+  
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center mx-4 my-4">

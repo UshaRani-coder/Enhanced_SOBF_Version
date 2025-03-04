@@ -90,7 +90,6 @@ const createOurImpacts = async (req, res) => {
 const updateOurImpacts = async (req, res) => {
   try {
     const { id } = req.params;
-
     // Fetch the existing "Our Impacts" post
     const existingOurImpacts = await OurImpactsModel.findById(id);
     if (!existingOurImpacts) {
@@ -122,8 +121,7 @@ const updateOurImpacts = async (req, res) => {
     });
 
     // Append the full image URL
-    updatedPost.image =
-      process.env.BASE_URL + '/uploads/our-impacts/' + updatedPost.image;
+    updatedPost.image = process.env.BASE_URL + '/uploads/our-impacts/' + updatedPost.image;
 
     return res.status(200).json({
       success: true,
