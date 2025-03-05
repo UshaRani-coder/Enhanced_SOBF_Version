@@ -260,7 +260,7 @@ const LegalDoc = () => {
               <h2 className="text-2xl font-semibold mb-3 text-gray-800 line-clamp-2 text-left w-[100%]">
                 {doc?.title}
               </h2>
-              <p className="text-gray-600 line-clamp-4 mb-2 text-left w-full">
+              <p className="text-gray-600 line-clamp-4 mb-2 text-left flex-1 w-full">
                 {doc?.description}
               </p>
               <div className="mt-1 flex gap-4 flex-wrap justify-start w-full">

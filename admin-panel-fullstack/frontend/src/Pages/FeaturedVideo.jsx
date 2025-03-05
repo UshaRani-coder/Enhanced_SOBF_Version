@@ -113,8 +113,8 @@ const FeaturedVideo = () => {
   };
 
   return (
-    <div className="container mx-auto">
-      <div className="flex justify-between mx-2 small-range:mx-4 items-center my-4">
+    <div className="container  px-2">
+      <div className="flex justify-between   items-center my-4">
         <h1 className="text-2xl small-range:text-3xl md:text-3xl lg:text-4xl font-semibold">
           Featured Videos
         </h1>
@@ -197,17 +197,19 @@ const FeaturedVideo = () => {
             return (
               <div
                 key={video?._id || index}
-                className="border  rounded w-[270px] small-range:w-80 md:w-64 lg:w-[300px] hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center "
+                className="border  rounded w-[95%]  md:w-64 lg:w-[300px] hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center "
               >
                 {videoId ? (
+               
                   <iframe
                     src={`https://www.youtube.com/embed/${videoId}`}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     title="YouTube Video"
-                    className="w-full h-40 object-cover rounded"
+                    className="w-full aspect-video object-cover rounded transition-transform duration-300 group-hover:scale-105"
                   ></iframe>
+                 
                 ) : (
                   <p className="text-red-500 text-center">Invalid Video URL</p>
                 )}

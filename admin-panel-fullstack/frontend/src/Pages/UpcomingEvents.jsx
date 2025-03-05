@@ -429,7 +429,7 @@ const UpcomingEvents = () => {
                   <img
                     src={post.image}
                     alt="Event Image"
-                    className="w-full h-full md:h-[300px] bg-cover rounded"
+                    className="w-full h-full  object-cover rounded"
                   />
                 ) : (
                   <p className="text-gray-500">No image available</p>

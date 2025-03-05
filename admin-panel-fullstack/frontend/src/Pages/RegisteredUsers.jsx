@@ -1,20 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { FaSearch, FaFilter } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
-import { RxCross1 } from "react-icons/rx";
+import { RxCross1 } from 'react-icons/rx';
 import { getEventsUsersFromDB } from '../Reducers/eventuserSlice';
 
 const RegisteredUsers = () => {
   const dispatch = useDispatch();
   const { eventUser } = useSelector((state) => state.eventUser);
-
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [search, setSearch] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const [users] = useState([
     {
@@ -72,8 +73,18 @@ const RegisteredUsers = () => {
     dispatch(getEventsUsersFromDB());
   }, [dispatch]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Get unique event names for dropdown
-  const eventOptions = [...new Set(eventUser.map((user) => user?.registeredEvents[0]?.title))];
+  const eventOptions = [
+    ...new Set(eventUser.map((user) => user?.registeredEvents[0]?.title)),
+  ];
 
   // Filter logic
   const filteredUsers = eventUser.filter((user) => {
@@ -112,9 +123,9 @@ const RegisteredUsers = () => {
         Registered Users
       </h1>
 
-      <div className="flex items-center justify-between w-full mb-4 ">
+      <div className="flex items-center justify-between md:gap-2 w-full mb-4 ">
         {/* Search Bar */}
-        <div className="flex items-center space-x-2 bg-gray-200 rounded-lg px-3 py-2 shadow-sm w-full max-w-md">
+        <div className="flex items-center  space-x-2 bg-gray-200 rounded-lg px-3 py-2 shadow-sm w-full">
           <FaSearch className="text-gray-500" />
           <input
             type="text"
@@ -127,7 +138,7 @@ const RegisteredUsers = () => {
         <div className=" ">
           {/* Filter Button */}
           <button
-            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ml-3"
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ml-3 md:ml-0"
             onClick={() => setShowFilterDropdown(!showFilterDropdown)}
           >
             <FaFilter className="text-white" size={13} />
@@ -136,18 +147,18 @@ const RegisteredUsers = () => {
 
           {/* Filter Dropdown */}
           {showFilterDropdown && (
-
             <div className="fixed rounded-lg right-5 md:right-10 mt-2 bg-gray-200 text-gray-800 border-gray-300 shadow-lg  p-4 w-64 z-50">
-
               <button
-                className="absolute top-[-8px] left-[-8px] p-1 border rounded-full bg-black opacity-50 "
+                className="absolute top-[18px] right-[20px]  "
                 onClick={() => setShowFilterDropdown(false)}
               >
-                <RxCross1 className='text-white' size={10} />
+                <RxCross1 className="text-black font-bold" size={10} />
               </button>
 
               {/* Event Filter */}
-              <label className="block text-gray-700  text-sm mb-1">Filter by Event:</label>
+              <label className="block text-gray-700  text-sm mb-1">
+                Filter by Event:
+              </label>
               <select
                 className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3 cursor-pointer"
                 value={selectedEvent}
@@ -162,7 +173,9 @@ const RegisteredUsers = () => {
               </select>
 
               {/* Date Range Filter */}
-              <label className="block text-gray-700 text-sm mb-1">Start Date:</label>
+              <label className="block text-gray-700 text-sm mb-1">
+                Start Date:
+              </label>
               <input
                 type="date"
                 className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
@@ -170,7 +183,9 @@ const RegisteredUsers = () => {
                 onChange={(e) => setStartDate(e.target.value)}
               />
 
-              <label className="block text-gray-700 text-sm mb-1">End Date:</label>
+              <label className="block text-gray-700 text-sm mb-1">
+                End Date:
+              </label>
               <input
                 type="date"
                 className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
@@ -192,9 +207,23 @@ const RegisteredUsers = () => {
                 Reset Filters
               </button>
             </div>
-
           )}
         </div>
+        {/* Bulk Action: Send Emails */}
+        <button
+          onClick={sendEmails}
+          className={`fixed bottom-6 right-6 md:static flex items-center  px-4 py-2 bg-[#CC493C] text-white rounded-md shadow-lg transition-all duration-300 
+        ${isMobile ? (isHovered ? 'w-auto px-5' : 'w-12 justify-center') : 'w-auto'}`}
+          onMouseEnter={() => isMobile && setIsHovered(true)}
+          onMouseLeave={() => isMobile && setIsHovered(false)}
+        >
+          <MdEmail size={23} />
+          <span
+            className={`whitespace-nowrap ${isMobile && !isHovered ? 'hidden' : 'ml-2'}`}
+          >
+            Send Emails
+          </span>
+        </button>
       </div>
 
       {/* Card View for Small Screens */}
@@ -211,16 +240,19 @@ const RegisteredUsers = () => {
                 onChange={() => toggleSelectUser(user._id)}
                 className="mr-2 cursor-pointer"
               />
-              <h2 className="font-semibold text-lg break-words">{user.username}</h2>
+              <h2 className="font-semibold text-lg break-words">
+                {user.username}
+              </h2>
               <p className="text-gray-600 break-words">{user.email}</p>
               <p className="text-gray-700 text-sm break-words">
                 <strong>Event :</strong> {user?.registeredEvents[0]?.title}
               </p>
               <p className="text-sm text-gray-700">
-                <strong>Registered Date :</strong>  {new Date(user.createdAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
+                <strong>Registered Date :</strong>{' '}
+                {new Date(user.createdAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
                 })}
               </p>
             </div>
@@ -232,7 +264,6 @@ const RegisteredUsers = () => {
         )}
       </div>
 
-
       {/* Table View */}
       <div className="hidden lg:block overflow-x-auto rounded-lg">
         <table className="w-full min-w-[700px] bg-white shadow-md rounded-lg border-collapse">
@@ -242,7 +273,9 @@ const RegisteredUsers = () => {
               <th className="px-4 py-3 text-left font-medium">Name</th>
               <th className="px-4 py-3 text-left font-medium">Email</th>
               <th className="px-4 py-3 text-left font-medium">Event Name</th>
-              <th className="px-4 py-3 text-left font-medium">Registration Date</th>
+              <th className="px-4 py-3 text-left font-medium">
+                Registration Date
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -259,12 +292,17 @@ const RegisteredUsers = () => {
                   </td>
                   <td className="px-4 py-2">{user.username}</td>
                   <td className="px-4 py-2">{user.email}</td>
-                  <td className="px-4 py-2">{user?.registeredEvents[0]?.title}</td>
-                  <td className="px-4 py-2"> {new Date(user.createdAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}</td>
+                  <td className="px-4 py-2">
+                    {user?.registeredEvents[0]?.title}
+                  </td>
+                  <td className="px-4 py-2">
+                    {' '}
+                    {new Date(user.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </td>
                 </tr>
               ))
             ) : (
@@ -277,14 +315,6 @@ const RegisteredUsers = () => {
           </tbody>
         </table>
       </div>
-
-      {/* Bulk Action: Send Emails */}
-      <button
-        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-800 flex items-center gap-2"
-        onClick={sendEmails}
-      >
-        <MdEmail /> Send Emails
-      </button>
     </div>
   );
 };
