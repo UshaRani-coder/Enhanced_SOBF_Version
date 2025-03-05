@@ -9,14 +9,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvents } from '../../Reducers/upcomingeventSlice';
-
-
-
+import DOMPurify from 'dompurify';
 
 const UpcomingEvents = () => {
   const dispatch = useDispatch();
   const { events, status } = useSelector((state) => state.events);
-
 
   // Fetch teams data
   useEffect(() => {
@@ -34,6 +31,35 @@ const UpcomingEvents = () => {
     email: '',
   });
   const [errors, setErrors] = useState({});
+  const fallbackEvents = [
+    {
+      id: '1',
+      title: 'Community Clean-up Drive',
+      description: 'Join us in making Vrindavan cleaner and greener! This community-driven initiative aims to raise awareness about environmental responsibility. Volunteers will participate in waste collection, recycling activities, and tree planting to promote a healthier ecosystem. Lets work together for a cleaner tomorrow!',
+      date: '2025-04-10',
+      time: '10:00',
+      location: 'Vrindavan Park',
+      image: img1,
+    },
+    {
+      id: '2',
+      title: 'Health Awareness Camp',
+      description:'A free health camp providing essential check-ups, consultations, and awareness sessions on preventive healthcare. Medical professionals will offer general health screenings, blood pressure checks, and dietary guidance. Take charge of your well-being and spread the message of a healthier society!',
+      date: '2025-05-15',
+      time: '09:30',
+      location: 'Community Hall',
+      image: img2,
+    },
+    {
+      id: '3',
+      title: 'Women Empowerment Seminar',
+      description: 'A seminar dedicated to empowering women through education, skill-building, and self-confidence. Inspirational speakers will share their journeys, and interactive workshops will help attendees gain valuable insights into financial independence, leadership, and personal growth. Lets uplift and support each other for a brighter future!',
+      date: '2025-06-20',
+      time: '11:00',
+      location: 'City Auditorium',
+      image: img3,
+    },
+  ];
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,7 +93,7 @@ const UpcomingEvents = () => {
             username: formData.name,
             email: formData.email,
           }),
-        }
+        },
       );
       const data = await response.json();
       if (response.ok) {
@@ -97,23 +123,22 @@ const UpcomingEvents = () => {
     }
     return eventDate > today
       ? {
-        label: 'Upcoming',
-        bgColor: 'bg-gradient-to-r from-indigo-500 to-indigo-700',
-        icon: '⏳',
-        textColor: 'text-white',
-        animate: '',
-      }
+          label: 'Upcoming',
+          bgColor: 'bg-gradient-to-r from-indigo-500 to-indigo-700',
+          icon: '⏳',
+          textColor: 'text-white',
+          animate: '',
+        }
       : {
-        label: 'Completed', // Changed from 'Past Event'
-        bgColor: 'bg-gradient-to-r from-green-500 to-green-700', // Green for success
-        icon: '🎯', // Represents completion
-        textColor: 'text-white',
-        animate: '',
-      };
+          label: 'Completed', // Changed from 'Past Event'
+          bgColor: 'bg-gradient-to-r from-green-500 to-green-700', // Green for success
+          icon: '🎯', // Represents completion
+          textColor: 'text-white',
+          animate: '',
+        };
   };
 
-  const availableYears = [...new Set(events.map((event) => event.date.split('-')[0]))];
-  const availableMonths = [...new Set(events?.map((event) => event.date.split('-')[1]))];
+  
 
   function formatDateAndTime(dateString, timeString) {
     // Parse date
@@ -142,11 +167,14 @@ const UpcomingEvents = () => {
     return `${formattedDate} ${formattedTime}`;
   }
 
+ 
+          const sourceData = events.length > 0 ? events : fallbackEvents;
 
-  // Filter events based on selected year and month
-  const filteredEvents = events
-    .filter((event) => selectedYear ? event.date.includes(selectedYear) : true)
-    .filter((event) => selectedMonth ? event.date.includes(`-${selectedMonth}-`) : true);
+const filteredEvents = sourceData.filter((event) =>
+  (selectedYear ? event.date.includes(selectedYear) : true) &&
+  (selectedMonth ? event.date.includes(`-${selectedMonth}-`) : true)
+);
+
 
   // Reset currentIndex if it's out of range after filtering
   useEffect(() => {
@@ -156,35 +184,37 @@ const UpcomingEvents = () => {
   }, [filteredEvents.length, currentIndex]);
 
   const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % events?.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % sourceData?.length);
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? events?.length - 1 : prevIndex - 1,
+      prevIndex === 0 ? sourceData?.length - 1 : prevIndex - 1,
     );
   };
+  const availableYears = [
+    ...new Set(sourceData.map((event) => event.date.split('-')[0])),
+  ];
+  const availableMonths = [
+    ...new Set(sourceData?.map((event) => event.date.split('-')[1])),
+  ];
 
   useEffect(() => {
     // Disable scrolling when the form is open
     if (showForm) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     }
 
     // Cleanup function to reset scrolling when the component unmounts
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, [showForm]); // Runs whenever showForm changes
 
-
-
-
-
   return (
-    <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0">
+    <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0 mt-10">
       <ToastContainer />
       <h1 className="inline-block text-[28px] md:text-heading3 lg:text-heading2 font-bold  p-5 text-[#2d335d] relative transition-all ease-in-out">
         Upcoming Events
@@ -280,18 +310,20 @@ const UpcomingEvents = () => {
                 const formattedDateTime =
                   event && event.date && event.time
                     ? formatDateAndTime(
-                      new Date(event.date).toLocaleDateString('en-US'),
-                      event.time,
-                    )
+                        new Date(event.date).toLocaleDateString('en-US'),
+                        event.time,
+                      )
                     : 'N/A';
-                const status = getEventStatus(event.date);
+                const status = getEventStatus(
+                  new Date(event.date).toISOString().split('T')[0],
+                );
                 return (
                   <div key={event.id} className="min-w-full">
                     <div className="bg-white rounded-xl overflow-hidden ">
                       <img
                         src={event.image}
                         alt={event.title}
-                        className="w-full h-full md:h-[350px] bg-cover rounded-t-xl"
+                        className="w-full h-full  object-cover rounded-t-xl"
                       />
                       <div className="p-3.5 small-range:p-5 text-start">
                         <span
@@ -299,19 +331,19 @@ const UpcomingEvents = () => {
                         >
                           {status.icon} {status.label}
                         </span>
-                        <div className="flex items-start w-full mb-2 lg:gap-4">
-                          <div className="flex flex-row items-start gap-1 w-1/2 lg:w-auto ">
+                        <div className="flex flex-col gap-y-1 md:flex-row md:gap-x-4  w-full mb-2 lg:gap-4">
+                          <div className="flex flex-row items-center gap-1  lg:w-auto ">
                             <MdAccessTimeFilled className="w-[20px] h-[20px] text-[#1890CE] " />
                             <p className="text-gray-600 flex flex-col md:flex-row md:gap-1 text-[10px] small-range:text-[12px] md:text-[14px]">
-                              {/* {event.date} */}
-                              {/* <span className="hidden md:inline">|</span> */}
                               <span>{formattedDateTime}</span>
                             </p>
-                        
                           </div>
 
-                          <div className="flex flex-row items-start w-1/2 lg:w-auto ">
-                            <MdLocationPin className="w-[30px] h-[20px] text-[#E82327] " />
+                          <div className="flex flex-row  items-center gap-1  lg:w-auto ">
+                            <MdLocationPin
+                              size={21}
+                              className=" md:w-[20px] md:h-[20px] text-[#E82327] "
+                            />
                             <p className="text-gray-500 text-[10px] small-range:text-[12px] md:text-[14px]">
                               {event.location}
                             </p>
@@ -320,19 +352,23 @@ const UpcomingEvents = () => {
                         <h3 className="text-xl lg:text-2xl font-semibold text-[#2d335d]">
                           {event.title}
                         </h3>
-                        <p className="text-gray-700 lg:text-lg">
-                          {event.description}
-                        </p>
-                      {event.date >= today ?  
-                      (<button
-                          onClick={() => setShowForm(true)}
-                          className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
-                        >
-                          Register Now
-                        </button>)
-                        :
-                        null}
-                   
+
+                        <p
+                          className="text-gray-700 lg:text-lg"
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(
+                              event?.description,
+                            ).replace(/<a /g, '<a style="color: #4a90e2;" '),
+                          }}
+                        ></p>
+                        {event.date >= today ? (
+                          <button
+                            onClick={() => setShowForm(true)}
+                            className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
+                          >
+                            Register Now
+                          </button>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -346,61 +382,59 @@ const UpcomingEvents = () => {
           No events found for the selected filters.
         </p>
       )}
-      {
-        showForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000] w-[100%]">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[80%] lg:w-[40%] mt-[80px] flex flex-col items-start">
-              <h2 className="text-xl font-bold mb-4 text-center">
-                Register for the Event
-              </h2>
-              <form onSubmit={handleSubmit} className="w-[100%]">
-                <div className="mb-3 w-full ">
-                  <label className="block font-medium mb-[5px]">Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-400 p-2 rounded"
-                  />
-                  {errors.name && (
-                    <p className="text-red-500 text-sm">{errors.name}</p>
-                  )}
-                </div>
-                <div className="mb-3">
-                  <label className="block font-medium mb-[5px]">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-400 p-2 rounded"
-                  />
-                  {errors.email && (
-                    <p className="text-red-500 text-sm">{errors.email}</p>
-                  )}
-                </div>
-                <div className="flex justify-end gap-x-2 mt-4">
-                  <button
-                    type="button"
-                    className="px-[26px] py-2 bg-gray-500 rounded hover:bg-gray-600 text-white font-medium"
-                    onClick={() => setShowForm(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-[26px] py-2 hover:bg-indigo-500 text-white rounded bg-indigo-700 font-medium"
-                    onSubmit={handleSubmit}
-                  >
-                    Register
-                  </button>
-                </div>
-              </form>
-            </div>
+      {showForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000] w-[100%]">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[80%] lg:w-[40%] mt-[80px] flex flex-col items-start">
+            <h2 className="text-xl font-bold mb-4 text-center">
+              Register for the Event
+            </h2>
+            <form onSubmit={handleSubmit} className="w-[100%]">
+              <div className="mb-3 w-full ">
+                <label className="block font-medium mb-[5px]">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-400 p-2 rounded"
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">{errors.name}</p>
+                )}
+              </div>
+              <div className="mb-3">
+                <label className="block font-medium mb-[5px]">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-400 p-2 rounded"
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email}</p>
+                )}
+              </div>
+              <div className="flex justify-end gap-x-2 mt-4">
+                <button
+                  type="button"
+                  className="px-[26px] py-2 bg-gray-500 rounded hover:bg-gray-600 text-white font-medium"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-[26px] py-2 hover:bg-indigo-500 text-white rounded bg-indigo-700 font-medium"
+                  onSubmit={handleSubmit}
+                >
+                  Register
+                </button>
+              </div>
+            </form>
           </div>
-        )
-      }
+        </div>
+      )}
     </div>
   );
 };

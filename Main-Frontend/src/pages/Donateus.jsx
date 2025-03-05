@@ -11,19 +11,108 @@ import Donate_hero from '../Components/Donate_page/donate_hero.jsx';
 import PaymentScreenshot from '../assets/Sobf Images/PaymentScreenshot.png';
 import Impacts from '../Components/Home_Section/Impacts.jsx';
 import QRCode from '../assets/QRCode.png';
+import {ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Donateus = () => {
   const [activeTab, setActiveTab] = useState('whydonate');
+  const [formData, setFormData] = useState({
+    fullName: "",
+    dob: "",
+    email: "",
+    phone: "",
+    pan: "",
+    aadhar: "",
+    pin: "",
+    donationFor: "",
+    donationAmount: "",
+    transactionId: "",
+  });
   const location = useLocation();
-  useEffect(() => {
-      if (location.pathname === '/donate-us') {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
-      }
-    }, [location.pathname]);
+  // useEffect(() => {
+  //     if (location.pathname === '/donate-us') {
+  //       window.scrollTo({
+  //         top: 0,
+  //         behavior: 'smooth',
+  //       });
+  //     }
+  //   }, [location.pathname]);
 
   // Function to render content based on active tab
+
+ // Handle Input Changes
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
+
+  const validateForm = () => {
+    const { fullName, email, phone, pan, aadhar, pin, donationAmount, transactionId } = formData;
+    
+    // Validate Full Name
+    if (!fullName || fullName.trim().length < 2) {
+        toast.error("Full Name must be at least 2 characters long.");
+        return false;
+    }
+
+    // Validate Email
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+        toast.error("Enter a valid email address.");
+        return false;
+    }
+
+    // Validate Phone Number (10-digit)
+    if (!/^\d{10}$/.test(phone)) {
+        toast.error("Enter a valid 10-digit Mobile Number.");
+        return false;
+    }
+
+    // Validate PAN (ABCDE1234F)
+    if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan)) {
+        toast.error("Enter a valid PAN Number (e.g., ABCDE1234F).");
+        return false;
+    }
+
+    // Validate Aadhaar (if provided, must be 12 digits)
+    if (aadhar && !/^\d{12}$/.test(aadhar)) {
+        toast.error("Enter a valid 12-digit Aadhaar Number.");
+        return false;
+    }
+
+    // Validate PIN Code (6-digit)
+    if (!/^\d{6}$/.test(pin)) {
+        toast.error("Enter a valid 6-digit PIN Code.");
+        return false;
+    }
+
+    // Validate Donation Amount
+    if (donationAmount <= 0) {
+        toast.error("Enter a valid Donation Amount greater than 0.");
+        return false;
+    }
+
+    // Validate Transaction ID (non-empty)
+    if (transactionId.trim() === "") {
+        toast.error("Transaction ID is required.");
+        return false;
+    }
+
+
+    return true;
+}
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      toast.success("Form validated successfully!");
+      
+    }
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'whydonate':
@@ -119,7 +208,9 @@ const Donateus = () => {
     <div>
       {/* Hero section */}
       <Donate_hero />
-
+    
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+     
       {/* Tabs */}
       <div className="w-full lg:w-full px-4 mt-10">
         <div className="flex">
@@ -169,203 +260,201 @@ const Donateus = () => {
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h1>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mb-10">
         <Impacts />
       </div>
 
       {/* Donate form */}
       <div id="donate-form">
-        {/* Title section for the donate form */}
-        <div className="min-h-screen  p-6 bg-gray-100 flex  items-center justify-center rounded-lg ">
-          {/* Container for the donate form */}
-          <div className="container max-w-screen-lg mx-auto md:mt-32 md:mb-16 mt-28 mb-10 flex flex-col items-center">
-            <div className="bg-white rounded-xl shadow-lg p-4 px-4 md:p-8 mb-6 md:w-[100%]">
-              <div className="grid gap-4 gap-y-2 text-sm grid-cols-1">
-                <div className="text-gray-600">
-                  <div className="flex justify-center">
-                    <span className="font-medium md:text-[2rem] text-logoYellow text-heading4 py-3 pr-2">
-                      Personal
-                    </span>
+  <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center rounded-lg">
+    <div className="container max-w-screen-lg mx-auto md:mt-32 md:mb-16 mt-28 mb-10 flex flex-col">
+      <div className="bg-white rounded-xl shadow-lg p-4 px-4 md:p-8 mb-6 md:w-[100%]">
+        <div className="grid gap-4 gap-y-2 text-sm grid-cols-1">
+          {/* Form Heading - Left Aligned */}
+          <div className="text-gray-600 text-left">
+            <div className="flex">
+              <span className="font-medium md:text-[2rem] text-logoYellow text-heading4 py-3 pr-2">
+                Personal
+              </span>
+              <span className="font-medium md:text-[2rem] text-logo-blue text-heading4 py-3">
+                Details
+              </span>
+            </div>
+            <p className="pt-1.5 lg:pb-0 pb-4">Please fill out all the fields.</p>
+          </div>
 
-                    <span className="font-medium md:text-[2rem] text-logo-blue text-heading4 py-3">
-                      Details
-                    </span>
+          <div className="w-full">
+            <div className="grid gap-4 gap-y-2 text-sm grid-cols-1">
+              <div className="md:flex md:items-start md:gap-[30px]">
+                <div className="md:w-[75%] lg:w-[100%]">
+                  <div className="md:col-span-5 mt-[10px]">
+                    <label htmlFor="fullName">Full Name</label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      id="fullName"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                      placeholder="Full Name"
+                      required
+                      minLength="2"
+                      onChange={handleChange}
+                      value={formData.fullName}
+                    />
                   </div>
-
-                  <p className="pt-1.5 lg:pb-0 pb-4 flex justify-center">
-                    Please fill out all the fields.
-                  </p>
+                  <div className="md:col-span-5 mt-[10px]">
+                    <label htmlFor="dob">Date of Birth</label>
+                    <input
+                      type="date"
+                      name="dob"
+                      id="dob"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                      required
+                      onChange={handleChange}
+                      value={formData.dob}
+                    />
+                  </div>
+                  <div className="md:col-span-5 mt-[10px]">
+                    <label htmlFor="email">Email Address</label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                      placeholder="example@gmail.com"
+                      required
+                      onChange={handleChange}
+                      value={formData.email}
+                    />
+                  </div>
+                  <div className="md:col-span-5 mt-[10px]">
+                    <label htmlFor="phone">Mobile Number</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      id="phone"
+                      className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                      placeholder="Mobile Number"
+                      required
+                      onChange={handleChange}
+                      value={formData.phone}
+                    />
+                  </div>
                 </div>
 
-                <div className="w-full">
-                  <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 ">
-                    <div className="md:flex md:justify-center md:items-center md:gap-[30px] ">
-                      <div className="md:w-[75%] lg:w-[100%]">
-                        <div className="md:col-span-5 mt-[10px]">
-                          <label htmlFor="first_name">Full Name</label>
-                          <input
-                            type="text"
-                            name="first_name"
-                            id="first_name"
-                            className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
-                            placeholder="Full Name"
-                            required
-                            minLength="2"
-                          />
-                        </div>
-                        <div className="md:col-span-5 mt-[10px]">
-                          <label htmlFor="dob">Date of Birth</label>
-                          <input
-                            type="date"
-                            name="dob"
-                            id="dob"
-                            placeholder="dd/mm/yyyy"
-                            className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
-                            required
-                          />
-                        </div>
-                        <div className="md:col-span-5 mt-[10px]">
-                          <label htmlFor="email">Email Address</label>
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
-                            placeholder="example@gmail.com"
-                            required
-                          />
-                        </div>
-
-                        <div className="md:col-span-5 mt-[10px]">
-                          <label htmlFor="phone">Mobile Number</label>
-                          <input
-                            type="tel"
-                            name="phone"
-                            id="phone"
-                            className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
-                            placeholder="Mobile Number"
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col items-center  gap-[15px] md:mt-[20px] hidden md:block md:w-[200px] lg:w-[30%] ">
-                        <p className=" text-lg font-semibold ">
-                          Scan the QR code to proceed:
-                        </p>
-                        <img
-                          src={QRCode}
-                          alt="QR Code"
-                          className="w-32 h-32 md:w-[200px] md:h-[200px] mt-4 mx-auto md:mx-0"
-                        />
-                      </div>
-                    </div>
-                    <div className="md:col-span-5">
-                      <label htmlFor="pan">PAN Number</label>
-                      <input
-                        type="text"
-                        name="pan"
-                        id="pan"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender placeholder:text-[10px] small-max:placeholder:text-[12px] md:placeholder:text-[14px]"
-                        placeholder="Enter a valid PAN number (e.g., ABCDE1234F)"
-                        maxLength="10"
-                      />
-                    </div>
-                    <div className="md:col-span-5 ">
-                      <label htmlFor="aadhar">Aadhar Number (Optional)</label>
-                      <input
-                        type="number"
-                        name="aadhar"
-                        id="aadhar"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender placeholder:text-[10px] small-max:placeholder:text-[12px] md:placeholder:text-[14px]"
-                        placeholder="Enter a valid 12-digit Aadhaar number (e.g., 123456789012)"
-                        maxLength="12"
-                        pattern="\d{12}"
-                        color="#edf1ffdb"
-                      />
-                    </div>
-                    <div className="md:col-span-5">
-                      <label htmlFor="pin">PIN Code</label>
-                      <input
-                        type="number"
-                        name="pin"
-                        id="pin"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
-                        placeholder="ex. 236790"
-                        required
-                      />
-                    </div>
-                    <div className="md:col-span-5">
-                      <label htmlFor="donation_for">Donation For</label>
-                      <select
-                        name="donation_for"
-                        id="donation_for"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
-                        required
-                      >
-                        <option value="">Select Program/Service</option>
-                        <option value="program1">
-                          Child and Education empowerment
-                        </option>
-                        <option value="program2">Children activities</option>
-                        <option value="program3">Food distribution</option>
-                        <option value="program3">Women empowerment</option>
-                        <option value="program3">Health awareness camp</option>
-                        <option value="program3">
-                          Sanitary pads distribution
-                        </option>
-                        <option value="program3">Face mask distribution</option>
-                      </select>
-                    </div>
-                    <div className="md:col-span-5">
-                      <label htmlFor="donation_amount">Donation Amount</label>
-                      <input
-                        type="number"
-                        name="donation_amount"
-                        id="donation_amount"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
-                        placeholder="Enter amount"
-                        required
-                      />
-                    </div>
-                    <div className="md:col-span-5">
-                      <label htmlFor="transaction_id">Transaction ID</label>
-                      <input
-                        type="number"
-                        name="transaction_id"
-                        id="transaction_id"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender placeholder:text-[10px] small-max:placeholder:text-[12px] md:placeholder:text-[14px]"
-                        placeholder="Enter the ID of transaction (e.g., TXN12345ABC67890)"
-                        required
-                      />
-                    </div>
-                    <div className="md:col-span-5 md:hidden">
-                      <div className="flex flex-col items-center gap-[15px] mt-[20px] ">
-                        <p className="block text-md small-range:text-lg font-semibold">
-                          Scan the QR code to proceed:
-                        </p>
-                        <img
-                          src={QRCode}
-                          alt="QR Code"
-                          className="w-[80%] h-[80%] mx-auto md:mx-0"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                {/* QR Code for Larger Screens */}
+                <div className="hidden md:flex flex-col items-center gap-[15px] md:w-[200px] lg:w-[30%]">
+                  <p className="text-lg font-semibold">Scan the QR code to proceed:</p>
+                  <img src={QRCode} alt="QR Code" className="w-32 h-32 md:w-[200px] md:h-[200px]" />
                 </div>
               </div>
-              <div className="md:col-span-5 flex flex-col  md:flex-row justify-center pt-10 md:gap-10 gap-3">
-                <button
-                  aria-label="Play Video"
-                  className="text-white bg-blue hover:bg-logoYellow border-gray-300 focus:outline-none  focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
+
+              {/* Remaining Fields */}
+              <div className="md:col-span-5">
+                <label htmlFor="pan">PAN Number</label>
+                <input
+                  type="text"
+                  name="pan"
+                  id="pan"
+                  className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                  placeholder="Enter a valid PAN number (e.g., ABCDE1234F)"
+                  maxLength="10"
+                  onChange={handleChange}
+                  value={formData.pan}
+                />
+              </div>
+              <div className="md:col-span-5">
+                <label htmlFor="aadhar">Aadhar Number (Optional)</label>
+                <input
+                  type="number"
+                  name="aadhar"
+                  id="aadhar"
+                  className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                  placeholder="Enter a valid 12-digit Aadhaar number (e.g., 123456789012)"
+                  maxLength="12"
+                  onChange={handleChange}
+                  value={formData.aadhar}
+                />
+              </div>
+              <div className="md:col-span-5">
+                <label htmlFor="pin">PIN Code</label>
+                <input
+                  type="number"
+                  name="pin"
+                  id="pin"
+                  className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                  placeholder="ex. 236790"
+                  required
+                  onChange={handleChange}
+                  value={formData.pin}
+                />
+              </div>
+              <div className="md:col-span-5">
+                <label htmlFor="donationFor">Donation For</label>
+                <select
+                  name="donationFor"
+                  id="donationFor"
+                  className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                  required
+                  onChange={handleChange}
+                  value={formData.donationFor}
                 >
-                  Pay Now
-                </button>
+                  <option value="">Select Program/Service</option>
+                  <option value="program1">Child and Education empowerment</option>
+                  <option value="program2">Children activities</option>
+                  <option value="program3">Food distribution</option>
+                  <option value="program4">Women empowerment</option>
+                  <option value="program5">Health awareness camp</option>
+                  <option value="program6">Sanitary pads distribution</option>
+                  <option value="program7">Face mask distribution</option>
+                </select>
+              </div>
+              <div className="md:col-span-5">
+                <label htmlFor="donationAmount">Donation Amount</label>
+                <input
+                  type="number"
+                  name="donationAmount"
+                  id="donationAmount"
+                  className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                  placeholder="Enter amount"
+                  required
+                  onChange={handleChange}
+                  value={formData.donationAmount}
+                />
+              </div>
+              <div className="md:col-span-5">
+                <label htmlFor="transactionId">Transaction ID</label>
+                <input
+                  type="text"
+                  name="transactionId"
+                  id="transactionId"
+                  className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                  placeholder="Enter the ID of transaction (e.g., TXN12345ABC67890)"
+                  required
+                  onChange={handleChange}
+                  value={formData.transactionId}
+                />
+              </div>
+
+              {/* QR Code for Smaller Screens */}
+              <div className="md:hidden flex flex-col items-center gap-[15px] mt-6">
+                <p className=" font-semibold text-left w-full small-range:text-lg">Scan the QR code to proceed:</p>
+                <img src={QRCode} alt="QR Code" className="w-40 h-40" />
               </div>
             </div>
           </div>
         </div>
+
+        {/* Submit Button */}
+        <div className="md:col-span-5 flex flex-col md:flex-row justify-center pt-10 md:gap-10 gap-3">
+          <button onClick={handleSubmit} className="text-white bg-blue hover:bg-logoYellow border-gray-300 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5">
+            Pay Now
+          </button>
+        </div>
       </div>
+    </div>
+  </div>
+</div>
+
 
       {/* Donation opportunity Image*/}
       <div className="pt-10">

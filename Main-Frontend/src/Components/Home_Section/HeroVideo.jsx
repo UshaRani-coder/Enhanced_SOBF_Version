@@ -1,19 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
-import video from '../../assets/sobf.mp4';
 import Popup from '../common_components/Popup.jsx';
 
 const HeroVideo = () => {
   const videoRef = useRef(null);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
 
-     useEffect(() => {
-       // Always show the popup on every page refresh
-       setShowPopup(true);
-     }, []);
-
-     const closePopup = () => {
-       setShowPopup(false);
-    };
+  const closePopup = () => setShowPopup(false);
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -21,21 +13,36 @@ const HeroVideo = () => {
       videoElement.loop = true;
       videoElement.muted = true;
       videoElement.playsInline = true;
-      videoElement.play();
+      videoElement
+        .play()
+        .catch((error) => console.error('Video play error:', error));
     }
   }, []);
 
   return (
-    <div className=" w-[100%] h-[100vh] overflow-hidden ">
+    <div className="w-full h-screen overflow-hidden">
       {showPopup && <Popup onClose={closePopup} />}
-      
+
       <video
         ref={videoRef}
-        src={video}
-        className=" w-full h-full object-cover"
+        src="https://drive.google.com/uc?export=download&id=1uu1XRi-n414LpZnCABFYI-vmTA00w3TW"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="w-full h-full object-cover"
       />
-      
-      
+      {/* <video
+        ref={videoRef}
+        src="https://drive.google.com/uc?id=1uu1XRi-n414LpZnCABFYI-vmTA00w3TW"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="w-full h-full object-cover"
+      /> */}
     </div>
   );
 };

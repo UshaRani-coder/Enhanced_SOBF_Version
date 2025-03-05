@@ -45,7 +45,7 @@ const Team = () => {
                   {item.name}
                 </span>
                 <div
-                  className="text-[14px] lg:text-[16px] font-workSans text-[rgba(255,255,255,0.5)]"
+                  className="text-[14px] lg:text-[16px] px-4 small-max:px-8 md:px-0 font-workSans text-[rgba(255,255,255,0.5)]"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(item.role).replace(
                       /<a /g,
