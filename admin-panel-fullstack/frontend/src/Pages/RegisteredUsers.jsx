@@ -4,6 +4,7 @@ import { FaSearch, FaFilter } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
 import { getEventsUsersFromDB } from '../Reducers/eventuserSlice';
+import axios from 'axios';
 
 const RegisteredUsers = () => {
   const dispatch = useDispatch();
@@ -99,22 +100,104 @@ const RegisteredUsers = () => {
     return matchesSearch && matchesEvent && matchesDate;
   });
 
+  // Email templates
+  const emailTemplates = [
+    {
+      subject: `🎉 Confirmation of Your Registration.`,
+      message: `Dear Devotees,
+
+We are thrilled to confirm your registration for [Event Name]! Thank you for signing up, and we can't wait to see you there.
+
+Here are the event details:
+- Event Name: [Event Name]
+- Date: [Event Date]
+- Time: [Event Time]
+- Location: [Event Location]
+
+If you have any questions or need further information, feel free to reach out to us at [Support Email].
+
+Best regards,
+[Your Organization Name]`,
+    },
+    {
+      subject: '⏰ Reminder:Event is Just Around the Corner!',
+      message: `Dear Devotees,
+
+This is a friendly reminder that [Event Name] is just around the corner! We are excited to have you join us.
+
+Here are the event details:
+- Event Name: [Event Name]
+- Date: [Event Date]
+- Time: [Event Time]
+- Location: [Event Location]
+
+Please make sure to arrive on time and bring any necessary materials. If you have any questions, feel free to contact us at [Support Email].
+
+Looking forward to seeing you there!
+
+Best regards,
+[Your Organization Name]`,
+    },
+    {
+      subject: "🙏 Thank You for Attending Sobf'event",
+      message: `Dear Devotees,
+
+Thank you for attending [Event Name]! We hope you had a great time and found the event informative and enjoyable.
+
+We would love to hear your feedback. Please take a moment to fill out our feedback form: [Feedback Form Link].
+
+If you have any questions or need further information, feel free to reach out to us at [Support Email].
+
+Best regards,
+[Your Organization Name]`,
+    }
+  ];
+
+
+  const [selectedTemplate, setSelectedTemplate] = useState(emailTemplates[0]);
+
+
+
+  // Toggle user selection
   const toggleSelectUser = (userId) => {
     setSelectedUsers((prev) =>
       prev.includes(userId)
-        ? prev.filter((id) => id !== userId)
-        : [...prev, userId],
+        ? prev.filter((id) => id !== userId) // Deselect if already selected
+        : [...prev, userId] // Select if not already selected
     );
   };
 
-  const sendEmails = () => {
+  // Send emails to selected users
+  const sendEmails = async () => {
     if (selectedUsers.length === 0) {
       alert('No users selected');
       return;
     }
-    alert(
-      `Sending emails to: ${selectedUsers.map((id) => users.find((u) => u.id === id)?.email).join(', ')}`,
+
+    // Get selected users' emails
+    const emails = selectedUsers.map((userId) =>
+      eventUser.find((user) => user._id === userId)?.email
     );
+
+    // Use the selected email template
+    const subject = selectedTemplate.subject;
+    const message = selectedTemplate.message;
+
+    try {
+      // Call the backend API to send emails
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/send-emails-to-selected-users`, {
+        emails,
+        subject,
+        message,
+      });
+
+      if (response.status === 200) {
+        alert('Emails sent successfully!');
+      }
+    } catch (error) {
+      console.error('Error sending emails:', error);
+      alert('Failed to send emails');
+    }
   };
 
   return (
@@ -225,7 +308,35 @@ const RegisteredUsers = () => {
           </span>
         </button>
       </div>
+      {/* Email Template Selection */}
+      <div className="mt-4">
+        <label className="block text-gray-700 text-sm mb-1">Select Email Template:</label>
+        <select
+          className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3 cursor-pointer"
+          value={selectedTemplate.subject}
+          onChange={(e) => {
+            const selected = emailTemplates.find((template) => template.subject === e.target.value);
+            setSelectedTemplate(selected);
+          }}
+        >
+          {emailTemplates.map((template) => (
+            <option key={template.subject} value={template.subject}>
+              {template.subject}
+            </option>
+          ))}
+        </select>
+      </div>
 
+      {/* Customize Email Message */}
+      <div className="mt-4">
+        <label className="block text-gray-700 text-sm mb-1">Customize Email Message:</label>
+        <textarea
+          className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
+          rows="5"
+          value={selectedTemplate.message}
+          onChange={(e) => setSelectedTemplate({ ...selectedTemplate, message: e.target.value })}
+        />
+      </div>
       {/* Card View for Small Screens */}
       <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 ">
         {filteredUsers.length > 0 ? (
@@ -285,24 +396,19 @@ const RegisteredUsers = () => {
                   <td className="px-4 py-2">
                     <input
                       type="checkbox"
-                      checked={selectedUsers.includes(user.id)}
-                      onChange={() => toggleSelectUser(user.id)}
+                      checked={selectedUsers.includes(user._id)}
+                      onChange={() => toggleSelectUser(user._id)}
                       className="cursor-pointer"
                     />
                   </td>
                   <td className="px-4 py-2">{user.username}</td>
                   <td className="px-4 py-2">{user.email}</td>
-                  <td className="px-4 py-2">
-                    {user?.registeredEvents[0]?.title}
-                  </td>
-                  <td className="px-4 py-2">
-                    {' '}
-                    {new Date(user.createdAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </td>
+                  <td className="px-4 py-2">{user?.registeredEvents[0]?.title}</td>
+                  <td className="px-4 py-2"> {new Date(user.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}</td>
                 </tr>
               ))
             ) : (

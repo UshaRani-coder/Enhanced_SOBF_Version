@@ -16,9 +16,7 @@ const registerUserForEvent = async (req, res) => {
     if (!isValidObjectId(eventId)) {
       return res.status(400).json({ success: false, message: "Invalid event ID" });
     }
-
     let user;
-
     // Check if userId exists
     if (userId && isValidObjectId(userId)) {
       user = await EventUser.findById(userId);
@@ -143,8 +141,6 @@ const registerUserForEvent = async (req, res) => {
 
     // Send email
     await transporter.sendMail(mailOptions);
-    console.log(`Welcome email sent to ${email}`);
-
     return res.status(200).json({
       success: true,
       message: "User successfully registered for the event",
@@ -166,7 +162,7 @@ const getUsersWithRegisteredEvents = async (req, res) => {
     // Find all users and populate their registered events with full details
     const users = await EventUser.find().populate({
       path: "registeredEvents",
-      model: "upcomingEvents", 
+      model: "upcomingEvents",
     });
     // const users = await EventUser.find().populate({ path:"registeredUsers"})
     res.status(200).json({
@@ -183,5 +179,34 @@ const getUsersWithRegisteredEvents = async (req, res) => {
   }
 };
 
+const sendingEmailToSelectedUsers = async (req ,res) => {
+  const { emails, subject, message } = req.body;
+  console.log("req.body", req.body);
+  
+  if (!emails || !subject || !message) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+  try {
+    for (const email of emails) {
+      await transporter.sendMail({
+        from: "ry648133@gmail.com", // Sender address
+        to: email, // Recipient address
+        subject: subject, // Email subject
+        text: message, // Email body (plain text)
+      });
+    }
+    res.status(200).json({ message: 'Emails sent successfully!' });
+  } catch (error) {
+    console.error('Error sending emails:', error);
+    res.status(500).json({ error: 'Failed to send emails' });
+  }
+}
 
-module.exports = { registerUserForEvent, getUsersWithRegisteredEvents };
+
+
+
+module.exports = {
+  registerUserForEvent,
+  getUsersWithRegisteredEvents,
+  sendingEmailToSelectedUsers
+};

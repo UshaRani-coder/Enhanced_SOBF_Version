@@ -106,3 +106,4 @@ export const deleteEvent = (id) =>
 
 // events user 
 export const getEventUsers = () => apiClient.get('/api/post/users-with-events');
+export const sendingEmailToSelectedUsers = () => apiClient.get('/api/post/send-emails-to-selected-users');
