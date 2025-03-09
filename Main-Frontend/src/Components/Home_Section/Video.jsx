@@ -70,7 +70,7 @@ const Video = () => {
         </h1>
       </div>
 
-      {status === 'loading' && <p> Videos loading...</p>}
+      {status === 'loading' && <p className='w-full text-center'> Videos loading...</p>}
       {status === 'failed' && <p className="text-red-500">{error}</p>}
 
       {/* Video List with InfiniteScroll */}
@@ -86,7 +86,7 @@ const Video = () => {
             <img
               src={loader}
               alt="Loading..."
-              className="w-[50px] h-[50px] mt-[30px]"
+              className="w-[50px] h-[50px] mt-[30px] "
             />
           ) : null
         }

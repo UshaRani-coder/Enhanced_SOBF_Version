@@ -318,60 +318,120 @@ const filteredEvents = sourceData.filter((event) =>
                   new Date(event.date).toISOString().split('T')[0],
                 );
                 return (
+                  // <div key={event.id} className="min-w-full">
+                  //   <div className="bg-white rounded-xl overflow-hidden ">
+                  //     <img
+                  //       src={event.image}
+                  //       alt={event.title}
+                  //       className="w-full h-full  object-cover rounded-t-xl"
+                  //     />
+                  //     <div className="p-3.5 small-range:p-5 text-start">
+                  //       <span
+                  //         className={`px-3 py-1 text-[10px] md:text-sm mb-4 inline-block font-bold ${status.bgColor} ${status.textColor} rounded-full shadow-md ${status.animate}`}
+                  //       >
+                  //         {status.icon} {status.label}
+                  //       </span>
+                  //       <div className="flex flex-col gap-y-1 md:flex-row md:gap-x-4  w-full mb-2 lg:gap-4">
+                  //         <div className="flex flex-row items-center gap-1  lg:w-auto ">
+                  //           <MdAccessTimeFilled className="w-[20px] h-[20px] text-[#1890CE] " />
+                  //           <p className="text-gray-600 flex flex-col md:flex-row md:gap-1 text-[10px] small-range:text-[12px] md:text-[14px]">
+                  //             <span>{formattedDateTime}</span>
+                  //           </p>
+                  //         </div>
+
+                  //         <div className="flex flex-row  items-center gap-1  lg:w-auto ">
+                  //           <MdLocationPin
+                  //             size={21}
+                  //             className=" md:w-[20px] md:h-[20px] text-[#E82327] "
+                  //           />
+                  //           <p className="text-gray-500 text-[10px] small-range:text-[12px] md:text-[14px]">
+                  //             {event.location}
+                  //           </p>
+                  //         </div>
+                  //       </div>
+                  //       <h3 className="text-xl lg:text-2xl font-semibold text-[#2d335d]">
+                  //         {event.title}
+                  //       </h3>
+
+                  //       <p
+                  //         className="text-gray-700 lg:text-lg"
+                  //         dangerouslySetInnerHTML={{
+                  //           __html: DOMPurify.sanitize(
+                  //             event?.description,
+                  //           ).replace(/<a /g, '<a style="color: #4a90e2;" '),
+                  //         }}
+                  //       ></p>
+                  //       {event.date >= today ? (
+                  //         <button
+                  //           onClick={() => setShowForm(true)}
+                  //           className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
+                  //         >
+                  //           Register Now
+                  //         </button>
+                  //       ) : null}
+                  //     </div>
+                  //   </div>
+                  // </div>
                   <div key={event.id} className="min-w-full">
-                    <div className="bg-white rounded-xl overflow-hidden ">
-                      <img
-                        src={event.image}
-                        alt={event.title}
-                        className="w-full h-full  object-cover rounded-t-xl"
-                      />
-                      <div className="p-3.5 small-range:p-5 text-start">
-                        <span
-                          className={`px-3 py-1 text-[10px] md:text-sm mb-4 inline-block font-bold ${status.bgColor} ${status.textColor} rounded-full shadow-md ${status.animate}`}
-                        >
-                          {status.icon} {status.label}
-                        </span>
-                        <div className="flex flex-col gap-y-1 md:flex-row md:gap-x-4  w-full mb-2 lg:gap-4">
-                          <div className="flex flex-row items-center gap-1  lg:w-auto ">
-                            <MdAccessTimeFilled className="w-[20px] h-[20px] text-[#1890CE] " />
-                            <p className="text-gray-600 flex flex-col md:flex-row md:gap-1 text-[10px] small-range:text-[12px] md:text-[14px]">
-                              <span>{formattedDateTime}</span>
-                            </p>
-                          </div>
+  <div className="bg-white rounded-xl overflow-hidden relative">
+    {/* Image with fixed height */}
+    <div className="relative w-full h-[300px] sm:h-[350px] lg:h-[400px]">
+      <img
+        src={event.image}
+        alt={event.title}
+        className="w-full h-full object-cover rounded-t-xl"
+      />
+    </div>
 
-                          <div className="flex flex-row  items-center gap-1  lg:w-auto ">
-                            <MdLocationPin
-                              size={21}
-                              className=" md:w-[20px] md:h-[20px] text-[#E82327] "
-                            />
-                            <p className="text-gray-500 text-[10px] small-range:text-[12px] md:text-[14px]">
-                              {event.location}
-                            </p>
-                          </div>
-                        </div>
-                        <h3 className="text-xl lg:text-2xl font-semibold text-[#2d335d]">
-                          {event.title}
-                        </h3>
+    <div className="p-3.5 small-range:p-5 text-start">
+      <span
+        className={`px-3 py-1 text-[10px] md:text-sm mb-4 inline-block font-bold ${status.bgColor} ${status.textColor} rounded-full shadow-md ${status.animate}`}
+      >
+        {status.icon} {status.label}
+      </span>
+      <div className="flex flex-col gap-y-1 md:flex-row md:gap-x-4  w-full mb-2 lg:gap-4">
+        <div className="flex flex-row items-center gap-1  lg:w-auto ">
+          <MdAccessTimeFilled className="w-[20px] h-[20px] text-[#1890CE] " />
+          <p className="text-gray-600 flex flex-col md:flex-row md:gap-1 text-[10px] small-range:text-[12px] md:text-[14px]">
+            <span>{formattedDateTime}</span>
+          </p>
+        </div>
 
-                        <p
-                          className="text-gray-700 lg:text-lg"
-                          dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(
-                              event?.description,
-                            ).replace(/<a /g, '<a style="color: #4a90e2;" '),
-                          }}
-                        ></p>
-                        {event.date >= today ? (
-                          <button
-                            onClick={() => setShowForm(true)}
-                            className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
-                          >
-                            Register Now
-                          </button>
-                        ) : null}
-                      </div>
-                    </div>
-                  </div>
+        <div className="flex flex-row items-center gap-1  lg:w-auto ">
+          <MdLocationPin
+            size={21}
+            className=" md:w-[20px] md:h-[20px] text-[#E82327] "
+          />
+          <p className="text-gray-600 text-[10px] small-range:text-[12px] md:text-[14px]">
+            {event.location}
+          </p>
+        </div>
+      </div>
+      <h3 className="text-xl lg:text-2xl font-semibold text-[#2d335d]">
+        {event.title}
+      </h3>
+
+      <p
+        className="text-gray-700 lg:text-lg"
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(event?.description).replace(
+            /<a /g,
+            '<a style="color: #4a90e2;" '
+          ),
+        }}
+      ></p>
+      {event.date >= today ? (
+        <button
+          onClick={() => setShowForm(true)}
+          className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
+        >
+          Register Now
+        </button>
+      ) : null}
+    </div>
+  </div>
+</div>
+
                 );
               })}
             </div>

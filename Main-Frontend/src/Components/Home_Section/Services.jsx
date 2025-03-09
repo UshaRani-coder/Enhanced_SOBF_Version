@@ -126,7 +126,7 @@ const Services = () => {
               <li
                 key={item._id}
                 data-aos="fade-up"
-                data-aos-delay={`${index * 100}`}
+                data-aos-delay={`${index * 50}`}
                 // data-bg={item.images[0]}
                 // onMouseOver={() => {
                 //   setHoveredService(item._id);
@@ -210,7 +210,7 @@ const Services = () => {
                 >
                   {' '}
                 
-                  <div className="images-grid h-full min-h-full w-[100%] md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
+                  <div className="images-grid h-full min-h-full w-full md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
                     <ImgBanner banners={serviceData.images}/>
                   </div>
                   <div className="flex flex-col items-center md:items-start w-[90%] lg:w-[60%] h-full min-h-full">

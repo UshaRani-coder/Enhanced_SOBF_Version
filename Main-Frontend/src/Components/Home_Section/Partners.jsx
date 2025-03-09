@@ -5,7 +5,7 @@ import curiousBusinessSolutions from '../../assets/Sobf Images/partners/curiousB
 import { Link } from 'react-router-dom';
 const Partners = () => {
   return (
-    <div className="overflow-hidden mt-[30px] ">
+    <div className="overflow-hidden mt-[30px] flex flex-col items-center ">
       <h1 className="text-center text-heading3 lg:text-heading2 font-bold my-4 p-5 text-[#2d335d] relative  transition-all ease-in-out ">
         Supported by
         <hr className="mt-1 border-light-lavender border-[1px]" />

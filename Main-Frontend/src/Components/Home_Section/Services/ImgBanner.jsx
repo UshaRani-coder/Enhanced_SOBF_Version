@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const ImgBanner = ({ banners }) => {
+ 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const timerRef = useRef(null);
@@ -34,7 +35,7 @@ const ImgBanner = ({ banners }) => {
 
   return (
     <div
-      className="relative flex items-center justify-center overflow-hidden w-[90%] h-[60vh] rounded-2xl"
+      className="relative flex items-center justify-center  overflow-hidden w-[90%]  rounded-2xl"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

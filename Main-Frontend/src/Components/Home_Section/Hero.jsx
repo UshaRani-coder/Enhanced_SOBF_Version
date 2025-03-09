@@ -33,8 +33,9 @@ const Hero = () => {
 
   return (
     <div
-      className="  h-[85vh] md:h-[87vh] lg:h-[92vh] xl:h-[87vh] flex flex-col-reverse md:flex-row-reverse md:justify-center items-center justify-end  
-    bg-[#0d1b2a] overflow-x-hidden mt-[90px] pt-10 gap-y-4"
+      className="relative  h-[87vh] md:h-[90vh]  xl:h-[90vh] flex flex-col-reverse md:flex-row-reverse md:justify-center items-center lg:items-start justify-end  
+    bg-[#0d1b2a] overflow-hidden  pt-10 gap-y-4 lg:pt-[200px] xl:pt-16"
+    id='next-section'
     >
       
       {/* Background Glow Effect */}
@@ -46,7 +47,7 @@ const Hero = () => {
       {/* Text Content */}
       <div className=" z-10 text-center md:text-left md:w-[40%]  text-white">
         <motion.h1
-          className="font-extrabold text-xl md:text-3xl lg:text-5xl xl:text-[45px]  leading-[25px] md:leading-[40px] lg:leading-[60px] xl:leading-[55px] tracking-wide small-max:px-4"
+          className="font-extrabold text-xl md:text-3xl lg:text-[55px] xl:text-[47px]  leading-[25px] md:leading-[40px] lg:leading-[65px] xl:leading-[55px] tracking-wide px-2 small-max:px-4"
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -69,7 +70,7 @@ const Hero = () => {
       </div>
 
       {/* Hero Image */}
-      <div className=" flex justify-center items-center w-full md:w-[60%] h-[50%] md:h-[60%] xl:h-[75%]  overflow-x-hidden">
+      <div className=" flex justify-center items-center w-full md:w-[60%] h-[50%] md:h-[60%] lg:h-[80%] xl:h-[80%]  overflow-x-hidden">
         <AnimatePresence mode="wait">
           <motion.img
             key={heroBanner[currentIndex]?._id}
@@ -85,7 +86,7 @@ const Hero = () => {
       </div>
 
       {/* Navigation Dots */}
-      <div className="absolute bottom-2 flex gap-3">
+      <div className="absolute bottom-6 lg:bottom-[50px] flex gap-3 ">
         {heroBanner.map((_, index) => (
           <button
             key={index}

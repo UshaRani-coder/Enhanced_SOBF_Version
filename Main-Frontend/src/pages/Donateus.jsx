@@ -29,14 +29,14 @@ const Donateus = () => {
     transactionId: "",
   });
   const location = useLocation();
-  // useEffect(() => {
-  //     if (location.pathname === '/donate-us') {
-  //       window.scrollTo({
-  //         top: 0,
-  //         behavior: 'smooth',
-  //       });
-  //     }
-  //   }, [location.pathname]);
+  useEffect(() => {
+      if (location.pathname === '/donate-us') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }
+    }, [location.pathname]);
 
   // Function to render content based on active tab
 
@@ -285,7 +285,7 @@ const Donateus = () => {
 
           <div className="w-full">
             <div className="grid gap-4 gap-y-2 text-sm grid-cols-1">
-              <div className="md:flex md:items-start md:gap-[30px]">
+              <div className="md:flex md:items-end md:gap-[30px]">
                 <div className="md:w-[75%] lg:w-[100%]">
                   <div className="md:col-span-5 mt-[10px]">
                     <label htmlFor="fullName">Full Name</label>
@@ -342,7 +342,7 @@ const Donateus = () => {
                 </div>
 
                 {/* QR Code for Larger Screens */}
-                <div className="hidden md:flex flex-col items-center gap-[15px] md:w-[200px] lg:w-[30%]">
+                <div className="hidden md:flex flex-col items-end gap-[15px] md:w-[200px] lg:w-[30%]">
                   <p className="text-lg font-semibold">Scan the QR code to proceed:</p>
                   <img src={QRCode} alt="QR Code" className="w-32 h-32 md:w-[200px] md:h-[200px]" />
                 </div>

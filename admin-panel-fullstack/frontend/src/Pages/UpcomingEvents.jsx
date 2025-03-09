@@ -7,7 +7,12 @@ import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdAccessTimeFilled } from 'react-icons/md';
-import { createEventPost, fetchEvents, removeEvent, updateEventPost } from '../Reducers/upcomingEventsSlice';
+import {
+  createEventPost,
+  fetchEvents,
+  removeEvent,
+  updateEventPost,
+} from '../Reducers/upcomingEventsSlice';
 
 const UpcomingEvents = () => {
   ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
@@ -27,14 +32,12 @@ const UpcomingEvents = () => {
   const dispatch = useDispatch();
   const { events, status } = useSelector((state) => state.events);
 
-
   // Fetch teams data
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchEvents());
     }
   }, [status, dispatch]);
-
 
   const validateForm = () => {
     if (!formData.title.trim()) {
@@ -80,7 +83,8 @@ const UpcomingEvents = () => {
     newPost.append('location', formData.location);
     newPost.append('date', formData.date);
     newPost.append('time', formData.time);
-    dispatch(createEventPost(newPost)).unwrap()
+    dispatch(createEventPost(newPost))
+      .unwrap()
       .then(() => {
         toast.success('Event Post added successfully!');
         setIsModalOpen(false);
@@ -136,7 +140,6 @@ const UpcomingEvents = () => {
       .finally(() => setIsLoading(false)); // End loading
   };
 
-
   const handleDeletePost = (id) => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this Event? This action cannot be undone.',
@@ -173,7 +176,7 @@ const UpcomingEvents = () => {
   };
   const handleFileChange = (e) => {
     const { name, files } = e.target; // `files` is an array-like object
-    setFormData((prev) => ({ ...prev, [name]: files[0] || null }))
+    setFormData((prev) => ({ ...prev, [name]: files[0] || null }));
   };
 
   const resetForm = () => {
@@ -415,9 +418,9 @@ const UpcomingEvents = () => {
             const formattedDateTime =
               post && post.date && post.time
                 ? formatDateAndTime(
-                  new Date(post.date).toLocaleDateString('en-US'),
-                  post.time,
-                )
+                    new Date(post.date).toLocaleDateString('en-US'),
+                    post.time,
+                  )
                 : 'N/A';
             return (
               <div
@@ -426,11 +429,13 @@ const UpcomingEvents = () => {
               >
                 {/* Image Rendering */}
                 {post.image ? (
+                   <div className="relative w-full h-[300px] sm:h-[350px] lg:h-[400px]">
                   <img
                     src={post.image}
                     alt="Event Image"
-                    className="w-full h-full  object-cover rounded"
+                    className="w-full h-full object-cover rounded"
                   />
+                  </div>
                 ) : (
                   <p className="text-gray-500">No image available</p>
                 )}

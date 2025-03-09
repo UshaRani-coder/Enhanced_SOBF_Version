@@ -50,9 +50,10 @@ const Statistics = () => {
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h2>
       )}
+       {status === 'loading' && <p className='w-full text-center'>Impacts Loading...</p>}
+       {status === 'failed' && <p className="text-red-500">{error}</p>}
       <div className="flex justify-center px-4 sm:px-6  ">
-        {status === 'loading' && <p>Impacts Loading...</p>}
-        {status === 'failed' && <p className="text-red-500">{error}</p>}
+       
         <div className="max-w-6xl w-full">
           {/* <ul className="w-full grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 lg:gap-6 gap-4"> */}
           <ul

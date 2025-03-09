@@ -12,6 +12,7 @@ export default {
           'infinite-scroll-reverse 80s linear infinite',
         zoomIn: 'zoomIn 2.5s forwards',
         scroll: 'scroll 20s linear infinite',
+        gradient: 'gradient 5s ease infinite',
       },
       keyframes: {
         heartbeat: {
@@ -112,6 +113,11 @@ export default {
         scroll: {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(-100%)' },
+        },
+        gradient: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
         },
       },
     },

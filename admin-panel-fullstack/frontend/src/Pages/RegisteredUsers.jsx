@@ -212,7 +212,7 @@ const RegisteredUsers = () => {
         {/* Bulk Action: Send Emails */}
         <button
           onClick={sendEmails}
-          className={`fixed bottom-6 right-6 md:static flex items-center  px-4 py-2 bg-[#CC493C] text-white rounded-md shadow-lg transition-all duration-300 
+          className={`fixed bottom-6 right-6 md:static flex items-center  px-4 py-2 bg-[#CC493C] hover:bg-[#b63f33] hover:scale-105 hover:shadow-xl  text-white rounded-md shadow-lg transition-all duration-300 
         ${isMobile ? (isHovered ? 'w-auto px-5' : 'w-12 justify-center') : 'w-auto'}`}
           onMouseEnter={() => isMobile && setIsHovered(true)}
           onMouseLeave={() => isMobile && setIsHovered(false)}

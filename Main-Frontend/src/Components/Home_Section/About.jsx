@@ -72,7 +72,7 @@ const About = () => {
         </p>
 
         {/* Image Grid with Custom Animations */}
-        <div className="flex flex-wrap justify-center w-[90%] gap-6 rounded-tl-lg rounded-br-lg md:w-[60%] align-center lg:w-[50%] xl:w-[45%] my-[30px] lg:my-0 overflow-hidden">
+        <div className="flex flex-wrap justify-center w-[90%] gap-6 rounded-tl-lg rounded-br-lg md:w-[60%] align-center lg:w-[50%] xl:w-[600px] my-[30px] lg:my-0 overflow-hidden">
           <img
             src={childEducationImg}
             alt="child-education"

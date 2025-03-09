@@ -20,15 +20,7 @@ import { useLocation } from 'react-router-dom';
 
 const HomePage = () => {
   const location = useLocation();
-  const [visible, setVisible] = useState(false);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setVisible(true);
-  //   }, 1000);
-
-  //   return () => clearTimeout(timer);
-  // }, []);
+  
   useEffect(() => {
     if (location.pathname === '/') {
       window.scrollTo({
@@ -39,21 +31,18 @@ const HomePage = () => {
   }, [location.pathname]);
   return (
     <div className="flex flex-col items-center overflow-auto">
-        {/* Hero Section Above Video */}
-        <div className="relative z-[10] w-full overflow-hidden">
+      
+        <div className=" w-full ">
           <HeroVideo />
         </div>
-        <div className="relative w-full h-screen">
+     
         <div
-          className={`fixed top-0 w-full h-full z-[-1] transition-opacity duration-500 
+          className={` w-full    
             `}
         >
           <Hero />
         </div>
-      </div>
-
-      {/* Remaining Content Below (Normal Flow) */}
-      <div className=" relative z-[10] w-full bg-white mt-[400px] md:mt-[600px] lg:mt-[900px] xl:mt-[1000px]">
+      
         <SidePopup />
         <Impacts />
         <Programms />
@@ -70,7 +59,7 @@ const HomePage = () => {
         <Contactus />
         <Faq />
       </div>
-    </div>
+   
   );
 };
 
