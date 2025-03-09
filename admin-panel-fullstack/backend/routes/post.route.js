@@ -59,7 +59,7 @@ const {
 const { createLegalDocument, updateLegalDocument, deleteLegalDocument, getLegalDocument } = require('../controllers/legaldoc.controller');
 const { createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo } = require('../controllers/featuredvideos.controller');
 const { createEventPost, getEventPostById, getEventPosts, updateEventPost, deleteEventPost } = require('../controllers/upcoming-event.controller');
-const { registerUserForEvent, getUsersWithRegisteredEvents } = require('../controllers/event-users.controller');
+const { registerUserForEvent, getUsersWithRegisteredEvents, sendingEmailToSelectedUsers } = require('../controllers/event-users.controller');
 
 // const { deleteEventPost, getEventPosts, getEventPostById, createEventPost, updateEventPost } = require('../controllers/upcomingevent.controller');
 
@@ -206,7 +206,7 @@ router.delete('/delete-upcoming-events/:id', deleteEventPost);
 //! registered user for particular events 
 router.post('/register-event/:eventId', registerUserForEvent);
 router.get("/users-with-events", getUsersWithRegisteredEvents);
-
+router.post("/send-emails-to-selected-users", sendingEmailToSelectedUsers)
 
 
 module.exports = router;
