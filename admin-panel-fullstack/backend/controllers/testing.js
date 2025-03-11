@@ -33,6 +33,7 @@ async function sendTestEmail(req,res) {
     return res.status(200).json({message:"sent successfully email "})
   } catch (error) {
     console.error("SMTP Error:", error);
+    return res.status(500).json({ message: error })
   }
 }
 
