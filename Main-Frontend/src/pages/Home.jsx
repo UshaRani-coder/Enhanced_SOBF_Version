@@ -19,16 +19,7 @@ import UpcomingEvents from '../Components/Home_Section/UpcomingEvents.jsx';
 import { useLocation } from 'react-router-dom';
 
 const HomePage = () => {
-  const location = useLocation();
-  
-  useEffect(() => {
-    if (location.pathname === '/') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [location.pathname]);
+ 
   return (
     <div className="flex flex-col items-center overflow-auto">
       

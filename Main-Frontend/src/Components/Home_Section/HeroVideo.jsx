@@ -39,7 +39,10 @@ const HeroVideo = () => {
       document.body.style.overflow = "auto";
       document.documentElement.style.overflow = "auto";
     };
-  }, [showPopup]);
+  }, [showPopup]
+
+);
+  
 
   const handleScrollDown = () => {
     const nextSection = document.getElementById("next-section");
@@ -71,16 +74,16 @@ const HeroVideo = () => {
 
       {/* Overlay */}
       <div className="absolute inset-0  bg-black bg-opacity-50 flex flex-col items-center justify-center text-white text-center px-4">
-        <h1 className="text-4xl md:text-4xl lg:text-6xl font-bold tracking-wide leading-tight text-[#f6f1d3] relative text-center w-full max-w-[90%] mx-auto">
+        <h1 className="text-4xl md:text-[45px] lg:text-6xl font-bold tracking-wide leading-tight text-[#f6f1d3] relative text-center w-full max-w-[90%] mx-auto">
           Welcome to
           <span className="block font-extrabold uppercase overflow-hidden text-center w-full flex justify-center items-center">
-            <span className="text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-[size:200%] bg-clip-text animate-gradient-shimmer">
+            <span className="md:mt-2 text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-[size:200%] bg-clip-text animate-gradient-shimmer">
               Soul of Braj Federation
             </span>
           </span>
         </h1>
 
-        <p className="small-max:mt-2 text-xl md:text-xl lg:text-2xl max-w-2xl text-[#f6f1d3]">
+        <p className="small-max:mt-2 text-xl md:text-3xl lg:text-2xl max-w-2xl text-[#f6f1d3]">
           Empowering the poor in Vrindavan through education, healthcare, and
           sustainable development.
         </p>

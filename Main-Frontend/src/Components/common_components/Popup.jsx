@@ -178,7 +178,7 @@ const Popup = ({ onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-[99999]">
       {/* <div className="relative w-[90%]  md:w-[60%] lg:w-[60%] xl:w-[40%]  h-[75vh] lg:h-[65vh] xl:h-[70vh]  bg-[#FFFEFA] rounded-lg shadow-lg flex flex-col mt-[100px] md:mt-[70px] lg:mt-0 xl:mt-[120px]"> */}
-      <div className="relative w-[90%] md:w-[60%] lg:w-[60%] xl:w-[40%] bg-[#FFFEFA] rounded-lg shadow-lg flex flex-col mt-[100px] md:mt-[70px] lg:mt-0 xl:mt-[120px] h-[75vh] lg:h-[65vh] xl:h-[70vh] safari:h-[80vh] firefox:h-[70vh] edge:h-[100vh]">
+      <div className="relative w-[90%] md:w-[60%] lg:w-[60%] xl:w-[40%] bg-[#FFFEFA] rounded-lg shadow-lg flex flex-col mt-[120px] md:mt-[70px] lg:mt-0 xl:mt-[120px] h-[450px] md:h-[500px]  xl:h-[450px] safari:h-[80vh] firefox:h-[70vh] edge:h-[100vh]">
         {/* Close Button */}
         <button
           className="absolute top-[-10px] right-[-10px] text-white font-bold bg-red-500 hover:bg-red-700 rounded-full p-1"
@@ -214,7 +214,7 @@ const Popup = ({ onClose }) => {
           {/* Donate Button */}
           <Link to={'/donate-us'} onClick={onClose} className="m-2">
             <button
-              className="lg:mt-6 xl:mt-0 bg-gradient-to-r from-yellow-500 to-yellow-700 text-white p-2 px-4 md:px-4 md:py-3 rounded-full 
+              className="md:mt-6 xl:mt-0 bg-gradient-to-r from-yellow-500 to-yellow-700 text-white p-2 px-4 md:px-4 md:py-3 rounded-full 
                      shadow-lg hover:shadow-yellow-500/50 transition-all duration-300 flex items-center gap-2 animate-bounce"
             >
               <svg

@@ -96,10 +96,10 @@ const DonateHero = () => {
       <AnimatePresence>
         <motion.div
           key={heroes_donate[currentIndex]?.text}
-          className="absolute top-10 md:inset-0 flex items-center justify-center z-10"
+          className="absolute top-20 md:inset-0 flex items-center justify-center z-10"
         >
           <motion.p
-            className="text-logoYellow text-center font-bold text-xl leading-[30px] md:leading-[50px] lg:leading-[80px] small-range:text-2xl md:text-4xl lg:text-5xl w-[90%] md:w-[60%]"
+            className="text-logoYellow text-center font-bold text-3xl leading-[40px] small-max:leading-[45px] md:leading-[60px] lg:leading-[80px] small-range:text-[25px] small-max:text-3xl md:text-[45px] lg:text-5xl w-[90%] md:w-[60%]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}

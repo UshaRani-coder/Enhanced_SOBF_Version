@@ -383,7 +383,7 @@ const Team = () => {
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(member.role).replace(
                       /<a /g,
-                      '<a style="color: #4a90e2; text-decoration: underline;" ',
+                      '<a style="color: #4a90e2" ',
                     ),
                   }}
                 />
