@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const logger = require("../logger");
 const { isValidObjectId } = require("mongoose");
 const upcomingEvents = require("../models/upcoming-events.model");
-const EventUser = require("../models/event-user.controller");
+const EventUser = require("../models/event-user.model");
 const transporter = require("../middleware/nodemailer");
 
 
@@ -37,10 +37,10 @@ const registerUserForEvent = async (req, res) => {
       }
 
       // Check if email already exists
-      const existingUser = await EventUser.findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ success: false, message: "This email is already registered" });
-      }
+      // const existingUser = await EventUser.findOne({ email });
+      // if (existingUser) {
+      //   return res.status(400).json({ success: false, message: "This email is already registered" });
+      // }
 
       // Create a new user
       user = new EventUser({ username, email, registeredEvents: [] });

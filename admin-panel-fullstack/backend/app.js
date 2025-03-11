@@ -159,10 +159,7 @@ app.use('/api/post', router);
 app.get('/', (req, res) => res.send('Welcome to SOBF - 🙏'));
 
 // ✅ Connect to Database BEFORE Starting the Server
-connectDB()
-  .then(() => {
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-  })
+connectDB().then(() => { app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`)) })
   .catch((err) => {
     console.error('❌ Database connection failed:', err);
     process.exit(1); // Exit process if DB connection fails
