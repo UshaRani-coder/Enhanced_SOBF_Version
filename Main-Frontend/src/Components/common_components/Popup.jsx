@@ -189,12 +189,12 @@ const Popup = ({ onClose }) => {
 
         {/* Images Section (Top Half) */}
         
-        <div className="flex w-full h-[60%] rounded-lg overflow-hidden">
+        <div className="flex w-full h-[60%]  overflow-hidden">
   {popupImagesArray.map((item, index) => (
     <div
       key={index}
       className={`w-1/3 h-full bg-center bg-no-repeat ${
-        index === 0 ? "rounded-l-lg" : index === popupImagesArray.length - 1 ? "rounded-r-lg" : ""
+        index === 0 ? "rounded-tl-lg rounded-b-none" : index === popupImagesArray.length - 1 ? "rounded-tr-lg rounded-b-none" : ""
       }`}
       style={{
         backgroundImage: `url(${item.img})`,

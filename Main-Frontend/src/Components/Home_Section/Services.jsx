@@ -210,7 +210,7 @@ const Services = () => {
                 >
                   {' '}
                 
-                  <div className="images-grid h-full min-h-full w-full md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
+                  <div className="images-grid h-[65vh] lg:h-full min-h-full w-full md:w-[90%] lg:w-[40%] flex flex-wrap justify-center gap-5">
                     <ImgBanner banners={serviceData.images}/>
                   </div>
                   <div className="flex flex-col items-center md:items-start w-[90%] lg:w-[60%] h-full min-h-full">

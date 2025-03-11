@@ -37,7 +37,7 @@ const CommunityService = ({ setService }) => {
       )}
 
       <div className="flex flex-col lg:flex-row lg:items-stretch items-center lg:justify-center lg:gap-x-[30px]  lg:mt-[120px]">
-        <div className="w-[100%] flex justify-center lg:w-[50%]">
+        <div className="w-[100%] h-[55vh] lg:h-[45vh] xl:h-[55vh]  flex justify-center lg:w-[50%] ">
           <ImgBanner banners={images} />
         </div>
         <div className="flex flex-col md:items-start items-center  mx-[20px] w-[90%] lg:w-[50%] justify-center">

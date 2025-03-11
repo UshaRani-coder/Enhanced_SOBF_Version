@@ -33,10 +33,11 @@ const Gallery = () => {
     'all',
     ...new Set(
       gallery
-        .flatMap((image) => (image.tag ? image.tag.split(',') : [])) // Remove empty tags
-        .filter((tag) => tag.trim() !== ''),
+        .map((image) => image?.tag?.replace(/\s+/g, ' ').trim()) // Normalize spaces & trim
+        .filter((tag) => tag) // Remove empty tags
     ),
   ];
+  
 
   // Filter gallery images based on selected category
   const filteredImages =
@@ -53,11 +54,11 @@ const Gallery = () => {
   };
 
   return (
-    <div className="pt-[110px] py-6">
+    <div className="pt-[90px] md:pt-[100px] lg:pt-[120px]">
       <img
         src={aboutus}
-        alt="About Us"
-        className="w-full h-[190px] lg:h-[420px] object-cover"
+        alt="Gallery"
+        className="w-full h-[200px] md:h-[300px] lg:h-[450px] object-cover"
       />
       <div className="container mx-auto px-1 small-max:px-4">
         <div className="w-full mb-6 text-center">
@@ -85,6 +86,7 @@ const Gallery = () => {
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4">
+            {console.log(tags)}
             {tags.map((category) => (
               <button
                 key={category}

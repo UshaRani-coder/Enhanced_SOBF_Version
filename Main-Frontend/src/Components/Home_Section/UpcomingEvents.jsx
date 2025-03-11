@@ -26,6 +26,8 @@ const UpcomingEvents = () => {
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -35,7 +37,8 @@ const UpcomingEvents = () => {
     {
       id: '1',
       title: 'Community Clean-up Drive',
-      description: 'Join us in making Vrindavan cleaner and greener! This community-driven initiative aims to raise awareness about environmental responsibility. Volunteers will participate in waste collection, recycling activities, and tree planting to promote a healthier ecosystem. Lets work together for a cleaner tomorrow!',
+      description:
+        'Join us in making Vrindavan cleaner and greener! This community-driven initiative aims to raise awareness about environmental responsibility. Volunteers will participate in waste collection, recycling activities, and tree planting to promote a healthier ecosystem. Lets work together for a cleaner tomorrow!',
       date: '2025-04-10',
       time: '10:00',
       location: 'Vrindavan Park',
@@ -44,7 +47,8 @@ const UpcomingEvents = () => {
     {
       id: '2',
       title: 'Health Awareness Camp',
-      description:'A free health camp providing essential check-ups, consultations, and awareness sessions on preventive healthcare. Medical professionals will offer general health screenings, blood pressure checks, and dietary guidance. Take charge of your well-being and spread the message of a healthier society!',
+      description:
+        'A free health camp providing essential check-ups, consultations, and awareness sessions on preventive healthcare. Medical professionals will offer general health screenings, blood pressure checks, and dietary guidance. Take charge of your well-being and spread the message of a healthier society!',
       date: '2025-05-15',
       time: '09:30',
       location: 'Community Hall',
@@ -53,7 +57,8 @@ const UpcomingEvents = () => {
     {
       id: '3',
       title: 'Women Empowerment Seminar',
-      description: 'A seminar dedicated to empowering women through education, skill-building, and self-confidence. Inspirational speakers will share their journeys, and interactive workshops will help attendees gain valuable insights into financial independence, leadership, and personal growth. Lets uplift and support each other for a brighter future!',
+      description:
+        'A seminar dedicated to empowering women through education, skill-building, and self-confidence. Inspirational speakers will share their journeys, and interactive workshops will help attendees gain valuable insights into financial independence, leadership, and personal growth. Lets uplift and support each other for a brighter future!',
       date: '2025-06-20',
       time: '11:00',
       location: 'City Auditorium',
@@ -78,9 +83,20 @@ const UpcomingEvents = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+    setIsLoading(true);
+    setProgress(0);
 
     try {
+      setIsLoading(true);
+      setProgress(0);
       const eventId = filteredEvents[currentIndex]._id; // Get the event ID
+      // Simulate progress increase while waiting for the response
+      let fakeProgress = 0;
+      const interval = setInterval(() => {
+        fakeProgress += 10;
+        setProgress(fakeProgress);
+        if (fakeProgress >= 90) clearInterval(interval); // Stop at 90% (API response will set 100%)
+      }, 200);
       const response = await fetch(
         `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${eventId}`,
         {
@@ -95,6 +111,8 @@ const UpcomingEvents = () => {
           }),
         },
       );
+      clearInterval(interval);
+      setProgress(100); // API response received, set progress to 100%
       const data = await response.json();
       if (response.ok) {
         toast.success('Your registration is successful!');
@@ -107,6 +125,11 @@ const UpcomingEvents = () => {
       }
     } catch (error) {
       toast.error('Something went wrong while registering for the event');
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+        setProgress(0);
+      }, 500);
     }
   };
 
@@ -138,8 +161,6 @@ const UpcomingEvents = () => {
         };
   };
 
-  
-
   function formatDateAndTime(dateString, timeString) {
     // Parse date
     const [month, day, year] = dateString.split('/').map(Number);
@@ -167,14 +188,13 @@ const UpcomingEvents = () => {
     return `${formattedDate} ${formattedTime}`;
   }
 
- 
-          const sourceData = events.length > 0 ? events : fallbackEvents;
+  const sourceData = events.length > 0 ? events : fallbackEvents;
 
-const filteredEvents = sourceData.filter((event) =>
-  (selectedYear ? event.date.includes(selectedYear) : true) &&
-  (selectedMonth ? event.date.includes(`-${selectedMonth}-`) : true)
-);
-
+  const filteredEvents = sourceData.filter(
+    (event) =>
+      (selectedYear ? event.date.includes(selectedYear) : true) &&
+      (selectedMonth ? event.date.includes(`-${selectedMonth}-`) : true),
+  );
 
   // Reset currentIndex if it's out of range after filtering
   useEffect(() => {
@@ -200,18 +220,18 @@ const filteredEvents = sourceData.filter((event) =>
   ];
 
   useEffect(() => {
-    // Disable scrolling when the form is open
     if (showForm) {
-      document.body.style.overflow = 'hidden';
+      const scrollY = window.scrollY; // Save the current scroll position
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
     } else {
-      document.body.style.overflow = 'auto';
+      const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10));
+      document.body.style.position = '';
+      document.body.style.top = '';
+      window.scrollTo(0, scrollY); // Restore scroll position
     }
-
-    // Cleanup function to reset scrolling when the component unmounts
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [showForm]); // Runs whenever showForm changes
+  }, [showForm]);
 
   return (
     <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0 mt-10">
@@ -317,6 +337,7 @@ const filteredEvents = sourceData.filter((event) =>
                 const status = getEventStatus(
                   new Date(event.date).toISOString().split('T')[0],
                 );
+
                 return (
                   // <div key={event.id} className="min-w-full">
                   //   <div className="bg-white rounded-xl overflow-hidden ">
@@ -372,66 +393,65 @@ const filteredEvents = sourceData.filter((event) =>
                   //     </div>
                   //   </div>
                   // </div>
-                  <div key={event.id} className="min-w-full">
-  <div className="bg-white rounded-xl overflow-hidden relative">
-    {/* Image with fixed height */}
-    <div className="relative w-full h-[300px] sm:h-[350px] lg:h-[400px]">
-      <img
-        src={event.image}
-        alt={event.title}
-        className="w-full h-full object-cover rounded-t-xl"
-      />
-    </div>
 
-    <div className="p-3.5 small-range:p-5 text-start">
-      <span
-        className={`px-3 py-1 text-[10px] md:text-sm mb-4 inline-block font-bold ${status.bgColor} ${status.textColor} rounded-full shadow-md ${status.animate}`}
-      >
-        {status.icon} {status.label}
-      </span>
-      <div className="flex flex-col gap-y-1 md:flex-row md:gap-x-4  w-full mb-2 lg:gap-4">
-        <div className="flex flex-row items-center gap-1  lg:w-auto ">
-          <MdAccessTimeFilled className="w-[20px] h-[20px] text-[#1890CE] " />
-          <p className="text-gray-600 flex flex-col md:flex-row md:gap-1 text-[10px] small-range:text-[12px] md:text-[14px]">
-            <span>{formattedDateTime}</span>
-          </p>
-        </div>
+                  <div key={event._id || event.id} className="min-w-full">
+                    <div className="bg-white rounded-xl overflow-hidden relative">
+                      {/* Image with fixed height */}
+                      <div className="relative w-full h-[300px] sm:h-[350px] lg:h-[400px]">
+                        <img
+                          src={event.image}
+                          alt={event.title}
+                          className="w-full h-full object-cover rounded-t-xl"
+                        />
+                      </div>
 
-        <div className="flex flex-row items-center gap-1  lg:w-auto ">
-          <MdLocationPin
-            size={21}
-            className=" md:w-[20px] md:h-[20px] text-[#E82327] "
-          />
-          <p className="text-gray-600 text-[10px] small-range:text-[12px] md:text-[14px]">
-            {event.location}
-          </p>
-        </div>
-      </div>
-      <h3 className="text-xl lg:text-2xl font-semibold text-[#2d335d]">
-        {event.title}
-      </h3>
+                      <div className="p-3.5 small-range:p-5 text-start">
+                        <span
+                          className={`px-3 py-1 text-[10px] md:text-sm mb-4 inline-block font-bold ${status.bgColor} ${status.textColor} rounded-full shadow-md ${status.animate}`}
+                        >
+                          {status.icon} {status.label}
+                        </span>
+                        <div className="flex flex-col gap-y-1 md:flex-row md:gap-x-4  w-full mb-2 lg:gap-4">
+                          <div className="flex flex-row items-center gap-1  lg:w-auto ">
+                            <MdAccessTimeFilled className="w-[20px] h-[20px] text-[#1890CE] " />
+                            <p className="text-gray-600 flex flex-col md:flex-row md:gap-1 text-[10px] small-range:text-[12px] md:text-[14px]">
+                              <span>{formattedDateTime}</span>
+                            </p>
+                          </div>
 
-      <p
-        className="text-gray-700 lg:text-lg"
-        dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(event?.description).replace(
-            /<a /g,
-            '<a style="color: #4a90e2;" '
-          ),
-        }}
-      ></p>
-      {event.date >= today ? (
-        <button
-          onClick={() => setShowForm(true)}
-          className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
-        >
-          Register Now
-        </button>
-      ) : null}
-    </div>
-  </div>
-</div>
+                          <div className="flex flex-row items-center gap-1  lg:w-auto ">
+                            <MdLocationPin
+                              size={21}
+                              className=" md:w-[20px] md:h-[20px] text-[#E82327] "
+                            />
+                            <p className="text-gray-600 text-[10px] small-range:text-[12px] md:text-[14px]">
+                              {event.location}
+                            </p>
+                          </div>
+                        </div>
+                        <h3 className="text-xl lg:text-2xl font-semibold text-[#2d335d]">
+                          {event.title}
+                        </h3>
 
+                        <p
+                          className="text-gray-700 lg:text-lg"
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(
+                              event?.description,
+                            ).replace(/<a /g, '<a style="color: #4a90e2;" '),
+                          }}
+                        ></p>
+                        {event.date >= today ? (
+                          <button
+                            onClick={() => setShowForm(true)}
+                            className="mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
+                          >
+                            Register Now
+                          </button>
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -443,7 +463,7 @@ const filteredEvents = sourceData.filter((event) =>
         </p>
       )}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[1000] w-[100%]">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center z-[1000] w-[100%]">
           <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-[80%] lg:w-[40%] mt-[80px] flex flex-col items-start">
             <h2 className="text-xl font-bold mb-4 text-center">
               Register for the Event
@@ -493,6 +513,16 @@ const filteredEvents = sourceData.filter((event) =>
               </div>
             </form>
           </div>
+          {isLoading && (
+            <div className="w-[90%] md:w-[80%] lg:w-[40%] bg-gray-200 rounded-full h-4 mt-2 relative">
+              <div
+                className="bg-[#25D366] h-4 rounded-full transition-all duration-300 flex items-center justify-center text-white text-xs font-medium"
+                style={{ width: `${progress}%` }}
+              >
+                {progress}%
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

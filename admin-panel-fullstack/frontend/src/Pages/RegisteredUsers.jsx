@@ -139,7 +139,7 @@ Best regards,
 [Your Organization Name]`,
     },
     {
-      subject: "🙏 Thank You for Attending Sobf'event",
+      subject: "🙏 Thank you for attending the SOBF event! Stay connected with us for more initiatives.",
       message: `Dear Devotees,
 
 Thank you for attending [Event Name]! We hope you had a great time and found the event informative and enjoyable.
@@ -230,7 +230,7 @@ Best regards,
 
           {/* Filter Dropdown */}
           {showFilterDropdown && (
-            <div className="fixed rounded-lg right-5 md:right-10 mt-2 bg-gray-200 text-gray-800 border-gray-300 shadow-lg  p-4 w-64 z-50">
+            <div className="fixed rounded-lg right-5 md:right-10 mt-2 bg-white text-gray-800 border-gray-300 shadow-lg  p-4 w-64 z-50">
               <button
                 className="absolute top-[18px] right-[20px]  "
                 onClick={() => setShowFilterDropdown(false)}
@@ -320,7 +320,7 @@ Best regards,
           }}
         >
           {emailTemplates.map((template) => (
-            <option key={template.subject} value={template.subject}>
+            <option key={template.subject} value={template.subject} >
               {template.subject}
             </option>
           ))}

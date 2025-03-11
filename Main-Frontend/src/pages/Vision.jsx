@@ -25,9 +25,9 @@ const Vision = () => {
     }
   }, [location.pathname]);
   return (
-    <div className="pt-[100px]">
+    <div className="pt-[90px] md:pt-[100px] lg:pt-[120px]">
       <div
-        className="w-full h-[200px] md:h-[300px] lg:h-[450px]"
+        className="w-full h-[200px] md:h-[300px] lg:h-[450px] object-cover"
         style={{
           backgroundImage: `url(${aboutus})`,
           backgroundSize: 'cover',

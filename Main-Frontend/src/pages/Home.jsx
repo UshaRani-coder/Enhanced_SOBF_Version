@@ -45,10 +45,10 @@ const HomePage = () => {
       
         <SidePopup />
         <Impacts />
+        <UpcomingEvents />
         <Programms />
         <About />
         <Video />
-        <UpcomingEvents />
         <Services />
         <Press_Release />
         <Recent_Activities />

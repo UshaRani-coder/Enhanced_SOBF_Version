@@ -24,7 +24,7 @@ const BackgroundMusic = () => {
     const handleScroll = () => {
       let scrollThreshold = 500;
       if (window.innerWidth >= 1280) {
-        scrollThreshold = 1200;
+        scrollThreshold = 800;
       } else if (window.innerWidth >= 1024) {
         scrollThreshold = 1000;
       } else if (window.innerWidth >= 768) {

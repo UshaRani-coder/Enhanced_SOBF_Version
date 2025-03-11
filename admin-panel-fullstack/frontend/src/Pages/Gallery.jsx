@@ -34,11 +34,13 @@ const Gallery = () => {
 
   useEffect(() => {
     const tags = gallery.reduce((acc, item) => {
-      if (item?.tag && !acc.includes(item.tag)) acc.push(item.tag);
+      if (item?.tag && !acc.includes(item.tag)) acc.push(item.tag.trim());
       return acc;
     }, []);
     setAvailableTags(['all', ...tags]);
   }, [gallery]);
+
+  
 
   const validateFile = (file) => {
     if (!validImageTypes.includes(file.type)) {
@@ -186,6 +188,7 @@ const Gallery = () => {
       </div>
 
       <div className="flex flex-wrap gap-2 mx-4 mb-4">
+        {console.log(availableTags)}
         {availableTags.map((tag) => (
           <button
             key={tag}

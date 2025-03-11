@@ -48,7 +48,7 @@ const Brajkulam = ({ setService }) => {
       )}
 
       <div className="flex flex-col lg:flex-row items-center lg:justify-center lg:gap-x-[30px]  gap-y-[10px]">
-        <div className="w-[100%] flex justify-center lg:w-[50%]">
+        <div className="w-[100%] h-[55vh] lg:h-[45vh] xl:h-[65vh] flex justify-center lg:w-[50%]">
           <ImgBanner banners={bannerS} />
         </div>
         <div className="flex flex-col md:items-start items-center mx-[20px] w-[90%] lg:w-[50%] justify-center">

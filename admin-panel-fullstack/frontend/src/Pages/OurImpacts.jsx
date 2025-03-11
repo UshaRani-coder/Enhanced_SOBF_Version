@@ -296,7 +296,7 @@ const OurImpacts = () => {
               <h3 className=" line-clamp-2 mt-2 font-bold text-xl">
                 {impact?.total_services}
               </h3>
-              <p className="w-full text-center  line-clamp-2 mt-1  ">
+              <p className="w-full text-center min-h-[50px] line-clamp-2 mt-1  ">
                 {impact?.description}
               </p>
               <div className="mt-4 flex gap-4">

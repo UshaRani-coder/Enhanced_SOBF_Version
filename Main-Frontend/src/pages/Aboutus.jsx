@@ -58,11 +58,9 @@ const AboutUs = () => {
   const images = [cee14, ca5, hac4, cee11, ca15, ca6];
 
   return (
-    <div className="pt-[100px]">
-      {/* image */}
-      {/* <img src={aboutus} alt="" className='w-full h-[190px] lg:h-[420px] mt-[10px]' /> */}
+    <div className="pt-[90px] md:pt-[100px] lg:pt-[120px]">
       <div
-        className="w-full h-[200px] md:h-[300px] lg:h-[450px]"
+        className="w-full h-[200px] md:h-[300px] lg:h-[450px] object-cover"
         style={{
           backgroundImage: `url(${aboutus})`,
           backgroundSize: 'cover',

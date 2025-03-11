@@ -1,7 +1,8 @@
 
+
 import React, { useRef, useEffect, useState } from "react";
 import Popup from "../common_components/Popup.jsx";
-import SOBFVideo from "../../assets/sobf.mp4";
+
 
 const HeroVideo = () => {
   const videoRef = useRef(null);
@@ -24,12 +25,26 @@ const HeroVideo = () => {
         videoElement.pause();
       }
     }
-  }, [showPopup]); 
+
+    // Prevent scrolling when popup is open
+    if (showPopup) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, [showPopup]);
 
   const handleScrollDown = () => {
     const nextSection = document.getElementById("next-section");
     if (nextSection) {
-      const offset = 100; 
+      const offset = 10;
       const sectionPosition =
         nextSection.getBoundingClientRect().top + window.scrollY;
 
@@ -46,7 +61,7 @@ const HeroVideo = () => {
 
       <video
         ref={videoRef}
-        src={SOBFVideo}
+        src="/sobf.mp4"  
         autoPlay
         loop
         playsInline
@@ -55,8 +70,8 @@ const HeroVideo = () => {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 top-20 bg-black bg-opacity-70 flex flex-col items-center justify-center text-white text-center px-4">
-        <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold tracking-wide leading-tight text-[#f6f1d3] relative text-center w-full max-w-[90%] mx-auto">
+      <div className="absolute inset-0  bg-black bg-opacity-50 flex flex-col items-center justify-center text-white text-center px-4">
+        <h1 className="text-4xl md:text-4xl lg:text-6xl font-bold tracking-wide leading-tight text-[#f6f1d3] relative text-center w-full max-w-[90%] mx-auto">
           Welcome to
           <span className="block font-extrabold uppercase overflow-hidden text-center w-full flex justify-center items-center">
             <span className="text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-[size:200%] bg-clip-text animate-gradient-shimmer">
@@ -65,7 +80,7 @@ const HeroVideo = () => {
           </span>
         </h1>
 
-        <p className="small-max:mt-2 text-lg md:text-xl lg:text-2xl max-w-2xl text-[#f6f1d3]">
+        <p className="small-max:mt-2 text-xl md:text-xl lg:text-2xl max-w-2xl text-[#f6f1d3]">
           Empowering the poor in Vrindavan through education, healthcare, and
           sustainable development.
         </p>
@@ -105,3 +120,4 @@ const HeroVideo = () => {
 };
 
 export default HeroVideo;
+
