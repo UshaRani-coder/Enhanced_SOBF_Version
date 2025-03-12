@@ -63,7 +63,7 @@ const HeroVideo = () => {
 
       <video
         ref={videoRef}
-        src="http://localhost:5000/uploads/video/sobf.mp4"  
+        src="https://res.cloudinary.com/dpxilylu2/video/upload/v1741364280/urkl8zbeoo0gj9yknioy.mp4"  
         autoPlay
         loop
         playsInline
