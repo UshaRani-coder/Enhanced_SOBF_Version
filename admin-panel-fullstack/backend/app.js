@@ -150,12 +150,12 @@ app.use(
   '/uploads/upcoming-events',
   express.static(path.join(__dirname, 'uploads/upcoming-events')),
 );
- 
+
 //10. for SOBF Video
-app.use(
-  '/uploads/video',
-  express.static(path.join(__dirname, 'uploads/video')),
-);
+// app.use(
+//   '/uploads/video',
+//   express.static(path.join(__dirname, 'uploads/video')),
+// );
 
 // ✅ Routes
 app.use('/api/admin', admin_router);
