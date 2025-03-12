@@ -69,12 +69,14 @@ const getEventPosts = async (req, res) => {
         path: "registeredUsers",
         select: "username email",
       });
+    console.log(":posts", posts)
     const baseURL = process.env.BASE_URL;
+    console.log("baseURL", baseURL)
     if (posts.length > 0) {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
         post.image =
-          process.env.BASE_URL + '/uploads/upcoming-events/' + post.image;
+          baseURL + '/uploads/upcoming-events/' + post.image;
       }
     }
     res.status(200).json({

@@ -140,6 +140,11 @@ const storageUpcomingEvent = multer.diskStorage({
 });
 const uploadUpcomingEvent = multer({ storage: storageUpcomingEvent });
 
+
+
+
+
+
 module.exports = {
   upload,
   uploadTeamMember,
