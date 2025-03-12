@@ -9,7 +9,7 @@ const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 const getPosts = async (req, res) => {
   try {
     const posts = await PostModel.find({});
-    const baseURL = process.env.BASE_URL;
+    const baseURL = "https://backend.sobf.in";
 
     if (posts.length > 0) {
       for (let index = 0; index < posts.length; index++) {
@@ -63,7 +63,7 @@ const getPostById = async (req, res) => {
         .json({ success: false, message: 'Post not found' });
     }
 
-    const baseURL = process.env.BASE_URL;
+    const baseURL = "https://backend.sobf.in";
 
     // Format images and videos URLs
     if (Array.isArray(post.images)) {

@@ -11,7 +11,7 @@ const getLegalDocument = async (req, res) => {
       for (let index = 0; index < docs.length; index++) {
         const doc = docs[index];
         doc.fileName =
-          process.env.BASE_URL + '/uploads/legal-documents/' + doc.fileName;
+          "https://backend.sobf.in" + '/uploads/legal-documents/' + doc.fileName;
       }
     }
 
@@ -60,7 +60,7 @@ const createLegalDocument = async (req, res) => {
     // Save the document to the database
     await newLegalDoc.save();
     newLegalDoc.fileName =
-      process.env.BASE_URL + '/uploads/legal-documents/' + newLegalDoc.fileName;
+      "https://backend.sobf.in" + '/uploads/legal-documents/' + newLegalDoc.fileName;
 
     res.status(201).json({
       success: true,
@@ -111,7 +111,7 @@ const updateLegalDocument = async (req, res) => {
       new: true,
     });
     updatedDoc.fileName =
-      process.env.BASE_URL + '/uploads/legal-documents/' + updatedDoc.fileName;
+      "https://backend.sobf.in" + '/uploads/legal-documents/' + updatedDoc.fileName;
 
     return res.status(200).json({
       success: true,

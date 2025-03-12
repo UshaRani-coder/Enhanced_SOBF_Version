@@ -18,7 +18,7 @@ const getOurImpacts = async (req, res) => {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
         post.image =
-          process.env.BASE_URL + '/uploads/our-impacts/' + post.image;
+          "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
       }
     }
     res.status(200).json({
@@ -71,7 +71,7 @@ const createOurImpacts = async (req, res) => {
       image: filename || '',
     });
     await post.save();
-    post.image = process.env.BASE_URL + '/uploads/our-impacts/' + post.image;
+    post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
     res.status(201).json({
       success: true,
       message: 'Our impacts post has been created successfully',
@@ -121,7 +121,7 @@ const updateOurImpacts = async (req, res) => {
     });
 
     // Append the full image URL
-    updatedPost.image = process.env.BASE_URL + '/uploads/our-impacts/' + updatedPost.image;
+    updatedPost.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + updatedPost.image;
 
     return res.status(200).json({
       success: true,

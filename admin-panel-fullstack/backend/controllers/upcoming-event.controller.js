@@ -70,7 +70,7 @@ const getEventPosts = async (req, res) => {
         select: "username email",
       });
     console.log(":posts", posts)
-    const baseURL = process.env.BASE_URL;
+    const baseURL = "https://backend.sobf.in";
     console.log("baseURL", baseURL)
     if (posts.length > 0) {
       for (let index = 0; index < posts.length; index++) {
@@ -110,7 +110,7 @@ const getEventPostById = async (req, res) => {
     if (!post) {
       return res.status(404).json({ success: false, message: 'Upcoming events posts not found' });
     }
-    const baseURL = process.env.BASE_URL;
+    const baseURL = "https://backend.sobf.in";
     // Format images and videos URLs
     if (Array.isArray(post.images)) {
       post.images = post.images.map((image) =>
@@ -147,9 +147,9 @@ const updateEventPost = async (req, res) => {
     if (!existingPost) {
       return res.status(404).json({ success: false, message: 'Upcoming event post not found' });
     }
-    
-    console.log("existingPost", existingPost); 
-    
+
+    console.log("existingPost", existingPost);
+
 
     // Destructure request body
     const { title, description, date, time, location } = req.body;
@@ -161,14 +161,14 @@ const updateEventPost = async (req, res) => {
       description: description || existingPost.description,
       image,
       date: date || existingPost.date,
-      location: location || existingPost.location, 
+      location: location || existingPost.location,
       time: time || existingPost.time
     };
 
     // Update the post
     const updatedPost = await upcomingEvents.findByIdAndUpdate(id, updates, { new: true });
 
-    updatedPost.image = process.env.BASE_URL + '/uploads/upcoming-events/' + updatedPost.image;
+    updatedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + updatedPost.image;
 
     res.status(200).json({
       success: true,

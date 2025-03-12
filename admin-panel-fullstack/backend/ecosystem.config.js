@@ -15,7 +15,7 @@ module.exports = {
         SMTP_PASS: process.env.SMTP_PASS,
         SMTP_HOST: process.env.SMTP_HOST,
         SMTP_PORT: process.env.SMTP_PORT,
-        BASE_URL: process.env.BASE_URL
+        BASE_URL: "https://backend.sobf.in"
       },
     },
   ],
