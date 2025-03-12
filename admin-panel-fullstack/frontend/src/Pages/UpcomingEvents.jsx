@@ -429,7 +429,7 @@ const UpcomingEvents = () => {
               >
                 {/* Image Rendering */}
                 {post.image ? (
-                   <div className="relative w-full h-[300px] sm:h-[350px] lg:h-[400px]">
+                   <div className=" w-full h-[300px] sm:h-[350px] lg:h-[400px]">
                   <img
                     src={post.image}
                     alt="Event Image"

@@ -45,7 +45,7 @@ const Hero = () => {
       {/* Text Content */}
       <div className="z-10 text-center lg:text-left w-full lg:w-[40%] text-white">
         <motion.h1
-          className="font-extrabold text-[30px] small-range:text-[25px] md:text-5xl md:mt-4 lg:text-[55px] xl:text-[55px] leading-[35px] md:leading-[50px] lg:leading-[65px] xl:leading-[65px] tracking-wide px-2 small-max:px-4"
+          className="font-extrabold text-[30px] small-range:text-[25px] md:text-5xl md:mt-4 lg:text-[50px] xl:text-[50px] leading-[35px] md:leading-[50px] lg:leading-[55px] xl:leading-[55px] tracking-wide px-2 small-max:px-4"
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}

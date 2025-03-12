@@ -1,5 +1,4 @@
 
-
 import React, { useRef, useEffect, useState } from "react";
 import Popup from "../common_components/Popup.jsx";
 
@@ -64,7 +63,7 @@ const HeroVideo = () => {
 
       <video
         ref={videoRef}
-        src="/sobf.mp4"  
+        src="http://localhost:5000/uploads/video/sobf.mp4"  
         autoPlay
         loop
         playsInline
@@ -84,13 +83,12 @@ const HeroVideo = () => {
         </h1>
 
         <p className="small-max:mt-2 text-xl md:text-3xl lg:text-2xl max-w-2xl text-[#f6f1d3]">
-          Empowering the poor in Vrindavan through education, healthcare, and
-          sustainable development.
+        Supporting Vrindavan’s underprivileged through education, healthcare, and sustainable growth.
         </p>
 
         {/* Scroll Down Arrow */}
         <div
-          className="absolute bottom-8 animate-bounce cursor-pointer"
+          className="absolute bottom-20 animate-bounce cursor-pointer"
           onClick={handleScrollDown}
         >
           <svg
