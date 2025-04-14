@@ -180,7 +180,7 @@ const OurService = () => {
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    const maxFileSize = 100 * 1024; // 100KB in bytes
+    // const maxFileSize = 100 * 1024; // 100KB in bytes
 
     if (name === 'logo') {
       if (files[0]) {
@@ -190,18 +190,10 @@ const OurService = () => {
           );
           return;
         }
-        if (files[0].size > maxFileSize) {
-          toast.error('Logo size must be less than 100KB.');
-          return;
-        }
         setFormData((prev) => ({ ...prev, logo: files[0] }));
       }
     } else if (name === 'images') {
       const newImages = Array.from(files);
-
-      const oversizedFiles = newImages.filter(
-        (file) => file.size > maxFileSize,
-      );
       const invalidFiles = newImages.filter(
         (file) => !allowedImageTypes.includes(file.type),
       );
@@ -212,12 +204,6 @@ const OurService = () => {
         );
         return;
       }
-
-      if (oversizedFiles.length > 0) {
-        toast.error('Each image must be less than 100KB.');
-        return;
-      }
-
       if (newImages.length > maxImages) {
         toast.error(`You can upload a maximum of ${maxImages} images.`);
         return;

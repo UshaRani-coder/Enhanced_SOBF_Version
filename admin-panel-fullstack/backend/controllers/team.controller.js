@@ -8,8 +8,7 @@ const getTeamMembers = async (req, res) => {
     if (teamMembers.length > 0) {
       for (let index = 0; index < teamMembers.length; index++) {
         const teamMember = teamMembers[index];
-        teamMember.image =
-          "https://backend.sobf.in" + '/uploads/team-member/' + teamMember.image;
+        teamMember.image = process.env.BASE_URL + '/uploads/team-member/' + teamMember.image;
       }
     }
     return res.status(200).json({ success: true, teamMembers });
@@ -46,8 +45,7 @@ const createTeamMember = async (req, res) => {
       image: filename || '',
     });
     await teamMember.save();
-    teamMember.image =
-      "https://backend.sobf.in" + '/uploads/team-member/' + teamMember.image;
+    teamMember.image = process.env.BASE_URL + '/uploads/team-member/' + teamMember.image;
     return res.status(201).json({
       success: true,
       teamMember,
@@ -94,8 +92,7 @@ const updateTeam = async (req, res) => {
     });
 
     // Append the full image URL
-    updatedTeam.image =
-      "https://backend.sobf.in" + '/uploads/team-member/' + updatedTeam.image;
+    updatedTeam.image =  process.env.BASE_URL + '/uploads/team-member/' + updatedTeam.image;
 
     return res.status(200).json({ success: true, updatedTeam });
   } catch (error) {

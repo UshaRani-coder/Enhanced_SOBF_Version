@@ -34,8 +34,9 @@ const createService = async (req, res) => {
       logo,
     });
     await newService.save();
-    newService.logo =
-      "https://backend.sobf.in" + '/uploads/our-services/' + newService.logo;
+    // newService.logo ="https://backend.sobf.in" + '/uploads/our-services/' + newService.logo;
+    newService.logo = "http://localhost:5000" + '/uploads/our-services/' + newService.logo;
+    
     res
       .status(201)
       .json({ message: 'Service created successfully', service: newService });
@@ -133,14 +134,15 @@ const updateService = async (req, res) => {
 
 // ! Get all services
 const getAllServices = async (req, res) => {
-  const baseURL = "https://backend.sobf.in";
+  // const baseURL = "https://backend.sobf.in";
+  const baseURL = "http://localhost:5000";
   try {
     const services = await Service.find({});
     if (services.length > 0) {
       for (let index = 0; index < services.length; index++) {
         const service = services[index];
-        service.logo =
-          "https://backend.sobf.in" + '/uploads/our-services/' + service.logo || '';
+        // service.logo ="https://backend.sobf.in" + '/uploads/our-services/' + service.logo || '';
+        service.logo = "http://localhost:5000" + '/uploads/our-services/' + service.logo || '';
         if (service.images && Array.isArray(service.images)) {
           service.images = service.images.map((image) =>
             image ? `${baseURL}/uploads/our-services/${image}` : image,

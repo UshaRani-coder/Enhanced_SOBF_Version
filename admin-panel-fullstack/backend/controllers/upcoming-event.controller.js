@@ -1,18 +1,16 @@
 const { default: mongoose } = require('mongoose');
 const logger = require('../logger');
 const upcomingEvents = require('../models/upcoming-events.model');
-const fs = require('fs'); // Needed to remove old images if necessary
-
+const fs = require('fs');
 
 // Helper Function: Validate ID format
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
-
-
 // CREATE POST
 const createEventPost = async (req, res) => {
   try {
-    const { title, description, date, location, time } = req.body;
+    const { title, description, date, location, time, status = 'upcoming' } = req.body;
+
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
         success: false,
@@ -26,15 +24,26 @@ const createEventPost = async (req, res) => {
         message: 'Description must be a string with at least 5 characters',
       });
     }
+
+    // Validate status
+    const validStatuses = ['upcoming', 'happening', 'completed'];
+    if (status && !validStatuses.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid status. Must be one of: upcoming, happening, completed',
+      });
+    }
+
     // Validate image (if applicable)
     if (req?.file?.filename === undefined) {
       return res.status(400).json({
         success: false,
-        message: 'Image is required ',
+        message: 'Image is required',
       });
     }
 
     const filename = req.file.filename;
+
     // Save post to database
     const post = new upcomingEvents({
       title,
@@ -42,21 +51,29 @@ const createEventPost = async (req, res) => {
       date,
       location,
       image: filename || '',
-      time
+      time,
+      status
     });
+
     await post.save();
-    res
-      .status(201)
-      .json({ success: true, message: 'Upcoming events Post created successfully', post });
+
+    // Format the image URL before sending response
+    const formattedPost = post.toObject();
+    // formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
+    formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
+
+    res.status(201).json({
+      success: true,
+      message: 'Upcoming events Post created successfully',
+      post: formattedPost
+    });
   } catch (error) {
-    logger.error("Something went wrong while creating post'.", error)
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while creating  upcoming events post',
-        error
-      });
+    logger.error("Something went wrong while creating post", error);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while creating upcoming events post',
+      error: error.message
+    });
   }
 };
 
@@ -68,149 +85,211 @@ const getEventPosts = async (req, res) => {
       .populate({
         path: "registeredUsers",
         select: "username email",
-      });
-    console.log(":posts", posts)
-    const baseURL = "https://backend.sobf.in";
-    console.log("baseURL", baseURL)
-    if (posts.length > 0) {
-      for (let index = 0; index < posts.length; index++) {
-        const post = posts[index];
-        post.image =
-          baseURL + '/uploads/upcoming-events/' + post.image;
-      }
-    }
+      })
+      .sort({ date: 1 }); // Sort by date ascending
+
+    // const baseURL = "https://backend.sobf.in";
+    const baseURL = "http://localhost:5000";
+
+    // Format image URLs
+    const formattedPosts = posts.map(post => {
+      const postObj = post.toObject();
+      postObj.image = baseURL + '/uploads/upcoming-events/' + postObj.image;
+      return postObj;
+    });
+
     res.status(200).json({
       success: true,
       message: 'Successfully fetched all upcoming events posts',
-      posts,
+      posts: formattedPosts,
     });
   } catch (error) {
-    logger.error("Something went wrong while fetching upcoming events posts.")
+    logger.error("Something went wrong while fetching upcoming events posts", error);
     res.status(500).json({
       success: false,
       message: 'Something went wrong while fetching upcoming events posts',
+      error: error.message
     });
   }
 };
 
-
-
-//! GET SPECIFIC POST BY ID
+// GET SPECIFIC POST BY ID
 const getEventPostById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Validate ID format
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    if (!isValidObjectId(id)) {
       return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
-    // Find post by ID
+
     const post = await upcomingEvents.findById(id)
-      .populate('registeredUsers', 'username email');;
+      .populate('registeredUsers', 'username email');
+
     if (!post) {
-      return res.status(404).json({ success: false, message: 'Upcoming events posts not found' });
+      return res.status(404).json({ success: false, message: 'Upcoming events post not found' });
     }
-    const baseURL = "https://backend.sobf.in";
-    // Format images and videos URLs
-    if (Array.isArray(post.images)) {
-      post.images = post.images.map((image) =>
-        image ? `${baseURL}/uploads/upcoming-events/${image}` : image
-      );
-    }
+
+    // const baseURL = "https://backend.sobf.in";
+    const baseURL = "http://localhost:5000";
+    const formattedPost = post.toObject();
+    formattedPost.image = baseURL + '/uploads/upcoming-events/' + formattedPost.image;
+
     res.status(200).json({
       success: true,
-      message: 'Successfully fetched all the upcoming events post.',
-      post,
+      message: 'Successfully fetched the upcoming events post',
+      post: formattedPost,
     });
   } catch (error) {
-    logger.error("Something went wrong while fetching the upcoming events post'.")
+    logger.error("Something went wrong while fetching the upcoming events post", error);
     res.status(500).json({
       success: false,
       message: 'Something went wrong while fetching the upcoming events post',
+      error: error.message
     });
   }
 };
-
-
 
 // UPDATE POST BASED ON ID
 const updateEventPost = async (req, res) => {
   try {
     const { id } = req.params;
-    // Validate ID format
+
     if (!isValidObjectId(id)) {
       return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
 
-    // Fetch the existing post
     const existingPost = await upcomingEvents.findById(id);
     if (!existingPost) {
       return res.status(404).json({ success: false, message: 'Upcoming event post not found' });
     }
 
-    console.log("existingPost", existingPost);
-
-
-    // Destructure request body
-    const { title, description, date, time, location } = req.body;
+    const { title, description, date, time, location, status } = req.body;
     const image = req.file ? req.file.filename : existingPost.image;
 
-    // Prepare updated data
+    // Validate status if provided
+    if (status) {
+      const validStatuses = ['upcoming', 'happening', 'completed'];
+      if (!validStatuses.includes(status)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid status. Must be one of: upcoming, happening, completed',
+        });
+      }
+    }
+
     const updates = {
       title: title || existingPost.title,
       description: description || existingPost.description,
       image,
       date: date || existingPost.date,
       location: location || existingPost.location,
-      time: time || existingPost.time
+      time: time || existingPost.time,
+      status: status || existingPost.status
     };
 
-    // Update the post
     const updatedPost = await upcomingEvents.findByIdAndUpdate(id, updates, { new: true });
 
-    updatedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + updatedPost.image;
+    // Format the image URL before sending response
+    const formattedPost = updatedPost.toObject();
+    // formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
+    formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
 
     res.status(200).json({
       success: true,
       message: 'Upcoming-events post updated successfully',
-      updatedPost,
+      updatedPost: formattedPost,
     });
   } catch (error) {
-    console.error("Error updating post:", error);
+    logger.error("Error updating post:", error);
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while updating the post'
+      message: 'Something went wrong while updating the post',
+      error: error.message
     });
   }
 };
 
+// UPDATE EVENT STATUS
+const updateEventStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid post ID' });
+    }
+
+    const validStatuses = ['upcoming', 'happening', 'completed'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid status. Must be one of: upcoming, happening, completed',
+      });
+    }
+
+    const updatedPost = await upcomingEvents.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ success: false, message: 'Upcoming event post not found' });
+    }
+
+    // Format the image URL before sending response
+    const formattedPost = updatedPost.toObject();
+    // formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
+    formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
+
+    res.status(200).json({
+      success: true,
+      message: 'Event status updated successfully',
+      updatedPost: formattedPost,
+    });
+  } catch (error) {
+    logger.error("Error updating event status:", error);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while updating event status',
+      error: error.message
+    });
+  }
+};
 
 // DELETE POST BASED ON ID
 const deleteEventPost = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Validate ID format
     if (!isValidObjectId(id)) {
       return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
 
-    // Delete the post
     const post = await upcomingEvents.findByIdAndDelete(id);
     if (!post) {
       return res.status(404).json({ success: false, message: 'Upcoming events Post not found' });
     }
-    res
-      .status(200)
-      .json({ success: true, message: 'Upcoming events Post deleted successfully' });
-  } catch (error) {
-    logger.error("Something went wrong while deleting Upcoming-events Post .")
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while deleting Upcoming-events Post '
+
+    // Optionally delete the associated image file
+    if (post.image) {
+      const imagePath = `./uploads/upcoming-events/${post.image}`;
+      fs.unlink(imagePath, (err) => {
+        if (err) logger.error(`Error deleting image file: ${imagePath}`, err);
       });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Upcoming events Post deleted successfully'
+    });
+  } catch (error) {
+    logger.error("Something went wrong while deleting Upcoming-events Post", error);
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while deleting Upcoming-events Post',
+      error: error.message
+    });
   }
 };
 
@@ -219,5 +298,6 @@ module.exports = {
   getEventPostById,
   createEventPost,
   updateEventPost,
-  deleteEventPost
+  deleteEventPost,
+  updateEventStatus
 };

@@ -17,40 +17,66 @@ import Recent_Activities from '../Components/Home_Section/Recent_Activities.jsx'
 import SidePopup from '../Components/sidePopup.jsx';
 import UpcomingEvents from '../Components/Home_Section/UpcomingEvents.jsx';
 import { useLocation } from 'react-router-dom';
+import VolunteerForm from './Volunteer.jsx';
 
 const HomePage = () => {
- 
+  const [showVolunteerForm, setShowVolunteerForm] = useState(false);
+
+  // Show popup after 8 seconds on every page load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowVolunteerForm(true);
+    }, 8000); // 8000 milliseconds = 8 seconds
+
+    return () => clearTimeout(timer);
+  }, []); // Empty dependency array means this runs only once on mount
+
   return (
     <div className="flex flex-col items-center overflow-auto">
-      
-        <div className=" w-full ">
-          <HeroVideo />
+      {showVolunteerForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setShowVolunteerForm(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <VolunteerForm onSuccess={() => setShowVolunteerForm(false)} />
+          </div>
         </div>
-     
-        <div
-          className={` w-full    
-            `}
-        >
-          <Hero />
-        </div>
-      
-        <SidePopup />
-        <Impacts />
-        <UpcomingEvents />
-        <Programms />
-        <About />
-        <Video />
-        <Services />
-        <Press_Release />
-        <Recent_Activities />
-        <Team />
-        <Partners />
-        <Testimonials />
-        <Home_Gallery />
-        <Contactus />
-        <Faq />
+      )}
+
+      <div className=" w-full ">
+        <HeroVideo />
       </div>
-   
+
+      <div
+        className={` w-full    
+            `}
+      >
+        <Hero />
+      </div>
+
+      <SidePopup />
+      <Impacts />
+      <UpcomingEvents />
+      <Programms />
+      <About />
+      <Video />
+      <Services />
+      <Press_Release />
+      <Recent_Activities />
+      <Team />
+      <Partners />
+      <Testimonials />
+      <Home_Gallery />
+      <Contactus />
+      <Faq />
+    </div>
+
   );
 };
 

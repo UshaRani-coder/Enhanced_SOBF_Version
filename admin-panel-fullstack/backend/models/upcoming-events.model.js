@@ -6,13 +6,16 @@ const upcomingEventsSchema = new mongoose.Schema({
   image: { type: String, default: "" },
   date: { type: Date, default: Date.now },
   location: { type: String },
+  status: {
+    type: String,
+    enum: ['upcoming', 'happening', 'completed'],
+    default: 'upcoming'
+  },
   time: { type: String },
   registeredUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'EventUser' }]
-},
-  {
-    timestamps: true
-  }
-);
+}, {
+  timestamps: true
+});
 
 const upcomingEvents = mongoose.model('upcomingEvents', upcomingEventsSchema);
 

@@ -12,10 +12,11 @@ import {
   fetchEvents,
   removeEvent,
   updateEventPost,
+  updateEventStatus
 } from '../Reducers/upcomingEventsSlice';
 
 const UpcomingEvents = () => {
-  ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
+  ReactQuill.Quill = Quill;
   const quillRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,11 +29,11 @@ const UpcomingEvents = () => {
     date: '',
     time: '',
     location: '',
+    status: 'upcoming'
   });
   const dispatch = useDispatch();
   const { events, status } = useSelector((state) => state.events);
 
-  // Fetch teams data
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchEvents());
@@ -64,8 +65,6 @@ const UpcomingEvents = () => {
       toast.error('Please add the time of the Event');
       return false;
     }
-
-    // Validate images
     const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (formData?.image && !validImageTypes.includes(formData?.image.type)) {
       toast.error('Only valid image files (JPEG, PNG, JPG) are allowed.');
@@ -83,6 +82,7 @@ const UpcomingEvents = () => {
     newPost.append('location', formData.location);
     newPost.append('date', formData.date);
     newPost.append('time', formData.time);
+    newPost.append('status', formData.status);
     dispatch(createEventPost(newPost))
       .unwrap()
       .then(() => {
@@ -97,7 +97,6 @@ const UpcomingEvents = () => {
       .finally(() => setIsLoading(false));
   };
 
-  // updating
   const handleUpdatePost = () => {
     if (!formData.title.trim()) {
       toast.error("Title is required it can't be empty.");
@@ -107,21 +106,18 @@ const UpcomingEvents = () => {
       toast.error('Description is required.');
       return false;
     }
-    // Validate images
     const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (formData?.image && !validImageTypes.includes(formData?.image.type)) {
       toast.error('Only valid image files (JPEG, PNG, JPG) are allowed.');
       return;
     }
-    // Create FormData for updating the post
     const updatedPost = new FormData();
     updatedPost.append('title', formData.title);
     updatedPost.append('description', formData.description);
     updatedPost.append('location', formData.location);
     updatedPost.append('date', formData.date);
     updatedPost.append('time', formData.time);
-
-    // Handle Image Upload
+    updatedPost.append('status', formData.status);
     if (formData.image) updatedPost.append('image', formData.image);
 
     setIsLoading(true);
@@ -137,19 +133,31 @@ const UpcomingEvents = () => {
         console.error('Update Error:', error);
         toast.error(error?.message || 'Failed to update our Event Post');
       })
-      .finally(() => setIsLoading(false)); // End loading
+      .finally(() => setIsLoading(false));
+  };
+
+  const handleStatusChange = (eventId, newStatus) => {
+    dispatch(updateEventStatus({ id: eventId, status: newStatus }))
+      .unwrap()
+      .then(() => {
+        toast.success(`Event marked as ${newStatus}`);
+        dispatch(fetchEvents());
+      })
+      .catch((error) => {
+        toast.error(error || 'Failed to update event status');
+      });
   };
 
   const handleDeletePost = (id) => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this Event? This action cannot be undone.',
     );
-
     if (confirmDelete) {
       setIsLoading(true);
       dispatch(removeEvent(id));
     }
   };
+
   const handleRemoveImage = () => {
     setFormData((prev) => ({
       ...prev,
@@ -159,14 +167,12 @@ const UpcomingEvents = () => {
 
   const handleInputChange = (e) => {
     if (e.target) {
-      // For regular input fields
       const { name, value } = e.target;
       setFormData((prev) => ({
         ...prev,
         [name]: value,
       }));
     } else {
-      // For ReactQuill (custom object)
       const { name, value } = e;
       setFormData((prev) => ({
         ...prev,
@@ -174,8 +180,9 @@ const UpcomingEvents = () => {
       }));
     }
   };
+
   const handleFileChange = (e) => {
-    const { name, files } = e.target; // `files` is an array-like object
+    const { name, files } = e.target;
     setFormData((prev) => ({ ...prev, [name]: files[0] || null }));
   };
 
@@ -187,9 +194,11 @@ const UpcomingEvents = () => {
       date: '',
       time: '',
       location: '',
+      status: 'upcoming'
     });
     setCurrentPost(null);
   };
+
   const openUpdateModal = (post) => {
     setIsModalOpen(true);
     setIsUpdateMode(true);
@@ -201,39 +210,39 @@ const UpcomingEvents = () => {
       date: post?.date || null,
       time: post?.time || null,
       location: post?.location || '',
+      status: post?.status || 'upcoming'
     });
   };
 
   function formatDateAndTime(dateString, timeString) {
-    // Parse date
     const [month, day, year] = dateString.split('/').map(Number);
-    const dateObj = new Date(year, month - 1, day); // Month is 0-indexed
-
-    // Format date
+    const dateObj = new Date(year, month - 1, day);
     const formattedDate = dateObj.toLocaleDateString('en-GB', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
     });
-
-    // Parse time
     const [hours, minutes] = timeString.split(':').map(Number);
-
-    // Format time
     let formattedHours = hours % 12;
-    formattedHours = formattedHours === 0 ? 12 : formattedHours; // 12 AM/PM
+    formattedHours = formattedHours === 0 ? 12 : formattedHours;
     const ampm = hours < 12 ? 'AM' : 'PM';
-
     const formattedTime = `${String(formattedHours).padStart(2, '0')}:${String(
       minutes,
     ).padStart(2, '0')} ${ampm}`;
-
     return `${formattedDate} ${formattedTime}`;
   }
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'upcoming': return 'bg-blue-100 text-blue-800';
+      case 'happening': return 'bg-green-100 text-green-800';
+      case 'completed': return 'bg-purple-100 text-purple-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
   return (
     <div className="container mx-auto">
-      {/* Add Post Button */}
       <div className="flex justify-between items-center mx-4 my-4">
         <h1 className="text-[23px] small-range:text-2xl small-max:text-3xl md:text-4xl font-semibold">
           Upcoming Events
@@ -270,27 +279,10 @@ const UpcomingEvents = () => {
               </div>
               <div className="mb-4">
                 <style>
-                  {`.ql-container {
-      
-                      padding: 8px;
-                      min-height: 100px;
-                    }
-
-                    .ql-editor {
-                      font-size: 1rem;  /* Same as input fields (16px) */
-                      font-weight: normal;
-                    
-                      line-height: 1.5;
-                      letter-spacing:0.5px;
-                      padding: 10px; /* Ensure consistent padding */
-                    }
-
-                    .ql-toolbar {
-                      border-radius: 8px 8px 0 0;
-                      background-color: #f9fafb; /* Light gray */
-                    }
-                    .ql-editor.ql-blank::before {
-                    font-style: normal !important;}`}
+                  {`.ql-container {padding: 8px; min-height: 100px;}
+                  .ql-editor {font-size: 1rem; font-weight: normal; line-height: 1.5; letter-spacing:0.5px; padding: 10px;}
+                  .ql-toolbar {border-radius: 8px 8px 0 0; background-color: #f9fafb;}
+                  .ql-editor.ql-blank::before {font-style: normal !important;}`}
                 </style>
                 <label className="block font-semibold mb-2">Description</label>
                 <ReactQuill
@@ -313,8 +305,6 @@ const UpcomingEvents = () => {
                   className="w-full px-4 py-2 border rounded"
                 />
               </div>
-              {/* )} */}
-
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Time</label>
                 <input
@@ -325,7 +315,6 @@ const UpcomingEvents = () => {
                   className="w-full px-4 py-2 border rounded"
                 />
               </div>
-
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Location</label>
                 <input
@@ -337,7 +326,19 @@ const UpcomingEvents = () => {
                   placeholder="Enter event location"
                 />
               </div>
-
+              <div className="mb-4">
+                <label className="block font-semibold mb-2">Status</label>
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border rounded"
+                >
+                  <option value="upcoming">Upcoming</option>
+                  <option value="happening">Happening</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Image</label>
                 <input
@@ -376,7 +377,6 @@ const UpcomingEvents = () => {
                   </div>
                 )}
               </div>
-
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
@@ -411,106 +411,127 @@ const UpcomingEvents = () => {
         </div>
       )}
 
-      {/* rendering all posts  */}
-      <div className="mt-6 flex flex-wrap justify-center gap-4">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 px-4">
         {events && events?.length > 0 ? (
           events?.map((post) => {
             const formattedDateTime =
               post && post.date && post.time
                 ? formatDateAndTime(
-                    new Date(post.date).toLocaleDateString('en-US'),
-                    post.time,
-                  )
+                  new Date(post.date).toLocaleDateString('en-US'),
+                  post.time,
+                )
                 : 'N/A';
             return (
               <div
                 key={post._id}
-                className="border p-4 rounded w-[90%]  md:w-[80%]  hover:shadow-lg flex flex-col items-center"
+                className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col"
               >
-                {/* Image Rendering */}
-                {post.image ? (
-                   <div className=" w-full h-[300px] sm:h-[350px] lg:h-[400px]">
-                  <img
-                    src={post.image}
-                    alt="Event Image"
-                    className="w-full h-full object-cover rounded"
-                  />
-                  </div>
-                ) : (
-                  <p className="text-gray-500">No image available</p>
-                )}
+                {/* Image Section */}
+                <div className="w-full h-48 sm:h-56 md:h-64 lg:h-72 relative">
+                  {post.image ? (
+                    <img
+                      src={post.image}
+                      alt="Event Image"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <p className="text-gray-500">No image available</p>
+                    </div>
+                  )}
+                </div>
 
                 {/* Content Section */}
-                <div className="flex flex-col items-start w-full">
-                  <div className="flex flex-col lg:flex-row lg:gap-x-4 items-start mt-4 w-full gap-y-2 justify-between  lg:justify-start">
-                    {/* Date and Time */}
-                    <div className="flex items-start gap-x-2  text-[12px] md:text-[14px]">
-                      <MdAccessTimeFilled className="w-[20px] h-[20px] text-[#1890CE] " />
+                <div className="p-4 flex flex-col flex-grow">
+                  <div className="flex flex-wrap items-center gap-2 mb-2 text-sm text-gray-600">
+                    <div className="flex items-center">
+                      <MdAccessTimeFilled className="mr-1 text-[#1890CE]" />
                       <span>{formattedDateTime}</span>
                     </div>
-
-                    {/* Location */}
-                    <div className=" flex items-start gap-x-2 ">
+                    <div className="flex items-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 384 512"
-                        className="w-[19px] h-[19px]  text-red-900 "
+                        className="w-4 h-4 mr-1"
                         fill="#D90210"
                       >
                         <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
                       </svg>
-
-                      <p className="text-[12px] md:text-[14px]">
-                        {post?.location || 'N/A'}
-                      </p>
+                      <span>{post?.location || 'N/A'}</span>
                     </div>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="w-full  mt-2 font-bold text-xl">
+                  <h3 className="text-lg font-bold mb-2 line-clamp-2">
                     {post?.title}
                   </h3>
 
-                  {/* Description */}
-                  <p
-                    className="mt-2 "
+                  <div
+                    className="text-gray-700 mb-4 line-clamp-3"
                     dangerouslySetInnerHTML={{
                       __html: DOMPurify.sanitize(post?.description).replace(
                         /<a /g,
                         '<a style="color: #4a90e2;" ',
                       ),
                     }}
-                  ></p>
+                  />
 
                   {/* Action Buttons */}
-                  <div className="mt-4 flex gap-4">
+                  <div className="mt-auto flex flex-wrap gap-2">
                     <button
-                      className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
+                      className="flex items-center gap-1 px-3 py-1.5 bg-blue-100 text-blue-800 rounded-lg text-sm font-medium hover:bg-blue-200 transition-colors"
                       onClick={(e) => {
                         e.stopPropagation();
                         openUpdateModal(post);
                       }}
                     >
-                      <MdEdit className="text-blue-800 text-2xl" />
-                      Edit
+                      <MdEdit className="text-lg" />
+                      <span className="hidden xs:inline">Edit</span>
                     </button>
                     <button
-                      className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
+                      className="flex items-center gap-1 px-3 py-1.5 bg-red-100 text-red-800 rounded-lg text-sm font-medium hover:bg-red-200 transition-colors"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDeletePost(post.id || post._id);
                       }}
                     >
-                      <MdDelete className="text-red-800 text-2xl" />
-                      Delete
+                      <MdDelete className="text-lg" />
+                      <span className="hidden xs:inline">Delete</span>
                     </button>
+
+                    {/* Status Change Buttons - only show relevant options */}
+                    {post.status !== 'upcoming' && (
+                      <button
+                        className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-100 transition-colors"
+                        onClick={() => handleStatusChange(post._id, 'upcoming')}
+                      >
+                        <span className="hidden sm:inline">Mark as </span>Upcoming
+                      </button>
+                    )}
+                    {post.status !== 'happening' && (
+                      <button
+                        className="px-3 py-1.5 bg-green-50 text-green-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-green-100 transition-colors"
+                        onClick={() => handleStatusChange(post._id, 'happening')}
+                      >
+                        <span className="hidden sm:inline">Mark as </span>Happening
+                      </button>
+                    )}
+                    {post.status !== 'completed' && (
+                      <button
+                        className="px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-purple-100 transition-colors"
+                        onClick={() => handleStatusChange(post._id, 'completed')}
+                      >
+                        <span className="hidden sm:inline">Mark as </span>Completed
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
             );
           })
         ) : (
-          <p>No posts found.</p>
+          <div className="col-span-full text-center py-10 text-gray-500">
+            No events found.
+          </div>
         )}
       </div>
     </div>

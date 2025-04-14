@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { createEvent, deleteEvent, getEvents, updateEvent } from '../api/api';
+import axios from 'axios';
 
-// Get Events
+//! Get Events
 export const fetchEvents = createAsyncThunk(
   'events/fetchEvents',
   async (_, { rejectWithValue }) => {
@@ -10,7 +11,7 @@ export const fetchEvents = createAsyncThunk(
       if (!response || !response.data?.posts) {
         throw new Error("No data received from API");
       }
-      return response.data.posts; // Ensure correct data structure
+      return response.data.posts;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || error.message || 'Failed to fetch events'
@@ -19,7 +20,7 @@ export const fetchEvents = createAsyncThunk(
   }
 );
 
-// Add Event
+//! Add Event
 export const createEventPost = createAsyncThunk(
   'events/addEvent',
   async (eventData, { rejectWithValue }) => {
@@ -34,13 +35,13 @@ export const createEventPost = createAsyncThunk(
   }
 );
 
-// Update Event
+//! Update Event
 export const updateEventPost = createAsyncThunk(
   'events/updateEvent',
   async ({ id, updatedData }, { rejectWithValue }) => {
     try {
       const response = await updateEvent(id, updatedData);
-      return response?.data;  // Ensure response contains the updated event
+      return response?.data;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || 'Failed to update event'
@@ -49,11 +50,31 @@ export const updateEventPost = createAsyncThunk(
   }
 );
 
-// Reducer
+//! Update Event Status
+export const updateEventStatus = createAsyncThunk(
+  'events/updateStatus',
+  async ({ id, status }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/api/post/update-event-status/${id}`,
+        { status }
+      );
 
+      if (!response.data) {
+        throw new Error("Invalid response from API");
+      }
 
+      return response.data;
+    } catch (error) {
+      console.error("Error updating event status:", error.response?.data || error.message);
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to update event status'
+      );
+    }
+  }
+);
 
-// Remove Event
+//! Remove Event
 export const removeEvent = createAsyncThunk(
   'events/removeEvent',
   async (id, { rejectWithValue }) => {
@@ -68,14 +89,12 @@ export const removeEvent = createAsyncThunk(
   }
 );
 
-// Slice Definition
 const upcomingEventsSlice = createSlice({
   name: 'events',
   initialState: { events: [], status: 'idle', error: null },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Get Events
       .addCase(fetchEvents.pending, (state) => {
         state.status = 'loading';
       })
@@ -87,7 +106,6 @@ const upcomingEventsSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      // Add Event
       .addCase(createEventPost.fulfilled, (state, action) => {
         if (action.payload) {
           state.events.push(action.payload);
@@ -99,18 +117,28 @@ const upcomingEventsSlice = createSlice({
       .addCase(updateEventPost.fulfilled, (state, action) => {
         if (action.payload) {
           const index = state.events.findIndex(
-            (event) => event._id === action.payload._id // Ensure correct path
+            (event) => event._id === action.payload._id
           );
           if (index !== -1) {
             state.events[index] = { ...state.events[index], ...action.payload };
           }
         }
       })
-      // Remove Event
+      .addCase(updateEventStatus.fulfilled, (state, action) => {
+        if (action.payload) {
+          const index = state.events.findIndex(
+            (event) => event._id === action.payload._id
+          );
+          if (index !== -1) {
+            state.events[index].status = action.payload.status;
+          }
+        }
+      })
+      .addCase(updateEventStatus.rejected, (state, action) => {
+        state.error = action.payload;
+      })
       .addCase(removeEvent.fulfilled, (state, action) => {
-        state.events = state.events.filter(
-          (event) => event._id !== action.payload
-        );
+        state.events = state.events.filter(event => event._id !== action.payload);
       })
       .addCase(removeEvent.rejected, (state, action) => {
         state.error = action.payload;

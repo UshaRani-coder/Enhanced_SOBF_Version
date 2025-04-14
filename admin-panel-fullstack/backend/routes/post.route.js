@@ -58,7 +58,7 @@ const {
 } = require('../middleware/multer');
 const { createLegalDocument, updateLegalDocument, deleteLegalDocument, getLegalDocument } = require('../controllers/legaldoc.controller');
 const { createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo } = require('../controllers/featuredvideos.controller');
-const { createEventPost, getEventPostById, getEventPosts, updateEventPost, deleteEventPost } = require('../controllers/upcoming-event.controller');
+const { createEventPost, getEventPostById, getEventPosts, updateEventPost, deleteEventPost, updateEventStatus } = require('../controllers/upcoming-event.controller');
 const { registerUserForEvent, getUsersWithRegisteredEvents, sendingEmailToSelectedUsers } = require('../controllers/event-users.controller');
 const sendTestEmail = require('../controllers/testing');
 
@@ -197,11 +197,12 @@ router.put('/update-featured-video/:id', updateFeaturedVideo);
 router.delete('/delete-featured-video/:id', deleteFeaturedVideo);
 
 
-// ! Upcoming events post
-router.post('/create-upcoming-events', uploadUpcomingEvent.single('image'), createEventPost,);
+//! Upcoming events routes
+router.post('/create-upcoming-events', uploadUpcomingEvent.single('image'), createEventPost);
 router.get('/get-upcoming-events', getEventPosts);
 router.get('/upcoming-events/:id', getEventPostById);
-router.put('/update-upcoming-events/:id', uploadUpcomingEvent.single('image'), updateEventPost,);
+router.put('/update-upcoming-events/:id', uploadUpcomingEvent.single('image'), updateEventPost);
+router.put('/update-event-status/:id', updateEventStatus); // New status update endpoint
 router.delete('/delete-upcoming-events/:id', deleteEventPost);
 
 //! registered user for particular events 
