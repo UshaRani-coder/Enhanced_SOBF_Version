@@ -1,11 +1,11 @@
 
 import React, { useRef, useEffect, useState } from "react";
-import Popup from "../common_components/Popup.jsx";
+// import Popup from "../common_components/Popup.jsx";
 
 
 const HeroVideo = () => {
   const videoRef = useRef(null);
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
   const closePopup = () => setShowPopup(false);
 
@@ -59,7 +59,7 @@ const HeroVideo = () => {
 
   return (
     <div className="w-full h-screen relative overflow-hidden">
-      {showPopup && <Popup onClose={closePopup} />}
+      {/* {showPopup && <Popup onClose={closePopup} />} */}
 
       <video
         ref={videoRef}

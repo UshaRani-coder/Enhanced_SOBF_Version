@@ -61,6 +61,7 @@ const { createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeatur
 const { createEventPost, getEventPostById, getEventPosts, updateEventPost, deleteEventPost, updateEventStatus } = require('../controllers/upcoming-event.controller');
 const { registerUserForEvent, getUsersWithRegisteredEvents, sendingEmailToSelectedUsers } = require('../controllers/event-users.controller');
 const sendTestEmail = require('../controllers/testing');
+const { createDonation, getAllDonations, getDonationById, getDonationsByDonor, sendTaxCertificate } = require('../controllers/donation.controller');
 
 // const { deleteEventPost, getEventPosts, getEventPostById, createEventPost, updateEventPost } = require('../controllers/upcomingevent.controller');
 
@@ -209,6 +210,14 @@ router.delete('/delete-upcoming-events/:id', deleteEventPost);
 router.post('/register-event/:eventId', registerUserForEvent);
 router.get("/users-with-events", getUsersWithRegisteredEvents);
 router.post("/send-emails-to-selected-users", sendingEmailToSelectedUsers)
+
+
+// !donation 
+router.post('/create-donation', createDonation);
+router.get('/get-donations', getAllDonations)
+router.get('/get-donation/:id', getDonationById);
+router.get('/get-donations-by-donor/:donorId', getDonationsByDonor);
+router.post('/send-tax-certificate/:donationId', sendTaxCertificate);
 
 router.post("/testing", sendTestEmail)
 module.exports = router;

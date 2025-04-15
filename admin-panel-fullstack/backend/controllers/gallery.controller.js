@@ -13,8 +13,8 @@ const createGalleryController = async (req, res) => {
     const filename = req.file.filename;
     const post = new GalleryModel({ image: filename || '', tag });
     await post.save();
-    // post.image = "https://backend.sobf.in" + '/uploads/gallery/' + post.image;
-    post.image = "http://localhost:5000" + '/uploads/gallery/' + post.image;
+    post.image = "https://backend.sobf.in" + '/uploads/gallery/' + post.image;
+    // post.image = "http://localhost:5000" + '/uploads/gallery/' + post.image;
     res.status(201).json({
       success: true,
       message: 'Gallery post has been created successfully',
@@ -36,8 +36,8 @@ const getAllGalleryImagesController = async (req, res) => {
     if (posts.length > 0) {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
-        // post.image = "https://backend.sobf.in" + '/uploads/gallery/' + post.image;
-        post.image = "http://localhost:5000" + '/uploads/gallery/' + post.image;
+        post.image = "https://backend.sobf.in" + '/uploads/gallery/' + post.image;
+        // post.image = "http://localhost:5000" + '/uploads/gallery/' + post.image;
       }
     }
     res.status(200).json({
@@ -91,8 +91,8 @@ const updateGalleryController = async (req, res) => {
     }
 
     // Append the full image URL (like the `updateTeam` controller)
-    // updatedPost.image ="https://backend.sobf.in" + '/uploads/gallery/' + updatedPost.image;
-    updatedPost.image = "http://localhost:5000" + '/uploads/gallery/' + updatedPost.image;
+    updatedPost.image ="https://backend.sobf.in" + '/uploads/gallery/' + updatedPost.image;
+    // updatedPost.image = "http://localhost:5000" + '/uploads/gallery/' + updatedPost.image;
 
     res.status(200).json({
       success: true,

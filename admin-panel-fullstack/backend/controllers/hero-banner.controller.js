@@ -12,10 +12,10 @@ const getHeroBanner = async (req, res) => {
     if (banners?.length > 0) {
       for (let index = 0; index < banners?.length; index++) {
         const banner = banners[index];
-        // banner.image =
-        //   "https://backend.sobf.in" + '/uploads/hero-banner/' + banner.image;
         banner.image =
-          "http://localhost:5000" + '/uploads/hero-banner/' + banner.image;
+          "https://backend.sobf.in" + '/uploads/hero-banner/' + banner.image;
+        // banner.image =
+        //   "http://localhost:5000" + '/uploads/hero-banner/' + banner.image;
       }
     }
     res.status(200).json({
@@ -59,8 +59,8 @@ const createHeroBanner = async (req, res) => {
       image: filename || '',
     });
     await post.save();
-    // post.image = "https://backend.sobf.in" + '/uploads/hero-banner/' + post.image;
-    post.image = "http://localhost:5000" + '/uploads/hero-banner/' + post.image;
+    post.image = "https://backend.sobf.in" + '/uploads/hero-banner/' + post.image;
+    // post.image = "http://localhost:5000" + '/uploads/hero-banner/' + post.image;
     res.status(201).json({
       success: true,
       message: 'HeroBanner post has been created successfully',
@@ -112,10 +112,10 @@ const updateHeroBanner = async (req, res) => {
     });
 
     // Append the full image URL
-    // updatedBanner.image =
-    //   "https://backend.sobf.in" + '/uploads/hero-banner/' + updatedBanner.image;
     updatedBanner.image =
-      "http://localhost:5000" + '/uploads/hero-banner/' + updatedBanner.image;
+      "https://backend.sobf.in" + '/uploads/hero-banner/' + updatedBanner.image;
+    // updatedBanner.image =
+    //   "http://localhost:5000" + '/uploads/hero-banner/' + updatedBanner.image;
 
     return res.status(200).json({ success: true, updatedBanner });
   } catch (error) {

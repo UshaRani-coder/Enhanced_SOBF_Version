@@ -9,12 +9,13 @@ import Donate_hero from '../Components/Donate_page/donate_hero.jsx';
 import QRCode from '../assets/QRCode.png';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
 
 // PayPal Configuration (Replace with your Client ID)
 const paypalOptions = {
-  clientId: "AY23HLH8T-gvSI3zA05FlxpksO7VmiPzvGl3UC_4AoOfopdiLlZM_j-Q1aI0w7zV9njcqdT1Yho81DYz",
-  currency: "USD",
-  intent: "capture",
+  clientId: "AY23HLH8T-gvSI3zA05FlxpksO7VmiPzvGl3UC_4AoOfopdiLlZM_j-Q1aI0w7zV9njcqdT1Yho81DYz", // Replace with your PayPal Client ID
+  currency: "USD", // Change to "INR" if needed
+  // intent: "capture",
 };
 
 const Donateus = () => {
@@ -32,7 +33,7 @@ const Donateus = () => {
     transactionId: "",
   });
   const [paymentCompleted, setPaymentCompleted] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState('qr'); // 'qr' or 'upi'
+  const [paymentMethod, setPaymentMethod] = useState('qr'); // 'qr' or 'paypal'
 
   const location = useLocation();
   useEffect(() => {
@@ -96,14 +97,59 @@ const Donateus = () => {
     return true;
   };
 
+  // ... existing code ...
+
+  const handleStoreDonation = async (paymentDetails) => {
+    try {
+      // Prepare the data to send to your backend
+      const donationData = {
+        ...formData,
+        paymentMethod: 'paypal',
+        paymentDetails: {
+          paymentId: paymentDetails.id,
+          amount: paymentDetails.purchase_units[0].amount.value,
+          currency: paymentDetails.purchase_units[0].amount.currency_code,
+          status: paymentDetails.status,
+          payerEmail: paymentDetails.payer.email_address,
+          payerName: `${paymentDetails.payer.name.given_name} ${paymentDetails.payer.name.surname}`,
+        }
+      };
+      // Replace with your actual API endpoint
+      const response = await axios.post('https://your-api-endpoint.com/donations', donationData);
+
+      if (response.data.success) {
+        toast.success("Donation recorded successfully!");
+      } else {
+        toast.warning("Donation completed but recording failed. Please contact support.");
+      }
+    } catch (error) {
+      console.error("Error storing donation:", error);
+      toast.error("Error recording donation. Please contact support with your transaction ID.");
+    }
+  };
+
+
   // Handle PayPal Payment Success
-  const handlePaymentSuccess = (details) => {
-    toast.success(`Donation successful! Transaction ID: ${details.id}`);
-    setFormData({
-      ...formData,
-      transactionId: details.id, // Auto-fill transaction ID
-    });
-    setPaymentCompleted(true);
+  const handlePaymentSuccess = async (details, data) => {
+    try {
+      // First show success message
+      toast.success(`Donation successful! Transaction ID: ${details.id}`);
+
+      // Update form data with transaction ID
+      setFormData(prev => ({
+        ...prev,
+        transactionId: details.id,
+      }));
+
+      // Set payment as completed
+      setPaymentCompleted(true);
+
+      // Store the donation in your database
+      await handleStoreDonation(details);
+    } catch (error) {
+      console.error("Error handling payment success:", error);
+      toast.error("Payment completed but there was an error processing your donation.");
+    }
   };
 
   // Render Content Based on Active Tab
@@ -203,7 +249,7 @@ const Donateus = () => {
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
 
         {/* Tabs Section */}
-        <div className="w-full lg:w-full px-4 mt-10">
+        {/* <div className="w-full lg:w-full px-4 mt-10">
           <div className="flex">
             <button
               className={`poppins-medium w-[33.3%] px-3 py-2 rounded-tl-lg text-sm md:text-lg ${activeTab === 'whydonate' ? 'text-white bg-logoYellow' : 'bg-light-lavender text-gray-700'
@@ -230,12 +276,12 @@ const Donateus = () => {
           <div className="p-4 py-8 bg-gray-50 rounded-b-lg text-lg rounded-lg border">
             {renderContent()}
           </div>
-        </div>
+        </div> */}
 
         {/* Donation Form */}
         <div id="donate-form">
-          <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center rounded-lg">
-            <div className="container max-w-screen-lg mx-auto md:mt-32 md:mb-16 mt-28 mb-10 flex flex-col">
+          <div className="min-h-screen p-6 flex items-center justify-center rounded-lg">
+            <div className="container max-w-screen-lg mx-auto md:mb-16  mb-10 flex flex-col">
               <div className="bg-white rounded-xl shadow-lg p-4 px-4 md:p-8 mb-6 md:w-[100%]">
                 <div className="grid gap-4 gap-y-2 text-sm grid-cols-1">
                   {/* Form Heading */}
@@ -251,10 +297,33 @@ const Donateus = () => {
                     <p className="pt-1.5 lg:pb-0 pb-4">Please fill out all the fields.</p>
                   </div>
 
+                  {/* Payment Method Toggle */}
+                  <div className="md:col-span-5 mb-6">
+                    <div className="flex flex-col">
+                      <label className="mb-2 font-medium">Payment Method</label>
+                      <div className="flex rounded-lg overflow-hidden border border-gray-300">
+                        <button
+                          type="button"
+                          className={`flex-1 py-2 px-4 ${paymentMethod === 'qr' ? 'bg-logoYellow text-white' : 'bg-gray-100 text-gray-700'}`}
+                          onClick={() => setPaymentMethod('qr')}
+                        >
+                          QR Code Payment
+                        </button>
+                        <button
+                          type="button"
+                          className={`flex-1 py-2 px-4 ${paymentMethod === 'paypal' ? 'bg-logoYellow text-white' : 'bg-gray-100 text-gray-700'}`}
+                          onClick={() => setPaymentMethod('paypal')}
+                        >
+                          PayPal
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="w-full">
                     <div className="grid gap-4 gap-y-2 text-sm grid-cols-1">
                       <div className="md:flex md:items-end md:gap-[30px]">
-                        <div className="md:w-[75%] lg:w-[100%]">
+                        <div className="md:w-full lg:w-full">
                           <div className="md:col-span-5 mt-[10px]">
                             <label htmlFor="fullName">Full Name</label>
                             <input
@@ -309,7 +378,7 @@ const Donateus = () => {
                           </div>
                         </div>
 
-                        {/* QR Code for Larger Screens */}
+                        {/* QR Code for Larger Screens - Only shown when QR is selected */}
                         {paymentMethod === 'qr' && (
                           <div className="hidden md:flex flex-col items-end gap-[15px] md:w-[200px] lg:w-[30%]">
                             <p className="text-lg font-semibold">Scan the QR code to proceed:</p>
@@ -391,66 +460,29 @@ const Donateus = () => {
                           value={formData.donationAmount}
                         />
                       </div>
-                      <div className="md:col-span-5">
-                        <label htmlFor="transactionId">Transaction ID</label>
-                        <input
-                          type="text"
-                          name="transactionId"
-                          id="transactionId"
-                          className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
-                          placeholder="Enter the ID of transaction (e.g., TXN12345ABC67890)"
-                          required
-                          onChange={handleChange}
-                          value={formData.transactionId}
-                        />
-                      </div>
 
-                      {/* Payment Method Toggle */}
-                      <div className="md:col-span-5 mt-6">
-                        <div className="flex flex-col">
-                          <label className="mb-2 font-medium">Payment Method</label>
-                          <div className="flex rounded-lg overflow-hidden border border-gray-300">
-                            <button
-                              type="button"
-                              className={`flex-1 py-2 px-4 ${paymentMethod === 'qr' ? 'bg-logoYellow text-white' : 'bg-gray-100 text-gray-700'}`}
-                              onClick={() => setPaymentMethod('qr')}
-                            >
-                              QR Code Payment
-                            </button>
-                            <button
-                              type="button"
-                              className={`flex-1 py-2 px-4 ${paymentMethod === 'upi' ? 'bg-logoYellow text-white' : 'bg-gray-100 text-gray-700'}`}
-                              onClick={() => setPaymentMethod('upi')}
-                            >
-                              UPI Payment
-                            </button>
-                          </div>
+                      {/* Transaction ID Field - Only shown for QR payments */}
+                      {paymentMethod === 'qr' && (
+                        <div className="md:col-span-5">
+                          <label htmlFor="transactionId">Transaction ID</label>
+                          <input
+                            type="text"
+                            name="transactionId"
+                            id="transactionId"
+                            className="h-10 border mt-1 rounded px-4 w-full bg-light-lavender"
+                            placeholder="Enter the ID of transaction (e.g., TXN12345ABC67890)"
+                            required
+                            onChange={handleChange}
+                            value={formData.transactionId}
+                          />
                         </div>
-                      </div>
+                      )}
 
-                      {/* QR Code for Smaller Screens */}
+                      {/* QR Code for Smaller Screens - Only shown when QR is selected */}
                       {paymentMethod === 'qr' && (
                         <div className="md:hidden flex flex-col items-center gap-[15px] mt-6">
                           <p className="font-semibold text-left w-full small-range:text-lg">Scan the QR code to proceed:</p>
                           <img src={QRCode} alt="QR Code" className="w-40 h-40" />
-                        </div>
-                      )}
-
-                      {/* UPI Payment Details */}
-                      {paymentMethod === 'upi' && (
-                        <div className="mt-6 p-4 border rounded-lg bg-gray-50">
-                          <h3 className="text-lg font-semibold mb-3">UPI Payment Instructions</h3>
-                          <ol className="list-decimal pl-5 space-y-2">
-                            <li>Open your UPI payment app (Google Pay, PhonePe, Paytm, etc.)</li>
-                            <li>Enter our UPI ID: <span className="font-bold">example@upi</span></li>
-                            <li>Enter the donation amount: <span className="font-bold">₹{formData.donationAmount || '___'}</span></li>
-                            <li>Add a note with your name for reference</li>
-                            <li>Complete the payment</li>
-                            <li>Enter the transaction ID in the form above</li>
-                          </ol>
-                          <div className="mt-4 p-3 bg-blue-50 rounded border border-blue-100">
-                            <p className="text-blue-800">After payment, please enter the transaction ID in the field above to complete your donation.</p>
-                          </div>
                         </div>
                       )}
                     </div>
@@ -461,44 +493,69 @@ const Donateus = () => {
                 <div className="md:col-span-5 flex flex-col md:flex-row justify-center pt-10 md:gap-10 gap-3">
                   {!paymentCompleted ? (
                     paymentMethod === 'qr' ? (
-                      <PayPalButtons
-                        style={{ layout: "vertical", shape: "pill" }}
-                        createOrder={(data, actions) => {
-                          if (!validateForm()) {
-                            toast.error("Please fill all fields correctly.");
-                            return Promise.reject("Form validation failed");
-                          }
-                          return actions.order.create({
-                            purchase_units: [
-                              {
-                                amount: {
-                                  value: formData.donationAmount,
-                                  currency_code: "USD",
-                                },
-                                description: `Donation for ${formData.donationFor}`,
-                              },
-                            ],
-                          });
-                        }}
-                        onApprove={(data, actions) => {
-                          return actions.order.capture().then(handlePaymentSuccess);
-                        }}
-                        onError={(err) => {
-                          toast.error("Payment failed. Please try again.");
-                          console.error("PayPal error:", err);
-                        }}
-                      />
-                    ) : (
+                      // Modify your QR payment confirmation button:
                       <button
                         className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg"
-                        onClick={() => {
+                        onClick={async () => {
                           if (validateForm()) {
-                            toast.success("Please complete the UPI payment and enter the transaction ID.");
+                            try {
+                              const donationData = {
+                                ...formData,
+                                paymentMethod: 'qr',
+                                paymentDetails: {
+                                  paymentId: formData.transactionId,
+                                  amount: formData.donationAmount,
+                                  currency: "INR", // Assuming QR payments are in INR
+                                  status: "COMPLETED",
+                                }
+                              };
+
+                              // Store the donation
+                              await handleStoreDonation(donationData);
+
+                              toast.success("Payment details confirmed and recorded!");
+                              setPaymentCompleted(true);
+                            } catch (error) {
+                              console.error("Error storing QR payment:", error);
+                              toast.error("Error recording payment. Please try again.");
+                            }
                           }
                         }}
                       >
-                        Confirm UPI Payment Details
+                        Confirm QR Payment Details
                       </button>
+                    ) : (
+                      <div className="w-full">
+                          <PayPalButtons
+                            style={{ layout: "vertical", shape: "pill" }}
+                            createOrder={(data, actions) => {
+                              if (!validateForm()) {
+                                toast.error("Please fill all fields correctly.");
+                                return Promise.reject("Form validation failed");
+                              }
+                              return actions.order.create({
+                                purchase_units: [
+                                  {
+                                    amount: {
+                                      value: formData.donationAmount,
+                                      currency_code: "USD",
+                                    },
+                                    description: `Donation for ${formData.donationFor}`,
+                                  },
+                                ],
+                              });
+                            }}
+                            onApprove={(data, actions) => {
+                              return actions.order.capture().then((details) => {
+                                handlePaymentSuccess(details, data);
+                              });
+                            }}
+                            onError={(err) => {
+                              toast.error("Payment failed. Please try again.");
+                              console.error("PayPal error:", err);
+                            }}
+                          />
+                      </div>
                     )
                   ) : (
                     <button

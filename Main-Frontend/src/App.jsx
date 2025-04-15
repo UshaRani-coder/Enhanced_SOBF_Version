@@ -3,6 +3,8 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import './App.css';
 import loader from './assets/loader.webp';
+import DonationForm from './pages/Payment.jsx';
+import QRPayment from './Components/Home_Section/QRPayament.jsx';
 
 // Lazy loading the components
 const Header = lazy(() => import('./Components/common_components/Header.jsx'));
@@ -106,6 +108,8 @@ const App = () => {
         />
         <Route path="/videos" element={<Videos />} />
         <Route path="/donate-us" element={<Donateus />} />
+        {/* <Route path="/donate-us" element={<DonationForm />} /> */}
+        <Route path="/donate-us" element={<QRPayment />} />
         <Route path="/legal-doc" element={<LegalDoc />} />
         <Route path="/anna-vitran-seva" element={<AnnaVitranSeva />} />
         <Route path="/community-service" element={<CommunityService />} />

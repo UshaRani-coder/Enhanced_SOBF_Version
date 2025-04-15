@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MdLocationPin, MdAccessTimeFilled } from 'react-icons/md';
+import { MdLocationPin, MdAccessTimeFilled, MdClose, MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,10 +17,11 @@ const UpcomingEvents = () => {
     }
   }, [eventsStatus, dispatch]);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [selectedEventIndex, setSelectedEventIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [formData, setFormData] = useState({
@@ -28,6 +29,14 @@ const UpcomingEvents = () => {
     email: '',
   });
   const [errors, setErrors] = useState({});
+
+  // Filter events based on selected year/month
+  const filteredEvents = events.filter(event => {
+    const eventDate = new Date(event.date);
+    const matchesYear = selectedYear ? eventDate.getFullYear().toString() === selectedYear : true;
+    const matchesMonth = selectedMonth ? (eventDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth : true;
+    return matchesYear && matchesMonth;
+  });
 
   const getStatusStyles = (status) => {
     switch (status) {
@@ -95,7 +104,6 @@ const UpcomingEvents = () => {
     setProgress(0);
 
     try {
-      const eventId = filteredEvents[currentIndex]._id;
       const interval = setInterval(() => {
         setProgress(prev => {
           const newProgress = prev + 10;
@@ -105,7 +113,7 @@ const UpcomingEvents = () => {
       }, 200);
 
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${eventId}`,
+        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${filteredEvents[selectedEventIndex]._id}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -139,28 +147,24 @@ const UpcomingEvents = () => {
     }
   };
 
-  // Filter events based on selected year/month
-  const filteredEvents = events.filter(event => {
-    const eventDate = new Date(event.date);
-    const matchesYear = selectedYear ? eventDate.getFullYear().toString() === selectedYear : true;
-    const matchesMonth = selectedMonth ? (eventDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth : true;
-    return matchesYear && matchesMonth;
-  });
-
   // Get unique years and months for filters
   const availableYears = [...new Set(events.map(event => new Date(event.date).getFullYear().toString()))];
   const availableMonths = [...new Set(
     events.map(event => (new Date(event.date).getMonth() + 1).toString().padStart(2, '0'))
   )].sort();
 
-  // Handle carousel navigation
-  const nextSlide = () => setCurrentIndex(prev => (prev + 1) % filteredEvents.length);
-  const prevSlide = () => setCurrentIndex(prev => (prev - 1 + filteredEvents.length) % filteredEvents.length);
+  const handleCardClick = (event, index) => {
+    setSelectedEventIndex(index);
+    setShowDetailModal(true);
+  };
 
-  // Reset index when filters change
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [selectedYear, selectedMonth]);
+  const navigateEvents = (direction) => {
+    if (direction === 'prev') {
+      setSelectedEventIndex(prev => (prev - 1 + filteredEvents.length) % filteredEvents.length);
+    } else {
+      setSelectedEventIndex(prev => (prev + 1) % filteredEvents.length);
+    }
+  };
 
   return (
     <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0 mt-10">
@@ -176,7 +180,7 @@ const UpcomingEvents = () => {
         Stay tuned for impactful events that bring positive change to our community. Join us!
       </p>
 
-      {/* Filters and Controls */}
+      {/* Filters */}
       <div className="flex flex-col md:flex-row md:justify-center w-full max-w-3xl lg:max-w-4xl items-center gap-4 mb-6">
         <div className="flex items-center gap-2 small-range:gap-4">
           <select
@@ -209,94 +213,68 @@ const UpcomingEvents = () => {
             ))}
           </select>
         </div>
-
-        <div className="flex items-center gap-2 justify-end w-full">
-          <button
-            className="bg-gray-700 text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-900 transition-all"
-            onClick={prevSlide}
-            disabled={filteredEvents.length <= 1}
-          >
-            ❮
-          </button>
-          <button
-            className="bg-gray-700 text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-900 transition-all"
-            onClick={nextSlide}
-            disabled={filteredEvents.length <= 1}
-          >
-            ❯
-          </button>
-        </div>
       </div>
 
-      {/* Events Carousel */}
+      {/* Events Grid */}
       {filteredEvents.length > 0 ? (
-        <div className="relative w-full max-w-3xl lg:max-w-4xl overflow-hidden">
-          <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-            {filteredEvents.map((event) => {
-              const statusStyles = getStatusStyles(event.status);
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl px-4">
+          {filteredEvents.map((event, index) => {
+            const statusStyles = getStatusStyles(event.status);
 
-              return (
-                <div key={event._id} className="min-w-full">
-                  <div className="bg-white rounded-xl overflow-hidden shadow-lg">
-                    <div className="relative w-full h-64 sm:h-80 lg:h-96">
-                      <img
-                        src={event.image}
-                        alt={event.title}
-                        className="w-full h-full object-cover rounded-t-xl"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = 'https://via.placeholder.com/800x400?text=Event+Image';
-                        }}
-                      />
+            return (
+              <div
+                key={event._id}
+                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                onClick={() => handleCardClick(event, index)}
+              >
+                <div className="relative w-full h-48 sm:h-56">
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    className="w-full h-full object-cover rounded-t-xl"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://via.placeholder.com/800x400?text=Event+Image';
+                    }}
+                  />
+                </div>
+
+                <div className="p-4">
+                  <span className={`px-3 py-1 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}>
+                    {statusStyles.icon} {statusStyles.label}
+                  </span>
+
+                  <div className="flex flex-col gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <MdAccessTimeFilled className="text-[#1890CE] flex-shrink-0" />
+                      <span className="text-gray-600 text-sm">
+                        {formatDateTime(event.date, event.time)}
+                      </span>
                     </div>
 
-                    <div className="p-6">
-                      <span className={`px-3 py-1 text-xs md:text-sm mb-4 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}>
-                        {statusStyles.icon} {statusStyles.label}
+                    <div className="flex items-center gap-2">
+                      <MdLocationPin className="text-[#E82327] flex-shrink-0" />
+                      <span className="text-gray-600 text-sm">
+                        {event.location}
                       </span>
-
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
-                        <div className="flex items-center gap-2">
-                          <MdAccessTimeFilled className="text-[#1890CE]" />
-                          <span className="text-gray-600 text-sm md:text-base">
-                            {formatDateTime(event.date, event.time)}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <MdLocationPin className="text-[#E82327]" />
-                          <span className="text-gray-600 text-sm md:text-base">
-                            {event.location}
-                          </span>
-                        </div>
-                      </div>
-
-                      <h3 className="text-xl md:text-2xl font-semibold text-[#2d335d] mb-3">
-                        {event.title}
-                      </h3>
-
-                      <div
-                        className="text-gray-700 text-base mb-4"
-                        dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(event.description)
-                            .replace(/<a /g, '<a class="text-blue-600 hover:underline" ')
-                        }}
-                      />
-
-                      {(event.status === 'upcoming' || event.status === 'happening') && (
-                        <button
-                          onClick={() => setShowForm(true)}
-                          className="mt-4 px-6 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
-                        >
-                          Register Now
-                        </button>
-                      )}
                     </div>
                   </div>
+
+                  <h3 className="text-lg md:text-xl font-semibold text-[#2d335d] mb-2 line-clamp-2">
+                    {event.title}
+                  </h3>
+
+                  <div
+                    className="text-gray-700 text-sm mb-4 line-clamp-3"
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(event.description)
+                        .replace(/<a /g, '<a class="text-blue-600 hover:underline" ')
+                    }}
+                  />
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-3xl text-center">
@@ -310,12 +288,100 @@ const UpcomingEvents = () => {
         </div>
       )}
 
+      {/* Event Detail Modal */}
+      {showDetailModal && filteredEvents[selectedEventIndex] && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
+            {/* Navigation Arrows */}
+            <button
+              onClick={() => navigateEvents('prev')}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors"
+              disabled={filteredEvents.length <= 1}
+            >
+              <MdChevronLeft size={32} className="text-gray-700" />
+            </button>
+
+            <button
+              onClick={() => navigateEvents('next')}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors"
+              disabled={filteredEvents.length <= 1}
+            >
+              <MdChevronRight size={32} className="text-gray-700" />
+            </button>
+
+            <div className="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-[#2d335d]">{filteredEvents[selectedEventIndex].title}</h2>
+              <button
+                onClick={() => setShowDetailModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <MdClose size={24} />
+              </button>
+            </div>
+
+            <div className="p-6">
+              <div className="relative w-full h-64 sm:h-80 lg:h-96 mb-6">
+                <img
+                  src={filteredEvents[selectedEventIndex].image}
+                  alt={filteredEvents[selectedEventIndex].title}
+                  className="w-full h-full object-cover rounded-lg"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://via.placeholder.com/800x400?text=Event+Image';
+                  }}
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-4 mb-6">
+                <div className="flex items-center bg-gray-100 px-4 py-2 rounded-lg">
+                  <MdAccessTimeFilled className="text-[#1890CE] mr-2" />
+                  <span className="text-gray-700">
+                    {formatDateTime(filteredEvents[selectedEventIndex].date, filteredEvents[selectedEventIndex].time)}
+                  </span>
+                </div>
+
+                <div className="flex items-center bg-gray-100 px-4 py-2 rounded-lg">
+                  <MdLocationPin className="text-[#E82327] mr-2" />
+                  <span className="text-gray-700">
+                    {filteredEvents[selectedEventIndex].location}
+                  </span>
+                </div>
+
+                <div className={`px-4 py-2 rounded-lg ${getStatusStyles(filteredEvents[selectedEventIndex].status).bgColor} ${getStatusStyles(filteredEvents[selectedEventIndex].status).textColor}`}>
+                  {getStatusStyles(filteredEvents[selectedEventIndex].status).icon} {getStatusStyles(filteredEvents[selectedEventIndex].status).label}
+                </div>
+              </div>
+
+              <div
+                className="prose max-w-none text-gray-700 mb-6"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(filteredEvents[selectedEventIndex].description)
+                    .replace(/<a /g, '<a class="text-blue-600 hover:underline" ')
+                }}
+              />
+
+              {(filteredEvents[selectedEventIndex].status === 'upcoming' || filteredEvents[selectedEventIndex].status === 'happening') && (
+                <button
+                  onClick={() => {
+                    setShowForm(true);
+                    setShowDetailModal(false);
+                  }}
+                  className="mt-6 px-6 py-3 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
+                >
+                  Register Now
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Registration Modal */}
-      {showForm && (
+      {showForm && filteredEvents[selectedEventIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
             <div className="p-6">
-              <h2 className="text-xl font-bold mb-4">Register for Event</h2>
+              <h2 className="text-xl font-bold mb-4">Register for {filteredEvents[selectedEventIndex].title}</h2>
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -347,7 +413,10 @@ const UpcomingEvents = () => {
                 <div className="flex justify-end gap-3">
                   <button
                     type="button"
-                    onClick={() => setShowForm(false)}
+                    onClick={() => {
+                      setShowForm(false);
+                      setShowDetailModal(true);
+                    }}
                     className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
                   >
                     Cancel

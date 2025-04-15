@@ -9,7 +9,7 @@ import teamReducer from '../Reducers/TeamSlice';
 import galleryReducer from '../Reducers/gallerySlice';
 import ourServiceRducer from '../Reducers/OurServicesSlice';
 import upcomingEventReducer from "../Reducers/upcomingeventSlice"
-
+import donationReducer from "../Reducers/donationSlice"
 
 
 const store = configureStore({
@@ -23,7 +23,8 @@ const store = configureStore({
     teams: teamReducer,
     gallery: galleryReducer,
     services: ourServiceRducer,
-    events: upcomingEventReducer
+    events: upcomingEventReducer,
+        donation: donationReducer,
   },
 });
 

@@ -104,6 +104,27 @@ export const updateEvent = (id, updatedPost) =>
 export const deleteEvent = (id) =>
   apiClient.delete(`/api/post/delete-upcoming-events/${id}`);
 
-// events user 
+//! events user 
 export const getEventUsers = () => apiClient.get('/api/post/users-with-events');
 export const sendingEmailToSelectedUsers = () => apiClient.get('/api/post/send-emails-to-selected-users');
+
+
+
+
+// !  donational endpoints 
+
+
+export const createDonation = (donationData) =>
+  apiClient.post('/api/post/create-donation', donationData);
+
+export const getAllDonations = (params = {}) =>
+  apiClient.get('/api/post/get-donations', { params });
+
+export const getDonationById = (id) =>
+  apiClient.get(`/api/post/get-donation/${id}`);
+
+export const getDonationsByDonor = (donorId, params = {}) =>
+  apiClient.get(`/api/post/get-donations-by-donor/${donorId}`, { params });
+
+export const sendTaxCertificate = (donationId) =>
+  apiClient.post(`/api/post/send-tax-certificate/${donationId}`);

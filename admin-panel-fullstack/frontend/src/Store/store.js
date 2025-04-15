@@ -12,7 +12,6 @@ import upcomingEventReducer from '../Reducers/upcomingEventsSlice.js';
 import eventUserReducer from "../Reducers/eventuserSlice.js"
 
 
-
 const store = configureStore({
   reducer: {
     posts: postReducer,
@@ -25,7 +24,7 @@ const store = configureStore({
     gallery: galleryReducer,
     services: ourServiceRducer,
     events: upcomingEventReducer,
-    eventUser: eventUserReducer
+    eventUser: eventUserReducer,
   },
 });
 
