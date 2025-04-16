@@ -23,6 +23,7 @@ const AboutUs = lazy(() => import('./pages/Aboutus.jsx'));
 const ContactUsPage = lazy(() => import('./pages/ContactUs.jsx'));
 const Vision = lazy(() => import('./pages/Vision.jsx'));
 const Gallery = lazy(() => import('./pages/Gallery.jsx'));
+const Subscription = lazy(() => import('./pages/Subscription.jsx'));
 const Donateus = lazy(() => import('./pages/Donateus.jsx'));
 const Press_Release = lazy(
   () => import('./Components/Home_Section/Press_Release.jsx'),
@@ -62,6 +63,7 @@ const App = () => {
     '/vision',
     '/gallery',
     '/donate-us',
+    '/subscription',
     '/press-release',
     '/press-release/:id',
     '/recent-activities',
@@ -107,6 +109,7 @@ const App = () => {
           element={<RecentActivityDetails />}
         />
         <Route path="/videos" element={<Videos />} />
+        <Route path="/subscription" element={<Subscription />} />
         <Route path="/donate-us" element={<Donateus />} />
         {/* <Route path="/donate-us" element={<DonationForm />} /> */}
         <Route path="/donate-us" element={<QRPayment />} />
