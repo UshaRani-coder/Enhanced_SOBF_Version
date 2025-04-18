@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FloatingWhatsApp } from "react-floating-whatsapp";
-import Avatar from "../assets/OurTeam/TarunMisra.png";
+import Avatar from "../assets/OurTeam/TarunMisra_Sir.png";
 import { useLocation } from "react-router-dom";
 
 const Whatsapp = () => {
@@ -19,31 +19,31 @@ const Whatsapp = () => {
   }, []);
 
   useEffect(() => {
-      const handleScroll = () => {
-        let scrollThreshold = 500;
-        if (window.innerWidth >= 1280) {
-          scrollThreshold = 800;
-        } else if (window.innerWidth >= 1024) {
-          scrollThreshold = 1000;
-        } else if (window.innerWidth >= 768) {
-          scrollThreshold = 700;
-        }
-  
-        // Show button when scrolling down on the home page
-        if (location.pathname === '/') {
-          setShowButton(window.scrollY > scrollThreshold);
-        }
-      };
-  
-      // Show button immediately if NOT on the home page
-      if (location.pathname !== '/') {
-        setShowButton(true);
-      } else {
-        window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      let scrollThreshold = 500;
+      if (window.innerWidth >= 1280) {
+        scrollThreshold = 800;
+      } else if (window.innerWidth >= 1024) {
+        scrollThreshold = 1000;
+      } else if (window.innerWidth >= 768) {
+        scrollThreshold = 700;
       }
-  
-      return () => window.removeEventListener('scroll', handleScroll);
-    }, [location.pathname]); 
+
+      // Show button when scrolling down on the home page
+      if (location.pathname === '/') {
+        setShowButton(window.scrollY > scrollThreshold);
+      }
+    };
+
+    // Show button immediately if NOT on the home page
+    if (location.pathname !== '/') {
+      setShowButton(true);
+    } else {
+      window.addEventListener('scroll', handleScroll);
+    }
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [location.pathname]);
   return (
     <div className="">
       {showButton && (

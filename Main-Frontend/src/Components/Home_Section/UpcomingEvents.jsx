@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { MdLocationPin, MdAccessTimeFilled, MdClose, MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvents } from '../../Reducers/upcomingeventSlice';
 import DOMPurify from 'dompurify';
 
+import { Navigation, Pagination } from 'swiper/modules';
 const UpcomingEvents = () => {
   const dispatch = useDispatch();
   const { events, status: eventsStatus } = useSelector((state) => state.events);
@@ -31,19 +36,21 @@ const UpcomingEvents = () => {
   const [errors, setErrors] = useState({});
 
   // Filter events based on selected year/month
-  const filteredEvents = events.filter(event => {
-    const eventDate = new Date(event.date);
-    const matchesYear = selectedYear ? eventDate.getFullYear().toString() === selectedYear : true;
-    const matchesMonth = selectedMonth ? (eventDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth : true;
-    return matchesYear && matchesMonth;
-  });
+  const filteredEvents = events
+    .filter(event => {
+      const eventDate = new Date(event.date);
+      const matchesYear = selectedYear ? eventDate.getFullYear().toString() === selectedYear : true;
+      const matchesMonth = selectedMonth ? (eventDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth : true;
+      return matchesYear && matchesMonth;
+    })
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   const getStatusStyles = (status) => {
     switch (status) {
       case 'happening':
         return {
           label: 'Happening Now',
-          bgColor: 'bg-gradient-to-r from-purple-500 to-purple-700',
+          bgColor: 'bg-gradient-to-r from-purple-400 to-purple-600',
           icon: '🟢',
           textColor: 'text-white',
           animate: 'animate-pulse',
@@ -51,7 +58,7 @@ const UpcomingEvents = () => {
       case 'completed':
         return {
           label: 'Completed',
-          bgColor: 'bg-gradient-to-r from-green-500 to-green-700',
+          bgColor: 'bg-gradient-to-r from-green-400 to-green-600',
           icon: '✅',
           textColor: 'text-white',
           animate: '',
@@ -60,7 +67,7 @@ const UpcomingEvents = () => {
       default:
         return {
           label: 'Upcoming',
-          bgColor: 'bg-gradient-to-r from-indigo-500 to-indigo-700',
+          bgColor: 'bg-gradient-to-r from-indigo-400 to-indigo-600',
           icon: '⏳',
           textColor: 'text-white',
           animate: '',
@@ -165,6 +172,13 @@ const UpcomingEvents = () => {
       setSelectedEventIndex(prev => (prev + 1) % filteredEvents.length);
     }
   };
+  const capitalize = (str) => {
+    if (!str) return '';
+    return str.split(' ').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  };
+
 
   return (
     <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0 mt-10">
@@ -215,66 +229,85 @@ const UpcomingEvents = () => {
         </div>
       </div>
 
-      {/* Events Grid */}
       {filteredEvents.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl px-4">
-          {filteredEvents.map((event, index) => {
-            const statusStyles = getStatusStyles(event.status);
-
-            return (
-              <div
-                key={event._id}
-                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-                onClick={() => handleCardClick(event, index)}
-              >
-                <div className="relative w-full h-48 sm:h-56">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover rounded-t-xl"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = 'https://via.placeholder.com/800x400?text=Event+Image';
-                    }}
-                  />
-                </div>
-
-                <div className="p-4">
-                  <span className={`px-3 py-1 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}>
-                    {statusStyles.icon} {statusStyles.label}
-                  </span>
-
-                  <div className="flex flex-col gap-2 mb-3">
-                    <div className="flex items-center gap-2">
-                      <MdAccessTimeFilled className="text-[#1890CE] flex-shrink-0" />
-                      <span className="text-gray-600 text-sm">
-                        {formatDateTime(event.date, event.time)}
-                      </span>
+        <div className="w-full max-w-6xl px-4">
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={30}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            breakpoints={{
+              640: {
+                slidesPerView: 1,
+              },
+              768: {
+                slidesPerView: 2,
+              },
+              1024: {
+                slidesPerView: 3,
+              },
+            }}
+            className="mySwiper"
+          >
+            {filteredEvents.map((event, index) => {
+              const statusStyles = getStatusStyles(event.status);
+              return (
+                <SwiperSlide key={event._id}>
+                  <div
+                    className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer h-full"
+                    onClick={() => handleCardClick(event, index)}
+                  >
+                    <div className="relative w-full h-48 sm:h-56">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="w-full h-full object-cover rounded-t-xl"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://via.placeholder.com/800x400?text=Event+Image';
+                        }}
+                      />
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <MdLocationPin className="text-[#E82327] flex-shrink-0" />
-                      <span className="text-gray-600 text-sm">
-                        {event.location}
+                    <div className="p-4">
+                      <span className={`px-3 py-1 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}>
+                        {statusStyles.icon} {statusStyles.label}
                       </span>
+
+                      <div className="flex flex-col gap-2 mb-3">
+                        <div className="flex items-center gap-2">
+                          <MdAccessTimeFilled className="text-[#1890CE] flex-shrink-0" />
+                          <span className="text-gray-600 text-sm">
+                            {formatDateTime(event.date, event.time)}
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <MdLocationPin className="text-[#E82327] flex-shrink-0" />
+                          <span className="text-gray-600 text-sm">
+                            {event.location}
+                          </span>
+                        </div>
+                      </div>
+
+                      <h3 className="text-lg md:text-xl font-semibold text-[#2d335d] mb-2 line-clamp-2">
+                        {capitalize(event.title)}
+                      </h3>
+
+                      <div
+                        className="text-gray-700 text-sm mb-4 line-clamp-3"
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(event.description)
+                            .replace(/<a /g, '<a class="text-blue-600 hover:underline" ')
+                        }}
+                      />
                     </div>
                   </div>
-
-                  <h3 className="text-lg md:text-xl font-semibold text-[#2d335d] mb-2 line-clamp-2">
-                    {event.title}
-                  </h3>
-
-                  <div
-                    className="text-gray-700 text-sm mb-4 line-clamp-3"
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(event.description)
-                        .replace(/<a /g, '<a class="text-blue-600 hover:underline" ')
-                    }}
-                  />
-                </div>
-              </div>
-            );
-          })}
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
         </div>
       ) : (
         <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-3xl text-center">
@@ -310,7 +343,8 @@ const UpcomingEvents = () => {
             </button>
 
             <div className="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-[#2d335d]">{filteredEvents[selectedEventIndex].title}</h2>
+              {/* {capitalize(event.title)} */}
+              <h2 className="text-2xl font-bold text-[#2d335d]">{capitalize(filteredEvents[selectedEventIndex].title)}</h2>
               <button
                 onClick={() => setShowDetailModal(false)}
                 className="text-gray-500 hover:text-gray-700"

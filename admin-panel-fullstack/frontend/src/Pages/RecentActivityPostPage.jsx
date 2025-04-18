@@ -2,23 +2,20 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdEdit, MdDelete, MdClose } from 'react-icons/md';
-import {
-  addPost,
-  getPosts,
-  removePost,
-  updatePost,
-} from '../Reducers/RecentActivityPostPageSlice';
+import { addPost, getPosts, removePost, updatePost, } from '../Reducers/RecentActivityPostPageSlice';
 import DOMPurify from 'dompurify';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 
 const RecentActivityPostPage = () => {
-  ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
+  ReactQuill.Quill = Quill;
   const quillRef = useRef(null);
+  const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const { posts, status } = useSelector((state) => state.posts);
-  const [expandedItem, setExpandedItem] = useState(null); // For expanded post details modal
+  const [expandedItem, setExpandedItem] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
@@ -26,44 +23,98 @@ const RecentActivityPostPage = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    images: null,
-    videos: null,
+    images: [],
+    videos: [],
     date: '',
   });
 
+  // Function to check image dimensions and aspect ratio
+  const checkImageDimensions = (file) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = function () {
+        const width = this.naturalWidth;
+        const height = this.naturalHeight;
+
+        // Accepted dimensions with tolerance
+        const ACCEPTED_DIMENSIONS = [
+          { width: 800, height: 596 },
+          { width: 1150, height: 862 },
+          { width: 1200, height: 453 },
+          { width: 1200, height: 900 },
+          { width: 1280, height: 597 },
+          { width: 1280, height: 960 },  // 4:3 ratio
+          { width: 4000, height: 1868 }, // ~2.14:1 ratio,
+          { width: 4080, height: 1904 }, // 16:9 ratio
+          { width: 2048, height: 1536 },
+        ];
+
+        // Check if dimensions match any accepted size (with 1% tolerance)
+        const isValid = ACCEPTED_DIMENSIONS.some(dim => {
+          const widthMatch = Math.abs(width - dim.width) <= Math.round(dim.width * 0.01);
+          const heightMatch = Math.abs(height - dim.height) <= Math.round(dim.height * 0.01);
+          return widthMatch && heightMatch;
+        });
+
+        resolve({
+          isValid,
+          width,
+          height,
+          acceptedSizes: ACCEPTED_DIMENSIONS.map(d => `${d.width}×${d.height}`),
+          currentAspectRatio: (width / height).toFixed(2)
+        });
+      };
+      img.onerror = () => resolve({ isValid: false });
+      img.src = URL.createObjectURL(file);
+    });
+  };
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getPosts());
     }
   }, [status, dispatch]);
 
-  const validateForm = () => {
+  const validateForm = async () => {
     if (!formData.title.trim()) {
       toast.error('Title is required.');
       return false;
     }
 
-    if (!formData.description.trim()) {
-      toast.error('Description is required.');
-      return false;
-    }
-    if (!formData.date) {
-      toast.error('Pls pick a date of your choice ');
+    if (!formData?.description?.trim()) {
+      toast?.error('Description is required.');
       return false;
     }
 
-    if (!formData.images && !formData.videos) {
+    if (!formData?.date) {
+      toast.error('Please pick a date.');
+      return false;
+    }
+
+    // Check if we have either images or videos (but not requiring both)
+    if (formData?.images?.length === 0 && formData?.videos?.length === 0) {
       toast.error('Either images or videos are required.');
       return false;
     }
 
     // Validate images
     const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (formData?.images) {
-      for (let i = 0; i < formData.images?.length; i++) {
-        if (!validImageTypes.includes(formData?.images[i].type)) {
+    if (formData.images.length > 0) {
+      for (let i = 0; i < formData?.images?.length; i++) {
+        const image = formData?.images[i];
+
+        // Check file type
+        if (!validImageTypes?.includes(image?.type)) {
           toast.error(
-            'Only valid image files (JPEG, PNG,JPG) are allowed in the Images section.',
+            'Only valid image files (JPEG, PNG, JPG) are allowed in the Images section.',
+          );
+          return false;
+        }
+
+        // Check dimensions
+        const { isValid, width, height } = await checkImageDimensions(image);
+        if (!isValid) {
+          toast.error(
+            `Image "${image.name}" must have a 16:9 aspect ratio. Current dimensions: ${width}x${height}`
           );
           return false;
         }
@@ -72,9 +123,9 @@ const RecentActivityPostPage = () => {
 
     // Validate videos
     const validVideoTypes = ['video/mp4', 'video/mkv'];
-    if (formData.videos) {
-      for (let i = 0; i < formData.videos?.length; i++) {
-        if (!validVideoTypes.includes(formData?.videos[i].type)) {
+    if (formData?.videos?.length > 0) {
+      for (let i = 0; i < formData?.videos?.length; i++) {
+        if (!validVideoTypes?.includes(formData?.videos[i].type)) {
           toast.error(
             'Only valid video files (MP4, MKV) are allowed in the Videos section.',
           );
@@ -82,6 +133,7 @@ const RecentActivityPostPage = () => {
         }
       }
     }
+
     return true;
   };
 
@@ -97,8 +149,8 @@ const RecentActivityPostPage = () => {
     setExpandedItem(null);
   };
 
-  const handleAddPost = () => {
-    if (!validateForm()) return;
+  const handleAddPost = async () => {
+    if (!(await validateForm())) return;
     const formDataToSend = new FormData();
     formDataToSend.append('title', formData.title);
     formDataToSend.append('description', formData.description);
@@ -128,51 +180,11 @@ const RecentActivityPostPage = () => {
       });
   };
 
-  // updating
-  const handleUpdatePost = () => {
-    if (!formData.title.trim()) {
-      toast.error('Title is required.');
-      return;
-    }
-    if (!formData.description.trim()) {
-      toast.error('Description is required.');
-      return;
-    }
-
-    // Validate images
-    const validImageTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-      'image/webp',
-      'image/avif',
-    ];
-    if (formData.images) {
-      for (let i = 0; i < formData?.images?.length; i++) {
-        if (!validImageTypes.includes(formData?.images[i].type)) {
-          toast.error(
-            'Only valid image files (JPEG, PNG, GIF, WEBP) are allowed in the Images section.',
-          );
-          return;
-        }
-      }
-    }
-
-    // Validate videos
-    const validVideoTypes = ['video/mp4'];
-    if (formData.videos) {
-      for (let i = 0; i < formData?.videos?.length; i++) {
-        if (!validVideoTypes.includes(formData.videos[i].type)) {
-          toast.error('Only mp4  video files are valid.');
-          return;
-        }
-      }
-    }
-
+  const handleUpdatePost = async () => {
+    if (!(await validateForm())) return;
     const updatedData = new FormData();
     updatedData.append('title', formData.title);
     updatedData.append('description', formData.description);
-
     if (formData.images) {
       for (let i = 0; i < formData.images?.length; i++) {
         updatedData.append('images', formData.images[i]);
@@ -191,6 +203,7 @@ const RecentActivityPostPage = () => {
         setIsModalOpen(false);
         resetForm();
         dispatch(getPosts());
+        window.location.reload()
       })
       .catch((error) => {
         toast.error(error || 'Failed to update post.');
@@ -200,7 +213,7 @@ const RecentActivityPostPage = () => {
 
   const handleDeletePost = (id) => {
     const confirmDelete = window.confirm(
-      'Are you sure you want to delete this Hero Banner? This action cannot be undone.',
+      'Are you sure you want to delete this post? This action cannot be undone.',
     );
 
     if (confirmDelete) {
@@ -226,14 +239,12 @@ const RecentActivityPostPage = () => {
 
   const handleInputChange = (e) => {
     if (e.target) {
-      // For regular input fields
       const { name, value } = e.target;
       setFormData((prev) => ({
         ...prev,
         [name]: value,
       }));
     } else {
-      // For ReactQuill (custom object)
       const { name, value } = e;
       setFormData((prev) => ({
         ...prev,
@@ -244,21 +255,85 @@ const RecentActivityPostPage = () => {
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: [...(prev[name] || []), ...files],
-    }));
+    if (!files || files.length === 0) return;
+
+    if (name === 'images') {
+      const file = files[0]; // Only take the first file for single upload
+      const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+      if (!validImageTypes.includes(file.type)) {
+        toast.error('Only image files (JPEG, PNG, JPG) are allowed.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const image = new Image();
+        image.onload = async () => {
+          // Check if image is too extreme to crop to 16:9
+          const originalAspect = image.width / image.height;
+          const minAspect = 1; // Minimum acceptable aspect ratio (1:1)
+          const maxAspect = 3; // Maximum acceptable aspect ratio (3:1)
+
+          if (originalAspect < minAspect || originalAspect > maxAspect) {
+            toast.error(
+              'Image is too extreme to crop properly. Please use an image with aspect ratio between 1:1 and 3:1.',
+              { autoClose: 5000 }
+            );
+            if (fileInputRef.current) {
+              fileInputRef.current.value = ''; // Reset file input
+            }
+            return;
+          }
+
+          // Check dimensions before proceeding
+          const { isValid, width, height, requiredSize } = await checkImageDimensions(file);
+
+          if (!isValid) {
+            toast.error(
+              `Image must be exactly ${requiredSize} (4:3 aspect ratio). ` +
+              `Your image is ${width}×${height}px.`
+            );
+            return false;
+          }
+
+          // If validation passes, update the form data
+          setFormData(prev => ({
+            ...prev,
+            images: [file] // Replace any existing images with the new one
+          }));
+          setPreviewImage(URL.createObjectURL(file));
+        };
+        image.onerror = () => {
+          toast.error('Failed to load the image. Please try another file.');
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
+        };
+        image.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else if (name === 'videos') {
+      setFormData(prev => ({
+        ...prev,
+        videos: [...prev.videos, ...Array.from(files)]
+      }));
+    }
   };
 
   const resetForm = () => {
     setFormData({
       title: '',
       description: '',
-      images: null,
-      videos: null,
+      images: [],
+      videos: [],
       date: '',
     });
+    setPreviewImage(null);
     setCurrentPost(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const openUpdateModal = (post) => {
@@ -272,6 +347,7 @@ const RecentActivityPostPage = () => {
       videos: null,
       date: post?.date || null,
     });
+    setPreviewImage(post?.images?.[0]);
   };
 
   return (
@@ -293,17 +369,16 @@ const RecentActivityPostPage = () => {
         </button>
       </div>
 
+      {/* Expanded Post Modal */}
       {expandedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-[90%] md:w-[70%] lg:w-[50%] max-h-[90vh] overflow-y-auto scrollbar-none">
-            {/* Header */}
             <div className="flex justify-between items-center gap-x-[20px] mb-4">
               <h2 className="text-xl font-bold">{expandedItem?.title}</h2>
               <button onClick={closeExpandedModal}>
                 <MdClose className="text-2xl text-gray-600" />
               </button>
             </div>
-            {/* Description */}
             <p
               className="mb-2"
               dangerouslySetInnerHTML={{
@@ -313,7 +388,6 @@ const RecentActivityPostPage = () => {
                 ),
               }}
             ></p>
-            {/* Date */}
             <p className="text-gray-700 my-2 flex items-center gap-x-[5px]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -327,34 +401,33 @@ const RecentActivityPostPage = () => {
                 : 'Date not available'}
             </p>
 
-            {/* Images */}
             {Array.isArray(expandedItem?.images) &&
-            expandedItem.images?.length > 0 ? (
+              expandedItem.images?.length > 0 ? (
               expandedItem?.images?.map((image, index) => (
                 <img
                   key={index}
                   src={image}
                   alt={`Post Image ${index + 1}`}
-                  className="w-full  object-cover rounded mb-[20px]"
+                  className="w-full object-cover rounded mb-[20px]"
                 />
               ))
             ) : (
               <p className="text-gray-500 italic">No images available</p>
             )}
 
-            {/* Videos */}
             {expandedItem?.videos?.length > 0
               ? expandedItem?.videos?.map((video, index) => (
-                  <video key={index} controls className="w-full rounded mb-4">
-                    <source src={video} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ))
+                <video key={index} controls className="w-full rounded mb-4">
+                  <source src={video} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ))
               : null}
           </div>
         </div>
       )}
 
+      {/* Add/Edit Post Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 max-h-[90vh] overflow-y-auto scrollbar-none">
@@ -375,29 +448,26 @@ const RecentActivityPostPage = () => {
               </div>
               <div className="mb-4">
                 <style>
-                  {`.ql-container {
-      
-      padding: 8px;
-      min-height: 100px;
-    }
-
-    .ql-editor {
-      font-size: 1rem;  /* Same as input fields (16px) */
-      font-weight: normal;
-    
-      line-height: 1.5;
-      letter-spacing:0.5px;
-      padding: 10px; /* Ensure consistent padding */
-    }
-
-    .ql-toolbar {
-      border-radius: 8px 8px 0 0;
-      background-color: #f9fafb; /* Light gray */
-    }
-                                    .ql-editor.ql-blank::before {
-                                    font-style: normal !important;
-                                   }
-                                `}
+                  {`
+                    .ql-container {
+                      padding: 8px;
+                      min-height: 100px;
+                    }
+                    .ql-editor {
+                      font-size: 1rem;
+                      font-weight: normal;
+                      line-height: 1.5;
+                      letter-spacing: 0.5px;
+                      padding: 10px;
+                    }
+                    .ql-toolbar {
+                      border-radius: 8px 8px 0 0;
+                      background-color: #f9fafb;
+                    }
+                    .ql-editor.ql-blank::before {
+                      font-style: normal !important;
+                    }
+                  `}
                 </style>
                 <label className="block font-semibold mb-2">Description</label>
                 <ReactQuill
@@ -428,11 +498,24 @@ const RecentActivityPostPage = () => {
                 <input
                   type="file"
                   name="images"
-                  accept="images/*"
+                  accept="image/*"
                   multiple
                   onChange={handleFileChange}
                   className="w-full"
+                  ref={fileInputRef}
                 />
+                {previewImage && (
+                  <div className="mt-4">
+                    <div className="relative w-full pb-[56.25%] bg-gray-100 rounded overflow-hidden">
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="absolute top-0 left-0 w-full h-full object-cover"
+                      />
+                    </div>
+                    <p className="text-sm text-gray-500 mt-2">16:9 Aspect Ratio Preview</p>
+                  </div>
+                )}
               </div>
               <div className="flex gap-3 mt-4">
                 {formData?.images &&
@@ -449,29 +532,15 @@ const RecentActivityPostPage = () => {
                         alt={`Image Preview ${index + 1}`}
                         className="w-24 h-24 object-cover rounded-md"
                       />
-                      <svg
-                        className="absolute top-0 right-0"
-                        onClick={() => handleRemoveImage(index)}
-                        width={16}
-                        height={16}
-                        id="Layer_1"
-                        data-name="Layer 1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 122.88 122.88"
+                      <button
+                        className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveImage(index);
+                        }}
                       >
-                        <defs>
-                          <style
-                            dangerouslySetInnerHTML={{
-                              __html: '.cls-1{fill:#ff4141;fill-rule:evenodd;}',
-                            }}
-                          />
-                        </defs>
-                        <title>cross</title>
-                        <path
-                          className="cls-1"
-                          d="M6,6H6a20.53,20.53,0,0,1,29,0l26.5,26.49L87.93,6a20.54,20.54,0,0,1,29,0h0a20.53,20.53,0,0,1,0,29L90.41,61.44,116.9,87.93a20.54,20.54,0,0,1,0,29h0a20.54,20.54,0,0,1-29,0L61.44,90.41,35,116.9a20.54,20.54,0,0,1-29,0H6a20.54,20.54,0,0,1,0-29L32.47,61.44,6,34.94A20.53,20.53,0,0,1,6,6Z"
-                        />
-                      </svg>
+                        ×
+                      </button>
                     </div>
                   ))}
               </div>
@@ -480,7 +549,7 @@ const RecentActivityPostPage = () => {
                 <input
                   type="file"
                   name="videos"
-                  accept="videos/*"
+                  accept="video/*"
                   multiple
                   onChange={handleFileChange}
                   className="w-full"
@@ -498,6 +567,7 @@ const RecentActivityPostPage = () => {
                   type="button"
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
+                  disabled={isLoading}
                 >
                   {isLoading ? (
                     <span className="flex items-center justify-center">
@@ -520,7 +590,7 @@ const RecentActivityPostPage = () => {
         </div>
       )}
 
-      {/* rendering all posts  */}
+      {/* Posts List */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {posts && posts?.length > 0 ? (
           posts.map((post, index) => (
@@ -529,20 +599,23 @@ const RecentActivityPostPage = () => {
               className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
               onClick={() => handleExpandPost(post)}
             >
-              {!post?.videos ? (
-                <video controls className="w-full rounded mb-4">
-                  <source src={post.videos} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
+              {post.images?.length > 0 ? (
                 <img
                   src={post.images[0]}
                   alt="Post Image"
                   className="w-full h-[200px] object-cover rounded"
                 />
+              ) : post.videos?.length > 0 ? (
+                <video controls className="w-full rounded mb-4">
+                  <source src={post.videos[0]} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <div className="w-full h-[200px] bg-gray-200 rounded flex items-center justify-center">
+                  <span className="text-gray-500">No media</span>
+                </div>
               )}
               <div className="flex flex-col items-start w-full">
-                {/* Date */}
                 <div className="flex items-center justify-start gap-x-1 mt-2 w-full">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -558,14 +631,12 @@ const RecentActivityPostPage = () => {
                   </span>
                 </div>
 
-                {/* Title */}
                 <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
                   {post?.title}
                 </h3>
 
-                {/* Description */}
                 <p
-                  className="mt-2  line-clamp-4"
+                  className="mt-2 line-clamp-4"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(post?.description).replace(
                       /<a /g,
@@ -574,7 +645,6 @@ const RecentActivityPostPage = () => {
                   }}
                 ></p>
 
-                {/* Edit/Delete Buttons */}
                 <div className="mt-4 flex gap-4">
                   <button
                     className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
@@ -599,7 +669,7 @@ const RecentActivityPostPage = () => {
             </div>
           ))
         ) : (
-          <p>No posts found.</p>
+          <p className="text-gray-500">No posts found.</p>
         )}
       </div>
     </div>

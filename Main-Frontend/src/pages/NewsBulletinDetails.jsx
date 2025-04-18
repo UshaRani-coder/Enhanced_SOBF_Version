@@ -5,27 +5,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSpecificBulletine } from '../Reducers/bulletinSlice';
 import hardcodedPosts from '../defaultData/newsbulletine.json';
 import DOMPurify from 'dompurify';
+
 const NewsBulletinDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { specificBulletine, status } = useSelector(
     (state) => state.bulletines,
-  ); // Redux posts
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (id) {
-      dispatch(getSpecificBulletine(id)); // Dispatch action to fetch bulletin by ID
+      dispatch(getSpecificBulletine(id));
     }
   }, [dispatch, id]);
 
-  // Find the post from API data or fallback to hardcoded data
   const activity = useMemo(
     () =>
       specificBulletine ||
       hardcodedPosts.find((item) => String(item._id) === String(id)),
     [specificBulletine, id],
   );
+
   if (status === 'loading') {
     return <p>Loading...</p>;
   }
@@ -37,6 +38,7 @@ const NewsBulletinDetails = () => {
       </div>
     );
   }
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-GB', {
@@ -47,91 +49,94 @@ const NewsBulletinDetails = () => {
   };
 
   const handleBack = () => {
-    // Scroll to the top of the page
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
-
-    // Navigate to the 'Press Release' page with state
     navigate('/press-release', { state: { scrollTo: 'pressRelease' } });
   };
 
   return (
-    <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px]   mx-auto mt-[100px] lg:mt-[130px]">
+    <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
       <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:mb-[30px]">
         {specificBulletine?.title}
       </h1>
-      <div className="flex flex-col items-center w-full ">
+      <div className="flex flex-col items-center w-full">
+        {/* Images Section */}
         <div
-          className={`w-full  ${
-            specificBulletine?.images?.length === 1
-              ? ''
-              : 'flex flex-wrap justify-center gap-4 '
-          }`}
+          className={`w-full ${specificBulletine?.images?.length === 1
+            ? ''
+            : 'flex flex-wrap justify-center gap-4'
+            }`}
         >
-          {specificBulletine?.images &&
-          specificBulletine?.images?.length > 0 ? (
+          {specificBulletine?.images && specificBulletine?.images?.length > 0 ? (
             specificBulletine?.images?.length === 1 ? (
-              // Single Image
-              <img
-                src={specificBulletine?.images[0]}
-                alt={specificBulletine?.title}
-                className="w-full h-full object-cover rounded-lg shadow-lg"
-              />
-            ) : (
-              // Multiple Images
-              specificBulletine.images.map((image, index) => (
+              // Single Image with 50vh height
+              <div className="w-full h-[80vh] overflow-hidden">
                 <img
-                  key={index}
-                  src={image}
-                  alt={`${specificBulletine.title} - ${index + 1}`}
-                  className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                  src={specificBulletine?.images[0]}
+                  alt={specificBulletine?.title}
+                  className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
+              </div>
+            ) : (
+              // Multiple Images with 50vh height
+              specificBulletine.images.map((image, index) => (
+                <div key={index} className="w-full sm:w-[48%] lg:w-[48%] h-[80vh] overflow-hidden">
+                  <img
+                    src={image}
+                    alt={`${specificBulletine.title} - ${index + 1}`}
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                  />
+                </div>
               ))
             )
           ) : (
-            // Fallback Image
-            <img
-              src="https://via.placeholder.com/600"
-              alt="Placeholder"
-              className="w-full h-full object-cover rounded-lg shadow-lg"
-            />
+            // Fallback Image with 50vh height
+            <div className="w-full h-[80vh] overflow-hidden">
+              <img
+                src="https://via.placeholder.com/600"
+                alt="Placeholder"
+                className="w-full h-full object-cover rounded-lg shadow-lg"
+              />
+            </div>
           )}
         </div>
 
+        {/* Videos Section */}
         <div
-          className={`w-full mt-[20px] ${
-            specificBulletine.videos?.length === 1
-              ? ''
-              : 'flex flex-wrap justify-center gap-4 '
-          }`}
+          className={`w-full mt-[20px] ${specificBulletine.videos?.length === 1
+            ? ''
+            : 'flex flex-wrap justify-center gap-4'
+            }`}
         >
-          {specificBulletine?.videos &&
-          specificBulletine?.videos?.length > 0 ? (
+          {specificBulletine?.videos && specificBulletine?.videos?.length > 0 ? (
             specificBulletine?.videos?.length === 1 ? (
-              // Single Video
-              <video
-                controls
-                src={specificBulletine?.videos[0]}
-                className="w-full h-full object-cover rounded-lg shadow-lg"
-              />
-            ) : (
-              // Multiple Videos
-              specificBulletine?.videos?.map((video, index) => (
+              // Single Video with 50vh height
+              <div className="w-full h-[80vh] overflow-hidden">
                 <video
-                  key={index}
                   controls
-                  src={video}
-                  className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg "
+                  src={specificBulletine?.videos[0]}
+                  className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
+              </div>
+            ) : (
+              // Multiple Videos with 50vh height
+              specificBulletine?.videos?.map((video, index) => (
+                <div key={index} className="w-full sm:w-[48%] lg:w-[48%] h-[50vh] overflow-hidden">
+                  <video
+                    controls
+                    src={video}
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                  />
+                </div>
               ))
             )
           ) : null}
         </div>
 
-        <div className="w-full  flex flex-col justify-start p-2 pt-0 ">
-          <div className="text-sm text-gray-500  flex items-center gap-x-[5px] mt-4">
+        <div className="w-full flex flex-col justify-start p-2 pt-0">
+          <div className="text-sm text-gray-500 flex items-center gap-x-[5px] mt-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
@@ -160,7 +165,7 @@ const NewsBulletinDetails = () => {
           </div>
           <div className="mt-12 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 xl:p-10 rounded-lg shadow-lg">
             <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-indigo-700">
-               Make a Difference! 
+              Make a Difference!
             </h2>
             <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
               Your support helps us continue our mission of making the world

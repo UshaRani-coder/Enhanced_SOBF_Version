@@ -62,6 +62,7 @@ const { createEventPost, getEventPostById, getEventPosts, updateEventPost, delet
 const { registerUserForEvent, getUsersWithRegisteredEvents, sendingEmailToSelectedUsers } = require('../controllers/event-users.controller');
 const sendTestEmail = require('../controllers/testing');
 const { createDonation, getAllDonations, getDonationById, getDonationsByDonor, sendTaxCertificate } = require('../controllers/donation.controller');
+const { createVolunteer, getAllVolunteers, getVolunteerById, deleteVolunteer } = require('../controllers/volunteer.controller');
 
 // const { deleteEventPost, getEventPosts, getEventPostById, createEventPost, updateEventPost } = require('../controllers/upcomingevent.controller');
 
@@ -218,6 +219,13 @@ router.get('/get-donations', getAllDonations)
 router.get('/get-donation/:id', getDonationById);
 router.get('/get-donations-by-donor/:donorId', getDonationsByDonor);
 router.post('/send-tax-certificate/:donationId', sendTaxCertificate);
+
+// Volunteer routes
+router.post('/create-volunteer', createVolunteer);
+router.get('/get-volunteers', getAllVolunteers);
+router.get('/:id', getVolunteerById);
+router.delete('/:id', deleteVolunteer);
+
 
 router.post("/testing", sendTestEmail)
 module.exports = router;

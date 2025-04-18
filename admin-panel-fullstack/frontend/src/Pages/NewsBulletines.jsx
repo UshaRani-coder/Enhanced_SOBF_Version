@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdEdit, MdDelete, MdClose } from 'react-icons/md';
@@ -11,23 +11,67 @@ import {
 import DOMPurify from 'dompurify';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
+import 'react-quill/dist/quill.snow.css';
+
 const PostPage = () => {
-  ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
+  ReactQuill.Quill = Quill;
   const dispatch = useDispatch();
   const { bulletines, status } = useSelector((state) => state.bulletines);
-  const [expandedItem, setExpandedItem] = useState(null); // For expanded post details modal
+  const [expandedItem, setExpandedItem] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const fileInputRef = useRef(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    images: null,
-    videos: null,
+    images: [],
+    videos: [],
     date: '',
   });
+
+  // Function to check image dimensions and aspect ratio
+  const checkImageDimensions = (file) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = function () {
+        const width = this.naturalWidth;
+        const height = this.naturalHeight;
+
+        // Accepted dimensions with tolerance
+        const ACCEPTED_DIMENSIONS = [
+          { width: 800, height: 596 },
+          { width: 1150, height: 862 },
+          { width: 1200, height: 453 },
+          { width: 1200, height: 900 },
+          { width: 1280, height: 597 },
+          { width: 1280, height: 960 },
+          { width: 4000, height: 1868 },
+          { width: 4080, height: 1904 },
+          { width: 2048, height: 1536 },
+        ];
+
+        // Check if dimensions match any accepted size (with 1% tolerance)
+        const isValid = ACCEPTED_DIMENSIONS.some(dim => {
+          const widthMatch = Math.abs(width - dim.width) <= Math.round(dim.width * 0.01);
+          const heightMatch = Math.abs(height - dim.height) <= Math.round(dim.height * 0.01);
+          return widthMatch && heightMatch;
+        });
+
+        resolve({
+          isValid,
+          width,
+          height,
+          acceptedSizes: ACCEPTED_DIMENSIONS.map(d => `${d.width}×${d.height}`),
+          currentAspectRatio: (width / height).toFixed(2)
+        });
+      };
+      img.onerror = () => resolve({ isValid: false });
+      img.src = URL.createObjectURL(file);
+    });
+  };
 
   useEffect(() => {
     if (status === 'idle') {
@@ -35,37 +79,44 @@ const PostPage = () => {
     }
   }, [status, dispatch]);
 
-  const validateForm = () => {
-    if (!formData.title) {
+  const validateForm = async () => {
+    if (!formData.title.trim()) {
       toast.error('Title is required.');
       return false;
     }
 
-    if (!formData.description) {
+    if (!formData.description.trim()) {
       toast.error('Description is required.');
       return false;
     }
+
     if (!formData.date) {
-      toast.error(
-        'Pls pick a date of your choice either it could be today or any specific.',
-      );
+      toast.error('Please pick a date.');
       return false;
     }
-    if (!formData.images) {
-      toast.error('Atleast one images is required. Video can be optional.');
-      setFormData({
-        images: null,
-      });
+
+    if (formData.images.length === 0 && formData.videos.length === 0) {
+      toast.error('Either images or videos are required.');
       return false;
     }
 
     // Validate images
     const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (formData.images) {
-      for (let i = 0; i < formData?.images?.length; i++) {
-        if (!validImageTypes.includes(formData.images[i].type)) {
+    if (formData.images.length > 0) {
+      for (let i = 0; i < formData.images.length; i++) {
+        const image = formData.images[i];
+
+        if (!validImageTypes.includes(image.type)) {
           toast.error(
-            'Only valid image files (JPEG, PNG,JPG) are allowed in the Images section.',
+            'Only valid image files (JPEG, PNG, JPG) are allowed in the Images section.',
+          );
+          return false;
+        }
+
+        const { isValid, width, height } = await checkImageDimensions(image);
+        if (!isValid) {
+          toast.error(
+            `Image "${image.name}" must match one of the accepted dimensions. Current dimensions: ${width}x${height}`
           );
           return false;
         }
@@ -74,8 +125,8 @@ const PostPage = () => {
 
     // Validate videos
     const validVideoTypes = ['video/mp4', 'video/mkv'];
-    if (formData.videos) {
-      for (let i = 0; i < formData.videos?.length; i++) {
+    if (formData.videos.length > 0) {
+      for (let i = 0; i < formData.videos.length; i++) {
         if (!validVideoTypes.includes(formData.videos[i].type)) {
           toast.error(
             'Only valid video files (MP4, MKV) are allowed in the Videos section.',
@@ -84,6 +135,7 @@ const PostPage = () => {
         }
       }
     }
+
     return true;
   };
 
@@ -99,23 +151,26 @@ const PostPage = () => {
     setExpandedItem(null);
   };
 
-  const handleAddPost = () => {
-    if (!validateForm()) return;
+  const handleAddPost = async () => {
+    if (!(await validateForm())) return;
     const formDataToSend = new FormData();
     formDataToSend.append('title', formData.title);
     formDataToSend.append('description', formData.description);
     formDataToSend.append('date', formData.date);
-    if (formData.images) {
-      for (let i = 0; i < formData.images?.length; i++) {
-        formDataToSend.append('images', formData.images[i]);
-      }
+
+    if (formData.images.length > 0) {
+      formData.images.forEach(image => {
+        formDataToSend.append('images', image);
+      });
     }
-    if (formData.videos) {
-      for (let i = 0; i < formData.videos?.length; i++) {
-        formDataToSend.append('videos', formData.videos[i]);
-      }
+
+    if (formData.videos.length > 0) {
+      formData.videos.forEach(video => {
+        formDataToSend.append('videos', video);
+      });
     }
-    // setIsLoading(true);
+
+    setIsLoading(true);
     dispatch(addBulletine(formDataToSend))
       .unwrap()
       .then(() => {
@@ -130,55 +185,26 @@ const PostPage = () => {
       });
   };
 
-  const handleUpdatePost = () => {
-    if (!formData.title.trim()) {
-      toast.error('Title is required.');
-      return;
-    }
-    if (!formData.description.trim()) {
-      toast.error('Description is required.');
-      return;
-    }
-
-    // Validate images
-    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (formData.images) {
-      for (let i = 0; i < formData.images?.length; i++) {
-        if (!validImageTypes.includes(formData.images[i].type)) {
-          toast.error(
-            'Only valid image files (JPEG, PNG, JPG) are allowed in the Images section.',
-          );
-          return;
-        }
-      }
-    }
-
-    // Validate videos
-    const validVideoTypes = ['video/mp4'];
-    if (formData.videos) {
-      for (let i = 0; i < formData.videos?.length; i++) {
-        if (!validVideoTypes.includes(formData.videos[i].type)) {
-          toast.error('Only mp4  video files are valid.');
-          return;
-        }
-      }
-    }
-
+  const handleUpdatePost = async () => {
+    if (!(await validateForm())) return;
     const updatedData = new FormData();
     updatedData.append('title', formData.title);
     updatedData.append('description', formData.description);
     updatedData.append('date', formData.date);
-    if (formData.images) {
-      for (let i = 0; i < formData.images?.length; i++) {
-        updatedData.append('images', formData.images[i]);
-      }
+
+    if (formData.images.length > 0) {
+      formData.images.forEach(image => {
+        updatedData.append('images', image);
+      });
     }
-    if (formData.videos) {
-      for (let i = 0; i < formData.videos?.length; i++) {
-        updatedData.append('videos', formData.videos[i]);
-      }
+
+    if (formData.videos.length > 0) {
+      formData.videos.forEach(video => {
+        updatedData.append('videos', video);
+      });
     }
-    // setIsLoading(true);
+
+    setIsLoading(true);
     dispatch(updateBulletine({ id: currentPost._id, updatedData }))
       .unwrap()
       .then(() => {
@@ -206,56 +232,95 @@ const PostPage = () => {
           toast.success('Post deleted successfully!');
         })
         .catch((error) => {
-          toast.error(
-            error.message || 'Something went wrong while deleting post!',
-          );
+          toast.error(error.message || 'Failed to delete post.');
           setIsLoading(false);
         });
     }
   };
 
   const handleRemoveImage = (index) => {
-    setFormData((prev) => {
-      const updatedImages = prev.images.filter((_, i) => i !== index);
-      return { ...prev, images: updatedImages };
-    });
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index)
+    }));
   };
 
   const handleInputChange = (e) => {
     if (e.target) {
-      // For regular input fields
       const { name, value } = e.target;
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData(prev => ({ ...prev, [name]: value }));
     } else {
-      // For ReactQuill (custom object)
       const { name, value } = e;
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData(prev => ({ ...prev, [name]: value }));
     }
   };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: [...(prev[name] || []), ...files],
-    }));
+    if (!files || files.length === 0) return;
+
+    if (name === 'images') {
+      const file = files[0];
+      const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+      if (!validImageTypes.includes(file.type)) {
+        toast.error('Only image files (JPEG, PNG, JPG) are allowed.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const image = new Image();
+        image.onload = async () => {
+          const { isValid, width, height, acceptedSizes } = await checkImageDimensions(file);
+
+          if (!isValid) {
+            toast.error(
+              `Image must be one of these sizes: ${acceptedSizes.join(' or ')}.\n` +
+              `Your image is ${width}×${height}px.`
+            );
+            if (fileInputRef.current) {
+              fileInputRef.current.value = '';
+            }
+            return;
+          }
+
+          setFormData(prev => ({
+            ...prev,
+            images: [file]
+          }));
+          setPreviewImage(URL.createObjectURL(file));
+        };
+        image.onerror = () => {
+          toast.error('Failed to load the image. Please try another file.');
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
+        };
+        image.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else if (name === 'videos') {
+      setFormData(prev => ({
+        ...prev,
+        videos: [...prev.videos, ...Array.from(files)]
+      }));
+    }
   };
 
   const resetForm = () => {
     setFormData({
       title: '',
       description: '',
+      images: [],
+      videos: [],
       date: '',
-      images: null,
-      videos: null,
     });
+    setPreviewImage(null);
     setCurrentPost(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const openUpdateModal = (post) => {
@@ -265,11 +330,13 @@ const PostPage = () => {
     setFormData({
       title: post?.title || '',
       description: post?.description || '',
-      adte: post?.date || '',
-      images: null,
-      videos: null,
+      date: post?.date || '',
+      images: post?.images || [],
+      videos: post?.videos || []
     });
+    setPreviewImage(post?.images?.[0]);
   };
+
 
   return (
     <div className="container mx-auto">
@@ -327,7 +394,7 @@ const PostPage = () => {
 
             {/* Images */}
             {Array.isArray(expandedItem?.images) &&
-            expandedItem.images?.length > 0 ? (
+              expandedItem.images?.length > 0 ? (
               expandedItem.images.map((image, index) => (
                 <img
                   key={index}
@@ -343,11 +410,11 @@ const PostPage = () => {
             {/* Videos */}
             {expandedItem?.videos?.length > 0
               ? expandedItem?.videos?.map((video, index) => (
-                  <video key={index} controls className="w-full rounded mb-4">
-                    <source src={video} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ))
+                <video key={index} controls className="w-full rounded mb-4">
+                  <source src={video} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ))
               : null}
           </div>
         </div>
@@ -428,6 +495,18 @@ const PostPage = () => {
                   onChange={handleFileChange}
                   className="w-full"
                 />
+                {previewImage && (
+                  <div className="mt-4">
+                    <div className="relative w-full pb-[56.25%] bg-gray-100 rounded overflow-hidden">
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="absolute top-0 left-0 w-full h-full object-cover"
+                      />
+                    </div>
+                    <p className="text-sm text-gray-500 mt-2">16:9 Aspect Ratio Preview</p>
+                  </div>
+                )}
               </div>
               <div className="flex gap-3 mt-4">
                 {formData?.images &&

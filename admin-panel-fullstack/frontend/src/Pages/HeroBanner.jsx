@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import {
@@ -17,7 +17,9 @@ const HeroBanner = () => {
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
   const [formData, setFormData] = useState({ quotes: '', image: null });
-  const [isLoading, setIsLoading] = useState(false); // New loading state
+  const [isLoading, setIsLoading] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
+  const fileInputRef = useRef(null);
   const maxLength = 80;
 
   useEffect(() => {
@@ -26,11 +28,8 @@ const HeroBanner = () => {
     }
   }, [status, dispatch]);
 
-  // ! Adding post
   const handleAddPost = () => {
-    // Set loading state to true when adding
     setIsLoading(true);
-
     if (!formData.quotes.trim()) {
       toast.error('Quote is required and cannot be empty.');
       setIsLoading(false);
@@ -41,31 +40,25 @@ const HeroBanner = () => {
       setIsLoading(false);
       return;
     }
-    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (!validImageTypes.includes(formData.image.type)) {
-      toast.error('Only image files (JPEG, PNG, JPG) are allowed.');
-      setIsLoading(false);
-      return;
-    } else {
-      const formDataToSend = new FormData();
-      formDataToSend.append('quotes', formData.quotes);
-      formDataToSend.append('image', formData.image);
-      dispatch(addHeroBanner(formDataToSend))
-        .unwrap()
-        .then(() => {
-          toast.success('Hero Banner added successfully!');
-          setIsModalOpen(false);
-          resetForm();
-          dispatch(getHeroBanners());
-        })
-        .catch((error) => {
-          toast.error(error || 'Failed to add Hero Banner.');
-        })
-        .finally(() => setIsLoading(false));
-    }
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('quotes', formData.quotes);
+    formDataToSend.append('image', formData.image);
+
+    dispatch(addHeroBanner(formDataToSend))
+      .unwrap()
+      .then(() => {
+        toast.success('Hero Banner added successfully!');
+        setIsModalOpen(false);
+        resetForm();
+        dispatch(getHeroBanners());
+      })
+      .catch((error) => {
+        toast.error(error || 'Failed to add Hero Banner.');
+      })
+      .finally(() => setIsLoading(false));
   };
 
-  // ! Updating post
   const handleUpdatePost = () => {
     setIsLoading(true);
     if (!formData.quotes.trim()) {
@@ -73,19 +66,16 @@ const HeroBanner = () => {
       setIsLoading(false);
       return;
     }
-    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (formData.image && !validImageTypes.includes(formData.image.type)) {
-      toast.error('Only image files (JPEG, PNG and JPG) are allowed.');
-      setIsLoading(false);
-      return;
-    }
+
     const updatedData = new FormData();
     updatedData.append('quotes', formData.quotes);
     if (formData.image) updatedData.append('image', formData.image);
+
     dispatch(updateHeroBanners({ id: currentPost?._id, updatedData }))
       .unwrap()
       .then(() => {
         toast.success('Hero Banner updated successfully!');
+
         setIsModalOpen(false);
         resetForm();
         dispatch(getHeroBanners());
@@ -95,11 +85,10 @@ const HeroBanner = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        window.location.reload();
+        window.location.reload()
       });
   };
 
-  // ! Deleting post
   const handleDeletePost = (id) => {
     setIsLoading(true);
     const confirmDelete = window.confirm(
@@ -111,15 +100,15 @@ const HeroBanner = () => {
         .unwrap()
         .then(() => {
           toast.success('Hero Banner deleted successfully!');
+          dispatch(getHeroBanners());
         })
         .catch((error) => {
           toast.error(error || 'Failed to delete Hero Banner.');
         })
-        .finally(() => setIsLoading(false)); // Reset loading state after delete
+        .finally(() => setIsLoading(false));
     }
   };
 
-  // ! Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (value?.length <= maxLength) {
@@ -128,20 +117,91 @@ const HeroBanner = () => {
         [name]: value,
       });
     }
-    // setFormData({ ...formData, [name]: value });
   };
 
-  // ! Handle file input changes
   const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: files[0] }));
-  };
+    const file = e.target.files[0];
+    if (!file) return;
 
-  // ! Reset the value of the form
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!validImageTypes.includes(file.type)) {
+      toast.error('Only image files (JPEG, PNG, JPG) are allowed.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const image = new Image();
+      image.onload = () => {
+        // Check if image is too extreme to crop to 16:9
+        const originalAspect = image.width / image.height;
+        const minAspect = 1; // Minimum acceptable aspect ratio (1:1)
+        const maxAspect = 3; // Maximum acceptable aspect ratio (3:1)
+
+        if (originalAspect < minAspect || originalAspect > maxAspect) {
+          toast.error(
+            'Image is too extreme to crop properly. Please use an image with aspect ratio between 1:1 and 3:1.',
+            { autoClose: 5000 }
+          );
+          if (fileInputRef.current) {
+            fileInputRef.current.value = ''; // Reset file input
+          }
+          return;
+        }
+
+        // Proceed with 16:9 cropping
+        const targetRatio = 16 / 9;
+        let width = image.width;
+        let height = image.height;
+
+        if (width / height > targetRatio) {
+          width = height * targetRatio;
+        } else {
+          height = width / targetRatio;
+        }
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = width;
+        canvas.height = height;
+
+        const offsetX = (image.width - width) / 2;
+        const offsetY = (image.height - height) / 2;
+
+        ctx.drawImage(
+          image,
+          offsetX, offsetY, width, height,
+          0, 0, width, height
+        );
+
+        canvas.toBlob((blob) => {
+          const croppedFile = new File([blob], file.name, {
+            type: file.type,
+            lastModified: Date.now()
+          });
+
+          setFormData(prev => ({ ...prev, image: croppedFile }));
+          setPreviewImage(URL.createObjectURL(blob));
+        }, file.type, 0.9);
+      };
+      image.onerror = () => {
+        toast.error('Failed to load the image. Please try another file.');
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      };
+      image.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
   const resetForm = () => {
     setFormData({ quotes: '', image: null });
+    setPreviewImage(null);
     setCurrentPost(null);
     setIsUpdateMode(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const openUpdateModal = (post) => {
@@ -151,8 +211,8 @@ const HeroBanner = () => {
     setFormData({
       quotes: post.quotes || '',
       image: null,
-      // image: e.tagert.files[0]
     });
+    setPreviewImage(post.image);
   };
 
   return (
@@ -195,14 +255,27 @@ const HeroBanner = () => {
               </div>
 
               <div className="mb-4">
-                <label className="block font-semibold mb-2">Image</label>
+                <label className="block font-semibold mb-2">Image (16:9 ratio)</label>
                 <input
                   type="file"
                   name="image"
                   accept="image/*"
                   onChange={handleFileChange}
                   className="w-full"
+                  ref={fileInputRef}
                 />
+                {previewImage && (
+                  <div className="mt-4">
+                    <div className="relative w-full pb-[56.25%] bg-gray-100 rounded overflow-hidden">
+                      <img
+                        src={previewImage}
+                        alt="Preview"
+                        className="absolute top-0 left-0 w-full h-full object-cover"
+                      />
+                    </div>
+                    <p className="text-sm text-gray-500 mt-2">16:9 Aspect Ratio Preview</p>
+                  </div>
+                )}
               </div>
 
               <div className="flex justify-end gap-2">
@@ -217,7 +290,7 @@ const HeroBanner = () => {
                   type="button"
                   className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold`}
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
-                  disabled={isLoading} // Disable the button while loading
+                  disabled={isLoading}
                 >
                   {isLoading ? (
                     <span className="flex items-center gap-2">
@@ -240,7 +313,6 @@ const HeroBanner = () => {
         </div>
       )}
 
-      {/* Displaying the banners */}
       <div className="mt-6 flex flex-wrap justify-center gap-4 lg:gap-10">
         {heroBanner && heroBanner?.length > 0 ? (
           heroBanner?.map((post) => (
@@ -248,20 +320,16 @@ const HeroBanner = () => {
               key={post._id}
               className="border p-4 rounded w-[90%] small-max:w-[80%] md:w-[70%] lg:w-[40%] hover:shadow-lg flex flex-col items-center"
             >
-              <div
-                className="w-full h-[250px] overflow-hidden"
-                style={{
-                  backgroundImage: `url(${post.image || 'https://via.placeholder.com/150'})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  width: 'full',
-                  height: 'full',
-                }}
-              ></div>
+              <div className="relative w-full pb-[56.25%] overflow-hidden">
+                <img
+                  src={post.image}
+                  alt="Banner"
+                  className="absolute top-0 left-0 w-full h-full object-cover"
+                />
+              </div>
               <h3 className="w-full line-clamp-2 mt-2 font-bold text-xl">
                 {post.quotes}
               </h3>
-
               <div className="mt-4 flex gap-4">
                 <button
                   className="bg-blue-100 text-blue-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-blue-200 hover:shadow-xl flex items-center gap-2"
@@ -269,10 +337,9 @@ const HeroBanner = () => {
                 >
                   <MdEdit className="text-blue-800 text-2xl" />
                 </button>
-
                 <button
                   className="bg-red-100 text-red-800 px-4 py-2 font-semibold rounded-2xl shadow-lg transition duration-300 ease-in-out hover:bg-red-200 hover:shadow-xl flex items-center gap-2"
-                  onClick={() => handleDeletePost(post._id)}
+                  onClick={() => handleDeletePost(post?._id)}
                 >
                   <MdDelete className="text-red-800 text-2xl" />
                 </button>

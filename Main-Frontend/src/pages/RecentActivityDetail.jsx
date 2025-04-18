@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import hardcodedPosts from '../defaultData/recent-activities.json';
 import { getPostById } from '../Reducers/postSlice';
 import DOMPurify from 'dompurify';
+
 const RecentActivityDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -17,12 +18,12 @@ const RecentActivityDetails = () => {
     }
   }, [dispatch, id]);
 
-  // Find the post from API data or fallback to hardcoded data
   const activity = useMemo(
     () =>
       post || hardcodedPosts.find((item) => String(item._id) === String(id)),
     [post, id],
   );
+
   if (status === 'loading') {
     return <p>Loading...</p>;
   }
@@ -34,6 +35,7 @@ const RecentActivityDetails = () => {
       </div>
     );
   }
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-GB', {
@@ -44,90 +46,93 @@ const RecentActivityDetails = () => {
   };
 
   const handleBack = () => {
-    // Scroll to the top of the page
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
-
-    // Navigate to the 'Press Release' page with state
     navigate('/recent-activities', { state: { scrollTo: 'pressRelease' } });
   };
 
   return (
-    <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px]   mx-auto mt-[100px] lg:mt-[130px]">
+    <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
       <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:mb-[30px]">
         {activity.title}
       </h1>
-      <div className="flex flex-col items-center w-full ">
+      <div className="flex flex-col items-center w-full">
         <div
-          className={`w-full  ${
-            activity.images?.length === 1
-              ? ''
-              : 'flex flex-wrap justify-center gap-4 '
-          }`}
+          className={`w-full ${activity.images?.length === 1
+            ? ''
+            : 'flex flex-wrap justify-center gap-4'
+            }`}
         >
           {activity?.images && activity?.images?.length > 0 ? (
             activity?.images?.length === 1 ? (
-              // Single Image
-              <img
-                src={activity?.images[0]}
-                alt={activity?.title}
-                className="w-full h-full object-cover rounded-lg shadow-lg"
-              />
-            ) : (
-              // Multiple Images
-              activity?.images?.map((image, index) => (
+              // Single Image with 50% height
+              <div className="w-full h-[80vh] overflow-hidden mb-4">
                 <img
-                  key={index}
-                  src={image}
-                  alt={`${activity?.title} - ${index + 1}`}
-                  className="w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                  src={activity?.images[0]}
+                  alt={activity?.title}
+                  className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
+              </div>
+            ) : (
+              // Multiple Images with 50% height
+              activity?.images?.map((image, index) => (
+                <div key={index} className="w-full sm:w-[48%] lg:w-[48%] h-[50vh] overflow-hidden">
+                  <img
+                    src={image}
+                    alt={`${activity?.title} - ${index + 1}`}
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                  />
+                </div>
               ))
             )
           ) : (
-            // Fallback Image
-            <img
-              src="https://via.placeholder.com/600"
-              alt="Placeholder"
-              className=" w-full h-full object-cover rounded-lg shadow-lg"
-            />
+            // Fallback Image with 50% height
+            <div className="w-full h-[80vh] overflow-hidden">
+              <img
+                src="https://via.placeholder.com/600"
+                alt="Placeholder"
+                className="w-full h-full object-cover rounded-lg shadow-lg"
+              />
+            </div>
           )}
         </div>
 
         {activity.videos?.length === 1 && (
           <div
-            className={` w-full m-[15px]  ${
-              activity.videos?.length === 1
-                ? ''
-                : 'flex flex-wrap justify-center gap-4'
-            }`}
+            className={`w-full m-[15px] ${activity.videos?.length === 1
+              ? ''
+              : 'flex flex-wrap justify-center gap-4'
+              }`}
           >
             {activity?.videos && activity?.videos?.length > 0 ? (
               activity?.videos?.length === 1 ? (
-                // Single Video
-                <video
-                  controls
-                  src={activity?.videos[0]}
-                  className=" w-full h-full object-cover rounded-lg shadow-lg"
-                />
-              ) : (
-                // Multiple Videos
-                activity?.videos?.map((video, index) => (
+                // Single Video with 50% height
+                <div className="w-full h-[80vh] overflow-hidden">
                   <video
-                    key={index}
                     controls
-                    src={video}
-                    className=" w-full sm:w-[48%] lg:w-[48%] h-auto object-cover rounded-lg shadow-lg"
+                    src={activity?.videos[0]}
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
                   />
+                </div>
+              ) : (
+                // Multiple Videos with 50% height
+                activity?.videos?.map((video, index) => (
+                  <div key={index} className="w-full sm:w-[48%] lg:w-[48%] h-[60vh] overflow-hidden">
+                    <video
+                      controls
+                      src={video}
+                      className="w-full h-full object-cover rounded-lg shadow-lg"
+                    />
+                  </div>
                 ))
               )
             ) : null}
           </div>
         )}
 
-        <div className="w-full  flex flex-col justify-start  pt-0 ">
+        <div className="w-full flex flex-col justify-start pt-0">
           <div className="text-sm text-gray-500 flex items-center gap-x-[5px] mt-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -155,13 +160,13 @@ const RecentActivityDetails = () => {
               Back to Recent Activities
             </button>
           </div>
-          <div className="mt-6 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6  xl:p-10 rounded-lg shadow-lg">
+          <div className="mt-6 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 xl:p-10 rounded-lg shadow-lg">
             <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-indigo-700">
-               Make a Difference! 
+              Make a Difference!
             </h2>
             <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
               Your support helps us continue our mission of making the world
-              a better place. Every contribution  brings us closer to
+              a better place. Every contribution brings us closer to
               achieving our goals and empowering the community.
             </p>
             <Link

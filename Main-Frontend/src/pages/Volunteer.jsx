@@ -18,11 +18,12 @@ const VolunteerForm = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const states = ['Select State', 'Delhi', 'Uttar Pradesh', 'Maharashtra', 'Karnataka', 'Tamil Nadu'];
   const cities = {
     'Delhi': ['Select City', 'New Delhi', 'Noida', 'Gurgaon'],
-    'Uttar Pradesh': ['Select City', 'Lucknow', 'Kanpur', 'Varanasi'],
+    'Uttar Pradesh': ['Select City', 'Mathura', 'Vrindavan', 'Govardhan', 'Barsana', 'Nandgaon', 'Baldeo', 'Bharatpur', 'Deeg', 'Dholpur', 'Lucknow', 'Kanpur', 'Varanasi'],
     'Maharashtra': ['Select City', 'Mumbai', 'Pune', 'Nagpur'],
     'Karnataka': ['Select City', 'Bangalore', 'Mysore', 'Hubli'],
     'Tamil Nadu': ['Select City', 'Chennai', 'Coimbatore', 'Madurai']
@@ -30,10 +31,18 @@ const VolunteerForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData(prev => ({
+      ...prev,
       [name]: value
-    });
+    }));
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
   };
 
   const validateForm = () => {
@@ -42,24 +51,42 @@ const VolunteerForm = () => {
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Invalid email format';
     if (!formData.mobile.trim()) newErrors.mobile = 'Mobile is required';
+    if (!/^[0-9]{10}$/.test(formData.mobile)) newErrors.mobile = 'Invalid mobile number';
     if (!formData.gender) newErrors.gender = 'Gender is required';
     if (!formData.state || formData.state === 'Select State') newErrors.state = 'State is required';
     if (!formData.city || formData.city === 'Select City') newErrors.city = 'City is required';
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      toast.error('Please fix the errors in the form');
+      return;
+    }
 
     setIsSubmitting(true);
-    
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      toast.success('Thank you for volunteering! We will contact you soon.');
+      const response = await fetch('http://localhost:5000/api/post/create-volunteer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to submit form');
+      }
+
+      toast.success(data.message || 'Thank you for volunteering! A confirmation email has been sent to you.');
+      setIsSubmitted(true);
+
       // Reset form
       setFormData({
         name: '',
@@ -74,180 +101,119 @@ const VolunteerForm = () => {
         purpose: ''
       });
     } catch (error) {
-      toast.error('Failed to submit form. Please try again.');
+      console.error('Submission error:', error);
+      toast.error(error.message || 'Failed to submit form. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Become a Volunteer</h2>
-      
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          {/* Name */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
-              placeholder="Your full name"
-            />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
-              placeholder="Your email address"
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-          </div>
-
-          {/* Mobile */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Mobile</label>
-            <input
-              type="tel"
-              name="mobile"
-              value={formData.mobile}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${errors.mobile ? 'border-red-500' : 'border-gray-300'}`}
-              placeholder="Your phone number"
-            />
-            {errors.mobile && <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>}
-          </div>
-
-          {/* Occupation */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Occupation</label>
-            <input
-              type="text"
-              name="occupation"
-              value={formData.occupation}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-              placeholder="Your profession"
-            />
-          </div>
-
-          {/* Gender */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Gender</label>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${errors.gender ? 'border-red-500' : 'border-gray-300'}`}
-            >
-              <option value="">Select Gender</option>
+  const renderInputField = (name, label, type = 'text', placeholder, options = null) => (
+    <div>
+      <label className="block text-gray-700 font-semibold mb-2">{label}</label>
+      {type === 'select' ? (
+        <select
+          name={name}
+          value={formData[name]}
+          onChange={handleChange}
+          className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${errors[name] ? 'border-red-500' : 'border-gray-300'}`}
+          disabled={name === 'city' && (!formData.state || formData.state === 'Select State')}
+        >
+          {options ? (
+            options.map(option => (
+              <option key={option} value={option}>{option}</option>
+            ))
+          ) : (
+            <>
+              <option value="">Select {label}</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
-            </select>
-            {errors.gender && <p className="text-red-500 text-sm mt-1">{errors.gender}</p>}
-          </div>
+            </>
+          )}
+        </select>
+      ) : type === 'textarea' ? (
+        <textarea
+          name={name}
+          value={formData[name]}
+          onChange={handleChange}
+          rows="3"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+          placeholder={placeholder}
+        />
+      ) : (
+        <input
+          type={type}
+          name={name}
+          value={formData[name]}
+          onChange={handleChange}
+          className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${errors[name] ? 'border-red-500' : 'border-gray-300'}`}
+          placeholder={placeholder}
+          min={type === 'number' ? "18" : undefined}
+          max={type === 'number' ? "100" : undefined}
+        />
+      )}
+      {errors[name] && <p className="text-red-500 text-sm mt-1">{errors[name]}</p>}
+    </div>
+  );
 
-          {/* Age */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">Age</label>
-            <input
-              type="number"
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-              placeholder="Your age"
-              min="18"
-              max="100"
-            />
-          </div>
+  return (
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      
 
-          {/* State */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">State</label>
-            <select
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${errors.state ? 'border-red-500' : 'border-gray-300'}`}
-            >
-              {states.map((state) => (
-                <option key={state} value={state}>{state}</option>
-              ))}
-            </select>
-            {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state}</p>}
-          </div>
-
-          {/* City */}
-          <div>
-            <label className="block text-gray-700 font-semibold mb-2">City</label>
-            <select
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              disabled={!formData.state || formData.state === 'Select State'}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${errors.city ? 'border-red-500' : 'border-gray-300'}`}
-            >
-              {formData.state && formData.state !== 'Select State' ? (
-                cities[formData.state].map((city) => (
-                  <option key={city} value={city}>{city}</option>
-                ))
-              ) : (
-                <option value="">Select State first</option>
-              )}
-            </select>
-            {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
-          </div>
-        </div>
-
-        {/* Message */}
-        <div className="mb-6">
-          <label className="block text-gray-700 font-semibold mb-2">Message</label>
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            rows="3"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-            placeholder="Any additional information"
-          ></textarea>
-        </div>
-
-        {/* Purpose */}
-        <div className="mb-6">
-          <label className="block text-gray-700 font-semibold mb-2">Purpose of joining</label>
-          <textarea
-            name="purpose"
-            value={formData.purpose}
-            onChange={handleChange}
-            rows="3"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
-            placeholder="Why do you want to volunteer with us?"
-          ></textarea>
-        </div>
-
-        {/* Submit Button */}
-        <div className="flex justify-center">
+      {isSubmitted ? (
+        <div className="text-center py-8">
+          <svg className="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          <h3 className="mt-4 text-xl font-medium text-gray-900">Thank you for volunteering!</h3>
+          <p className="mt-2 text-gray-600">We&apos;ve received your application and will contact you soon.</p>
+          <p className="mt-2 text-gray-600">A confirmation email has been sent to {formData.email}.</p>
           <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-orange hover:bg-logo-blue text-white font-bold py-3 px-8 rounded-lg transition-colors disabled:opacity-50"
+            onClick={() => setIsSubmitted(false)}
+            className="mt-6 bg-orange hover:bg-logo-blue text-white font-bold py-2 px-6 rounded-lg transition-colors"
           >
-            {isSubmitting ? 'Submitting...' : 'Submit'}
+            Submit Another Response
           </button>
         </div>
-      </form>
+      ) : (
+        <form onSubmit={handleSubmit} noValidate>
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Become a Volunteer</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {renderInputField('name', 'Name', 'text', 'Your full name')}
+            {renderInputField('email', 'Email', 'email', 'Your email address')}
+            {renderInputField('mobile', 'Mobile', 'tel', 'Your phone number')}
+            {renderInputField('occupation', 'Occupation', 'text', 'Your profession')}
+            {renderInputField('gender', 'Gender', 'select')}
+            {renderInputField('age', 'Age', 'number', 'Your age')}
+            {renderInputField('state', 'State', 'select', '', states)}
+            {renderInputField('city', 'City', 'select', '',
+              formData.state && formData.state !== 'Select State' ? cities[formData.state] : ['Select State first']
+            )}
+          </div>
+
+          {renderInputField('message', 'Message', 'textarea', 'Any additional information')}
+          {renderInputField('purpose', 'Purpose of joining', 'textarea', 'Why do you want to volunteer with us?')}
+
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-orange hover:bg-logo-blue text-white font-bold py-3 px-8 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Submitting...
+                </>
+              ) : 'Submit'}
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };

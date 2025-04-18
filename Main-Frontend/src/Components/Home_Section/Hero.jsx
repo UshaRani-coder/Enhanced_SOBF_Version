@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHeroBanners } from '../../Reducers/heroBannerSlice';
@@ -18,7 +17,7 @@ const Hero = () => {
     if (heroBanner?.length > 0) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner.length);
-      }, 5000);
+      }, 3000);
       return () => clearInterval(interval);
     }
   }, [heroBanner, currentIndex]);
@@ -30,10 +29,17 @@ const Hero = () => {
       </div>
     );
   }
+  const capitalize = (str) => {
+    if (!str) return '';
+    return str.split(' ').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  };
+
 
   return (
     <div
-      className="relative h-[87vh] md:h-[90vh] xl:h-[90vh] flex flex-col-reverse lg:flex-row-reverse items-center lg:items-start justify-center bg-[#0d1b2a] overflow-hidden pt-10 gap-y-4 lg:pt-[200px] xl:pt-16"
+      className="relative h-[87vh] md:h-[90vh] xl:h-[90vh] flex flex-col lg:flex-row items-center justify-center bg-[#0d1b2a] overflow-hidden pt-10 gap-4 lg:pt-[200px] xl:pt-16 px-4"
       id="next-section"
     >
       {/* Background Glow Effect */}
@@ -42,21 +48,42 @@ const Hero = () => {
         <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-blue-500 opacity-30 blur-[120px]"></div>
       </div>
 
-      {/* Text Content */}
-      <div className="z-10 text-center lg:text-left w-full lg:w-[40%] text-white">
+      {/* Hero Image - takes 60% width */}
+      <div className="relative w-full lg:w-[50%] h-[40%] lg:h-[60%] flex justify-center items-center">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={heroBanner[currentIndex]?._id}
+            className="w-full h-full flex justify-center items-center"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="relative w-full h-0 pb-[56.25%]"> {/* 16:9 aspect ratio container */}
+              <img
+                src={heroBanner[currentIndex]?.image}
+                alt="Hero Banner"
+                className="absolute top-0 left-0 w-full h-full object-cover rounded-xl shadow-2xl"
+              />
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      {/* Text Content - takes 40% width */}
+      <div className="z-10 text-center lg:text-left w-full lg:w-[40%] text-white flex flex-col justify-center h-full">
         <motion.h1
-          className="font-extrabold text-[30px] small-range:text-[25px] md:text-5xl md:mt-4 lg:text-[50px] xl:text-[50px] leading-[35px] md:leading-[50px] lg:leading-[55px] xl:leading-[55px] tracking-wide px-2 small-max:px-4"
+          className="font-extrabold text-[30px] small-range:text-[25px] md:text-5xl lg:text-[50px] xl:text-[50px] leading-[35px] md:leading-[50px] lg:leading-[55px] xl:leading-[55px] tracking-wide px-2 small-max:px-4"
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          {heroBanner[currentIndex]?.quotes}
+          {capitalize(heroBanner[currentIndex]?.quotes)}
         </motion.h1>
-        <Link to="/donate-us">
+        <Link to="/donate-us" className="mt-4 md:mt-6">
           <motion.button
             aria-label="Donate"
-            className="text-white mt-2 md:mt-4 md:ml-4 bg-logoYellow font-semibold rounded-full md:text-[1.1rem] text-heading5 px-4 py-2 md:px-6 md:py-3 shadow-lg transition transform duration-300 ease-in-out 
-            hover:bg-yellow-500 hover:shadow-xl"
+            className="text-white bg-logoYellow font-semibold rounded-full md:text-[1.1rem] text-heading5 px-4 py-2 md:px-6 md:py-3 shadow-lg transition transform duration-300 ease-in-out 
+            hover:bg-yellow-500 hover:shadow-xl animate-bounce"
             initial={{ scale: 0.3, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -67,21 +94,6 @@ const Hero = () => {
         </Link>
       </div>
 
-      {/* Hero Image */}
-      <div className="flex justify-center items-center w-full lg:w-[60%] h-[50%] md:h-[400px] lg:h-[80%] xl:h-[80%] overflow-x-hidden">
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={heroBanner[currentIndex]?._id}
-            src={heroBanner[currentIndex]?.image}
-            alt="Hero Banner"
-            className="rounded-xl shadow-2xl w-[95%] h-full overflow-x-hidden"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.8 }}
-          />
-        </AnimatePresence>
-      </div>
 
       {/* Navigation Dots */}
       <div className="absolute bottom-6 lg:bottom-[50px] flex gap-3">
@@ -89,9 +101,8 @@ const Hero = () => {
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full transition ${
-              currentIndex === index ? 'bg-logoYellow' : 'bg-white/50'
-            }`}
+            className={`w-3 h-3 rounded-full transition ${currentIndex === index ? 'bg-logoYellow' : 'bg-white/50'
+              }`}
           ></button>
         ))}
       </div>
