@@ -108,7 +108,7 @@ const HeroVideo = () => {
 
             {/* Button content */}
             <span className="relative z-10 flex items-center justify-center gap-2">
-              <span className="text-shadow">Subscribe to Seva</span>
+              <span className="text-shadow">Monthly Seva Subscription</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-5 h-5"

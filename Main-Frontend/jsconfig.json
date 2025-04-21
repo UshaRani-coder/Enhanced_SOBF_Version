@@ -1,0 +1,14 @@
+// This file is used to configure the JavaScript language service in Visual Studio Code.
+// It helps in providing IntelliSense and other features for JavaScript projects.
+{
+    "compilerOptions": {
+      "baseUrl": "./",  // Base directory for non-relative paths
+      "paths": {
+        "@/*": ["src/*"]  // Alias @ to the src directory
+      }
+    },
+    "include": [
+      "src/**/*"  // Include all files under src folder
+    ]
+  }
+  
