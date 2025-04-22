@@ -5,7 +5,7 @@ import qualityEducation from '../../assets/Sobf Images/sdg/Quality Education.jpg
 import cleanWater from '../../assets/Sobf Images/sdg/Clean Water and Sanitation.jpg';
 const Programms = () => {
   return (
-    <div className="my-[15px]">
+    <div className="my-[15px] pb-12">
       <div className="mt-2 text-center">
         <h2 className="inline-block text-heading3 lg:text-heading2 font-bold p-5 text-blue">
           Our Initiatives

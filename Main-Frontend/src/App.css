@@ -45,6 +45,35 @@
   background: #2d335d !important;
 }
 
+
+/* DONATE FOR  */
+.custom-arrow {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 50%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.custom-arrow:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.custom-arrow::before {
+  content: none !important;
+}
+
+.slick-next:before,
+.slick-prev:before {
+  content: none !important;
+}
+
 @media screen and (max-width: 768px) {
   .nav-items.active {
     display: flex;

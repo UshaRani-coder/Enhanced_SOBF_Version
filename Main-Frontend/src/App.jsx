@@ -5,6 +5,7 @@ import './App.css';
 import loader from './assets/loader.webp';
 import DonationForm from './pages/Payment.jsx';
 import QRPayment from './Components/Home_Section/QRPayament.jsx';
+import DonationOptions from './pages/DonateFor.jsx';
 
 // Lazy loading the components
 const Header = lazy(() => import('./Components/common_components/Header.jsx'));
@@ -21,7 +22,6 @@ const RecentActivityDetails = lazy(
 const HomePage = lazy(() => import('./pages/Home.jsx'));
 const AboutUs = lazy(() => import('./pages/Aboutus.jsx'));
 const ContactUsPage = lazy(() => import('./pages/ContactUs.jsx'));
-const Vision = lazy(() => import('./pages/Vision.jsx'));
 const Gallery = lazy(() => import('./pages/Gallery.jsx'));
 const Subscription = lazy(() => import('./Components/subscription-page/Subscription.jsx'));
 const Donateus = lazy(() => import('./pages/Donateus.jsx'));
@@ -60,7 +60,6 @@ const App = () => {
     '/',
     '/about-us',
     '/contact-us',
-    '/vision',
     '/gallery',
     '/donate-us',
     '/subscription',
@@ -99,7 +98,6 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUsPage />} />
-        <Route path="/vision" element={<Vision />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/press-release" element={<Press_Release />} />
         <Route path="/press-release/:id" element={<NewsBulletinDetails />} />
@@ -109,10 +107,11 @@ const App = () => {
           element={<RecentActivityDetails />}
         />
         <Route path="/videos" element={<Videos />} />
+        {/* <Route path="/donat" element={<DonationOptions />} /> */}
         <Route path="/subscription" element={<Subscription />} />
         <Route path="/donate-us" element={<Donateus />} />
         {/* <Route path="/donate-us" element={<DonationForm />} /> */}
-        <Route path="/donate-us" element={<QRPayment />} />
+        {/* <Route path="/donate-us" element={<QRPayment />} /> */}
         <Route path="/legal-doc" element={<LegalDoc />} />
         <Route path="/anna-vitran-seva" element={<AnnaVitranSeva />} />
         <Route path="/community-service" element={<CommunityService />} />

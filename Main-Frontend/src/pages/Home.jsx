@@ -10,14 +10,15 @@ import Team from '../Components/Home_Section/Team.jsx';
 import Testimonials from '../Components/Home_Section/Testimonials.jsx';
 import Video from '../Components/Home_Section/Video.jsx';
 import Programms from '../Components/Home_Section/Initiatives.jsx';
-import Home_Gallery from '../Components/Home_Section/Home_gallery.jsx';
 import Partners from '../Components/Home_Section/Partners.jsx';
-import Press_Release from '../Components/Home_Section/Press_Release.jsx';
 import Recent_Activities from '../Components/Home_Section/Recent_Activities.jsx';
 import SidePopup from '../Components/sidePopup.jsx';
 import UpcomingEvents from '../Components/Home_Section/UpcomingEvents.jsx';
-import { useLocation } from 'react-router-dom';
 import VolunteerForm from './Volunteer.jsx';
+import DonationOptions from './DonateFor.jsx';
+import { DottedSeparator, HealthSeparator, WavySeparator } from '../Constant/Seperator.jsx';
+
+
 
 const HomePage = () => {
   const [showVolunteerForm, setShowVolunteerForm] = useState(false);
@@ -61,18 +62,27 @@ const HomePage = () => {
       </div>
 
       <SidePopup />
+      <DottedSeparator />
       <Impacts />
+      <WavySeparator />
       <UpcomingEvents />
+      <DottedSeparator />
+      <DonationOptions />
+      <WavySeparator />
       <Programms />
+      {/* <DottedSeparator /> */}
       <About />
+      <DottedSeparator />
       <Video />
+      <DottedSeparator />
       <Services />
-      <Press_Release />
+      {/* <Press_Release /> */}
+      <HealthSeparator />
       <Recent_Activities />
       <Team />
       <Partners />
       <Testimonials />
-      <Home_Gallery />
+      {/* <Home_Gallery /> */}
       <Contactus />
       <Faq />
     </div>

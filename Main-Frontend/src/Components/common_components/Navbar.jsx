@@ -35,8 +35,7 @@ const Navbar = () => {
         >
           {[
             { path: '/', label: 'Home' },
-            { path: '/about-us', label: 'About' },
-            { path: '/vision', label: 'Vision' },
+            { path: '/about-us', label: 'Our Mission' },
             { path: '/gallery', label: 'Gallery' },
             { path: '/press-release', label: 'Press Release' },
             { path: '/recent-activities', label: 'Activities' },

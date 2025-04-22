@@ -64,8 +64,8 @@ const createNewsBulletine = async (req, res) => {
 const getNewsBulletine = async (req, res) => {
   try {
     const posts = await bulletineModal.find({});
-    const baseURL = "https://backend.sobf.in" || 'http://localhost:5000';
-    // const baseURL = 'http://localhost:5000'|| "https://backend.sobf.in";
+    // const baseURL = "https://backend.sobf.in" || 'http://localhost:5000';
+    const baseURL = 'http://localhost:5000'|| "https://backend.sobf.in";
     if (posts.length > 0) {
       posts.forEach((post) => {
         // Format images and videos URLs
@@ -117,8 +117,8 @@ const getNewsBulletineById = async (req, res) => {
         .json({ success: false, message: 'Post not found' });
     }
 
-    const baseURL = "https://backend.sobf.in";
-    // const baseURL = 'http://localhost:5000';
+    // const baseURL = "https://backend.sobf.in";
+    const baseURL = 'http://localhost:5000';
     // Format images and videos URLs
     if (Array.isArray(post.images)) {
       post.images = post.images.map((image) =>

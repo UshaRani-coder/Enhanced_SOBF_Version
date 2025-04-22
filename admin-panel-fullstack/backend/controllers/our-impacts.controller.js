@@ -17,8 +17,8 @@ const getOurImpacts = async (req, res) => {
     if (posts.length > 0) {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
-        post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
-        // post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
+        // post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
+        post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
       }
     }
     res.status(200).json({
@@ -71,8 +71,8 @@ const createOurImpacts = async (req, res) => {
       image: filename || '',
     });
     await post.save();
-    post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
-    // post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
+    // post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
+    post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
     res.status(201).json({
       success: true,
       message: 'Our impacts post has been created successfully',
@@ -106,10 +106,7 @@ const updateOurImpacts = async (req, res) => {
         .json({ success: false, message: 'Invalid post ID' });
     }
     const { total_services, description } = req.body;
-    // Check if a new image is provided; otherwise, keep the existing one
     const image = req.file ? req.file.filename : existingOurImpacts.image;
-
-    // Prepare the updated fields
     const updates = {
       total_services: total_services || existingOurImpacts.total_services,
       description: description || existingOurImpacts.description,
@@ -122,8 +119,8 @@ const updateOurImpacts = async (req, res) => {
     });
 
     // Append the full image URL
-    updatedPost.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + updatedPost.image;
-    // updatedPost.image = "http://localhost:5000" + '/uploads/our-impacts/' + updatedPost.image;
+    // updatedPost.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + updatedPost.image;
+    updatedPost.image = "http://localhost:5000" + '/uploads/our-impacts/' + updatedPost.image;
     return res.status(200).json({
       success: true,
       message: 'Our Impacts post updated successfully',
@@ -142,22 +139,18 @@ const updateOurImpacts = async (req, res) => {
 const deleteOurImpacts = async (req, res) => {
   try {
     const { id } = req.params;
-
     // Validate ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
         .status(400)
         .json({ success: false, message: 'Invalid post ID' });
     }
-
     const post = await OurImpactsModel.findByIdAndDelete(id);
-
     if (!post) {
       return res
         .status(404)
         .json({ success: false, message: 'Post not found' });
     }
-
     res.status(200).json({
       success: true,
       message: 'Our Impacts post has been deleted successfully',

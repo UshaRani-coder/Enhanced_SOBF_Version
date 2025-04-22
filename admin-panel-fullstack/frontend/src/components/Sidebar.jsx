@@ -35,7 +35,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
                 } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
             >
               <RiAdminFill className="text-xl ml-4" />
-              {!isCollapsed && <span className="ml-4">Admin</span>}
+              {!isCollapsed && <span className="ml-4">Team Members</span>}
             </Link>
           </li>
           <li>

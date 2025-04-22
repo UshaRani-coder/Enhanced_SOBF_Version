@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MdLocationPin, MdAccessTimeFilled, MdClose, MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -9,8 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvents } from '../../Reducers/upcomingeventSlice';
 import DOMPurify from 'dompurify';
-
 import { Navigation, Pagination } from 'swiper/modules';
+
+
 const UpcomingEvents = () => {
   const dispatch = useDispatch();
   const { events, status: eventsStatus } = useSelector((state) => state.events);
@@ -34,6 +35,7 @@ const UpcomingEvents = () => {
     email: '',
   });
   const [errors, setErrors] = useState({});
+  const swiperRef = useRef(null);
 
   // Filter events based on selected year/month
   const filteredEvents = events
@@ -180,6 +182,8 @@ const UpcomingEvents = () => {
   };
 
 
+
+
   return (
     <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0 mt-10">
       <ToastContainer />
@@ -230,12 +234,34 @@ const UpcomingEvents = () => {
       </div>
 
       {filteredEvents.length > 0 ? (
-        <div className="w-full max-w-6xl px-4">
+        <div className="w-full max-w-6xl px-4 relative">
+          {/* Add custom navigation arrows */}
+          <button
+            onClick={() => swiperRef.current?.slidePrev()}
+            className=" sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute left-0 top-1/2 transform -translate-y-1/2 z-10"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 md:w-5 md:h-5 text-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m15 19-7-7 7-7" />
+            </svg>
+          </button>
+
+          <button
+            onClick={() => swiperRef.current?.slideNext()}
+            className=" sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute right-0 top-1/2 transform -translate-y-1/2 z-10"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 md:w-6 md:h-6 text-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+
           <Swiper
             modules={[Navigation, Pagination]}
             spaceBetween={30}
             slidesPerView={1}
-            navigation
+            navigation={{
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+            }}
             pagination={{ clickable: true }}
             breakpoints={{
               640: {
@@ -249,8 +275,9 @@ const UpcomingEvents = () => {
               },
             }}
             className="mySwiper"
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
           >
-            {filteredEvents.map((event, index) => {
+            {filteredEvents?.map((event, index) => {
               const statusStyles = getStatusStyles(event.status);
               return (
                 <SwiperSlide key={event._id}>
@@ -272,14 +299,14 @@ const UpcomingEvents = () => {
 
                     <div className="p-4">
                       <span className={`px-3 py-1 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}>
-                        {statusStyles.icon} {statusStyles.label}
+                        {statusStyles?.icon} {statusStyles?.label}
                       </span>
 
                       <div className="flex flex-col gap-2 mb-3">
                         <div className="flex items-center gap-2">
                           <MdAccessTimeFilled className="text-[#1890CE] flex-shrink-0" />
                           <span className="text-gray-600 text-sm">
-                            {formatDateTime(event.date, event.time)}
+                            {formatDateTime(event?.date, event?.time)}
                           </span>
                         </div>
 
@@ -292,7 +319,7 @@ const UpcomingEvents = () => {
                       </div>
 
                       <h3 className="text-lg md:text-xl font-semibold text-[#2d335d] mb-2 line-clamp-2">
-                        {capitalize(event.title)}
+                        {capitalize(event?.title)}
                       </h3>
 
                       <div
@@ -320,7 +347,6 @@ const UpcomingEvents = () => {
           </button>
         </div>
       )}
-
       {/* Event Detail Modal */}
       {showDetailModal && filteredEvents[selectedEventIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
@@ -479,6 +505,7 @@ const UpcomingEvents = () => {
           </div>
         </div>
       )}
+      
     </div>
   );
 };

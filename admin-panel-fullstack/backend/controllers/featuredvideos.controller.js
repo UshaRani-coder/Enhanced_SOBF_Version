@@ -7,14 +7,9 @@ const createFeaturedVideo = async (req, res) => {
   try {
     const { URL } = req.body;
     if (!URL)
-      return res
-        .status(400)
-        .json({ success: false, message: 'Please enter URL.' });
-
-    // Create a new featured video document
+      return res.status(400).json({ success: false, message: 'Please enter URL.' });
     const post = new FeaturedVideomodel({ URL });
     await post.save();
-
     res.status(201).json({
       success: true,
       message: 'Featured video post has been created successfully',
@@ -34,7 +29,6 @@ const updateFeaturedVideo = async (req, res) => {
   try {
     const { id } = req.params;
     const updates = { ...req.body };
-
     // Validation: Check if URL is provided
     if (!updates.URL)
       return res
