@@ -12,9 +12,6 @@ const Video = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [videosToShow, setVideosToShow] = useState(3);
-  
-
-  
 
   useEffect(() => {
     if (status === 'idle') {
@@ -50,12 +47,11 @@ const Video = () => {
 
   return (
     <div>
-      
+
       <div className="flex flex-col items-center" id="featured-videos">
         <h1
-          className={`text-center text-[30px] md:text-heading3 lg:text-heading2 font-bold pt-8 text-[#2d335d] relative transition-all ease-in-out ${
-            location.pathname === '/videos' ? 'mt-[120px]' : ''
-          }`}
+          className={`text-center text-[30px] md:text-heading3 lg:text-heading2 font-bold pt-8 text-[#2d335d] relative transition-all ease-in-out ${location.pathname === '/videos' ? 'mt-[120px]' : ''
+            }`}
         >
           Our Featured Videos
         </h1>
@@ -71,8 +67,6 @@ const Video = () => {
       </div>
 
       {status === 'loading' && <p className='w-full text-center'> Videos loading...</p>}
-      {status === 'failed' && <p className="text-red-500">{error}</p>}
-
       {/* Video List with InfiniteScroll */}
       <InfiniteScroll
         dataLength={videosToDisplay?.length}
@@ -94,11 +88,10 @@ const Video = () => {
         className="flex flex-col items-center justify-center"
       >
         <div
-          className={`flex flex-col items-center justify-center md:flex-row flex-wrap gap-4 w-full mt-6 ${
-            location.pathname === '/videos'
+          className={`flex flex-col items-center justify-center md:flex-row flex-wrap gap-4 w-full mt-6 ${location.pathname === '/videos'
               ? 'mb-[100px]  md:gap-6 md:px-[20px]'
               : ''
-          }`}
+            }`}
         >
           {videosToDisplay?.length > 0 ? (
             videosToDisplay?.map((video) => {

@@ -17,8 +17,8 @@ const getOurImpacts = async (req, res) => {
     if (posts.length > 0) {
       for (let index = 0; index < posts.length; index++) {
         const post = posts[index];
-        // post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
-        post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
+        post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
+        // post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
       }
     }
     res.status(200).json({
@@ -71,8 +71,8 @@ const createOurImpacts = async (req, res) => {
       image: filename || '',
     });
     await post.save();
-    // post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
-    post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
+    post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
+    // post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
     res.status(201).json({
       success: true,
       message: 'Our impacts post has been created successfully',
@@ -119,8 +119,8 @@ const updateOurImpacts = async (req, res) => {
     });
 
     // Append the full image URL
-    // updatedPost.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + updatedPost.image;
-    updatedPost.image = "http://localhost:5000" + '/uploads/our-impacts/' + updatedPost.image;
+    updatedPost.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + updatedPost.image;
+    // updatedPost.image = "http://localhost:5000" + '/uploads/our-impacts/' + updatedPost.image;
     return res.status(200).json({
       success: true,
       message: 'Our Impacts post updated successfully',

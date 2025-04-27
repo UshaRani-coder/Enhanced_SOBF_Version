@@ -1,37 +1,17 @@
-import React from 'react';
+import { handleRedirectCall, handleRedirectMail, handleRedirectMap } from '@/utils/SOBF_Map';
 
-// Function to handle redirection to Google Maps
-const handleRedirectMap = () => {
-  window.open(
-    'https://google.com/maps/place/Soul+Of+Braj+Federation/@27.564868,77.672604,16z/data=!4m6!3m5!1s0x39736fffb9ab491f:0xf32c290c550ecc7b!8m2!3d27.5648675!4d77.6726042!16s%2Fg%2F11jk5x0qcw?hl=en&entry=ttu',
-    '_blank',
-  );
-};
-
-// Function to handle redirection to email
-const handleRedirectMail = () =>
-  (window.location.href = 'mailto:soulofbraj@gmail.com');
-
-// Function to handle redirection to call
-const handleRedirectCall = () => (window.location.href = 'tel:+91 8439406670');
 
 const Support = () => {
   return (
-    // Main container for the Contact Us section
     <div className=" p-5 w-full pt-[10px] text-center">
-      {/* Section title */}
       <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold my-4  text-blue relative  transition-all ease-in-out ">
         Your Support can change lives
         <hr className="mt-1 border-light-lavender border-[1px]" />
       </h1>
-
-      {/* Container for the contact information cards */}
       <div className="flex flex-col md:flex-row justify-center gap-3 lg:px-32  ">
         {/* Location Card */}
         <div className="p-5  lg:w-[33%] w-[99%]">
-          {/* Container for the location card */}
           <div className="items-center flex flex-col">
-            {/* Button to redirect to Google Maps */}
             <button
               aria-label="Play Video"
               className="bg-[#fb4a59] justify-center flex rounded-[20px]  hover:bg-blue transition ease-in-out duration-500 delay-50"

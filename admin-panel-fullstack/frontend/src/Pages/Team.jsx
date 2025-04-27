@@ -366,9 +366,8 @@ const Team = () => {
               <div
                 className="w-[200px] h-[200px] rounded-full"
                 style={{
-                  backgroundImage: `url(${
-                    member?.image || 'https://via.placeholder.com/150'
-                  })`,
+                  backgroundImage: `url(${member?.image || 'https://via.placeholder.com/150'
+                    })`,
                   backgroundPosition: 'center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',

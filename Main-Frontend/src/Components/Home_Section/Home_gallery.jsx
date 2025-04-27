@@ -21,11 +21,6 @@ const Home_Gallery = () => {
   if (status === 'loading') {
     return <div>Loading...</div>;
   }
-
-  if (status === 'failed') {
-    return <div>Error: {error}</div>;
-  }
-
   const openModal = (image) => {
     setSelectedImage(image);
   };

@@ -12,11 +12,11 @@ import Video from '../Components/Home_Section/Video.jsx';
 import Programms from '../Components/Home_Section/Initiatives.jsx';
 import Partners from '../Components/Home_Section/Partners.jsx';
 import Recent_Activities from '../Components/Home_Section/Recent_Activities.jsx';
-import SidePopup from '../Components/sidePopup.jsx';
+import SidePopup from '../Components/common_components/sidePopup.jsx';
 import UpcomingEvents from '../Components/Home_Section/UpcomingEvents.jsx';
 import VolunteerForm from './Volunteer.jsx';
 import DonationOptions from './DonateFor.jsx';
-import { DottedSeparator, HealthSeparator, WavySeparator } from '../Constant/Seperator.jsx';
+import { DottedSeparator, HealthSeparator, WavySeparator } from '../utils/Seperator.jsx';
 
 
 
@@ -77,7 +77,7 @@ const HomePage = () => {
       <DottedSeparator />
       <Services />
       {/* <Press_Release /> */}
-      <HealthSeparator />
+      {/* <HealthSeparator /> */}
       <Recent_Activities />
       <Team />
       <Partners />

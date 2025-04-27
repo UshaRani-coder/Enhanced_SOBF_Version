@@ -44,7 +44,7 @@ const Gallery = () => {
 
   const validateFile = (file) => {
     if (!validImageTypes.includes(file.type)) {
-      toast.error('Only image files (JPEG, PNG, GIF, WEBP) are allowed.');
+      toast.error('Only image files (JPEG, PNG, JPG) are allowed.');
       return false;
     }
 
@@ -175,7 +175,6 @@ const Gallery = () => {
       <div className="flex justify-between items-center mx-4 my-4">
         <h1 className="text-3xl  md:text-4xl font-semibold">Gallery</h1>
         <button
-          // className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 rounded-3xl shadow-lg hover:scale-105 hover:shadow-2xl"
           className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-4 small-max:py-1.5 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
           onClick={() => {
             setIsModalOpen(true);

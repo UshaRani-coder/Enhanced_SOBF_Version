@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { data } from '../../Constant/data';
+import { data } from '../../utils/data';
 // import { data } from "../../Constant/data";
 
 function Accordion() {

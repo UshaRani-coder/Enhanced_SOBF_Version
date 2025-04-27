@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvents } from '../../Reducers/upcomingeventSlice';
@@ -15,6 +15,17 @@ import { Navigation, Pagination } from 'swiper/modules';
 const UpcomingEvents = () => {
   const dispatch = useDispatch();
   const { events, status: eventsStatus } = useSelector((state) => state.events);
+  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [errors, setErrors] = useState({});
+  const swiperRef = useRef(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [selectedEventIndex, setSelectedEventIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [formData, setFormData] = useState({ name: '', email: '' });
+
 
   // Fetch events data
   useEffect(() => {
@@ -23,19 +34,6 @@ const UpcomingEvents = () => {
     }
   }, [eventsStatus, dispatch]);
 
-  const [selectedYear, setSelectedYear] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [showDetailModal, setShowDetailModal] = useState(false);
-  const [selectedEventIndex, setSelectedEventIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-  });
-  const [errors, setErrors] = useState({});
-  const swiperRef = useRef(null);
 
   // Filter events based on selected year/month
   const filteredEvents = events
@@ -186,7 +184,6 @@ const UpcomingEvents = () => {
 
   return (
     <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0 mt-10">
-      <ToastContainer />
       <h1 className="inline-block text-[28px] md:text-heading3 lg:text-heading2 font-bold p-5 text-[#2d335d] relative transition-all ease-in-out">
         Upcoming Events
         <hr className="mt-1 border-blue border-[0.5px]" />
@@ -505,7 +502,7 @@ const UpcomingEvents = () => {
           </div>
         </div>
       )}
-      
+
     </div>
   );
 };

@@ -1,11 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/display-name */
 import React, { useEffect, useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getBulletine } from '../../Reducers/bulletinSlice';
 import DOMPurify from 'dompurify';
+import { availableMonths } from '@/utils/availableMonths';
 
 const Press_Release = React.memo(() => {
   const location = useLocation();
@@ -18,7 +17,7 @@ const Press_Release = React.memo(() => {
   const { bulletines, status } = useSelector((state) => state.bulletines);
 
   // Sorting order state
-  const [sortOrder, setSortOrder] = useState('desc'); // Default: Newest first
+  const [sortOrder] = useState('desc'); // Default: Newest first
 
   // Fetch posts when the component loads
   useEffect(() => {
@@ -27,14 +26,14 @@ const Press_Release = React.memo(() => {
       dispatch(getBulletine());
     }
   }, [status, dispatch]);
-   useEffect(() => {
-        if (location.pathname === '/press-release') {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-          });
-        }
-      }, [location.pathname]);
+  useEffect(() => {
+    if (location.pathname === '/press-release') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+  }, [location.pathname]);
 
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString);
@@ -63,21 +62,7 @@ const Press_Release = React.memo(() => {
     return Array.from(years).sort((a, b) => b - a); // Sort descending
   }, [bulletines]);
 
-  const availableMonths = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  
+
   // **Filtering logic**
   const filteredPosts = useMemo(() => {
     return bulletines.filter((bulletin) => {
@@ -217,11 +202,7 @@ const Press_Release = React.memo(() => {
               className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg  md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
-                src={
-                  news?.images && news?.images?.length > 0
-                    ? news?.images[0]
-                    : 'https://via.placeholder.com/600'
-                }
+                src={news?.images && news?.images?.length > 0 ? news?.images[0] : 'https://via.placeholder.com/600'}
                 alt={news?.title}
                 className="w-full h-full md:h-[300px] rounded-lg object-cover"
               />

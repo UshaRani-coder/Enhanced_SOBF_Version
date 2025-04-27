@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation
 import ImgBanner from './ImgBanner';
 import { Link } from 'react-router-dom';
-import { heroes } from '../../../Constant/data';
+import { heroes } from '../../../utils/data';
 
 const CommunityService = ({ setService }) => {
   const location = useLocation();
@@ -19,9 +19,8 @@ const CommunityService = ({ setService }) => {
 
   return (
     <div
-      className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
-        isHomePage ? '' : 'mt-[120px] lg:mt-20 mb-20'
-      }`}
+      className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${isHomePage ? '' : 'mt-[120px] lg:mt-20 mb-20'
+        }`}
     >
       {/* Only show the "Back to Services" button if on the home page */}
       {isHomePage && (

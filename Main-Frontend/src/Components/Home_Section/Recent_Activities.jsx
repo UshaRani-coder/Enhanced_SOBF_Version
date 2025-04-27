@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/display-name */
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
@@ -7,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import loader from '../../assets/loader.webp';
 import { getPosts } from '../../Reducers/postSlice';
 import DOMPurify from 'dompurify';
+import { availableMonths } from '@/utils/availableMonths';
 const Recent_Activities = React.memo(() => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -14,7 +13,7 @@ const Recent_Activities = React.memo(() => {
 
   const [page, setPage] = useState(1);
   const postsPerPage = 10;
-  const [sortOrder, setSortOrder] = useState('desc'); // 'desc' for newest first, 'asc' for oldest first
+  const [sortOrder] = useState('desc'); // 'desc' for newest first, 'asc' for oldest first
   const [selectedYear, setSelectedYear] = useState(''); // Filter by year
   const [selectedMonth, setSelectedMonth] = useState(''); // Filter by month
 
@@ -53,20 +52,7 @@ const Recent_Activities = React.memo(() => {
     return Array.from(years).sort((a, b) => b - a); // Sort descending
   }, [posts]);
 
-  const availableMonths = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  
 
   // **Filtering logic**
   const filteredPosts = useMemo(() => {

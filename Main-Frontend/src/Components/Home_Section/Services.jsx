@@ -1,8 +1,6 @@
-/* eslint-disable react/no-unknown-property */
 import React, { useEffect, useState, useRef } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import './services.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getServices } from '../../Reducers/OurServicesSlice.js';
 import { useLocation, Link } from 'react-router-dom';
@@ -127,12 +125,6 @@ const Services = () => {
                 key={item._id}
                 data-aos="fade-up"
                 data-aos-delay={`${index * 50}`}
-                // data-bg={item.images[0]}
-                // onMouseOver={() => {
-                //   setHoveredService(item._id);
-                // }}
-                // onMouseLeave={() => setHoveredService(null)}
-                // className={`service rounded-tl-[50px] rounded-br-[50px] cursor-pointer mx-2 w-[90%] small-max:w-[85%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center`}
                 className="group service rounded-tl-[50px] rounded-br-[50px] cursor-pointer mx-2 w-[90%] small-max:w-[85%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center transition-all duration-500 hover:backdrop-blur-md hover:bg-opacity-80"
                 
                 style={{

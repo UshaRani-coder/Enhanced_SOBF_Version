@@ -5,7 +5,6 @@ import {
   getGallery,
   updateGallery,
 } from '../api/api';
-// import axios from 'axios';
 
 // Fetch all gallery images
 export const getGalleryImages = createAsyncThunk(
@@ -13,7 +12,6 @@ export const getGalleryImages = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getGallery();
-      // console.log("Fetched posts:", response.data.posts);
       return response.data.posts;
     } catch (error) {
       return rejectWithValue(

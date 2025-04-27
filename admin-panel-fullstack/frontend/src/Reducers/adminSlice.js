@@ -1,18 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  createAdmin,
+  createTeam,
   deleteAdmin,
   fetchAdmins,
   updateAdmins,
 } from '../api/api'; // Import the API functions
-// import { toast } from 'react-toastify';
 
 export const getAdmins = createAsyncThunk(
   'admins/getAdmins',
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchAdmins();
-      // console.log(response.data);
       return response?.data?.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);

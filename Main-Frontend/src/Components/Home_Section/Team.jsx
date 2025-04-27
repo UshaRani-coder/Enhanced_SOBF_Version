@@ -53,7 +53,6 @@ const Team = () => {
                     ),
                   }}
                 />
-
                 {/* Social Links */}
                 <div className="socials flex gap-x-[5px]">
                   {item.linkedIn && (

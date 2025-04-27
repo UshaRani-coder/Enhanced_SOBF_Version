@@ -19,7 +19,6 @@ import Volunteer from '../Pages/Volunteer.jsx';
 const ProtectedLayout = ({ setIsAuthenticated }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Sidebar visibility for small screens
   const [isCollapsed, setIsCollapsed] = useState(false); // Collapsible state for medium+ screens
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
   const validRoutes = [
     '/dashboard',

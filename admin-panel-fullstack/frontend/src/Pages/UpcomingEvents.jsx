@@ -354,9 +354,9 @@ const UpcomingEvents = () => {
                   <div className="relative w-24 h-24 mb-4">
                     <img
                       src={
-                        formData.image instanceof File
-                          ? URL.createObjectURL(formData.image)
-                          : formData.image
+                        formData?.image instanceof File
+                          ? URL?.createObjectURL(formData?.image)
+                          : formData?.image
                       }
                       alt="Image Preview"
                       className="w-24 h-24 object-cover rounded-md "
@@ -415,10 +415,10 @@ const UpcomingEvents = () => {
         {events && events?.length > 0 ? (
           events?.map((post) => {
             const formattedDateTime =
-              post && post.date && post.time
+              post && post?.date && post?.time
                 ? formatDateAndTime(
                   new Date(post.date).toLocaleDateString('en-US'),
-                  post.time,
+                  post?.time,
                 )
                 : 'N/A';
             return (
@@ -428,9 +428,9 @@ const UpcomingEvents = () => {
               >
                 {/* Image Section */}
                 <div className="w-full h-48 sm:h-56 md:h-64 lg:h-72 relative">
-                  {post.image ? (
+                  {post?.image ? (
                     <img
-                      src={post.image}
+                      src={post?.image}
                       alt="Event Image"
                       className="w-full h-full object-cover"
                     />

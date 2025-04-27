@@ -3,6 +3,7 @@ import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFounda
 import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundation.png';
 import curiousBusinessSolutions from '../../assets/Sobf Images/partners/curiousBusinessSolutions.jpg';
 import { Link } from 'react-router-dom';
+
 const Partners = () => {
   return (
     <div className="overflow-hidden mt-[30px] flex flex-col items-center ">

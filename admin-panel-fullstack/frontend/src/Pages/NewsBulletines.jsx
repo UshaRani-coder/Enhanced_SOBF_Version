@@ -205,7 +205,7 @@ const PostPage = () => {
     }
 
     setIsLoading(true);
-    dispatch(updateBulletine({ id: currentPost._id, updatedData }))
+    dispatch(updateBulletine({ id: currentPost?._id, updatedData }))
       .unwrap()
       .then(() => {
         toast.success('Post updated successfully!');
@@ -393,9 +393,9 @@ const PostPage = () => {
             </p>
 
             {/* Images */}
-            {Array.isArray(expandedItem?.images) &&
-              expandedItem.images?.length > 0 ? (
-              expandedItem.images.map((image, index) => (
+            {Array?.isArray(expandedItem?.images) &&
+              expandedItem?.images?.length > 0 ? (
+                expandedItem?.images.map((image, index) => (
                 <img
                   key={index}
                   src={image}
@@ -432,7 +432,7 @@ const PostPage = () => {
                 <input
                   type="text"
                   name="title"
-                  value={formData.title}
+                  value={formData?.title}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                   placeholder="Enter the title of the news"
@@ -466,7 +466,7 @@ const PostPage = () => {
                 </style>
                 <label className="block font-semibold mb-2">Description</label>
                 <ReactQuill
-                  value={formData.description}
+                  value={formData?.description}
                   onChange={(value) =>
                     handleInputChange({ name: 'description', value })
                   }
@@ -480,7 +480,7 @@ const PostPage = () => {
                 <input
                   type="date"
                   name="date"
-                  value={formData.date}
+                  value={formData?.date}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border rounded"
                 />
@@ -510,9 +510,9 @@ const PostPage = () => {
               </div>
               <div className="flex gap-3 mt-4">
                 {formData?.images &&
-                  Array.isArray(formData.images) &&
-                  formData.images?.length > 0 &&
-                  formData.images.map((image, index) => (
+                  Array?.isArray(formData.images) &&
+                  formData?.images?.length > 0 &&
+                  formData?.images?.map((image, index) => (
                     <div key={index} className="relative">
                       <img
                         src={
@@ -597,21 +597,21 @@ const PostPage = () => {
       {/* rendering all posts  */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {bulletines && bulletines?.length > 0 ? (
-          bulletines.map((bulletin, index) => (
+          bulletines?.map((bulletin, index) => (
             <div
-              key={bulletin._id || index}
+              key={bulletin?._id || index}
               className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
               onClick={() => handleExpandPost(bulletin)}
             >
               {/* Conditional rendering for media */}
               {!bulletin?.videos ? (
                 <video controls className="w-full rounded mb-4">
-                  <source src={bulletin.videos} type="video/mp4" />
+                  <source src={bulletin?.videos} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               ) : (
                 <img
-                  src={bulletin.images[0]}
+                    src={bulletin?.images[0]}
                   alt="Post Image"
                   className="w-full h-[200px] object-cover rounded"
                 />

@@ -1,6 +1,3 @@
-// src/components/VolunteerTable.js
-import React from 'react';
-
 const VolunteerTable = ({ volunteers, loading }) => {
   if (loading) {
     return (
@@ -30,20 +27,20 @@ const VolunteerTable = ({ volunteers, loading }) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {volunteers.length > 0 ? (
-            volunteers.map((volunteer) => (
+          {volunteers?.length > 0 ? (
+            volunteers?.map((volunteer) => (
               <tr key={volunteer._id} className="hover:bg-gray-100 transition-colors duration-200">
                 <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-900">
-                  {volunteer.name}
+                  {volunteer?.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700">
-                  {volunteer.mobile || 'N/A'}
+                  {volunteer?.mobile || 'N/A'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700 hidden sm:table-cell md:hidden">
-                  {volunteer.city || 'N/A'}
+                  {volunteer?.city || 'N/A'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700 hidden lg:table-cell">
-                  {volunteer.state || 'N/A'}
+                  {volunteer?.state || 'N/A'}
                 </td>
               </tr>
             ))

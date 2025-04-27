@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import audio from '../assets/soothingMusic.mp3';
+import audio from '../../assets/soothingMusic.mp3';
 
 const BackgroundMusic = () => {
   const audioRef = useRef(null);

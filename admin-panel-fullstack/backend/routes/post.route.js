@@ -64,7 +64,6 @@ const sendTestEmail = require('../controllers/testing');
 const { createDonation, getAllDonations, getDonationById, getDonationsByDonor, sendTaxCertificate } = require('../controllers/donation.controller');
 const { createVolunteer, getAllVolunteers, getVolunteerById, deleteVolunteer } = require('../controllers/volunteer.controller');
 
-// const { deleteEventPost, getEventPosts, getEventPostById, createEventPost, updateEventPost } = require('../controllers/upcomingevent.controller');
 
 const router = express.Router();
 

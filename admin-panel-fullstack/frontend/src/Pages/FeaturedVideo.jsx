@@ -200,7 +200,6 @@ const FeaturedVideo = () => {
                 className="border  rounded w-[95%]  md:w-64 lg:w-[300px] hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center "
               >
                 {videoId ? (
-               
                   <iframe
                     src={`https://www.youtube.com/embed/${videoId}`}
                     frameBorder="0"
@@ -209,7 +208,7 @@ const FeaturedVideo = () => {
                     title="YouTube Video"
                     className="w-full aspect-video object-cover rounded transition-transform duration-300 group-hover:scale-105"
                   ></iframe>
-                 
+
                 ) : (
                   <p className="text-red-500 text-center">Invalid Video URL</p>
                 )}

@@ -137,10 +137,6 @@ const LegalDoc = () => {
     });
   };
 
-  const handlePreview = (fileUrl) => {
-    setPreviewPdf(fileUrl);
-  };
-
   return (
     <div className="container mx-auto">
       <div className="flex justify-between items-center m-4">

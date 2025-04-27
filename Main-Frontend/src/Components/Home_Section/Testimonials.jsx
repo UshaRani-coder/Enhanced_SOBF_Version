@@ -2,7 +2,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { testimonials } from '../../Constant/testimonialData.jsx';
+import { testimonials } from '../../utils/testimonialData.jsx';
 import './testimonial.css';
 
 const Testimonials = () => {

@@ -6,7 +6,6 @@ import {
   Navigate,
 } from 'react-router-dom';
 import loader from './assets/loader.webp';
-// Lazy loading components
 const ProtectedLayout = lazy(() => import('./components/ProtectedLayout'));
 const Login = lazy(() => import('./Pages/Login.jsx'));
 const NotFound = lazy(() => import('./Pages/NotFound.jsx'));

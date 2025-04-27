@@ -112,8 +112,6 @@ export const sendingEmailToSelectedUsers = () => apiClient.get('/api/post/send-e
 
 
 // !  donational endpoints 
-
-
 export const createDonation = (donationData) =>
   apiClient.post('/api/post/create-donation', donationData);
 

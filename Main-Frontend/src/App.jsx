@@ -3,19 +3,16 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import './App.css';
 import loader from './assets/loader.webp';
-import DonationForm from './pages/Payment.jsx';
-import QRPayment from './Components/Home_Section/QRPayament.jsx';
-import DonationOptions from './pages/DonateFor.jsx';
 
 // Lazy loading the components
 const Header = lazy(() => import('./Components/common_components/Header.jsx'));
 const Footer = lazy(() => import('./Components/common_components/Footer.jsx'));
-const BackgroundMusic = lazy(() => import('./Components/BackgroundMusic.jsx'));
+const BackgroundMusic = lazy(() => import('./Components/common_components/BackgroundMusic.jsx'));
 const LegalDoc = lazy(() => import('./pages/LegalDoc.jsx'));
 const NewsBulletinDetails = lazy(
   () => import('./pages/NewsBulletinDetails.jsx'),
 );
-const Whatsapp = lazy(() => import('./Components/Whatsapp.jsx'));
+const Whatsapp = lazy(() => import('./Components/common_components/Whatsapp.jsx'));
 const RecentActivityDetails = lazy(
   () => import('./pages/RecentActivityDetail.jsx'),
 );

@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { createTeam, deleteTeam, getTeam, updateTeam } from '../api/api';
-import { toast } from 'react-toastify';
 
 export const getTeamData = createAsyncThunk(
   'team/getTeamData', // Unique action type

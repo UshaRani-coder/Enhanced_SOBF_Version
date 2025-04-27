@@ -17,7 +17,7 @@ import ca5 from '../assets/Sobf Images/children_activities/ca5.png';
 import ca15 from '../assets/Sobf Images/children_activities/ca3.png';
 import hac4 from '../assets/Sobf Images/health_and_awareness_camp/hac4.png';
 import ca6 from '../assets/Sobf Images/children_activities/ca6.png';
-import { DottedSeparator } from '../Constant/Seperator';
+import { DottedSeparator } from '../utils/Seperator';
 
 const AboutUs = () => {
   const [activeTab, setActiveTab] = useState('mission');
@@ -98,8 +98,8 @@ const AboutUs = () => {
             <button
               aria-label="Our Mission"
               className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm lg:text-lg ${activeTab === 'mission'
-                  ? 'text-white bg-peacock-green-hover'
-                  : 'bg-light-lavender text-gray-700'
+                ? 'text-white bg-peacock-green-hover'
+                : 'bg-light-lavender text-gray-700'
                 }`}
               onClick={() => setActiveTab('mission')}
             >
@@ -108,8 +108,8 @@ const AboutUs = () => {
             <button
               aria-label="Our Vision"
               className={`poppins-medium w-[33.3%] px-4 py-3 text-sm lg:text-lg ${activeTab === 'vision'
-                  ? 'text-white hover:bg bg-peacock-green-hover'
-                  : 'bg-light-lavender text-gray-700'
+                ? 'text-white hover:bg bg-peacock-green-hover'
+                : 'bg-light-lavender text-gray-700'
                 }`}
               onClick={() => setActiveTab('vision')}
             >
@@ -118,8 +118,8 @@ const AboutUs = () => {
             <button
               aria-label="Our Objective"
               className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm lg:text-lg ${activeTab === 'objective'
-                  ? 'text-white bg-peacock-green-hover'
-                  : 'bg-light-lavender text-gray-700'
+                ? 'text-white bg-peacock-green-hover'
+                : 'bg-light-lavender text-gray-700'
                 }`}
               onClick={() => setActiveTab('objective')}
             >
@@ -302,7 +302,7 @@ const AboutUs = () => {
           </p>
         </div>
       </div>
-      <DottedSeparator/>
+      <DottedSeparator />
       {/* Gallery Section */}
       <div className="container mx-auto p-0 lg:p-4 px-4 lg:px-20 text-center mb-20">
         <h1 className="text-heading3 lg:text-heading1 inline-block font-bold mb-4 pb-5 text-logoYellow">

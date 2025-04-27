@@ -156,12 +156,6 @@ app.use(
   express.static(path.join(__dirname, 'uploads/upcoming-events')),
 );
 
-//10. for SOBF Video
-// app.use(
-//   '/uploads/video',
-//   express.static(path.join(__dirname, 'uploads/video')),
-// );
-
 // ✅ Routes
 app.use('/api/admin', admin_router);
 app.use('/api/post', router);

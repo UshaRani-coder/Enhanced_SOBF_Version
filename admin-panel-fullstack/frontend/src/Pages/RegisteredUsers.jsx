@@ -18,57 +18,6 @@ const RegisteredUsers = () => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const [users] = useState([
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'john@example.com',
-      event: 'Hackathon',
-      date: '2025-01-20',
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      email: 'jane@example.com',
-      event: 'Webinar',
-      date: '2025-02-05',
-    },
-    {
-      id: 3,
-      name: 'Alexander Theodore Montgomery',
-      email: 'alex.montgomery@example.com',
-      event: 'Advanced ML Workshop',
-      date: '2025-02-15',
-    },
-    {
-      id: 4,
-      name: 'Isabella Charlotte Kensington',
-      email: 'isabella.kensington@example.com',
-      event: 'AI & Future Tech',
-      date: '2025-04-02',
-    },
-    {
-      id: 5,
-      name: 'Christopher Whitmore',
-      email: 'chris.whitmore@example.com',
-      event: 'Blockchain Trends',
-      date: '2025-05-21',
-    },
-    {
-      id: 6,
-      name: 'Olivia Harrington',
-      email: 'olivia.harrington@example.com',
-      event: 'Sustainable Development',
-      date: '2025-06-10',
-    },
-    {
-      id: 7,
-      name: 'Benjamin Hollingsworth',
-      email: 'benjamin.hollingsworth@example.com',
-      event: 'UI/UX Design Strategies',
-      date: '2025-07-05',
-    },
-  ]);
 
   useEffect(() => {
     dispatch(getEventsUsersFromDB());
