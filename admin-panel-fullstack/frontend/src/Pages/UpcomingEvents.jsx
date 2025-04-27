@@ -12,7 +12,7 @@ import {
   fetchEvents,
   removeEvent,
   updateEventPost,
-  updateEventStatus
+  updateEventStatus,
 } from '../Reducers/upcomingEventsSlice';
 
 const UpcomingEvents = () => {
@@ -29,7 +29,7 @@ const UpcomingEvents = () => {
     date: '',
     time: '',
     location: '',
-    status: 'upcoming'
+    status: 'upcoming',
   });
   const dispatch = useDispatch();
   const { events, status } = useSelector((state) => state.events);
@@ -194,7 +194,7 @@ const UpcomingEvents = () => {
       date: '',
       time: '',
       location: '',
-      status: 'upcoming'
+      status: 'upcoming',
     });
     setCurrentPost(null);
   };
@@ -210,7 +210,7 @@ const UpcomingEvents = () => {
       date: post?.date || null,
       time: post?.time || null,
       location: post?.location || '',
-      status: post?.status || 'upcoming'
+      status: post?.status || 'upcoming',
     });
   };
 
@@ -234,10 +234,14 @@ const UpcomingEvents = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'upcoming': return 'bg-blue-100 text-blue-800';
-      case 'happening': return 'bg-green-100 text-green-800';
-      case 'completed': return 'bg-purple-100 text-purple-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'upcoming':
+        return 'bg-blue-100 text-blue-800';
+      case 'happening':
+        return 'bg-green-100 text-green-800';
+      case 'completed':
+        return 'bg-purple-100 text-purple-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -417,9 +421,9 @@ const UpcomingEvents = () => {
             const formattedDateTime =
               post && post?.date && post?.time
                 ? formatDateAndTime(
-                  new Date(post.date).toLocaleDateString('en-US'),
-                  post?.time,
-                )
+                    new Date(post.date).toLocaleDateString('en-US'),
+                    post?.time,
+                  )
                 : 'N/A';
             return (
               <div
@@ -433,6 +437,11 @@ const UpcomingEvents = () => {
                       src={post?.image}
                       alt="Event Image"
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src =
+                          'https://placehold.co/800x400?text=No+Image';
+                      }}
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-200 flex items-center justify-center">
@@ -504,23 +513,30 @@ const UpcomingEvents = () => {
                         className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-100 transition-colors"
                         onClick={() => handleStatusChange(post._id, 'upcoming')}
                       >
-                        <span className="hidden sm:inline">Mark as </span>Upcoming
+                        <span className="hidden sm:inline">Mark as </span>
+                        Upcoming
                       </button>
                     )}
                     {post.status !== 'happening' && (
                       <button
                         className="px-3 py-1.5 bg-green-50 text-green-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-green-100 transition-colors"
-                        onClick={() => handleStatusChange(post._id, 'happening')}
+                        onClick={() =>
+                          handleStatusChange(post._id, 'happening')
+                        }
                       >
-                        <span className="hidden sm:inline">Mark as </span>Happening
+                        <span className="hidden sm:inline">Mark as </span>
+                        Happening
                       </button>
                     )}
                     {post.status !== 'completed' && (
                       <button
                         className="px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-purple-100 transition-colors"
-                        onClick={() => handleStatusChange(post._id, 'completed')}
+                        onClick={() =>
+                          handleStatusChange(post._id, 'completed')
+                        }
                       >
-                        <span className="hidden sm:inline">Mark as </span>Completed
+                        <span className="hidden sm:inline">Mark as </span>
+                        Completed
                       </button>
                     )}
                   </div>

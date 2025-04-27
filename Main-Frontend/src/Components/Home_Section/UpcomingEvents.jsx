@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MdLocationPin, MdAccessTimeFilled, MdClose, MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import {
+  MdLocationPin,
+  MdAccessTimeFilled,
+  MdClose,
+  MdChevronLeft,
+  MdChevronRight,
+} from 'react-icons/md';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -10,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvents } from '../../Reducers/upcomingeventSlice';
 import DOMPurify from 'dompurify';
 import { Navigation, Pagination } from 'swiper/modules';
-
+import ShareButton from '../common_components/ShareButton';
 
 const UpcomingEvents = () => {
   const dispatch = useDispatch();
@@ -25,7 +31,10 @@ const UpcomingEvents = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '' });
-
+  const [swiperState, setSwiperState] = useState({
+    activeIndex: 0,
+    totalSlides: 0,
+  });
 
   // Fetch events data
   useEffect(() => {
@@ -34,13 +43,17 @@ const UpcomingEvents = () => {
     }
   }, [eventsStatus, dispatch]);
 
-
   // Filter events based on selected year/month
   const filteredEvents = events
-    .filter(event => {
+    .filter((event) => {
       const eventDate = new Date(event.date);
-      const matchesYear = selectedYear ? eventDate.getFullYear().toString() === selectedYear : true;
-      const matchesMonth = selectedMonth ? (eventDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth : true;
+      const matchesYear = selectedYear
+        ? eventDate.getFullYear().toString() === selectedYear
+        : true;
+      const matchesMonth = selectedMonth
+        ? (eventDate.getMonth() + 1).toString().padStart(2, '0') ===
+          selectedMonth
+        : true;
       return matchesYear && matchesMonth;
     })
     .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -98,7 +111,8 @@ const UpcomingEvents = () => {
     const newErrors = {};
     if (!formData.name.trim()) newErrors.name = 'Name is required';
     if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = 'Invalid email format';
+    if (!/^\S+@\S+\.\S+$/.test(formData.email))
+      newErrors.email = 'Invalid email format';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -112,7 +126,7 @@ const UpcomingEvents = () => {
 
     try {
       const interval = setInterval(() => {
-        setProgress(prev => {
+        setProgress((prev) => {
           const newProgress = prev + 10;
           if (newProgress >= 90) clearInterval(interval);
           return newProgress;
@@ -120,7 +134,9 @@ const UpcomingEvents = () => {
       }, 200);
 
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${filteredEvents[selectedEventIndex]._id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${
+          filteredEvents[selectedEventIndex]._id
+        }`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -128,7 +144,7 @@ const UpcomingEvents = () => {
             username: formData.name,
             email: formData.email,
           }),
-        }
+        },
       );
 
       clearInterval(interval);
@@ -155,10 +171,18 @@ const UpcomingEvents = () => {
   };
 
   // Get unique years and months for filters
-  const availableYears = [...new Set(events.map(event => new Date(event.date).getFullYear().toString()))];
-  const availableMonths = [...new Set(
-    events.map(event => (new Date(event.date).getMonth() + 1).toString().padStart(2, '0'))
-  )].sort();
+  const availableYears = [
+    ...new Set(
+      events.map((event) => new Date(event.date).getFullYear().toString()),
+    ),
+  ];
+  const availableMonths = [
+    ...new Set(
+      events.map((event) =>
+        (new Date(event.date).getMonth() + 1).toString().padStart(2, '0'),
+      ),
+    ),
+  ].sort();
 
   const handleCardClick = (event, index) => {
     setSelectedEventIndex(index);
@@ -167,20 +191,38 @@ const UpcomingEvents = () => {
 
   const navigateEvents = (direction) => {
     if (direction === 'prev') {
-      setSelectedEventIndex(prev => (prev - 1 + filteredEvents.length) % filteredEvents.length);
+      setSelectedEventIndex(
+        (prev) => (prev - 1 + filteredEvents.length) % filteredEvents.length,
+      );
     } else {
-      setSelectedEventIndex(prev => (prev + 1) % filteredEvents.length);
+      setSelectedEventIndex((prev) => (prev + 1) % filteredEvents.length);
     }
   };
   const capitalize = (str) => {
     if (!str) return '';
-    return str.split(' ').map(word =>
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
+    return str
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   };
 
+  const shouldDisablePrev = () => {
+    return swiperState.activeIndex === 0;
+  };
 
+  const shouldDisableNext = () => {
+    if (!swiperRef.current) return false;
 
+    const slidesPerView = swiperRef.current.params.slidesPerView;
+
+    return swiperState.activeIndex >= swiperState.totalSlides - slidesPerView;
+  };
+
+  const title = 'Support Braj Seva – Be one in a million';
+  const baseURL =
+    window.location.origin === 'http://localhost:5173'
+      ? 'https://sobf.in'
+      : window.location.origin;
 
   return (
     <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0 mt-10">
@@ -192,7 +234,8 @@ const UpcomingEvents = () => {
         Get Ready for Our Events
       </h2>
       <p className="text-center text-md small-range:text-lg md:text-md lg:text-xl mb-6 small-range:px-3 small-range:pb-3 small-range:pt-1 text-gray-600">
-        Stay tuned for impactful events that bring positive change to our community. Join us!
+        Stay tuned for impactful events that bring positive change to our
+        community. Join us!
       </p>
 
       {/* Filters */}
@@ -207,8 +250,10 @@ const UpcomingEvents = () => {
             onChange={(e) => setSelectedYear(e.target.value)}
           >
             <option value="">All Years</option>
-            {availableYears.map(year => (
-              <option key={year} value={year}>{year}</option>
+            {availableYears.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
             ))}
           </select>
 
@@ -221,9 +266,11 @@ const UpcomingEvents = () => {
             onChange={(e) => setSelectedMonth(e.target.value)}
           >
             <option value="">All Months</option>
-            {availableMonths.map(month => (
+            {availableMonths.map((month) => (
               <option key={month} value={month}>
-                {new Date(0, parseInt(month) - 1).toLocaleString('default', { month: 'long' })}
+                {new Date(0, parseInt(month) - 1).toLocaleString('default', {
+                  month: 'long',
+                })}
               </option>
             ))}
           </select>
@@ -235,19 +282,43 @@ const UpcomingEvents = () => {
           {/* Add custom navigation arrows */}
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className=" sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute left-0 top-1/2 transform -translate-y-1/2 z-10"
+            disabled={shouldDisablePrev()}
+            className="disabled:opacity-50 disabled:cursor-not-allowed sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute left-0 top-1/2 transform -translate-y-1/2 z-10"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 md:w-5 md:h-5 text-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m15 19-7-7 7-7" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6 md:w-5 md:h-5 text-blue"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="m15 19-7-7 7-7"
+              />
             </svg>
           </button>
 
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className=" sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute right-0 top-1/2 transform -translate-y-1/2 z-10"
+            disabled={shouldDisableNext()}
+            className="disabled:opacity-50 disabled:cursor-not-allowed sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute right-0 top-1/2 transform -translate-y-1/2 z-10"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 md:w-6 md:h-6 text-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m9 18 6-6-6-6" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6 md:w-6 md:h-6 text-blue"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="m9 18 6-6-6-6"
+              />
             </svg>
           </button>
 
@@ -272,7 +343,19 @@ const UpcomingEvents = () => {
               },
             }}
             className="mySwiper"
-            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+              setSwiperState({
+                activeIndex: swiper.activeIndex,
+                totalSlides: swiper.slides.length,
+              });
+            }}
+            onSlideChange={(swiper) => {
+              setSwiperState({
+                activeIndex: swiper.activeIndex,
+                totalSlides: swiper.slides.length,
+              });
+            }}
           >
             {filteredEvents?.map((event, index) => {
               const statusStyles = getStatusStyles(event.status);
@@ -289,15 +372,28 @@ const UpcomingEvents = () => {
                         className="w-full h-full object-cover rounded-t-xl"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = 'https://via.placeholder.com/800x400?text=Event+Image';
+                          e.target.src =
+                            'https://via.placeholder.com/800x400?text=Event+Image';
                         }}
                       />
                     </div>
 
                     <div className="p-4">
-                      <span className={`px-3 py-1 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}>
-                        {statusStyles?.icon} {statusStyles?.label}
-                      </span>
+                      <div className="flex justify-between items-center mb-3">
+                        <span
+                          className={`px-3 py-2 text-xs md:text-sm mb-3 inline-block font-bold rounded-xl shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}
+                        >
+                          {statusStyles?.icon} {statusStyles?.label}
+                        </span>
+
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <ShareButton
+                            title={title}
+                            url={baseURL}
+                            className={`px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}
+                          />
+                        </div>
+                      </div>
 
                       <div className="flex flex-col gap-2 mb-3">
                         <div className="flex items-center gap-2">
@@ -322,8 +418,10 @@ const UpcomingEvents = () => {
                       <div
                         className="text-gray-700 text-sm mb-4 line-clamp-3"
                         dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(event.description)
-                            .replace(/<a /g, '<a class="text-blue-600 hover:underline" ')
+                          __html: DOMPurify.sanitize(event.description).replace(
+                            /<a /g,
+                            '<a class="text-blue-600 hover:underline" ',
+                          ),
                         }}
                       />
                     </div>
@@ -335,9 +433,14 @@ const UpcomingEvents = () => {
         </div>
       ) : (
         <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-3xl text-center">
-          <p className="text-gray-600 text-lg">No events found for the selected filters.</p>
+          <p className="text-gray-600 text-lg">
+            No events found for the selected filters.
+          </p>
           <button
-            onClick={() => { setSelectedYear(''); setSelectedMonth(''); }}
+            onClick={() => {
+              setSelectedYear('');
+              setSelectedMonth('');
+            }}
             className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors"
           >
             Clear Filters
@@ -351,7 +454,7 @@ const UpcomingEvents = () => {
             {/* Navigation Arrows */}
             <button
               onClick={() => navigateEvents('prev')}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors"
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors cursor-pointer disabled:hidden "
               disabled={filteredEvents.length <= 1}
             >
               <MdChevronLeft size={32} className="text-gray-700" />
@@ -359,7 +462,7 @@ const UpcomingEvents = () => {
 
             <button
               onClick={() => navigateEvents('next')}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors cursor-pointer disabled:hidden"
               disabled={filteredEvents.length <= 1}
             >
               <MdChevronRight size={32} className="text-gray-700" />
@@ -367,7 +470,9 @@ const UpcomingEvents = () => {
 
             <div className="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
               {/* {capitalize(event.title)} */}
-              <h2 className="text-2xl font-bold text-[#2d335d]">{capitalize(filteredEvents[selectedEventIndex].title)}</h2>
+              <h2 className="text-2xl font-bold text-[#2d335d]">
+                {capitalize(filteredEvents[selectedEventIndex].title)}
+              </h2>
               <button
                 onClick={() => setShowDetailModal(false)}
                 className="text-gray-500 hover:text-gray-700"
@@ -384,16 +489,20 @@ const UpcomingEvents = () => {
                   className="w-full h-full object-cover rounded-lg"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = 'https://via.placeholder.com/800x400?text=Event+Image';
+                    e.target.src =
+                      'https://via.placeholder.com/800x400?text=Event+Image';
                   }}
                 />
               </div>
 
-              <div className="flex flex-wrap gap-4 mb-6">
+              <div className="flex flex-wrap gap-4 mb-6 items-center">
                 <div className="flex items-center bg-gray-100 px-4 py-2 rounded-lg">
                   <MdAccessTimeFilled className="text-[#1890CE] mr-2" />
                   <span className="text-gray-700">
-                    {formatDateTime(filteredEvents[selectedEventIndex].date, filteredEvents[selectedEventIndex].time)}
+                    {formatDateTime(
+                      filteredEvents[selectedEventIndex].date,
+                      filteredEvents[selectedEventIndex].time,
+                    )}
                   </span>
                 </div>
 
@@ -404,20 +513,54 @@ const UpcomingEvents = () => {
                   </span>
                 </div>
 
-                <div className={`px-4 py-2 rounded-lg ${getStatusStyles(filteredEvents[selectedEventIndex].status).bgColor} ${getStatusStyles(filteredEvents[selectedEventIndex].status).textColor}`}>
-                  {getStatusStyles(filteredEvents[selectedEventIndex].status).icon} {getStatusStyles(filteredEvents[selectedEventIndex].status).label}
+                <div
+                  className={`px-3 py-2 flex text-center rounded-full ${
+                    getStatusStyles(filteredEvents[selectedEventIndex].status)
+                      .bgColor
+                  } ${
+                    getStatusStyles(filteredEvents[selectedEventIndex].status)
+                      .textColor
+                  }`}
+                >
+                  {
+                    getStatusStyles(filteredEvents[selectedEventIndex].status)
+                      .icon
+                  }{' '}
+                  {
+                    getStatusStyles(filteredEvents[selectedEventIndex].status)
+                      .label
+                  }
+                </div>
+
+                <div className="small-max:mt-2">
+                  <ShareButton
+                    title={title}
+                    url={baseURL}
+                    className={`px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${
+                      getStatusStyles(filteredEvents[selectedEventIndex].status)
+                        .bgColor
+                    } ${
+                      getStatusStyles(filteredEvents[selectedEventIndex].status)
+                        .textColor
+                    }`}
+                  />
                 </div>
               </div>
 
               <div
                 className="prose max-w-none text-gray-700 mb-6"
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(filteredEvents[selectedEventIndex].description)
-                    .replace(/<a /g, '<a class="text-blue-600 hover:underline" ')
+                  __html: DOMPurify.sanitize(
+                    filteredEvents[selectedEventIndex].description,
+                  ).replace(
+                    /<a /g,
+                    '<a class="text-blue-600 hover:underline" ',
+                  ),
                 }}
               />
 
-              {(filteredEvents[selectedEventIndex].status === 'upcoming' || filteredEvents[selectedEventIndex].status === 'happening') && (
+              {(filteredEvents[selectedEventIndex].status === 'upcoming' ||
+                filteredEvents[selectedEventIndex].status === 'happening') && (
                 <button
                   onClick={() => {
                     setShowForm(true);
@@ -438,7 +581,9 @@ const UpcomingEvents = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
             <div className="p-6">
-              <h2 className="text-xl font-bold mb-4">Register for {filteredEvents[selectedEventIndex].title}</h2>
+              <h2 className="text-xl font-bold mb-4">
+                Register for {filteredEvents[selectedEventIndex].title}
+              </h2>
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -451,11 +596,15 @@ const UpcomingEvents = () => {
                     className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     placeholder="Enter your name"
                   />
-                  {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                  {errors.name && (
+                    <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                  )}
                 </div>
 
                 <div className="mb-6">
-                  <label className="block text-gray-700 mb-2">Email Address</label>
+                  <label className="block text-gray-700 mb-2">
+                    Email Address
+                  </label>
                   <input
                     type="email"
                     name="email"
@@ -464,7 +613,9 @@ const UpcomingEvents = () => {
                     className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     placeholder="Enter your email"
                   />
-                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                  {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                  )}
                 </div>
 
                 <div className="flex justify-end gap-3">
@@ -502,7 +653,6 @@ const UpcomingEvents = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

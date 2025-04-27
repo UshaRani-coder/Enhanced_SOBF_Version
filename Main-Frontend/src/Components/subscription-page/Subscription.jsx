@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import subscriptionImage from '@/assets/Subscription.jpeg';
 import QRCode from '@/assets/brajQr.jpg';
 import ShareButton from '@/Components/common_components/ShareButton';
-import InstagramEmbed from './InstagramEmbed';
+// import InstagramEmbed from './InstagramEmbed';
 
 const Subscription = () => {
   const [step, setStep] = useState(1);

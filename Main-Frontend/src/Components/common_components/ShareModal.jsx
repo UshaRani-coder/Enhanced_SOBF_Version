@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getSharePlatforms } from '@/utils/sharePlatforms';
 import { toast } from 'react-toastify';
@@ -62,7 +63,7 @@ const ShareModal = ({ isOpen, onClose, title, url }) => {
     return () => (document.body.style.overflow = '');
   }, [isOpen]);
 
-  return (
+  return createPortal (
     <AnimatePresence>
       {isOpen && (
         <motion.div
@@ -137,7 +138,8 @@ const ShareModal = ({ isOpen, onClose, title, url }) => {
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body // important (render on the full page, not inside small div)
   );
 };
 
