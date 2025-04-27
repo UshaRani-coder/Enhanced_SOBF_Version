@@ -2,12 +2,10 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation
 import ImgBanner from './ImgBanner';
 import { Link } from 'react-router-dom';
-import { heroes } from '../../../utils/data';
 
 const CommunityService = ({ setService }) => {
   const location = useLocation();
   const isHomePage = location.pathname === '/'; // Check if the current page is the home page
-  const images = heroes.map((communityService) => communityService.img);
   useEffect(() => {
     if (location.pathname === '/community-service') {
       window.scrollTo({
