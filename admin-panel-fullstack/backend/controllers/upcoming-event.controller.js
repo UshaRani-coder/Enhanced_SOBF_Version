@@ -129,8 +129,8 @@ const getEventPostById = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Upcoming events post not found' });
     }
 
-    const baseURL = "https://backend.sobf.in";
-    // const baseURL = "http://localhost:5000";
+    // const baseURL = "https://backend.sobf.in";
+    const baseURL = "http://localhost:5000";
     const formattedPost = post.toObject();
     formattedPost.image = baseURL + '/uploads/upcoming-events/' + formattedPost.image;
 
@@ -191,8 +191,8 @@ const updateEventPost = async (req, res) => {
 
     // Format the image URL before sending response
     const formattedPost = updatedPost.toObject();
-    formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
-    // formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
+    // formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
+    formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
 
     res.status(200).json({
       success: true,
@@ -239,8 +239,8 @@ const updateEventStatus = async (req, res) => {
 
     // Format the image URL before sending response
     const formattedPost = updatedPost.toObject();
-    formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
-    // formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
+    // formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
+    formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
 
     res.status(200).json({
       success: true,

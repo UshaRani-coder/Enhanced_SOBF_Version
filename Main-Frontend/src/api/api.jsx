@@ -16,6 +16,7 @@ export const getGallery = () => api.get('/api/post/get-gallery-image'); // ? 8 O
 export const getOurServices = () => api.get('/api/post/get-services'); // ? 9 Our Services Endpoints
 
 export const getEvents = () => api.get('/api/post/get-upcoming-events');
+export const fetchEventPostById = (id) => api.get(`/api/post/upcoming-events/${id}`); // ? 10 Upcoming Events Endpoints
 
 // !Donate for endpoints
 export const getAllDonationCategories = () => api.get('/api/post/');

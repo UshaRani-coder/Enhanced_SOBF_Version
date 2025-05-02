@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import loader from './assets/loader.webp';
 import DonateForDetailedPage from './pages/DonateForDetailedPage';
+import EventDetails from './pages/UpcomingDetails';
 
 // Lazy loading the components
 const Header = lazy(() => import('./Components/common_components/Header.jsx'));
@@ -68,6 +69,7 @@ const App = () => {
     '/press-release/:id',
     '/recent-activities',
     '/recent-activities/:id',
+    '/events/:id',
     '/videos',
     '/legal-doc',
     '/anna-vitran-seva',
@@ -106,6 +108,7 @@ const App = () => {
           <Route path="/recent-activities/:id" element={<RecentActivityDetails />}/>
         <Route path="/videos" element={<Videos />} />
         <Route path="/subscription" element={<Subscription />} />
+        <Route path="/events/:id" element={<EventDetails />} />
         <Route path="/donate-for" element={<DonateForMain />} />
         <Route path="/donate/:id" element={<DonateForDetailedPage />} />
         <Route path="/donate-us" element={<Donateus />} />
@@ -118,6 +121,7 @@ const App = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+      
         <Route path="/*" element={<NotFound />} />
       </Routes>
       {!isNotFound && <BackgroundMusic />}

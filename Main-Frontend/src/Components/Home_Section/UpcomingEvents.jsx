@@ -17,6 +17,7 @@ import { fetchEvents } from '../../Reducers/upcomingeventSlice';
 import DOMPurify from 'dompurify';
 import { Navigation, Pagination } from 'swiper/modules';
 import ShareButton from '../common_components/ShareButton';
+import { useNavigate } from 'react-router-dom';
 
 const UpcomingEvents = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const UpcomingEvents = () => {
   const [showForm, setShowForm] = useState(false);
   const [errors, setErrors] = useState({});
   const swiperRef = useRef(null);
+  const navigate = useNavigate();
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedEventIndex, setSelectedEventIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -87,6 +89,7 @@ const UpcomingEvents = () => {
         };
     }
   };
+
 
   const formatDateTime = (dateString, timeString) => {
     if (!dateString || !timeString) return 'N/A';
@@ -184,9 +187,8 @@ const UpcomingEvents = () => {
     ),
   ].sort();
 
-  const handleCardClick = (event, index) => {
-    setSelectedEventIndex(index);
-    setShowDetailModal(true);
+  const handleCardClick = (event) => {
+    navigate(`/events/${event._id}`);
   };
 
   const navigateEvents = (direction) => {
@@ -363,7 +365,7 @@ const UpcomingEvents = () => {
                 <SwiperSlide key={event._id}>
                   <div
                     className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer h-full"
-                    onClick={() => handleCardClick(event, index)}
+                    onClick={() => handleCardClick(event)}
                   >
                     <div className="relative w-full h-48 sm:h-56">
                       <img
