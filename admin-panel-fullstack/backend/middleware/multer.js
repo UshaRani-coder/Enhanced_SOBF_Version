@@ -141,7 +141,20 @@ const storageUpcomingEvent = multer.diskStorage({
 const uploadUpcomingEvent = multer({ storage: storageUpcomingEvent });
 
 
-
+// ! 9. DonateFor 
+const storageDonateFor = multer.diskStorage({
+  destination: (req, file, cb) => {
+    console.log('req', req);
+    console.log('file', file);
+    const uploadDir = path.join(process.cwd(), `./uploads/donateFor`);
+    createDirectoryIfDoesntExist(uploadDir);
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
+  },
+});
+const uploadDonateFor = multer({ storage: storageDonateFor });
 
 
 
@@ -155,5 +168,6 @@ module.exports = {
   uploadNewsBulletine,
   uploadGallery,
   uploadOurImpacts,
-  uploadUpcomingEvent
+  uploadUpcomingEvent,
+  uploadDonateFor
 };

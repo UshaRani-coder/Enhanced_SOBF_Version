@@ -140,7 +140,8 @@ const getVolunteerById = async (req, res) => {
     if (!volunteer) {
       return res.status(404).json({
         success: false,
-        message: 'Volunteer not found'
+        // message: 'Volunteer not found'
+        message: 'Testing'
       });
     }
 

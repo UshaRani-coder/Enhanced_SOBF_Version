@@ -395,7 +395,7 @@ const PostPage = () => {
             {/* Images */}
             {Array?.isArray(expandedItem?.images) &&
               expandedItem?.images?.length > 0 ? (
-                expandedItem?.images.map((image, index) => (
+              expandedItem?.images.map((image, index) => (
                 <img
                   key={index}
                   src={image}
@@ -611,7 +611,7 @@ const PostPage = () => {
                 </video>
               ) : (
                 <img
-                    src={bulletin?.images[0]}
+                  src={bulletin?.images[0]}
                   alt="Post Image"
                   className="w-full h-[200px] object-cover rounded"
                 />

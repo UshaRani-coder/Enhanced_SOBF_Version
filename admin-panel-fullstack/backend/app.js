@@ -8,6 +8,7 @@ const path = require('path');
 const app = express();
 const logger = require('./logger');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV || 'development'}`,
@@ -85,7 +86,8 @@ app.use(
 
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 // ✅ Morgan Logging Middleware
 const morganFormat = ':method :url :status :response-time';
@@ -155,6 +157,9 @@ app.use(
   '/uploads/upcoming-events',
   express.static(path.join(__dirname, 'uploads/upcoming-events')),
 );
+//9. for our impacts
+app.use('/uploads/donateFor', express.static(path.join(__dirname, 'uploads/donateFor')));
+
 
 // ✅ Routes
 app.use('/api/admin', admin_router);

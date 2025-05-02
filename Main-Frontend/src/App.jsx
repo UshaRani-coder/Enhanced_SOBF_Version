@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import './App.css';
 import loader from './assets/loader.webp';
+import DonateForDetailedPage from './pages/DonateForDetailedPage';
 
 // Lazy loading the components
 const Header = lazy(() => import('./Components/common_components/Header.jsx'));
@@ -21,6 +22,7 @@ const AboutUs = lazy(() => import('./pages/Aboutus.jsx'));
 const ContactUsPage = lazy(() => import('./pages/ContactUs.jsx'));
 const Gallery = lazy(() => import('./pages/Gallery.jsx'));
 const Subscription = lazy(() => import('./Components/subscription-page/Subscription.jsx'));
+const DonateForMain = lazy(() => import('./pages/DonateForMain.jsx'));
 const Donateus = lazy(() => import('./pages/Donateus.jsx'));
 const Press_Release = lazy(
   () => import('./Components/Home_Section/Press_Release.jsx'),
@@ -59,6 +61,8 @@ const App = () => {
     '/contact-us',
     '/gallery',
     '/donate-us',
+    '/donate-for',
+    '/donate/:id',
     '/subscription',
     '/press-release',
     '/press-release/:id',
@@ -99,16 +103,12 @@ const App = () => {
         <Route path="/press-release" element={<Press_Release />} />
         <Route path="/press-release/:id" element={<NewsBulletinDetails />} />
         <Route path="/recent-activities" element={<Recent_Activities />} />
-        <Route
-          path="/recent-activities/:id"
-          element={<RecentActivityDetails />}
-        />
+          <Route path="/recent-activities/:id" element={<RecentActivityDetails />}/>
         <Route path="/videos" element={<Videos />} />
-        {/* <Route path="/donat" element={<DonationOptions />} /> */}
         <Route path="/subscription" element={<Subscription />} />
+        <Route path="/donate-for" element={<DonateForMain />} />
+        <Route path="/donate/:id" element={<DonateForDetailedPage />} />
         <Route path="/donate-us" element={<Donateus />} />
-        {/* <Route path="/donate-us" element={<DonationForm />} /> */}
-        {/* <Route path="/donate-us" element={<QRPayment />} /> */}
         <Route path="/legal-doc" element={<LegalDoc />} />
         <Route path="/anna-vitran-seva" element={<AnnaVitranSeva />} />
         <Route path="/community-service" element={<CommunityService />} />

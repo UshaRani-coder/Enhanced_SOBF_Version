@@ -126,3 +126,12 @@ export const getDonationsByDonor = (donorId, params = {}) =>
 
 export const sendTaxCertificate = (donationId) =>
   apiClient.post(`/api/post/send-tax-certificate/${donationId}`);
+
+
+
+
+// !Donate for endpoints
+export const getAllDonationCategories = () => apiClient.get('/api/post/');
+export const getSingleDonationPostBasedOnId = (id) => apiClient.get(`/api/post/get-donation-by-id/${id}`);
+export const addDonationCategory = (data) => apiClient.post('/api/post/create', data);
+export const addDonor = (id, data) => apiClient.post(`/api/post/add-donor/${id}`, data);

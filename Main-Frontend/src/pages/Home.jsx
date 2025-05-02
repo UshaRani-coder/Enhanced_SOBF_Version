@@ -55,8 +55,7 @@ const HomePage = () => {
       </div>
 
       <div
-        className={` w-full    
-            `}
+        className={` w-full`}
       >
         <Hero />
       </div>

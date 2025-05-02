@@ -10,7 +10,7 @@ import galleryReducer from '../Reducers/gallerySlice';
 import ourServiceRducer from '../Reducers/OurServicesSlice';
 import upcomingEventReducer from '../Reducers/upcomingEventsSlice.js';
 import eventUserReducer from "../Reducers/eventuserSlice.js"
-
+import donationsReducer from "../Reducers/donateForSlice.js"
 
 const store = configureStore({
   reducer: {
@@ -25,6 +25,7 @@ const store = configureStore({
     services: ourServiceRducer,
     events: upcomingEventReducer,
     eventUser: eventUserReducer,
+    donateFor: donationsReducer
   },
 });
 

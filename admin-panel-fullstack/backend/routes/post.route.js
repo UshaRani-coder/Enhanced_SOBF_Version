@@ -55,6 +55,7 @@ const {
   uploadGallery,
   uploadOurImpacts,
   uploadUpcomingEvent,
+  uploadDonateFor,
 } = require('../middleware/multer');
 const { createLegalDocument, updateLegalDocument, deleteLegalDocument, getLegalDocument } = require('../controllers/legaldoc.controller');
 const { createFeaturedVideo, getFeaturedVideo, updateFeaturedVideo, deleteFeaturedVideo } = require('../controllers/featuredvideos.controller');
@@ -63,6 +64,8 @@ const { registerUserForEvent, getUsersWithRegisteredEvents, sendingEmailToSelect
 const sendTestEmail = require('../controllers/testing');
 const { createDonation, getAllDonations, getDonationById, getDonationsByDonor, sendTaxCertificate } = require('../controllers/donation.controller');
 const { createVolunteer, getAllVolunteers, getVolunteerById, deleteVolunteer } = require('../controllers/volunteer.controller');
+const { addDonationCategory, getAllDonationCategories, addUserToCategory, getDonationCategoryById } = require('../controllers/donateFor.controller');
+const { postSubscriber, getSubscriber } = require('../controllers/subscriber.controller');
 
 
 const router = express.Router();
@@ -222,9 +225,19 @@ router.post('/send-tax-certificate/:donationId', sendTaxCertificate);
 // Volunteer routes
 router.post('/create-volunteer', createVolunteer);
 router.get('/get-volunteers', getAllVolunteers);
-router.get('/:id', getVolunteerById);
+// router.get('/:id', getVolunteerById);
 router.delete('/:id', deleteVolunteer);
 
+// !Donate for 
+router.post('/create', uploadDonateFor.single('image'), addDonationCategory);
+router.get('/', getAllDonationCategories);
+router.get("/get-donation-by-id/:id", getDonationCategoryById);
+router.post('/add-donor/:id', addUserToCategory);
 
-router.post("/testing", sendTestEmail)
+// ! Subscription routes
+router.get('/get-donors', getSubscriber);
+router.post('/create-subscription', postSubscriber);
+
+
+// router.post("/testing", sendTestEmail)
 module.exports = router;
