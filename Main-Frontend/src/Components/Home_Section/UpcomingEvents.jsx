@@ -391,7 +391,7 @@ const UpcomingEvents = () => {
                         <div onClick={(e) => e.stopPropagation()}>
                           <ShareButton
                             title={title}
-                            url={baseURL}
+                            url={`${baseURL}/events/${event._id}`}
                             className={`px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}
                           />
                         </div>

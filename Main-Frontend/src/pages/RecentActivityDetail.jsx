@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import hardcodedPosts from '../defaultData/recent-activities.json';
 import { getPostById } from '../Reducers/postSlice';
 import DOMPurify from 'dompurify';
+import ShareButton from '@/Components/common_components/ShareButton';
 
 const RecentActivityDetails = () => {
   const navigate = useNavigate();
@@ -52,6 +53,12 @@ const RecentActivityDetails = () => {
     });
     navigate('/recent-activities', { state: { scrollTo: 'pressRelease' } });
   };
+
+  const title = 'Support Braj Seva – Be one in a million';
+  const baseURL =
+    window.location.origin === 'http://localhost:5173'
+      ? 'https://sobf.in'
+      : window.location.origin;
 
   return (
     <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
@@ -152,13 +159,22 @@ const RecentActivityDetails = () => {
               ),
             }}
           ></p>
-          <div className="flex">
+          <div className="flex flex-col small-max:flex-row small-max:gap-5 items-center">
             <button
               className="px-4 py-2 font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all mt-4"
               onClick={handleBack}
             >
               Back to Recent Activities
             </button>
+            
+            <div onClick={(e) => e.stopPropagation()} className="mt-4 small-max:mt-7">
+                  <ShareButton
+                    title={title}
+                    url={`${baseURL}/recent-activities/${activity?._id}`}
+                    className= "px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  />
+                </div>
+
           </div>
           <div className="mt-6 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 xl:p-10 rounded-lg shadow-lg">
             <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-indigo-700">

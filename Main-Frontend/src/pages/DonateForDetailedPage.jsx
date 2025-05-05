@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addDonorToDonation, fetchDonationById } from "@/Reducers/donateForSlice";
 import qr from "../assets/QRCode.png";
 import { toast } from "react-toastify";
+import ShareButton from "@/Components/common_components/ShareButton";
 const DonationPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -171,6 +172,13 @@ const DonationPage = () => {
       </div>
     );
   };
+
+  const title = 'Support Braj Seva – Be one in a million';
+  const baseURL =
+    window.location.origin === 'http://localhost:5173'
+      ? 'https://sobf.in'
+      : window.location.origin;
+
   return (
     <div className="container mx-auto px-4 pb-8 max-w-9xl">
       <div className="container mx-auto px-4 py-8 max-w-6xl mt-40">
@@ -281,9 +289,16 @@ const DonationPage = () => {
               <h1 className="text-2xl font-bold text-gray-800 mb-2">{currentDonation?.title}</h1>
 
               {/* Main description */}
-              <div className="mb-4">
+              <div className="mb-4 flex justify-between">
                 {/* <h3 className="font-semibold text-gray-700 mb-1">About this campaign:</h3> */}
-                <p className="text-gray-600 whitespace-pre-line">{currentDonation?.category?.title}</p>
+                <p className="text-gray-700 text-xl font-bold whitespace-pre-line">{currentDonation?.category?.title}</p>
+                <div onClick={(e) => e.stopPropagation()}>
+                  <ShareButton
+                    title={title}
+                    url={`${baseURL}/donate/${currentDonation?.category?._id}`}
+                    className= "px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  />
+                </div>
               </div>
 
               {/* Category description if available */}

@@ -105,6 +105,12 @@ const EventDetails = () => {
     navigate('/');
   };
 
+  // const title = 'Support Braj Seva – Be one in a million';
+  const baseURL =
+    window.location.origin === 'http://localhost:5173'
+      ? 'https://sobf.in'
+      : window.location.origin;
+
   return (
     <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
       <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:mb-[30px]">
@@ -113,16 +119,19 @@ const EventDetails = () => {
 
       <div className="flex flex-col items-center w-full">
         {/* Image Gallery */}
-        <img src={post?.image} className="w-full sm:w-[48%] lg:w-[100%] h-[80vh] overflow-hidden" alt="" />
+        <div className="w-full h-[70vh] overflow-hidden mb-4">
+          <img src={post?.image} className="w-full h-full object-cover rounded-lg shadow-lg" alt="" />
+        </div>
         {/* Event Details */}
         <div className="w-full flex flex-col justify-start pt-4">
-          <div className="flex items-center gap-4 mb-4">
-            <div className={`px-3 py-1 rounded-full ${statusStyles.bgColor} ${statusStyles.textColor}`}>
+          <div className="flex items-center gap-5 xl:gap-7 mb-4">
+            <div className={`px-3 py-2 rounded-full ${statusStyles.bgColor} ${statusStyles.textColor}`}>
               {statusStyles.icon} {statusStyles.label}
             </div>
             <ShareButton
               title={`Check out this event: ${post.title}`}
-              url={`${window.location.origin}/events/${id}`}
+              url={`${baseURL}/events/${id}`}
+              className= "px-3 border-0 text-xs md:text-sm inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             />
           </div>
 

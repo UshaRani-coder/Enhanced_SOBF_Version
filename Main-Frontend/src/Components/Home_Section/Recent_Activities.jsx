@@ -6,6 +6,7 @@ import loader from '../../assets/loader.webp';
 import { getPosts } from '../../Reducers/postSlice';
 import DOMPurify from 'dompurify';
 import { availableMonths } from '@/utils/availableMonths';
+import ShareButton from '../common_components/ShareButton';
 const Recent_Activities = React.memo(() => {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -52,8 +53,6 @@ const Recent_Activities = React.memo(() => {
     return Array.from(years).sort((a, b) => b - a); // Sort descending
   }, [posts]);
 
-  
-
   // **Filtering logic**
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
@@ -98,9 +97,17 @@ const Recent_Activities = React.memo(() => {
 
   const hasMorePosts = filteredPosts?.length > page * postsPerPage;
 
+  const title = 'Support Braj Seva – Be one in a million';
+  const baseURL =
+    window.location.origin === 'http://localhost:5173'
+      ? 'https://sobf.in'
+      : window.location.origin;
+
   return (
     <div
-      className={`flex flex-col items-center mb-[30px] ${isHomePage ? 'mt-[30px]' : 'mt-[120px]'}`}
+      className={`flex flex-col items-center mb-[30px] ${
+        isHomePage ? 'mt-[30px]' : 'mt-[120px]'
+      }`}
     >
       <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2 font-bold  p-5 text-[#2d335d] relative transition-all ease-in-out">
         Recent Activities
@@ -204,17 +211,17 @@ const Recent_Activities = React.memo(() => {
                 className="w-full h-full md:h-[300px] rounded-lg object-cover"
               />
               <div className="px-[10px]">
-              <div className="flex items-center gap-x-[5px] mt-[15px]">
-                <svg
+                <div className="flex items-center gap-x-[5px] mt-[15px]">
+                  <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
                     className="w-[10px]"
                   >
                     <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
                   </svg>
-                <span className="text-[13px] ">
-                  {formatDate(activity?.date)}
-                </span>
+                  <span className="text-[13px] ">
+                    {formatDate(activity?.date)}
+                  </span>
                 </div>
                 <h1 className="font-bold text-xl line-clamp-1">
                   {activity.title}
@@ -228,16 +235,26 @@ const Recent_Activities = React.memo(() => {
                     ),
                   }}
                 ></p>
-                <Link to={`/recent-activities/${activity._id}`}>
-                  {' '}
-                  <button
-                    aria-label="View Details"
-                    className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
-                    onClick={() => window.scrollTo(0, 0)}
-                  >
-                    View Details
-                  </button>
-                </Link>
+                <div className="flex gap-5">
+                  <Link to={`/recent-activities/${activity._id}`}>
+                    {' '}
+                    <button
+                      aria-label="View Details"
+                      className="my-[20px] bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 font-semibold text-[14px] px-[12px] py-[6px] rounded-full transition-all duration-300 ease-in-out"
+                      onClick={() => window.scrollTo(0, 0)}
+                    >
+                      View Details
+                    </button>
+                  </Link>
+
+                  <div onClick={(e) => e.stopPropagation()} className="mt-5">
+                    <ShareButton
+                      title={title}
+                      url={`${baseURL}/recent-activities/${activity?._id}`}
+                      className="px-3 py-[6px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           ))}
