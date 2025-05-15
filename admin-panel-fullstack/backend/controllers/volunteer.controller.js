@@ -47,7 +47,7 @@ const createVolunteer = async (req, res) => {
 async function sendVolunteerConfirmationEmail(volunteer) {
   try {
     const mailOptions = {
-      from: "ry648133@gmail.com",
+      from: "rsoulofbraj@gmail.com",
       to: volunteer.email,
       subject: `🎉 Thank You for Volunteering with Us!`,
       html: `
@@ -78,7 +78,6 @@ async function sendVolunteerConfirmationEmail(volunteer) {
     <p style="font-size: 16px; color: #444;"><strong>Location:</strong> ${volunteer.city}, ${volunteer.state}</p>
     ${volunteer.occupation ? `<p style="font-size: 16px; color: #444;"><strong>Occupation:</strong> ${volunteer.occupation}</p>` : ''}
   </div>
-
   <!-- Next Steps -->
   <div style="padding: 15px 25px; background: #f8f9fa; margin: 15px; border-radius: 8px;">
     <h3 style="color: #333; font-size: 18px; text-align: center;">What Happens Next?</h3>
@@ -87,14 +86,6 @@ async function sendVolunteerConfirmationEmail(volunteer) {
       <li>We'll contact you within 3-5 business days</li>
       <li>You'll receive information about upcoming volunteer opportunities</li>
     </ul>
-  </div>
-
-  <!-- CTA Button -->
-  <div style="text-align: center; margin: 20px 0;">
-    <a href="https://sobf.in/" target="_blank" rel="noopener noreferrer"
-      style="text-decoration: none; background: #4CAF50; color: white; padding: 15px 30px; font-size: 18px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: 0.3s;">
-      🌟 Learn More About Our Work
-    </a>
   </div>
 
   <!-- Footer -->

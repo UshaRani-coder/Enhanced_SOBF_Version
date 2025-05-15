@@ -178,6 +178,7 @@ const UpcomingEvents = () => {
       events.map((event) =>
         (new Date(event.date).getMonth() + 1).toString().padStart(2, '0')
       )
+    )
   ].sort();
 
   const handleCardClick = (event) => {
@@ -186,9 +187,7 @@ const UpcomingEvents = () => {
 
   const navigateEvents = (direction) => {
     if (direction === 'prev') {
-      setSelectedEventIndex(
-        (prev) => (prev - 1 + filteredEvents.length) % filteredEvents.length
-      );
+      setSelectedEventIndex((prev) => (prev - 1 + filteredEvents?.length) % filteredEvents?.length);
     } else {
       setSelectedEventIndex((prev) => (prev + 1) % filteredEvents.length);
     }

@@ -88,7 +88,7 @@ const registerUserForEvent = async (req, res) => {
 
     // Email content
     const mailOptions = {
-      from: "ry648133@gmail.com",
+      from: "soulofbraj@gmail.com",
       to: email,
       subject: `🎉 Welcome to ${event.title} - Get Ready!`,
       html: `
@@ -121,13 +121,7 @@ const registerUserForEvent = async (req, res) => {
       <p style="font-size: 16px; color: #444;"><strong>Location:</strong> ${event.location}</p>
     </div>
 
-    <!-- CTA Button -->
-    <div style="text-align: center; margin: 20px 0;">
-      <a href="https://sobf.in/" target="_blank" rel="noopener noreferrer"
-        style="text-decoration: none; background: #4CAF50; color: white; padding: 15px 30px; font-size: 18px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: 0.3s;">
-        🔍 View Event Details
-      </a>
-    </div>
+
 
     <!-- Footer -->
     <div style="background: #f8f8f8; padding: 15px; text-align: center; font-size: 14px; color: #555; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
@@ -189,7 +183,7 @@ const sendingEmailToSelectedUsers = async (req ,res) => {
   try {
     for (const email of emails) {
       await transporter.sendMail({
-        from: "ry648133@gmail.com", // Sender address
+        from: "soulofbraj@gmail.com", // Sender address
         to: email, // Recipient address
         subject: subject, // Email subject
         text: message, // Email body (plain text)

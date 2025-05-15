@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: "587",
   auth: {
-    user: "ry648133@gmail.com",
+    user: "soulofbraj@gmail.com",
     pass: "mawb relb avot cukn"
   },
   tls: {
@@ -30,7 +30,7 @@ console.log("Test email sent successfully:");
 async function sendTestEmail(req,res) {
   try {
     const info = await transporter.sendMail({
-      from: "ry648133@gmail.com",
+      from: "soulofbraj@gmail.com",
       to: "yranjana757@gmail.com",
       subject: "SMTP Test from Ubuntu VPS",
       text: "Hello, this is a test email from your Ubuntu server!",

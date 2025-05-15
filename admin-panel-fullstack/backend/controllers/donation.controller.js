@@ -181,13 +181,6 @@ const sendDonationConfirmationEmail = async (donation, donor) => {
     <p style="font-size: 16px; color: #555;">Your contribution will help us continue our work in the community.</p>
   </div>
 
-  <!-- CTA Button -->
-  <div style="text-align: center; margin: 20px 0;">
-    <a href="https://sobf.in/donate-us" target="_blank" rel="noopener noreferrer"
-      style="text-decoration: none; background: #4CAF50; color: white; padding: 12px 25px; font-size: 16px; border-radius: 8px; display: inline-block;">
-      💖 Make Another Donation
-    </a>
-  </div>
 
   <!-- Footer -->
   <div style="background: #f8f8f8; padding: 15px; text-align: center; font-size: 14px; color: #555; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
