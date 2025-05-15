@@ -59,8 +59,8 @@ const createEventPost = async (req, res) => {
 
     // Format the image URL before sending response
     const formattedPost = post.toObject();
-    formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
-    // formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
+    // formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
+    formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
 
     res.status(201).json({
       success: true,
@@ -88,8 +88,8 @@ const getEventPosts = async (req, res) => {
       })
       .sort({ date: 1 }); // Sort by date ascending
 
-    const baseURL = "https://backend.sobf.in";
-    // const baseURL = "http://localhost:5000";
+    // const baseURL = "https://backend.sobf.in";
+    const baseURL = "http://localhost:5000";
 
     // Format image URLs
     const formattedPosts = posts.map(post => {

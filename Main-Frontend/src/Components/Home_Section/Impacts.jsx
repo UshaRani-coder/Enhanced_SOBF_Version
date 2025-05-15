@@ -44,12 +44,12 @@ const Statistics = () => {
             {ourImpacts?.map((impact, index) => (
               <li
                 key={impact?.id || index}
-                className="flex flex-col items-center  justify-center  group p-2 md:p-6   rounded-xl hover:shadow-xl w-[230px] md:w-[220px] "
+                className="flex flex-col items-center  justify-center  group p-2 md:p-4   rounded-xl hover:shadow-xl w-[230px] md:w-[220px] "
               >
                 <img
                   src={impact?.image}
                   alt="impact"
-                  className="text-[#001d23] w-[70px] transition-transform duration-300 group-hover:scale-110"
+                  className="text-[#001d23] w-[60px] transition-transform duration-300 group-hover:scale-110"
                 />
                 <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
                   {formatNumber(impact?.total_services)}

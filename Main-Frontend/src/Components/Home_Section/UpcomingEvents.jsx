@@ -38,14 +38,12 @@ const UpcomingEvents = () => {
     totalSlides: 0,
   });
 
-  // Fetch events data
   useEffect(() => {
     if (eventsStatus === 'idle') {
       dispatch(fetchEvents());
     }
   }, [eventsStatus, dispatch]);
 
-  // Filter events based on selected year/month
   const filteredEvents = events
     .filter((event) => {
       const eventDate = new Date(event.date);
@@ -53,8 +51,7 @@ const UpcomingEvents = () => {
         ? eventDate.getFullYear().toString() === selectedYear
         : true;
       const matchesMonth = selectedMonth
-        ? (eventDate.getMonth() + 1).toString().padStart(2, '0') ===
-          selectedMonth
+        ? (eventDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth
         : true;
       return matchesYear && matchesMonth;
     })
@@ -89,7 +86,6 @@ const UpcomingEvents = () => {
         };
     }
   };
-
 
   const formatDateTime = (dateString, timeString) => {
     if (!dateString || !timeString) return 'N/A';
@@ -137,8 +133,7 @@ const UpcomingEvents = () => {
       }, 200);
 
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${
-          filteredEvents[selectedEventIndex]._id
+        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${filteredEvents[selectedEventIndex]._id
         }`,
         {
           method: 'POST',
@@ -147,7 +142,7 @@ const UpcomingEvents = () => {
             username: formData.name,
             email: formData.email,
           }),
-        },
+        }
       );
 
       clearInterval(interval);
@@ -173,18 +168,16 @@ const UpcomingEvents = () => {
     }
   };
 
-  // Get unique years and months for filters
   const availableYears = [
     ...new Set(
-      events.map((event) => new Date(event.date).getFullYear().toString()),
+      events.map((event) => new Date(event.date).getFullYear().toString())
     ),
   ];
   const availableMonths = [
     ...new Set(
       events.map((event) =>
-        (new Date(event.date).getMonth() + 1).toString().padStart(2, '0'),
-      ),
-    ),
+        (new Date(event.date).getMonth() + 1).toString().padStart(2, '0')
+      )
   ].sort();
 
   const handleCardClick = (event) => {
@@ -194,12 +187,13 @@ const UpcomingEvents = () => {
   const navigateEvents = (direction) => {
     if (direction === 'prev') {
       setSelectedEventIndex(
-        (prev) => (prev - 1 + filteredEvents.length) % filteredEvents.length,
+        (prev) => (prev - 1 + filteredEvents.length) % filteredEvents.length
       );
     } else {
       setSelectedEventIndex((prev) => (prev + 1) % filteredEvents.length);
     }
   };
+
   const capitalize = (str) => {
     if (!str) return '';
     return str
@@ -214,9 +208,7 @@ const UpcomingEvents = () => {
 
   const shouldDisableNext = () => {
     if (!swiperRef.current) return false;
-
     const slidesPerView = swiperRef.current.params.slidesPerView;
-
     return swiperState.activeIndex >= swiperState.totalSlides - slidesPerView;
   };
 
@@ -281,7 +273,7 @@ const UpcomingEvents = () => {
 
       {filteredEvents.length > 0 ? (
         <div className="w-full max-w-6xl px-4 relative">
-          {/* Add custom navigation arrows */}
+          {/* Navigation arrows */}
           <button
             onClick={() => swiperRef.current?.slidePrev()}
             disabled={shouldDisablePrev()}
@@ -364,7 +356,7 @@ const UpcomingEvents = () => {
               return (
                 <SwiperSlide key={event._id}>
                   <div
-                    className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer h-full"
+                    className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer h-full flex flex-col"
                     onClick={() => handleCardClick(event)}
                   >
                     <div className="relative w-full h-48 sm:h-56">
@@ -380,7 +372,7 @@ const UpcomingEvents = () => {
                       />
                     </div>
 
-                    <div className="p-4">
+                    <div className="p-4 flex-grow">
                       <div className="flex justify-between items-center mb-3">
                         <span
                           className={`px-3 py-2 text-xs md:text-sm mb-3 inline-block font-bold rounded-xl shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}
@@ -422,11 +414,36 @@ const UpcomingEvents = () => {
                         dangerouslySetInnerHTML={{
                           __html: DOMPurify.sanitize(event.description).replace(
                             /<a /g,
-                            '<a class="text-blue-600 hover:underline" ',
+                            '<a class="text-blue-600 hover:underline" '
                           ),
                         }}
                       />
                     </div>
+
+                    {/* Register Button - only show for upcoming/happening events */}
+                    {(event.status === 'upcoming' || event.status === 'happening') && (
+                      <div className="p-4 pt-0" onClick={(e) => e.stopPropagation()}>
+                        <button
+                          className="w-full mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedEventIndex(index);
+                            setShowForm(true);
+                          }}
+                        >
+                          Register Now
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Show different text for completed events */}
+                    {event.status === 'completed' && (
+                      <div className="p-4 pt-0">
+                        <div className="w-full mt-4 px-4 py-2 bg-gray-400 text-white font-semibold rounded-lg text-center">
+                          Event Completed
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </SwiperSlide>
               );
@@ -449,11 +466,11 @@ const UpcomingEvents = () => {
           </button>
         </div>
       )}
+
       {/* Event Detail Modal */}
       {showDetailModal && filteredEvents[selectedEventIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
-            {/* Navigation Arrows */}
             <button
               onClick={() => navigateEvents('prev')}
               className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors cursor-pointer disabled:hidden "
@@ -471,7 +488,6 @@ const UpcomingEvents = () => {
             </button>
 
             <div className="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
-              {/* {capitalize(event.title)} */}
               <h2 className="text-2xl font-bold text-[#2d335d]">
                 {capitalize(filteredEvents[selectedEventIndex].title)}
               </h2>
@@ -514,15 +530,12 @@ const UpcomingEvents = () => {
                     {filteredEvents[selectedEventIndex].location}
                   </span>
                 </div>
-
                 <div
-                  className={`px-3 py-2 flex text-center rounded-full ${
-                    getStatusStyles(filteredEvents[selectedEventIndex].status)
+                  className={`px-3 py-2 flex text-center rounded-full ${getStatusStyles(filteredEvents[selectedEventIndex].status)
                       .bgColor
-                  } ${
-                    getStatusStyles(filteredEvents[selectedEventIndex].status)
+                    } ${getStatusStyles(filteredEvents[selectedEventIndex].status)
                       .textColor
-                  }`}
+                    }`}
                 >
                   {
                     getStatusStyles(filteredEvents[selectedEventIndex].status)
@@ -538,13 +551,7 @@ const UpcomingEvents = () => {
                   <ShareButton
                     title={title}
                     url={baseURL}
-                    className={`px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${
-                      getStatusStyles(filteredEvents[selectedEventIndex].status)
-                        .bgColor
-                    } ${
-                      getStatusStyles(filteredEvents[selectedEventIndex].status)
-                        .textColor
-                    }`}
+                    className={`px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-orange text-white`}
                   />
                 </div>
               </div>
@@ -556,23 +563,23 @@ const UpcomingEvents = () => {
                     filteredEvents[selectedEventIndex].description,
                   ).replace(
                     /<a /g,
-                    '<a class="text-blue-600 hover:underline" ',
+                    '<a class="text-blue-600 hover:underline" '
                   ),
                 }}
               />
 
               {(filteredEvents[selectedEventIndex].status === 'upcoming' ||
                 filteredEvents[selectedEventIndex].status === 'happening') && (
-                <button
-                  onClick={() => {
-                    setShowForm(true);
-                    setShowDetailModal(false);
-                  }}
-                  className="mt-6 px-6 py-3 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
-                >
-                  Register Now
-                </button>
-              )}
+                  <button
+                    onClick={() => {
+                      setShowForm(true);
+                      setShowDetailModal(false);
+                    }}
+                    className="mt-6 px-6 py-3 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
+                  >
+                    Register Now
+                  </button>
+                )}
             </div>
           </div>
         </div>
