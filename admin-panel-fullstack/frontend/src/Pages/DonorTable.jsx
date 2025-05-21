@@ -1,6 +1,4 @@
-const DonorTable = ({ donor, loading }) => {
-  console.log("donor ", donor);
-  
+const DonorTable = ({ donor, loading }) => {  
   if (loading) {
     return (
       <div className="flex justify-center items-center p-8">

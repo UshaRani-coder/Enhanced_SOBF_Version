@@ -241,7 +241,6 @@ const getAllDonations = async (req, res) => {
 const getDonationById = async (req, res) => {
   try {
     const { id } = req.params;
-
     if (!isValidObjectId(id)) {
       return res.status(400).json({
         success: false,
@@ -250,7 +249,6 @@ const getDonationById = async (req, res) => {
     }
 
     const donation = await Donation.findById(id).populate('donor', 'fullName email phone');
-
     if (!donation) {
       return res.status(404).json({
         success: false,
@@ -312,7 +310,6 @@ const getDonationsByDonor = async (req, res) => {
 const sendTaxCertificate = async (req, res) => {
   try {
     const { donationId } = req.params;
-
     if (!isValidObjectId(donationId)) {
       return res.status(400).json({
         success: false,
@@ -327,10 +324,6 @@ const sendTaxCertificate = async (req, res) => {
         message: "Donation not found"
       });
     }
-
-    // In a real implementation, you would generate a PDF certificate here
-    // For now, we'll just send an email with a thank you message
-
     const mailOptions = {
       from: process.env.EMAIL_FROM || "donations@sobf.in",
       to: donation.donor.email,
@@ -369,7 +362,6 @@ const sendTaxCertificate = async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-
     res.status(200).json({
       success: true,
       message: "Tax certificate email sent successfully",

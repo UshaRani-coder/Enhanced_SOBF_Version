@@ -93,7 +93,6 @@ const updateTeam = async (req, res) => {
 
     // Append the full image URL
     updatedTeam.image =  process.env.BASE_URL + '/uploads/team-member/' + updatedTeam.image;
-
     return res.status(200).json({ success: true, updatedTeam });
   } catch (error) {
     logger.error("Something went wrong while update team member.")

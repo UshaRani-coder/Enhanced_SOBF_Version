@@ -81,7 +81,6 @@ router.post(
   '/create-post',
   uploadRecentActivities.fields([
     { name: 'images', maxCount: 5 },
-    { name: 'videos', maxCount: 5 },
   ]),
   createPost,
 );
@@ -91,7 +90,6 @@ router.put(
   '/update/:id',
   uploadRecentActivities.fields([
     { name: 'images', maxCount: 5 },
-    { name: 'videos', maxCount: 5 },
   ]),
   updatePost,
 );
@@ -150,7 +148,6 @@ router.post(
   '/create-newspost',
   uploadNewsBulletine.fields([
     { name: 'images', maxCount: 5 },
-    { name: 'videos', maxCount: 5 },
   ]),
   createNewsBulletine,
 );
@@ -160,7 +157,6 @@ router.put(
   '/update-news-post/:id',
   uploadNewsBulletine.fields([
     { name: 'images', maxCount: 5 },
-    { name: 'videos', maxCount: 5 },
   ]),
   updateNewsBulletine,
 );

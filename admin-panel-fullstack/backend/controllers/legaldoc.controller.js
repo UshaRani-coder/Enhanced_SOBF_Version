@@ -33,7 +33,6 @@ const getLegalDocument = async (req, res) => {
 const createLegalDocument = async (req, res) => {
   try {
     const { title, description } = req.body;
-    console.log('req.file', req.file);
     if (!title || !description) {
       return res.status(400).json({
         success: false,

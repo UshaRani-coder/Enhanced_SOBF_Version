@@ -98,7 +98,7 @@ async function sendVolunteerConfirmationEmail(volunteer) {
     };
 
     await transporter.sendMail(mailOptions);
-    logger.info(`Confirmation email sent to ${volunteer.email}`);
+    logger.info(`Confirmation email sent to ${volunteer?.email}`);
   } catch (error) {
     logger.error('Error sending volunteer confirmation email:', error);
     throw error;

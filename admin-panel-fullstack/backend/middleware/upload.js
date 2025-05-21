@@ -11,10 +11,8 @@ cloudinary.config({
 //? Middleware to upload  files (images or videos) like recent activites or  news bulletines
 const uploadMultipleFile = asyncHandler(async (req, res, next) => {
   try {
-    console.log('req.files', req.files);
     if (!req.files) return next();
     const images = req.files.images || req.files['images'] || [];
-    const videos = req.files.videos || req.files['videos'] || [];
 
     //? Upload images to Cloudinary
     if (images.length > 0) {
@@ -26,18 +24,6 @@ const uploadMultipleFile = asyncHandler(async (req, res, next) => {
         imageURLs.push(result.secure_url);
       }
       req.images = imageURLs;
-    }
-
-    //? Upload videos to Cloudinary
-    if (videos.length > 0) {
-      const videoURLs = [];
-      for (const video of videos) {
-        const result = await cloudinary.uploader.upload(video.path, {
-          resource_type: 'video',
-        });
-        videoURLs.push(result.secure_url);
-      }
-      req.videos = videoURLs;
     }
     next();
   } catch (error) {
@@ -69,7 +55,6 @@ const uploadSingleFile = asyncHandler(async (req, res, next) => {
 const uploadSinglePDFfile = asyncHandler(async (req, res, next) => {
   try {
     if (!req.file) return next();
-
     // Upload file to Cloudinary
     const result = await cloudinary.uploader.upload(file.path, {
       resource_type: 'raw',
@@ -79,7 +64,6 @@ const uploadSinglePDFfile = asyncHandler(async (req, res, next) => {
     // Attach Cloudinary URL and public ID to the request object
     req.fileUrl = result.secure_url;
     req.publicId = result.public_id;
-
     // Clean up the local file after upload
     fs.unlinkSync(file.path);
     next();

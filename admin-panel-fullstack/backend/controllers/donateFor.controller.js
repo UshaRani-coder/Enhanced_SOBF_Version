@@ -5,7 +5,6 @@ const addDonationCategory = async (req, res) => {
   try {
     // Get text fields from body
     const { title, description, raised, goal } = req.body;
-    console.log("req.body", req.body);    
     // Get file details
     const filename = req?.file?.filename;
     if (req.file.filename === undefined) {
@@ -24,9 +23,8 @@ const addDonationCategory = async (req, res) => {
     });
 
     const savedCategory = await newCategory.save();
-
-    // savedCategory.image = "https://backend.sobf.in" + '/uploads/gallery/' + savedCategory.image;
-    savedCategory.image = "http://localhost:5000" + '/uploads/donateFor/' + savedCategory.image;
+    savedCategory.image = "https://backend.sobf.in" + '/uploads/gallery/' + savedCategory.image;
+    // savedCategory.image = "http://localhost:5000" + '/uploads/donateFor/' + savedCategory.image;
     res.status(201).json({
       success: true,
       message: 'Post has been created successfully',
@@ -51,9 +49,9 @@ const getAllDonationCategories = async (req, res) => {
         // Create a new object with the updated image URL
         return {
           ...category.toObject(),
-          // image: "https://backend.sobf.in" + '/uploads/donateFor/' + category.image
+          image: "https://backend.sobf.in" + '/uploads/donateFor/' + category.image
           // For local testing:
-          image: "http://localhost:5000" + '/uploads/donateFor/' + category.image
+          // image: "http://localhost:5000" + '/uploads/donateFor/' + category.image
         };
       });
 
@@ -95,9 +93,9 @@ const getDonationCategoryById = async (req, res) => {
     // Update the image URL
     const processedCategory = {
       ...category.toObject(),
-      // image: "https://backend.sobf.in" + '/uploads/donateFor/' + category.image
+      image: "https://backend.sobf.in" + '/uploads/donateFor/' + category.image
       // For local testing:
-      image: "http://localhost:5000" + '/uploads/donateFor/' + category.image
+      // image: "http://localhost:5000" + '/uploads/donateFor/' + category.image
     };
 
     res.status(200).json({
@@ -176,9 +174,9 @@ const addUserToCategory = async (req, res) => {
     // Update the image URL in the response
     const processedCategory = {
       ...updatedCategory.toObject(),
-      // image: "https://backend.sobf.in" + '/uploads/donate/' + updatedCategory.image
+      image: "https://backend.sobf.in" + '/uploads/donate/' + updatedCategory.image
       // For local testing:
-      image: "http://localhost:5000" + '/uploads/donate/' + updatedCategory.image
+      // image: "http://localhost:5000" + '/uploads/donate/' + updatedCategory.image
     };
 
     res.status(200).json({

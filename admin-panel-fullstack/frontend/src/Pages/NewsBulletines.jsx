@@ -28,7 +28,6 @@ const PostPage = () => {
     title: '',
     description: '',
     images: [],
-    videos: [],
     date: '',
   });
 
@@ -95,8 +94,8 @@ const PostPage = () => {
       return false;
     }
 
-    if (formData.images.length === 0 && formData.videos.length === 0) {
-      toast.error('Either images or videos are required.');
+    if (formData.images.length === 0) {
+      toast.error('Images are required.');
       return false;
     }
 
@@ -122,20 +121,6 @@ const PostPage = () => {
         }
       }
     }
-
-    // Validate videos
-    const validVideoTypes = ['video/mp4', 'video/mkv'];
-    if (formData.videos.length > 0) {
-      for (let i = 0; i < formData.videos.length; i++) {
-        if (!validVideoTypes.includes(formData.videos[i].type)) {
-          toast.error(
-            'Only valid video files (MP4, MKV) are allowed in the Videos section.',
-          );
-          return false;
-        }
-      }
-    }
-
     return true;
   };
 
@@ -158,17 +143,9 @@ const PostPage = () => {
     formDataToSend.append('description', formData.description);
     formDataToSend.append('date', formData.date);
 
-    if (formData.images.length > 0) {
-      formData.images.forEach(image => {
-        formDataToSend.append('images', image);
-      });
-    }
-
-    if (formData.videos.length > 0) {
-      formData.videos.forEach(video => {
-        formDataToSend.append('videos', video);
-      });
-    }
+    formData.images.forEach(image => {
+      formDataToSend.append('images', image);
+    });
 
     setIsLoading(true);
     dispatch(addBulletine(formDataToSend))
@@ -191,18 +168,9 @@ const PostPage = () => {
     updatedData.append('title', formData.title);
     updatedData.append('description', formData.description);
     updatedData.append('date', formData.date);
-
-    if (formData.images.length > 0) {
-      formData.images.forEach(image => {
-        updatedData.append('images', image);
-      });
-    }
-
-    if (formData.videos.length > 0) {
-      formData.videos.forEach(video => {
-        updatedData.append('videos', video);
-      });
-    }
+    formData.images.forEach(image => {
+      updatedData.append('images', image);
+    });
 
     setIsLoading(true);
     dispatch(updateBulletine({ id: currentPost?._id, updatedData }))
@@ -300,11 +268,6 @@ const PostPage = () => {
         image.src = event.target.result;
       };
       reader.readAsDataURL(file);
-    } else if (name === 'videos') {
-      setFormData(prev => ({
-        ...prev,
-        videos: [...prev.videos, ...Array.from(files)]
-      }));
     }
   };
 
@@ -313,7 +276,6 @@ const PostPage = () => {
       title: '',
       description: '',
       images: [],
-      videos: [],
       date: '',
     });
     setPreviewImage(null);
@@ -332,11 +294,9 @@ const PostPage = () => {
       description: post?.description || '',
       date: post?.date || '',
       images: post?.images || [],
-      videos: post?.videos || []
     });
     setPreviewImage(post?.images?.[0]);
   };
-
 
   return (
     <div className="container mx-auto">
@@ -367,7 +327,6 @@ const PostPage = () => {
             </div>
 
             {/* Description */}
-
             <p
               className="mb-2"
               dangerouslySetInnerHTML={{
@@ -400,22 +359,12 @@ const PostPage = () => {
                   key={index}
                   src={image}
                   alt={`Post Image ${index + 1}`}
-                  className="w-full  object-cover rounded mb-[20px]"
+                  className="w-full object-cover rounded mb-[20px]"
                 />
               ))
             ) : (
               <p className="text-gray-500 italic">No images available</p>
             )}
-
-            {/* Videos */}
-            {expandedItem?.videos?.length > 0
-              ? expandedItem?.videos?.map((video, index) => (
-                <video key={index} controls className="w-full rounded mb-4">
-                  <source src={video} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              ))
-              : null}
           </div>
         </div>
       )}
@@ -441,28 +390,23 @@ const PostPage = () => {
               <div className="mb-4">
                 <style>
                   {`.ql-container {
-      
-      padding: 8px;
-      min-height: 100px;
-    }
-
-    .ql-editor {
-      font-size: 1rem;  /* Same as input fields (16px) */
-      font-weight: normal;
-   
-      line-height: 1.5;
-      letter-spacing:0.5px;
-      padding: 10px; /* Ensure consistent padding */
-    }
-
-    .ql-toolbar {
-      border-radius: 8px 8px 0 0;
-      background-color: #f9fafb; /* Light gray */
-    }
-                                    .ql-editor.ql-blank::before {
-                                    font-style: normal !important;
-                                   }
-                                `}
+                    padding: 8px;
+                    min-height: 100px;
+                  }
+                  .ql-editor {
+                    font-size: 1rem;
+                    font-weight: normal;
+                    line-height: 1.5;
+                    letter-spacing:0.5px;
+                    padding: 10px;
+                  }
+                  .ql-toolbar {
+                    border-radius: 8px 8px 0 0;
+                    background-color: #f9fafb;
+                  }
+                  .ql-editor.ql-blank::before {
+                    font-style: normal !important;
+                  }`}
                 </style>
                 <label className="block font-semibold mb-2">Description</label>
                 <ReactQuill
@@ -549,17 +493,6 @@ const PostPage = () => {
                     </div>
                   ))}
               </div>
-              <div className="mb-4">
-                <label className="block font-semibold mb-2">Videos</label>
-                <input
-                  type="file"
-                  name="videos"
-                  accept="videos/*"
-                  multiple
-                  onChange={handleFileChange}
-                  className="w-full"
-                />
-              </div>
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
@@ -594,7 +527,7 @@ const PostPage = () => {
         </div>
       )}
 
-      {/* rendering all posts  */}
+      {/* rendering all posts */}
       <div className="mt-6 flex flex-wrap justify-center gap-4">
         {bulletines && bulletines?.length > 0 ? (
           bulletines?.map((bulletin, index) => (
@@ -603,19 +536,11 @@ const PostPage = () => {
               className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
               onClick={() => handleExpandPost(bulletin)}
             >
-              {/* Conditional rendering for media */}
-              {!bulletin?.videos ? (
-                <video controls className="w-full rounded mb-4">
-                  <source src={bulletin?.videos} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              ) : (
-                <img
-                  src={bulletin?.images[0]}
-                  alt="Post Image"
-                  className="w-full h-[200px] object-cover rounded"
-                />
-              )}
+              <img
+                src={bulletin?.images[0]}
+                alt="Post Image"
+                className="w-full h-[200px] object-cover rounded"
+              />
               <div className="flex flex-col items-start w-full">
                 {/* Date */}
                 <div className="flex items-center justify-start gap-x-1 mt-2 w-full">
@@ -639,7 +564,7 @@ const PostPage = () => {
                 </h3>
                 {/* Description */}
                 <p
-                  className="mt-2  line-clamp-4"
+                  className="mt-2 line-clamp-4"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(bulletin?.description).replace(
                       /<a /g,

@@ -6,6 +6,9 @@ const fs = require('fs');
 // Helper Function: Validate ID format
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
+const baseURL = "https://backend.sobf.in";
+// const baseURL = "http://localhost:5000";
+
 // CREATE POST
 const createEventPost = async (req, res) => {
   try {
@@ -59,8 +62,8 @@ const createEventPost = async (req, res) => {
 
     // Format the image URL before sending response
     const formattedPost = post.toObject();
-    // formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
-    formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
+    formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
+    // formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
 
     res.status(201).json({
       success: true,
@@ -87,17 +90,12 @@ const getEventPosts = async (req, res) => {
         select: "username email",
       })
       .sort({ date: 1 }); // Sort by date ascending
-
-    // const baseURL = "https://backend.sobf.in";
-    const baseURL = "http://localhost:5000";
-
     // Format image URLs
     const formattedPosts = posts.map(post => {
       const postObj = post.toObject();
       postObj.image = baseURL + '/uploads/upcoming-events/' + postObj.image;
       return postObj;
     });
-
     res.status(200).json({
       success: true,
       message: 'Successfully fetched all upcoming events posts',
@@ -117,20 +115,15 @@ const getEventPosts = async (req, res) => {
 const getEventPostById = async (req, res) => {
   try {
     const { id } = req.params;
-
     if (!isValidObjectId(id)) {
       return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
-
     const post = await upcomingEvents.findById(id)
       .populate('registeredUsers', 'username email');
 
     if (!post) {
       return res.status(404).json({ success: false, message: 'Upcoming events post not found' });
     }
-
-    // const baseURL = "https://backend.sobf.in";
-    const baseURL = "http://localhost:5000";
     const formattedPost = post.toObject();
     formattedPost.image = baseURL + '/uploads/upcoming-events/' + formattedPost.image;
 
@@ -157,7 +150,6 @@ const updateEventPost = async (req, res) => {
     if (!isValidObjectId(id)) {
       return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
-
     const existingPost = await upcomingEvents.findById(id);
     if (!existingPost) {
       return res.status(404).json({ success: false, message: 'Upcoming event post not found' });
@@ -191,8 +183,8 @@ const updateEventPost = async (req, res) => {
 
     // Format the image URL before sending response
     const formattedPost = updatedPost.toObject();
-    // formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
-    formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
+    formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
+    // formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
 
     res.status(200).json({
       success: true,
@@ -239,8 +231,8 @@ const updateEventStatus = async (req, res) => {
 
     // Format the image URL before sending response
     const formattedPost = updatedPost.toObject();
-    // formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
-    formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
+    formattedPost.image = "https://backend.sobf.in" + '/uploads/upcoming-events/' + formattedPost.image;
+    // formattedPost.image = "http://localhost:5000" + '/uploads/upcoming-events/' + formattedPost.image;
 
     res.status(200).json({
       success: true,
@@ -261,11 +253,9 @@ const updateEventStatus = async (req, res) => {
 const deleteEventPost = async (req, res) => {
   try {
     const { id } = req.params;
-
     if (!isValidObjectId(id)) {
       return res.status(400).json({ success: false, message: 'Invalid post ID' });
     }
-
     const post = await upcomingEvents.findByIdAndDelete(id);
     if (!post) {
       return res.status(404).json({ success: false, message: 'Upcoming events Post not found' });

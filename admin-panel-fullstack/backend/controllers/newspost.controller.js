@@ -2,10 +2,13 @@ const { default: mongoose } = require('mongoose');
 const bulletineModal = require('../models/newspost.model');
 const logger = require('../logger');
 
+const baseURL = "https://backend.sobf.in"
+// const baseURL = 'http://localhost:5000'
+
+
 //! CREATE
 const createNewsBulletine = async (req, res) => {
   try {
-    let videosArr = [];
     let imageArr = [];
     const { title, description, date } = req.body;
     if (!title || title.trim().length < 3) {
@@ -29,21 +32,12 @@ const createNewsBulletine = async (req, res) => {
         imageArr.push(image.filename);
       }
     }
-    // for videos
-    const videos = req.files.videos || [];
-    if (videos.length > 0) {
-      for (let index = 0; index < videos.length; index++) {
-        const video = videos[index];
-        videosArr.push(video.filename);
-      }
-    }
     // Save post to database
     const post = new bulletineModal({
       title,
       description,
       date,
       images: imageArr,
-      videos: videosArr,
     });
     await post.save();
     res
@@ -64,25 +58,15 @@ const createNewsBulletine = async (req, res) => {
 const getNewsBulletine = async (req, res) => {
   try {
     const posts = await bulletineModal.find({});
-    const baseURL = "https://backend.sobf.in" || 'http://localhost:5000';
-    // const baseURL = 'http://localhost:5000'|| "https://backend.sobf.in";
     if (posts.length > 0) {
       posts.forEach((post) => {
-        // Format images and videos URLs
         if (Array.isArray(post.images)) {
           post.images = post.images.map((image) =>
             image ? `${baseURL}/uploads/news-bulletine/${image}` : image,
           );
         }
-
-        if (Array.isArray(post.videos)) {
-          post.videos = post.videos.map((video) =>
-            video ? `${baseURL}/uploads/news-bulletine/${video}` : video,
-          );
-        }
       });
     }
-
     res.status(200).json({
       success: true,
       message: 'Successfully fetched all the news/bulletin posts.',
@@ -101,14 +85,12 @@ const getNewsBulletine = async (req, res) => {
 const getNewsBulletineById = async (req, res) => {
   try {
     const { id } = req.params;
-
     // Validate ID format
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
         .status(400)
         .json({ success: false, message: 'Invalid post ID' });
     }
-
     // Find post by ID
     const post = await bulletineModal.findById(id);
     if (!post) {
@@ -116,19 +98,10 @@ const getNewsBulletineById = async (req, res) => {
         .status(404)
         .json({ success: false, message: 'Post not found' });
     }
-
-    const baseURL = "https://backend.sobf.in";
-    // const baseURL = 'http://localhost:5000';
     // Format images and videos URLs
     if (Array.isArray(post.images)) {
       post.images = post.images.map((image) =>
         image ? `${baseURL}/uploads/news-bulletine/${image}` : image,
-      );
-    }
-
-    if (Array.isArray(post.videos)) {
-      post.videos = post.videos.map((video) =>
-        video ? `${baseURL}/uploads/news-bulletine/${video}` : video,
       );
     }
     res.status(200).json({
@@ -149,7 +122,6 @@ const getNewsBulletineById = async (req, res) => {
 const updateNewsBulletine = async (req, res) => {
   try {
     const { id } = req.params;
-    // Fetch the existing post
     const existingPost = await bulletineModal.findById(id);
     if (!existingPost) {
       return res
@@ -181,9 +153,7 @@ const updateNewsBulletine = async (req, res) => {
       title: title || existingPost.title,
       description: description || existingPost.description,
       images: existingPost.images,
-      videos: existingPost.videos,
     };
-
     // Handle updated images if provided
     const images = req.files?.images || [];
     if (images.length > 0) {
@@ -193,17 +163,6 @@ const updateNewsBulletine = async (req, res) => {
       }
       updates.images = updatedImages;
     }
-
-    // Handle updated videos if provided
-    const videos = req.files?.videos || [];
-    if (videos.length > 0) {
-      const updatedVideos = [];
-      for (let index = 0; index < videos.length; index++) {
-        updatedVideos.push(videos[index].filename);
-      }
-      updates.videos = updatedVideos;
-    }
-
     // Update the post
     const updatedPost = await bulletineModal.findByIdAndUpdate(id, updates, {
       new: true,
@@ -238,7 +197,6 @@ const deleteNewsBulletine = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid post ID' });
     }
-
     const post = await bulletineModal.findByIdAndDelete(id);
     if (!post) {
       return res.status(404).json({ error: 'Post not found' });

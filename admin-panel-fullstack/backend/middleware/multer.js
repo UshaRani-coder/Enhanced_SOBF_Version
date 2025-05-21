@@ -2,9 +2,6 @@ const multer = require('multer');
 const path = require('path');
 const { createDirectoryIfDoesntExist } = require('../helper/default');
 
-// const uploadDir = path.join(__dirname, 'uploads');
-// const uploadDir = path.join(process.cwd(), 'uploads');
-
 //? this is for common uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -19,6 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+
 //!  1. for team members
 const storageTeamMember = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -31,6 +29,7 @@ const storageTeamMember = multer.diskStorage({
   },
 });
 const uploadTeamMember = multer({ storage: storageTeamMember });
+
 
 //! 2. for hero banner activites ..
 const heroBannerStorage = multer.diskStorage({
@@ -46,6 +45,8 @@ const heroBannerStorage = multer.diskStorage({
 
 const uploadHeroBanner = multer({ storage: heroBannerStorage });
 
+
+
 //! 3.  for recent activites ..
 const storageRecentActivities = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -59,6 +60,8 @@ const storageRecentActivities = multer.diskStorage({
 });
 
 const uploadRecentActivities = multer({ storage: storageRecentActivities });
+
+
 
 //! 4. for news bulletine ..
 const storageNewsBulletine = multer.diskStorage({
@@ -74,6 +77,8 @@ const storageNewsBulletine = multer.diskStorage({
 
 const uploadNewsBulletine = multer({ storage: storageNewsBulletine });
 
+
+
 //!  5.  for legal documents ..
 const storageLegalDoc = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -86,6 +91,8 @@ const storageLegalDoc = multer.diskStorage({
   },
 });
 const uploadlegalDocuments = multer({ storage: storageLegalDoc });
+
+
 
 //!  6.  for our services  ..
 const storageOurServices = multer.diskStorage({
@@ -144,8 +151,6 @@ const uploadUpcomingEvent = multer({ storage: storageUpcomingEvent });
 // ! 9. DonateFor 
 const storageDonateFor = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log('req', req);
-    console.log('file', file);
     const uploadDir = path.join(process.cwd(), `./uploads/donateFor`);
     createDirectoryIfDoesntExist(uploadDir);
     cb(null, uploadDir);

@@ -21,6 +21,7 @@ const DonateFor = () => {
     goal: "",
   });
   const [errors, setErrors] = useState({});
+  const [reloadTrigger, setReloadTrigger] = useState(false); // New state for reload trigger
   const itemsPerPage = 5;
 
   // Accepted dimensions with tolerance (±10 pixels)
@@ -39,7 +40,7 @@ const DonateFor = () => {
 
   useEffect(() => {
     dispatch(fetchAllDonations());
-  }, [dispatch]);
+  }, [dispatch, reloadTrigger]); // Add reloadTrigger to dependency array
 
   useEffect(() => {
     let filtered = [...(categories || [])];
@@ -66,9 +67,6 @@ const DonateFor = () => {
     setDisplayData(filtered);
     setCurrentPage(1);
   }, [categories, searchTerm, sortConfig]);
-
-
-
 
   const validateForm = () => {
     const newErrors = {};
@@ -110,6 +108,7 @@ const DonateFor = () => {
         toast.success('Post added successfully!');
         setIsModalOpen(false);
         // Reset form
+        await dispatch(fetchAllDonations());
         setFormData({
           title: "",
           description: "",
@@ -119,8 +118,8 @@ const DonateFor = () => {
           goal: "",
         });
         setErrors({});
-        // Refresh data
-        dispatch(fetchAllDonations());
+        // Trigger reload by toggling the reloadTrigger state
+        setReloadTrigger(prev => !prev);
       } else {
         throw resultAction.error;
       }

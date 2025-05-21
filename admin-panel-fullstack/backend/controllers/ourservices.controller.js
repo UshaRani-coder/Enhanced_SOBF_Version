@@ -2,6 +2,9 @@ const { default: mongoose } = require('mongoose');
 const Service = require('../models/ourservices.model');
 const logger = require('../logger');
 
+const baseURL = "https://backend.sobf.in";
+// const baseURL = "http://localhost:5000";
+
 // Create a new service
 const createService = async (req, res) => {
   try {
@@ -79,7 +82,6 @@ const updateService = async (req, res) => {
 
     // Fetch the existing service from the database
     const existingService = await Service.findById(id);
-
     if (!existingService) {
       return res
         .status(404)
@@ -89,13 +91,11 @@ const updateService = async (req, res) => {
     // Handle images (preserve existing images and add new ones)
     const images = req.files.images || [];
     if (images.length > 0) {
-      // Add the new images to the array
       for (let index = 0; index < images.length; index++) {
         const image = images[index];
         imageArr.push(image.filename);
       }
     } else {
-      // If no new images, keep the existing ones
       imageArr = existingService.images;
     }
 
@@ -134,8 +134,6 @@ const updateService = async (req, res) => {
 
 // ! Get all services
 const getAllServices = async (req, res) => {
-  const baseURL = "https://backend.sobf.in";
-  // const baseURL = "http://localhost:5000";
   try {
     const services = await Service.find({});
     if (services.length > 0) {

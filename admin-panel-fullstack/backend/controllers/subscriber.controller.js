@@ -3,7 +3,6 @@ const subscriberModel = require('../models/subscriber.model');
 const postSubscriber = async (req, res) => {
   try {
     const { email, pan } = req.body;
-
     // Check for existing records manually for better error messages
     const existingEmail = await subscriberModel.findOne({ email });
     if (existingEmail) {
@@ -50,11 +49,9 @@ const postSubscriber = async (req, res) => {
 };
 
 
-
 const getSubscriber = async (req, res) => {
   try {
     const subscribers = await subscriberModel.find({});
-    console.log("subscribers", subscribers);
     res.status(200).json({
       success: true,
       count: subscribers.length,

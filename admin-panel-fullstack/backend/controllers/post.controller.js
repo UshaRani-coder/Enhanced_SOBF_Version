@@ -5,6 +5,9 @@ const logger = require('../logger');
 // Helper Function: Validate ID format
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
+const baseURL = "https://backend.sobf.in";
+// const baseURL = "http://localhost:5000";
+
 // GET ALL POSTS
 const getPosts = async (req, res) => {
   try {
@@ -18,13 +21,6 @@ const getPosts = async (req, res) => {
         if (post.images && Array.isArray(post.images)) {
           post.images = post.images.map((image) =>
             image ? `${baseURL}/uploads/recent-activities/${image}` : image,
-          );
-        }
-
-        // Check and update the videos array with full URLs
-        if (post.videos && Array.isArray(post.videos)) {
-          post.videos = post.videos.map((video) =>
-            video ? `${baseURL}/uploads/recent-activities/${video}` : video,
           );
         }
       }
@@ -47,7 +43,6 @@ const getPosts = async (req, res) => {
 const getPostById = async (req, res) => {
   try {
     const { id } = req.params;
-
     // Validate ID format
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
@@ -62,22 +57,12 @@ const getPostById = async (req, res) => {
         .status(404)
         .json({ success: false, message: 'Post not found' });
     }
-
-    const baseURL = process.env.BASE_URL;
-
     // Format images and videos URLs
     if (Array.isArray(post.images)) {
       post.images = post.images.map((image) =>
         image ? `${baseURL}/uploads/recent-activities/${image}` : image,
       );
     }
-
-    if (Array.isArray(post.videos)) {
-      post.videos = post.videos.map((video) =>
-        video ? `${baseURL}/uploads/recent-activities/${video}` : video,
-      );
-    }
-
     res.status(200).json({
       success: true,
       message: 'Successfully fetched the news/bulletin post.',
@@ -95,7 +80,6 @@ const getPostById = async (req, res) => {
 // CREATE POST
 const createPost = async (req, res) => {
   try {
-    let videosArr = [];
     let imageArr = [];
     const { title, description, date } = req.body;
     if (!title || title.trim().length < 3) {
@@ -113,18 +97,10 @@ const createPost = async (req, res) => {
     }
     // for images
     const images = req.files.images || [];
-    if (images.length > 0) {
+    if (images?.length > 0) {
       for (let index = 0; index < images.length; index++) {
         const image = images[index];
         imageArr.push(image.filename);
-      }
-    }
-    // for videos
-    const videos = req.files.videos || [];
-    if (videos.length > 0) {
-      for (let index = 0; index < videos.length; index++) {
-        const video = videos[index];
-        videosArr.push(video.filename);
       }
     }
     // Save post to database
@@ -133,7 +109,6 @@ const createPost = async (req, res) => {
       description,
       date,
       images: imageArr,
-      videos: videosArr,
     });
     await post.save();
     res
@@ -197,7 +172,6 @@ const updatePost = async (req, res) => {
       title: title || existingPost.title,
       description: description || existingPost.description,
       images: existingPost.images,
-      videos: existingPost.videos,
       date: date || existingPost.date,
     };
 
@@ -210,17 +184,6 @@ const updatePost = async (req, res) => {
       }
       updates.images = updatedImages;
     }
-
-    // Handle updated videos if provided
-    const videos = req.files?.videos || [];
-    if (videos.length > 0) {
-      const updatedVideos = [];
-      for (let index = 0; index < videos.length; index++) {
-        updatedVideos.push(videos[index].filename);
-      }
-      updates.videos = updatedVideos;
-    }
-
     // Update the post
     const updatedPost = await PostModel.findByIdAndUpdate(id, updates, {
       new: true,
@@ -264,7 +227,6 @@ const deletePost = async (req, res) => {
         .status(404)
         .json({ success: false, message: 'Post not found' });
     }
-
     res
       .status(200)
       .json({ success: true, message: 'Post deleted successfully' });

@@ -19,8 +19,8 @@ require('dotenv').config({
 });
 
 
-console.log(`Your env is ${process.env.NODE_ENV}`);
-console.log(`Your PORT is ${process.env.PORT}`);
+// console.log(`Your env is ${process.env.NODE_ENV}`);
+// console.log(`Your PORT is ${process.env.PORT}`);
 
 const PORT = process.env.PORT || 5000;
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdEdit, MdDelete, MdClose } from 'react-icons/md';
-import { addPost, getPosts, removePost, updatePost, } from '../Reducers/RecentActivityPostPageSlice';
+import { addPost, getPosts, removePost, updatePost } from '../Reducers/RecentActivityPostPageSlice';
 import DOMPurify from 'dompurify';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
@@ -24,7 +24,6 @@ const RecentActivityPostPage = () => {
     title: '',
     description: '',
     images: [],
-    videos: [],
     date: '',
   });
 
@@ -43,9 +42,9 @@ const RecentActivityPostPage = () => {
           { width: 1200, height: 453 },
           { width: 1200, height: 900 },
           { width: 1280, height: 597 },
-          { width: 1280, height: 960 },  // 4:3 ratio
-          { width: 4000, height: 1868 }, // ~2.14:1 ratio,
-          { width: 4080, height: 1904 }, // 16:9 ratio
+          { width: 1280, height: 960 },
+          { width: 4000, height: 1868 },
+          { width: 4080, height: 1904 },
           { width: 2048, height: 1536 },
         ];
 
@@ -68,6 +67,7 @@ const RecentActivityPostPage = () => {
       img.src = URL.createObjectURL(file);
     });
   };
+
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getPosts());
@@ -90,9 +90,8 @@ const RecentActivityPostPage = () => {
       return false;
     }
 
-    // Check if we have either images or videos (but not requiring both)
-    if (formData?.images?.length === 0 && formData?.videos?.length === 0) {
-      toast.error('Either images or videos are required.');
+    if (formData?.images?.length === 0) {
+      toast.error('Images are required.');
       return false;
     }
 
@@ -121,19 +120,6 @@ const RecentActivityPostPage = () => {
       }
     }
 
-    // Validate videos
-    const validVideoTypes = ['video/mp4', 'video/mkv'];
-    if (formData?.videos?.length > 0) {
-      for (let i = 0; i < formData?.videos?.length; i++) {
-        if (!validVideoTypes?.includes(formData?.videos[i].type)) {
-          toast.error(
-            'Only valid video files (MP4, MKV) are allowed in the Videos section.',
-          );
-          return false;
-        }
-      }
-    }
-
     return true;
   };
 
@@ -155,16 +141,13 @@ const RecentActivityPostPage = () => {
     formDataToSend.append('title', formData.title);
     formDataToSend.append('description', formData.description);
     formDataToSend.append('date', formData.date);
+
     if (formData.images) {
       for (let i = 0; i < formData?.images?.length; i++) {
         formDataToSend.append('images', formData?.images[i]);
       }
     }
-    if (formData.videos) {
-      for (let i = 0; i < formData?.videos?.length; i++) {
-        formDataToSend.append('videos', formData.videos[i]);
-      }
-    }
+
     setIsLoading(true);
     dispatch(addPost(formDataToSend))
       .unwrap()
@@ -185,16 +168,13 @@ const RecentActivityPostPage = () => {
     const updatedData = new FormData();
     updatedData.append('title', formData.title);
     updatedData.append('description', formData.description);
+
     if (formData.images) {
       for (let i = 0; i < formData.images?.length; i++) {
         updatedData.append('images', formData.images[i]);
       }
     }
-    if (formData.videos) {
-      for (let i = 0; i < formData.videos?.length; i++) {
-        updatedData.append('videos', formData?.videos[i]);
-      }
-    }
+
     setIsLoading(true);
     dispatch(updatePost({ id: currentPost._id, updatedData }))
       .unwrap()
@@ -203,7 +183,7 @@ const RecentActivityPostPage = () => {
         setIsModalOpen(false);
         resetForm();
         dispatch(getPosts());
-        window.location.reload()
+        window.location.reload();
       })
       .catch((error) => {
         toast.error(error || 'Failed to update post.');
@@ -313,11 +293,6 @@ const RecentActivityPostPage = () => {
         image.src = event.target.result;
       };
       reader.readAsDataURL(file);
-    } else if (name === 'videos') {
-      setFormData(prev => ({
-        ...prev,
-        videos: [...prev.videos, ...Array.from(files)]
-      }));
     }
   };
 
@@ -326,7 +301,6 @@ const RecentActivityPostPage = () => {
       title: '',
       description: '',
       images: [],
-      videos: [],
       date: '',
     });
     setPreviewImage(null);
@@ -344,7 +318,6 @@ const RecentActivityPostPage = () => {
       title: post?.title || '',
       description: post?.description || '',
       images: null,
-      videos: null,
       date: post?.date || null,
     });
     setPreviewImage(post?.images?.[0]);
@@ -414,15 +387,6 @@ const RecentActivityPostPage = () => {
             ) : (
               <p className="text-gray-500 italic">No images available</p>
             )}
-
-            {expandedItem?.videos?.length > 0
-              ? expandedItem?.videos?.map((video, index) => (
-                <video key={index} controls className="w-full rounded mb-4">
-                  <source src={video} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              ))
-              : null}
           </div>
         </div>
       )}
@@ -544,17 +508,6 @@ const RecentActivityPostPage = () => {
                     </div>
                   ))}
               </div>
-              <div className="mb-4">
-                <label className="block font-semibold mb-2">Videos</label>
-                <input
-                  type="file"
-                  name="videos"
-                  accept="video/*"
-                  multiple
-                  onChange={handleFileChange}
-                  className="w-full"
-                />
-              </div>
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
@@ -605,11 +558,6 @@ const RecentActivityPostPage = () => {
                   alt="Post Image"
                   className="w-full h-[200px] object-cover rounded"
                 />
-              ) : post.videos?.length > 0 ? (
-                <video controls className="w-full rounded mb-4">
-                  <source src={post.videos[0]} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
               ) : (
                 <div className="w-full h-[200px] bg-gray-200 rounded flex items-center justify-center">
                   <span className="text-gray-500">No media</span>

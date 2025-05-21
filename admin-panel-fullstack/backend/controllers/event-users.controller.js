@@ -35,13 +35,6 @@ const registerUserForEvent = async (req, res) => {
       if (!username || !email) {
         return res.status(400).json({ success: false, message: "New user must provide username and email" });
       }
-
-      // Check if email already exists
-      // const existingUser = await EventUser.findOne({ email });
-      // if (existingUser) {
-      //   return res.status(400).json({ success: false, message: "This email is already registered" });
-      // }
-
       // Create a new user
       user = new EventUser({ username, email, registeredEvents: [] });
       await user.save();
@@ -120,9 +113,6 @@ const registerUserForEvent = async (req, res) => {
       <p style="font-size: 16px; color: #444;"><strong>Date & Time:</strong> ${formattedDate}</p>
       <p style="font-size: 16px; color: #444;"><strong>Location:</strong> ${event.location}</p>
     </div>
-
-
-
     <!-- Footer -->
     <div style="background: #f8f8f8; padding: 15px; text-align: center; font-size: 14px; color: #555; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
       <p>Need help? <a href="mailto:support@yourevent.com" style="color: #4CAF50; text-decoration: none;">Contact Support</a></p>
@@ -175,7 +165,6 @@ const getUsersWithRegisteredEvents = async (req, res) => {
 
 const sendingEmailToSelectedUsers = async (req ,res) => {
   const { emails, subject, message } = req.body;
-  console.log("req.body", req.body);
   
   if (!emails || !subject || !message) {
     return res.status(400).json({ error: 'Missing required fields' });
