@@ -25,9 +25,15 @@ const storageTeamMember = multer.diskStorage({
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
+    const ext = path.extname(file.originalname) || '.jpg';
+    const baseName = path
+      .basename(file.originalname, ext)
+      .replace(/\s+/g, '-') // replaces all spaces with dashes
+      .toLowerCase();
+    cb(null, `${file.fieldname}-${Date.now()}-${baseName}${ext}`);
   },
 });
+
 const uploadTeamMember = multer({ storage: storageTeamMember });
 
 
