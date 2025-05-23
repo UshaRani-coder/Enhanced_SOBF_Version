@@ -58,7 +58,7 @@ const getSubscriber = async (req, res) => {
       data: subscribers
     });
   } catch (error) {
-    console.log("error", error);    
+    // console.log("error", error);    
     res.status(500).json({
       success: false,
       error: 'Server error'

@@ -12,7 +12,7 @@ const SubscribedDonor = () => {
       setLoading(true);
       try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/post/get-donors`);
-        console.log("res", res?.data?.data)
+        // console.log("res", res?.data?.data)
         setDonor(res?.data?.data);
       } catch (err) {
         console.error('Error fetching Donor:', err);

@@ -246,7 +246,7 @@ const UpcomingEvents = () => {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto z-[0]">
       <div className="flex justify-between items-center mx-4 my-4">
         <h1 className="text-[23px] small-range:text-2xl small-max:text-3xl md:text-4xl font-semibold">
           Upcoming Events
@@ -428,7 +428,7 @@ const UpcomingEvents = () => {
             return (
               <div
                 key={post._id}
-                className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col"
+                className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col z-0 bg-white"
               >
                 {/* Image Section */}
                 <div className="w-full h-48 sm:h-56 md:h-64 lg:h-72 relative">

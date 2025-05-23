@@ -24,7 +24,7 @@ const ContactUsPage = lazy(() => import('./pages/ContactUs.jsx'));
 const Gallery = lazy(() => import('./pages/Gallery.jsx'));
 const Subscription = lazy(() => import('./Components/subscription-page/Subscription.jsx'));
 const DonateForMain = lazy(() => import('./pages/DonateForMain.jsx'));
-const Donateus = lazy(() => import('./pages/Donateus.jsx'));
+const DonationForm = lazy(() => import('./pages/Donateus.jsx'));
 const Press_Release = lazy(
   () => import('./Components/Home_Section/Press_Release.jsx'),
 );
@@ -111,7 +111,7 @@ const App = () => {
         <Route path="/events/:id" element={<EventDetails />} />
         <Route path="/donate-for" element={<DonateForMain />} />
         <Route path="/donate/:id" element={<DonateForDetailedPage />} />
-        <Route path="/donate-us" element={<Donateus />} />
+        <Route path="/donate-us" element={<DonationForm />} />
         <Route path="/legal-doc" element={<LegalDoc />} />
         <Route path="/anna-vitran-seva" element={<AnnaVitranSeva />} />
         <Route path="/community-service" element={<CommunityService />} />

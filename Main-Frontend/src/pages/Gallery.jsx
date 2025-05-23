@@ -54,7 +54,7 @@ const Gallery = () => {
   };
 
   return (
-    <div className="pt-[90px] md:pt-[100px] lg:pt-[120px]">
+    <div className="pt-[90px] md:pt-[100px] lg:pt-[120px] pb-8">
       <img
         src={aboutus}
         alt="Gallery"
@@ -68,25 +68,8 @@ const Gallery = () => {
           </h1>
 
           {/* Filter Buttons */}
-          {/* <div className="flex flex-wrap justify-center gap-4 mb-4">
-            {tags.map((category) => (
-              <button
-                key={category}
-                onClick={() => handleFilterChange(category)}
-                className={`px-4 py-2 font-bold rounded ${
-                  selectedCategory === category
-                    ? 'bg-blue text-white'
-                    : 'bg-gray-200'
-                }`}
-              >
-                {category.replace('_', ' ')}
-              </button>
-            ))}
-          </div> */}
-
-          {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4">
-            {console.log(tags)}
+            {/* {console.log(tags)} */}
             {tags.map((category) => (
               <button
                 key={category}

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import education from '../assets/banner2.png';
-import food from '../assets/Sobf Images/food distribution/FoodDonation.png';
-import objective from '../assets/objective.png';
+
 import donate from '../assets/donateMotive.png';
 import { donors_words } from '../Constant/data';
 import { our_donors } from '../Constant/data';

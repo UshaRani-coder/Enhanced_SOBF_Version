@@ -363,11 +363,6 @@ const UpcomingEvents = () => {
                         src={event.image}
                         alt={event.title}
                         className="w-full h-full object-cover rounded-t-xl"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src =
-                            'https://via.placeholder.com/800x400?text=Event+Image';
-                        }}
                       />
                     </div>
 

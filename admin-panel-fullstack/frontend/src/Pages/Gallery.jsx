@@ -187,7 +187,7 @@ const Gallery = () => {
       </div>
 
       <div className="flex flex-wrap gap-2 mx-4 mb-4">
-        {console.log(availableTags)}
+        {/* {console.log(availableTags)} */}
         {availableTags.map((tag) => (
           <button
             key={tag}

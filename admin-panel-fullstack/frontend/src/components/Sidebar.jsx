@@ -11,9 +11,11 @@ import { FaUsers, FaAngleDown, FaAngleUp, FaPen, FaTable, FaYoutube, FaRegNewspa
 const Sidebar = ({ isCollapsed, onOptionClick }) => {
   const location = useLocation();
   const [isEventsOpen, setIsEventsOpen] = useState(false);
+
+  
   return (
     <div
-      className={`transition-all duration-300 h-screen flex flex-col overflow-y-auto scrollbar-none pb-[50px]  ${isCollapsed ? 'w-20' : 'w-64'}`}
+      className={`transition-all duration-300 h-screen flex flex-col overflow-y-auto scrollbar-none pb-[50px] z-70  ${isCollapsed ? 'w-20' : 'w-64'}`}
     >
       <div
         className={`p-4 flex items-center space-x-4 ${isCollapsed ? 'justify-center' : ''}`}

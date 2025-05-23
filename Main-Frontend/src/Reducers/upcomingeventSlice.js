@@ -25,7 +25,7 @@ export const getSpecificEvent = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await fetchEventPostById(id);
-      console.log("response?.data?.post", response?.data?.post);
+      // console.log("response?.data?.post", response?.data?.post);
       
       if (!response || response.status !== 200 || !response?.data?.post) {
         throw new Error('Event not found');

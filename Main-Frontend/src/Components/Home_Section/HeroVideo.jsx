@@ -63,11 +63,9 @@ const HeroVideo = () => {
 
   return (
     <div className="w-full h-screen relative overflow-hidden">
-      {/* {showPopup && <Popup onClose={closePopup} />} */}
-
       <video
         ref={videoRef}
-        src="https://res.cloudinary.com/backend-with-ranjan/video/upload/v1746695168/qxytx5e2jvxpch3aw0cg.mp4"
+        src="https://res.cloudinary.com/dgua57bwf/video/upload/v1747929333/SOBF_HERO_VIDEO/iefkvwsowd5jlxrlhvpc.mp4"
         autoPlay
         loop
         playsInline
@@ -127,7 +125,7 @@ const HeroVideo = () => {
 
         {/* Scroll Down Arrow */}
         <div
-          className="absolute bottom-20 animate-bounce cursor-pointer"
+          className="absolute bottom-0 lg:bottom-20 animate-bounce cursor-pointer"
           onClick={handleScrollDown}
         >
           <svg

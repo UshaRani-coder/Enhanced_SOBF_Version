@@ -22,7 +22,7 @@ export const fetchDonationById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await getSingleDonationPostBasedOnId(id); // Use the API function
-      console.log("API Response:", response?.category);
+      // console.log("API Response:", response?.category);
 
       if (!response || !response.data) {
         throw new Error('Invalid response structure');

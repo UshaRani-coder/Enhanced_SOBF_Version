@@ -39,7 +39,7 @@ export const createDonationCategory = createAsyncThunk(
   'donations/createCategory',
   async (formDataToSend, { rejectWithValue }) => {
     try {
-      console.log("API Data:", formDataToSend);
+      // console.log("API Data:", formDataToSend);
       const response = await addDonationCategory(formDataToSend);
       if (!response || response.status !== 201) {
         throw new Error('Failed to create category');

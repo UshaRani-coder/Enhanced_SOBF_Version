@@ -27,7 +27,7 @@ export const addGallery = createAsyncThunk(
   async (postData, { rejectWithValue }) => {
     try {
       const response = await createGallery(postData);
-      console.log('response', response);
+      // console.log('response', response);
       return response.data;
     } catch (error) {
       return rejectWithValue(

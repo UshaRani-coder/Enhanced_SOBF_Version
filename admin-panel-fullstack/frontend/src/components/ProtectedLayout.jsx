@@ -60,7 +60,7 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
       {/* Sidebar */}
       {!isNotFound && (
         <div
-          className={`fixed top-0 left-0 md:static transition-all duration-300  ${
+          className={`fixed top-0 left-0 md:static transition-all duration-300  z-[9999] ${
             isSidebarVisible ? 'translate-x-0' : '-translate-x-full'
           } md:translate-x-0 ${
             isCollapsed ? 'md:w-20' : 'md:w-[15rem]'

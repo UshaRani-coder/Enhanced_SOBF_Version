@@ -14,7 +14,7 @@ const Volunteer = () => {
       setLoading(true);
       try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/post/get-volunteers`);
-        console.log("res", res?.data?.data)
+        // console.log("res", res?.data?.data)
         
         setVolunteers(res?.data?.data);
       } catch (err) {

@@ -70,7 +70,8 @@ const VolunteerForm = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/post/create-volunteer', {
+      // const response = await fetch('http://localhost:5000/api/post/
+      const response = await fetch('https://backend.sobf.in/api/post/create-volunteer', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
