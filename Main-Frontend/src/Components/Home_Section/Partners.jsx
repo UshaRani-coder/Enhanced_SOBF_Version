@@ -1,7 +1,7 @@
 import React from 'react';
 import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFoundation2.png';
 import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundation.png';
-import curiousBusinessSolutions from '../../assets/Sobf Images/partners/curiousBusinessSolutions.jpg';
+import curiousBusinessSolutions from '../../assets/Sobf Images/partners/curiousBusinessSolutions.png';
 import { Link } from 'react-router-dom';
 
 const Partners = () => {
@@ -31,7 +31,7 @@ const Partners = () => {
             />
           </li>
         </Link>
-        <Link to="https://curiousdevelopers.in/">
+        <Link to="https://cbsecosystem.org">
           <li>
             <img
               src={curiousBusinessSolutions}
