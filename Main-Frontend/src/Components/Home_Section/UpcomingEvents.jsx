@@ -399,7 +399,7 @@ const UpcomingEvents = () => {
                         </div>
                       </div>
 
-                      <h3 className="text-lg md:text-xl font-semibold text-[#2d335d] mb-2 line-clamp-2">
+                      <h3 className="text-lg md:text-xl font-semibold text-[#2d335d] mb-2 line-clamp-1">
                         {capitalize(event?.title)}
                       </h3>
 
