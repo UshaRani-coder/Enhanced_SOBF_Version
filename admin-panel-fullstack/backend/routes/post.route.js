@@ -64,8 +64,9 @@ const { registerUserForEvent, getUsersWithRegisteredEvents, sendingEmailToSelect
 const sendTestEmail = require('../controllers/testing');
 const { createDonation, getAllDonations, getDonationById, getDonationsByDonor, sendTaxCertificate } = require('../controllers/donation.controller');
 const { createVolunteer, getAllVolunteers, getVolunteerById, deleteVolunteer } = require('../controllers/volunteer.controller');
-const { addDonationCategory, getAllDonationCategories, addUserToCategory, getDonationCategoryById } = require('../controllers/donateFor.controller');
+const { addDonationCategory, getAllDonationCategories, addUserToCategory, getDonationCategoryById, deleteDonationCategory, updateDonationCategory } = require('../controllers/donateFor.controller');
 const { postSubscriber, getSubscriber } = require('../controllers/subscriber.controller');
+const { createOrder, saveDonation } = require('../controllers/payment.controller');
 
 
 const router = express.Router();
@@ -229,11 +230,24 @@ router.post('/create', uploadDonateFor.single('image'), addDonationCategory);
 router.get('/', getAllDonationCategories);
 router.get("/get-donation-by-id/:id", getDonationCategoryById);
 router.post('/add-donor/:id', addUserToCategory);
+router.put("/update-donation-category/:id", uploadDonateFor.single('image'), updateDonationCategory);
+router.delete("/category/:id", deleteDonationCategory);
 
 // ! Subscription routes
 router.get('/get-donors', getSubscriber);
 router.post('/create-subscription', postSubscriber);
 
 
+// ! PAYMENT DONATION # RAZORPAY
+
+router.post("/create-donation", createOrder);
+router.post("/save-donation", saveDonation);
+
+
+
+
 // router.post("/testing", sendTestEmail)
 module.exports = router;
+
+
+

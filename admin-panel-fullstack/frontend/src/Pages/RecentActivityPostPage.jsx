@@ -393,7 +393,7 @@ const RecentActivityPostPage = () => {
 
       {/* Add/Edit Post Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 md:pl-20">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 max-h-[90vh] overflow-y-auto scrollbar-none">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? 'Update Activity' : 'Add New Activity'}

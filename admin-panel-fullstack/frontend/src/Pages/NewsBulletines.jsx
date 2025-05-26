@@ -370,7 +370,7 @@ const PostPage = () => {
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 md:pl-20">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 max-h-[90vh] overflow-y-auto scrollbar-none">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? 'Update News' : 'Add New News'}
@@ -453,7 +453,8 @@ const PostPage = () => {
                 )}
               </div>
               <div className="flex gap-3 mt-4">
-                {formData?.images &&
+                {
+                  formData?.images &&
                   Array?.isArray(formData.images) &&
                   formData?.images?.length > 0 &&
                   formData?.images?.map((image, index) => (
@@ -537,7 +538,7 @@ const PostPage = () => {
               onClick={() => handleExpandPost(bulletin)}
             >
               <img
-                src={bulletin?.images[0]}
+                src={bulletin?.images ? bulletin?.images[0] : bulletin?.images}
                 alt="Post Image"
                 className="w-full h-[200px] object-cover rounded"
               />

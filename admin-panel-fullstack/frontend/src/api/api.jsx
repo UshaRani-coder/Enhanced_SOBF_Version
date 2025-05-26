@@ -135,3 +135,5 @@ export const getAllDonationCategories = () => apiClient.get('/api/post/');
 export const getSingleDonationPostBasedOnId = (id) => apiClient.get(`/api/post/get-donation-by-id/${id}`);
 export const addDonationCategory = (data) => apiClient.post('/api/post/create', data);
 export const addDonor = (id, data) => apiClient.post(`/api/post/add-donor/${id}`, data);
+export const updateDonationCategoryAPI = (id, data) => apiClient.put(`/api/post/update-donation-category/${id}`, data);
+export const deleteDonationCategoryAPI = (id) => apiClient.delete(`/api/post/category/${id}`);

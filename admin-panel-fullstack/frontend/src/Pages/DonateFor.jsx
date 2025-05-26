@@ -2,24 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createDonationCategory,
+  deleteDonationCategory,
   fetchAllDonations,
+  updateDonationCategory,
 } from '../Reducers/donateForSlice';
 import { toast } from 'react-toastify';
 
 const DonateFor = () => {
   const dispatch = useDispatch();
-  const { categories, status, error } = useSelector(
-    (state) => state?.donateFor,
-  );
+  const { categories, status, error } = useSelector((state) => state?.donateFor);
   const [displayData, setDisplayData] = useState([]);
-  const [sortConfig, setSortConfig] = useState({
-    key: 'title',
-    direction: 'asc',
-  });
+  const [sortConfig, setSortConfig] = useState({ key: 'title', direction: 'asc' });
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedRow, setExpandedRow] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currentCategoryId, setCurrentCategoryId] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -29,10 +28,9 @@ const DonateFor = () => {
     goal: '',
   });
   const [errors, setErrors] = useState({});
-  const [reloadTrigger, setReloadTrigger] = useState(false); // New state for reload trigger
-  const itemsPerPage = 5;
+  const [reloadTrigger, setReloadTrigger] = useState(false);
 
-  // Accepted dimensions with tolerance (±10 pixels)
+  const itemsPerPage = 5;
   const ACCEPTED_DIMENSIONS = [
     { width: 800, height: 596 },
     { width: 1150, height: 862 },
@@ -44,11 +42,11 @@ const DonateFor = () => {
     { width: 4080, height: 1904 },
     { width: 2048, height: 1536 },
   ];
-  const TOLERANCE = 10; // pixels
+  const TOLERANCE = 10;
 
   useEffect(() => {
     dispatch(fetchAllDonations());
-  }, [dispatch, reloadTrigger]); // Add reloadTrigger to dependency array
+  }, [dispatch, reloadTrigger]);
 
   useEffect(() => {
     let filtered = [...(categories || [])];
@@ -82,23 +80,15 @@ const DonateFor = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.title.trim()) newErrors.title = 'Title is required';
-    if (!formData.description.trim())
-      newErrors.description = 'Description is required';
-    if (!formData.image) newErrors.image = 'Image is required';
+    if (!formData.description.trim()) newErrors.description = 'Description is required';
+    if (!isEditMode && !formData.image) newErrors.image = 'Image is required';
     if (!formData.raised.trim()) newErrors.raised = 'Raised amount is required';
     if (!formData.goal.trim()) newErrors.goal = 'Goal amount is required';
 
-    // Validate amounts are numbers
-    if (
-      formData.raised.trim() &&
-      isNaN(Number(formData.raised.replace(/₹|,/g, '')))
-    ) {
+    if (formData.raised.trim() && isNaN(Number(formData.raised.replace(/₹|,/g, '')))) {
       newErrors.raised = 'Please enter a valid number';
     }
-    if (
-      formData.goal.trim() &&
-      isNaN(Number(formData.goal.replace(/₹|,/g, '')))
-    ) {
+    if (formData?.goal?.trim() && isNaN(Number(formData.goal.replace(/₹|,/g, '')))) {
       newErrors.goal = 'Please enter a valid number';
     }
     setErrors(newErrors);
@@ -108,58 +98,95 @@ const DonateFor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Validate form
       if (!validateForm()) return;
 
-      // Prepare FormData
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('description', formData.description);
-      formDataToSend.append('image', formData.image);
+      if (formData.image) formDataToSend.append('image', formData.image);
       formDataToSend.append('raised', formData.raised);
       formDataToSend.append('goal', formData.goal);
 
-      // Dispatch action
-      const resultAction = await dispatch(
-        createDonationCategory(formDataToSend),
-      );
+      if (isEditMode) {
+        const resultAction = await dispatch(
+          updateDonationCategory({ id: currentCategoryId, data: formDataToSend })
+        );
 
-      if (createDonationCategory.fulfilled.match(resultAction)) {
-        toast.success('Post added successfully!');
-        setIsModalOpen(false);
-        // Reset form
-        await dispatch(fetchAllDonations());
-        setFormData({
-          title: '',
-          description: '',
-          image: null,
-          imagePreview: '',
-          raised: '',
-          goal: '',
-        });
-        setErrors({});
-        // Trigger reload by toggling the reloadTrigger state
-        setReloadTrigger((prev) => !prev);
+        if (updateDonationCategory.fulfilled.match(resultAction)) {
+          toast.success('Post updated successfully!');
+        } else {
+          throw resultAction.error;
+        }
       } else {
-        throw resultAction.error;
+        const resultAction = await dispatch(createDonationCategory(formDataToSend));
+        if (createDonationCategory.fulfilled.match(resultAction)) {
+          toast.success('Post added successfully!');
+        } else {
+          throw resultAction.error;
+        }
       }
+
+      setIsModalOpen(false);
+      resetForm();
+      setReloadTrigger(prev => !prev);
     } catch (error) {
       console.error('Submission error:', error);
-      toast.error(error.message || 'Failed to add post.');
+      toast.error(error.message || `Failed to ${isEditMode ? 'update' : 'add'} post.`);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      description: '',
+      image: null,
+      imagePreview: '',
+      raised: '',
+      goal: '',
+    });
+    setErrors({});
+    setIsEditMode(false);
+    setCurrentCategoryId(null);
+  };
+
+  const handleEdit = (category) => {
+    setFormData({
+      title: category.title,
+      description: category.description,
+      image: null,
+      imagePreview: category.image,
+      raised: category.raised,
+      goal: category.goal,
+    });
+    setIsEditMode(true);
+    setCurrentCategoryId(category._id);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this donation post?')) {
+      try {
+        const resultAction = await dispatch(deleteDonationCategory(id));
+        if (deleteDonationCategory.fulfilled.match(resultAction)) {
+          toast.success('Post deleted successfully!');
+          setReloadTrigger(prev => !prev);
+        } else {
+          throw resultAction.error;
+        }
+      } catch (error) {
+        console.error('Deletion error:', error);
+        toast.error(error.message || 'Failed to delete post.');
+      }
     }
   };
 
   const requestSort = (key) => {
     setSortConfig({
       key,
-      direction:
-        sortConfig.key === key && sortConfig.direction === 'asc'
-          ? 'desc'
-          : 'asc',
+      direction: sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc',
     });
   };
 
-  // Circular progress component
   const CircularProgress = ({ percentage }) => {
     const radius = 20;
     const circumference = 2 * Math.PI * radius;
@@ -198,33 +225,17 @@ const DonateFor = () => {
     );
   };
 
-  const totalPages = Math.ceil(displayData.length / itemsPerPage);
-  const paginatedData = displayData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
-
-  const toggleExpand = (id) => {
-    setExpandedRow(expandedRow === id ? null : id);
-  };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Check file type
     if (!file.type.match('image.*')) {
-      setErrors({
-        ...errors,
-        image: 'Please select an image file',
-      });
+      setErrors({ ...errors, image: 'Please select an image file' });
       return;
     }
 
-    // Create preview
     const reader = new FileReader();
     reader.onloadend = () => {
-      // Check image dimensions
       const img = new Image();
       img.onload = () => {
         const isValidDimension = ACCEPTED_DIMENSIONS.some(
@@ -247,12 +258,8 @@ const DonateFor = () => {
           imagePreview: reader.result,
         });
 
-        // Clear error if validation passes
         if (errors.image) {
-          setErrors({
-            ...errors,
-            image: null,
-          });
+          setErrors({ ...errors, image: null });
         }
       };
       img.src = reader.result;
@@ -262,46 +269,42 @@ const DonateFor = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    // Clear error when user types
+    setFormData({ ...formData, [name]: value });
     if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: null,
-      });
+      setErrors({ ...errors, [name]: null });
     }
+  };
+
+  const totalPages = Math.ceil(displayData.length / itemsPerPage);
+  const paginatedData = displayData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+
+  const toggleExpand = (id) => {
+    setExpandedRow(expandedRow === id ? null : id);
   };
 
   return (
     <div className="w-full px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 mx-auto">
-      {/* Add Donation Modal */}
+      {/* Add/Edit Donation Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl w-full sm:w-96 sm:ml-28 lg:w-full max-w-2xl max-h-[90vh] overflow-y-auto z-[1000]">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold text-gray-800">
-                  Add New Donation Post
+                  {isEditMode ? 'Edit Donation Post' : 'Add New Donation Post'}
                 </h2>
                 <button
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    resetForm();
+                  }}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
@@ -318,23 +321,14 @@ const DonateFor = () => {
                       name="title"
                       value={formData.title}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg ${
-                        errors.title ? 'border-red-500' : 'border-gray-300'
-                      }`}
+                      className={`w-full px-3 py-2 border rounded-lg ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
                       placeholder="Enter title"
                     />
-                    {errors.title && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.title}
-                      </p>
-                    )}
+                    {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
                   </div>
 
                   <div>
-                    <label
-                      className="block text-gray-700 mb-2"
-                      htmlFor="description"
-                    >
+                    <label className="block text-gray-700 mb-2" htmlFor="description">
                       Description*
                     </label>
                     <textarea
@@ -342,23 +336,17 @@ const DonateFor = () => {
                       name="description"
                       value={formData.description}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg ${
-                        errors.description
-                          ? 'border-red-500'
-                          : 'border-gray-300'
-                      }`}
+                      className={`w-full px-3 py-2 border rounded-lg ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
                       placeholder="Enter description"
                       rows="3"
                     />
-                    {errors.description && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.description}
-                      </p>
-                    )}
+                    {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
                   </div>
 
                   <div>
-                    <label className="block font-semibold mb-2">Image*</label>
+                    <label className="block font-semibold mb-2">
+                      Image{!isEditMode && '*'}
+                    </label>
                     <div className="flex flex-col md:flex-row gap-4">
                       <div className="flex-1">
                         <input
@@ -366,21 +354,18 @@ const DonateFor = () => {
                           name="image"
                           accept="image/*"
                           onChange={handleImageChange}
-                          className={`w-full p-2 border rounded-lg ${
-                            errors.image ? 'border-red-500' : 'border-gray-300'
-                          }`}
+                          className={`w-full p-2 border rounded-lg ${errors.image ? 'border-red-500' : 'border-gray-300'}`}
                         />
-                        {errors.image && (
-                          <p className="text-red-500 text-sm mt-1">
-                            {errors.image}
+                        {isEditMode && (
+                          <p className="text-sm text-gray-500 mt-1">
+                            Leave empty to keep current image
                           </p>
                         )}
+                        {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
                       </div>
-                      {formData.imagePreview && (
+                      {(formData.imagePreview || isEditMode) && (
                         <div className="flex-1">
-                          <p className="text-sm font-medium mb-1">
-                            Image Preview:
-                          </p>
+                          <p className="text-sm font-medium mb-1">Image Preview:</p>
                           <div className="border p-2 rounded-lg">
                             <img
                               src={formData.imagePreview}
@@ -395,10 +380,7 @@ const DonateFor = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label
-                        className="block text-gray-700 mb-2"
-                        htmlFor="raised"
-                      >
+                      <label className="block text-gray-700 mb-2" htmlFor="raised">
                         Amount Raised*
                       </label>
                       <input
@@ -407,23 +389,14 @@ const DonateFor = () => {
                         name="raised"
                         value={formData.raised}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-lg ${
-                          errors.raised ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                        className={`w-full px-3 py-2 border rounded-lg ${errors.raised ? 'border-red-500' : 'border-gray-300'}`}
                         placeholder="Enter amount raised"
                       />
-                      {errors.raised && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.raised}
-                        </p>
-                      )}
+                      {errors.raised && <p className="text-red-500 text-sm mt-1">{errors.raised}</p>}
                     </div>
 
                     <div>
-                      <label
-                        className="block text-gray-700 mb-2"
-                        htmlFor="goal"
-                      >
+                      <label className="block text-gray-700 mb-2" htmlFor="goal">
                         Goal Amount*
                       </label>
                       <input
@@ -432,16 +405,10 @@ const DonateFor = () => {
                         name="goal"
                         value={formData.goal}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-lg ${
-                          errors.goal ? 'border-red-500' : 'border-gray-300'
-                        }`}
+                        className={`w-full px-3 py-2 border rounded-lg ${errors.goal ? 'border-red-500' : 'border-gray-300'}`}
                         placeholder="Enter goal amount"
                       />
-                      {errors.goal && (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.goal}
-                        </p>
-                      )}
+                      {errors.goal && <p className="text-red-500 text-sm mt-1">{errors.goal}</p>}
                     </div>
                   </div>
                 </div>
@@ -449,7 +416,10 @@ const DonateFor = () => {
                 <div className="flex justify-end space-x-3">
                   <button
                     type="button"
-                    onClick={() => setIsModalOpen(false)}
+                    onClick={() => {
+                      setIsModalOpen(false);
+                      resetForm();
+                    }}
                     className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
                   >
                     Cancel
@@ -458,7 +428,7 @@ const DonateFor = () => {
                     type="submit"
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                   >
-                    Submit
+                    {isEditMode ? 'Update' : 'Submit'}
                   </button>
                 </div>
               </form>
@@ -473,7 +443,10 @@ const DonateFor = () => {
         </h1>
         <button
           className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-4 py-2 small-max:px-4 small-max:py-1.5 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setIsEditMode(false);
+            setIsModalOpen(true);
+          }}
         >
           Add Post
         </button>
@@ -496,50 +469,31 @@ const DonateFor = () => {
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-white uppercase bg-[#27274F]">
             <tr>
-              <th
-                className="px-6 py-3 cursor-pointer"
-                onClick={() => requestSort('title')}
-              >
-                Title{' '}
-                {sortConfig.key === 'title' &&
-                  (sortConfig.direction === 'asc' ? '↑' : '↓')}
+              <th className="px-6 py-3 cursor-pointer" onClick={() => requestSort('title')}>
+                Title {sortConfig.key === 'title' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th className="px-6 py-3">Description</th>
-              <th
-                className="px-6 py-3 cursor-pointer"
-                onClick={() => requestSort('raised')}
-              >
-                Raised{' '}
-                {sortConfig.key === 'raised' &&
-                  (sortConfig.direction === 'asc' ? '↑' : '↓')}
+              <th className="px-6 py-3 cursor-pointer" onClick={() => requestSort('raised')}>
+                Raised {sortConfig.key === 'raised' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
-              <th
-                className="px-6 py-3 cursor-pointer"
-                onClick={() => requestSort('goal')}
-              >
-                Goal{' '}
-                {sortConfig.key === 'goal' &&
-                  (sortConfig.direction === 'asc' ? '↑' : '↓')}
+              <th className="px-6 py-3 cursor-pointer" onClick={() => requestSort('goal')}>
+                Goal {sortConfig.key === 'goal' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th className="px-6 py-3">Progress</th>
               <th className="px-6 py-3">Donors</th>
+              <th className="px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
             {paginatedData.map((category) => {
-              const parseCurrency = (value) =>
-                parseInt((value || '0').replace(/₹|,/g, ''));
-
+              const parseCurrency = (value) => parseInt((value || '0').replace(/₹|,/g, ''));
               const raised = parseCurrency(category.raised);
               const goal = parseCurrency(category.goal);
-              const progress =
-                goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
+              const progress = goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
+
               return (
                 <React.Fragment key={category._id}>
-                  <tr
-                    className="bg-white border-b hover:bg-gray-50 cursor-pointer"
-                    onClick={() => toggleExpand(category._id)}
-                  >
+                  <tr className="bg-white border-b hover:bg-gray-50">
                     <td className="px-6 py-4 font-medium text-gray-900">
                       <div className="flex items-center">
                         <img
@@ -550,7 +504,7 @@ const DonateFor = () => {
                         {category.title}
                       </div>
                     </td>
-                    <td className="px-6 py-4 max-w-xs truncate">
+                    <td className="px-6 py-4 max-w-xs truncate" onClick={() => toggleExpand(category._id)}>
                       {category.description}
                     </td>
                     <td className="px-6 py-4">{category.raised}</td>
@@ -558,48 +512,46 @@ const DonateFor = () => {
                     <td className="px-6 py-4">
                       <CircularProgress percentage={progress} />
                     </td>
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-6 py-4 text-center" onClick={() => toggleExpand(category._id)}>
                       {category.donor?.length || 0}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleEdit(category)}
+                          className="text-blue-600 font-bold hover:text-blue-700"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(category._id)}
+                          className="text-red-600 font-bold hover:text-red-800"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
 
-                  {expandedRow === category._id &&
-                    category.donor?.length > 0 && (
-                      <tr className="bg-gray-50">
-                        <td colSpan="6" className="px-6 py-4">
-                          <div className="ml-12">
-                            <h4 className="font-semibold mb-2">Donors:</h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                              {category.donor.map((user) => (
-                                <div
-                                  key={user._id}
-                                  className="border p-3 rounded-lg"
-                                >
-                                  <p>
-                                    <span className="font-medium">Name:</span>{' '}
-                                    {user.fullname}
-                                  </p>
-                                  <p>
-                                    <span className="font-medium">Email:</span>{' '}
-                                    {user.email}
-                                  </p>
-                                  <p>
-                                    <span className="font-medium">Phone:</span>{' '}
-                                    {user.phone_no}
-                                  </p>
-                                  <p>
-                                    <span className="font-medium">
-                                      Address:
-                                    </span>{' '}
-                                    {user.address}
-                                  </p>
-                                </div>
-                              ))}
-                            </div>
+                  {expandedRow === category._id && category.donor?.length > 0 && (
+                    <tr className="bg-gray-50">
+                      <td colSpan="7" className="px-6 py-4">
+                        <div className="ml-12">
+                          <h4 className="font-semibold mb-2">Donors:</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {category.donor.map((user) => (
+                              <div key={user._id} className="border p-3 rounded-lg">
+                                <p><span className="font-medium">Name:</span> {user.fullname}</p>
+                                <p><span className="font-medium">Email:</span> {user.email}</p>
+                                <p><span className="font-medium">Phone:</span> {user.phone_no}</p>
+                                <p><span className="font-medium">Address:</span> {user.address}</p>
+                              </div>
+                            ))}
                           </div>
-                        </td>
-                      </tr>
-                    )}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                 </React.Fragment>
               );
             })}
@@ -633,11 +585,10 @@ const DonateFor = () => {
                 <button
                   key={`page-${i}-${pageNum}`}
                   onClick={() => setCurrentPage(pageNum)}
-                  className={`px-3 py-1 border-t border-b border-gray-300 ${
-                    currentPage === pageNum
+                  className={`px-3 py-1 border-t border-b border-gray-300 ${currentPage === pageNum
                       ? 'bg-blue-500 text-white'
                       : 'bg-white text-gray-500 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   {pageNum}
                 </button>

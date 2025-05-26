@@ -224,7 +224,7 @@ const Team = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 md:pl-20">
           <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 max-h-[90%]  overflow-y-auto scrollbar-none">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? 'Update Team Member' : 'Add New Team Member'}

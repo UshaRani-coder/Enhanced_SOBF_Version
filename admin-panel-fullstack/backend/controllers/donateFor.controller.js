@@ -193,9 +193,85 @@ const addUserToCategory = async (req, res) => {
   }
 };
 
+const updateDonationCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, raised, goal } = req.body;
+    const updatedFields = { title, description, raised, goal };
+
+    // If a new image is uploaded
+    if (req.file && req.file.filename) {
+      updatedFields.image = req.file.filename;
+    }
+
+    const updatedCategory = await DonationCategoryModel.findByIdAndUpdate(
+      id,
+      { $set: updatedFields },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedCategory) {
+      return res.status(404).json({
+        success: false,
+        message: "Donation category not found",
+      });
+    }
+
+    // Append full image path in response
+    updatedCategory.image = "https://backend.sobf.in" + '/uploads/donateFor/' + updatedCategory.image;
+
+    res.status(200).json({
+      success: true,
+      message: "Donation category updated successfully",
+      category: updatedCategory,
+    });
+  } catch (error) {
+    logger.error("Error updating donation category:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update donation category",
+      error: error.message,
+    });
+  }
+};
+
+
+const deleteDonationCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const category = await DonationCategoryModel.findById(id);
+
+    if (!category) {
+      return res.status(404).json({
+        success: false,
+        message: "Donation category not found",
+      });
+    }
+
+    // Remove the category from database
+    await DonationCategoryModel.findByIdAndDelete(id);
+
+    res.status(200).json({
+      success: true,
+      message: "Donation category deleted successfully",
+    });
+  } catch (error) {
+    logger.error("Error deleting donation category:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete donation category",
+      error: error.message,
+    });
+  }
+}
+
+
 module.exports = {
   addDonationCategory,
   getAllDonationCategories,
   addUserToCategory,
-  getDonationCategoryById
-};
+  getDonationCategoryById,
+  updateDonationCategory,
+  deleteDonationCategory
+}

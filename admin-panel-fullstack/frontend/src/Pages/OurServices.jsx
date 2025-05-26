@@ -318,7 +318,7 @@ const OurService = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center  z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center md:pl-20 z-50">
           <div className="bg-white p-6 rounded-lg w-11/12 max-h-[90vh] overflow-y-auto scrollbar-none md:w-1/2">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? 'Update Post' : 'Add New Post'}
