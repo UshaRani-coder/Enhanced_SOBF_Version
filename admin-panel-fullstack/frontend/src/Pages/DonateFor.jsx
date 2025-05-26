@@ -1,24 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createDonationCategory, fetchAllDonations } from "../Reducers/donateForSlice";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  createDonationCategory,
+  fetchAllDonations,
+} from '../Reducers/donateForSlice';
+import { toast } from 'react-toastify';
 
 const DonateFor = () => {
   const dispatch = useDispatch();
-  const { categories, status, error } = useSelector((state) => state?.donateFor);
+  const { categories, status, error } = useSelector(
+    (state) => state?.donateFor,
+  );
   const [displayData, setDisplayData] = useState([]);
-  const [sortConfig, setSortConfig] = useState({ key: "title", direction: "asc" });
-  const [searchTerm, setSearchTerm] = useState("");
+  const [sortConfig, setSortConfig] = useState({
+    key: 'title',
+    direction: 'asc',
+  });
+  const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedRow, setExpandedRow] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
+    title: '',
+    description: '',
     image: null,
-    imagePreview: "",
-    raised: "",
-    goal: "",
+    imagePreview: '',
+    raised: '',
+    goal: '',
   });
   const [errors, setErrors] = useState({});
   const [reloadTrigger, setReloadTrigger] = useState(false); // New state for reload trigger
@@ -46,20 +54,23 @@ const DonateFor = () => {
     let filtered = [...(categories || [])];
 
     if (searchTerm) {
-      filtered = filtered.filter(item =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
     filtered.sort((a, b) => {
-      if (sortConfig.key === "raised" || sortConfig.key === "goal") {
-        const aVal = parseInt(a[sortConfig.key].replace(/₹|,/g, ""));
-        const bVal = parseInt(b[sortConfig.key].replace(/₹|,/g, ""));
-        return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
+      if (sortConfig.key === 'raised' || sortConfig.key === 'goal') {
+        const aVal = parseInt(a[sortConfig.key].replace(/₹|,/g, ''));
+        const bVal = parseInt(b[sortConfig.key].replace(/₹|,/g, ''));
+        return sortConfig.direction === 'asc' ? aVal - bVal : bVal - aVal;
       } else {
-        if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === "asc" ? -1 : 1;
-        if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === "asc" ? 1 : -1;
+        if (a[sortConfig.key] < b[sortConfig.key])
+          return sortConfig.direction === 'asc' ? -1 : 1;
+        if (a[sortConfig.key] > b[sortConfig.key])
+          return sortConfig.direction === 'asc' ? 1 : -1;
         return 0;
       }
     });
@@ -70,18 +81,25 @@ const DonateFor = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.title.trim()) newErrors.title = "Title is required";
-    if (!formData.description.trim()) newErrors.description = "Description is required";
-    if (!formData.image) newErrors.image = "Image is required";
-    if (!formData.raised.trim()) newErrors.raised = "Raised amount is required";
-    if (!formData.goal.trim()) newErrors.goal = "Goal amount is required";
+    if (!formData.title.trim()) newErrors.title = 'Title is required';
+    if (!formData.description.trim())
+      newErrors.description = 'Description is required';
+    if (!formData.image) newErrors.image = 'Image is required';
+    if (!formData.raised.trim()) newErrors.raised = 'Raised amount is required';
+    if (!formData.goal.trim()) newErrors.goal = 'Goal amount is required';
 
     // Validate amounts are numbers
-    if (formData.raised.trim() && isNaN(Number(formData.raised.replace(/₹|,/g, "")))) {
-      newErrors.raised = "Please enter a valid number";
+    if (
+      formData.raised.trim() &&
+      isNaN(Number(formData.raised.replace(/₹|,/g, '')))
+    ) {
+      newErrors.raised = 'Please enter a valid number';
     }
-    if (formData.goal.trim() && isNaN(Number(formData.goal.replace(/₹|,/g, "")))) {
-      newErrors.goal = "Please enter a valid number";
+    if (
+      formData.goal.trim() &&
+      isNaN(Number(formData.goal.replace(/₹|,/g, '')))
+    ) {
+      newErrors.goal = 'Please enter a valid number';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -102,7 +120,9 @@ const DonateFor = () => {
       formDataToSend.append('goal', formData.goal);
 
       // Dispatch action
-      const resultAction = await dispatch(createDonationCategory(formDataToSend));
+      const resultAction = await dispatch(
+        createDonationCategory(formDataToSend),
+      );
 
       if (createDonationCategory.fulfilled.match(resultAction)) {
         toast.success('Post added successfully!');
@@ -110,16 +130,16 @@ const DonateFor = () => {
         // Reset form
         await dispatch(fetchAllDonations());
         setFormData({
-          title: "",
-          description: "",
+          title: '',
+          description: '',
           image: null,
-          imagePreview: "",
-          raised: "",
-          goal: "",
+          imagePreview: '',
+          raised: '',
+          goal: '',
         });
         setErrors({});
         // Trigger reload by toggling the reloadTrigger state
-        setReloadTrigger(prev => !prev);
+        setReloadTrigger((prev) => !prev);
       } else {
         throw resultAction.error;
       }
@@ -129,12 +149,13 @@ const DonateFor = () => {
     }
   };
 
-
-
   const requestSort = (key) => {
     setSortConfig({
       key,
-      direction: sortConfig.key === key && sortConfig.direction === "asc" ? "desc" : "asc"
+      direction:
+        sortConfig.key === key && sortConfig.direction === 'asc'
+          ? 'desc'
+          : 'asc',
     });
   };
 
@@ -180,7 +201,7 @@ const DonateFor = () => {
   const totalPages = Math.ceil(displayData.length / itemsPerPage);
   const paginatedData = displayData.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const toggleExpand = (id) => {
@@ -195,7 +216,7 @@ const DonateFor = () => {
     if (!file.type.match('image.*')) {
       setErrors({
         ...errors,
-        image: "Please select an image file"
+        image: 'Please select an image file',
       });
       return;
     }
@@ -206,15 +227,16 @@ const DonateFor = () => {
       // Check image dimensions
       const img = new Image();
       img.onload = () => {
-        const isValidDimension = ACCEPTED_DIMENSIONS.some(dim =>
-          Math.abs(img.width - dim.width) <= TOLERANCE &&
-          Math.abs(img.height - dim.height) <= TOLERANCE
+        const isValidDimension = ACCEPTED_DIMENSIONS.some(
+          (dim) =>
+            Math.abs(img.width - dim.width) <= TOLERANCE &&
+            Math.abs(img.height - dim.height) <= TOLERANCE,
         );
 
         if (!isValidDimension) {
           setErrors({
             ...errors,
-            image: `Image dimensions (${img.width}x${img.height}) don't match required dimensions`
+            image: `Image dimensions (${img.width}x${img.height}) don't match required dimensions`,
           });
           return;
         }
@@ -222,14 +244,14 @@ const DonateFor = () => {
         setFormData({
           ...formData,
           image: file,
-          imagePreview: reader.result
+          imagePreview: reader.result,
         });
 
         // Clear error if validation passes
         if (errors.image) {
           setErrors({
             ...errors,
-            image: null
+            image: null,
           });
         }
       };
@@ -242,35 +264,44 @@ const DonateFor = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
     // Clear error when user types
     if (errors[name]) {
       setErrors({
         ...errors,
-        [name]: null
+        [name]: null,
       });
     }
   };
-
-
-
 
   return (
     <div className="w-full px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 mx-auto">
       {/* Add Donation Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-xl w-full sm:w-96 sm:ml-28 lg:w-full max-w-2xl max-h-[90vh] overflow-y-auto z-[1000]">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-gray-800">Add New Donation Post</h2>
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Add New Donation Post
+                </h2>
                 <button
                   onClick={() => setIsModalOpen(false)}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </button>
               </div>
@@ -287,14 +318,23 @@ const DonateFor = () => {
                       name="title"
                       value={formData.title}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
+                      className={`w-full px-3 py-2 border rounded-lg ${
+                        errors.title ? 'border-red-500' : 'border-gray-300'
+                      }`}
                       placeholder="Enter title"
                     />
-                    {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+                    {errors.title && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.title}
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label className="block text-gray-700 mb-2" htmlFor="description">
+                    <label
+                      className="block text-gray-700 mb-2"
+                      htmlFor="description"
+                    >
                       Description*
                     </label>
                     <textarea
@@ -302,11 +342,19 @@ const DonateFor = () => {
                       name="description"
                       value={formData.description}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
+                      className={`w-full px-3 py-2 border rounded-lg ${
+                        errors.description
+                          ? 'border-red-500'
+                          : 'border-gray-300'
+                      }`}
                       placeholder="Enter description"
                       rows="3"
                     />
-                    {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+                    {errors.description && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.description}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -318,13 +366,21 @@ const DonateFor = () => {
                           name="image"
                           accept="image/*"
                           onChange={handleImageChange}
-                          className={`w-full p-2 border rounded-lg ${errors.image ? 'border-red-500' : 'border-gray-300'}`}
+                          className={`w-full p-2 border rounded-lg ${
+                            errors.image ? 'border-red-500' : 'border-gray-300'
+                          }`}
                         />
-                        {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
+                        {errors.image && (
+                          <p className="text-red-500 text-sm mt-1">
+                            {errors.image}
+                          </p>
+                        )}
                       </div>
                       {formData.imagePreview && (
                         <div className="flex-1">
-                          <p className="text-sm font-medium mb-1">Image Preview:</p>
+                          <p className="text-sm font-medium mb-1">
+                            Image Preview:
+                          </p>
                           <div className="border p-2 rounded-lg">
                             <img
                               src={formData.imagePreview}
@@ -339,7 +395,10 @@ const DonateFor = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-gray-700 mb-2" htmlFor="raised">
+                      <label
+                        className="block text-gray-700 mb-2"
+                        htmlFor="raised"
+                      >
                         Amount Raised*
                       </label>
                       <input
@@ -348,14 +407,23 @@ const DonateFor = () => {
                         name="raised"
                         value={formData.raised}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-lg ${errors.raised ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg ${
+                          errors.raised ? 'border-red-500' : 'border-gray-300'
+                        }`}
                         placeholder="Enter amount raised"
                       />
-                      {errors.raised && <p className="text-red-500 text-sm mt-1">{errors.raised}</p>}
+                      {errors.raised && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.raised}
+                        </p>
+                      )}
                     </div>
 
                     <div>
-                      <label className="block text-gray-700 mb-2" htmlFor="goal">
+                      <label
+                        className="block text-gray-700 mb-2"
+                        htmlFor="goal"
+                      >
                         Goal Amount*
                       </label>
                       <input
@@ -364,10 +432,16 @@ const DonateFor = () => {
                         name="goal"
                         value={formData.goal}
                         onChange={handleInputChange}
-                        className={`w-full px-3 py-2 border rounded-lg ${errors.goal ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg ${
+                          errors.goal ? 'border-red-500' : 'border-gray-300'
+                        }`}
                         placeholder="Enter goal amount"
                       />
-                      {errors.goal && <p className="text-red-500 text-sm mt-1">{errors.goal}</p>}
+                      {errors.goal && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.goal}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -415,7 +489,7 @@ const DonateFor = () => {
         />
       </div>
 
-      {status === "loading" && <p className="text-center">Loading...</p>}
+      {status === 'loading' && <p className="text-center">Loading...</p>}
       {error && <p className="text-center text-red-600">{error}</p>}
 
       <div className="overflow-x-auto shadow-md sm:rounded-lg">
@@ -424,22 +498,28 @@ const DonateFor = () => {
             <tr>
               <th
                 className="px-6 py-3 cursor-pointer"
-                onClick={() => requestSort("title")}
+                onClick={() => requestSort('title')}
               >
-                Title {sortConfig.key === "title" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                Title{' '}
+                {sortConfig.key === 'title' &&
+                  (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th className="px-6 py-3">Description</th>
               <th
                 className="px-6 py-3 cursor-pointer"
-                onClick={() => requestSort("raised")}
+                onClick={() => requestSort('raised')}
               >
-                Raised {sortConfig.key === "raised" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                Raised{' '}
+                {sortConfig.key === 'raised' &&
+                  (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th
                 className="px-6 py-3 cursor-pointer"
-                onClick={() => requestSort("goal")}
+                onClick={() => requestSort('goal')}
               >
-                Goal {sortConfig.key === "goal" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                Goal{' '}
+                {sortConfig.key === 'goal' &&
+                  (sortConfig.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th className="px-6 py-3">Progress</th>
               <th className="px-6 py-3">Donors</th>
@@ -447,10 +527,13 @@ const DonateFor = () => {
           </thead>
           <tbody>
             {paginatedData.map((category) => {
-              const progress = Math.round(
-                (parseInt(category.raised.replace(/₹|,/g, "")) /
-                  parseInt(category.goal.replace(/₹|,/g, "")) * 100
-                ))
+              const parseCurrency = (value) =>
+                parseInt((value || '0').replace(/₹|,/g, ''));
+
+              const raised = parseCurrency(category.raised);
+              const goal = parseCurrency(category.goal);
+              const progress =
+                goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
               return (
                 <React.Fragment key={category._id}>
                   <tr
@@ -460,14 +543,16 @@ const DonateFor = () => {
                     <td className="px-6 py-4 font-medium text-gray-900">
                       <div className="flex items-center">
                         <img
-                          src={category?.image || ""}
+                          src={category?.image || ''}
                           alt={category.title}
                           className="w-10 h-10 rounded-full object-cover mr-3"
                         />
                         {category.title}
                       </div>
                     </td>
-                    <td className="px-6 py-4 max-w-xs truncate">{category.description}</td>
+                    <td className="px-6 py-4 max-w-xs truncate">
+                      {category.description}
+                    </td>
                     <td className="px-6 py-4">{category.raised}</td>
                     <td className="px-6 py-4">{category.goal}</td>
                     <td className="px-6 py-4">
@@ -478,25 +563,43 @@ const DonateFor = () => {
                     </td>
                   </tr>
 
-                  {expandedRow === category._id && category.donor?.length > 0 && (
-                    <tr className="bg-gray-50">
-                      <td colSpan="6" className="px-6 py-4">
-                        <div className="ml-12">
-                          <h4 className="font-semibold mb-2">Donors:</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {category.donor.map((user, index) => (
-                              <div key={index} className="border p-3 rounded-lg">
-                                <p><span className="font-medium">Name:</span> {user.fullname}</p>
-                                <p><span className="font-medium">Email:</span> {user.email}</p>
-                                <p><span className="font-medium">Phone:</span> {user.phone_no}</p>
-                                <p><span className="font-medium">Address:</span> {user.address}</p>
-                              </div>
-                            ))}
+                  {expandedRow === category._id &&
+                    category.donor?.length > 0 && (
+                      <tr className="bg-gray-50">
+                        <td colSpan="6" className="px-6 py-4">
+                          <div className="ml-12">
+                            <h4 className="font-semibold mb-2">Donors:</h4>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                              {category.donor.map((user) => (
+                                <div
+                                  key={user._id}
+                                  className="border p-3 rounded-lg"
+                                >
+                                  <p>
+                                    <span className="font-medium">Name:</span>{' '}
+                                    {user.fullname}
+                                  </p>
+                                  <p>
+                                    <span className="font-medium">Email:</span>{' '}
+                                    {user.email}
+                                  </p>
+                                  <p>
+                                    <span className="font-medium">Phone:</span>{' '}
+                                    {user.phone_no}
+                                  </p>
+                                  <p>
+                                    <span className="font-medium">
+                                      Address:
+                                    </span>{' '}
+                                    {user.address}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
+                        </td>
+                      </tr>
+                    )}
                 </React.Fragment>
               );
             })}
@@ -508,7 +611,7 @@ const DonateFor = () => {
         <div className="flex justify-center mt-6">
           <nav className="inline-flex rounded-md shadow">
             <button
-              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
               className="px-3 py-1 rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-50"
             >
@@ -528,16 +631,20 @@ const DonateFor = () => {
 
               return (
                 <button
-                  key={pageNum}
+                  key={`page-${i}-${pageNum}`}
                   onClick={() => setCurrentPage(pageNum)}
-                  className={`px-3 py-1 border-t border-b border-gray-300 ${currentPage === pageNum ? 'bg-blue-500 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
+                  className={`px-3 py-1 border-t border-b border-gray-300 ${
+                    currentPage === pageNum
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-white text-gray-500 hover:bg-gray-50'
+                  }`}
                 >
                   {pageNum}
                 </button>
               );
             })}
             <button
-              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
               className="px-3 py-1 rounded-r-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 disabled:opacity-50"
             >
