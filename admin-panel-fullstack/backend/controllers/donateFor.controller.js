@@ -1,30 +1,154 @@
 const { logger } = require("../middleware/nodemailer");
 const DonationCategoryModel = require("../models/donateFor.model");
+const crypto = require('crypto');
+const razorpayInstance = require("../middleware/razorpayinstance")
 
-const addDonationCategory = async (req, res) => {
+// Create Razorpay order
+const createOrder = async (req, res) => {
   try {
-    // Get text fields from body
-    const { title, description, raised, goal } = req.body;
-    // Get file details
-    const filename = req?.file?.filename;
-    if (req.file.filename === undefined) {
+    const { amount, currency, receipt, notes } = req.body;
+    if (!amount || isNaN(amount)) {
       return res.status(400).json({
         success: false,
-        message: 'Image is required ',
+        error: 'Invalid amount'
       });
     }
-    // Create new category with file path
+
+    const options = {
+      amount: amount ,
+      currency: currency || 'INR',
+      receipt: receipt || `donation_${Date.now()}`,
+      notes: notes || {},
+      payment_capture: 1 
+    };
+
+    const order = await razorpayInstance.orders.create(options);
+
+    res.json({
+      success: true,
+      order: {
+        id: order.id,
+        amount: order.amount,
+        currency: order.currency,
+        receipt: order.receipt
+      }
+    });
+  } catch (error) {
+    console.error('Error creating Razorpay order:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to create payment order',
+      details: error.error?.description || error.message
+    });
+  }
+};
+
+// Verify payment and add donor to category
+const verifyPayment = async (req, res) => {
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, donationData, donationId } = req.body;
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !donationData || !donationId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields'
+      });
+    }
+
+    // Create signature
+    const generatedSignature = crypto
+      .createHmac('sha256', razorpayInstance.key_secret)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest('hex');
+
+    // Verify signature
+    if (generatedSignature !== razorpay_signature) {
+      return res.status(400).json({
+        success: false,
+        error: 'Payment verification failed'
+      });
+    }
+
+    // Add donor to donation category
+    const { fullname, email, phone_no, pan_no, aadhar_no, address, amount, message } = donationData;
+
+    const donor = {
+      fullname,
+      email,
+      phone_no,
+      pan_no,
+      aadhar_no,
+      address,
+      amount: parseFloat(amount),
+      message,
+      paymentId: razorpay_payment_id,
+      status: 'completed',
+      date: new Date()
+    };
+
+    // Update donation category with new donor and increment raised amount
+    const updatedCategory = await DonationCategoryModel.findByIdAndUpdate(
+      donationId,
+      {
+        $push: { donor: donor },
+        $inc: { 'category.raised': parseFloat(amount) }
+      },
+      { new: true }
+    );
+
+    if (!updatedCategory) {
+      return res.status(404).json({
+        success: false,
+        error: 'Donation category not found'
+      });
+    }
+
+    // Format response
+    const responseCategory = {
+      ...updatedCategory.toObject(),
+      image: "https://backend.sobf.in" + '/uploads/donateFor/' + updatedCategory.image
+    };
+
+    res.json({
+      success: true,
+      message: 'Payment verified and donor added successfully',
+      paymentId: razorpay_payment_id,
+      category: responseCategory
+    });
+
+  } catch (error) {
+    console.error('Error verifying payment:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to verify payment',
+      details: error.message
+    });
+  }
+};
+
+// Add donation category (unchanged)
+const addDonationCategory = async (req, res) => {
+  try {
+    const { title, description, raised, goal } = req.body;
+    const filename = req?.file?.filename;
+
+    if (!filename) {
+      return res.status(400).json({
+        success: false,
+        message: 'Image is required',
+      });
+    }
+
     const newCategory = new DonationCategoryModel({
       title,
       description,
-      image: filename, // Use the stored filename
-      raised,
-      goal,
+      image: filename,
+      raised: raised || 0,
+      goal
     });
 
     const savedCategory = await newCategory.save();
     savedCategory.image = "https://backend.sobf.in" + '/uploads/gallery/' + savedCategory.image;
-    // savedCategory.image = "http://localhost:5000" + '/uploads/donateFor/' + savedCategory.image;
+
     res.status(201).json({
       success: true,
       message: 'Post has been created successfully',
@@ -38,46 +162,32 @@ const addDonationCategory = async (req, res) => {
   }
 };
 
-// Get all donation categories
+// Get all donation categories (unchanged)
 const getAllDonationCategories = async (req, res) => {
   try {
     const categories = await DonationCategoryModel.find({});
 
-    if (categories.length > 0) {
-      // Process each category to update image URLs
-      const processedCategories = categories.map(category => {
-        // Create a new object with the updated image URL
-        return {
-          ...category.toObject(),
-          image: "https://backend.sobf.in" + '/uploads/donateFor/' + category.image
-          // For local testing:
-          // image: "http://localhost:5000" + '/uploads/donateFor/' + category.image
-        };
-      });
+    const processedCategories = categories.map(category => ({
+      ...category.toObject(),
+      image: "https://backend.sobf.in" + '/uploads/donateFor/' + category.image
+    }));
 
-      res.status(200).json({
-        success: true,
-        message: 'Donation categories retrieved successfully',
-        categories: processedCategories,
-      });
-    } else {
-      res.status(200).json({
-        success: true,
-        message: 'No donation categories found',
-        categories: [],
-      });
-    }
+    res.status(200).json({
+      success: true,
+      message: 'Donation categories retrieved successfully',
+      categories: processedCategories,
+    });
   } catch (error) {
-    logger.error("Something went wrong while retrieving donation categories.");
+    logger.error("Error retrieving donation categories:", error);
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while retrieving donation categories',
+      message: 'Failed to retrieve donation categories',
       error: error.message
     });
   }
 };
 
-// Get a single donation category by ID
+// Get donation category by ID (unchanged)
 const getDonationCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -90,12 +200,9 @@ const getDonationCategoryById = async (req, res) => {
       });
     }
 
-    // Update the image URL
     const processedCategory = {
       ...category.toObject(),
       image: "https://backend.sobf.in" + '/uploads/donateFor/' + category.image
-      // For local testing:
-      // image: "http://localhost:5000" + '/uploads/donateFor/' + category.image
     };
 
     res.status(200).json({
@@ -112,102 +219,21 @@ const getDonationCategoryById = async (req, res) => {
   }
 };
 
-// Add a user (donor) to a donation category
-const addUserToCategory = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { fullname, email, phone_no, pan_no, aadhar_no, address } = req.body;
-
-    // Manual validation
-    if (!fullname || !email || !phone_no || !pan_no || !aadhar_no || !address) {
-      return res.status(400).json({
-        success: false,
-        error: "All fields are required."
-      });
-    }
-
-    // Simple format validation
-    if (!email.includes("@") || !email.includes(".")) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid email format."
-      });
-    }
-
-    if (phone_no.length !== 10 || isNaN(phone_no)) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid phone number."
-      });
-    }
-
-    if (aadhar_no.length !== 12 || isNaN(aadhar_no)) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid Aadhar number."
-      });
-    }
-
-    if (pan_no.length !== 10) {
-      return res.status(400).json({
-        success: false,
-        error: "Invalid PAN number format."
-      });
-    }
-
-    const user = { fullname, email, phone_no, pan_no, aadhar_no, address };
-    logger.info("User details:", user);
-
-    const updatedCategory = await DonationCategoryModel.findByIdAndUpdate(
-      id,
-      { $push: { donor: user } },
-      { new: true }
-    );
-
-    if (!updatedCategory) {
-      return res.status(404).json({
-        success: false,
-        error: 'Category not found'
-      });
-    }
-
-    // Update the image URL in the response
-    const processedCategory = {
-      ...updatedCategory.toObject(),
-      image: "https://backend.sobf.in" + '/uploads/donate/' + updatedCategory.image
-      // For local testing:
-      // image: "http://localhost:5000" + '/uploads/donate/' + updatedCategory.image
-    };
-
-    res.status(200).json({
-      success: true,
-      message: 'User added to category successfully',
-      category: processedCategory,
-    });
-  } catch (error) {
-    logger.error("Error adding user to category:", error);
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-};
-
+// Update donation category (unchanged)
 const updateDonationCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, raised, goal } = req.body;
     const updatedFields = { title, description, raised, goal };
 
-    // If a new image is uploaded
-    if (req.file && req.file.filename) {
+    if (req.file?.filename) {
       updatedFields.image = req.file.filename;
     }
 
     const updatedCategory = await DonationCategoryModel.findByIdAndUpdate(
       id,
       { $set: updatedFields },
-      { new: true } // Return the updated document
+      { new: true }
     );
 
     if (!updatedCategory) {
@@ -217,7 +243,6 @@ const updateDonationCategory = async (req, res) => {
       });
     }
 
-    // Append full image path in response
     updatedCategory.image = "https://backend.sobf.in" + '/uploads/donateFor/' + updatedCategory.image;
 
     res.status(200).json({
@@ -235,11 +260,10 @@ const updateDonationCategory = async (req, res) => {
   }
 };
 
-
+// Delete donation category (unchanged)
 const deleteDonationCategory = async (req, res) => {
   try {
     const { id } = req.params;
-
     const category = await DonationCategoryModel.findById(id);
 
     if (!category) {
@@ -249,9 +273,7 @@ const deleteDonationCategory = async (req, res) => {
       });
     }
 
-    // Remove the category from database
     await DonationCategoryModel.findByIdAndDelete(id);
-
     res.status(200).json({
       success: true,
       message: "Donation category deleted successfully",
@@ -266,12 +288,12 @@ const deleteDonationCategory = async (req, res) => {
   }
 }
 
-
 module.exports = {
+  createOrder,
+  verifyPayment,
   addDonationCategory,
   getAllDonationCategories,
-  addUserToCategory,
   getDonationCategoryById,
   updateDonationCategory,
   deleteDonationCategory
-}
+};

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import subscriptionImage from '@/assets/Subscription.jpeg';
-import QRCode from '@/assets/brajQr.jpg';
 import ShareButton from '@/Components/common_components/ShareButton';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -11,51 +10,132 @@ const Subscription = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, isValid }
   } = useForm({ mode: 'onChange' });
+
+  const duration = watch('duration');
+  const amountMap = {
+    '1_month': 11,
+    '3_months': 33,
+    '6_months': 66,
+    '1_year': 132
+  };
 
   const handlePanInputChange = (e) => {
     const value = e.target.value.toUpperCase();
     setValue('pan', value, { shouldValidate: true });
   };
 
-  const onSubmit = async (data) => {
-    setStep(2);
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
   };
 
-  const handlePaymentCompleted = async (data) => {
+  const initiateRazorpayPayment = async (data) => {
     try {
       setLoading(true);
-      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/create-subscription`,data);
-
-      if (res.data.success) {
-        toast.success("Welcome! You've successfully subscribed");
-        setFormData(data);
-        setStep(2);
+      const isScriptLoaded = await loadRazorpayScript();
+      if (!isScriptLoaded) {
+        throw new Error('Razorpay SDK failed to load');
       }
-    } catch (error) {
-      let errorMessage = 'Failed to create subscription. Please try again.';
-
-      if (error.response) {
-        if (error.response.status === 400) {
-          if (error.response.data.error.includes('Email already exists')) {
-            errorMessage = "This email is already registered";
-          } else if (error.response.data.error.includes('PAN already exists')) {
-            errorMessage = "This PAN number is already registered";
-          }
+      // Create order on backend
+      const orderResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/donateforsubscription`, {
+        amount: amountMap[data.duration], 
+        currency: 'INR',
+        receipt: `subscription_${Date.now()}`,
+        notes: {
+          subscriptionType: data.duration,
+          donorName: data.name,
+          donorEmail: data.email
         }
-      }
+      });
 
-      toast.error(errorMessage);
-    } finally {
+      const { order } = orderResponse.data;
+
+      // Razorpay options
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Soul of Braj Federation",
+        description: `Subscription: ${data.duration.replace('_', ' ')}`,
+        image: "http://localhost:5173/src/assets/sobfLogo.png",
+        order_id: order.id,
+        handler: async function (response) {
+          // Verify payment on backend
+          try {
+            const verificationResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/verifydonateforsubscription`, {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              subscriptionData: data,
+              amount: amountMap[data.duration]
+            });
+
+            console.log("verificationResponse", verificationResponse)
+            if (verificationResponse.data.success) {
+              // Payment successful
+              setPaymentSuccess(true);
+              setFormData(data);
+              setStep(3);
+              toast.success("Subscription successful! Thank you for your support.");
+            } else {
+              toast.error("Payment verification failed");
+            }
+          } catch (error) {
+            console.error("Verification error:", error);
+            toast.error(error ,"An error occurred during payment verification");
+          }
+        },
+        prefill: {
+          name: data.name,
+          email: data.email,
+          contact: data.phone
+        },
+        notes: {
+          address: data.place,
+          subscriptionType: data.duration
+        },
+        theme: {
+          color: "#F59E0B"
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+
+      rzp.on('payment.failed', function (response) {
+        toast.error(`Payment failed: ${response.error.description}`);
+        setLoading(false);
+      });
+
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast.error("An error occurred during payment processing");
       setLoading(false);
     }
+  };
+
+  const onSubmit = async (data) => {
+    setFormData(data);
+    await initiateRazorpayPayment(data);
   };
 
   const handleBackToHome = () => {
@@ -190,11 +270,11 @@ const Subscription = () => {
           type="submit"
           disabled={!isValid || loading}
           className={`w-full text-sm font-semibold py-2.5 px-4 rounded-md shadow-md flex items-center justify-center gap-2 transition-all duration-200 ${isValid && !loading
-              ? 'bg-amber-500 hover:bg-amber-600 text-black cursor-pointer'
-              : 'bg-amber-300 text-gray-500 cursor-not-allowed'
+            ? 'bg-amber-500 hover:bg-amber-600 text-black cursor-pointer'
+            : 'bg-amber-300 text-gray-500 cursor-not-allowed'
             }`}
         >
-          {loading ? 'Processing...' : 'Subscription'}
+          {loading ? 'Processing...' : `Pay ₹${amountMap[duration] || '--'}`}
         </button>
       </form>
 
@@ -209,86 +289,41 @@ const Subscription = () => {
     </>
   );
 
-  const renderStep2 = () => (
-    <>
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Payment Details</h2>
-      <div className="flex flex-col sm:flex-row sm:gap-2 md:gap-0 items-start justify-between lg:flex-col">
-        <img src={QRCode} alt="QR Code" className="size-72 mb-5 lg:mb-12" />
-        <div className="flex flex-col items-left justify-center mt-4">
-          <span className="mb-2 text-lg">
-            <strong>Soul Of Braj Federation Bank Details :</strong>
-          </span>
-          <span><strong>Bank Name</strong> : Axis Bank</span>
-          <span><strong>Account Number</strong> : 920020058749691</span>
-          <span><strong>IFSC Code</strong> : UTIB0000794</span>
-          <span><strong>BRANCH</strong> : VRINDAVAN</span>
-        </div>
-      </div>
-      <div className="flex justify-between gap-4 mt-6">
-        <button
-          onClick={() => setStep(1)}
-          className="w-1/2 bg-gray-300 hover:bg-gray-400 text-gray-800 text-sm font-medium py-2.5 px-4 rounded-md shadow-sm transition duration-200"
-        >
-          <span className="mr-2"> ← </span> Back
-        </button>
-        <button
-          onClick={handlePaymentCompleted(data)}
-          className="w-1/2 bg-amber-500 hover:bg-amber-600 text-black text-xs font-semibold py-2.5 px-4 rounded-md shadow-md transition duration-200"
-        >
-          <div className="flex justify-center items-center gap-1">
-            <span>Payment Completed </span>
-            <span> → </span>
-          </div>
-        </button>
-      </div>
-    </>
-  );
-
   const renderStep3 = () => (
     <>
       <h2 className="text-2xl font-bold text-gray-800 mb-4">
         Thank You for Your Subscription! 🙏
       </h2>
       <p className="text-gray-700 mb-4">
-        Your willingness to help means the world to us. Even though we
-        can&rsquo;t confirm your payment instantly, we trust your kindness.
+        Your subscription payment has been successfully processed. Here are your details:
       </p>
-      <div className="bg-white border border-amber-200 rounded-lg p-4 shadow-sm text-sm sm:text-base text-gray-700">
-        <p className="font-semibold mb-2">
-          📩 Kindly send the following details to:
-        </p>
-        <p className="mb-4 text-amber-800 font-medium">
-          <a
-            href={`mailto:soulofbraj@gmail.com?subject=Subscription%20Details&body=Jai%20Shree%20Radha%20Rani,%0A%0AI%20have%20made%20a%20payment%20for%20subscription.%20Here%20are%20my%20details:%0A%0AName:%20${encodeURIComponent(
-              formData.name || '',
-            )}%0AEmail:%20${encodeURIComponent(
-              formData.email || '',
-            )}%0AContact%20No:%20${encodeURIComponent(
-              formData.phone || '',
-            )}%0APlace:%20${encodeURIComponent(
-              formData.place || '',
-            )}%0AAmount:%20₹${formData.duration === '1_month'
-                ? '11'
-                : formData.duration === '3_months'
-                  ? '33'
-                  : formData.duration === '6_months'
-                    ? '66'
-                    : '132'
-              }%0ATransaction%20ID:%20%3CEnter%20Transaction%20ID%20here%3E%0A%0AThank%20you!`}
-            className="text-blue-600 font-semibold underline mt-2 inline-block"
-          >
-            soulofbraj@gmail.com
-          </a>
-        </p>
-        <ul className="list-disc list-inside space-y-1 pl-1">
-          <li><strong>Your Name</strong></li>
-          <li><strong>Your Contact No</strong></li>
-          <li><strong>Your Donation Transaction ID (optional)</strong></li>
-          <li><strong>Your Donation Amount</strong></li>
-          <li><strong>Your E-Mail</strong></li>
-          <li><strong>Your Complete Postal Address</strong></li>
-        </ul>
+
+      <div className="bg-white border border-amber-200 rounded-lg p-4 shadow-sm text-sm sm:text-base text-gray-700 mb-6">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="font-semibold">Name:</p>
+            <p>{formData.name}</p>
+          </div>
+          <div>
+            <p className="font-semibold">Email:</p>
+            <p>{formData.email}</p>
+          </div>
+          <div>
+            <p className="font-semibold">Phone:</p>
+            <p>{formData.phone}</p>
+          </div>
+          <div>
+            <p className="font-semibold">Plan:</p>
+            <p>
+              {formData.duration === '1_month' ? 'Monthly' :
+                formData.duration === '3_months' ? 'Quarterly' :
+                  formData.duration === '6_months' ? 'Half-Yearly' : 'Yearly'}
+              (₹{amountMap[formData.duration]})
+            </p>
+          </div>
+        </div>
       </div>
+
       <div className="flex gap-4 items-center mt-6">
         <button
           onClick={handleBackToHome}
@@ -349,7 +384,6 @@ const Subscription = () => {
           {/* Right Side Steps */}
           <div className="lg:w-1/2 p-6 md:p-8">
             {step === 1 && renderStep1()}
-            {step === 2 && renderStep2()}
             {step === 3 && renderStep3()}
           </div>
         </div>

@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addDonorToDonation, fetchDonationById } from "@/Reducers/donateForSlice";
-import qr from "../assets/QRCode.png";
+import { fetchDonationById } from "@/Reducers/donateForSlice";
 import { toast } from "react-toastify";
 import ShareButton from "@/Components/common_components/ShareButton";
+import axios from "axios";
+import DonorCard from "@/helper/DonorCard";
+
 const DonationPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [showBankDetails, setShowBankDetails] = useState(false);
   const { currentDonation, status, error, donorStatus } = useSelector((state) => state.donateFor);
 
   const [formData, setFormData] = useState({
@@ -62,42 +63,111 @@ const DonationPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      // Instead of immediately submitting, show the bank details popup
-      setShowBankDetails(true);
-    }
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
   };
 
-  const confirmDonation = () => {
-    // This will be called after user sees bank details and confirms
-    dispatch(addDonorToDonation({
-      donationId: id,
-      donorData: formData
-    }))
-      .unwrap()
-      .then(() => {
-        setDonationSuccess(true);
-        setFormData({
-          fullname: "",
-          email: "",
-          phone_no: "",
-          pan_no: "",
-          aadhar_no: "",
-          address: "",
-          amount: "",
-          message: ""
-        });
-        setTimeout(() => setDonationSuccess(false), 5000);
-        dispatch(fetchDonationById(id));
-        toast.success("Donation successful! Thank you for your support.");
-        setShowBankDetails(false); // Close the bank details popup
-      })
-      .catch((error) => {
-        console.error("Donation error:", error);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    try {
+      // Load Razorpay script
+      const isScriptLoaded = await loadRazorpayScript();
+      if (!isScriptLoaded) {
+        toast.error("Razorpay SDK failed to load. Please try again.");
+        return;
+      }
+
+      // Create order on your backend
+      const orderResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/donatefor`, {
+        amount: formData.amount,
+        currency: 'INR',
+        receipt: `donation_${Date.now()}`,
+        notes: {
+          donationId: id,
+          donorName: formData.fullname,
+          donorEmail: formData.email
+        }
       });
+
+      const { order } = orderResponse.data;
+
+      // Razorpay options
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Soul of Braj Federation",
+        description: `Donation for ${currentDonation?.title}`,
+        image: "http://localhost:5173/src/assets/sobfLogo.png",
+        order_id: order.id,
+        handler: async function (response) {
+          // Verify payment on your backend
+          const verificationResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/verifydonatefor`, {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            donationData: formData,
+            donationId: id
+          });
+
+          if (verificationResponse.data.success) {
+            // Payment successful
+            toast.success("Payment successful! Thank you for your donation.");
+            setDonationSuccess(true);
+            dispatch(fetchDonationById(id)); 
+
+            // Reset form
+            setFormData({
+              fullname: "",
+              email: "",
+              phone_no: "",
+              pan_no: "",
+              aadhar_no: "",
+              address: "",
+              amount: "",
+              message: ""
+            });
+          } else {
+            toast.error("Payment verification failed");
+          }
+        },
+        prefill: {
+          name: formData.fullname,
+          email: formData.email,
+          contact: formData.phone_no
+        },
+        notes: {
+          address: formData.address,
+          donationId: id
+        },
+        theme: {
+          color: "#3399cc"
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+
+      rzp.on('payment.failed', function (response) {
+        toast.error(`Payment failed: ${response.error.description}`);
+      });
+
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast.error("An error occurred during payment processing");
+    }
   };
 
   const handleChange = (e) => {
@@ -115,8 +185,6 @@ const DonationPage = () => {
     }
   };
 
-  if (status === 'loading') return <div className="text-center py-8">Loading donation details...</div>;
-  if (error) return <div className="text-center py-8 text-red-600">Error: {error}</div>;
   if (!currentDonation) return <div className="text-center py-8">Donation not found</div>;
 
   const progress = currentDonation?.category?.raised && currentDonation.goal
@@ -127,51 +195,7 @@ const DonationPage = () => {
   const donor = currentDonation?.category?.donor || [];
   const displayedDonors = showAllDonors ? donor : donor.slice(0, 4);
 
-  const DonorCard = ({ donor }) => {
-    // Array of more vibrant color combinations (bg-color and text-color)
-    const colorSchemes = [
-      'bg-red-100 text-red-800',
-      'bg-green-100 text-green-800',
-      'bg-purple-100 text-purple-800',
-      'bg-pink-100 text-pink-800',
-      'bg-indigo-100 text-indigo-800',
-      'bg-yellow-100 text-yellow-800',
-      'bg-red-100 text-red-800',
-      'bg-teal-100 text-teal-800',
-      'bg-amber-100 text-amber-800',
-      'bg-cyan-100 text-cyan-800',
-      'bg-fuchsia-100 text-fuchsia-800',
-      'bg-rose-100 text-rose-800',
-      'bg-emerald-100 text-emerald-800',
-      'bg-violet-100 text-violet-800',
-      'bg-sky-100 text-sky-800',
-      'bg-lime-100 text-lime-800'
-    ];
-
-    // Generate a consistent color based on donor's name
-    const colorIndex = donor.fullname.charCodeAt(0) % colorSchemes.length;
-    const [bgColor, textColor] = colorSchemes[colorIndex].split(' ');
-
-    return (
-      <div className="flex items-center gap-4 p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100">
-        <div className={`w-10 h-10 rounded-full ${bgColor} ${textColor} flex items-center justify-center text-lg font-bold`}>
-          {donor.fullname.charAt(0).toUpperCase()}
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="font-medium text-gray-800 truncate">{donor.fullname}</p>
-          <div className="flex items-center mt-1">
-            <svg className="w-4 h-4 text-gray-400 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-            <p className="text-sm text-gray-500 truncate">{donor.email}</p>
-          </div>
-        </div>
-        <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
-          Supporter
-        </div>
-      </div>
-    );
-  };
+ 
 
   const title = 'Support Braj Seva – Be one in a million';
   const baseURL =
@@ -182,72 +206,6 @@ const DonationPage = () => {
   return (
     <div className="container mx-auto px-4 pb-8 max-w-9xl">
       <div className="container mx-auto px-4 py-8 max-w-6xl mt-40">
-        {/* Bank Details Modal */}
-        {showBankDetails && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-lg w-full max-w-md">
-              <div className="p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-bold text-gray-800">Bank Transfer Details</h2>
-                  <button
-                    onClick={() => setShowBankDetails(false)}
-                    className="text-gray-500 hover:text-gray-700"
-                  >
-                  </button>
-                </div>
-
-                <div className="mb-6">
-                  {/* QR Code/Scanner Placeholder */}
-                  <div className="bg-gray-100 p-4 rounded-lg flex justify-center mb-4">
-                    <div className="bg-white p-2 rounded">
-                      <img
-                        src={qr}
-                        alt="Scanner"
-                        className="w-48 h-48 object-contain"
-                      />
-                      <p className="text-center text-sm text-gray-500 mt-2">Scan to pay</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="font-medium">Bank Name:</span>
-                      <span>Axis Bank</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Account Number:</span>
-                      <span>920020058749691</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">IFSC Code:</span>
-                      <span>UTIB0000794</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Branch:</span>
-                      <span>VRINDAVAN</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-end space-x-3">
-                  <button
-                    onClick={() => setShowBankDetails(false)}
-                    className="px-4 py-2 border bg-red-700 border-red-300 text-white rounded-md  hover:bg-red-500"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={confirmDonation}
-                    className="px-4 py-2 bg-blue text-white rounded-md hover:bg-orange"
-                  >
-                    I&apos;ve Made the Payment
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* All Donors Modal */}
         {showAllDonors && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -290,13 +248,12 @@ const DonationPage = () => {
 
               {/* Main description */}
               <div className="mb-4 flex justify-between">
-                {/* <h3 className="font-semibold text-gray-700 mb-1">About this campaign:</h3> */}
                 <p className="text-gray-700 text-xl font-bold whitespace-pre-line">{currentDonation?.category?.title}</p>
                 <div onClick={(e) => e.stopPropagation()}>
                   <ShareButton
                     title={title}
                     url={`${baseURL}/donate/${currentDonation?.category?._id}`}
-                    className= "px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   />
                 </div>
               </div>
@@ -356,9 +313,7 @@ const DonationPage = () => {
             </div>
           </div>
 
-
-
-          {/* Updated Donation Form */}
+          {/* Donation Form */}
           <div className="lg:w-1/2 bg-white rounded-xl shadow-md p-6">
             <h2 className="text-xl font-bold text-gray-800 mb-6">Make a Donation</h2>
 

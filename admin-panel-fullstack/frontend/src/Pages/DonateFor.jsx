@@ -7,6 +7,8 @@ import {
   updateDonationCategory,
 } from '../Reducers/donateForSlice';
 import { toast } from 'react-toastify';
+import CircularProgress from '../helper/CircularPorgrogress';
+import { ACCEPTED_DIMENSIONS } from '../helper/Dimention';
 
 const DonateFor = () => {
   const dispatch = useDispatch();
@@ -31,17 +33,6 @@ const DonateFor = () => {
   const [reloadTrigger, setReloadTrigger] = useState(false);
 
   const itemsPerPage = 5;
-  const ACCEPTED_DIMENSIONS = [
-    { width: 800, height: 596 },
-    { width: 1150, height: 862 },
-    { width: 1200, height: 453 },
-    { width: 1200, height: 900 },
-    { width: 1280, height: 597 },
-    { width: 1280, height: 960 },
-    { width: 4000, height: 1868 },
-    { width: 4080, height: 1904 },
-    { width: 2048, height: 1536 },
-  ];
   const TOLERANCE = 10;
 
   useEffect(() => {
@@ -187,46 +178,10 @@ const DonateFor = () => {
     });
   };
 
-  const CircularProgress = ({ percentage }) => {
-    const radius = 20;
-    const circumference = 2 * Math.PI * radius;
-    const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
-    return (
-      <div className="relative w-12 h-12 flex items-center justify-center">
-        <svg className="w-full h-full" viewBox="0 0 50 50">
-          <circle
-            className="text-gray-200"
-            strokeWidth="5"
-            stroke="currentColor"
-            fill="transparent"
-            r={radius}
-            cx="25"
-            cy="25"
-          />
-          <circle
-            className="text-green-500"
-            strokeWidth="5"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            stroke="currentColor"
-            fill="transparent"
-            r={radius}
-            cx="25"
-            cy="25"
-            transform="rotate(-90 25 25)"
-          />
-        </svg>
-        <span className="absolute text-sm font-medium text-gray-700">
-          {percentage}%
-        </span>
-      </div>
-    );
-  };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target?.files[0];
     if (!file) return;
 
     if (!file.type.match('image.*')) {
@@ -275,8 +230,8 @@ const DonateFor = () => {
     }
   };
 
-  const totalPages = Math.ceil(displayData.length / itemsPerPage);
-  const paginatedData = displayData.slice(
+  const totalPages = Math.ceil(displayData?.length / itemsPerPage);
+  const paginatedData = displayData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
@@ -319,12 +274,12 @@ const DonateFor = () => {
                       type="text"
                       id="title"
                       name="title"
-                      value={formData.title}
+                      value={formData?.title}
                       onChange={handleInputChange}
-                      className={`w-full px-3 py-2 border rounded-lg ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
+                      className={`w-full px-3 py-2 border rounded-lg ${errors?.title ? 'border-red-500' : 'border-gray-300'}`}
                       placeholder="Enter title"
                     />
-                    {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+                    {errors.title && <p className="text-red-500 text-sm mt-1">{errors?.title}</p>}
                   </div>
 
                   <div>
@@ -451,7 +406,6 @@ const DonateFor = () => {
           Add Post
         </button>
       </div>
-
       <div className="mb-6">
         <input
           type="text"
@@ -461,59 +415,55 @@ const DonateFor = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-
-      {status === 'loading' && <p className="text-center">Loading...</p>}
-      {error && <p className="text-center text-red-600">{error}</p>}
-
       <div className="overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-white uppercase bg-[#27274F]">
-            <tr>
+            <tr >
               <th className="px-6 py-3 cursor-pointer" onClick={() => requestSort('title')}>
-                Title {sortConfig.key === 'title' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                Title {sortConfig?.key === 'title' && (sortConfig?.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th className="px-6 py-3">Description</th>
               <th className="px-6 py-3 cursor-pointer" onClick={() => requestSort('raised')}>
-                Raised {sortConfig.key === 'raised' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                Raised {sortConfig?.key === 'raised' && (sortConfig?.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th className="px-6 py-3 cursor-pointer" onClick={() => requestSort('goal')}>
-                Goal {sortConfig.key === 'goal' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                Goal {sortConfig?.key === 'goal' && (sortConfig?.direction === 'asc' ? '↑' : '↓')}
               </th>
               <th className="px-6 py-3">Progress</th>
               <th className="px-6 py-3">Donors</th>
               <th className="px-6 py-3">Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {paginatedData.map((category) => {
+          <tbody onClick={() => toggleExpand(category?._id)}>
+            {paginatedData?.map((category) => {
               const parseCurrency = (value) => parseInt((value || '0').replace(/₹|,/g, ''));
-              const raised = parseCurrency(category.raised);
-              const goal = parseCurrency(category.goal);
+              const raised = parseCurrency(category?.raised);
+              const goal = parseCurrency(category?.goal);
               const progress = goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0;
 
               return (
-                <React.Fragment key={category._id}>
-                  <tr className="bg-white border-b hover:bg-gray-50">
-                    <td className="px-6 py-4 font-medium text-gray-900">
+                <React.Fragment key={category?._id}>
+                  <tr className="bg-white border-b hover:bg-gray-50 cursor-pointer" onClick={() => toggleExpand(category?._id)}>
+                    <td className="px-6 py-4 font-medium text-gray-900 cursor-pointer"  onClick={() => toggleExpand(category?._id)}>
                       <div className="flex items-center">
                         <img
                           src={category?.image || ''}
-                          alt={category.title}
+                          alt={category?.title}
                           className="w-10 h-10 rounded-full object-cover mr-3"
                         />
-                        {category.title}
+                        {category?.title}
                       </div>
                     </td>
-                    <td className="px-6 py-4 max-w-xs truncate" onClick={() => toggleExpand(category._id)}>
-                      {category.description}
+                    <td className="px-6 py-4 max-w-xs truncate" >
+                      {category?.description}
                     </td>
-                    <td className="px-6 py-4">{category.raised}</td>
-                    <td className="px-6 py-4">{category.goal}</td>
+                    <td className="px-6 py-4">{category?.raised}</td>
+                    <td className="px-6 py-4">{category?.goal}</td>
                     <td className="px-6 py-4">
                       <CircularProgress percentage={progress} />
                     </td>
-                    <td className="px-6 py-4 text-center" onClick={() => toggleExpand(category._id)}>
-                      {category.donor?.length || 0}
+                    <td className="px-6 py-4 text-center" onClick={() => toggleExpand(category?._id)}>
+                      {category?.donor?.length || 0}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex space-x-2">
@@ -524,7 +474,7 @@ const DonateFor = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => handleDelete(category._id)}
+                          onClick={() => handleDelete(category?._id)}
                           className="text-red-600 font-bold hover:text-red-800"
                         >
                           Delete
@@ -533,18 +483,18 @@ const DonateFor = () => {
                     </td>
                   </tr>
 
-                  {expandedRow === category._id && category.donor?.length > 0 && (
+                  {expandedRow === category?._id && category?.donor?.length > 0 && (
                     <tr className="bg-gray-50">
                       <td colSpan="7" className="px-6 py-4">
                         <div className="ml-12">
                           <h4 className="font-semibold mb-2">Donors:</h4>
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {category.donor.map((user) => (
-                              <div key={user._id} className="border p-3 rounded-lg">
-                                <p><span className="font-medium">Name:</span> {user.fullname}</p>
-                                <p><span className="font-medium">Email:</span> {user.email}</p>
-                                <p><span className="font-medium">Phone:</span> {user.phone_no}</p>
-                                <p><span className="font-medium">Address:</span> {user.address}</p>
+                            {category?.donor?.map((user) => (
+                              <div key={user?._id} className="border p-3 rounded-lg">
+                                <p><span className="font-medium">Name:</span> {user?.fullname}</p>
+                                <p><span className="font-medium">Email:</span> {user?.email}</p>
+                                <p><span className="font-medium">Phone:</span> {user?.phone_no}</p>
+                                <p><span className="font-medium">Address:</span> {user?.address}</p>
                               </div>
                             ))}
                           </div>
@@ -606,7 +556,7 @@ const DonateFor = () => {
       )}
 
       <div className="mt-4 text-center text-gray-500">
-        Showing {paginatedData.length} of {displayData.length} items
+        Showing {paginatedData?.length} of {displayData?.length} items
       </div>
     </div>
   );

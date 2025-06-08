@@ -17,6 +17,7 @@ import RegisteredUsers from '../Pages/RegisteredUsers.jsx';
 import Volunteer from '../Pages/Volunteer.jsx';
 import DonateFor from '../Pages/DonateFor.jsx';
 import SubscribedDonor from '../Pages/SubscribedDonor.jsx';
+import DonorDashboard from '../Pages/DonorInfo.jsx';
 
 const ProtectedLayout = ({ setIsAuthenticated }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Sidebar visibility for small screens
@@ -36,7 +37,8 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
     '/upcoming-events/registered-users',
     '/volunteer',
     '/donate-for',
-    '/subsribed-donors'
+    '/subsribed-donors',
+    '/donors'
   ];
   const isNotFound = !validRoutes.includes(location.pathname);
   const toggleSidebar = () => {
@@ -104,6 +106,7 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
             <Route path="/volunteer" element={<Volunteer />} />
             <Route path="/donate-for" element={<DonateFor />} />
             <Route path="/subsribed-donors" element={<SubscribedDonor />} />
+            <Route path="/donors" element={<DonorDashboard />} />
             {/* Add more routes as needed */}
             <Route path="*" element={<NotFound />} />
           </Routes>

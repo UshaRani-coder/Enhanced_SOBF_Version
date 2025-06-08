@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import donate from "../assets/donateMotive.png";
 import qrCodeImage from "../assets/QRCode.png";
+import axios from "axios";
 
 export default function DonationForm() {
   const [formData, setFormData] = useState({
@@ -13,18 +14,59 @@ export default function DonationForm() {
     donationAmount: "",
     transactionId: "",
     paymentMethod: "upi",
+    address: "",
+    panNumber: "",
+    isAnonymous: false,
   });
 
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRazorpayLoading, setIsRazorpayLoading] = useState(false);
+  const [razorpayLoaded, setRazorpayLoaded] = useState(false);
+  const [showCustomAmount, setShowCustomAmount] = useState(false);
 
   const presetAmounts = [100, 500, 1000, 2000, 5000];
+  const RAZORPAY_KEY = "rzp_test_3gQIDkPlBpnVfU"; // Replace with your actual key
+
+  // Load Razorpay script when component mounts
+  useEffect(() => {
+    const loadRazorpayScript = async () => {
+      if (window.Razorpay) {
+        setRazorpayLoaded(true);
+        return;
+      }
+
+      try {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.async = true;
+        script.onload = () => {
+          setRazorpayLoaded(true);
+          console.log("Razorpay SDK loaded successfully");
+        };
+        script.onerror = () => {
+          console.error("Failed to load Razorpay SDK");
+          setRazorpayLoaded(false);
+        };
+        document.body.appendChild(script);
+      } catch (error) {
+        console.error("Error loading Razorpay:", error);
+        setRazorpayLoaded(false);
+      }
+    };
+
+    loadRazorpayScript();
+
+    return () => {
+      // Cleanup if needed
+    };
+  }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -33,6 +75,14 @@ export default function DonationForm() {
       ...prev,
       donationAmount: amount,
     }));
+    setShowCustomAmount(false);
+  };
+
+  const toggleCustomAmount = () => {
+    setShowCustomAmount(!showCustomAmount);
+    if (!showCustomAmount) {
+      setFormData(prev => ({ ...prev, donationAmount: "" }));
+    }
   };
 
   const validateForm = () => {
@@ -63,34 +113,136 @@ export default function DonationForm() {
       toast.error("Enter a valid Donation Amount greater than 0.");
       return false;
     }
-
     return true;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      setIsSubmitting(true);
-      setTimeout(() => {
-        setShowBankDetails(true);
-        setIsSubmitting(false);
-      }, 1000);
+  const initiateRazorpayPayment = async () => {
+    if (!razorpayLoaded) {
+      toast.error("Payment system is still initializing. Please try again in a moment.");
+      return;
+    }
+    setIsRazorpayLoading(true);
+    try {
+      const orderResponse = await axios.post("http://localhost:5000/api/donation/create-razorpay-order", {
+        amount: formData.donationAmount * 100, // Razorpay expects amount in paise
+        currency: "INR",
+        receipt: `donation_${Date.now()}`,
+        notes: {
+          purpose: formData.donationFor,
+          donorName: formData.fullName,
+          donorEmail: formData.email,
+        },
+      });
+      const orderId = orderResponse.data.id;
+      const options = {
+        key: RAZORPAY_KEY,
+        amount: formData.donationAmount * 100,
+        currency: "INR",
+        name: "Soul Of Braj Federation",
+        description: `Donation for ${formData.donationFor}`,
+        image: "/logo.png", // Your organization logo
+        order_id: orderId,
+        handler: async function (response) {
+          // Handle successful payment
+          const paymentData = {
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+            ...formData,
+          };
+
+          // Verify payment and save to database
+          await saveDonation(paymentData);
+        },
+        prefill: {
+          name: formData.fullName,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        notes: {
+          purpose: formData.donationFor,
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Razorpay error:", error);
+      toast.error("Payment initiation failed. Please try again.");
+    } finally {
+      setIsRazorpayLoading(false);
     }
   };
 
-  const handlePaymentCompletion = () => {
-    setShowBankDetails(false);
-    // Reset form
-    setFormData({
-      fullName: "",
-      email: "",
-      phone: "",
-      donationFor: "",
-      donationAmount: "",
-      transactionId: "",
-      paymentMethod: "upi",
-    });
-    toast.success("Thank you for your donation.");
+  const saveDonation = async (paymentData) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/donation/save-donation", {
+        ...paymentData,
+        isAnonymous: formData.isAnonymous,
+        panNumber: formData.panNumber,
+        address: formData.address,
+      });
+
+      if (response.data.success) {
+        toast.success("Thank you for your donation! A receipt will be emailed to you.");
+        // Reset form
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          donationFor: "",
+          donationAmount: "",
+          paymentMethod: "upi",
+          address: "",
+          panNumber: "",
+        });
+      } else {
+        toast.error("Donation recorded but there was an issue sending the receipt.");
+      }
+    } catch (error) {
+      console.error("Error saving donation:", error);
+      toast.error("There was an error processing your donation. Please contact support.");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    setIsSubmitting(true);
+    try {
+      if (formData.paymentMethod === "razorpay") {
+        await initiateRazorpayPayment();
+      } else {
+        setShowBankDetails(true);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handlePaymentCompletion = async () => {
+    setIsSubmitting(true);
+    try {
+      await saveDonation({
+        ...formData,
+        paymentMethod: "bank_transfer",
+        razorpay_payment_id: null,
+        razorpay_order_id: null,
+        razorpay_signature: null,
+      });
+      setShowBankDetails(false);
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Failed to save donation details");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const BankDetailsModal = ({ onClose }) => (
@@ -113,11 +265,12 @@ export default function DonationForm() {
           <div className="p-6 rounded-lg border border-neutral-200">
             <h4 className="font-semibold text-blue mb-3 text-lg">Bank Transfer Details</h4>
             <div className="space-y-3 text-gray-700">
-              
               <p><span className="font-medium">Bank Name:</span> Axis Bank</p>
               <p><span className="font-medium">Account Number:</span> 920020058749691</p>
               <p><span className="font-medium">IFSC Code:</span> UTIB0000794</p>
               <p><span className="font-medium">Branch:</span> VRINDAVAN</p>
+              <p><span className="font-medium">Account Type:</span> Current</p>
+              <p><span className="font-medium">Account Name:</span> Your Organization Name</p>
             </div>
           </div>
 
@@ -132,27 +285,15 @@ export default function DonationForm() {
                 className="mb-4 border-2 border-green-300 rounded-lg"
               />
               <p className="text-sm text-gray-600 mb-2">Scan the QR code or use this UPI ID:</p>
+              <p className="font-medium text-green-700">yourorg@upi</p>
             </div>
           </div>
         </div>
-
-        <div className="mt-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Transaction ID (after payment)
-          </label>
-          <input
-            type="text"
-            name="transactionId"
-            placeholder="Enter transaction reference"
-            value={formData.transactionId}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md p-3"
-          />
-        </div>
-
         <button
           onClick={handlePaymentCompletion}
-          className="w-full mt-6 bg-blue hover:bg-blue text-white py-3 rounded-lg transition-colors font-medium text-lg flex items-center justify-center"
+          disabled={isSubmitting}
+          className={`w-full mt-6 bg-blue hover:bg-blue text-white py-3 rounded-lg transition-colors font-medium text-lg flex items-center justify-center ${isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+            }`}
         >
           {isSubmitting ? (
             <>
@@ -171,7 +312,7 @@ export default function DonationForm() {
   );
 
   return (
-    <div className="w-full min-h-screen bg-gray-50 mt-32" >
+    <div className="w-full min-h-screen bg-gray-50 mt-32">
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -268,47 +409,137 @@ export default function DonationForm() {
                   <option value="Other">Other (Specify in Transaction Note)</option>
                 </select>
               </div>
-
               <div>
                 <label htmlFor="donationAmount" className="block text-sm font-medium text-gray-700 mb-1">
                   Donation Amount (₹) <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="number"
-                  id="donationAmount"
-                  name="donationAmount"
-                  placeholder="Enter amount in INR"
-                  value={formData.donationAmount}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue focus:border-blue transition mb-2"
-                  min="1"
-                  required
-                />
-                <div className="flex flex-wrap gap-2">
-                  {presetAmounts.map((amount) => (
+
+                {!showCustomAmount ? (
+                  <>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {presetAmounts.map((amount) => (
+                        <button
+                          key={amount}
+                          type="button"
+                          onClick={() => handlePresetAmount(amount)}
+                          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${Number(formData.donationAmount) === amount
+                            ? "bg-blue text-white"
+                            : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+                            }`}
+                        >
+                          ₹{amount.toLocaleString()}
+                        </button>
+                      ))}
+                    </div>
                     <button
-                      key={amount}
                       type="button"
-                      onClick={() => handlePresetAmount(amount)}
-                      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${Number(formData.donationAmount) === amount
-                          ? "bg-blue text-white"
-                          : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                        }`}
+                      onClick={toggleCustomAmount}
+                      className="text-blue-600 hover:text-blue-800 text-sm font-medium mb-3"
                     >
-                      ₹{amount.toLocaleString()}
+                      + Enter custom amount
                     </button>
-                  ))}
+                  </>
+                ) : (
+                  <div className="mb-3">
+                    <input
+                      type="number"
+                      id="donationAmount"
+                      name="donationAmount"
+                      placeholder="Enter custom amount in INR"
+                      value={formData.donationAmount}
+                      onChange={handleChange}
+                      className="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue focus:border-blue transition"
+                      min="1"
+                      required
+                      autoFocus
+                    />
+                    <button
+                      type="button"
+                      onClick={toggleCustomAmount}
+                      className="text-gray-600 hover:text-gray-800 text-sm font-medium mt-2"
+                    >
+                      ← Back to preset amounts
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="Enter your address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md p-3"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    PAN Number (for 80G receipt)
+                  </label>
+                  <input
+                    type="text"
+                    name="panNumber"
+                    placeholder="Enter PAN (if needed for tax exemption)"
+                    value={formData.panNumber}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md p-3"
+                    maxLength="10"
+                  />
                 </div>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Payment Method <span className="text-red-500">*</span>
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <label className="inline-flex items-center p-3 border rounded-lg cursor-pointer">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="razorpay"
+                      checked={formData.paymentMethod === "razorpay"}
+                      onChange={handleChange}
+                      className="form-radio h-4 w-4 text-blue"
+                    />
+                    <span className="ml-2">Credit/Debit Card</span>
+                  </label>
+                  <label className="inline-flex items-center p-3 border rounded-lg cursor-pointer">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="upi"
+                      checked={formData.paymentMethod === "upi"}
+                      onChange={handleChange}
+                      className="form-radio h-4 w-4 text-blue"
+                    />
+                    <span className="ml-2">UPI/Bank Transfer</span>
+                  </label>
+                </div>
+              </div>
+
+              {formData.paymentMethod === "razorpay" && (
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                  <p className="text-blue-800 text-sm">
+                    You&apos;ll be redirected to Razorpay&apos;s secure payment gateway to complete your donation.
+                  </p>
+                </div>
+              )}
+              
               <div className="pt-2">
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className={`w-full ${isSubmitting ? "bg-blue" : "bg-blue hover:bg-blue"
-                    } text-white py-3 rounded-md transition-colors font-medium text-lg flex items-center justify-center`}
+                  disabled={isSubmitting || isRazorpayLoading}
+                  className={`w-full ${isSubmitting || isRazorpayLoading ? "bg-blue" : "bg-blue hover:bg-blue"
+                    } text-white py-3 rounded-md transition-colors font-medium text-lg flex items-center justify-center ${isSubmitting || isRazorpayLoading ? "opacity-75 cursor-not-allowed" : ""
+                    }`}
                 >
-                  {isSubmitting ? (
+                  {isSubmitting || isRazorpayLoading ? (
                     <>
                       <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -317,7 +548,7 @@ export default function DonationForm() {
                       Processing...
                     </>
                   ) : (
-                    "Proceed to Payment"
+                    formData.paymentMethod === "razorpay" ? "Pay with Razorpay" : "Proceed to Payment"
                   )}
                 </button>
               </div>

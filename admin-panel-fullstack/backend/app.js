@@ -9,14 +9,13 @@ const app = express();
 const logger = require('./logger');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const donationRoute = require("./routes/razorpay.route")
 
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV || 'development'}`,
-});
 
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV || 'development'}`,
-});
+
+
+require('dotenv').config({path: `.env.${process.env.NODE_ENV || 'development'}`,});
+require('dotenv').config({path: `.env.${process.env.NODE_ENV || 'development'}`,});
 
 
 // console.log(`Your env is ${process.env.NODE_ENV}`);
@@ -164,11 +163,12 @@ app.use('/uploads/donateFor', express.static(path.join(__dirname, 'uploads/donat
 // ✅ Routes
 app.use('/api/admin', admin_router);
 app.use('/api/post', router);
+app.use('/api/donation', donationRoute);
 app.get('/', (req, res) => res.send('Welcome to SOBF - 🙏'));
 
 // ✅ Connect to Database BEFORE Starting the Server
 connectDB().then(() => { app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`)) })
   .catch((err) => {
     console.error('❌ Database connection failed:', err);
-    process.exit(1); // Exit process if DB connection fails
+    process.exit(1); 
   });

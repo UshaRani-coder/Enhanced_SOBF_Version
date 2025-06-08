@@ -248,6 +248,20 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
               {!isCollapsed && <span className="ml-4">Subsribed Donor</span>}
             </Link>
           </li>
+          <li>
+            <Link
+              to="/donors"
+              onClick={onOptionClick}
+              className={`flex items-center pb-2 pt-2 w-[90%] mt-2 ${location.pathname === '/donors'
+                ? 'text-white bg-[rgb(39,39,79)]'
+                : 'text-[rgba(255,255,255,0.7)]'
+                } hover:text-white hover:bg-[rgb(39,39,79)] rounded`}
+            >
+              <FaUsers className="text-lg ml-4" />
+              {!isCollapsed && <span className="ml-4">Donor Info</span>}
+            </Link>
+          </li>
+          {/* {DonorDashboard} */}
         </ul>
       </nav>
     </div>

@@ -1,63 +1,26 @@
 const mongoose = require('mongoose');
 
-const DonationSchema = new mongoose.Schema({
-  donor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Donor',
-    required: true
-  },
-  fullName: {
-    type: String,
-    required: true
-  },
-  dob: {
-    type: Date,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  },
-  phone: {
-    type: String,
-    required: true
-  },
-  pan: {
-    type: String,
-    required: true
-  },
-  aadhar: {
-    type: String
-  },
-  pin: {
-    type: String,
-    required: true
-  },
-  donationFor: {
-    type: String,
-    required: true
-  },
-  donationAmount: {
-    type: Number,
-    required: true
-  },
-  transactionId: {
-    type: String,
-    required: true,
-    unique: true
-  },
+const donationSchema = new mongoose.Schema({
+  donorName: { type: String },
+  donorEmail: { type: String },
+  donorPhone: { type: String },
+  purpose: { type: String },
+  amount: { type: Number },
   paymentMethod: {
     type: String,
-    required: true,
-    enum: ['qr', 'paypal']
+    enum: ['razorpay', 'upi', 'bank_transfer']
   },
-  paymentDetails: {
-    type: Object,
-    default: {}
-  }
+  transactionId: { type: String },
+  razorpayOrderId: { type: String },
+  razorpaySignature: { type: String },
+  address: { type: String },
+  panNumber: { type: String },
+  status: {
+    type: String,
+    default: 'completed',
+    enum: ['pending', 'completed', 'failed']
+  },
+  date: { type: Date, default: Date.now }
 }, { timestamps: true });
 
-// Add pagination plugin
-DonationSchema.plugin(require('mongoose-paginate-v2'));
-
-module.exports = mongoose.model('Donation', DonationSchema);
+module.exports = mongoose.model('Donation', donationSchema);
