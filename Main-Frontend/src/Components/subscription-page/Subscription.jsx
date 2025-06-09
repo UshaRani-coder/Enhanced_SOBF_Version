@@ -57,7 +57,7 @@ const Subscription = () => {
       }
       // Create order on backend
       const orderResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/donateforsubscription`, {
-        amount: amountMap[data.duration], 
+        amount: amountMap[data.duration] * 100, // Convert to paise,
         currency: 'INR',
         receipt: `subscription_${Date.now()}`,
         notes: {

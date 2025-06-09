@@ -37,7 +37,7 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
     '/upcoming-events/registered-users',
     '/volunteer',
     '/donate-for',
-    '/subsribed-donors',
+    '/subscribed-donors',
     '/donors'
   ];
   const isNotFound = !validRoutes.includes(location.pathname);
@@ -105,7 +105,7 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
             <Route path="/upcoming-events/registered-users" element={<RegisteredUsers />} />
             <Route path="/volunteer" element={<Volunteer />} />
             <Route path="/donate-for" element={<DonateFor />} />
-            <Route path="/subsribed-donors" element={<SubscribedDonor />} />
+            <Route path="/subscribed-donors" element={<SubscribedDonor />} />
             <Route path="/donors" element={<DonorDashboard />} />
             {/* Add more routes as needed */}
             <Route path="*" element={<NotFound />} />

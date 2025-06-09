@@ -91,7 +91,7 @@ const DonationPage = () => {
 
       // Create order on your backend
       const orderResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/donatefor`, {
-        amount: formData.amount,
+        amount: formData.amount * 100,
         currency: 'INR',
         receipt: `donation_${Date.now()}`,
         notes: {
