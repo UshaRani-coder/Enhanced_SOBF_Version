@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchDonationById } from "@/Reducers/donateForSlice";
-import { toast } from "react-toastify";
-import ShareButton from "@/Components/common_components/ShareButton";
-import axios from "axios";
-import DonorCard from "@/helper/DonorCard";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDonationById } from '@/Reducers/donateForSlice';
+import { toast } from 'react-toastify';
+import ShareButton from '@/Components/common_components/ShareButton';
+import axios from 'axios';
+import DonorCard from '@/helper/DonorCard';
 
 const DonationPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { currentDonation, status, error, donorStatus } = useSelector((state) => state.donateFor);
+  const { currentDonation, status, error, donorStatus } = useSelector(
+    (state) => state.donateFor,
+  );
 
   const [formData, setFormData] = useState({
-    fullname: "",
-    email: "",
-    phone_no: "",
-    pan_no: "",
-    aadhar_no: "",
-    address: "",
-    amount: "",
-    message: ""
+    fullname: '',
+    email: '',
+    phone_no: '',
+    pan_no: '',
+    aadhar_no: '',
+    address: '',
+    amount: '',
+    message: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -30,34 +32,39 @@ const DonationPage = () => {
   useEffect(() => {
     dispatch(fetchDonationById(id))
       .unwrap()
-      .catch((err) => console.error("Fetch error:", err));
+      .catch((err) => console.error('Fetch error:', err));
   }, [dispatch, id]);
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.fullname.trim()) newErrors.fullname = "Full name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!formData.phone_no.trim()) newErrors.phone_no = "Phone number is required";
-    if (!formData.pan_no.trim()) newErrors.pan_no = "PAN number is required";
-    if (!formData.aadhar_no.trim()) newErrors.aadhar_no = "Aadhar number is required";
-    if (!formData.address.trim()) newErrors.address = "Address is required";
-    if (!formData.amount.trim()) newErrors.amount = "Amount is required";
+    if (!formData.fullname.trim()) newErrors.fullname = 'Full name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!formData.phone_no.trim())
+      newErrors.phone_no = 'Phone number is required';
+    if (!formData.pan_no.trim()) newErrors.pan_no = 'PAN number is required';
+    if (!formData.aadhar_no.trim())
+      newErrors.aadhar_no = 'Aadhar number is required';
+    if (!formData.address.trim()) newErrors.address = 'Address is required';
+    if (!formData.amount.trim()) newErrors.amount = 'Amount is required';
 
     // Additional validations
     if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email";
+      newErrors.email = 'Please enter a valid email';
     }
     if (formData.phone_no && !/^[0-9]{10}$/.test(formData.phone_no)) {
-      newErrors.phone_no = "Phone number must be 10 digits";
+      newErrors.phone_no = 'Phone number must be 10 digits';
     }
-    if (formData.pan_no && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan_no)) {
-      newErrors.pan_no = "Please enter a valid PAN (e.g., ABCDE1234F)";
+    if (
+      formData.pan_no &&
+      !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan_no)
+    ) {
+      newErrors.pan_no = 'Please enter a valid PAN (e.g., ABCDE1234F)';
     }
     if (formData.aadhar_no && !/^[0-9]{12}$/.test(formData.aadhar_no)) {
-      newErrors.aadhar_no = "Aadhar number must be 12 digits";
+      newErrors.aadhar_no = 'Aadhar number must be 12 digits';
     }
     if (formData.amount && isNaN(formData.amount)) {
-      newErrors.amount = "Please enter a valid number";
+      newErrors.amount = 'Please enter a valid number';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -85,21 +92,24 @@ const DonationPage = () => {
       // Load Razorpay script
       const isScriptLoaded = await loadRazorpayScript();
       if (!isScriptLoaded) {
-        toast.error("Razorpay SDK failed to load. Please try again.");
+        toast.error('Razorpay SDK failed to load. Please try again.');
         return;
       }
 
       // Create order on your backend
-      const orderResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/donatefor`, {
-        amount: formData.amount * 100,
-        currency: 'INR',
-        receipt: `donation_${Date.now()}`,
-        notes: {
-          donationId: id,
-          donorName: formData.fullname,
-          donorEmail: formData.email
-        }
-      });
+      const orderResponse = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/post/donatefor`,
+        {
+          amount: formData.amount * 100,
+          currency: 'INR',
+          receipt: `donation_${Date.now()}`,
+          notes: {
+            donationId: id,
+            donorName: formData.fullname,
+            donorEmail: formData.email,
+          },
+        },
+      );
 
       const { order } = orderResponse.data;
 
@@ -108,53 +118,56 @@ const DonationPage = () => {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
-        name: "Soul of Braj Federation",
+        name: 'Soul of Braj Federation',
         description: `Donation for ${currentDonation?.title}`,
-        image: "https://sobf.in/assets/logo-xV2I52-F.png",
+        image: 'https://sobf.in/assets/logo-xV2I52-F.png',
         order_id: order.id,
         handler: async function (response) {
           // Verify payment on your backend
-          const verificationResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/verifydonatefor`, {
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            donationData: formData,
-            donationId: id
-          });
+          const verificationResponse = await axios.post(
+            `${import.meta.env.VITE_BASE_URL}/api/post/verifydonatefor`,
+            {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              donationData: formData,
+              donationId: id,
+            },
+          );
 
           if (verificationResponse.data.success) {
             // Payment successful
-            toast.success("Payment successful! Thank you for your donation.");
+            toast.success('Payment successful! Thank you for your donation.');
             setDonationSuccess(true);
-            dispatch(fetchDonationById(id)); 
+            dispatch(fetchDonationById(id));
 
             // Reset form
             setFormData({
-              fullname: "",
-              email: "",
-              phone_no: "",
-              pan_no: "",
-              aadhar_no: "",
-              address: "",
-              amount: "",
-              message: ""
+              fullname: '',
+              email: '',
+              phone_no: '',
+              pan_no: '',
+              aadhar_no: '',
+              address: '',
+              amount: '',
+              message: '',
             });
           } else {
-            toast.error("Payment verification failed");
+            toast.error('Payment verification failed');
           }
         },
         prefill: {
           name: formData.fullname,
           email: formData.email,
-          contact: formData.phone_no
+          contact: formData.phone_no,
         },
         notes: {
           address: formData.address,
-          donationId: id
+          donationId: id,
         },
         theme: {
-          color: "#3399cc"
-        }
+          color: '#3399cc',
+        },
       };
 
       const rzp = new window.Razorpay(options);
@@ -163,10 +176,9 @@ const DonationPage = () => {
       rzp.on('payment.failed', function (response) {
         toast.error(`Payment failed: ${response.error.description}`);
       });
-
     } catch (error) {
-      console.error("Payment error:", error);
-      toast.error("An error occurred during payment processing");
+      console.error('Payment error:', error);
+      toast.error('An error occurred during payment processing');
     }
   };
 
@@ -174,28 +186,37 @@ const DonationPage = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
     // Clear error when user types
     if (errors[name]) {
       setErrors({
         ...errors,
-        [name]: null
+        [name]: null,
       });
     }
   };
 
-  if (!currentDonation) return <div className="text-center py-8">Donation not found</div>;
+  if (!currentDonation)
+    return <div className="text-center py-8">Donation not found</div>;
 
-  const progress = currentDonation?.category?.raised && currentDonation.goal
-    ? (parseInt(currentDonation?.category?.raised.replace(/₹|,/g, "")) /
-      parseInt(currentDonation?.category?.goal.replace(/₹|,/g, ""))) * 100
-    : 0;
+  // Helper to parse numbers safely
+  const parseAmount = (val) =>
+    typeof val === 'string'
+      ? parseInt(val.replace(/₹|,/g, '')) || 0
+      : Number(val) || 0;
+
+  // Use currentDonation.raised and currentDonation.goal for progress calculation and display
+  const raised = parseAmount(
+    currentDonation?.raised ?? currentDonation?.category?.raised,
+  );
+  const goal = parseAmount(
+    currentDonation?.goal ?? currentDonation?.category?.goal,
+  );
+  const progress = goal > 0 ? (raised / goal) * 100 : 0;
 
   const donor = currentDonation?.category?.donor || [];
   const displayedDonors = showAllDonors ? donor : donor.slice(0, 4);
-
- 
 
   const title = 'Support Braj Seva – Be one in a million';
   const baseURL =
@@ -212,13 +233,25 @@ const DonationPage = () => {
             <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <div className="p-6">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-bold text-gray-800">All Donors</h2>
+                  <h2 className="text-xl font-bold text-gray-800">
+                    All Donors
+                  </h2>
                   <button
                     onClick={() => setShowAllDonors(false)}
                     className="text-gray-500 hover:text-gray-700"
                   >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -244,11 +277,15 @@ const DonationPage = () => {
             </div>
 
             <div className="p-6">
-              <h1 className="text-2xl font-bold text-gray-800 mb-2">{currentDonation?.title}</h1>
+              <h1 className="text-2xl font-bold text-gray-800 mb-2">
+                {currentDonation?.title}
+              </h1>
 
               {/* Main description */}
               <div className="mb-4 flex justify-between">
-                <p className="text-gray-700 text-xl font-bold whitespace-pre-line">{currentDonation?.category?.title}</p>
+                <p className="text-gray-700 text-xl font-bold whitespace-pre-line">
+                  {currentDonation?.category?.title}
+                </p>
                 <div onClick={(e) => e.stopPropagation()}>
                   <ShareButton
                     title={title}
@@ -261,16 +298,22 @@ const DonationPage = () => {
               {/* Category description if available */}
               {currentDonation?.category?.description && (
                 <div className="mb-4">
-                  <h3 className="font-semibold text-gray-700 mb-1">About the cause:</h3>
-                  <p className="text-gray-600 whitespace-pre-line">{currentDonation?.category?.description}</p>
+                  <h3 className="font-semibold text-gray-700 mb-1">
+                    About the cause:
+                  </h3>
+                  <p className="text-gray-600 whitespace-pre-line">
+                    {currentDonation?.category?.description}
+                  </p>
                 </div>
               )}
 
               <div className="mb-4">
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="font-medium">{progress.toFixed(0)}% funded</span>
+                  <span className="font-medium">
+                    {progress.toFixed(0)}% funded
+                  </span>
                   <span className="text-gray-600">
-                    {currentDonation?.raised} raised of {currentDonation.goal} goal
+                    {raised} raised of {goal} goal
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
@@ -283,7 +326,9 @@ const DonationPage = () => {
 
               <div className="mt-6">
                 <div className="flex justify-between items-center mb-3">
-                  <h3 className="font-semibold text-gray-800 text-lg">Recent Donors</h3>
+                  <h3 className="font-semibold text-gray-800 text-lg">
+                    Recent Donors
+                  </h3>
                   {donor.length > 3 && (
                     <button
                       onClick={() => setShowAllDonors(true)}
@@ -302,11 +347,25 @@ const DonationPage = () => {
                   </div>
                 ) : (
                   <div className="text-center py-6 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-                    <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    <svg
+                      className="mx-auto h-12 w-12 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                      />
                     </svg>
-                    <h4 className="mt-2 text-sm font-medium text-gray-700">No donors yet</h4>
-                    <p className="mt-1 text-sm text-gray-500">Be the first to support this cause!</p>
+                    <h4 className="mt-2 text-sm font-medium text-gray-700">
+                      No donors yet
+                    </h4>
+                    <p className="mt-1 text-sm text-gray-500">
+                      Be the first to support this cause!
+                    </p>
                   </div>
                 )}
               </div>
@@ -315,12 +374,17 @@ const DonationPage = () => {
 
           {/* Donation Form */}
           <div className="lg:w-1/2 bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-6">Make a Donation</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-6">
+              Make a Donation
+            </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Full Name */}
               <div>
-                <label htmlFor="fullname" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="fullname"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Full Name*
                 </label>
                 <input
@@ -330,14 +394,21 @@ const DonationPage = () => {
                   value={formData?.fullname}
                   onChange={handleChange}
                   required
-                  className={`w-full px-4 py-2 border ${errors?.fullname ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+                  className={`w-full px-4 py-2 border ${
+                    errors?.fullname ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:ring-blue-500 focus:border-blue-500`}
                 />
-                {errors?.fullname && <p className="text-red-500 text-xs mt-1">{errors.fullname}</p>}
+                {errors?.fullname && (
+                  <p className="text-red-500 text-xs mt-1">{errors.fullname}</p>
+                )}
               </div>
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Email Address*
                 </label>
                 <input
@@ -347,14 +418,21 @@ const DonationPage = () => {
                   value={formData?.email}
                   onChange={handleChange}
                   required
-                  className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+                  className={`w-full px-4 py-2 border ${
+                    errors.email ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:ring-blue-500 focus:border-blue-500`}
                 />
-                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                )}
               </div>
 
               {/* Phone Number */}
               <div>
-                <label htmlFor="phone_no" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="phone_no"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Phone Number*
                 </label>
                 <input
@@ -366,14 +444,21 @@ const DonationPage = () => {
                   required
                   maxLength="10"
                   pattern="[0-9]{10}"
-                  className={`w-full px-4 py-2 border ${errors.phone_no ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+                  className={`w-full px-4 py-2 border ${
+                    errors.phone_no ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:ring-blue-500 focus:border-blue-500`}
                 />
-                {errors.phone_no && <p className="text-red-500 text-xs mt-1">{errors.phone_no}</p>}
+                {errors.phone_no && (
+                  <p className="text-red-500 text-xs mt-1">{errors.phone_no}</p>
+                )}
               </div>
 
               {/* PAN Number */}
               <div>
-                <label htmlFor="pan_no" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="pan_no"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   PAN Number*
                 </label>
                 <input
@@ -385,14 +470,21 @@ const DonationPage = () => {
                   required
                   maxLength="10"
                   pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                  className={`w-full px-4 py-2 border ${errors.pan_no ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500 uppercase`}
+                  className={`w-full px-4 py-2 border ${
+                    errors.pan_no ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:ring-blue-500 focus:border-blue-500 uppercase`}
                 />
-                {errors.pan_no && <p className="text-red-500 text-xs mt-1">{errors.pan_no}</p>}
+                {errors.pan_no && (
+                  <p className="text-red-500 text-xs mt-1">{errors.pan_no}</p>
+                )}
               </div>
 
               {/* Aadhar Number */}
               <div>
-                <label htmlFor="aadhar_no" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="aadhar_no"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Aadhar Number*
                 </label>
                 <input
@@ -404,14 +496,23 @@ const DonationPage = () => {
                   required
                   maxLength="12"
                   pattern="[0-9]{12}"
-                  className={`w-full px-4 py-2 border ${errors.aadhar_no ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+                  className={`w-full px-4 py-2 border ${
+                    errors.aadhar_no ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:ring-blue-500 focus:border-blue-500`}
                 />
-                {errors.aadhar_no && <p className="text-red-500 text-xs mt-1">{errors.aadhar_no}</p>}
+                {errors.aadhar_no && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.aadhar_no}
+                  </p>
+                )}
               </div>
 
               {/* Address */}
               <div>
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Address*
                 </label>
                 <textarea
@@ -421,14 +522,21 @@ const DonationPage = () => {
                   value={formData.address}
                   onChange={handleChange}
                   required
-                  className={`w-full px-4 py-2 border ${errors.address ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+                  className={`w-full px-4 py-2 border ${
+                    errors.address ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:ring-blue-500 focus:border-blue-500`}
                 ></textarea>
-                {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
+                {errors.address && (
+                  <p className="text-red-500 text-xs mt-1">{errors.address}</p>
+                )}
               </div>
 
               {/* Donation Amount */}
               <div>
-                <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="amount"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Donation Amount (₹)*
                 </label>
                 <input
@@ -439,14 +547,21 @@ const DonationPage = () => {
                   value={formData.amount}
                   onChange={handleChange}
                   required
-                  className={`w-full px-4 py-2 border ${errors.amount ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-blue-500 focus:border-blue-500`}
+                  className={`w-full px-4 py-2 border ${
+                    errors.amount ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:ring-blue-500 focus:border-blue-500`}
                 />
-                {errors.amount && <p className="text-red-500 text-xs mt-1">{errors.amount}</p>}
+                {errors.amount && (
+                  <p className="text-red-500 text-xs mt-1">{errors.amount}</p>
+                )}
               </div>
 
               {/* Message (Optional) */}
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Message (Optional)
                 </label>
                 <textarea

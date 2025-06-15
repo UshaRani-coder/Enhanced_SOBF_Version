@@ -493,6 +493,9 @@ const DonateFor = () => {
                               <div key={user?._id} className="border p-3 rounded-lg">
                                 <p><span className="font-medium">Name:</span> {user?.fullname}</p>
                                 <p><span className="font-medium">Email:</span> {user?.email}</p>
+                                <p><span className="font-medium">Amount:</span> {user?.amount}</p>
+                                <p><span className="font-medium">Aadhar:</span> {user?.aadhar_no}</p>
+                                <p><span className="font-medium">PAN:</span> {user?.pan_no}</p>
                                 <p><span className="font-medium">Phone:</span> {user?.phone_no}</p>
                                 <p><span className="font-medium">Address:</span> {user?.address}</p>
                               </div>

@@ -18,11 +18,17 @@ const DonorTable = ({ donor, loading }) => {
             <th scope="col" className="px-6 py-5 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Phone
             </th>
-            <th scope="col" className="px-6 py-5 text-left text-xs font-medium text-gray-100 uppercase tracking-wider hidden sm:table-cell md:block">
+            <th scope="col" className="px-6 py-5 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               City
             </th>
-            <th scope="col" className="px-6 py-5 text-left text-xs font-medium text-gray-100 uppercase tracking-wider hidden lg:table-cell">
+            <th scope="col" className="px-6 py-5 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
               Duration
+            </th>
+            <th scope="col" className="px-6 py-5 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
+              Aadhar Number
+            </th>
+            <th scope="col" className="px-6 py-5 text-left text-xs font-medium text-gray-100 uppercase tracking-wider">
+              PAN Number
             </th>
           </tr>
         </thead>
@@ -36,11 +42,17 @@ const DonorTable = ({ donor, loading }) => {
                 <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700">
                   {volunteer?.phone || 'N/A'}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700 hidden sm:table-cell md:block">
+                <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700">
                   {volunteer?.place || 'N/A'}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700 hidden lg:table-cell">
+                <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700 ">
                   {volunteer?.duration || 'N/A'}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700">
+                  {volunteer?.aadhaar || 'N/A'}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-md text-gray-700 ">
+                  {volunteer?.pan || 'N/A'}
                 </td>
               </tr>
             ))
