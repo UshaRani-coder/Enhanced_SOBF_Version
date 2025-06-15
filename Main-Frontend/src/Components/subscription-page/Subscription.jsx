@@ -76,7 +76,7 @@ const Subscription = () => {
         currency: order.currency,
         name: "Soul of Braj Federation",
         description: `Subscription: ${data.duration.replace('_', ' ')}`,
-        image: "http://localhost:5173/src/assets/sobfLogo.png",
+        image: "https://sobf.in/assets/logo-xV2I52-F.png",
         order_id: order.id,
         handler: async function (response) {
           // Verify payment on backend
@@ -143,7 +143,7 @@ const Subscription = () => {
   };
 
   const title = 'Support Braj Seva – Be one in a million';
-  const baseURL = window.location.origin === 'http://localhost:5173'
+  const baseURL = window.location.origin === 'https://sobf.in'
     ? 'https://sobf.in'
     : window.location.origin;
   const url = `${baseURL}/subscription`;

@@ -110,7 +110,7 @@ const DonationPage = () => {
         currency: order.currency,
         name: "Soul of Braj Federation",
         description: `Donation for ${currentDonation?.title}`,
-        image: "http://localhost:5173/src/assets/sobfLogo.png",
+        image: "https://sobf.in/assets/logo-xV2I52-F.png",
         order_id: order.id,
         handler: async function (response) {
           // Verify payment on your backend
@@ -199,7 +199,7 @@ const DonationPage = () => {
 
   const title = 'Support Braj Seva – Be one in a million';
   const baseURL =
-    window.location.origin === 'http://localhost:5173'
+    window.location.origin === 'https://sobf.in'
       ? 'https://sobf.in'
       : window.location.origin;
 
@@ -466,10 +466,6 @@ const DonationPage = () => {
               >
                 {donorStatus === 'loading' ? 'Processing...' : 'Donate Now'}
               </button>
-
-              {donorStatus === 'failed' && (
-                <p className="text-red-500 text-sm">There was an error processing your donation. Please try again.</p>
-              )}
             </form>
           </div>
         </div>

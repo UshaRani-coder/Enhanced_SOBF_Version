@@ -87,7 +87,7 @@ const saveDonation = async (req, res) => {
       donorPhone: phone,
       purpose: donationFor,
       amount: donationAmount,
-      paymentMethod,
+      paymentMethod:"razorpay",
       razorpayOrderId: razorpay_order_id,
       razorpaySignature: razorpay_signature,
       address: address,
