@@ -72,21 +72,21 @@ const verifySubscriptionPayment = async (req, res) => {
     }
 
     // Check for existing subscriber
-    const existingSubscriber = await SubscriberModel.findOne({
-      $or: [
-        { email: subscriptionData.email },
-        { pan: subscriptionData.pan }
-      ]
-    });
+    // const existingSubscriber = await SubscriberModel.findOne({
+    //   $or: [
+    //     { email: subscriptionData.email },
+    //     { pan: subscriptionData.pan }
+    //   ]
+    // });
 
-    if (existingSubscriber) {
-      return res.status(400).json({
-        success: false,
-        error: existingSubscriber.email === subscriptionData.email
-          ? 'Email already subscribed'
-          : 'PAN number already registered'
-      });
-    }
+    // if (existingSubscriber) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     error: existingSubscriber.email === subscriptionData.email
+    //       ? 'Email already subscribed'
+    //       : 'PAN number already registered'
+    //   });
+    // }
 
     // Create subscription
     const subscriptionEndDate = calculateSubscriptionEndDate(subscriptionData.duration);

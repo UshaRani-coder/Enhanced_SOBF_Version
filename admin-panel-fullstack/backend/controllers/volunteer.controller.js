@@ -47,7 +47,7 @@ const createVolunteer = async (req, res) => {
 async function sendVolunteerConfirmationEmail(volunteer) {
   try {
     const mailOptions = {
-      from: "rsoulofbraj@gmail.com",
+      from: "soulofbraj@gmail.com",
       to: volunteer.email,
       subject: `🎉 Thank You for Volunteering with Us!`,
       html: `

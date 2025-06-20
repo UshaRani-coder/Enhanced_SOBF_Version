@@ -5,6 +5,7 @@ const donationSchema = new mongoose.Schema({
   donorEmail: { type: String },
   donorPhone: { type: String },
   purpose: { type: String },
+  otherPurposeNote: String,
   amount: { type: Number },
   paymentMethod: {
     type: String,

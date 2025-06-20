@@ -1,26 +1,27 @@
-import { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import donate from "../assets/donateMotive.png";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import donate from '../assets/donateMotive.png';
+import axios from 'axios';
 
 export default function DonationForm() {
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    donationFor: "",
-    donationAmount: "",
-    address: "",
-    panNumber: "",
+    fullName: '',
+    email: '',
+    phone: '',
+    donationFor: '',
+    donationAmount: '',
+    address: '',
+    panNumber: '',
     isAnonymous: false,
+    otherPurposeNote: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRazorpayLoading, setIsRazorpayLoading] = useState(false);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
   const [showCustomAmount, setShowCustomAmount] = useState(false);
-  const presetAmounts = [11,51,101, 251, 301,401, 501, 1001, 2001, 5001];
+  const presetAmounts = [501, 1001, 5001, 10001];
 
   // Load Razorpay script when component mounts
   useEffect(() => {
@@ -31,20 +32,20 @@ export default function DonationForm() {
       }
 
       try {
-        const script = document.createElement("script");
-        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
         script.async = true;
         script.onload = () => {
           setRazorpayLoaded(true);
-          console.log("Razorpay SDK loaded successfully");
+          console.log('Razorpay SDK loaded successfully');
         };
         script.onerror = () => {
-          console.error("Failed to load Razorpay SDK");
+          console.error('Failed to load Razorpay SDK');
           setRazorpayLoaded(false);
         };
         document.body.appendChild(script);
       } catch (error) {
-        console.error("Error loading Razorpay:", error);
+        console.error('Error loading Razorpay:', error);
         setRazorpayLoaded(false);
       }
     };
@@ -60,7 +61,7 @@ export default function DonationForm() {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
@@ -75,36 +76,50 @@ export default function DonationForm() {
   const toggleCustomAmount = () => {
     setShowCustomAmount(!showCustomAmount);
     if (!showCustomAmount) {
-      setFormData(prev => ({ ...prev, donationAmount: "" }));
+      setFormData((prev) => ({ ...prev, donationAmount: '' }));
     }
   };
 
   const validateForm = () => {
-    const { fullName, email, phone, donationFor, donationAmount } = formData;
+    const {
+      fullName,
+      email,
+      phone,
+      donationFor,
+      donationAmount,
+      otherPurposeNote,
+    } = formData;
 
     if (!fullName || fullName.trim().length < 2) {
-      toast.error("Full Name must be at least 2 characters long.");
+      toast.error('Full Name must be at least 2 characters long.');
       return false;
     }
 
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(email)) {
-      toast.error("Enter a valid email address.");
+      toast.error('Enter a valid email address.');
       return false;
     }
 
     if (!phone || !/^\d{10}$/.test(phone)) {
-      toast.error("Enter a valid 10-digit mobile number.");
+      toast.error('Enter a valid 10-digit mobile number.');
       return false;
     }
 
     if (!donationFor.trim()) {
-      toast.error("Please select a donation purpose.");
+      toast.error('Please select a donation purpose.');
       return false;
     }
-
-    if (!donationAmount || isNaN(donationAmount) || Number(donationAmount) <= 0) {
-      toast.error("Enter a valid Donation Amount greater than 0.");
+    if (donationFor === 'Other' && !otherPurposeNote.trim()) {
+      toast.error('Please specify your donation purpose in the note.');
+      return false;
+    }
+    if (
+      !donationAmount ||
+      isNaN(donationAmount) ||
+      Number(donationAmount) <= 0
+    ) {
+      toast.error('Enter a valid Donation Amount greater than 0.');
       return false;
     }
     return true;
@@ -112,29 +127,38 @@ export default function DonationForm() {
 
   const initiateRazorpayPayment = async () => {
     if (!razorpayLoaded) {
-      toast.error("Payment system is still initializing. Please try again in a moment.");
+      toast.error(
+        'Payment system is still initializing. Please try again in a moment.',
+      );
       return;
     }
     setIsRazorpayLoading(true);
     try {
-      const orderResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/donation/create-razorpay-order`, {
-        amount: formData.donationAmount * 100, // Razorpay expects amount in paise
-        currency: "INR",
-        receipt: `donation_${Date.now()}`,
-        notes: {
-          purpose: formData.donationFor,
-          donorName: formData.fullName,
-          donorEmail: formData.email,
+      const orderResponse = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/donation/create-razorpay-order`,
+        {
+          amount: formData.donationAmount * 100, // Razorpay expects amount in paise
+          currency: 'INR',
+          receipt: `donation_${Date.now()}`,
+          notes: {
+            purpose: formData.donationFor,
+            donorName: formData.fullName,
+            donorEmail: formData.email,
+            otherPurposeNote:
+              formData.donationFor === 'Other'
+                ? formData.otherPurposeNote
+                : undefined,
+          },
         },
-      });
+      );
       const orderId = orderResponse.data.id;
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: formData.donationAmount * 100,
-        currency: "INR",
-        name: "Soul Of Braj Federation",
+        currency: 'INR',
+        name: 'Soul Of Braj Federation',
         description: `Donation for ${formData.donationFor}`,
-        image: "https://sobf.in/assets/logo-xV2I52-F.png",
+        image: 'https://sobf.in/assets/logo-xV2I52-F.png',
         order_id: orderId,
         handler: async function (response) {
           const paymentData = {
@@ -156,49 +180,61 @@ export default function DonationForm() {
           purpose: formData.donationFor,
         },
         theme: {
-          color: "#3399cc",
+          color: '#3399cc',
         },
       };
 
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (error) {
-      console.error("Razorpay error:", error);
-      toast.error("Payment initiation failed. Please try again.");
+      console.error('Razorpay error:', error);
+      toast.error('Payment initiation failed. Please try again.');
     } finally {
       setIsRazorpayLoading(false);
     }
   };
-  
 
   const saveDonation = async (paymentData) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/donation/save-donation`, {
-        ...paymentData,
-        isAnonymous: formData.isAnonymous,
-        panNumber: formData.panNumber,
-        address: formData.address,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/donation/save-donation`,
+        {
+          ...paymentData,
+          isAnonymous: formData.isAnonymous,
+          panNumber: formData.panNumber,
+          address: formData.address,
+          otherPurposeNote:
+            formData.donationFor === 'Other'
+              ? formData.otherPurposeNote
+              : undefined,
+        },
+      );
 
       if (response.data.success) {
-        toast.success("Thank you for your donation! A receipt will be emailed to you.");
+        toast.success(
+          'Thank you for your donation! A receipt will be emailed to you.',
+        );
         // Reset form
         setFormData({
-          fullName: "",
-          email: "",
-          phone: "",
-          donationFor: "",
-          donationAmount: "",
-          address: "",
-          panNumber: "",
+          fullName: '',
+          email: '',
+          phone: '',
+          donationFor: '',
+          donationAmount: '',
+          address: '',
+          panNumber: '',
           isAnonymous: false,
         });
       } else {
-        toast.error("Donation recorded but there was an issue sending the receipt.");
+        toast.error(
+          'Donation recorded but there was an issue sending the receipt.',
+        );
       }
     } catch (error) {
-      console.error("Error saving donation:", error);
-      toast.error("There was an error processing your donation. Please contact support.");
+      console.error('Error saving donation:', error);
+      toast.error(
+        'There was an error processing your donation. Please contact support.',
+      );
     }
   };
 
@@ -209,8 +245,8 @@ export default function DonationForm() {
     try {
       await initiateRazorpayPayment();
     } catch (error) {
-      console.error("Error:", error);
-      toast.error("An error occurred. Please try again.");
+      console.error('Error:', error);
+      toast.error('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -235,16 +271,22 @@ export default function DonationForm() {
           <div className="bg-white rounded-xl shadow-lg p-8">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
               <div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Make a Donation</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  Make a Donation
+                </h2>
                 <p className="text-gray-600">
-                  Your contribution makes a difference. Fill the form below to proceed.
+                  Your contribution makes a difference. Fill the form below to
+                  proceed.
                 </p>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="fullName"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -261,7 +303,10 @@ export default function DonationForm() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Email Address <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -277,7 +322,10 @@ export default function DonationForm() {
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Mobile Number <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -294,7 +342,10 @@ export default function DonationForm() {
               </div>
 
               <div>
-                <label htmlFor="donationFor" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="donationFor"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Donation Purpose <span className="text-red-500">*</span>
                 </label>
                 <select
@@ -306,16 +357,37 @@ export default function DonationForm() {
                   required
                 >
                   <option value="">Select a purpose</option>
-                  <option value="Education">Education for Underprivileged</option>
-                  <option value="Healthcare">Healthcare Initiatives</option>
-                  <option value="Environment">Environmental Conservation</option>
-                  <option value="Animal Welfare">Animal Welfare</option>
-                  <option value="Disaster Relief">Disaster Relief</option>
-                  <option value="Other">Other (Specify in Transaction Note)</option>
+                  <option value="Feed Animal">
+                    ₹501: care & feed cows / monkey / dogs
+                  </option>
+                  <option value="Cleaning Ghats">
+                    ₹1001: Yamuna Ghats and Vrindavan Cleaning Seva
+                  </option>
+                  <option value="Feed Sadhu Sanyasis">
+                    ₹5001: Feed More than Hundred Sadhu Sanyasis.{' '}
+                  </option>
+                  <option value="Seva Day">
+                    ₹10001: Your Seva Day in Shri Vrindavan Dham
+                  </option>
+                  <option value="Other">Other (Please specify in Note)</option>
                 </select>
+                {formData.donationFor === 'Other' && (
+                  <input
+                    type="text"
+                    name="otherPurposeNote"
+                    placeholder="Please specify your donation purpose"
+                    value={formData.otherPurposeNote}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 rounded-md p-3 mt-3"
+                    required
+                  />
+                )}
               </div>
               <div>
-                <label htmlFor="donationAmount" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="donationAmount"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Donation Amount (₹) <span className="text-red-500">*</span>
                 </label>
 
@@ -327,10 +399,11 @@ export default function DonationForm() {
                           key={amount}
                           type="button"
                           onClick={() => handlePresetAmount(amount)}
-                          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${Number(formData.donationAmount) === amount
-                            ? "bg-blue text-white"
-                            : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                            }`}
+                          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                            Number(formData.donationAmount) === amount
+                              ? 'bg-blue text-white'
+                              : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                          }`}
                         >
                           ₹{amount.toLocaleString()}
                         </button>
@@ -402,20 +475,42 @@ export default function DonationForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting || isRazorpayLoading}
-                  className={`w-full ${isSubmitting || isRazorpayLoading ? "bg-blue" : "bg-blue hover:bg-blue"
-                    } text-white py-3 rounded-md transition-colors font-medium text-lg flex items-center justify-center ${isSubmitting || isRazorpayLoading ? "opacity-75 cursor-not-allowed" : ""
-                    }`}
+                  className={`w-full ${
+                    isSubmitting || isRazorpayLoading
+                      ? 'bg-blue'
+                      : 'bg-blue hover:bg-blue'
+                  } text-white py-3 rounded-md transition-colors font-medium text-lg flex items-center justify-center ${
+                    isSubmitting || isRazorpayLoading
+                      ? 'opacity-75 cursor-not-allowed'
+                      : ''
+                  }`}
                 >
                   {isSubmitting || isRazorpayLoading ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                       Processing...
                     </>
                   ) : (
-                    "Proceed to Payment"
+                    'Proceed to Payment'
                   )}
                 </button>
               </div>
@@ -429,52 +524,130 @@ export default function DonationForm() {
               className="w-full h-64 object-cover"
             />
             <div className="p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">How Your Donation Helps</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                How Your Donation Helps
+              </h3>
               <ul className="space-y-4 text-gray-600">
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-6 w-6 text-green-500 mr-3 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
-                  <span>₹500 provides school supplies for 1 child for a year</span>
+                  <span>
+                    ₹500 provides school supplies for 1 child for a year
+                  </span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-6 w-6 text-green-500 mr-3 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   <span>₹1,000 feeds a family for a month</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-6 w-6 text-green-500 mr-3 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   <span>₹5,000 provides medical care for 5 people</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="h-6 w-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-6 w-6 text-green-500 mr-3 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
-                  <span>₹10,000 helps build clean water access for a village</span>
+                  <span>
+                    ₹10,000 helps build clean water access for a village
+                  </span>
                 </li>
               </ul>
 
               <div className="mt-8 bg-gray-50 p-6 rounded-lg">
-                <h4 className="text-lg font-semibold text-blue mb-3">Why Donate to Us?</h4>
+                <h4 className="text-lg font-semibold text-blue mb-3">
+                  Why Donate to Us?
+                </h4>
                 <ul className="space-y-3 text-blue">
                   <li className="flex items-start">
-                    <svg className="h-5 w-5 text-blue mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <svg
+                      className="h-5 w-5 text-blue mr-2 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                     <span>90% of funds go directly to programs</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="h-5 w-5 text-blue mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <svg
+                      className="h-5 w-5 text-blue mr-2 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                     <span>Transparent financial reporting</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="h-5 w-5 text-blue mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <svg
+                      className="h-5 w-5 text-blue mr-2 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                     <span>Tax-exempt under 80G of Income Tax Act</span>
                   </li>

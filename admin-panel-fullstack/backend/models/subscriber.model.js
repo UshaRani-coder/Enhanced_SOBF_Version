@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const subscriberSchema = new mongoose.Schema({
   name: { type: String,  trim: true },
   place: { type: String, trim: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
   phone: { type: String },
-  pan: { type: String, required: true, unique: true },
+  pan: { type: String, required: true},
   aadhaar: { type: String, },
   duration: { type: String},
   isActive: { type: Boolean, default: true },
