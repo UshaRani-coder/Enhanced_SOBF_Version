@@ -357,17 +357,44 @@ export default function DonationForm() {
                   required
                 >
                   <option value="">Select a purpose</option>
-                  <option value="Feed Animal">
-                    ₹501: care & feed cows / monkey / dogs
+                  <option value="Vrindavan Jeev Seva">
+                   Vrindavan Jeev Seva 
                   </option>
-                  <option value="Cleaning Ghats">
-                    ₹1001: Yamuna Ghats and Vrindavan Cleaning Seva
+                  <option value="Daily Food Prasadam Seva">
+                    Daily Food Prasadam Seva 
                   </option>
-                  <option value="Feed Sadhu Sanyasis">
-                    ₹5001: Feed More than Hundred Sadhu Sanyasis.{' '}
+                  <option value="Animal Food & Care">
+                    Animal Food & Care 
                   </option>
-                  <option value="Seva Day">
-                    ₹10001: Your Seva Day in Shri Vrindavan Dham
+                  <option value="Medical & Health Care Support">
+                    Medical & Health Care Support
+                  </option>
+                  <option value="Rescue Operations">
+                   Rescue operations  
+                  </option>
+                  <option value="Widows & Homeless People">
+                    Widows & Homeless People  
+                  </option>
+                  <option value="Girls Education and Skills">
+                    Girls Education and Skills
+                  </option>
+                  <option value="Girls Health Care">
+                    Girls Health Care 
+                  </option>
+                  <option value="Swachh Yamuna Swasth Vrindavan">
+                   Swachh Yamuna Swasth Vrindavan 
+                  </option>
+                  <option value="Roti Making Machine">
+                    Roti Making Machine 
+                  </option>
+                  <option value="Garbage E Rickshaw">
+                    Garbage E Rickshaw 
+                  </option>
+                  <option value="Ambulance">
+                    Ambulance 
+                  </option>
+                  <option value="Food Van">
+                    Food Van
                   </option>
                   <option value="Other">Other (Please specify in Note)</option>
                 </select>
@@ -543,7 +570,7 @@ export default function DonationForm() {
                     />
                   </svg>
                   <span>
-                    ₹500 provides school supplies for 1 child for a year
+                    ₹501 care & feed cows / monkey / dogs 
                   </span>
                 </li>
                 <li className="flex items-start">
@@ -560,7 +587,7 @@ export default function DonationForm() {
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span>₹1,000 feeds a family for a month</span>
+                  <span>₹1001 Yamuna Ghats and Vrindavan Cleaning Seva </span>
                 </li>
                 <li className="flex items-start">
                   <svg
@@ -576,7 +603,7 @@ export default function DonationForm() {
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
-                  <span>₹5,000 provides medical care for 5 people</span>
+                  <span>₹5001 Feed More than Hundred Sadhu Sanyasis.</span>
                 </li>
                 <li className="flex items-start">
                   <svg
@@ -593,7 +620,7 @@ export default function DonationForm() {
                     />
                   </svg>
                   <span>
-                    ₹10,000 helps build clean water access for a village
+                   ₹10001 Your Seva Day in Shri Vrindavan Dham.
                   </span>
                 </li>
               </ul>

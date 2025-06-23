@@ -30,6 +30,7 @@ const allowedOrigins = [
   'https://sobf.in',
   'https://admin.sobf.in',
   'https://backend.sobf.in',
+  'https://www.sobf.in',
 ];
 
 // ✅ CORS Middleware
