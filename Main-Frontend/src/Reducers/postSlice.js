@@ -8,19 +8,18 @@ export const getPosts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetchPosts();
-      if (
-        !response ||
-        response.status !== 200 ||
-        !response.data?.posts?.length
-      ) {
-        return hardcodedPosts;
+
+      if (response?.status === 200 && response.data?.posts) {
+        return response.data.posts;
       }
-      return response.data.posts;
+
+      throw new Error('Invalid response');
     } catch (error) {
-      return rejectWithValue(hardcodedPosts);
+      return rejectWithValue(error.message);
     }
-  },
+  }
 );
+
 
 // Get a single post by ID with fallback
 export const getPostById = createAsyncThunk(
@@ -48,7 +47,7 @@ export const getPostById = createAsyncThunk(
 const postSlice = createSlice({
   name: 'posts',
   initialState: {
-    posts: hardcodedPosts, // Initial fallback data
+    posts: [], 
     post: null,
     status: 'idle',
     error: null,

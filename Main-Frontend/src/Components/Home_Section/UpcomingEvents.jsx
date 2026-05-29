@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
   MdLocationPin,
   MdAccessTimeFilled,
@@ -18,10 +18,11 @@ import DOMPurify from 'dompurify';
 import { Navigation, Pagination } from 'swiper/modules';
 import ShareButton from '../common_components/ShareButton';
 import { useNavigate } from 'react-router-dom';
+import fallbackEvents from '../../defaultData/upcoming-events.json'
 
 const UpcomingEvents = () => {
   const dispatch = useDispatch();
-  const { events, status: eventsStatus } = useSelector((state) => state.events);
+  const { events, listStatus } = useSelector((state) => state.events);
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
   const [showForm, setShowForm] = useState(false);
@@ -38,25 +39,43 @@ const UpcomingEvents = () => {
     totalSlides: 0,
   });
 
+  
   useEffect(() => {
-    if (eventsStatus === 'idle') {
-      dispatch(fetchEvents());
-    }
-  }, [eventsStatus, dispatch]);
+  if (listStatus === 'idle') {
+    dispatch(fetchEvents());
+  }
+}, [listStatus, dispatch]);
 
-  const filteredEvents = events
-    .filter((event) => {
-      const eventDate = new Date(event.date);
-      const matchesYear = selectedYear
-        ? eventDate.getFullYear().toString() === selectedYear
-        : true;
-      const matchesMonth = selectedMonth
-        ? (eventDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth
-        : true;
-      return matchesYear && matchesMonth;
-    })
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+const sourceEvents = useMemo(() => {
+  if (listStatus === 'succeeded') {
+    return events?.length ? events : fallbackEvents;
+  }
 
+  if (listStatus === 'failed') {
+    return fallbackEvents;
+  }
+
+  return fallbackEvents; 
+}, [events, listStatus]);
+
+
+const filteredEvents = sourceEvents
+  .filter((event) => {
+    const eventDate = new Date(event.date);
+    const matchesYear = selectedYear
+      ? eventDate.getFullYear().toString() === selectedYear
+      : true;
+
+    const matchesMonth = selectedMonth
+      ? (eventDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth
+      : true;
+
+    return matchesYear && matchesMonth;
+  })
+  .sort((a, b) => new Date(b.date) - new Date(a.date));
+  const finalEvents = filteredEvents.length > 0 
+  ? filteredEvents 
+  : sourceEvents;
   const getStatusStyles = (status) => {
     switch (status) {
       case 'happening':
@@ -133,7 +152,7 @@ const UpcomingEvents = () => {
       }, 200);
 
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${filteredEvents[selectedEventIndex]._id
+        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${finalEvents[selectedEventIndex]._id
         }`,
         {
           method: 'POST',
@@ -168,14 +187,15 @@ const UpcomingEvents = () => {
     }
   };
 
-  const availableYears = [
-    ...new Set(
-      events.map((event) => new Date(event.date).getFullYear().toString())
-    ),
-  ];
+ 
+  const availableYears = [...new Set(
+  sourceEvents.map((event) =>
+    new Date(event.date).getFullYear().toString()
+  )
+)];
   const availableMonths = [
     ...new Set(
-      events.map((event) =>
+      sourceEvents.map((event) =>
         (new Date(event.date).getMonth() + 1).toString().padStart(2, '0')
       )
     )
@@ -184,12 +204,13 @@ const UpcomingEvents = () => {
   const handleCardClick = (event) => {
     navigate(`/events/${event._id}`);
   };
+  
 
   const navigateEvents = (direction) => {
     if (direction === 'prev') {
-      setSelectedEventIndex((prev) => (prev - 1 + filteredEvents?.length) % filteredEvents?.length);
+      setSelectedEventIndex((prev) => (prev - 1 + finalEvents?.length) % finalEvents?.length);
     } else {
-      setSelectedEventIndex((prev) => (prev + 1) % filteredEvents.length);
+      setSelectedEventIndex((prev) => (prev + 1) % finalEvents.length);
     }
   };
 
@@ -270,7 +291,7 @@ const UpcomingEvents = () => {
         </div>
       </div>
 
-      {filteredEvents.length > 0 ? (
+      {finalEvents.length > 0 ? (
         <div className="w-full max-w-6xl px-4 relative">
           {/* Navigation arrows */}
           <button
@@ -350,7 +371,7 @@ const UpcomingEvents = () => {
               });
             }}
           >
-            {filteredEvents?.map((event, index) => {
+            {finalEvents?.map((event, index) => {
               const statusStyles = getStatusStyles(event.status);
               return (
                 <SwiperSlide key={event._id}>
@@ -462,13 +483,13 @@ const UpcomingEvents = () => {
       )}
 
       {/* Event Detail Modal */}
-      {showDetailModal && filteredEvents[selectedEventIndex] && (
+      {showDetailModal && finalEvents[selectedEventIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
             <button
               onClick={() => navigateEvents('prev')}
               className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors cursor-pointer disabled:hidden "
-              disabled={filteredEvents.length <= 1}
+              disabled={finalEvents.length <= 1}
             >
               <MdChevronLeft size={32} className="text-gray-700" />
             </button>
@@ -476,14 +497,14 @@ const UpcomingEvents = () => {
             <button
               onClick={() => navigateEvents('next')}
               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors cursor-pointer disabled:hidden"
-              disabled={filteredEvents.length <= 1}
+              disabled={finalEvents.length <= 1}
             >
               <MdChevronRight size={32} className="text-gray-700" />
             </button>
 
             <div className="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
               <h2 className="text-2xl font-bold text-[#2d335d]">
-                {capitalize(filteredEvents[selectedEventIndex].title)}
+                {capitalize(finalEvents[selectedEventIndex].title)}
               </h2>
               <button
                 onClick={() => setShowDetailModal(false)}
@@ -496,8 +517,8 @@ const UpcomingEvents = () => {
             <div className="p-6">
               <div className="relative w-full h-64 sm:h-80 lg:h-96 mb-6">
                 <img
-                  src={filteredEvents[selectedEventIndex].image}
-                  alt={filteredEvents[selectedEventIndex].title}
+                  src={finalEvents[selectedEventIndex].image}
+                  alt={finalEvents[selectedEventIndex].title}
                   className="w-full h-full object-cover rounded-lg"
                   onError={(e) => {
                     e.target.onerror = null;
@@ -512,8 +533,8 @@ const UpcomingEvents = () => {
                   <MdAccessTimeFilled className="text-[#1890CE] mr-2" />
                   <span className="text-gray-700">
                     {formatDateTime(
-                      filteredEvents[selectedEventIndex].date,
-                      filteredEvents[selectedEventIndex].time,
+                      finalEvents[selectedEventIndex].date,
+                      finalEvents[selectedEventIndex].time,
                     )}
                   </span>
                 </div>
@@ -521,22 +542,22 @@ const UpcomingEvents = () => {
                 <div className="flex items-center bg-gray-100 px-4 py-2 rounded-lg">
                   <MdLocationPin className="text-[#E82327] mr-2" />
                   <span className="text-gray-700">
-                    {filteredEvents[selectedEventIndex].location}
+                    {finalEvents[selectedEventIndex].location}
                   </span>
                 </div>
                 <div
-                  className={`px-3 py-2 flex text-center rounded-full ${getStatusStyles(filteredEvents[selectedEventIndex].status)
+                  className={`px-3 py-2 flex text-center rounded-full ${getStatusStyles(finalEvents[selectedEventIndex].status)
                       .bgColor
-                    } ${getStatusStyles(filteredEvents[selectedEventIndex].status)
+                    } ${getStatusStyles(finalEvents[selectedEventIndex].status)
                       .textColor
                     }`}
                 >
                   {
-                    getStatusStyles(filteredEvents[selectedEventIndex].status)
+                    getStatusStyles(finalEvents[selectedEventIndex].status)
                       .icon
                   }{' '}
                   {
-                    getStatusStyles(filteredEvents[selectedEventIndex].status)
+                    getStatusStyles(finalEvents[selectedEventIndex].status)
                       .label
                   }
                 </div>
@@ -554,7 +575,7 @@ const UpcomingEvents = () => {
                 className="prose max-w-none text-gray-700 mb-6"
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(
-                    filteredEvents[selectedEventIndex].description,
+                    finalEvents[selectedEventIndex].description,
                   ).replace(
                     /<a /g,
                     '<a class="text-blue-600 hover:underline" '
@@ -562,8 +583,8 @@ const UpcomingEvents = () => {
                 }}
               />
 
-              {(filteredEvents[selectedEventIndex].status === 'upcoming' ||
-                filteredEvents[selectedEventIndex].status === 'happening') && (
+              {(finalEvents[selectedEventIndex].status === 'upcoming' ||
+                finalEvents[selectedEventIndex].status === 'happening') && (
                   <button
                     onClick={() => {
                       setShowForm(true);
@@ -580,12 +601,12 @@ const UpcomingEvents = () => {
       )}
 
       {/* Registration Modal */}
-      {showForm && filteredEvents[selectedEventIndex] && (
+      {showForm && finalEvents[selectedEventIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
             <div className="p-6">
               <h2 className="text-xl font-bold mb-4">
-                Register for {filteredEvents[selectedEventIndex].title}
+                Register for {finalEvents[selectedEventIndex].title}
               </h2>
 
               <form onSubmit={handleSubmit}>

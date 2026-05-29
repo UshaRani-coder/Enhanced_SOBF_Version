@@ -5,26 +5,10 @@ const logger = require('../logger');
 // Helper Function: Validate ID format
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
-const baseURL = "https://backend.sobf.in";
-// const baseURL = "http://localhost:5000";
-
 // GET ALL POSTS
 const getPosts = async (req, res) => {
   try {
     const posts = await PostModel.find({});
-    const baseURL = process.env.BASE_URL;
-
-    if (posts.length > 0) {
-      for (let index = 0; index < posts.length; index++) {
-        const post = posts[index];
-
-        if (post.images && Array.isArray(post.images)) {
-          post.images = post.images.map((image) =>
-            image ? `${baseURL}/uploads/recent-activities/${image}` : image,
-          );
-        }
-      }
-    }
     res.status(200).json({
       success: true,
       message: 'Successfully fetched all posts',
@@ -56,12 +40,6 @@ const getPostById = async (req, res) => {
       return res
         .status(404)
         .json({ success: false, message: 'Post not found' });
-    }
-    // Format images and videos URLs
-    if (Array.isArray(post.images)) {
-      post.images = post.images.map((image) =>
-        image ? `${baseURL}/uploads/recent-activities/${image}` : image,
-      );
     }
     res.status(200).json({
       success: true,
@@ -100,7 +78,7 @@ const createPost = async (req, res) => {
     if (images?.length > 0) {
       for (let index = 0; index < images.length; index++) {
         const image = images[index];
-        imageArr.push(image.filename);
+        imageArr.push(image.path);
       }
     }
     // Save post to database
@@ -169,10 +147,11 @@ const updatePost = async (req, res) => {
 
     // Initialize updated data with existing values
     const updates = {
-      title: title || existingPost.title,
-      description: description || existingPost.description,
+      title: title ?? existingPost.title,
+      description: description ?? existingPost.description,
       images: existingPost.images,
-      date: date || existingPost.date,
+      date: date ?? existingPost.date,
+  
     };
 
     // Handle updated images if provided
@@ -180,7 +159,7 @@ const updatePost = async (req, res) => {
     if (images.length > 0) {
       const updatedImages = [];
       for (let index = 0; index < images.length; index++) {
-        updatedImages.push(images[index].filename);
+      updatedImages.push(images[index].path);
       }
       updates.images = updatedImages;
     }

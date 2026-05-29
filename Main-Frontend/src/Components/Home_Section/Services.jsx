@@ -6,9 +6,14 @@ import { getServices } from '../../Reducers/OurServicesSlice.js';
 import { useLocation, Link } from 'react-router-dom';
 import ImgBanner from './Services/ImgBanner.jsx';
 import DOMPurify from 'dompurify';
+import hardcodedServices from '../../defaultData/ourServices.json'
 
 const Services = () => {
   const { services, status, error } = useSelector((state) => state.services);
+const finalServices =
+  Array.isArray(services) && services.length > 0
+    ? services
+    : hardcodedServices;
   const dispatch = useDispatch();
   const [service, setService] = useState(null);
   const [hoveredService, setHoveredService] = useState(null);
@@ -119,8 +124,7 @@ const Services = () => {
 
       {service === null ? (
         <ul className="services w-[100%] mt-[20px] flex flex-col items-center gap-y-[30px] md:gap-y-[70px] md:flex-row md:justify-center md:gap-x-[60px] lg:gap-x-[30px] md:flex-wrap">
-          {services &&
-            services?.map((item, index) => (
+          {finalServices?.map((item, index) => (
               <li
                 key={item._id}
                 data-aos="fade-up"
@@ -193,7 +197,7 @@ const Services = () => {
             </div>
           )}
           <div className="flex flex-col lg:flex-row w-[100%] lg:items-stretch items-center lg:justify-center lg:gap-x-[30px] xl:gap-x-[10px] lg:mt-[120px]">
-            {services
+            {finalServices
               ?.filter((serviceData) => serviceData.title === service)
               ?.map((serviceData) => (
                 <div

@@ -1,13 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import Popup from '../common_components/Popup.jsx';
 
 const HeroVideo = () => {
   const videoRef = useRef(null);
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
-
-  const closePopup = () => setShowPopup(false);
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -65,7 +62,7 @@ const HeroVideo = () => {
     <div className="w-full h-screen relative overflow-hidden">
       <video
         ref={videoRef}
-        src="https://res.cloudinary.com/dgua57bwf/video/upload/v1747929333/SOBF_HERO_VIDEO/iefkvwsowd5jlxrlhvpc.mp4"
+        src="https://res.cloudinary.com/dhv61cvx5/video/upload/v1778738884/Video_kbop2j.mp4"
         autoPlay
         loop
         playsInline

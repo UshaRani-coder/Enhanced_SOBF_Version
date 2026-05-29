@@ -1,3 +1,4 @@
+
 const { default: mongoose } = require('mongoose');
 const HeroBannerModel = require('../models/hero-banner.model');
 const logger = require('../logger');
@@ -9,23 +10,23 @@ const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 const getHeroBanner = async (req, res) => {
   try {
     const banners = await HeroBannerModel.find({});
-    if (banners?.length > 0) {
-      for (let index = 0; index < banners?.length; index++) {
-        const banner = banners[index];
-        banner.image ="https://backend.sobf.in" + '/uploads/hero-banner/' + banner.image;
-        // banner.image = "http://localhost:5000" + '/uploads/hero-banner/' + banner.image;
-      }
-    }
-    res.status(200).json({
+
+    return res.status(200).json({
       success: true,
       message: 'Successfully fetched all the data from backend.',
       banners,
     });
   } catch (error) {
-    logger.error("Something went wrong while fetching posts from backend.")
-    res.status(500).json({
+    console.log(error);
+
+    logger.error(
+      'Something went wrong while fetching posts from backend.'
+    );
+
+    return res.status(500).json({
       success: false,
-      message: 'Something went wrong while fetching posts from backend.',
+      message:
+        'Something went wrong while fetching posts from backend.',
     });
   }
 };
@@ -34,97 +35,54 @@ const getHeroBanner = async (req, res) => {
 const createHeroBanner = async (req, res) => {
   try {
     const { quotes } = req.body;
+
     // Validate quotes
     if (!quotes || typeof quotes !== 'string' || quotes.trim().length < 5) {
       return res.status(400).json({
         success: false,
-        message: 'Quotes are required and must be at least 5 characters long',
+        message:
+          'Quotes are required and must be at least 5 characters long',
       });
     }
 
     // Validate image
-    if (req.file.filename === undefined) {
+    if (!req.file) {
       return res.status(400).json({
         success: false,
-        message: 'Image is required ',
+        message: 'Image is required',
       });
     }
-    const filename = req.file.filename;
 
-    // Create the hero banner
+    // Create hero banner
     const post = new HeroBannerModel({
       quotes: quotes.trim(),
-      image: filename || '',
+      image: req.file.path, 
     });
+
     await post.save();
-    post.image = "https://backend.sobf.in" + '/uploads/hero-banner/' + post.image;
-    // post.image = "http://localhost:5000" + '/uploads/hero-banner/' + post.image;
-    res.status(201).json({
+
+    return res.status(201).json({
       success: true,
       message: 'HeroBanner post has been created successfully',
       post,
     });
   } catch (error) {
-    logger.error("Something went wrong while creating hero banner post.")
-    res.status(500).json({
+    console.log(error);
+
+    logger.error(
+      'Something went wrong while creating hero banner post.'
+    );
+
+    return res.status(500).json({
       success: false,
-      message: 'Something went wrong while creating hero banner post',
+      message:
+        'Something went wrong while creating hero banner post',
     });
   }
 };
 
 //! Update hero banner based on ID
 const updateHeroBanner = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // Fetch the existing hero banner
-    const existingBanner = await HeroBannerModel.findById(id);
-    if (!existingBanner) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Hero Banner not found' });
-    }
-    const { quotes } = req.body;
-
-    // Validate quotes if provided
-    if (quotes && (typeof quotes !== 'string' || quotes.trim().length < 5)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Quotes must be at least 5 characters long',
-      });
-    }
-
-    // Check if a new image is provided; otherwise, keep the existing one
-    const image = req.file ? req.file.filename : existingBanner.image;
-
-    // Prepare the updated fields
-    const updates = {
-      quotes: quotes ? quotes.trim() : existingBanner.quotes,
-      image,
-    };
-
-    // Update the hero banner
-    const updatedBanner = await HeroBannerModel.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
-
-    // Append the full image URL
-    updatedBanner.image = "https://backend.sobf.in" + '/uploads/hero-banner/' + updatedBanner.image;
-    // updatedBanner.image = "http://localhost:5000" + '/uploads/hero-banner/' + updatedBanner.image;
-
-    return res.status(200).json({ success: true, updatedBanner });
-  } catch (error) {
-    logger.error("Failed to update Hero Banner.")
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to update Hero Banner',
-    });
-  }
-};
-
-//! Delete hero banner based on ID
-const deleteHeroBanner = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -136,24 +94,104 @@ const deleteHeroBanner = async (req, res) => {
       });
     }
 
-    // Delete the hero banner
-    const post = await HeroBannerModel.findByIdAndDelete(id);
-    if (!post) {
+    // Fetch existing banner
+    const existingBanner = await HeroBannerModel.findById(id);
+
+    if (!existingBanner) {
       return res.status(404).json({
         success: false,
-        message: 'Post not found',
+        message: 'Hero Banner not found',
       });
     }
 
-    res.status(200).json({
+    const { quotes } = req.body;
+
+    // Validate quotes if provided
+    if (
+      quotes &&
+      (typeof quotes !== 'string' || quotes.trim().length < 5)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: 'Quotes must be at least 5 characters long',
+      });
+    }
+
+    // Use Cloudinary image if uploaded
+    const image = req.file
+      ? req.file.path
+      : existingBanner.image;
+
+    // Prepare updates
+    const updates = {
+      quotes: quotes
+        ? quotes.trim()
+        : existingBanner.quotes,
+      image,
+    };
+
+    // Update banner
+    const updatedBanner =
+      await HeroBannerModel.findByIdAndUpdate(id, updates, {
+        new: true,
+      });
+
+    return res.status(200).json({
       success: true,
-      message: 'Post deleted successfully',
+      updatedBanner,
     });
   } catch (error) {
-    logger.error("Something went wrong while deleting post.")
-    res.status(500).json({
+    console.log(error);
+
+    logger.error('Failed to update Hero Banner.');
+
+    return res.status(500).json({
       success: false,
-      message: 'Something went wrong while deleting post',
+      message: 'Failed to update Hero Banner',
+    });
+  }
+};
+
+//! Delete hero banner based on ID
+const deleteHeroBanner = async (req, res) => {
+  console.log("DELETE CONTROLLER HIT");
+  try {
+    const { id } = req.params;
+
+    // Validate Mongo ID
+    if (!id || !isValidObjectId(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'A valid ID is required',
+      });
+    }
+
+    // Delete Hero Banner
+    const heroBanner =
+      await HeroBannerModel.findByIdAndDelete(id);
+
+    if (!heroBanner) {
+      return res.status(404).json({
+        success: false,
+        message: 'Hero banner not found',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Hero banner deleted successfully',
+    });
+  } catch (error) {
+    console.log(error);
+
+    logger.error(
+      'Something went wrong while deleting hero banner.'
+    );
+
+    return res.status(500).json({
+      success: false,
+      message:
+        'Something went wrong while deleting hero banner',
     });
   }
 };

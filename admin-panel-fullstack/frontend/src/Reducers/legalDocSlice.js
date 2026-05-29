@@ -6,16 +6,15 @@ import {
   deleteLegalDocs,
 } from '../api/api';
 
-// Async Thunks
+// -------------------- THUNKS --------------------
+
 export const getLegalDocuments = createAsyncThunk(
   'legalDocs/fetchLegalDocuments',
   async (_, { rejectWithValue }) => {
     try {
       const response = await getLegalDocs();
-      if (!response.data || !response.data.docs) {
-        throw new Error('Invalid data received from server.');
-      }
-      return response.data.docs;
+
+      return response.data.docs || [];
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -27,6 +26,7 @@ export const addLegalDocument = createAsyncThunk(
   async (postData, { rejectWithValue }) => {
     try {
       const response = await createLegalDocs(postData);
+
       return response.data.legalDoc;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -39,6 +39,8 @@ export const updateLegalDocumentById = createAsyncThunk(
   async ({ id, updatedData }, { rejectWithValue }) => {
     try {
       const response = await updateLegalDocs(id, updatedData);
+
+     
       return response.data.updatedDoc;
     } catch (error) {
       return rejectWithValue(
@@ -53,6 +55,7 @@ export const removeLegalDocument = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       await deleteLegalDocs(id);
+
       return id;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -60,13 +63,22 @@ export const removeLegalDocument = createAsyncThunk(
   },
 );
 
-// Slice
+// -------------------- SLICE --------------------
+
 const legalDocSlice = createSlice({
   name: 'legalDocs',
-  initialState: { legalDocs: [], status: 'idle', error: null },
+  initialState: {
+    legalDocs: [],
+    status: 'idle',
+    error: null,
+  },
+
   reducers: {},
+
   extraReducers: (builder) => {
     builder
+
+      // ---------------- GET ----------------
       .addCase(getLegalDocuments.pending, (state) => {
         state.status = 'loading';
         state.error = null;
@@ -79,48 +91,45 @@ const legalDocSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      .addCase(addLegalDocument.pending, (state) => {
-        state.status = 'loading';
-      })
+
+      // ---------------- ADD ----------------
       .addCase(addLegalDocument.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.legalDocs.push(action.payload);
+        state.legalDocs.unshift(action.payload);
       })
-      .addCase(addLegalDocument.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
-      })
-      .addCase(updateLegalDocumentById.pending, (state) => {
-        state.status = 'loading';
-        state.error = null;
-      })
+
+      // ---------------- UPDATE (FIXED) ----------------
       .addCase(updateLegalDocumentById.fulfilled, (state, action) => {
         state.status = 'succeeded';
+
+        const updated = action.payload;
+
         const index = state.legalDocs.findIndex(
-          (doc) => doc._id === action.payload._id,
+          (doc) => doc._id === updated._id,
         );
+
         if (index !== -1) {
-          state.legalDocs[index] = action.payload;
+          state.legalDocs[index] = updated;
         }
       })
-      .addCase(updateLegalDocumentById.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
-      })
-      .addCase(removeLegalDocument.pending, (state) => {
-        state.status = 'loading';
-        state.error = null;
-      })
+
+      // ---------------- DELETE ----------------
       .addCase(removeLegalDocument.fulfilled, (state, action) => {
         state.status = 'succeeded';
+
         state.legalDocs = state.legalDocs.filter(
           (doc) => doc._id !== action.payload,
         );
       })
-      .addCase(removeLegalDocument.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
-      });
+
+      // ---------------- ERROR HANDLING ----------------
+      .addMatcher(
+        (action) => action.type.endsWith('/rejected'),
+        (state, action) => {
+          state.status = 'failed';
+          state.error = action.payload;
+        },
+      );
   },
 });
 

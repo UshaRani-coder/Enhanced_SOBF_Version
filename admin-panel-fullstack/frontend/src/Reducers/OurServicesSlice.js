@@ -6,22 +6,22 @@ import {
   updateOurServices,
 } from '../api/api';
 
-// Get Services
+// GET SERVICES
 export const getServices = createAsyncThunk(
   'services/getServices',
   async (_, { rejectWithValue }) => {
     try {
       const response = await getOurServices();
-      return response.data;
+      return response.data.services; 
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || 'Failed to fetch services',
+        error.response?.data?.message || 'Failed to fetch services'
       );
     }
-  },
+  }
 );
 
-// Add Service
+// ADD SERVICE
 export const addService = createAsyncThunk(
   'services/addService',
   async (serviceData, { rejectWithValue }) => {
@@ -30,28 +30,28 @@ export const addService = createAsyncThunk(
       return response.data.service;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || 'Failed to create service',
+        error.response?.data?.message || 'Failed to create service'
       );
     }
-  },
+  }
 );
 
-// Update Service
+// UPDATE SERVICE
 export const updateService = createAsyncThunk(
   'services/updateService',
   async ({ id, updatedData }, { rejectWithValue }) => {
     try {
       const response = await updateOurServices(id, updatedData);
-      return response.data.updatedService;
+      return response.data.service; // ✅ FIX (backend usually returns "service")
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || 'Failed to update service',
+        error.response?.data?.message || 'Failed to update service'
       );
     }
-  },
+  }
 );
 
-// Remove Service
+// REMOVE SERVICE
 export const removeService = createAsyncThunk(
   'services/removeService',
   async (id, { rejectWithValue }) => {
@@ -60,58 +60,61 @@ export const removeService = createAsyncThunk(
       return id;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || 'Failed to delete service',
+        error.response?.data?.message || 'Failed to delete service'
       );
     }
-  },
+  }
 );
 
-// Slice Definition
+// SLICE
 const servicesSlice = createSlice({
   name: 'services',
-  initialState: { services: [], status: 'idle', error: null },
+  initialState: {
+    services: [],
+    status: 'idle',
+    error: null,
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Get Services
+      // GET
       .addCase(getServices.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(getServices.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.services = action.payload;
+        state.services = Array.isArray(action.payload)
+          ? action.payload
+          : [];
       })
       .addCase(getServices.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
+        state.services = [];
       })
-      // Add Service
+
+      // ADD
       .addCase(addService.fulfilled, (state, action) => {
-        state.services.push(action.payload);
+        if (action.payload) {
+          state.services.push(action.payload);
+        }
       })
-      .addCase(addService.rejected, (state, action) => {
-        state.error = action.payload;
-      })
-      // Update Service
+
+      // UPDATE
       .addCase(updateService.fulfilled, (state, action) => {
         const index = state.services.findIndex(
-          (service) => service._id === action.payload._id,
+          (s) => s._id === action.payload._id
         );
         if (index !== -1) {
           state.services[index] = action.payload;
         }
       })
-      .addCase(updateService.rejected, (state, action) => {
-        state.error = action.payload;
-      })
-      // Remove Service
+
+      // DELETE
       .addCase(removeService.fulfilled, (state, action) => {
         state.services = state.services.filter(
-          (service) => service._id !== action.payload,
+          (s) => s._id !== action.payload
         );
-      })
-      .addCase(removeService.rejected, (state, action) => {
-        state.error = action.payload;
       });
   },
 });

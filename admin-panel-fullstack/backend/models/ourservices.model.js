@@ -1,19 +1,29 @@
 const mongoose = require('mongoose');
 
+const mediaSchema = new mongoose.Schema(
+  {
+    url: { type: String, required: true },
+    public_id: { type: String, required: true },
+  },
+  { _id: false }
+);
+
 const serviceSchema = new mongoose.Schema(
   {
-    logo: { type: String, required: true },
+    logo: mediaSchema,
+
     title: { type: String, required: true },
     small_description: { type: String, required: true },
     description: { type: String, required: true },
-    images: { type: [String], default: [] },
+
+    images: {
+      type: [mediaSchema],
+      default: [],
+    },
+
     color: { type: String, required: true },
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true }
 );
 
-const Service = mongoose.model('Service', serviceSchema);
-
-module.exports = Service;
+module.exports = mongoose.model('Service', serviceSchema);

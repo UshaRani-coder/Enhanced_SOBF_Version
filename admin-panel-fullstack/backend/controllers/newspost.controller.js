@@ -1,222 +1,249 @@
-const { default: mongoose } = require('mongoose');
-const bulletineModal = require('../models/newspost.model');
-const logger = require('../logger');
+const { default: mongoose } = require("mongoose");
+const bulletineModal = require("../models/newspost.model");
+const logger = require("../logger");
+const cloudinary = require("../config/cloudinary");
+const fs = require("fs");
 
-const baseURL = "https://backend.sobf.in"
-// const baseURL = 'http://localhost:5000'
-
-
-//! CREATE
+// ===============================
+// CREATE NEWS BULLETIN
+// ===============================
 const createNewsBulletine = async (req, res) => {
   try {
-    let imageArr = [];
     const { title, description, date } = req.body;
+
     if (!title || title.trim().length < 3) {
       return res.status(400).json({
         success: false,
-        message: 'Title must be a string with at least 3 characters',
+        message: "Title must be at least 3 characters",
       });
     }
 
     if (!description || description.trim().length < 5) {
       return res.status(400).json({
         success: false,
-        message: 'Description must be a string with at least 5 characters',
+        message: "Description must be at least 5 characters",
       });
     }
-    // for images
-    const images = req.files.images || [];
-    if (images.length > 0) {
-      for (let index = 0; index < images.length; index++) {
-        const image = images[index];
-        imageArr.push(image.filename);
+
+    const images = req.files?.images || [];
+    let imageArr = [];
+
+    for (let file of images) {
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: "sobf_uploads/news-bulletine",
+        resource_type: "image",
+      });
+
+      if (fs.existsSync(file.path)) {
+        fs.unlinkSync(file.path);
       }
+
+      imageArr.push({
+        url: result.secure_url,
+        public_id: result.public_id,
+      });
     }
-    // Save post to database
+
     const post = new bulletineModal({
       title,
       description,
       date,
       images: imageArr,
     });
+
     await post.save();
-    res
-      .status(201)
-      .json({ success: true, message: 'Post created successfully', post });
-  } catch (error) {
-    logger.error("Error creating post.")
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Error creating post'
-      });
-  }
-};
 
-//! GET ALL POSTS
-const getNewsBulletine = async (req, res) => {
-  try {
-    const posts = await bulletineModal.find({});
-    if (posts.length > 0) {
-      posts.forEach((post) => {
-        if (Array.isArray(post.images)) {
-          post.images = post.images.map((image) =>
-            image ? `${baseURL}/uploads/news-bulletine/${image}` : image,
-          );
-        }
-      });
-    }
-    res.status(200).json({
+    res.status(201).json({
       success: true,
-      message: 'Successfully fetched all the news/bulletin posts.',
-      posts,
-    });
-  } catch (error) {
-    logger.error("Something went wrong while getting news/bulletin post.")
-    res.status(500).json({
-      success: false,
-      message: 'Something went wrong while getting news/bulletin post',
-    });
-  }
-};
-
-//! GET SPECIFIC POST BY ID
-const getNewsBulletineById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    // Validate ID format
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Invalid post ID' });
-    }
-    // Find post by ID
-    const post = await bulletineModal.findById(id);
-    if (!post) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Post not found' });
-    }
-    // Format images and videos URLs
-    if (Array.isArray(post.images)) {
-      post.images = post.images.map((image) =>
-        image ? `${baseURL}/uploads/news-bulletine/${image}` : image,
-      );
-    }
-    res.status(200).json({
-      success: true,
-      message: 'Successfully fetched the news/bulletin post.',
+      message: "Post created successfully",
       post,
     });
   } catch (error) {
-    logger.error("Something went wrong while fetching the news/bulletin post.")
+    console.error("CREATE ERROR:", error);
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while fetching the news/bulletin post',
+      message: "Error creating post",
+      error: error.message,
     });
   }
 };
 
-//!  UPDATE  POST BASED ON ID
-const updateNewsBulletine = async (req, res) => {
+// ===============================
+// GET ALL POSTS
+// ===============================
+const getNewsBulletine = async (req, res) => {
+  try {
+    const posts = await bulletineModal.find({});
+
+    res.status(200).json({
+      success: true,
+      message: "Fetched successfully",
+      posts,
+    });
+  } catch (error) {
+    logger.error("FETCH ERROR");
+    res.status(500).json({
+      success: false,
+      message: "Error fetching posts",
+    });
+  }
+};
+
+// ===============================
+// GET BY ID
+// ===============================
+const getNewsBulletineById = async (req, res) => {
   try {
     const { id } = req.params;
-    const existingPost = await bulletineModal.findById(id);
-    if (!existingPost) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Post not found' });
-    }
-    const { title, description } = req.body;
-    // Validate fields
-    if (title && (typeof title !== 'string' || title.trim().length < 3)) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: 'Title must be a string with at least 3 characters',
-        });
-    }
-    if (
-      description &&
-      (typeof description !== 'string' || description.trim().length < 5)
-    ) {
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
-        message: 'Description must be a string with at least 5 characters',
+        message: "Invalid ID",
       });
     }
 
-    // Initialize updated data with existing values
-    const updates = {
-      title: title || existingPost.title,
-      description: description || existingPost.description,
-      images: existingPost.images,
-    };
-    // Handle updated images if provided
-    const images = req.files?.images || [];
-    if (images.length > 0) {
-      const updatedImages = [];
-      for (let index = 0; index < images.length; index++) {
-        updatedImages.push(images[index].filename);
-      }
-      updates.images = updatedImages;
-    }
-    // Update the post
-    const updatedPost = await bulletineModal.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
-    if (!updatedPost) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Bulletine Post not found' });
+    const post = await bulletineModal.findById(id);
+
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Bulletine Post updated successfully',
-      updatedPost,
+      post,
     });
   } catch (error) {
-    logger.error("Something went wrong while updating news/bulletine post.")
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while updating news/bulletine post'
-      });
+    res.status(500).json({
+      success: false,
+      message: "Fetch error",
+    });
   }
 };
 
-//! DELETE POST BASED ON ID
+// ===============================
+// UPDATE POST 
+// ===============================
+const updateNewsBulletine = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const existingPost = await bulletineModal.findById(id);
+    if (!existingPost) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    const { title, description, date } = req.body;
+
+    let imageArr = existingPost.images || [];
+    const images = req.files?.images || [];
+
+    // ===============================
+    // IF NEW IMAGES UPLOADED
+    // ===============================
+    if (images.length > 0) {
+      // delete old images from cloudinary safely
+      for (let img of imageArr) {
+        if (typeof img === "object" && img.public_id) {
+          await cloudinary.uploader.destroy(img.public_id);
+        }
+      }
+
+      imageArr = [];
+
+      // upload new images
+      for (let file of images) {
+        const result = await cloudinary.uploader.upload(file.path, {
+          folder: "sobf_uploads/news-bulletine",
+          resource_type: "image",
+        });
+
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path);
+        }
+
+        imageArr.push({
+          url: result.secure_url,
+          public_id: result.public_id,
+        });
+      }
+    }
+
+    const updatedPost = await bulletineModal.findByIdAndUpdate(
+      id,
+      {
+        title: title || existingPost.title,
+        description: description || existingPost.description,
+        date: date || existingPost.date,
+        images: imageArr,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Updated successfully",
+      updatedPost,
+    });
+  } catch (error) {
+    console.error("UPDATE ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error updating post",
+      error: error.message,
+    });
+  }
+};
+
+// ===============================
+// DELETE POST 
+// ===============================
 const deleteNewsBulletine = async (req, res) => {
   try {
     const { id } = req.params;
-    // Validate ID format
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid post ID' });
-    }
+
     const post = await bulletineModal.findByIdAndDelete(id);
+
     if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
-    }
-    res.status(200).json({ success: true, message: 'Post deleted ' });
-  } catch (error) {
-    logger.error("Something went wrong while deleting news/bulletine post.")
-    res
-      .status(500)
-      .json({
+      return res.status(404).json({
         success: false,
-        message: 'Something went wrong while deleting news/bulletine post'
+        message: "Post not found",
       });
+    }
+
+    // safely delete cloudinary images
+    if (Array.isArray(post.images)) {
+      for (let img of post.images) {
+        if (typeof img === "object" && img.public_id) {
+          await cloudinary.uploader.destroy(img.public_id);
+        }
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Deleted successfully",
+    });
+  } catch (error) {
+    console.error("DELETE ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error deleting post",
+      error: error.message,
+    });
   }
 };
 
 module.exports = {
-  getNewsBulletine,
   createNewsBulletine,
+  getNewsBulletine,
+  getNewsBulletineById,
   updateNewsBulletine,
   deleteNewsBulletine,
-  getNewsBulletineById,
 };

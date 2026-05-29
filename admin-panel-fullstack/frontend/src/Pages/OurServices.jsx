@@ -17,7 +17,9 @@ const OurService = () => {
   const dispatch = useDispatch();
   ReactQuill.Quill = Quill; // Force ReactQuill to use latest Quill version
   const quillRef = useRef(null);
-  const { services, status } = useSelector((state) => state.services);
+
+  const services = useSelector((state) => state.services?.services || []);
+  const status = useSelector((state) => state.services?.status);
   const smallDescriptionMaxLength = 80;
   const titleMaxLength = 20;
   const maxImages = 5; // Max number of service images allowed
@@ -36,105 +38,106 @@ const OurService = () => {
   });
 
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(getServices()); // Fetching posts
-    }
-  }, [status, dispatch]);
+    dispatch(getServices());
+  }, [dispatch]);
 
   // ! Add a post
-  const handleAddPost = () => {
-    if (!formData.title.trim()) {
-      toast.error('Title is required and cannot be empty');
-      return;
-    }
-    if (!formData.small_description) {
-      toast.error('Small Description is required and cannot be empty');
-      return;
-    }
-    if (!formData.description) {
-      toast.error('Description is required and cannot be empty');
-      return;
-    }
-    if (!formData.logo) {
-      toast.error('Logo is required');
-      return;
-    }
-    if (formData?.images?.length === 0) {
-      toast.error('At least one service image is required');
-      return;
-    }
-    if (!formData.color) {
-      toast.error('Put color of your choice !');
-      return;
-    }
-    const formDataToSend = new FormData();
-    formDataToSend.append('title', formData.title);
-    formDataToSend.append('small_description', formData.small_description);
-    formDataToSend.append('description', formData.description);
-    formDataToSend.append('color', formData.color);
-    formDataToSend.append('logo', formData.logo);
-    formData.images.forEach((image) => {
-      formDataToSend.append('images', image);
-    });
+  const handleAddPost = async () => {
+    try {
+      if (!formData.title.trim()) return toast.error('Title required');
+      if (!formData.small_description)
+        return toast.error('Small description required');
+      if (!formData.description) return toast.error('Description required');
+      if (!formData.logo) return toast.error('Logo required');
+      if (!formData.images.length)
+        return toast.error('At least 1 image required');
+      if (!formData.color) return toast.error('Color required');
 
-    setIsLoading(true); // Start loading
-    dispatch(addService(formDataToSend))
-      .unwrap()
-      .then(() => {
-        toast.success('Post added successfully!');
-        setIsModalOpen(false);
-        resetForm();
-        dispatch(getServices());
-      })
-      .catch((error) => {
-        toast.error(error || 'Failed to add post');
-      })
-      .finally(() => setIsLoading(false));
+      const formDataToSend = new FormData();
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('small_description', formData.small_description);
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('color', formData.color);
+      formDataToSend.append('logo', formData.logo);
+
+      formData.images.forEach((img) => {
+        formDataToSend.append('images', img);
+      });
+
+      setIsLoading(true);
+
+      await dispatch(addService(formDataToSend)).unwrap();
+
+      toast.success('Added successfully');
+
+      resetForm();
+      setIsModalOpen(false);
+
+      //IMPORTANT: refresh state
+      await dispatch(getServices());
+    } catch (err) {
+      toast.error(err?.message || 'Failed to add');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   //!  Update a post
-  const handleUpdatePost = () => {
-    const updatedData = new FormData();
-    updatedData.append('title', formData.title);
-    updatedData.append('small_description', formData.small_description);
-    updatedData.append('color', formData.color);
-    updatedData.append('description', formData.description);
-    if (formData.logo) updatedData.append('logo', formData.logo);
-    formData.images.forEach((image) => updatedData.append('images', image));
+  const handleUpdatePost = async () => {
+    try {
+      const updatedData = new FormData();
 
-    setIsLoading(true);
-    dispatch(updateService({ id: currentPost?._id, updatedData }))
-      .unwrap()
-      .then(() => {
-        toast.success('Post updated successfully!');
-        setIsModalOpen(false);
-        resetForm();
-        setIsModalOpen(false);
-        dispatch(getServices());
-      })
-      .catch((error) => {
-        toast.error(error || 'Failed to update post');
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setIsModalOpen(false);
-        dispatch(getServices());
+      updatedData.append('title', formData.title);
+      updatedData.append('small_description', formData.small_description);
+      updatedData.append('description', formData.description);
+      updatedData.append('color', formData.color);
+
+      if (formData.logo) updatedData.append('logo', formData.logo);
+
+      formData.images.forEach((img) => {
+        updatedData.append('images', img);
       });
+
+      setIsLoading(true);
+
+      await dispatch(
+        updateService({
+          id: currentPost?._id,
+          updatedData,
+        }),
+      ).unwrap();
+
+      toast.success('Updated successfully');
+
+      resetForm();
+      setIsModalOpen(false);
+
+      
+      await dispatch(getServices());
+    } catch (err) {
+      toast.error(err?.message || 'Update failed');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // ! Delete a post
-  const handleDeletePost = (id) => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
-      setIsLoading(true); // Start loading
-      dispatch(removeService(id))
-        .unwrap()
-        .then(() => {
-          toast.success('Post deleted successfully!');
-        })
-        .catch((error) => {
-          toast.error(error || 'Failed to delete post');
-        })
-        .finally(() => setIsLoading(false)); // End loading;
+  const handleDeletePost = async (id) => {
+    if (!window.confirm('Are you sure?')) return;
+
+    try {
+      setIsLoading(true);
+
+      await dispatch(removeService(id)).unwrap();
+
+      toast.success('Deleted successfully');
+
+      
+      await dispatch(getServices());
+    } catch (err) {
+      toast.error(err?.message || 'Delete failed');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -180,7 +183,7 @@ const OurService = () => {
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    // const maxFileSize = 100 * 1024; // 100KB in bytes
+    
 
     if (name === 'logo') {
       if (files[0]) {
@@ -436,7 +439,7 @@ const OurService = () => {
                   {formData &&
                     formData?.images.map((image, index) => (
                       <img
-                        key={image._id}
+                        key={index}
                         src={URL.createObjectURL(image)}
                         alt={`Preview ${index + 1}`}
                         className="h-14 w-14 object-cover rounded"
@@ -496,7 +499,8 @@ const OurService = () => {
         </div>
       )}
       <div className=" gap-6 p-4 flex flex-col items-center lg:items-stretch lg:grid lg:grid-cols-2">
-        {services && services?.length > 0 ? (
+        {Array.isArray(services) && services.length > 0 ? (
+          Array.isArray(services) &&
           services.map((post) => (
             <div
               key={post._id}
@@ -512,7 +516,7 @@ const OurService = () => {
               <h2 className="text-lg font-bold line-clamp-2">{post?.title}</h2>
 
               <p className="mt-2 line-clamp-1">
-                {expandedItem?.id === post._id
+                {expandedItem?._id === post._id
                   ? post?.small_description
                   : truncateDescription(post?.small_description)}
               </p>

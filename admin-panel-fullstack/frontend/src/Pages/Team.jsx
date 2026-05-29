@@ -105,36 +105,49 @@ const Team = () => {
   };
 
   //! Update team member
-  const handleUpdateTeamMember = async () => {
-    const { name, image, role } = formData;
-    if (!name || !role) {
-      toast.error('Name and Role are required fields.');
-      return false;
-    }
-    //! Validate image type
-    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (image && !allowedImageTypes.includes(image.type)) {
-      toast.error('Profile image is required and must be jpg ,png  or jpeg .');
-      return;
-    }
-    const teamData = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      teamData.append(key, value);
-    });
-    try {
-      setIsLoading(true); // Start loading
-      await dispatch(
-        updateTeamData({ id: currentPost._id, teamData }),
-      ).unwrap();
-      resetForm();
-      setIsModalOpen(false);
-      toast.success('Team member updated successfully.');
-      dispatch(getTeamData());
-    } catch (error) {
-      toast.error(error.message || 'Failed to update team member.');
-    }
-    setIsLoading(false);
-  };
+ const handleUpdateTeamMember = async () => {
+  const { name, image, role } = formData;
+
+  if (!name || !role) {
+    toast.error('Name and Role are required fields.');
+    return;
+  }
+
+  const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+  // only validate if image is selected
+  if (image && !allowedImageTypes.includes(image.type)) {
+    toast.error('Image must be jpg, png, or jpeg.');
+    return;
+  }
+
+  const teamData = new FormData();
+
+  Object.entries(formData).forEach(([key, value]) => {
+  if (value !== null && value !== undefined) {
+    teamData.append(key, value);
+  }
+});
+
+  try {
+    setIsLoading(true);
+
+    await dispatch(
+      updateTeamData({ id: currentPost._id, teamData })
+    ).unwrap();
+
+    resetForm();
+    setIsModalOpen(false);
+
+    toast.success('Team member updated successfully.');
+    dispatch(getTeamData());
+
+  } catch (error) {
+    toast.error(error.message || 'Failed to update team member.');
+  }
+
+  setIsLoading(false);
+};
 
   //! Delete team member
   const handleDeleteTeamMember = async (id) => {

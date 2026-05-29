@@ -8,15 +8,17 @@ export const fetchEvents = createAsyncThunk(
     try {
       const response = await getEvents();
       if (!response || !response.data?.posts) {
-        throw new Error("No data received from API");
+        throw new Error('No data received from API');
       }
       return response.data.posts;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || error.message || 'Failed to fetch events'
+        error.response?.data?.message ||
+          error.message ||
+          'Failed to fetch events',
       );
     }
-  }
+  },
 );
 
 // Get a specific event by ID
@@ -25,8 +27,6 @@ export const getSpecificEvent = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await fetchEventPostById(id);
-      // console.log("response?.data?.post", response?.data?.post);
-      
       if (!response || response.status !== 200 || !response?.data?.post) {
         throw new Error('Event not found');
       }
@@ -34,45 +34,56 @@ export const getSpecificEvent = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message || 'Failed to fetch event');
     }
-  }
+  },
 );
 
 // Slice Definition
 const upcomingEventsSlice = createSlice({
   name: 'events',
+  
   initialState: {
     events: [],
     post: null,
-    status: 'idle',
-    error: null
+    listStatus: 'idle',
+    postStatus: 'idle',
+    error: null,
   },
-  reducers: {},
+
+  reducers: {
+  clearEventPost: (state) => {
+    state.post = null;
+    state.postStatus = 'idle';
+  }
+},
   extraReducers: (builder) => {
     builder
+      
       .addCase(fetchEvents.pending, (state) => {
-        state.status = 'loading';
+        state.listStatus = 'loading';
       })
       .addCase(fetchEvents.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.listStatus = 'succeeded';
         state.events = action.payload;
       })
       .addCase(fetchEvents.rejected, (state, action) => {
-        state.status = 'failed';
+        state.listStatus = 'failed';
         state.error = action.payload;
       })
+      
       .addCase(getSpecificEvent.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(getSpecificEvent.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.post = action.payload;
-      })
-      .addCase(getSpecificEvent.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
-        state.post = null;
-      });
+  state.postStatus = 'loading';
+})
+.addCase(getSpecificEvent.fulfilled, (state, action) => {
+  state.postStatus = 'succeeded';
+  state.post = action.payload;
+})
+.addCase(getSpecificEvent.rejected, (state, action) => {
+  state.postStatus = 'failed';
+  state.error = action.payload;
+  state.post = null;
+})
   },
 });
 
 export default upcomingEventsSlice.reducer;
+export const { clearEventPost } = upcomingEventsSlice.actions;

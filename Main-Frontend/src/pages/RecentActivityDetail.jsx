@@ -26,12 +26,17 @@ const RecentActivityDetails = () => {
   );
 
   if (status === 'loading') {
-    return <p>Loading...</p>;
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="mt-4 text-lg text-gray-600">Loading...</p>
+      </div>
+    );
   }
 
   if (!post) {
     return (
-      <div className="flex flex-col items-center w-full mt-[150px] p-4">
+      <div className="flex flex-col items-center w-full mt-[150px] min-h-screen p-4">
         <p className="text-lg text-red-500">News not found!</p>
       </div>
     );
@@ -61,31 +66,39 @@ const RecentActivityDetails = () => {
       : window.location.origin;
 
   return (
-    <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
+    
+    <div className="flex flex-col items-center min-h-screen w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
       <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:mb-[30px]">
         {activity.title}
       </h1>
       <div className="flex flex-col items-center w-full">
         <div
-          className={`w-full ${activity.images?.length === 1
-            ? ''
-            : 'flex flex-wrap justify-center gap-4'
-            }`}
+          className={`w-full ${
+            activity.images?.length === 1
+              ? ''
+              : 'flex flex-wrap justify-center gap-4'
+          }`}
         >
           {activity?.images && activity?.images?.length > 0 ? (
             activity?.images?.length === 1 ? (
-              // Single Image with 50% height
+              // Single Image 
               <div className="w-full h-[80vh] overflow-hidden mb-4">
+                
                 <img
                   src={activity?.images[0]}
                   alt={activity?.title}
+                  loading="eager"
+                  decoding="async"
                   className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
               </div>
             ) : (
-              // Multiple Images with 50% height
+              // Multiple Images 
               activity?.images?.map((image, index) => (
-                <div key={index} className="w-full sm:w-[48%] lg:w-[48%] h-[50vh] overflow-hidden">
+                <div
+                  key={index}
+                  className="w-full sm:w-[48%] lg:w-[48%] h-[50vh] overflow-hidden"
+                >
                   <img
                     src={image}
                     alt={`${activity?.title} - ${index + 1}`}
@@ -95,7 +108,7 @@ const RecentActivityDetails = () => {
               ))
             )
           ) : (
-            // Fallback Image with 50% height
+            // Fallback Image
             <div className="w-full h-[80vh] overflow-hidden">
               <img
                 src="https://via.placeholder.com/600"
@@ -108,14 +121,15 @@ const RecentActivityDetails = () => {
 
         {activity.videos?.length === 1 && (
           <div
-            className={`w-full m-[15px] ${activity.videos?.length === 1
-              ? ''
-              : 'flex flex-wrap justify-center gap-4'
-              }`}
+            className={`w-full m-[15px] ${
+              activity.videos?.length === 1
+                ? ''
+                : 'flex flex-wrap justify-center gap-4'
+            }`}
           >
             {activity?.videos && activity?.videos?.length > 0 ? (
               activity?.videos?.length === 1 ? (
-                // Single Video with 50% height
+                // Single Video 
                 <div className="w-full h-[80vh] overflow-hidden">
                   <video
                     controls
@@ -124,9 +138,12 @@ const RecentActivityDetails = () => {
                   />
                 </div>
               ) : (
-                // Multiple Videos with 50% height
+                // Multiple Videos 
                 activity?.videos?.map((video, index) => (
-                  <div key={index} className="w-full sm:w-[48%] lg:w-[48%] h-[60vh] overflow-hidden">
+                  <div
+                    key={index}
+                    className="w-full sm:w-[48%] lg:w-[48%] h-[60vh] overflow-hidden"
+                  >
                     <video
                       controls
                       src={video}
@@ -166,24 +183,26 @@ const RecentActivityDetails = () => {
             >
               Back to Recent Activities
             </button>
-            
-            <div onClick={(e) => e.stopPropagation()} className="mt-4 small-max:mt-7">
-                  <ShareButton
-                    title={title}
-                    url={`${baseURL}/recent-activities/${activity?._id}`}
-                    className= "px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  />
-                </div>
 
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="mt-4 small-max:mt-7"
+            >
+              <ShareButton
+                title={title}
+                url={`${baseURL}/recent-activities/${activity?._id}`}
+                className="px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              />
+            </div>
           </div>
           <div className="mt-6 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 xl:p-10 rounded-lg shadow-lg">
             <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-indigo-700">
               Make a Difference!
             </h2>
             <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
-              Your support helps us continue our mission of making the world
-              a better place. Every contribution brings us closer to
-              achieving our goals and empowering the community.
+              Your support helps us continue our mission of making the world a
+              better place. Every contribution brings us closer to achieving our
+              goals and empowering the community.
             </p>
             <Link
               to="/donate-us"

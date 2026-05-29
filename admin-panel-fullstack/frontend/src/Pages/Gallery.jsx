@@ -33,14 +33,34 @@ const Gallery = () => {
   }, [status, dispatch]);
 
   useEffect(() => {
-    const tags = gallery.reduce((acc, item) => {
-      if (item?.tag && !acc.includes(item.tag)) acc.push(item.tag.trim());
-      return acc;
-    }, []);
-    setAvailableTags(['all', ...tags]);
-  }, [gallery]);
+    const uniqueTags = [];
 
-  
+    gallery.forEach((item) => {
+      const normalizedTag = item?.tag?.trim().toLowerCase();
+
+      if (
+        normalizedTag &&
+        normalizedTag !== 'all' &&
+        !uniqueTags.includes(normalizedTag)
+      ) {
+        uniqueTags.push(normalizedTag);
+      }
+    });
+
+    setAvailableTags(['all', ...uniqueTags]);
+  }, [gallery]);
+  const defaultTags = [
+    'Sadhu Seva',
+    'Brajkulam Community Center',
+    'Swachh & Swasth Vrindavan',
+    'Food Distribution',
+  ];
+  const allTags = Array.from(
+    new Set([
+      ...defaultTags.map((t) => t.trim().toLowerCase().replace(/\s+/g, '_')),
+      ...availableTags.filter((t) => t !== 'all'),
+    ]),
+  );
 
   const validateFile = (file) => {
     if (!validImageTypes.includes(file.type)) {
@@ -66,7 +86,8 @@ const Gallery = () => {
     }
 
     let tagToUse =
-      formData.tag || formData.customTag.trim().toLowerCase().replace(' ', '_');
+      formData.tag ||
+      formData.customTag.trim().toLowerCase().replace(/\s+/g, '_');
 
     const formDataToSend = new FormData();
     formDataToSend.append('image', formData.image);
@@ -105,7 +126,8 @@ const Gallery = () => {
 
     updatedData.append(
       'tag',
-      formData.tag || formData.customTag.trim().toLowerCase().replace(' ', '_'),
+      formData.tag ||
+        formData.customTag.trim().toLowerCase().replace(/\s+/g, '_'),
     );
 
     setIsLoading(true); // Start loading
@@ -187,7 +209,6 @@ const Gallery = () => {
       </div>
 
       <div className="flex flex-wrap gap-2 mx-4 mb-4">
-        {/* {console.log(availableTags)} */}
         {availableTags.map((tag) => (
           <button
             key={tag}
@@ -198,7 +219,7 @@ const Gallery = () => {
             }`}
             onClick={() => setActiveTagFilter(tag)}
           >
-            {tag.replace('_', ' ')}
+            {tag.replace(/_/g, ' ')}
           </button>
         ))}
       </div>
@@ -222,6 +243,7 @@ const Gallery = () => {
               </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Tag</label>
+              
                 <select
                   name="tag"
                   value={formData.tag}
@@ -229,11 +251,22 @@ const Gallery = () => {
                   className="w-full border p-2 rounded-lg"
                 >
                   <option value="">Select a tag</option>
+
+                  {defaultTags.map((tag) => (
+                    <option
+                      key={tag}
+                      value={tag.toLowerCase().replace(/\s+/g, '_')}
+                    >
+                      {tag}
+                    </option>
+                  ))}
+
                   {availableTags
+                    .filter((tag) => !defaultTags.includes(tag))
                     .filter((tag) => tag !== 'all')
                     .map((tag) => (
                       <option key={tag} value={tag}>
-                        {tag.replace('_', ' ')}
+                        {tag.replace(/_/g, ' ')}
                       </option>
                     ))}
                 </select>
@@ -292,7 +325,7 @@ const Gallery = () => {
       <div className="flex flex-col items-center gap-4 mx-4 md:grid md:grid-cols-2 lg:grid-cols-3">
         {filteredGallery.map((item) => (
           <div
-            key={item._id}
+            key={`${item._id}-${item.image}`}
             className=" rounded-lg shadow-lg flex flex-col items-center w-full small-range:w-[80%] md:w-[90%] lg:w-[80%]"
           >
             <div className="w-full h-[250px] overflow-hidden">

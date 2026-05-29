@@ -41,9 +41,11 @@ const PostPage = () => {
         const height = this.naturalHeight;
 
         // Check if dimensions match any accepted size (with 1% tolerance)
-        const isValid = ACCEPTED_DIMENSIONS.some(dim => {
-          const widthMatch = Math.abs(width - dim.width) <= Math.round(dim.width * 0.01);
-          const heightMatch = Math.abs(height - dim.height) <= Math.round(dim.height * 0.01);
+        const isValid = ACCEPTED_DIMENSIONS.some((dim) => {
+          const widthMatch =
+            Math.abs(width - dim.width) <= Math.round(dim.width * 0.01);
+          const heightMatch =
+            Math.abs(height - dim.height) <= Math.round(dim.height * 0.01);
           return widthMatch && heightMatch;
         });
 
@@ -51,8 +53,10 @@ const PostPage = () => {
           isValid,
           width,
           height,
-          acceptedSizes: ACCEPTED_DIMENSIONS.map(d => `${d.width}×${d.height}`),
-          currentAspectRatio: (width / height).toFixed(2)
+          acceptedSizes: ACCEPTED_DIMENSIONS.map(
+            (d) => `${d.width}×${d.height}`,
+          ),
+          currentAspectRatio: (width / height).toFixed(2),
         });
       };
       img.onerror = () => resolve({ isValid: false });
@@ -103,7 +107,7 @@ const PostPage = () => {
         const { isValid, width, height } = await checkImageDimensions(image);
         if (!isValid) {
           toast.error(
-            `Image "${image.name}" must match one of the accepted dimensions. Current dimensions: ${width}x${height}`
+            `Image "${image.name}" must match one of the accepted dimensions. Current dimensions: ${width}x${height}`,
           );
           return false;
         }
@@ -131,7 +135,7 @@ const PostPage = () => {
     formDataToSend.append('description', formData.description);
     formDataToSend.append('date', formData.date);
 
-    formData.images.forEach(image => {
+    formData.images.forEach((image) => {
       formDataToSend.append('images', image);
     });
 
@@ -156,7 +160,7 @@ const PostPage = () => {
     updatedData.append('title', formData.title);
     updatedData.append('description', formData.description);
     updatedData.append('date', formData.date);
-    formData.images.forEach(image => {
+    formData.images.forEach((image) => {
       updatedData.append('images', image);
     });
 
@@ -195,19 +199,19 @@ const PostPage = () => {
   };
 
   const handleRemoveImage = (index) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      images: prev.images.filter((_, i) => i !== index)
+      images: prev.images.filter((_, i) => i !== index),
     }));
   };
 
   const handleInputChange = (e) => {
     if (e.target) {
       const { name, value } = e.target;
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     } else {
       const { name, value } = e;
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -228,12 +232,13 @@ const PostPage = () => {
       reader.onload = async (event) => {
         const image = new Image();
         image.onload = async () => {
-          const { isValid, width, height, acceptedSizes } = await checkImageDimensions(file);
+          const { isValid, width, height, acceptedSizes } =
+            await checkImageDimensions(file);
 
           if (!isValid) {
             toast.error(
               `Image must be one of these sizes: ${acceptedSizes.join(' or ')}.\n` +
-              `Your image is ${width}×${height}px.`
+                `Your image is ${width}×${height}px.`,
             );
             if (fileInputRef.current) {
               fileInputRef.current.value = '';
@@ -241,9 +246,9 @@ const PostPage = () => {
             return;
           }
 
-          setFormData(prev => ({
+          setFormData((prev) => ({
             ...prev,
-            images: [file]
+            images: [file],
           }));
           setPreviewImage(URL.createObjectURL(file));
         };
@@ -277,13 +282,15 @@ const PostPage = () => {
     setIsModalOpen(true);
     setIsUpdateMode(true);
     setCurrentPost(post);
+
     setFormData({
       title: post?.title || '',
       description: post?.description || '',
       date: post?.date || '',
       images: post?.images || [],
     });
-    setPreviewImage(post?.images?.[0]);
+
+    setPreviewImage(post?.images?.[0]?.url || null);
   };
 
   return (
@@ -341,7 +348,7 @@ const PostPage = () => {
 
             {/* Images */}
             {Array?.isArray(expandedItem?.images) &&
-              expandedItem?.images?.length > 0 ? (
+            expandedItem?.images?.length > 0 ? (
               expandedItem?.images.map((image, index) => (
                 <img
                   key={index}
@@ -436,13 +443,14 @@ const PostPage = () => {
                         className="absolute top-0 left-0 w-full h-full object-cover"
                       />
                     </div>
-                    <p className="text-sm text-gray-500 mt-2">16:9 Aspect Ratio Preview</p>
+                    <p className="text-sm text-gray-500 mt-2">
+                      16:9 Aspect Ratio Preview
+                    </p>
                   </div>
                 )}
               </div>
               <div className="flex gap-3 mt-4">
-                {
-                  formData?.images &&
+                {formData?.images &&
                   Array?.isArray(formData.images) &&
                   formData?.images?.length > 0 &&
                   formData?.images?.map((image, index) => (
@@ -451,7 +459,7 @@ const PostPage = () => {
                         src={
                           image instanceof File
                             ? URL.createObjectURL(image)
-                            : image
+                            : image?.url || ''
                         }
                         alt={`Image Preview ${index + 1}`}
                         className="w-24 h-24 object-cover rounded-md"
@@ -526,7 +534,11 @@ const PostPage = () => {
               onClick={() => handleExpandPost(bulletin)}
             >
               <img
-                src={bulletin?.images ? bulletin?.images[0] : bulletin?.images}
+                src={
+                  Array.isArray(bulletin?.images) && bulletin?.images.length > 0
+                    ? bulletin.images[0]?.url
+                    : ''
+                }
                 alt="Post Image"
                 className="w-full h-[200px] object-cover rounded"
               />

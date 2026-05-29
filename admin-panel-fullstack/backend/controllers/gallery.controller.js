@@ -1,30 +1,37 @@
 const logger = require('../logger');
 const GalleryModel = require('../models/gallery.model');
 
+// Create gallery image
 const createGalleryController = async (req, res) => {
   try {
     const { tag } = req.body;
-    if (req.file.filename === undefined) {
+    if (!req.file) {
       return res.status(400).json({
         success: false,
-        message: 'Image is required ',
+        message: 'Image is required',
       });
     }
-    const filename = req.file.filename;
-    const post = new GalleryModel({ image: filename || '', tag });
+
+    // This is Cloudinary URL
+    const imageUrl = req.file.path;
+
+    const post = new GalleryModel({
+      image: imageUrl,
+      tag,
+    });
+
     await post.save();
-    post.image = "https://backend.sobf.in" + '/uploads/gallery/' + post.image;
-    // post.image = "http://localhost:5000" + '/uploads/gallery/' + post.image;
+
     res.status(201).json({
       success: true,
-      message: 'Gallery post has been created successfully',
+      message: 'Gallery post created successfully',
       post,
     });
   } catch (error) {
-    logger.error("Something went wrong while creating Gallery post.")
+    console.error(error);
     res.status(500).json({
       success: false,
-      message: 'Something went wrong while creating Gallery post',
+      message: 'Something went wrong',
     });
   }
 };
@@ -33,66 +40,42 @@ const createGalleryController = async (req, res) => {
 const getAllGalleryImagesController = async (req, res) => {
   try {
     const posts = await GalleryModel.find({});
-    if (posts.length > 0) {
-      for (let index = 0; index < posts.length; index++) {
-        const post = posts[index];
-        post.image = "https://backend.sobf.in" + '/uploads/gallery/' + post.image;
-        // post.image = "http://localhost:5000" + '/uploads/gallery/' + post.image;
-      }
-    }
+
     res.status(200).json({
       success: true,
       message: 'Gallery posts retrieved successfully',
       posts,
     });
   } catch (error) {
-    logger.error("Something went wrong while retrieving gallery posts.")
+    logger.error('Something went wrong while retrieving gallery posts.');
     res.status(500).json({
       success: false,
       message: 'Something went wrong while retrieving gallery posts',
     });
   }
 };
-
 // Update Gallery post validation
 const updateGalleryController = async (req, res) => {
   try {
     const { id } = req.params;
     const { tag } = req.body;
 
-    // Fetch the existing gallery post
     const existingPost = await GalleryModel.findById(id);
     if (!existingPost) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Gallery post not found' });
+      return res.status(404).json({
+        success: false,
+        message: 'Gallery post not found',
+      });
     }
 
-    // Prepare the updates from the request body
-    const updates = { tag: tag || existingPost.tag };
+    const updates = {
+      tag: tag || existingPost.tag,
+      image: req.file ? req.file.path : existingPost.image,
+    };
 
-    // Check if a new image is provided; otherwise, keep the existing one
-    const image = req.file ? req.file.filename : existingPost.image;
-
-    // Update the image if a new one is provided
-    if (image) {
-      updates.image = image;
-    }
-
-    // Update the gallery post in the database
     const updatedPost = await GalleryModel.findByIdAndUpdate(id, updates, {
       new: true,
     });
-
-    if (!updatedPost) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Post update failed' });
-    }
-
-    // Append the full image URL (like the `updateTeam` controller)
-    updatedPost.image ="https://backend.sobf.in" + '/uploads/gallery/' + updatedPost.image;
-    // updatedPost.image = "http://localhost:5000" + '/uploads/gallery/' + updatedPost.image;
 
     res.status(200).json({
       success: true,
@@ -100,10 +83,10 @@ const updateGalleryController = async (req, res) => {
       updatedPost,
     });
   } catch (error) {
-    logger.error("Something went wrong while updating Gallery post.")
-    return res.status(500).json({
+    console.error(error);
+    res.status(500).json({
       success: false,
-      message: 'Something went wrong while updating Gallery post',
+      message: 'Something went wrong while updating',
     });
   }
 };
@@ -122,13 +105,11 @@ const deleteGalleryController = async (req, res) => {
       .status(200)
       .json({ success: true, message: 'Post deleted successfully' });
   } catch (error) {
-    logger.error("Something went wrong while deleting the Gallery post.")
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: 'Something went wrong while deleting the Gallery post'
-      });
+    logger.error('Something went wrong while deleting the Gallery post.');
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong while deleting the Gallery post',
+    });
   }
 };
 

@@ -32,7 +32,6 @@ const LegalDoc = () => {
       dispatch(getLegalDocuments()).unwrap();
     }
   }, [status, dispatch]);
-
   // ? all validations are here
   const validateForm = () => {
     if (!formData.title.trim()) {
@@ -47,7 +46,8 @@ const LegalDoc = () => {
       toast.error('File is required for new documents.');
       return false;
     }
-    if (formData.file && formData.file.type !== 'application/pdf') {
+
+    if (formData.file && !formData.file.name.toLowerCase().endsWith('.pdf')) {
       toast.error('Only PDF files are allowed.');
       return false;
     }
@@ -55,58 +55,91 @@ const LegalDoc = () => {
   };
 
   //? adding post
-  const handleAddDoc = () => {
+  const handleAddDoc = async () => {
     if (!validateForm()) return;
-    const formDataToSend = new FormData();
-    formDataToSend.append('title', formData.title);
-    formDataToSend.append('description', formData.description);
-    if (formData.file) formDataToSend.append('file', formData.file);
-    setIsLoading(true);
-    dispatch(addLegalDocument(formDataToSend))
-      .unwrap()
-      .then(() => toast.success('Successfully added legal document'))
-      .catch(() => toast.error('Error adding document'));
-    setIsModalOpen(false);
-    setIsLoading(false);
-    resetForm();
-    dispatch(getLegalDocuments()).unwrap();
-  };
-
-  // ? updating post
-  const handleUpdateDoc = async () => {
-    if (!validateForm()) return;
-    const updatedData = new FormData();
-    updatedData.append('title', formData.title);
-    updatedData.append('description', formData.description);
-    if (formData.file) updatedData.append('file', formData.file);
 
     try {
       setIsLoading(true);
-      await dispatch(
-        updateLegalDocumentById({ id: currentDoc._id, updatedData }),
-      ).unwrap();
-      toast.success('Successfully updated legal document');
-      dispatch(getLegalDocuments()).unwrap();
-    } catch {
-      toast.error('Error while updating document');
-    } finally {
-      setIsModalOpen(false);
+
+      const formDataToSend = new FormData();
+
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('description', formData.description);
+
+      if (formData.file instanceof File) {
+        formDataToSend.append('file', formData.file);
+      }
+
+      await dispatch(addLegalDocument(formDataToSend)).unwrap();
+
+      toast.success('Successfully added legal document');
+
       resetForm();
+      setIsModalOpen(false);
+
+      await dispatch(getLegalDocuments()).unwrap();
+    } catch (error) {
+      console.log(error);
+
+      toast.error(error || 'Error adding document');
+    } finally {
       setIsLoading(false);
     }
   };
+  //? updating post
+  const handleUpdateDoc = async () => {
+    if (!validateForm()) return;
 
-  // ? deleting post
-  const handleDeleteDoc = (id) => {
+    try {
+      setIsLoading(true);
+
+      const formDataToSend = new FormData();
+
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('description', formData.description);
+
+      // only send file if user selected a new one
+      if (formData.file instanceof File) {
+        formDataToSend.append('file', formData.file);
+      }
+
+      await dispatch(
+        updateLegalDocumentById({
+          id: currentDoc._id,
+          updatedData: formDataToSend,
+        }),
+      ).unwrap();
+
+      toast.success('Document updated successfully!');
+
+      resetForm();
+      setIsModalOpen(false);
+      setIsUpdateMode(false);
+      setCurrentDoc(null);
+
+      await dispatch(getLegalDocuments()).unwrap();
+    } catch (error) {
+      toast.error(error || 'Failed to update document');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handleDeleteDoc = async (id) => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this legal document? This action cannot be undone.',
     );
-    if (confirmDelete) {
+
+    if (!confirmDelete) return;
+
+    try {
       setIsLoading(true);
-      dispatch(removeLegalDocument(id))
-        .unwrap()
-        .then(() => toast.success('Document deleted successfully!'))
-        .catch(() => toast.error('Failed to delete legal document'));
+
+      await dispatch(removeLegalDocument(id)).unwrap();
+
+      toast.success('Document deleted successfully!');
+    } catch (error) {
+      toast.error(error || 'Failed to delete legal document');
+    } finally {
       setIsLoading(false);
     }
   };
@@ -173,7 +206,9 @@ const LegalDoc = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 md:pl-20">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2">
             <h2 className="text-xl font-bold mb-4">
-              {isUpdateMode ? 'Update Document' : 'Add New Document'}
+              {isUpdateMode
+                ? `Update Document: ${currentDoc?.title}`
+                : 'Add New Document'}
             </h2>
             <form>
               <div className="mb-4">
@@ -216,7 +251,11 @@ const LegalDoc = () => {
                 <button
                   type="button"
                   className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 font-semibold"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setIsUpdateMode(false);
+                    resetForm();
+                  }}
                 >
                   Cancel
                 </button>
@@ -272,13 +311,13 @@ const LegalDoc = () => {
                 >
                   <MdDelete className="text-red-800 text-2xl" />
                 </button>
-                <Link
-                  to={doc?.fileName}
+                <a
+                  href={`https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(doc.fileName)}`}
                   target="_blank"
                   className="bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-2xl flex items-center gap-2 shadow-lg transition duration-300 ease-in-out hover:bg-green-200 hover:shadow-xl"
                 >
                   <MdPreview className="text-green-800 text-2xl" />
-                </Link>
+                </a>
               </div>
             </div>
           ))

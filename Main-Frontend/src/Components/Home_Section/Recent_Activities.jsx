@@ -7,11 +7,12 @@ import { getPosts } from '../../Reducers/postSlice';
 import DOMPurify from 'dompurify';
 import { availableMonths } from '@/utils/availableMonths';
 import ShareButton from '../common_components/ShareButton';
+import hardcodedPosts from '../../defaultData/recent-activities.json';
 const Recent_Activities = React.memo(() => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { posts, status, error } = useSelector((state) => state.posts);
-
+  const isFallback = status !== 'succeeded' || posts.length === 0;
   const [page, setPage] = useState(1);
   const postsPerPage = 10;
   const [sortOrder] = useState('desc'); // 'desc' for newest first, 'asc' for oldest first
@@ -39,7 +40,9 @@ const Recent_Activities = React.memo(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [location.pathname]);
-
+  useEffect(() => {
+    setPage(1);
+  }, [selectedYear, selectedMonth]);
   const isHomePage = useMemo(
     () => location.pathname === '/',
     [location.pathname],
@@ -72,21 +75,44 @@ const Recent_Activities = React.memo(() => {
   }, [posts, selectedYear, selectedMonth]);
 
   const noPostsMessage = useMemo(() => {
-    if (posts.length === 0) return 'No activities found. Check back later!';
-    if (filteredPosts.length === 0)
-      return 'No activities match your selected filters.';
-    return null;
-  }, [filteredPosts, posts.length, selectedYear, selectedMonth]);
+    if (isFallback) return null;
 
+    if (filteredPosts.length === 0) {
+      return 'No activities match your selected filters.';
+    }
+
+    return null;
+  }, [filteredPosts, isFallback]);
   const displayedPosts = useMemo(() => {
-    if (!filteredPosts || filteredPosts?.length === 0) return [];
-    const sortedPosts = [...filteredPosts].sort((a, b) =>
+    const sourcePosts =
+      status === 'succeeded' && posts?.length > 0 ? posts : hardcodedPosts;
+
+    const filtered = sourcePosts.filter((post) => {
+      const postDate = new Date(post.date);
+      const postYear = postDate.getFullYear();
+      const postMonth = postDate.getMonth();
+
+      const matchesYear = selectedYear
+        ? postYear === parseInt(selectedYear)
+        : true;
+
+      const matchesMonth = selectedMonth
+        ? postMonth === availableMonths.indexOf(selectedMonth)
+        : true;
+
+      return matchesYear && matchesMonth;
+    });
+
+    const sortedPosts = [...filtered].sort((a, b) =>
       sortOrder === 'desc'
         ? new Date(b.date) - new Date(a.date)
         : new Date(a.date) - new Date(b.date),
     );
-    return isHomePage ? sortedPosts?.slice(0, 3) : sortedPosts;
-  }, [filteredPosts, isHomePage, sortOrder]);
+
+    const end = page * postsPerPage;
+
+    return isHomePage ? sortedPosts.slice(0, 3) : sortedPosts.slice(0, end);
+  }, [posts, status, selectedYear, selectedMonth, page, isHomePage, sortOrder]);
 
   // **Infinite Scroll**
   const loadMorePosts = () => {
@@ -94,8 +120,7 @@ const Recent_Activities = React.memo(() => {
       setPage((prevPage) => prevPage + 1);
     }
   };
-
-  const hasMorePosts = filteredPosts?.length > page * postsPerPage;
+  const hasMorePosts = displayedPosts.length < filteredPosts.length;
 
   const title = 'Support Braj Seva – Be one in a million';
   const baseURL =
@@ -192,8 +217,7 @@ const Recent_Activities = React.memo(() => {
           />
         }
         scrollableTarget="scrollableDiv"
-        style={{ display: 'flex', flexDirection: 'column-reverse' }}
-        inverse={true}
+        style={{ display: 'flex', flexDirection: 'column' }}
       >
         <div className="flex flex-col items-center  lg:flex-row lg:items-stretch  lg:justify-center lg:flex-wrap gap-[30px] w-full  lg:gap-[50px] p-5">
           {displayedPosts?.map((activity) => (

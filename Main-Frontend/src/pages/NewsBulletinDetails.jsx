@@ -20,25 +20,35 @@ const NewsBulletinDetails = () => {
     }
   }, [dispatch, id]);
 
-  const activity = useMemo(
-    () =>
-      specificBulletine ||
-      hardcodedPosts.find((item) => String(item._id) === String(id)),
-    [specificBulletine, id],
+ const bulletine = useMemo(() => {
+  if (specificBulletine) return specificBulletine;
+
+  return hardcodedPosts.find(
+    (item) => String(item._id) === String(id),
   );
+}, [specificBulletine, id]);
 
   if (status === 'loading') {
     return <p>Loading...</p>;
   }
 
-  if (!specificBulletine) {
-    return (
-      <div className="flex flex-col items-center w-full mt-[150px] p-4">
-        <p className="text-lg text-red-500">News not found!</p>
-      </div>
-    );
-  }
+  
+  if (!bulletine) {
+  return (
+    <div className="flex flex-col items-center w-full mt-[150px] p-4">
+      <p className="text-lg text-red-500">News not found!</p>
+    </div>
+  );
+}
+const normalizeImage = (img) => {
+  if (!img) return null;
 
+  if (typeof img === "string") return img;
+
+  if (typeof img === "object") return img.url;
+
+  return null;
+};
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-GB', {
@@ -59,40 +69,47 @@ const NewsBulletinDetails = () => {
   return (
     <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
       <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:mb-[30px]">
-        {specificBulletine?.title}
+        {bulletine?.title}
       </h1>
       <div className="flex flex-col items-center w-full">
         {/* Images Section */}
         <div
-          className={`w-full ${specificBulletine?.images?.length === 1
-            ? ''
-            : 'flex flex-wrap justify-center gap-4'
-            }`}
+          className={`w-full ${
+            bulletine?.images?.length === 1
+              ? ''
+              : 'flex flex-wrap justify-center gap-4'
+          }`}
         >
-          {specificBulletine?.images && specificBulletine?.images?.length > 0 ? (
-            specificBulletine?.images?.length === 1 ? (
-              // Single Image with 50vh height
+          {bulletine?.images &&
+          bulletine?.images?.length > 0 ? (
+            bulletine?.images?.length === 1 ? (
+              // Single Image 
               <div className="w-full h-[80vh] overflow-hidden">
                 <img
-                  src={specificBulletine?.images[0]}
-                  alt={specificBulletine?.title}
+               
+                  src = {normalizeImage(bulletine?.images[0])}
+                  alt={bulletine?.title}
                   className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
               </div>
             ) : (
-              // Multiple Images with 50vh height
-              specificBulletine.images.map((image, index) => (
-                <div key={index} className="w-full sm:w-[48%] lg:w-[48%] h-[80vh] overflow-hidden">
-                  <img
-                    src={image}
-                    alt={`${specificBulletine.title} - ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg shadow-lg"
-                  />
+              // Multiple Images 
+              bulletine.images.map((image, index) => (
+                <div
+                  key={index}
+                  className="w-full sm:w-[48%] lg:w-[48%] h-[80vh] overflow-hidden"
+                >
+                 
+                   <img
+            src={normalizeImage(image)}
+            alt={`${bulletine.title} - ${index + 1}`}
+            className="w-full h-full object-cover rounded-lg shadow-lg"
+          />
                 </div>
               ))
             )
           ) : (
-            // Fallback Image with 50vh height
+            // Fallback Image 
             <div className="w-full h-[80vh] overflow-hidden">
               <img
                 src="https://via.placeholder.com/600"
@@ -105,25 +122,30 @@ const NewsBulletinDetails = () => {
 
         {/* Videos Section */}
         <div
-          className={`w-full mt-[20px] ${specificBulletine.videos?.length === 1
-            ? ''
-            : 'flex flex-wrap justify-center gap-4'
-            }`}
+          className={`w-full mt-[20px] ${
+            bulletine.videos?.length === 1
+              ? ''
+              : 'flex flex-wrap justify-center gap-4'
+          }`}
         >
-          {specificBulletine?.videos && specificBulletine?.videos?.length > 0 ? (
-            specificBulletine?.videos?.length === 1 ? (
+          {bulletine?.videos &&
+          bulletine?.videos?.length > 0 ? (
+            bulletine?.videos?.length === 1 ? (
               // Single Video with 50vh height
               <div className="w-full h-[80vh] overflow-hidden">
                 <video
                   controls
-                  src={specificBulletine?.videos[0]}
+                  src={bulletine?.videos[0]}
                   className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
               </div>
             ) : (
               // Multiple Videos with 50vh height
-              specificBulletine?.videos?.map((video, index) => (
-                <div key={index} className="w-full sm:w-[48%] lg:w-[48%] h-[50vh] overflow-hidden">
+              bulletine?.videos?.map((video, index) => (
+                <div
+                  key={index}
+                  className="w-full sm:w-[48%] lg:w-[48%] h-[50vh] overflow-hidden"
+                >
                   <video
                     controls
                     src={video}
@@ -144,13 +166,13 @@ const NewsBulletinDetails = () => {
             >
               <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
             </svg>{' '}
-            {formatDate(specificBulletine?.date)}
+            {formatDate(bulletine?.date)}
           </div>
           <p
             className="md:text-lg text-gray-700"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(
-                specificBulletine?.description,
+                bulletine?.description,
               ).replace(/<a /g, '<a style="color: #4a90e2; " '),
             }}
           ></p>
@@ -168,9 +190,9 @@ const NewsBulletinDetails = () => {
               Make a Difference!
             </h2>
             <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
-              Your support helps us continue our mission of making the world
-              a better place. Every contribution brings us closer to
-              achieving our goals and empowering the community.
+              Your support helps us continue our mission of making the world a
+              better place. Every contribution brings us closer to achieving our
+              goals and empowering the community.
             </p>
             <Link
               to="/donate-us"

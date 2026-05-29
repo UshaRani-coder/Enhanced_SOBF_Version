@@ -23,6 +23,7 @@ const Gallery = () => {
   useEffect(() => {
     dispatch(getGalleryImages()); // Fetch gallery images when component mounts
   }, [dispatch]);
+  
 
   const handleFilterChange = (category) => {
     setSelectedCategory(category);
@@ -30,20 +31,21 @@ const Gallery = () => {
 
   // Extract unique tags
   const tags = [
-    'all',
-    ...new Set(
+  'all',
+  ...Array.from(
+    new Set(
       gallery
-        .map((image) => image?.tag?.replace(/\s+/g, ' ').trim()) // Normalize spaces & trim
-        .filter((tag) => tag) // Remove empty tags
-    ),
-  ];
-  
+        .map((image) => image?.tag?.trim().toLowerCase())
+        .filter((tag) => tag && tag !== 'all')
+    )
+  ),
+];
 
   // Filter gallery images based on selected category
   const filteredImages =
     selectedCategory === 'all'
       ? gallery
-      : gallery.filter((image) => image.tag.includes(selectedCategory));
+      : gallery.filter((image) => image?.tag?.trim().toLowerCase() === selectedCategory);
 
   const openModal = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -69,7 +71,6 @@ const Gallery = () => {
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4">
-            {/* {console.log(tags)} */}
             {tags.map((category) => (
               <button
                 key={category}
@@ -80,7 +81,7 @@ const Gallery = () => {
                     : 'bg-gray-200'
                 }`}
               >
-                {category.replace('_', ' ')}
+                {category.replace(/_/g, ' ')}
               </button>
             ))}
           </div>

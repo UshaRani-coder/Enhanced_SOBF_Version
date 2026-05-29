@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { getBulletine } from '../../Reducers/bulletinSlice';
 import DOMPurify from 'dompurify';
 import { availableMonths } from '@/utils/availableMonths';
+import hardcodedBulletins from '../../defaultData/newsbulletine.json';
 
 const Press_Release = React.memo(() => {
   const location = useLocation();
@@ -15,14 +16,17 @@ const Press_Release = React.memo(() => {
 
   // Fetch posts and status from the Redux store
   const { bulletines, status } = useSelector((state) => state.bulletines);
-
+const finalBulletines = useMemo(() => {
+  if (bulletines && bulletines.length > 0) return bulletines;
+  return hardcodedBulletins;
+}, [bulletines]);
   // Sorting order state
   const [sortOrder] = useState('desc'); // Default: Newest first
 
   // Fetch posts when the component loads
   useEffect(() => {
     if (status === 'idle') {
-      // getBulletine
+    
       dispatch(getBulletine());
     }
   }, [status, dispatch]);
@@ -57,15 +61,14 @@ const Press_Release = React.memo(() => {
   // **Extract unique years and months**
   const availableYears = useMemo(() => {
     const years = new Set(
-      bulletines.map((bulletin) => new Date(bulletin.date).getFullYear()),
+      finalBulletines.map((bulletin) => new Date(bulletin.date).getFullYear()),
     );
     return Array.from(years).sort((a, b) => b - a); // Sort descending
-  }, [bulletines]);
-
+  }, [finalBulletines]);
 
   // **Filtering logic**
   const filteredPosts = useMemo(() => {
-    return bulletines.filter((bulletin) => {
+    return finalBulletines.filter((bulletin) => {
       const postDate = new Date(bulletin.date);
       const postYear = postDate.getFullYear();
       const postMonth = postDate.getMonth(); // 0 = January, 1 = February
@@ -79,14 +82,14 @@ const Press_Release = React.memo(() => {
 
       return matchesYear && matchesMonth;
     });
-  }, [bulletines, selectedYear, selectedMonth]);
+  }, [finalBulletines, selectedYear, selectedMonth]);
 
   const noPostsMessage = useMemo(() => {
-    if (bulletines.length === 0) return 'No News found. Check back later!';
+    if (finalBulletines.length === 0) return 'No News found. Check back later!';
     if (filteredPosts.length === 0)
       return 'No news match your selected filters.';
     return null;
-  }, [filteredPosts, bulletines.length, selectedYear, selectedMonth]);
+  }, [filteredPosts, finalBulletines.length, selectedYear, selectedMonth]);
 
   const displayedPosts = useMemo(() => {
     if (!filteredPosts || filteredPosts.length === 0) return [];
@@ -202,7 +205,11 @@ const Press_Release = React.memo(() => {
               className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg  md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
-                src={news?.images && news?.images?.length > 0 ? news?.images[0] : 'https://via.placeholder.com/600'}
+                src={
+                  news?.images?.length > 0
+                    ? news.images[0]?.url || news.images[0]
+                    : 'https://via.placeholder.com/600'
+                }
                 alt={news?.title}
                 className="w-full h-full md:h-[300px] rounded-lg object-cover"
               />
@@ -243,7 +250,7 @@ const Press_Release = React.memo(() => {
           ))}
         </div>
       </InfiniteScroll>
-      {isHomePage && bulletines?.length > 3 && (
+      {isHomePage && finalBulletines?.length > 3 && (
         <div className="text-center mt-5">
           <button
             onClick={handleSeeMore}

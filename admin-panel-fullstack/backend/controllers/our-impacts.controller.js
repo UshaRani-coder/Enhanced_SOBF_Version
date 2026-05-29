@@ -1,4 +1,4 @@
-const { default: mongoose } = require('mongoose');
+const mongoose = require('mongoose');
 const OurImpactsModel = require('../models/our-impacts.model');
 const logger = require('../logger');
 
@@ -10,156 +10,151 @@ const isValidString = (value) =>
 const isValidNumber = (value) =>
   typeof value === 'number' && value >= 0 && value <= 100000;
 
-//! Get all "Our Impacts" posts
+//! GET ALL
 const getOurImpacts = async (req, res) => {
+  console.log('REQ', req.file);
   try {
     const posts = await OurImpactsModel.find({});
-    if (posts.length > 0) {
-      for (let index = 0; index < posts.length; index++) {
-        const post = posts[index];
-        post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
-        // post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
-      }
-    }
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: 'Successfully fetched all the data of Our Impacts from backend.',
+      message: 'Successfully fetched Our Impacts',
       posts,
     });
   } catch (error) {
-    logger.error("Something went wrong while fetching Our Impacts data from the backend.")
-    res.status(500).json({
+    logger.error('Error fetching Our Impacts');
+    return res.status(500).json({
       success: false,
-      message:
-        'Something went wrong while fetching Our Impacts data from the backend.',
+      message: 'Error fetching Our Impacts',
     });
   }
 };
 
-//! Create a new "Our Impacts" post
+//! CREATE
 const createOurImpacts = async (req, res) => {
   try {
     const { total_services, description } = req.body;
-    // Validate total_services
+
     if (!total_services) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Invalid 'total_services' is required",
-        });
-    }
-    // Validate description
-    if (!description || !isValidString(description)) {
       return res.status(400).json({
         success: false,
-        message: "Invalid 'description'. It must be a non-empty string.",
+        message: 'total_services is required',
       });
     }
 
-    // Validate image (if applicable)
-    if (req?.file?.filename === undefined) {
+    if (!description || !isValidString(description)) {
       return res.status(400).json({
         success: false,
-        message: 'Image is required ',
+        message: 'Valid description is required',
       });
     }
-    const filename = req.file.filename;
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'Image is required',
+      });
+    }
+
     const post = new OurImpactsModel({
       total_services,
       description,
-      image: filename || '',
+      image: req.file.path, 
     });
+
     await post.save();
-    post.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + post.image;
-    // post.image = "http://localhost:5000" + '/uploads/our-impacts/' + post.image;
-    res.status(201).json({
+
+    return res.status(201).json({
       success: true,
-      message: 'Our impacts post has been created successfully',
+      message: 'Our Impacts created successfully',
       post,
     });
   } catch (error) {
-    logger.error("Something went wrong while creating Our Impacts post.")
-    res.status(500).json({
+    logger.error('Error creating Our Impacts');
+    return res.status(500).json({
       success: false,
-      message: 'Something went wrong while creating Our Impacts post',
+      message: 'Error creating Our Impacts',
     });
   }
 };
 
-//! Update an "Our Impacts" post based on ID
+//! UPDATE
 const updateOurImpacts = async (req, res) => {
   try {
     const { id } = req.params;
-    // Fetch the existing "Our Impacts" post
-    const existingOurImpacts = await OurImpactsModel.findById(id);
-    if (!existingOurImpacts) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Our Impacts post not found' });
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid post ID',
+      });
     }
 
-    // Validate the ID
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Invalid post ID' });
+    const existing = await OurImpactsModel.findById(id);
+
+    if (!existing) {
+      return res.status(404).json({
+        success: false,
+        message: 'Our Impacts post not found',
+      });
     }
-    const { total_services, description } = req.body;
-    const image = req.file ? req.file.filename : existingOurImpacts.image;
+
     const updates = {
-      total_services: total_services || existingOurImpacts.total_services,
-      description: description || existingOurImpacts.description,
-      image,
+      total_services: req.body.total_services ?? existing.total_services,
+
+      description: req.body.description ?? existing.description,
+
+      image: req.file ? req.file.path : existing.image,
     };
 
-    // Update the "Our Impacts" post
     const updatedPost = await OurImpactsModel.findByIdAndUpdate(id, updates, {
       new: true,
     });
 
-    // Append the full image URL
-    updatedPost.image = "https://backend.sobf.in" + '/uploads/our-impacts/' + updatedPost.image;
-    // updatedPost.image = "http://localhost:5000" + '/uploads/our-impacts/' + updatedPost.image;
     return res.status(200).json({
       success: true,
-      message: 'Our Impacts post updated successfully',
+      message: 'Our Impacts updated successfully',
       updatedPost,
     });
   } catch (error) {
-    logger.error("Failed to update Our Impacts post.")
+    logger.error('Error updating Our Impacts');
     return res.status(500).json({
       success: false,
-      message: 'Failed to update Our Impacts post',
+      message: 'Error updating Our Impacts',
     });
   }
 };
 
-//! Delete an "Our Impacts" post based on ID
+//! DELETE
 const deleteOurImpacts = async (req, res) => {
   try {
     const { id } = req.params;
-    // Validate ID
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res
-        .status(400)
-        .json({ success: false, message: 'Invalid post ID' });
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid post ID',
+      });
     }
+
     const post = await OurImpactsModel.findByIdAndDelete(id);
+
     if (!post) {
-      return res
-        .status(404)
-        .json({ success: false, message: 'Post not found' });
+      return res.status(404).json({
+        success: false,
+        message: 'Post not found',
+      });
     }
-    res.status(200).json({
+
+
+    return res.status(200).json({
       success: true,
-      message: 'Our Impacts post has been deleted successfully',
+      message: 'Our Impacts deleted successfully',
     });
   } catch (error) {
-    logger.error("Something went wrong while deleting Our Impacts post.")
-    res.status(500).json({
+    logger.error('Error deleting Our Impacts');
+    return res.status(500).json({
       success: false,
-      message: 'Something went wrong while deleting Our Impacts post',
+      message: 'Error deleting Our Impacts',
     });
   }
 };
