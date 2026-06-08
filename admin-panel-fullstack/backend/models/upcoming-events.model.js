@@ -4,15 +4,15 @@ const upcomingEventsSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String },
   image: { type: String, default: "" },
-  date: { type: Date, default: Date.now },
+  date: { type: Date, required: true },
   location: { type: String },
-  status: {
-    type: String,
-    enum: ['upcoming', 'happening', 'completed'],
-    default: 'upcoming'
-  },
-  time: { type: String },
-  registeredUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'EventUser' }]
+
+  startTime: { type: String, required: true },
+  endTime: { type: String, required: true },
+
+  registeredUsers: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'EventUser' }
+  ]
 }, {
   timestamps: true
 });

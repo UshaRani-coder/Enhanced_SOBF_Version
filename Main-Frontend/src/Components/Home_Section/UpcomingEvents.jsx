@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import {
-  MdLocationPin,
-  MdAccessTimeFilled,
-  MdClose,
-  MdChevronLeft,
-  MdChevronRight,
-} from 'react-icons/md';
+import { MdLocationPin, MdAccessTimeFilled } from 'react-icons/md';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -18,7 +12,7 @@ import DOMPurify from 'dompurify';
 import { Navigation, Pagination } from 'swiper/modules';
 import ShareButton from '../common_components/ShareButton';
 import { useNavigate } from 'react-router-dom';
-import fallbackEvents from '../../defaultData/upcoming-events.json'
+import fallbackEvents from '../../defaultData/upcoming-events.json';
 
 const UpcomingEvents = () => {
   const dispatch = useDispatch();
@@ -29,7 +23,6 @@ const UpcomingEvents = () => {
   const [errors, setErrors] = useState({});
   const swiperRef = useRef(null);
   const navigate = useNavigate();
-  const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedEventIndex, setSelectedEventIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -39,43 +32,61 @@ const UpcomingEvents = () => {
     totalSlides: 0,
   });
 
-  
   useEffect(() => {
-  if (listStatus === 'idle') {
-    dispatch(fetchEvents());
-  }
-}, [listStatus, dispatch]);
+    if (listStatus === 'idle') {
+      dispatch(fetchEvents());
+    }
+  }, [listStatus, dispatch]);
 
-const sourceEvents = useMemo(() => {
-  if (listStatus === 'succeeded') {
-    return events?.length ? events : fallbackEvents;
-  }
+  const sourceEvents = useMemo(() => {
+    if (listStatus === 'succeeded') {
+      return events?.length ? events : fallbackEvents;
+    }
 
-  if (listStatus === 'failed') {
+    if (listStatus === 'failed') {
+      return fallbackEvents;
+    }
+
     return fallbackEvents;
-  }
+  }, [events, listStatus]);
 
-  return fallbackEvents; 
-}, [events, listStatus]);
+  const filteredEvents = sourceEvents
+    .filter((event) => {
+      const eventDate = new Date(event.date);
+      const matchesYear = selectedYear
+        ? eventDate.getFullYear().toString() === selectedYear
+        : true;
 
+      const matchesMonth = selectedMonth
+        ? (eventDate.getMonth() + 1).toString().padStart(2, '0') ===
+          selectedMonth
+        : true;
 
-const filteredEvents = sourceEvents
-  .filter((event) => {
-    const eventDate = new Date(event.date);
-    const matchesYear = selectedYear
-      ? eventDate.getFullYear().toString() === selectedYear
-      : true;
+      return matchesYear && matchesMonth;
+    })
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  const finalEvents = filteredEvents.length > 0 ? filteredEvents : sourceEvents;
 
-    const matchesMonth = selectedMonth
-      ? (eventDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth
-      : true;
+  const getEventStatus = (eventDate, startTime, endTime) => {
+    const now = new Date();
 
-    return matchesYear && matchesMonth;
-  })
-  .sort((a, b) => new Date(b.date) - new Date(a.date));
-  const finalEvents = filteredEvents.length > 0 
-  ? filteredEvents 
-  : sourceEvents;
+    const date = new Date(eventDate);
+
+    const start = new Date(date);
+    const [startHour, startMinute] = startTime.split(':');
+
+    start.setHours(Number(startHour), Number(startMinute), 0, 0);
+
+    const end = new Date(date);
+    const [endHour, endMinute] = endTime.split(':');
+
+    end.setHours(Number(endHour), Number(endMinute), 0, 0);
+
+    if (now < start) return 'upcoming';
+    if (now >= start && now <= end) return 'happening';
+
+    return 'completed';
+  };
   const getStatusStyles = (status) => {
     switch (status) {
       case 'happening':
@@ -110,17 +121,29 @@ const filteredEvents = sourceEvents
     if (!dateString || !timeString) return 'N/A';
 
     const date = new Date(dateString);
-    const options = { day: '2-digit', month: 'short', year: 'numeric' };
-    const formattedDate = date.toLocaleDateString('en-GB', options);
+
+    const formattedDate = date.toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+
+    const [hours, minutes] = timeString.split(':');
+
+    const hour = parseInt(hours, 10);
+
+    return `${formattedDate}, ${
+      hour % 12 || 12
+    }:${minutes} ${hour >= 12 ? 'PM' : 'AM'}`;
+  };
+  const formatTime = (timeString) => {
+    if (!timeString) return 'N/A';
 
     const [hours, minutes] = timeString.split(':');
     const hour = parseInt(hours, 10);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const displayHour = hour % 12 || 12;
 
-    return `${formattedDate} at ${displayHour}:${minutes} ${ampm}`;
+    return `${hour % 12 || 12}:${minutes} ${hour >= 12 ? 'PM' : 'AM'}`;
   };
-
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -152,7 +175,8 @@ const filteredEvents = sourceEvents
       }, 200);
 
       const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${finalEvents[selectedEventIndex]._id
+        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${
+          finalEvents[selectedEventIndex]._id
         }`,
         {
           method: 'POST',
@@ -161,7 +185,7 @@ const filteredEvents = sourceEvents
             username: formData.name,
             email: formData.email,
           }),
-        }
+        },
       );
 
       clearInterval(interval);
@@ -187,31 +211,23 @@ const filteredEvents = sourceEvents
     }
   };
 
- 
-  const availableYears = [...new Set(
-  sourceEvents.map((event) =>
-    new Date(event.date).getFullYear().toString()
-  )
-)];
+  const availableYears = [
+    ...new Set(
+      sourceEvents.map((event) =>
+        new Date(event.date).getFullYear().toString(),
+      ),
+    ),
+  ];
   const availableMonths = [
     ...new Set(
       sourceEvents.map((event) =>
-        (new Date(event.date).getMonth() + 1).toString().padStart(2, '0')
-      )
-    )
+        (new Date(event.date).getMonth() + 1).toString().padStart(2, '0'),
+      ),
+    ),
   ].sort();
 
   const handleCardClick = (event) => {
     navigate(`/events/${event._id}`);
-  };
-  
-
-  const navigateEvents = (direction) => {
-    if (direction === 'prev') {
-      setSelectedEventIndex((prev) => (prev - 1 + finalEvents?.length) % finalEvents?.length);
-    } else {
-      setSelectedEventIndex((prev) => (prev + 1) % finalEvents.length);
-    }
   };
 
   const capitalize = (str) => {
@@ -291,314 +307,192 @@ const filteredEvents = sourceEvents
         </div>
       </div>
 
-      {finalEvents.length > 0 ? (
-        <div className="w-full max-w-6xl px-4 relative">
-          {/* Navigation arrows */}
-          <button
-            onClick={() => swiperRef.current?.slidePrev()}
-            disabled={shouldDisablePrev()}
-            className="disabled:opacity-50 disabled:cursor-not-allowed sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute left-0 top-1/2 transform -translate-y-1/2 z-10"
+      <div className="w-full max-w-6xl px-4  relative">
+        {/* Navigation arrows */}
+        <button
+          onClick={() => swiperRef.current?.slidePrev()}
+          disabled={shouldDisablePrev()}
+          className="disabled:opacity-50 disabled:cursor-not-allowed sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute left-0 top-1/2 transform -translate-y-1/2 z-10"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6 md:w-5 md:h-5 text-blue"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 md:w-5 md:h-5 text-blue"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="m15 19-7-7 7-7"
-              />
-            </svg>
-          </button>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="m15 19-7-7 7-7"
+            />
+          </svg>
+        </button>
 
-          <button
-            onClick={() => swiperRef.current?.slideNext()}
-            disabled={shouldDisableNext()}
-            className="disabled:opacity-50 disabled:cursor-not-allowed sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute right-0 top-1/2 transform -translate-y-1/2 z-10"
+        <button
+          onClick={() => swiperRef.current?.slideNext()}
+          disabled={shouldDisableNext()}
+          className="disabled:opacity-50 disabled:cursor-not-allowed sm:flex items-center justify-center w-10 h-10 p-2 md:w-10 md:h-10 rounded-full bg-white shadow-md hover:bg-gray-50 transition-colors absolute right-0 top-1/2 transform -translate-y-1/2 z-10"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6 md:w-6 md:h-6 text-blue"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 md:w-6 md:h-6 text-blue"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="m9 18 6-6-6-6"
-              />
-            </svg>
-          </button>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="m9 18 6-6-6-6"
+            />
+          </svg>
+        </button>
 
-          <Swiper
-            modules={[Navigation, Pagination]}
-            spaceBetween={30}
-            slidesPerView={1}
-            navigation={{
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            }}
-            pagination={{ clickable: true }}
-            breakpoints={{
-              640: {
-                slidesPerView: 1,
-              },
-              768: {
-                slidesPerView: 2,
-              },
-              1024: {
-                slidesPerView: 3,
-              },
-            }}
-            className="mySwiper"
-            onSwiper={(swiper) => {
-              swiperRef.current = swiper;
-              setSwiperState({
-                activeIndex: swiper.activeIndex,
-                totalSlides: swiper.slides.length,
-              });
-            }}
-            onSlideChange={(swiper) => {
-              setSwiperState({
-                activeIndex: swiper.activeIndex,
-                totalSlides: swiper.slides.length,
-              });
-            }}
-          >
-            {finalEvents?.map((event, index) => {
-              const statusStyles = getStatusStyles(event.status);
-              return (
-                <SwiperSlide key={event._id}>
-                  <div
-                    className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer h-full flex flex-col"
-                    onClick={() => handleCardClick(event)}
-                  >
-                    <div className="relative w-full h-48 sm:h-56">
-                      <img
-                        src={event.image}
-                        alt={event.title}
-                        className="w-full h-full object-cover rounded-t-xl"
-                      />
-                    </div>
+        <Swiper
+          modules={[Navigation, Pagination]}
+          spaceBetween={30}
+          slidesPerView={1}
+          navigation={{
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          }}
+          pagination={{ clickable: true }}
+          breakpoints={{
+            640: {
+              slidesPerView: 1,
+            },
+            768: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+          }}
+          className="mySwiper"
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+            setSwiperState({
+              activeIndex: swiper.activeIndex,
+              totalSlides: swiper.slides.length,
+            });
+          }}
+          onSlideChange={(swiper) => {
+            setSwiperState({
+              activeIndex: swiper.activeIndex,
+              totalSlides: swiper.slides.length,
+            });
+          }}
+        >
+          {finalEvents?.map((event, index) => {
+            const currentStatus = getEventStatus(
+              event.date,
+              event.startTime,
+              event.endTime,
+            );
 
-                    <div className="p-4 flex-grow">
-                      <div className="flex justify-between items-center mb-3">
-                        <span
-                          className={`px-3 py-2 text-xs md:text-sm mb-3 inline-block font-bold rounded-xl shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}
-                        >
-                          {statusStyles?.icon} {statusStyles?.label}
-                        </span>
-
-                        <div onClick={(e) => e.stopPropagation()}>
-                          <ShareButton
-                            title={title}
-                            url={`${baseURL}/events/${event._id}`}
-                            className={`px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col gap-2 mb-3">
-                        <div className="flex items-center gap-2">
-                          <MdAccessTimeFilled className="text-[#1890CE] flex-shrink-0" />
-                          <span className="text-gray-600 text-sm">
-                            {formatDateTime(event?.date, event?.time)}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <MdLocationPin className="text-[#E82327] flex-shrink-0" />
-                          <span className="text-gray-600 text-sm">
-                            {event.location}
-                          </span>
-                        </div>
-                      </div>
-
-                      <h3 className="text-lg md:text-xl font-semibold text-[#2d335d] mb-2 line-clamp-1">
-                        {capitalize(event?.title)}
-                      </h3>
-
-                      <div
-                        className="text-gray-700 text-sm mb-4 line-clamp-3"
-                        dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(event.description).replace(
-                            /<a /g,
-                            '<a class="text-blue-600 hover:underline" '
-                          ),
-                        }}
-                      />
-                    </div>
-
-                    {/* Register Button - only show for upcoming/happening events */}
-                    {(event.status === 'upcoming' || event.status === 'happening') && (
-                      <div className="p-4 pt-0" onClick={(e) => e.stopPropagation()}>
-                        <button
-                          className="w-full mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedEventIndex(index);
-                            setShowForm(true);
-                          }}
-                        >
-                          Register Now
-                        </button>
-                      </div>
-                    )}
-
-                    {/* Show different text for completed events */}
-                    {event.status === 'completed' && (
-                      <div className="p-4 pt-0">
-                        <div className="w-full mt-4 px-4 py-2 bg-gray-400 text-white font-semibold rounded-lg text-center">
-                          Event Completed
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div>
-      ) : (
-        <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-3xl text-center">
-          <p className="text-gray-600 text-lg">
-            No events found for the selected filters.
-          </p>
-          <button
-            onClick={() => {
-              setSelectedYear('');
-              setSelectedMonth('');
-            }}
-            className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors"
-          >
-            Clear Filters
-          </button>
-        </div>
-      )}
-
-      {/* Event Detail Modal */}
-      {showDetailModal && finalEvents[selectedEventIndex] && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative">
-            <button
-              onClick={() => navigateEvents('prev')}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors cursor-pointer disabled:hidden "
-              disabled={finalEvents.length <= 1}
-            >
-              <MdChevronLeft size={32} className="text-gray-700" />
-            </button>
-
-            <button
-              onClick={() => navigateEvents('next')}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors cursor-pointer disabled:hidden"
-              disabled={finalEvents.length <= 1}
-            >
-              <MdChevronRight size={32} className="text-gray-700" />
-            </button>
-
-            <div className="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-[#2d335d]">
-                {capitalize(finalEvents[selectedEventIndex].title)}
-              </h2>
-              <button
-                onClick={() => setShowDetailModal(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <MdClose size={24} />
-              </button>
-            </div>
-
-            <div className="p-6">
-              <div className="relative w-full h-64 sm:h-80 lg:h-96 mb-6">
-                <img
-                  src={finalEvents[selectedEventIndex].image}
-                  alt={finalEvents[selectedEventIndex].title}
-                  className="w-full h-full object-cover rounded-lg"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      'https://via.placeholder.com/800x400?text=Event+Image';
-                  }}
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-4 mb-6 items-center">
-                <div className="flex items-center bg-gray-100 px-4 py-2 rounded-lg">
-                  <MdAccessTimeFilled className="text-[#1890CE] mr-2" />
-                  <span className="text-gray-700">
-                    {formatDateTime(
-                      finalEvents[selectedEventIndex].date,
-                      finalEvents[selectedEventIndex].time,
-                    )}
-                  </span>
-                </div>
-
-                <div className="flex items-center bg-gray-100 px-4 py-2 rounded-lg">
-                  <MdLocationPin className="text-[#E82327] mr-2" />
-                  <span className="text-gray-700">
-                    {finalEvents[selectedEventIndex].location}
-                  </span>
-                </div>
+            const statusStyles = getStatusStyles(currentStatus);
+            return (
+              <SwiperSlide key={event._id}>
                 <div
-                  className={`px-3 py-2 flex text-center rounded-full ${getStatusStyles(finalEvents[selectedEventIndex].status)
-                      .bgColor
-                    } ${getStatusStyles(finalEvents[selectedEventIndex].status)
-                      .textColor
-                    }`}
+                  className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer flex flex-col h-full md:min-h-[520px]"
+                  onClick={() => handleCardClick(event)}
                 >
-                  {
-                    getStatusStyles(finalEvents[selectedEventIndex].status)
-                      .icon
-                  }{' '}
-                  {
-                    getStatusStyles(finalEvents[selectedEventIndex].status)
-                      .label
-                  }
+                  <div className="relative w-full h-72">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="w-full h-full object-cover rounded-t-xl"
+                    />
+                  </div>
+
+                  <div className="p-4 pb-0 flex flex-col flex-grow">
+                    <div className="flex justify-between items-center mb-3">
+                      <span
+                        className={`px-3 py-2 text-xs md:text-sm mb-3 inline-block font-bold rounded-xl shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}
+                      >
+                        {statusStyles?.icon} {statusStyles?.label}
+                      </span>
+
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <ShareButton
+                          title={title}
+                          url={`${baseURL}/events/${event._id}`}
+                          className={`px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md ${statusStyles.bgColor} ${statusStyles.textColor} `}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 mb-3">
+                      <div className="flex items-center gap-2">
+                        <MdAccessTimeFilled className="text-[#1890CE] flex-shrink-0" />
+                        <span className="text-gray-600 text-sm">
+                          <span className="text-gray-600 text-sm">
+                            {formatDateTime(event.date, event.startTime)} -{' '}
+                            {formatTime(event.endTime)}
+                          </span>
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <MdLocationPin className="text-[#E82327] flex-shrink-0 text-lg" />
+                        <span className="text-gray-600 text-sm">
+                          {event.location}
+                        </span>
+                      </div>
+                    </div>
+
+                    <h3 className="text-lg md:text-xl font-semibold text-[#2d335d] mb-2 line-clamp-1">
+                      {capitalize(event?.title)}
+                    </h3>
+
+                    <div
+                      className="text-gray-700 text-sm  line-clamp-3 flex-grow"
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(event.description).replace(
+                          /<a /g,
+                          '<a class="text-blue-600 hover:underline" ',
+                        ),
+                      }}
+                    />
+                  </div>
+
+                  {/* Register Button - only show for upcoming/happening events */}
+                  {(currentStatus === 'upcoming' ||
+                    currentStatus === 'happening') && (
+                    <div
+                      className="p-4 pt-0 mt-auto"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        className="w-full mt-4 px-4 py-2 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedEventIndex(index);
+                          setShowForm(true);
+                        }}
+                      >
+                        Register Now
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Show different text for completed events */}
+                  {currentStatus === 'completed' && (
+                    <div className="p-4 pt-0 mt-auto">
+                      <div className="w-full mt-4 px-4 py-2 bg-gray-400 text-white font-semibold rounded-lg text-center">
+                        Event Completed
+                      </div>
+                    </div>
+                  )}
                 </div>
-
-                <div className="small-max:mt-2">
-                  <ShareButton
-                    title={title}
-                    url={baseURL}
-                    className={`px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-orange text-white`}
-                  />
-                </div>
-              </div>
-
-              <div
-                className="prose max-w-none text-gray-700 mb-6"
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(
-                    finalEvents[selectedEventIndex].description,
-                  ).replace(
-                    /<a /g,
-                    '<a class="text-blue-600 hover:underline" '
-                  ),
-                }}
-              />
-
-              {(finalEvents[selectedEventIndex].status === 'upcoming' ||
-                finalEvents[selectedEventIndex].status === 'happening') && (
-                  <button
-                    onClick={() => {
-                      setShowForm(true);
-                      setShowDetailModal(false);
-                    }}
-                    className="mt-6 px-6 py-3 bg-[#2d335d] text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
-                  >
-                    Register Now
-                  </button>
-                )}
-            </div>
-          </div>
-        </div>
-      )}
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </div>
 
       {/* Registration Modal */}
       {showForm && finalEvents[selectedEventIndex] && (
@@ -647,7 +541,6 @@ const filteredEvents = sourceEvents
                     type="button"
                     onClick={() => {
                       setShowForm(false);
-                      setShowDetailModal(true);
                     }}
                     className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
                   >

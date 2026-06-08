@@ -61,7 +61,6 @@ const HomePage = () => {
       </div>
 
       <SidePopup />
-      <DottedSeparator />
       <Impacts />
       <WavySeparator />
       <UpcomingEvents />

@@ -7,7 +7,6 @@
 /* styling for some Hero elements and Navbar elements starts here */
 .ham-menu.active span:nth-child(1) {
   top: 50%;
-  /* color: #ff7700 !important; */
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
@@ -24,7 +23,6 @@
   font-family: 'Work Sans', sans-serif;
 }
 
-/* Add this to your global CSS */
 .swiper-button-next,
 .swiper-button-prev {
   color: #2d335d !important;
@@ -45,6 +43,19 @@
   background: #2d335d !important;
 }
 
+.mySwiper .swiper-wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+.mySwiper .swiper-slide {
+  height: auto;
+  display: flex;
+}
+
+.mySwiper .swiper-slide > div {
+  width: 100%;
+}
 
 /* DONATE FOR  */
 .custom-arrow {

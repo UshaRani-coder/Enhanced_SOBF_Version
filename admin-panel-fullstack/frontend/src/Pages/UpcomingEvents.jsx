@@ -12,7 +12,6 @@ import {
   fetchEvents,
   removeEvent,
   updateEventPost,
-  updateEventStatus,
 } from '../Reducers/upcomingEventsSlice';
 
 const UpcomingEvents = () => {
@@ -27,9 +26,9 @@ const UpcomingEvents = () => {
     description: '',
     image: null,
     date: '',
-    time: '',
+    startTime: '',
+    endTime: '',
     location: '',
-    status: 'upcoming',
   });
   const dispatch = useDispatch();
   const { events, status } = useSelector((state) => state.events);
@@ -53,6 +52,20 @@ const UpcomingEvents = () => {
       toast.error('Please pick the date of the event');
       return false;
     }
+    if (!formData.startTime) {
+      toast.error('Please add the start time');
+      return false;
+    }
+
+    if (!formData.endTime) {
+      toast.error('Please add the end time');
+      return false;
+    }
+
+    if (formData.startTime >= formData.endTime) {
+      toast.error('End time must be after start time');
+      return false;
+    }
     if (!formData.image) {
       toast.error('Please add an Image');
       return false;
@@ -61,10 +74,7 @@ const UpcomingEvents = () => {
       toast.error('Please add the location of the Event');
       return false;
     }
-    if (!formData.time) {
-      toast.error('Please add the time of the Event');
-      return false;
-    }
+
     const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (formData?.image && !validImageTypes.includes(formData?.image.type)) {
       toast.error('Only valid image files (JPEG, PNG, JPG) are allowed.');
@@ -75,14 +85,19 @@ const UpcomingEvents = () => {
 
   const handleAddPost = async () => {
     if (!validateForm()) return;
+
+    setIsLoading(true);
+
     const newPost = new FormData();
+
     newPost.append('image', formData.image);
     newPost.append('title', formData.title);
     newPost.append('description', formData.description);
     newPost.append('location', formData.location);
     newPost.append('date', formData.date);
-    newPost.append('time', formData.time);
-    newPost.append('status', formData.status);
+    newPost.append('startTime', formData.startTime);
+    newPost.append('endTime', formData.endTime);
+
     dispatch(createEventPost(newPost))
       .unwrap()
       .then(() => {
@@ -94,7 +109,9 @@ const UpcomingEvents = () => {
       .catch((error) => {
         toast.error(error || 'Failed to add Event Post.');
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleUpdatePost = () => {
@@ -116,8 +133,8 @@ const UpcomingEvents = () => {
     updatedPost.append('description', formData.description);
     updatedPost.append('location', formData.location);
     updatedPost.append('date', formData.date);
-    updatedPost.append('time', formData.time);
-    updatedPost.append('status', formData.status);
+    updatedPost.append('startTime', formData.startTime);
+    updatedPost.append('endTime', formData.endTime);
     if (formData.image) updatedPost.append('image', formData.image);
 
     setIsLoading(true);
@@ -136,25 +153,49 @@ const UpcomingEvents = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const handleStatusChange = (eventId, newStatus) => {
-    dispatch(updateEventStatus({ id: eventId, status: newStatus }))
-      .unwrap()
-      .then(() => {
-        toast.success(`Event marked as ${newStatus}`);
-        dispatch(fetchEvents());
-      })
-      .catch((error) => {
-        toast.error(error || 'Failed to update event status');
-      });
-  };
+  const formatDateAndTime = (dateString, startTime, endTime) => {
+    if (!dateString || !startTime || !endTime) {
+      return 'N/A';
+    }
 
+    const date = new Date(dateString);
+
+    const formattedDate = date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+
+    const formatTime = (time) => {
+      const [hours, minutes] = time.split(':').map(Number);
+
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const displayHour = hours % 12 || 12;
+
+      return `${displayHour}:${String(minutes).padStart(2, '0')} ${ampm}`;
+    };
+
+    return `${formattedDate} | ${formatTime(startTime)} - ${formatTime(endTime)}`;
+  };
   const handleDeletePost = (id) => {
     const confirmDelete = window.confirm(
       'Are you sure you want to delete this Event? This action cannot be undone.',
     );
+
     if (confirmDelete) {
       setIsLoading(true);
-      dispatch(removeEvent(id));
+
+      dispatch(removeEvent(id))
+        .unwrap()
+        .then(() => {
+          toast.success('Event deleted successfully');
+        })
+        .catch((err) => {
+          toast.error(err || 'Failed to delete event');
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
 
@@ -192,9 +233,9 @@ const UpcomingEvents = () => {
       description: '',
       image: null,
       date: '',
-      time: '',
+      startTime: '',
+      endTime: '',
       location: '',
-      status: 'upcoming',
     });
     setCurrentPost(null);
   };
@@ -207,30 +248,14 @@ const UpcomingEvents = () => {
       title: post?.title || '',
       description: post?.description || '',
       image: null,
-      date: post?.date || null,
-      time: post?.time || null,
+      date: post?.date ? new Date(post.date).toISOString().split('T')[0] : '',
+      startTime: post?.startTime || '',
+      endTime: post?.endTime || '',
       location: post?.location || '',
-      status: post?.status || 'upcoming',
     });
   };
 
-  function formatDateAndTime(dateString, timeString) {
-    const [month, day, year] = dateString.split('/').map(Number);
-    const dateObj = new Date(year, month - 1, day);
-    const formattedDate = dateObj.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-    const [hours, minutes] = timeString.split(':').map(Number);
-    let formattedHours = hours % 12;
-    formattedHours = formattedHours === 0 ? 12 : formattedHours;
-    const ampm = hours < 12 ? 'AM' : 'PM';
-    const formattedTime = `${String(formattedHours).padStart(2, '0')}:${String(
-      minutes,
-    ).padStart(2, '0')} ${ampm}`;
-    return `${formattedDate} ${formattedTime}`;
-  }
+  
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -310,14 +335,35 @@ const UpcomingEvents = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block font-semibold mb-2">Time</label>
-                <input
-                  type="time"
-                  name="time"
-                  value={formData?.time}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded"
-                />
+                <label className="block font-semibold mb-3">Event Timing</label>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                      Start Time
+                    </label>
+                    <input
+                      type="time"
+                      name="startTime"
+                      value={formData.startTime}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                      End Time
+                    </label>
+                    <input
+                      type="time"
+                      name="endTime"
+                      value={formData.endTime}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
               </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Location</label>
@@ -330,19 +376,7 @@ const UpcomingEvents = () => {
                   placeholder="Enter event location"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block font-semibold mb-2">Status</label>
-                <select
-                  name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded"
-                >
-                  <option value="upcoming">Upcoming</option>
-                  <option value="happening">Happening</option>
-                  <option value="completed">Completed</option>
-                </select>
-              </div>
+
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Image</label>
                 <input
@@ -418,13 +452,7 @@ const UpcomingEvents = () => {
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 px-4">
         {events && events?.length > 0 ? (
           events?.map((post) => {
-            const formattedDateTime =
-              post && post?.date && post?.time
-                ? formatDateAndTime(
-                    new Date(post.date).toLocaleDateString('en-US'),
-                    post?.time,
-                  )
-                : 'N/A';
+            
             return (
               <div
                 key={post._id}
@@ -453,9 +481,16 @@ const UpcomingEvents = () => {
                 {/* Content Section */}
                 <div className="p-4 flex flex-col flex-grow">
                   <div className="flex flex-wrap items-center gap-2 mb-2 text-sm text-gray-600">
+                   
                     <div className="flex items-center">
                       <MdAccessTimeFilled className="mr-1 text-[#1890CE]" />
-                      <span>{formattedDateTime}</span>
+                      <span>
+                        {formatDateAndTime(
+                          post.date,
+                          post.startTime,
+                          post.endTime,
+                        )}
+                      </span>
                     </div>
                     <div className="flex items-center">
                       <svg
@@ -506,39 +541,6 @@ const UpcomingEvents = () => {
                       <MdDelete className="text-lg" />
                       <span className="hidden xs:inline">Delete</span>
                     </button>
-
-                    {/* Status Change Buttons - only show relevant options */}
-                    {post.status !== 'upcoming' && (
-                      <button
-                        className="px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-100 transition-colors"
-                        onClick={() => handleStatusChange(post._id, 'upcoming')}
-                      >
-                        <span className="hidden sm:inline">Mark as </span>
-                        Upcoming
-                      </button>
-                    )}
-                    {post.status !== 'happening' && (
-                      <button
-                        className="px-3 py-1.5 bg-green-50 text-green-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-green-100 transition-colors"
-                        onClick={() =>
-                          handleStatusChange(post._id, 'happening')
-                        }
-                      >
-                        <span className="hidden sm:inline">Mark as </span>
-                        Happening
-                      </button>
-                    )}
-                    {post.status !== 'completed' && (
-                      <button
-                        className="px-3 py-1.5 bg-purple-50 text-purple-700 rounded-lg text-xs sm:text-sm font-medium hover:bg-purple-100 transition-colors"
-                        onClick={() =>
-                          handleStatusChange(post._id, 'completed')
-                        }
-                      >
-                        <span className="hidden sm:inline">Mark as </span>
-                        Completed
-                      </button>
-                    )}
                   </div>
                 </div>
               </div>

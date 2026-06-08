@@ -9,13 +9,14 @@ const isValidObjectId = (id) =>
 // CREATE EVENT
 const createEventPost = async (req, res) => {
   try {
+
     const {
       title,
       description,
       date,
       location,
-      time,
-      status = 'upcoming',
+      startTime,
+      endTime,
     } = req.body;
 
     if (!title || title.trim().length < 3) {
@@ -32,11 +33,31 @@ const createEventPost = async (req, res) => {
       });
     }
 
-    const validStatuses = ['upcoming', 'happening', 'completed'];
-    if (status && !validStatuses.includes(status)) {
+    if (!date) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid status',
+        message: 'Date is required',
+      });
+    }
+
+    if (!location) {
+      return res.status(400).json({
+        success: false,
+        message: 'Location is required',
+      });
+    }
+
+    if (!startTime) {
+      return res.status(400).json({
+        success: false,
+        message: 'Start time is required',
+      });
+    }
+
+    if (!endTime) {
+      return res.status(400).json({
+        success: false,
+        message: 'End time is required',
       });
     }
 
@@ -47,30 +68,31 @@ const createEventPost = async (req, res) => {
       });
     }
 
-    const image = req.file.path; 
+    const image = req.file.path;
 
-    const post = new upcomingEvents({
+    const post = await upcomingEvents.create({
       title,
       description,
       date,
       location,
-      time,
-      status,
+      startTime,
+      endTime,
       image,
     });
 
-    await post.save();
-
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Event created successfully',
       post,
     });
   } catch (error) {
+    console.error('CREATE EVENT ERROR:', error);
+
     logger.error('Error creating event', error);
-    res.status(500).json({
+
+    return res.status(500).json({
       success: false,
-      message: 'Error creating event',
+      message: error.message,
     });
   }
 };
@@ -86,14 +108,15 @@ const getEventPosts = async (req, res) => {
       })
       .sort({ date: 1 });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Fetched successfully',
-      posts, 
+      posts,
     });
   } catch (error) {
     logger.error('Error fetching events', error);
-    res.status(500).json({
+
+    return res.status(500).json({
       success: false,
       message: 'Error fetching events',
     });
@@ -123,13 +146,14 @@ const getEventPostById = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       post,
     });
   } catch (error) {
     logger.error('Error fetching event', error);
-    res.status(500).json({
+
+    return res.status(500).json({
       success: false,
       message: 'Error fetching event',
     });
@@ -149,6 +173,7 @@ const updateEventPost = async (req, res) => {
     }
 
     const existingPost = await upcomingEvents.findById(id);
+
     if (!existingPost) {
       return res.status(404).json({
         success: false,
@@ -161,8 +186,8 @@ const updateEventPost = async (req, res) => {
       description,
       date,
       location,
-      time,
-      status,
+      startTime,
+      endTime,
     } = req.body;
 
     const image = req.file
@@ -171,79 +196,41 @@ const updateEventPost = async (req, res) => {
 
     const updates = {
       title: title ?? existingPost.title,
-      description: description ?? existingPost.description,
+      description:
+        description ?? existingPost.description,
       date: date ?? existingPost.date,
-      location: location ?? existingPost.location,
-      time: time ?? existingPost.time,
-      status: status ?? existingPost.status,
+      location:
+        location ?? existingPost.location,
+      startTime:
+        startTime ?? existingPost.startTime,
+      endTime:
+        endTime ?? existingPost.endTime,
       image,
     };
 
-    const updatedPost = await upcomingEvents.findByIdAndUpdate(
-      id,
-      updates,
-      { new: true }
-    );
+    const updatedPost =
+      await upcomingEvents.findByIdAndUpdate(
+        id,
+        updates,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Updated successfully',
       updatedPost,
     });
   } catch (error) {
+    console.error('UPDATE EVENT ERROR:', error);
+
     logger.error('Error updating event', error);
-    res.status(500).json({
+
+    return res.status(500).json({
       success: false,
-      message: 'Error updating event',
-    });
-  }
-};
-
-// UPDATE STATUS
-const updateEventStatus = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status } = req.body;
-
-    if (!isValidObjectId(id)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid ID',
-      });
-    }
-
-    const validStatuses = ['upcoming', 'happening', 'completed'];
-
-    if (!validStatuses.includes(status)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid status',
-      });
-    }
-
-    const updatedPost = await upcomingEvents.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true }
-    );
-
-    if (!updatedPost) {
-      return res.status(404).json({
-        success: false,
-        message: 'Event not found',
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Status updated',
-      updatedPost,
-    });
-  } catch (error) {
-    logger.error('Error updating status', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error updating status',
+      message: error.message,
     });
   }
 };
@@ -260,7 +247,8 @@ const deleteEventPost = async (req, res) => {
       });
     }
 
-    const post = await upcomingEvents.findByIdAndDelete(id);
+    const post =
+      await upcomingEvents.findByIdAndDelete(id);
 
     if (!post) {
       return res.status(404).json({
@@ -269,13 +257,14 @@ const deleteEventPost = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Deleted successfully',
     });
   } catch (error) {
     logger.error('Error deleting event', error);
-    res.status(500).json({
+
+    return res.status(500).json({
       success: false,
       message: 'Error deleting event',
     });
@@ -288,5 +277,4 @@ module.exports = {
   createEventPost,
   updateEventPost,
   deleteEventPost,
-  updateEventStatus,
 };

@@ -1,80 +1,70 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createEvent, deleteEvent, getEvents, updateEvent } from '../api/api';
-import axios from 'axios';
+import {
+  createEvent,
+  deleteEvent,
+  getEvents,
+  updateEvent,
+} from '../api/api';
 
-//! Get Events
+// Fetch Events
 export const fetchEvents = createAsyncThunk(
   'events/fetchEvents',
   async (_, { rejectWithValue }) => {
     try {
       const response = await getEvents();
-      if (!response || !response.data?.posts) {
-        throw new Error("No data received from API");
+
+      if (!response?.data?.posts) {
+        throw new Error('No data received from API');
       }
+
       return response.data.posts;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || error.message || 'Failed to fetch events'
+        error.response?.data?.message ||
+          error.message ||
+          'Failed to fetch events'
       );
     }
   }
 );
 
-//! Add Event
+// Create Event
 export const createEventPost = createAsyncThunk(
-  'events/addEvent',
+  'events/createEvent',
   async (eventData, { rejectWithValue }) => {
     try {
       const response = await createEvent(eventData);
-      return response?.data?.event;
+
+      return response.data.post;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || error.message || 'Failed to create event'
+        error.response?.data?.message ||
+          error.message ||
+          'Failed to create event'
       );
     }
   }
 );
 
-//! Update Event
+// Update Event
 export const updateEventPost = createAsyncThunk(
   'events/updateEvent',
   async ({ id, updatedData }, { rejectWithValue }) => {
     try {
       const response = await updateEvent(id, updatedData);
-      return response?.data;
+
+      return response.data.updatedPost;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || 'Failed to update event'
+        error.response?.data?.message ||
+          error.message ||
+          'Failed to update event'
       );
     }
   }
 );
 
-//! Update Event Status
-export const updateEventStatus = createAsyncThunk(
-  'events/updateStatus',
-  async ({ id, status }, { rejectWithValue }) => {
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BASE_URL}/api/post/update-event-status/${id}`,
-        { status }
-      );
-
-      if (!response.data) {
-        throw new Error("Invalid response from API");
-      }
-
-      return response.data;
-    } catch (error) {
-      console.error("Error updating event status:", error.response?.data || error.message);
-      return rejectWithValue(
-        error.response?.data?.message || 'Failed to update event status'
-      );
-    }
-  }
-);
-
-//! Remove Event
+// Delete Event
 export const removeEvent = createAsyncThunk(
   'events/removeEvent',
   async (id, { rejectWithValue }) => {
@@ -83,7 +73,9 @@ export const removeEvent = createAsyncThunk(
       return id;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || error.message || 'Failed to delete event'
+        error.response?.data?.message ||
+          error.message ||
+          'Failed to delete event'
       );
     }
   }
@@ -91,10 +83,19 @@ export const removeEvent = createAsyncThunk(
 
 const upcomingEventsSlice = createSlice({
   name: 'events',
-  initialState: { events: [], status: 'idle', error: null },
+
+  initialState: {
+    events: [],
+    status: 'idle',
+    error: null,
+  },
+
   reducers: {},
+
   extraReducers: (builder) => {
     builder
+
+      // FETCH EVENTS
       .addCase(fetchEvents.pending, (state) => {
         state.status = 'loading';
       })
@@ -106,41 +107,56 @@ const upcomingEventsSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
+
+      // CREATE EVENT
+      .addCase(createEventPost.pending, (state) => {
+        state.status = 'loading';
+      })
       .addCase(createEventPost.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+
         if (action.payload) {
           state.events.push(action.payload);
         }
       })
       .addCase(createEventPost.rejected, (state, action) => {
+        state.status = 'failed';
         state.error = action.payload;
+      })
+
+      // UPDATE EVENT
+      .addCase(updateEventPost.pending, (state) => {
+        state.status = 'loading';
       })
       .addCase(updateEventPost.fulfilled, (state, action) => {
-        if (action.payload) {
-          const index = state.events.findIndex(
-            (event) => event._id === action.payload._id
-          );
-          if (index !== -1) {
-            state.events[index] = { ...state.events[index], ...action.payload };
-          }
+        state.status = 'succeeded';
+
+        const index = state.events.findIndex(
+          (event) => event._id === action.payload._id
+        );
+
+        if (index !== -1) {
+          state.events[index] = action.payload;
         }
       })
-      .addCase(updateEventStatus.fulfilled, (state, action) => {
-        if (action.payload) {
-          const index = state.events.findIndex(
-            (event) => event._id === action.payload._id
-          );
-          if (index !== -1) {
-            state.events[index].status = action.payload.status;
-          }
-        }
-      })
-      .addCase(updateEventStatus.rejected, (state, action) => {
+      .addCase(updateEventPost.rejected, (state, action) => {
+        state.status = 'failed';
         state.error = action.payload;
       })
+
+      // DELETE EVENT
+      .addCase(removeEvent.pending, (state) => {
+        state.status = 'loading';
+      })
       .addCase(removeEvent.fulfilled, (state, action) => {
-        state.events = state.events.filter(event => event._id !== action.payload);
+        state.status = 'succeeded';
+
+        state.events = state.events.filter(
+          (event) => event._id !== action.payload
+        );
       })
       .addCase(removeEvent.rejected, (state, action) => {
+        state.status = 'failed';
         state.error = action.payload;
       });
   },

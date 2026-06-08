@@ -4,29 +4,29 @@
     "title": "Kartik Month Deep Daan",
     "description": "The Soul of Braj Federation celebrates the auspicious Kartik Month with Deep Daan (offering of lamps), which is considered one of the most significant devotional acts during this period.",
     "date": "2025-10-07",
-    "time": "10:00",
+    "startTime": "10:00",
+    "endTime":"12:00",
     "location": "Vrindavan",
-    "status": "completed",
     "image": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779541954/diya_i5d5jd.jpg"
   },
    {
     "_id": "health-camp-fallback",
     "title": "Health Awareness Camp",
     "description": "A free health camp providing essential check-ups, consultations, and awareness sessions on preventive healthcare. Medical professionals will offer general health screenings, blood pressure checks, and dietary guidance. Take charge of your well-being and spread the message of a healthier society!",
-    "date": "2025-10-07",
-    "time": "10:00",
+    "date": "2026-10-07",
+    "startTime": "10:00",
+    "endTime":"12:00",
     "location": "Vrindavan",
-    "status": "completed",
     "image": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1778845999/HealthCare_rbiwpl.jpg"
   },
    {
     "_id": "sanitary-pad-distribution-fallback",
     "title": "Sanitary Pad Distribution",
-    "description": "nitiative ASHA Soul of Braj Federation organize free monthly sanitary pad distribution to Hundreds of adolescent girls and underserved community women in Shri Vrindavan Dham under their initiative.",
-    "date": "2025-15-06",
-    "time": "10:00",
+    "description": "Initiative ASHA Soul of Braj Federation organize free monthly sanitary pad distribution to Hundreds of adolescent girls and underserved community women in Shri Vrindavan Dham under their initiative.",
+    "date": "2026-15-06",
+    "startTime": "10:00",
+    "endTime":"12:00",
     "location": "Vrindavan",
-    "status": "completed",
     "image": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779542185/sanitary-pad-distribution_wovrim.jpg"
   }
 

@@ -10,12 +10,12 @@ const ShareButton = ({ title, url, fullWidth = false, className = '' }) => {
       <button
         type="button"
         onClick={() => setShowModal(true)}
-        className={`flex items-center justify-center gap-2 px-5 py-2 rounded-xl border border-amber-500 text-amber-700 hover:bg-amber-100 hover:shadow-md transition-all duration-200 font-semibold shadow-sm ${
+        className={`flex items-center justify-center gap-2 px-5 py-2 rounded-xl border border-amber-500 text-amber-700 hover:bg-amber-100 hover:shadow-md transition-all duration-200 font-medium shadow-sm ${
           fullWidth ? 'w-full' : ''
         } ${className}`.trim()}
       >
-        <FaShareAlt className="text-lg" />
-        <span className="text-sm">Share</span>
+        <FaShareAlt className="text-xs md:text-sm" />
+        <span className="text-xs md:text-sm">Share</span>
       </button>
 
       <ShareModal

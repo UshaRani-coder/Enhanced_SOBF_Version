@@ -89,24 +89,26 @@ const HeroVideo = () => {
         {/* Subscription button with left-to-right hover effect */}
         <div className="mt-5">
           <button
-            className="relative px-8 py-4 overflow-hidden text-lg font-bold text-white rounded-full group bg-gradient-to-r from-purple-500 to-indigo-600 shadow-xl hover:shadow-2xl transition-all duration-500"
+            className="relative px-8 py-4 overflow-hidden text-lg font-semibold text-white rounded-full group 
+  bg-[#2d335d] shadow-lg hover:shadow-2xl transition-all duration-300 border border-[#edb25a]/50"
             onClick={() => {
               navigate('/subscription');
               handleSmoothScroll();
             }}
           >
-            {/* Animated gradient overlay */}
-            <span className="absolute top-0 left-0 w-0 h-full transition-all duration-500 bg-gradient-to-r from-pink-500 to-orange-500 group-hover:w-full"></span>
+            {/* Gold gradient hover */}
+            <span className="absolute inset-0 w-0 transition-all duration-300 bg-gradient-to-r from-[#edb259] to-[#d9a441] group-hover:w-full"></span>
 
-            {/* Shiny reflection effect */}
-            <span className="absolute top-0 left-0 w-8 h-full -skew-x-12 bg-white/30 group-hover:left-[150%] transition-all duration-700"></span>
+            {/* Shine effect */}
+            <span className="absolute top-0 left-0 w-6 h-full -skew-x-12 bg-white/10 group-hover:left-[120%] transition-all duration-500"></span>
 
-            {/* Button content */}
+            {/* Content */}
             <span className="relative z-10 flex items-center justify-center gap-2">
-              <span className="text-shadow">Monthly Seva Subscription</span>
+              <span>Monthly Seva Subscription</span>
+
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
+                className="w-5 h-5 opacity-90"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >

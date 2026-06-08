@@ -20,9 +20,7 @@ const EventDetails = () => {
 
   // fallback event (only used if API fails)
   const fallbackEvent = useMemo(() => {
-    return fallbackEvents.find(
-      (item) => String(item._id) === String(id)
-    );
+    return fallbackEvents.find((item) => String(item._id) === String(id));
   }, [id]);
 
   // clear old event + fetch new one when ID changes
@@ -32,10 +30,7 @@ const EventDetails = () => {
   }, [dispatch, id]);
 
   // FINAL SOURCE OF TRUTH
-  const event =
-    postStatus === 'succeeded' && post
-      ? post
-      : fallbackEvent;
+  const event = postStatus === 'succeeded' && post ? post : fallbackEvent;
 
   // ---------------- UI STATES ----------------
 
@@ -80,7 +75,33 @@ const EventDetails = () => {
     const displayHour = hour % 12 || 12;
     return `${displayHour}:${minutes} ${ampm}`;
   };
+  const getEventStatus = (eventDate, startTime, endTime) => {
+    if (!eventDate || !startTime || !endTime) {
+      return event?.status || 'upcoming';
+    }
 
+    const now = new Date();
+
+    const date = new Date(eventDate);
+
+    const start = new Date(date);
+    const [startHour, startMinute] = startTime.split(':');
+
+    start.setHours(Number(startHour), Number(startMinute), 0, 0);
+
+    const end = new Date(date);
+    const [endHour, endMinute] = endTime.split(':');
+
+    end.setHours(Number(endHour), Number(endMinute), 0, 0);
+
+    if (now < start) return 'upcoming';
+
+    if (now >= start && now <= end) {
+      return 'happening';
+    }
+
+    return 'completed';
+  };
   const getStatusStyles = (status) => {
     switch (status) {
       case 'happening':
@@ -111,8 +132,12 @@ const EventDetails = () => {
     }
   };
 
-  const statusStyles = getStatusStyles(event?.status);
+  const currentStatus =
+    event?.startTime && event?.endTime
+      ? getEventStatus(event.date, event.startTime, event.endTime)
+      : event?.status;
 
+  const statusStyles = getStatusStyles(currentStatus);
   const baseURL =
     window.location.origin === 'http://localhost:5173'
       ? 'https://sobf.in'
@@ -122,14 +147,12 @@ const EventDetails = () => {
 
   return (
     <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
-
       {/* TITLE */}
       <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:mb-[30px]">
         {event?.title}
       </h1>
 
       <div className="flex flex-col items-center w-full">
-
         {/* IMAGE */}
         <div className="w-full h-[70vh] overflow-hidden mb-4">
           <img
@@ -141,10 +164,9 @@ const EventDetails = () => {
 
         {/* DETAILS */}
         <div className="w-full flex flex-col justify-start pt-4">
-
           <div className="flex items-center gap-5 xl:gap-7 mb-4">
             <div
-              className={`px-3 py-2 rounded-full ${statusStyles.bgColor} ${statusStyles.textColor}`}
+              className={`px-3 py-2 rounded-xl text-xs md:text-sm  ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}
             >
               {statusStyles.icon} {statusStyles.label}
             </div>
@@ -152,21 +174,22 @@ const EventDetails = () => {
             <ShareButton
               title={`Check out this event: ${event?.title}`}
               url={`${baseURL}/events/${id}`}
-              className="px-3 border-0 text-xs md:text-sm inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white"
+              className={`px-3 border-0  inline-block font-bold rounded-xl shadow-md  ${statusStyles.bgColor} ${statusStyles.textColor}`}
             />
           </div>
 
           {/* TIME + LOCATION */}
           <div className="flex flex-wrap gap-4 mb-4">
             <div className="flex items-center text-gray-700">
-              <MdAccessTimeFilled className="text-[#1890CE] mr-2" />
+              <MdAccessTimeFilled className="text-[#1890CE] mr-1 md:text-xl" />
               <span>
-                {formatDate(event?.date)} at {formatTime(event?.time)}
+                {formatDate(event?.date)} • {formatTime(event?.startTime)} -{' '}
+                {formatTime(event?.endTime)}
               </span>
             </div>
 
             <div className="flex items-center text-gray-700">
-              <MdLocationPin className="text-[#E82327] mr-2" />
+              <MdLocationPin className="text-[#E82327] mr-1 md:text-xl" />
               <span>{event?.location}</span>
             </div>
           </div>
@@ -183,22 +206,22 @@ const EventDetails = () => {
           />
 
           {/* REGISTER */}
-          {(event?.status === 'upcoming' ||
-            event?.status === 'happening') && (
-            <button
-              className="px-6 py-3 bg-[#2d335d] w-40 m-auto text-white font-semibold rounded-lg hover:bg-[#edb25a] transition-all"
-              onClick={() =>
-                window.open(event?.registrationLink || '#', '_blank')
-              }
-            >
-              Register Now
-            </button>
-          )}
+          {/* ACTION BUTTONS */}
+          <div className="flex flex-wrap justify-start gap-4 mt-4">
+            {(currentStatus === 'upcoming' ||
+              currentStatus === 'happening') && (
+              <button
+                className="px-5 py-2 bg-[#2d335d] text-white font-medium rounded-lg hover:bg-[#edb25a] transition-all"
+                onClick={() =>
+                  window.open(event?.registrationLink || '#', '_blank')
+                }
+              >
+                Register Now
+              </button>
+            )}
 
-          {/* BACK */}
-          <div className="flex mt-6">
             <button
-              className="px-4 py-2 font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all"
+              className="px-5 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all"
               onClick={() => navigate('/')}
             >
               Back to Events
@@ -211,17 +234,18 @@ const EventDetails = () => {
               Support Our Events!
             </h2>
             <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
-            Your contributions help us organize more events that benefit the community. Every donation makes a difference in bringing people together.
+              Your contributions help us organize more events that benefit the
+              community. Every donation makes a difference in bringing people
+              together.
             </p>
 
             <Link
               to="/donate-us"
-              className="px-6 py-3 bg-logoYellow text-white rounded-lg shadow-lg hover:bg-logo-blue transition-all text-lg font-semibold"
+              className="px-5 py-2 bg-logoYellow text-white rounded-lg shadow-lg hover:bg-logo-blue transition-all  font-medium"
             >
               Donate Now
             </Link>
           </div>
-
         </div>
       </div>
     </div>

@@ -85,7 +85,7 @@ const {
   getEventPosts,
   updateEventPost,
   deleteEventPost,
-  updateEventStatus,
+ 
 } = require('../controllers/upcoming-event.controller');
 
 const {
@@ -268,7 +268,7 @@ router.put(
   eventsUpload.single('image'),
   updateEventPost,
 );
-router.put('/update-event-status/:id', updateEventStatus);
+
 router.delete('/delete-upcoming-events/:id', deleteEventPost);
 
 /* =========================
