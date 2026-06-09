@@ -3,6 +3,19 @@
   margin: 0;
   box-sizing: border-box;
 }
+/* hero video animations */
+@keyframes gradient-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-shimmer {
+  animation: gradient-shimmer 5s linear infinite;
+}
 
 /* styling for some Hero elements and Navbar elements starts here */
 .ham-menu.active span:nth-child(1) {
@@ -297,4 +310,8 @@
 /* styling for the toast messages starts here */
 .custom-toast .Toastify__progress-bar {
   background-color: #d97706 !important;
+}
+.scroll-lock {
+  overflow: hidden !important;
+  height: 100vh !important;
 }

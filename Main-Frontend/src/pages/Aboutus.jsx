@@ -268,7 +268,7 @@ const AboutUs = () => {
       </div>
       <DottedSeparator />
       {/* Objective Section */}
-      <div className="mb-20 flex gap-4 lg:flex-row  flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0 lg:mt-10">
+      <div className=" flex gap-4 lg:flex-row  flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0 lg:mt-10">
         <div className="relative w-[99%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none">
           <div className="flex flex-col items-center md:flex-row md:justify-center md:items-stretch gap-4">
             <div className="bg-white shadow-[8px_8px_15px_rgba(0,0,0,0.3)] rounded-lg p-2">
@@ -315,7 +315,7 @@ const AboutUs = () => {
       <DottedSeparator />
       {/* Gallery Section */}
       <div className="container mx-auto p-0 lg:p-4 px-4 lg:px-20 text-center mb-20">
-        <h1 className="text-heading3 lg:text-heading1 inline-block font-bold mb-4 pb-5 text-logoYellow">
+        <h1 className="text-heading3 lg:text-heading1 inline-block font-bold mb-4 py-5 text-logoYellow">
           Collected Shots
           <hr className="mt-1 border-light-lavender border-[1px]" />
         </h1>

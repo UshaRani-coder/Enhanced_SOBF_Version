@@ -285,12 +285,12 @@ const LegalDoc = () => {
         </div>
       )}
 
-      <div className="mt-12 flex flex-wrap justify-center gap-4 lg:gap-10">
+      <div className="mt-12 flex flex-wrap justify-center lg:justify-start lg:mx-4 gap-4 lg:gap-10">
         {legalDocs && legalDocs?.length > 0 ? (
           legalDocs?.map((doc) => (
             <div
               key={doc?._id}
-              className="border p-4 rounded w-[90%] small-max:w-[80%] md:w-[65%] lg:w-[40%] hover:shadow-lg transition-shadow duration-300 flex-wrap flex flex-col items-center"
+              className="border p-4 rounded w-[90%] small-max:w-[80%] md:w-[65%] lg:w-[40%] shadow-lg hover:shadow-xl transition-shadow duration-300 flex-wrap flex flex-col items-center"
             >
               <h2 className="text-2xl font-semibold mb-3 text-gray-800 line-clamp-2 text-left w-[100%]">
                 {doc?.title}

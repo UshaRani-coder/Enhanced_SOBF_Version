@@ -326,7 +326,7 @@ const Gallery = () => {
         {filteredGallery.map((item) => (
           <div
             key={`${item._id}-${item.image}`}
-            className=" rounded-lg shadow-lg flex flex-col items-center w-full small-range:w-[80%] md:w-[90%] lg:w-[80%]"
+            className=" rounded-lg shadow-lg flex flex-col items-center w-full small-range:w-[80%] md:w-[90%] lg:w-full"
           >
             <div className="w-full h-56 md:h-64 lg:h-72 overflow-hidden rounded-lg">
               <img

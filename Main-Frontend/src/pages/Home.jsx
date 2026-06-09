@@ -16,9 +16,9 @@ import SidePopup from '../Components/common_components/sidePopup.jsx';
 import UpcomingEvents from '../Components/Home_Section/UpcomingEvents.jsx';
 import VolunteerForm from './Volunteer.jsx';
 import DonationOptions from './DonateFor.jsx';
-import { DottedSeparator, HealthSeparator, WavySeparator } from '../utils/Seperator.jsx';
-
-
+import {
+  WavySeparator,
+} from '../utils/Seperator.jsx';
 
 const HomePage = () => {
   const [showVolunteerForm, setShowVolunteerForm] = useState(false);
@@ -41,8 +41,19 @@ const HomePage = () => {
               onClick={() => setShowVolunteerForm(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
             <VolunteerForm onSuccess={() => setShowVolunteerForm(false)} />
@@ -54,37 +65,30 @@ const HomePage = () => {
         <HeroVideo />
       </div>
 
-      <div
-        className={` w-full`}
-      >
+      <div className={` w-full`}>
         <Hero />
       </div>
 
       <SidePopup />
       <Impacts />
-      <WavySeparator />
+     
+      {/* <WavySeparator /> */}
       <UpcomingEvents />
-      <DottedSeparator />
       <DonationOptions />
       <WavySeparator />
       <Programms />
-      {/* <DottedSeparator /> */}
       <About />
-      <DottedSeparator />
       <Video />
-      <DottedSeparator />
+       <WavySeparator />
       <Services />
-      {/* <Press_Release /> */}
-      {/* <HealthSeparator /> */}
+       <WavySeparator />
       <Recent_Activities />
       <Team />
       <Partners />
       <Testimonials />
-      {/* <Home_Gallery /> */}
       <Contactus />
       <Faq />
     </div>
-
   );
 };
 

@@ -101,7 +101,7 @@ const Video = () => {
               return (
                 <div
                   key={video?._id}
-                  className="border p-2 small-range:mx-2 md:mx-0 rounded w-[95%] small-range:w-[90%] md:w-[42.5%] lg:w-[30%] hover:shadow-lg transition-shadow duration-300"
+                  className="border p-2 small-range:mx-2 md:mx-0 rounded w-[95%] small-range:w-[90%] md:w-[42.5%] lg:w-[30%] hover:shadow-lg transition-shadow duration-300 mb-14"
                 >
                   {videoId ? (
                     <div className="relative group">

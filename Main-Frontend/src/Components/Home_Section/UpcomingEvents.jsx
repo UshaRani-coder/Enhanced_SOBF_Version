@@ -13,6 +13,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 import ShareButton from '../common_components/ShareButton';
 import { useNavigate } from 'react-router-dom';
 import fallbackEvents from '../../defaultData/upcoming-events.json';
+import { lockScroll, unlockScroll } from "@/utils/scrollLock";
 
 const UpcomingEvents = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,14 @@ const UpcomingEvents = () => {
     activeIndex: 0,
     totalSlides: 0,
   });
+   
+    // Lock the bg scroll when this modal is active
+    useEffect(() => {
+    if (showForm) lockScroll();
+    else unlockScroll();
+  
+    return () => unlockScroll();
+  }, [showForm]);
 
   useEffect(() => {
     if (listStatus === 'idle') {
@@ -255,7 +264,7 @@ const UpcomingEvents = () => {
       : window.location.origin;
 
   return (
-    <div className="bg-light-lavender flex flex-col items-center mb-10 pb-10 w-full px-4 md:px-14 lg:px-0 mt-10">
+    <div className="bg-light-lavender flex flex-col items-center  pb-10 w-full px-4 md:px-14 lg:px-0 mt-2" id='events'>
       <h1 className="inline-block text-[28px] md:text-heading3 lg:text-heading2 font-bold p-5 text-[#2d335d] relative transition-all ease-in-out">
         Upcoming Events
         <hr className="mt-1 border-blue border-[0.5px]" />

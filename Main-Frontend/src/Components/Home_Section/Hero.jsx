@@ -14,96 +14,116 @@ const Hero = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (heroBanner?.length > 0) {
-      const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % heroBanner.length);
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [heroBanner, currentIndex]);
+    if (!heroBanner?.length) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % heroBanner.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [heroBanner]);
+
+  const capitalize = (str = '') =>
+    str
+      .split(' ')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
 
   if (status === 'loading' || !heroBanner?.length) {
     return (
-      <div className="flex items-center justify-center w-full h-screen bg-gray-900">
-        <p className="text-white font-semibold text-lg">Loading...</p>
+      <div className="flex items-center justify-center h-screen bg-[#0b1220] text-white">
+        Loading...
       </div>
     );
   }
-  const capitalize = (str) => {
-    if (!str) return '';
-    return str.split(' ').map(word =>
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
-  };
-
 
   return (
-    <div
-      className="relative h-[87vh] md:h-[90vh] xl:h-[90vh] flex flex-col lg:flex-row items-center justify-center bg-[#0d1b2a] overflow-hidden pt-10 gap-4 lg:pt-[200px] xl:pt-16 px-4"
-      id="next-section"
-    >
-      {/* Background Glow Effect */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-purple-600 opacity-30 blur-[120px]"></div>
-        <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-blue-500 opacity-30 blur-[120px]"></div>
+    <div id='next-section' className="relative  flex items-center bg-gradient-to-br from-[#0b1220] via-[#0f172a] to-[#0b1220] overflow-hidden px-4 sm:px-6 lg:px-16 py-10">
+      {/* background glow */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600 blur-3xl rounded-full"></div>
+        <div className="absolute bottom-10 right-10 w-72 h-72 bg-indigo-500 blur-3xl rounded-full"></div>
       </div>
 
-      {/* Hero Image - takes 60% width */}
-      <div className="relative w-full lg:w-[50%] h-[40%] lg:h-[60%] flex justify-center items-center">
-        <AnimatePresence mode="wait">
-          <motion.div
+      <div className="relative z-10 max-w-7xl w-full mx-auto flex flex-col-reverse lg:flex-row items-center gap-6 md:gap-10 lg:gap-12">
+        {/* LEFT CONTENT */}
+        <div className="flex-1 text-center lg:text-left">
+          <motion.h1
             key={heroBanner[currentIndex]?._id}
-            className="w-full h-full flex justify-center items-center"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="
+  text-white font-bold
+  text-2xl sm:text-3xl md:text-4xl lg:text-4xl
+  leading-[1.4] lg:leading-[1.5] xl:leading[2]
+"
           >
-            <div className="relative w-full h-0 pb-[56.25%]"> {/* 16:9 aspect ratio container */}
+            {capitalize(heroBanner[currentIndex]?.quotes)}
+          </motion.h1>
+
+          <p className="mt-4 sm:mt-5 text-gray-300 text-sm sm:text-base md:text-lg max-w-xl mx-auto lg:mx-0">
+            Together we can create meaningful impact through compassion,
+            service, and community support.
+          </p>
+
+          <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+            <Link to="/donate-us">
+              <button className="w-full sm:w-auto px-6 py-3 rounded-full bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition shadow-md">
+                Donate Now
+              </button>
+            </Link>
+
+            <button
+              onClick={() => {
+                document.getElementById('events')?.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
+              }}
+              className="w-full sm:w-auto px-6 py-3 rounded-full border border-white/20 text-white hover:bg-white/10 transition"
+            >
+              Explore Events
+            </button>
+          </div>
+        </div>
+
+        {/* RIGHT IMAGE */}
+        <div className="flex-1 w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={heroBanner[currentIndex]?._id}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6 }}
+              className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+            >
               <img
                 src={heroBanner[currentIndex]?.image}
                 alt="Hero Banner"
-                className="absolute top-0 left-0 w-full h-full object-cover rounded-xl shadow-2xl"
+                className="
+                  w-full object-cover
+                  h-[240px] sm:h-[300px] md:h-[380px] lg:h-[500px]
+                "
               />
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-      {/* Text Content - takes 40% width */}
-      <div className="z-10 text-center lg:text-left w-full lg:w-[40%] text-white flex flex-col justify-center h-full">
-        <motion.h1
-          className="font-extrabold text-[30px] small-range:text-[25px] md:text-5xl lg:text-[50px] xl:text-[50px] leading-[35px] md:leading-[50px] lg:leading-[55px] xl:leading-[55px] tracking-wide px-2 small-max:px-4"
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-        >
-          {capitalize(heroBanner[currentIndex]?.quotes)}
-        </motion.h1>
-        <Link to="/donate-us" className="mt-4 md:mt-6">
-          <motion.button
-            aria-label="Donate"
-            className="text-white bg-logoYellow font-semibold rounded-full md:text-[1.1rem] text-heading5 px-4 py-2 md:px-6 md:py-3 shadow-lg transition transform duration-300 ease-in-out 
-            hover:bg-yellow-500 hover:shadow-xl animate-bounce"
-            initial={{ scale: 0.3, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            whileHover={{ scale: 1.05 }}
-          >
-            Donate
-          </motion.button>
-        </Link>
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
 
-
-      {/* Navigation Dots */}
-      <div className="absolute bottom-6 lg:bottom-[50px] flex gap-3">
+      {/* DOTS */}
+      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
         {heroBanner.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full transition ${currentIndex === index ? 'bg-logoYellow' : 'bg-white/50'
-              }`}
-          ></button>
+            className={`h-2 rounded-full transition-all duration-300 ${
+              index === currentIndex ? 'w-6 bg-yellow-400' : 'w-2 bg-white/30'
+            }`}
+          />
         ))}
       </div>
     </div>

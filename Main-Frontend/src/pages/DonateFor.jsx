@@ -42,7 +42,7 @@ const DonateForMain = () => {
   };
 
   return (
-    <div className="w-full px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 py-8 md:py-12 mx-auto mt-20">
+    <div className="w-full px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 py-8 md:py-12 mx-auto ">
       <div className="text-center mb-8 md:mb-12">
         <h1 className="inline-block text-[28px] md:text-heading3 lg:text-heading2 font-bold p-5 text-[#2d335d] relative transition-all ease-in-out">
           All Donation Categories

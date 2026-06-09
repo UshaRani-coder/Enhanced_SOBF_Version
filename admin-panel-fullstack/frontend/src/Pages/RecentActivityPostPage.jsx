@@ -552,7 +552,7 @@ const RecentActivityPostPage = () => {
           posts.map((post, index) => (
             <div
               key={post._id || index}
-              className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[40%] xl:w-[30%] shadow-lg hover:shadow-none flex flex-col items-center"
+              className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[45%] xl:w-[30%] shadow-lg hover:shadow-none flex flex-col items-center"
               onClick={() => handleExpandPost(post)}
             >
               {post.images?.length > 0 ? (

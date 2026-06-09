@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getSharePlatforms } from '@/utils/sharePlatforms';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { lockScroll, unlockScroll } from "@/utils/scrollLock";
 
 const ShareModal = ({ isOpen, onClose, title, url }) => {
   const [copied, setCopied] = useState(false);
@@ -48,6 +49,14 @@ const ShareModal = ({ isOpen, onClose, title, url }) => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+  
+  // Lock the bg scroll when this modal is active
+  useEffect(() => {
+  if (isOpen) lockScroll();
+  else unlockScroll();
+
+  return () => unlockScroll();
+}, [isOpen]);
 
   // Close on click outside modal
   const handleBackdropClick = (e) => {

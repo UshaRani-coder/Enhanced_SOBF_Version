@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import aboutus from '../assets/aboutUsImage.png';
 import { getGalleryImages } from '../Reducers/gallerySlice';
+import { lockScroll, unlockScroll } from "@/utils/scrollLock";
 
 const Gallery = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,13 @@ const Gallery = () => {
   useEffect(() => {
     dispatch(getGalleryImages()); // Fetch gallery images when component mounts
   }, [dispatch]);
+ // Lock the bg scroll when the gallery slider is open
+  useEffect(() => {
+  if (selectedImage) lockScroll();
+  else unlockScroll();
 
+  return () => unlockScroll();
+}, [selectedImage]);
   const handleFilterChange = (category) => {
     setSelectedCategory(category);
   };
