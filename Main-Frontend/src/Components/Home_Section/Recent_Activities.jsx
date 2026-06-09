@@ -53,9 +53,27 @@ const Recent_Activities = React.memo(() => {
     const years = new Set(
       posts.map((post) => new Date(post.date).getFullYear()),
     );
-    return Array.from(years).sort((a, b) => b - a); // Sort descending
+    return Array.from(years).sort((a, b) => b - a); 
   }, [posts]);
+const availableFilteredMonths = useMemo(() => {
+  const sourcePosts =
+    status === 'succeeded' && posts?.length > 0 ? posts : hardcodedPosts;
 
+  const months = new Set();
+
+  sourcePosts.forEach((post) => {
+    const date = new Date(post.date);
+
+    if (
+      !selectedYear ||
+      date.getFullYear() === parseInt(selectedYear)
+    ) {
+      months.add(availableMonths[date.getMonth()]);
+    }
+  });
+
+  return availableMonths.filter((month) => months.has(month));
+}, [posts, status, selectedYear]);
   // **Filtering logic**
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
@@ -189,7 +207,7 @@ const Recent_Activities = React.memo(() => {
           <option value="" className="font-bold">
             Filter by Month
           </option>
-          {availableMonths?.map((month) => (
+          {availableFilteredMonths?.map((month) => (
             <option
               key={month}
               value={month}
@@ -225,7 +243,7 @@ const Recent_Activities = React.memo(() => {
               key={activity._id}
               className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg  md:min-h-[450px] lg:min-h-[500px]"
             >
-              <img
+              {/* <img
                 src={
                   activity?.images && activity?.images?.length > 0
                     ? activity?.images[0]
@@ -233,6 +251,13 @@ const Recent_Activities = React.memo(() => {
                 }
                 alt={activity.title}
                 className="w-full h-full md:h-[300px] rounded-lg object-cover"
+              /> */}
+              <img
+                src={activity?.images?.length > 0 && activity.images[0]}
+                alt={activity.title}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-56 md:h-64 lg:h-72 rounded-lg object-cover"
               />
               <div className="px-[10px]">
                 <div className="flex items-center gap-x-[5px] mt-[15px]">
@@ -264,7 +289,7 @@ const Recent_Activities = React.memo(() => {
                     {' '}
                     <button
                       aria-label="View Details"
-                      className="my-[20px] bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 font-semibold text-[14px] px-[12px] py-[6px] rounded-full transition-all duration-300 ease-in-out"
+                      className="my-[20px]  text-white  bg-gradient-to-r from-[#2d335d] to-[#44508f] focus:outline-none focus:ring-2 focus:ring-offset-2 hover:scale-105  font-semibold text-[14px] px-[12px] py-[6px] rounded-full transition-all duration-300 ease-in-out"
                       onClick={() => window.scrollTo(0, 0)}
                     >
                       View Details
@@ -275,7 +300,7 @@ const Recent_Activities = React.memo(() => {
                     <ShareButton
                       title={title}
                       url={`${baseURL}/recent-activities/${activity?._id}`}
-                      className="px-3 py-[6px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="px-3 py-[6px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-[#2d335d] to-[#44508f] text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 "
                     />
                   </div>
                 </div>

@@ -148,22 +148,25 @@ const EventDetails = () => {
   return (
     <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
       {/* TITLE */}
-      <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:mb-[30px]">
+      <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:my-[30px]">
         {event?.title}
       </h1>
 
       <div className="flex flex-col items-center w-full">
         {/* IMAGE */}
-        <div className="w-full h-[70vh] overflow-hidden mb-4">
+
+        <div className="w-full aspect-[16/9] overflow-hidden mb-4">
           <img
             src={event?.image}
-            className="w-full h-full object-cover rounded-lg shadow-lg"
             alt={event?.title}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover rounded-lg shadow-lg"
           />
         </div>
 
         {/* DETAILS */}
-        <div className="w-full flex flex-col justify-start pt-4">
+        <div className="w-full flex flex-col justify-start md:pt-4">
           <div className="flex items-center gap-5 xl:gap-7 mb-4">
             <div
               className={`px-3 py-2 rounded-xl text-xs md:text-sm  ${statusStyles.bgColor} ${statusStyles.textColor} ${statusStyles.animate}`}
@@ -174,14 +177,18 @@ const EventDetails = () => {
             <ShareButton
               title={`Check out this event: ${event?.title}`}
               url={`${baseURL}/events/${id}`}
-              className={`px-3 border-0  inline-block font-bold rounded-xl shadow-md  ${statusStyles.bgColor} ${statusStyles.textColor}`}
+              className={`px-3 border-0 inline-block font-bold rounded-xl shadow-md
+    ${statusStyles.bgColor} ${statusStyles.textColor}
+    transition-all duration-300
+    hover:scale-105 hover:shadow-lg
+    active:scale-95`}
             />
           </div>
 
           {/* TIME + LOCATION */}
-          <div className="flex flex-wrap gap-4 mb-4">
+          <div className="flex flex-wrap gap-2 mb:gap-4 mb-4">
             <div className="flex items-center text-gray-700">
-              <MdAccessTimeFilled className="text-[#1890CE] mr-1 md:text-xl" />
+              <MdAccessTimeFilled className="text-[#1890CE] mr-1 ml-[1px] md:text-xl" />
               <span>
                 {formatDate(event?.date)} • {formatTime(event?.startTime)} -{' '}
                 {formatTime(event?.endTime)}
@@ -189,14 +196,14 @@ const EventDetails = () => {
             </div>
 
             <div className="flex items-center text-gray-700">
-              <MdLocationPin className="text-[#E82327] mr-1 md:text-xl" />
+              <MdLocationPin className="text-[#E82327] mr-1 text-lg md:text-xl" />
               <span>{event?.location}</span>
             </div>
           </div>
 
           {/* DESCRIPTION */}
           <div
-            className="md:text-lg text-gray-700 mb-6"
+            className="md:text-lg text-gray-700 mb-2"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(event?.description || '').replace(
                 /<a /g,
@@ -221,7 +228,7 @@ const EventDetails = () => {
             )}
 
             <button
-              className="px-5 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all"
+              className="px-5 py-2 bg-logo-blue text-white font-medium rounded-lg hover:bg-logoYellow transition-all"
               onClick={() => navigate('/')}
             >
               Back to Events
@@ -231,12 +238,12 @@ const EventDetails = () => {
           {/* DONATION */}
           <div className="mt-6 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 xl:p-10 rounded-lg shadow-lg">
             <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-indigo-700">
-              Support Our Events!
+              Support Our Mission!
             </h2>
             <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
-              Your contributions help us organize more events that benefit the
-              community. Every donation makes a difference in bringing people
-              together.
+              Every donation helps us organize meaningful events, reach more
+              people, and strengthen our community. Join us in making a lasting
+              impact.
             </p>
 
             <Link

@@ -146,7 +146,7 @@ const finalServices =
                   }
                 }}
               >
-                {hoveredService === item._id &&
+                {/* {hoveredService === item._id &&
                   item.images &&
                   item?.images?.length > 0 && (
                     <div
@@ -161,7 +161,7 @@ const finalServices =
                         zIndex: -1,
                       }}
                     ></div>
-                  )}
+                  )} */}
                 <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center">
                   <img
                     src={item.logo}
@@ -176,7 +176,7 @@ const finalServices =
                     {item.small_description}
                   </p>
                 </div>
-                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-black group-hover:opacity-0 opacity-30 transition-opacity duration-500"></div>
               </li>
               
             ))}
@@ -189,7 +189,7 @@ const finalServices =
             <div className="sm:mb-5 mb-5 lg:-mb-28 lg:ml-[30px]">
               <button
                 aria-label="Back to Services"
-                className="back-button mb-2 px-4 py-2 bg-gray-800 text-white rounded hover:bg-indigo-500 hover:text-white hover:scale-105 transform transition-all duration-300 ease-in-out"
+                className="back-button mb-2 px-4 py-2 bg-logo-blue text-white rounded hover:bg-logoYellow hover:text-white hover:scale-105 transform transition-all duration-300 ease-in-out"
                 onClick={() => setService(null)}
               >
                 Back to Services

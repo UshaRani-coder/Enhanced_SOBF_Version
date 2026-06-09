@@ -208,7 +208,7 @@ const Gallery = () => {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2 mx-4 mb-4">
+      <div className="flex flex-wrap mx-12 small-max:mx-20 md:mx-4  gap-2  mb-4">
         {availableTags.map((tag) => (
           <button
             key={tag}
@@ -243,7 +243,7 @@ const Gallery = () => {
               </div>
               <div className="mb-4">
                 <label className="block font-semibold mb-2">Tag</label>
-              
+
                 <select
                   name="tag"
                   value={formData.tag}
@@ -328,11 +328,13 @@ const Gallery = () => {
             key={`${item._id}-${item.image}`}
             className=" rounded-lg shadow-lg flex flex-col items-center w-full small-range:w-[80%] md:w-[90%] lg:w-[80%]"
           >
-            <div className="w-full h-[250px] overflow-hidden">
+            <div className="w-full h-56 md:h-64 lg:h-72 overflow-hidden rounded-lg">
               <img
                 src={item.image}
                 alt="Gallery"
-                className="object-cover w-full h-full rounded-lg"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
               />
             </div>
             <div className="my-4 flex gap-4">

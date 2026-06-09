@@ -2,7 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdEdit, MdDelete, MdClose } from 'react-icons/md';
-import { addPost, getPosts, removePost, updatePost } from '../Reducers/RecentActivityPostPageSlice';
+import {
+  addPost,
+  getPosts,
+  removePost,
+  updatePost,
+} from '../Reducers/RecentActivityPostPageSlice';
 import DOMPurify from 'dompurify';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
@@ -36,11 +41,12 @@ const RecentActivityPostPage = () => {
         const width = this.naturalWidth;
         const height = this.naturalHeight;
 
-
         // Check if dimensions match any accepted size (with 1% tolerance)
-        const isValid = ACCEPTED_DIMENSIONS.some(dim => {
-          const widthMatch = Math.abs(width - dim.width) <= Math.round(dim.width * 0.01);
-          const heightMatch = Math.abs(height - dim.height) <= Math.round(dim.height * 0.01);
+        const isValid = ACCEPTED_DIMENSIONS.some((dim) => {
+          const widthMatch =
+            Math.abs(width - dim.width) <= Math.round(dim.width * 0.01);
+          const heightMatch =
+            Math.abs(height - dim.height) <= Math.round(dim.height * 0.01);
           return widthMatch && heightMatch;
         });
 
@@ -48,8 +54,10 @@ const RecentActivityPostPage = () => {
           isValid,
           width,
           height,
-          acceptedSizes: ACCEPTED_DIMENSIONS.map(d => `${d.width}×${d.height}`),
-          currentAspectRatio: (width / height).toFixed(2)
+          acceptedSizes: ACCEPTED_DIMENSIONS.map(
+            (d) => `${d.width}×${d.height}`,
+          ),
+          currentAspectRatio: (width / height).toFixed(2),
         });
       };
       img.onerror = () => resolve({ isValid: false });
@@ -102,7 +110,7 @@ const RecentActivityPostPage = () => {
         const { isValid, width, height } = await checkImageDimensions(image);
         if (!isValid) {
           toast.error(
-            `Image "${image.name}" must have a 16:9 aspect ratio. Current dimensions: ${width}x${height}`
+            `Image "${image.name}" must have a 16:9 aspect ratio. Current dimensions: ${width}x${height}`,
           );
           return false;
         }
@@ -247,7 +255,7 @@ const RecentActivityPostPage = () => {
           if (originalAspect < minAspect || originalAspect > maxAspect) {
             toast.error(
               'Image is too extreme to crop properly. Please use an image with aspect ratio between 1:1 and 3:1.',
-              { autoClose: 5000 }
+              { autoClose: 5000 },
             );
             if (fileInputRef.current) {
               fileInputRef.current.value = ''; // Reset file input
@@ -256,20 +264,21 @@ const RecentActivityPostPage = () => {
           }
 
           // Check dimensions before proceeding
-          const { isValid, width, height, requiredSize } = await checkImageDimensions(file);
+          const { isValid, width, height, requiredSize } =
+            await checkImageDimensions(file);
 
           if (!isValid) {
             toast.error(
               `Image must be exactly ${requiredSize} (4:3 aspect ratio). ` +
-              `Your image is ${width}×${height}px.`
+                `Your image is ${width}×${height}px.`,
             );
             return false;
           }
 
           // If validation passes, update the form data
-          setFormData(prev => ({
+          setFormData((prev) => ({
             ...prev,
-            images: [file] // Replace any existing images with the new one
+            images: [file], // Replace any existing images with the new one
           }));
           setPreviewImage(URL.createObjectURL(file));
         };
@@ -333,12 +342,12 @@ const RecentActivityPostPage = () => {
 
       {/* Expanded Post Modal */}
       {expandedItem && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
           <div className="bg-white p-6 rounded-lg w-[90%] md:w-[70%] lg:w-[50%] max-h-[90vh] overflow-y-auto scrollbar-none">
-            <div className="flex justify-between items-center gap-x-[20px] mb-4">
+            <div className="flex justify-between items-start gap-x-[20px] mb-4">
               <h2 className="text-xl font-bold">{expandedItem?.title}</h2>
               <button onClick={closeExpandedModal}>
-                <MdClose className="text-2xl text-gray-600" />
+                <MdClose className="text-2xl text-gray-600 mt-1" />
               </button>
             </div>
             <p
@@ -364,14 +373,17 @@ const RecentActivityPostPage = () => {
             </p>
 
             {Array.isArray(expandedItem?.images) &&
-              expandedItem.images?.length > 0 ? (
+            expandedItem.images?.length > 0 ? (
               expandedItem?.images?.map((image, index) => (
+                
                 <img
-                  key={index}
-                  src={image}
-                  alt={`Post Image ${index + 1}`}
-                  className="w-full object-cover rounded mb-[20px]"
-                />
+  key={index}
+  src={image}
+  alt={`${expandedItem?.title} - ${index + 1}`}
+  loading="lazy"
+  decoding="async"
+  className="w-full max-h-[70vh] object-cover rounded-lg mb-5"
+/>
               ))
             ) : (
               <p className="text-gray-500 italic">No images available</p>
@@ -382,7 +394,7 @@ const RecentActivityPostPage = () => {
 
       {/* Add/Edit Post Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 md:pl-20">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] md:pl-20">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 max-h-[90vh] overflow-y-auto scrollbar-none">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? 'Update Activity' : 'Add New Activity'}
@@ -466,7 +478,9 @@ const RecentActivityPostPage = () => {
                         className="absolute top-0 left-0 w-full h-full object-cover"
                       />
                     </div>
-                    <p className="text-sm text-gray-500 mt-2">16:9 Aspect Ratio Preview</p>
+                    <p className="text-sm text-gray-500 mt-2">
+                      16:9 Aspect Ratio Preview
+                    </p>
                   </div>
                 )}
               </div>
@@ -533,20 +547,24 @@ const RecentActivityPostPage = () => {
       )}
 
       {/* Posts List */}
-      <div className="mt-6 flex flex-wrap justify-center gap-4">
+      <div className="mt-6 flex flex-wrap justify-center lg:justify-start lg:p-4 gap-4">
         {posts && posts?.length > 0 ? (
           posts.map((post, index) => (
             <div
               key={post._id || index}
-              className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
+              className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[40%] xl:w-[30%] shadow-lg hover:shadow-none flex flex-col items-center"
               onClick={() => handleExpandPost(post)}
             >
               {post.images?.length > 0 ? (
+                  <div className="w-full overflow-hidden rounded-lg">
                 <img
                   src={post.images[0]}
-                  alt="Post Image"
-                  className="w-full h-[200px] object-cover rounded"
+                  alt={post.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-56 md:h-64 lg:h-72 object-cover"
                 />
+                </div>
               ) : (
                 <div className="w-full h-[200px] bg-gray-200 rounded flex items-center justify-center">
                   <span className="text-gray-500">No media</span>

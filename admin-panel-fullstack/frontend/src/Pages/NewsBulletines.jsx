@@ -311,13 +311,13 @@ const PostPage = () => {
       </div>
 
       {expandedItem && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
           <div className="bg-white p-6 rounded-lg w-[90%] md:w-[70%] lg:w-[50%] max-h-[90vh] overflow-y-auto scrollbar-none">
             {/* Header */}
-            <div className="flex justify-between items-center gap-x-[20px] mb-4">
+            <div className="flex justify-between items-start gap-x-[20px] mb-4">
               <h2 className="text-xl font-bold">{expandedItem?.title}</h2>
               <button onClick={closeExpandedModal}>
-                <MdClose className="text-2xl text-gray-600" />
+                <MdClose className="text-2xl text-gray-600 mt-1" />
               </button>
             </div>
 
@@ -345,16 +345,16 @@ const PostPage = () => {
                 ? new Date(expandedItem?.date).toLocaleDateString()
                 : 'Date not available'}
             </p>
-
             {/* Images */}
             {Array?.isArray(expandedItem?.images) &&
             expandedItem?.images?.length > 0 ? (
               expandedItem?.images.map((image, index) => (
                 <img
-                  key={index}
-                  src={image}
+                  src={image.url}
                   alt={`Post Image ${index + 1}`}
-                  className="w-full object-cover rounded mb-[20px]"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-auto max-h-[80vh] rounded-xl shadow-md object-contain"
                 />
               ))
             ) : (
@@ -365,7 +365,7 @@ const PostPage = () => {
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 md:pl-20">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] md:pl-20">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-1/2 max-h-[90vh] overflow-y-auto scrollbar-none">
             <h2 className="text-xl font-bold mb-4">
               {isUpdateMode ? 'Update News' : 'Add New News'}
@@ -525,23 +525,28 @@ const PostPage = () => {
       )}
 
       {/* rendering all posts */}
-      <div className="mt-6 flex flex-wrap justify-center gap-4">
+      <div className="mt-6 flex flex-wrap justify-center lg:justify-start lg:p-4 gap-4">
         {bulletines && bulletines?.length > 0 ? (
           bulletines?.map((bulletin, index) => (
             <div
               key={bulletin?._id || index}
-              className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] hover:shadow-lg flex flex-col items-center"
+              className="cursor-pointer border p-4 rounded w-[90%] small-range:w-[80%] small-max:w-[70%] md:w-[60%] lg:w-[30%] shadow-lg hover:shadow-none flex flex-col items-center"
               onClick={() => handleExpandPost(bulletin)}
             >
-              <img
-                src={
-                  Array.isArray(bulletin?.images) && bulletin?.images.length > 0
-                    ? bulletin.images[0]?.url
-                    : ''
-                }
-                alt="Post Image"
-                className="w-full h-[200px] object-cover rounded"
-              />
+              <div className="w-full overflow-hidden rounded-lg">
+                <img
+                  src={
+                    Array.isArray(bulletin?.images) &&
+                    bulletin?.images.length > 0
+                      ? bulletin.images[0]?.url
+                      : ''
+                  }
+                  alt={bulletin?.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-56 md:h-64 lg:h-72 object-cover"
+                />
+              </div>
               <div className="flex flex-col items-start w-full">
                 {/* Date */}
                 <div className="flex items-center justify-start gap-x-1 mt-2 w-full">

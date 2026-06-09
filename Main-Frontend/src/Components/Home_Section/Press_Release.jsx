@@ -6,6 +6,7 @@ import { getBulletine } from '../../Reducers/bulletinSlice';
 import DOMPurify from 'dompurify';
 import { availableMonths } from '@/utils/availableMonths';
 import hardcodedBulletins from '../../defaultData/newsbulletine.json';
+import ShareButton from '../common_components/ShareButton';
 
 const Press_Release = React.memo(() => {
   const location = useLocation();
@@ -16,17 +17,16 @@ const Press_Release = React.memo(() => {
 
   // Fetch posts and status from the Redux store
   const { bulletines, status } = useSelector((state) => state.bulletines);
-const finalBulletines = useMemo(() => {
-  if (bulletines && bulletines.length > 0) return bulletines;
-  return hardcodedBulletins;
-}, [bulletines]);
+  const finalBulletines = useMemo(() => {
+    if (bulletines && bulletines.length > 0) return bulletines;
+    return hardcodedBulletins;
+  }, [bulletines]);
   // Sorting order state
   const [sortOrder] = useState('desc'); // Default: Newest first
 
   // Fetch posts when the component loads
   useEffect(() => {
     if (status === 'idle') {
-    
       dispatch(getBulletine());
     }
   }, [status, dispatch]);
@@ -65,7 +65,24 @@ const finalBulletines = useMemo(() => {
     );
     return Array.from(years).sort((a, b) => b - a); // Sort descending
   }, [finalBulletines]);
+  const availableFilteredMonths = useMemo(() => {
+    const sourcePosts =
+      status === 'succeeded' && bulletines?.length > 0
+        ? bulletines
+        : hardcodedBulletins;
 
+    const months = new Set();
+
+    sourcePosts.forEach((post) => {
+      const date = new Date(post.date);
+
+      if (!selectedYear || date.getFullYear() === parseInt(selectedYear)) {
+        months.add(availableMonths[date.getMonth()]);
+      }
+    });
+
+    return availableMonths.filter((month) => months.has(month));
+  }, [bulletines, status, selectedYear]);
   // **Filtering logic**
   const filteredPosts = useMemo(() => {
     return finalBulletines.filter((bulletin) => {
@@ -113,6 +130,11 @@ const finalBulletines = useMemo(() => {
   const handleSeeMore = () => {
     navigate('/press-release');
   };
+  const title = 'Support Braj Seva – Be one in a million';
+  const baseURL =
+    window.location.origin === 'http://localhost:5173'
+      ? 'https://sobf.in'
+      : window.location.origin;
   return (
     <div
       className={`flex flex-col items-center mb-[30px] ${isHomePage ? 'mt-[30px]' : 'mt-[120px]'}`}
@@ -135,7 +157,6 @@ const finalBulletines = useMemo(() => {
       {/* Filter and Sort Controls */}
 
       <div className="flex  gap-2 small-range:gap-4 mb-5 items-center">
-        {/* Year Filter (Scrollable, Navy Blue) */}
         <select
           className="border-2 border-none  border-[rgb(30,58,138)] bg-[rgb(221,231,253)] text-[rgb(23,37,84)] 
             font-bold md:px-4 px-2  py-2 rounded-md shadow-md cursor-pointer 
@@ -159,7 +180,6 @@ const finalBulletines = useMemo(() => {
           ))}
         </select>
 
-        {/* Month Filter (Scrollable, Forest Green) */}
         <select
           className="border-2 border-none border-[rgb(22,101,52)] bg-[rgb(221,242,228)] text-[rgb(16,63,32)] 
             font-bold md:px-4  px-2 py-2 rounded-md shadow-md cursor-pointer 
@@ -172,7 +192,7 @@ const finalBulletines = useMemo(() => {
           <option value="" className="font-bold">
             Filter by Month
           </option>
-          {availableMonths?.map((month) => (
+          {availableFilteredMonths?.map((month) => (
             <option
               key={month}
               value={month}
@@ -211,7 +231,9 @@ const finalBulletines = useMemo(() => {
                     : 'https://via.placeholder.com/600'
                 }
                 alt={news?.title}
-                className="w-full h-full md:h-[300px] rounded-lg object-cover"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-56 md:h-64 lg:h-72 rounded-lg object-cover"
               />
               <div className="px-[10px]">
                 <div className="flex items-center gap-x-[5px] mt-[15px]">
@@ -236,15 +258,26 @@ const finalBulletines = useMemo(() => {
                     ),
                   }}
                 ></p>
-                <Link to={`/press-release/${news?._id}`}>
-                  <button
-                    aria-label="View Details"
-                    className="my-[20px] bg-logoYellow text-white font-semibold text-[14px] px-[10px] py-[5px] rounded-2xl border-none transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-lg"
-                    onClick={() => window.scrollTo(0, 0)}
-                  >
-                    View Details
-                  </button>
-                </Link>
+                <div className="flex gap-5">
+                  <Link to={`/press-release/${news?._id}`}>
+                    {' '}
+                    <button
+                      aria-label="View Details"
+                      className="my-[20px]  text-white  bg-gradient-to-r from-[#2d335d] to-[#44508f] focus:outline-none focus:ring-2 focus:ring-offset-2 hover:scale-105  font-semibold text-[14px] px-[12px] py-[6px] rounded-full transition-all duration-300 ease-in-out"
+                      onClick={() => window.scrollTo(0, 0)}
+                    >
+                      View Details
+                    </button>
+                  </Link>
+
+                  <div onClick={(e) => e.stopPropagation()} className="mt-5">
+                    <ShareButton
+                      title={title}
+                      url={`${baseURL}/press-release/${news?._id}`}
+                      className="px-3 py-[6px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-[#2d335d] to-[#44508f] text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 "
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           ))}

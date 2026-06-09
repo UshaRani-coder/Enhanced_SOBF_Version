@@ -37,7 +37,7 @@ const RecentActivityDetails = () => {
   if (!post) {
     return (
       <div className="flex flex-col items-center w-full mt-[150px] min-h-screen p-4">
-        <p className="text-lg text-red-500">News not found!</p>
+        <p className="text-lg text-red-500">Activities not found!</p>
       </div>
     );
   }
@@ -66,9 +66,8 @@ const RecentActivityDetails = () => {
       : window.location.origin;
 
   return (
-    
     <div className="flex flex-col items-center min-h-screen w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
-      <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:mb-[30px]">
+      <h1 className="text-xl md:text-3xl font-bold text-center my-4 md:my-[30px]">
         {activity.title}
       </h1>
       <div className="flex flex-col items-center w-full">
@@ -81,9 +80,9 @@ const RecentActivityDetails = () => {
         >
           {activity?.images && activity?.images?.length > 0 ? (
             activity?.images?.length === 1 ? (
-              // Single Image 
-              <div className="w-full h-[80vh] overflow-hidden mb-4">
-                
+              // Single Image
+
+              <div className="w-full aspect-[16/9] overflow-hidden mb-4">
                 <img
                   src={activity?.images[0]}
                   alt={activity?.title}
@@ -93,7 +92,7 @@ const RecentActivityDetails = () => {
                 />
               </div>
             ) : (
-              // Multiple Images 
+              // Multiple Images
               activity?.images?.map((image, index) => (
                 <div
                   key={index}
@@ -129,7 +128,7 @@ const RecentActivityDetails = () => {
           >
             {activity?.videos && activity?.videos?.length > 0 ? (
               activity?.videos?.length === 1 ? (
-                // Single Video 
+                // Single Video
                 <div className="w-full h-[80vh] overflow-hidden">
                   <video
                     controls
@@ -138,7 +137,7 @@ const RecentActivityDetails = () => {
                   />
                 </div>
               ) : (
-                // Multiple Videos 
+                // Multiple Videos
                 activity?.videos?.map((video, index) => (
                   <div
                     key={index}
@@ -157,7 +156,7 @@ const RecentActivityDetails = () => {
         )}
 
         <div className="w-full flex flex-col justify-start pt-0">
-          <div className="text-sm text-gray-500 flex items-center gap-x-[5px] mt-4">
+          <div className="text-sm text-gray-500 flex items-center gap-x-[5px] ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
@@ -168,7 +167,7 @@ const RecentActivityDetails = () => {
             {formatDate(activity.date)}
           </div>
           <p
-            className="md:text-lg text-gray-700"
+            className="md:text-lg text-gray-700 mt-2"
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(activity.description).replace(
                 /<a /g,
@@ -176,22 +175,20 @@ const RecentActivityDetails = () => {
               ),
             }}
           ></p>
-          <div className="flex flex-col small-max:flex-row small-max:gap-5 items-center">
+
+          <div className="flex flex-row items-center gap-3 sm:gap-5 mt-2">
             <button
-              className="px-4 py-2 font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all mt-4"
+              className="px-4 py-2 font-semibold text-xs sm:text-sm md:text-base text-white rounded-xl shadow-md bg-gradient-to-r from-[#2d335d] to-[#44508f] hover:scale-105 transition-all duration-300"
               onClick={handleBack}
             >
               Back to Recent Activities
             </button>
 
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="mt-4 small-max:mt-7"
-            >
+            <div onClick={(e) => e.stopPropagation()} className="mt-3">
               <ShareButton
                 title={title}
                 url={`${baseURL}/recent-activities/${activity?._id}`}
-                className="px-3 py-[7px] md:py-[9px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-indigo-400 to-indigo-600 text-white hover:from-indigo-500 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="px-3 py-[7px] md:py-[9px] border-0 hover:scale-105 text-xs md:text-sm mb-3 inline-block font-bold  shadow-md bg-gradient-to-r from-[#2d335d] to-[#44508f] text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 "
               />
             </div>
           </div>

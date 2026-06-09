@@ -23,7 +23,6 @@ const Gallery = () => {
   useEffect(() => {
     dispatch(getGalleryImages()); // Fetch gallery images when component mounts
   }, [dispatch]);
-  
 
   const handleFilterChange = (category) => {
     setSelectedCategory(category);
@@ -31,21 +30,23 @@ const Gallery = () => {
 
   // Extract unique tags
   const tags = [
-  'all',
-  ...Array.from(
-    new Set(
-      gallery
-        .map((image) => image?.tag?.trim().toLowerCase())
-        .filter((tag) => tag && tag !== 'all')
-    )
-  ),
-];
+    'all',
+    ...Array.from(
+      new Set(
+        gallery
+          .map((image) => image?.tag?.trim().toLowerCase())
+          .filter((tag) => tag && tag !== 'all'),
+      ),
+    ),
+  ];
 
   // Filter gallery images based on selected category
   const filteredImages =
     selectedCategory === 'all'
       ? gallery
-      : gallery.filter((image) => image?.tag?.trim().toLowerCase() === selectedCategory);
+      : gallery.filter(
+          (image) => image?.tag?.trim().toLowerCase() === selectedCategory,
+        );
 
   const openModal = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -57,20 +58,23 @@ const Gallery = () => {
 
   return (
     <div className="pt-[90px] md:pt-[100px] lg:pt-[120px] pb-8">
+     
       <img
         src={aboutus}
         alt="Gallery"
-        className="w-full h-[200px] md:h-[300px] lg:h-[450px] object-cover"
+        loading="eager"
+        decoding="async"
+        className="w-full h-[180px] sm:h-[250px] md:h-[350px] lg:h-[450px] object-cover"
       />
       <div className="container mx-auto px-1 small-max:px-4">
         <div className="w-full mb-6 text-center">
-          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-4 p-5 text-logoYellow">
+          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold  p-5 text-logoYellow">
             Gallery
             <hr className="mt-1 border-light-lavender border-[1px]" />
           </h1>
 
           {/* Filter Buttons */}
-          <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4">
+          <div className="flex flex-wrap justify-start m-4 gap-2 md:gap-4 mb-0">
             {tags.map((category) => (
               <button
                 key={category}
@@ -91,7 +95,7 @@ const Gallery = () => {
         {status === 'loading' ? (
           <p className="text-center text-gray-500">Loading...</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 px-4 lg:px-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 px-4 ">
             {filteredImages?.length > 0 ? (
               filteredImages?.map((image, index) => (
                 <div
@@ -102,7 +106,9 @@ const Gallery = () => {
                   <img
                     src={image.image}
                     alt={`Shot ${index + 1}`}
-                    className="w-full h-[300px] object-cover rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-[220px] sm:h-[260px] md:h-[300px] object-cover rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out rounded-lg">
                     <p className="text-white text-center font-bold px-4">
@@ -127,7 +133,9 @@ const Gallery = () => {
             <img
               src={selectedImage}
               alt="Full size"
-              className="w-[100%] max-h-[90vh] object-contain "
+              loading="eager"
+              decoding="async"
+              className="w-full max-h-[90vh] object-contain"
             />
             <button
               onClick={() => {

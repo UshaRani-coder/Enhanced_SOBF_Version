@@ -88,7 +88,7 @@ const Video = () => {
         className="flex flex-col items-center justify-center"
       >
         <div
-          className={`flex flex-col items-center justify-center md:flex-row flex-wrap gap-4 w-full mt-6 ${location.pathname === '/videos'
+          className={`flex flex-col items-center justify-center md:flex-row lg:justify-start flex-wrap gap-4 w-full mt-6 ${location.pathname === '/videos'
               ? 'mb-[100px]  md:gap-6 md:px-[20px]'
               : ''
             }`}
@@ -101,7 +101,7 @@ const Video = () => {
               return (
                 <div
                   key={video?._id}
-                  className="border p-2 small-range:mx-2 md:mx-0 rounded w-[95%] small-range:w-[90%] md:w-[42.5%] lg:w-[32%] hover:shadow-lg transition-shadow duration-300"
+                  className="border p-2 small-range:mx-2 md:mx-0 rounded w-[95%] small-range:w-[90%] md:w-[42.5%] lg:w-[30%] hover:shadow-lg transition-shadow duration-300"
                 >
                   {videoId ? (
                     <div className="relative group">

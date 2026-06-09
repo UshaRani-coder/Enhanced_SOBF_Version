@@ -112,7 +112,6 @@ const OurService = () => {
       resetForm();
       setIsModalOpen(false);
 
-      
       await dispatch(getServices());
     } catch (err) {
       toast.error(err?.message || 'Update failed');
@@ -132,7 +131,6 @@ const OurService = () => {
 
       toast.success('Deleted successfully');
 
-      
       await dispatch(getServices());
     } catch (err) {
       toast.error(err?.message || 'Delete failed');
@@ -183,7 +181,6 @@ const OurService = () => {
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    
 
     if (name === 'logo') {
       if (files[0]) {
@@ -246,7 +243,7 @@ const OurService = () => {
     });
   };
   const truncateDescription = (description) => {
-    const maxLength = 60; // Set your desired truncation length
+    const maxLength = 60;
     return description?.length > maxLength
       ? `${description.slice(0, maxLength)}...`
       : description;
@@ -271,7 +268,7 @@ const OurService = () => {
       </div>
 
       {expandedItem && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
           <div className="bg-white p-6 rounded-lg w-[90%] md:w-[70%] lg:w-[50%] max-h-[90vh] overflow-y-auto scrollbar-none">
             {/* Header */}
             <div className="flex justify-between items-center gap-x-[20px] mb-4">
@@ -309,7 +306,9 @@ const OurService = () => {
                   key={index}
                   src={image}
                   alt={`Post Image ${index + 1}`}
-                  className="w-full  object-cover rounded mb-[20px]"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-auto rounded-lg mb-5"
                 />
               ))
             ) : (
@@ -443,6 +442,7 @@ const OurService = () => {
                         src={URL.createObjectURL(image)}
                         alt={`Preview ${index + 1}`}
                         className="h-14 w-14 object-cover rounded"
+                        loading="lazy"
                       />
                     ))}
                 </div>
@@ -504,7 +504,7 @@ const OurService = () => {
           services.map((post) => (
             <div
               key={post._id}
-              className="cursor-pointer border lg:flex-1 rounded-lg p-4 shadow hover:shadow-lg transition small-max:w-[90%] md:w-[75%] lg:w-full"
+              className="cursor-pointer border lg:flex-1 rounded-lg p-4 shadow-lg hover:shadow-xl transition w-full small-max:w-[90%] md:w-[75%] lg:w-full"
               onClick={() => handleExpandPost(post)}
             >
               <img

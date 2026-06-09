@@ -35,9 +35,10 @@ const Vision = () => {
           backgroundRepeat: 'no-repeat',
         }}
       ></div>
+      
 
       {/* 1st Card */}
-      <div className="lg:mt-10 flex gap-4 lg:flex-row flex-col flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
+      <div className="lg:mt-10 flex gap-4 lg:flex-row flex-col  justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
         <div className="relative w-[99%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none ">
           {' '}
           <div className="flex flex-col items-center md:flex-row md:justify-center md:items-stretch gap-4  ">

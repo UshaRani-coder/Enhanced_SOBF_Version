@@ -400,11 +400,13 @@ const UpcomingEvents = () => {
                   className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer flex flex-col h-full md:min-h-[520px]"
                   onClick={() => handleCardClick(event)}
                 >
-                  <div className="relative w-full h-72">
+                  <div className="relative w-full h-56 md:h-64 lg:h-72 overflow-hidden">
                     <img
                       src={event.image}
                       alt={event.title}
-                      className="w-full h-full object-cover rounded-t-xl"
+                      loading={index < 2 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      className="w-full h-full object-cover rounded-t-xl transition-transform duration-500 hover:scale-105"
                     />
                   </div>
 

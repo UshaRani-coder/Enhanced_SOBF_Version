@@ -255,8 +255,6 @@ const UpcomingEvents = () => {
     });
   };
 
-  
-
   const getStatusColor = (status) => {
     switch (status) {
       case 'upcoming':
@@ -449,22 +447,23 @@ const UpcomingEvents = () => {
         </div>
       )}
 
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 px-4">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 px-4">
         {events && events?.length > 0 ? (
           events?.map((post) => {
-            
             return (
               <div
                 key={post._id}
                 className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col z-0 bg-white"
               >
                 {/* Image Section */}
-                <div className="w-full h-48 sm:h-56 md:h-64 lg:h-72 relative">
+                <div className="w-full h-48 sm:h-56 md:h-64 lg:h-72 relative overflow-hidden">
                   {post?.image ? (
                     <img
-                      src={post?.image}
+                      src={post.image}
                       alt="Event Image"
-                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src =
@@ -481,9 +480,8 @@ const UpcomingEvents = () => {
                 {/* Content Section */}
                 <div className="p-4 flex flex-col flex-grow">
                   <div className="flex flex-wrap items-center gap-2 mb-2 text-sm text-gray-600">
-                   
                     <div className="flex items-center">
-                      <MdAccessTimeFilled className="mr-1 text-[#1890CE]" />
+                      <MdAccessTimeFilled className="mr-1 w-4 h-4 text-[#1890CE]" />
                       <span>
                         {formatDateAndTime(
                           post.date,

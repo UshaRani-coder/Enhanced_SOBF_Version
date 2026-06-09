@@ -313,12 +313,12 @@ const HeroBanner = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap justify-center gap-4 lg:gap-10">
+      <div className="mt-6 flex flex-wrap justify-center lg:justify-start gap-4 lg:p-4 lg:gap-10">
         {heroBanner && heroBanner?.length > 0 ? (
           heroBanner?.map((post) => (
             <div
               key={post._id}
-              className="border p-4 rounded w-[90%] small-max:w-[80%] md:w-[70%] lg:w-[40%] hover:shadow-lg flex flex-col items-center"
+              className="border p-4 rounded w-[90%] small-max:w-[80%] md:w-[70%] lg:w-[40%] shadow-lg hover:shadow-none flex flex-col items-center"
             >
               <div className="relative w-full pb-[56.25%] overflow-hidden">
                 <img

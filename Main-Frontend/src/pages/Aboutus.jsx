@@ -47,10 +47,10 @@ const AboutUs = () => {
       case 'vision':
         return (
           <p className="text-gray-600 text-center small-max:text-left">
-            Our vision is to uplift Vrindavan and Braj&apos;s poorest by ensuring
-            nutritious food, education, skill training, clean surroundings, and
-            healthcare, fostering a self-sustaining, empowered, and
-            compassionate community.
+            Our vision is to uplift Vrindavan and Braj&apos;s poorest by
+            ensuring nutritious food, education, skill training, clean
+            surroundings, and healthcare, fostering a self-sustaining,
+            empowered, and compassionate community.
           </p>
         );
       case 'objective':
@@ -72,15 +72,14 @@ const AboutUs = () => {
   return (
     <div className="pt-[90px] md:pt-[100px] lg:pt-[120px]">
       {/* Hero Banner */}
-      <div
-        className="w-full h-[200px] md:h-[300px] lg:h-[450px] object-cover"
-        style={{
-          backgroundImage: `url(${aboutus})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      ></div>
+
+      <img
+        src={aboutus}
+        alt="Mission"
+        loading="eager"
+        decoding="async"
+        className="w-full h-[180px] sm:h-[250px] md:h-[350px] lg:h-[450px] object-cover"
+      />
 
       {/* Mission/Vision/Objective Toggler */}
       <div className="w-full flex justify-center items-center flex-col lg:flex-row gap-1 lg:gap-5 mx-auto py-8 px-4">
@@ -97,30 +96,33 @@ const AboutUs = () => {
           <div className="flex">
             <button
               aria-label="Our Mission"
-              className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm lg:text-lg ${activeTab === 'mission'
-                ? 'text-white bg-peacock-green-hover'
-                : 'bg-light-lavender text-gray-700'
-                }`}
+              className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tl-lg text-sm lg:text-lg ${
+                activeTab === 'mission'
+                  ? 'text-white bg-peacock-green-hover'
+                  : 'bg-light-lavender text-gray-700'
+              }`}
               onClick={() => setActiveTab('mission')}
             >
               Our Mission
             </button>
             <button
               aria-label="Our Vision"
-              className={`poppins-medium w-[33.3%] px-4 py-3 text-sm lg:text-lg ${activeTab === 'vision'
-                ? 'text-white hover:bg bg-peacock-green-hover'
-                : 'bg-light-lavender text-gray-700'
-                }`}
+              className={`poppins-medium w-[33.3%] px-4 py-3 text-sm lg:text-lg ${
+                activeTab === 'vision'
+                  ? 'text-white hover:bg bg-peacock-green-hover'
+                  : 'bg-light-lavender text-gray-700'
+              }`}
               onClick={() => setActiveTab('vision')}
             >
               Our Vision
             </button>
             <button
               aria-label="Our Objective"
-              className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm lg:text-lg ${activeTab === 'objective'
-                ? 'text-white bg-peacock-green-hover'
-                : 'bg-light-lavender text-gray-700'
-                }`}
+              className={`poppins-medium w-[33.3%] px-4 py-3 rounded-tr-lg text-sm lg:text-lg ${
+                activeTab === 'objective'
+                  ? 'text-white bg-peacock-green-hover'
+                  : 'bg-light-lavender text-gray-700'
+              }`}
               onClick={() => setActiveTab('objective')}
             >
               Our Objective
@@ -164,19 +166,27 @@ const AboutUs = () => {
           </p>
         </div>
         <div className="w-[99%] lg:w-[50%]">
-          <img src={ourStory} className="rounded-xl shadow-xl" alt="Our Story" />
+          <img
+            src={ourStory}
+            alt="Our Story"
+            loading="lazy"
+            decoding="async"
+            className="w-full rounded-xl shadow-xl"
+          />
         </div>
       </div>
       <DottedSeparator />
       {/* Vision Section */}
-      <div className="lg:mt-10 flex gap-4 lg:flex-row flex-col flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
+      <div className="lg:mt-10 flex gap-4 lg:flex-row  flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0">
         <div className="relative w-[99%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none">
           <div className="flex flex-col items-center md:flex-row md:justify-center md:items-stretch gap-4">
             <div className="bg-white shadow-[8px_8px_15px_rgba(0,0,0,0.3)] rounded-lg p-2">
               <img
                 src={VisionImg}
                 alt="Vision 1"
-                className="w-full md:w-[350px] lg:w-[200px] h-full rounded-lg shadow-lg"
+                loading="lazy"
+                decoding="async"
+                className="w-full md:w-[350px] lg:w-[200px] h-full rounded-lg shadow-lg object-cover"
               />
             </div>
             <div className="bg-white shadow-[8px_8px_15px_rgba(0,0,0,0.3)] rounded-lg p-2">
@@ -196,7 +206,7 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="w-[99%] lg:w-[50%] order-2 lg:order-none">
-          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-2 text-logoYellow flex lg:justify-normal justify-center items-center lg:items-start">
+          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-2 text-logoYellow  lg:justify-normal justify-center items-center lg:items-start">
             Our Vision
           </h1>
           <hr className="mt-1 border-light-lavender border-[1px]" />
@@ -211,11 +221,11 @@ const AboutUs = () => {
           </p>
         </div>
       </div>
-
+      <DottedSeparator />
       {/* Mission Section */}
-      <div className="flex gap-4 lg:flex-row flex-col flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0 lg:mt-10">
+      <div className="flex gap-4 lg:flex-row  flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0 lg:mt-10">
         <div className="w-[99%] lg:w-[50%] order-2 lg:order-none">
-          <h1 className="text-heading3 lg:text-heading2 font-bold mb-2 text-logo-blue flex lg:justify-normal justify-center items-center lg:items-start">
+          <h1 className="text-heading3  lg:text-heading2 font-bold mb-2 text-logo-blue flex lg:justify-normal justify-center items-center lg:items-start">
             Our Mission
           </h1>
           <hr className="mt-1 border-light-lavender border-[1px]" />
@@ -258,7 +268,7 @@ const AboutUs = () => {
       </div>
       <DottedSeparator />
       {/* Objective Section */}
-      <div className="mb-20 flex gap-4 lg:flex-row flex-col flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0 lg:mt-10">
+      <div className="mb-20 flex gap-4 lg:flex-row  flex-col-reverse justify-center items-center lg:px-24 py-6 px-4 lg:p-0 lg:mt-10">
         <div className="relative w-[99%] lg:w-[50%] p-0 lg:p-6 order-1 lg:order-none">
           <div className="flex flex-col items-center md:flex-row md:justify-center md:items-stretch gap-4">
             <div className="bg-white shadow-[8px_8px_15px_rgba(0,0,0,0.3)] rounded-lg p-2">
@@ -285,7 +295,7 @@ const AboutUs = () => {
           </div>
         </div>
         <div className="w-[99%] lg:w-[50%] order-2 lg:order-none">
-          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-2 text-logoYellow flex lg:justify-normal justify-center items-center lg:items-start">
+          <h1 className="inline-block text-heading3 lg:text-heading2 font-bold mb-2 text-logoYellow  lg:justify-normal justify-center items-center lg:items-start">
             Our Objective
           </h1>
           <hr className="mt-1 border-light-lavender border-[1px]" />
@@ -312,11 +322,14 @@ const AboutUs = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {images.map((image, index) => (
             <div key={index} className="w-full hover:opacity-90">
+            
               <img
-                src={image}
-                alt={`Shot ${index + 1}`}
-                className="w-full h-auto transform transition-transform duration-500 ease-in-out hover:scale-105 rounded-lg"
-              />
+  src={image}
+  alt={`Shot ${index + 1}`}
+  loading="lazy"
+  decoding="async"
+  className="w-full h-[250px] md:h-[300px] object-cover rounded-lg transform transition-transform duration-500 ease-in-out hover:scale-105"
+/>
             </div>
           ))}
         </div>

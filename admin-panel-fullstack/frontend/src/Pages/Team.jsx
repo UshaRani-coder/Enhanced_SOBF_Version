@@ -369,12 +369,12 @@ const Team = () => {
         </div>
       )}
 
-      <div className="mt-6 flex flex-col items-center md:items-stretch p-6 small-max:p-0 md:p-6 justify-center md:flex-row md:flex-wrap md:justify-center  w-[100%] md:gap-x-[40px] gap-y-[45px] md:gap-y-[60px] lg:gap-y-[40px] lg:gap-x-[100px]">
+      <div className="mt-6 flex flex-col items-center md:items-stretch p-6 small-max:p-0 md:p-6 justify-center md:flex-row md:flex-wrap md:justify-start w-[100%] md:gap-x-[40px] gap-y-[45px] md:gap-y-[60px] lg:gap-y-[40px] lg:gap-x-[100px]">
         {teams && teams?.length > 0 ? (
           teams?.map((member, index) => (
             <div
               key={member._id || index}
-              className="flex items-center flex-1 flex-col gap-y-[5px] md:gap-y-[10px]  w-[300px]"
+              className="flex items-center  flex-1 flex-col gap-y-[5px] md:gap-y-[10px]  w-[300px]"
             >
               <div
                 className="w-[200px] h-[200px] rounded-full"
