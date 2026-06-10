@@ -229,7 +229,9 @@ const EventDetails = () => {
 
             <button
               className="px-5 py-2 bg-logo-blue text-white font-medium rounded-lg hover:bg-logoYellow transition-all"
-              onClick={() => navigate('/')}
+              onClick={() => {
+                navigate('/#events');
+              }}
             >
               Back to Events
             </button>

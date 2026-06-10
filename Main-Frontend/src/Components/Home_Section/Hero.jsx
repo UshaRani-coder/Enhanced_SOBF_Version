@@ -38,7 +38,10 @@ const Hero = () => {
   }
 
   return (
-    <div id='next-section' className="relative  flex items-center bg-gradient-to-br from-[#0b1220] via-[#0f172a] to-[#0b1220] overflow-hidden px-4 sm:px-6 lg:px-16 py-10">
+    <div
+      id="next-section"
+      className="relative  flex items-center bg-gradient-to-br from-[#0b1220] via-[#0f172a] to-[#0b1220] overflow-hidden px-4 sm:px-6 lg:px-16 py-10"
+    >
       {/* background glow */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600 blur-3xl rounded-full"></div>
@@ -68,7 +71,12 @@ const Hero = () => {
           </p>
 
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-            <Link to="/donate-us">
+            <Link
+              to="/donate-us"
+              onClick={() => {
+                sessionStorage.setItem('home-scroll', window.scrollY);
+              }}
+            >
               <button className="w-full sm:w-auto px-6 py-3 rounded-full bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition shadow-md">
                 Donate Now
               </button>

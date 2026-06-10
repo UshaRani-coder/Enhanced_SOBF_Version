@@ -10,6 +10,8 @@ import Testimonials from './Testimonials.jsx';
 import Partners from './Partners.jsx';
 import SidePopup from '../common_components/sidePopup.jsx';
 const HomePage = () => {
+  
+   
   return (
     <div className="flex flex-col items-center ">
       <Hero />

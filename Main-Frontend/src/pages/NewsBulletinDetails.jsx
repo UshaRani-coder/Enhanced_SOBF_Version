@@ -57,11 +57,7 @@ const NewsBulletinDetails = () => {
   };
 
   const handleBack = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-    navigate('/press-release', { state: { scrollTo: 'pressRelease' } });
+    navigate('/press-release');
   };
   const title = 'Support Braj Seva – Be one in a million';
   const baseURL =

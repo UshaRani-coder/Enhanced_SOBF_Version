@@ -23,7 +23,7 @@ const Press_Release = React.memo(() => {
   }, [bulletines]);
   // Sorting order state
   const [sortOrder] = useState('desc'); // Default: Newest first
-
+ 
   // Fetch posts when the component loads
   useEffect(() => {
     if (status === 'idle') {
@@ -259,12 +259,17 @@ const Press_Release = React.memo(() => {
                   }}
                 ></p>
                 <div className="flex gap-5">
-                  <Link to={`/press-release/${news?._id}`}>
+                  <Link
+                    to={`/press-release/${news?._id}`}
+                    onClick={() => {
+                      sessionStorage.setItem('home-scroll', window.scrollY);
+                    }}
+                  >
                     {' '}
                     <button
                       aria-label="View Details"
                       className="my-[20px]  text-white  bg-gradient-to-r from-[#2d335d] to-[#44508f] focus:outline-none focus:ring-2 focus:ring-offset-2 hover:scale-105  font-semibold text-[14px] px-[12px] py-[6px] rounded-full transition-all duration-300 ease-in-out"
-                      onClick={() => window.scrollTo(0, 0)}
+                      // onClick={() => window.scrollTo(0, 0)}
                     >
                       View Details
                     </button>

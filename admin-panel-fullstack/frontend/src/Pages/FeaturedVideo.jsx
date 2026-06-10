@@ -189,7 +189,7 @@ const FeaturedVideo = () => {
       )}
 
       {/* Video List */}
-      <div className="mt-12 flex flex-wrap justify-center lg:justify-start lg:p-4 gap-10">
+      <div className="mt-8 flex flex-wrap justify-center lg:justify-start lg:p-4 gap-10">
         {featuredVideo && featuredVideo?.length > 0 ? (
           featuredVideo?.map((video, index) => {
             // Safely extract video ID
@@ -197,7 +197,7 @@ const FeaturedVideo = () => {
             return (
               <div
                 key={video?._id || index}
-                className="border  rounded w-[95%]  md:w-64 lg:w-[300px]  transition-shadow shadow-lg hover:shadow-xl duration-300 flex-wrap flex flex-col items-center "
+                className="border  rounded w-[95%]  md:w-64 lg:w-80  transition-shadow shadow-lg hover:shadow-xl duration-300 flex-wrap flex flex-col items-center "
               >
                 {videoId ? (
                   <iframe

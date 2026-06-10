@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import Hero from '../Components/Home_Section/Hero.jsx';
 import HeroVideo from '../Components/Home_Section/HeroVideo.jsx';
 import Impacts from '../Components/Home_Section/Impacts.jsx';
@@ -16,9 +16,7 @@ import SidePopup from '../Components/common_components/sidePopup.jsx';
 import UpcomingEvents from '../Components/Home_Section/UpcomingEvents.jsx';
 import VolunteerForm from './Volunteer.jsx';
 import DonationOptions from './DonateFor.jsx';
-import {
-  WavySeparator,
-} from '../utils/Seperator.jsx';
+import { WavySeparator } from '../utils/Seperator.jsx';
 
 const HomePage = () => {
   const [showVolunteerForm, setShowVolunteerForm] = useState(false);
@@ -31,6 +29,36 @@ const HomePage = () => {
 
     return () => clearTimeout(timer);
   }, []); // Empty dependency array means this runs only once on mount
+
+  // scroll restoration that helps to go back to particular component when clicked back
+  useEffect(() => {
+    const savedScroll = sessionStorage.getItem('home-scroll');
+
+    if (savedScroll !== null) {
+      const scrollY = parseInt(savedScroll);
+
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          window.scrollTo({
+            top: scrollY,
+            behavior: 'auto',
+          });
+
+          sessionStorage.removeItem('home-scroll');
+        }, 0);
+      });
+    }
+  }, []);
+  useLayoutEffect(() => {
+  const id = window.location.hash.replace('#', '');
+  const el = document.getElementById(id);
+
+  if (el) {
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: 'auto' });
+    });
+  }
+}, []);
 
   return (
     <div className="flex flex-col items-center overflow-auto">
@@ -71,17 +99,15 @@ const HomePage = () => {
 
       <SidePopup />
       <Impacts />
-     
-      {/* <WavySeparator /> */}
       <UpcomingEvents />
       <DonationOptions />
       <WavySeparator />
       <Programms />
       <About />
       <Video />
-       <WavySeparator />
+      <WavySeparator />
       <Services />
-       <WavySeparator />
+      <WavySeparator />
       <Recent_Activities />
       <Team />
       <Partners />

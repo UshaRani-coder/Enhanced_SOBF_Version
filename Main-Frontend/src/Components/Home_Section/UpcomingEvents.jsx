@@ -235,10 +235,11 @@ const UpcomingEvents = () => {
     ),
   ].sort();
 
-  const handleCardClick = (event) => {
-    navigate(`/events/${event._id}`);
-  };
-
+ 
+const handleCardClick = (event) => {
+  sessionStorage.setItem('home-scroll', window.scrollY);
+  navigate(`/events/${event._id}`);
+};
   const capitalize = (str) => {
     if (!str) return '';
     return str

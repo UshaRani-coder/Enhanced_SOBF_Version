@@ -51,13 +51,10 @@ const RecentActivityDetails = () => {
     });
   };
 
+ 
   const handleBack = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-    navigate('/recent-activities', { state: { scrollTo: 'pressRelease' } });
-  };
+  navigate('/recent-activities');
+};
 
   const title = 'Support Braj Seva – Be one in a million';
   const baseURL =

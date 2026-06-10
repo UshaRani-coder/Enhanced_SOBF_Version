@@ -28,18 +28,27 @@ const Recent_Activities = React.memo(() => {
       year: 'numeric',
     });
   }, []);
+  // scroll restoration
+  useEffect(() => {
+    const savedScroll = sessionStorage.getItem('recent-activities-scroll');
 
+    if (savedScroll !== null) {
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: Number(savedScroll),
+          behavior: 'auto',
+        });
+
+        sessionStorage.removeItem('recent-activities-scroll');
+      });
+    }
+  }, []);
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getPosts());
     }
   }, [status, dispatch]);
 
-  useEffect(() => {
-    if (location.pathname === '/recent-activities') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [location.pathname]);
   useEffect(() => {
     setPage(1);
   }, [selectedYear, selectedMonth]);
@@ -53,27 +62,24 @@ const Recent_Activities = React.memo(() => {
     const years = new Set(
       posts.map((post) => new Date(post.date).getFullYear()),
     );
-    return Array.from(years).sort((a, b) => b - a); 
+    return Array.from(years).sort((a, b) => b - a);
   }, [posts]);
-const availableFilteredMonths = useMemo(() => {
-  const sourcePosts =
-    status === 'succeeded' && posts?.length > 0 ? posts : hardcodedPosts;
+  const availableFilteredMonths = useMemo(() => {
+    const sourcePosts =
+      status === 'succeeded' && posts?.length > 0 ? posts : hardcodedPosts;
 
-  const months = new Set();
+    const months = new Set();
 
-  sourcePosts.forEach((post) => {
-    const date = new Date(post.date);
+    sourcePosts.forEach((post) => {
+      const date = new Date(post.date);
 
-    if (
-      !selectedYear ||
-      date.getFullYear() === parseInt(selectedYear)
-    ) {
-      months.add(availableMonths[date.getMonth()]);
-    }
-  });
+      if (!selectedYear || date.getFullYear() === parseInt(selectedYear)) {
+        months.add(availableMonths[date.getMonth()]);
+      }
+    });
 
-  return availableMonths.filter((month) => months.has(month));
-}, [posts, status, selectedYear]);
+    return availableMonths.filter((month) => months.has(month));
+  }, [posts, status, selectedYear]);
   // **Filtering logic**
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
@@ -241,17 +247,8 @@ const availableFilteredMonths = useMemo(() => {
           {displayedPosts?.map((activity) => (
             <div
               key={activity._id}
-              className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg  md:min-h-[450px] lg:min-h-[500px]"
+              className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-full lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg  md:min-h-[450px] lg:min-h-[500px]"
             >
-              {/* <img
-                src={
-                  activity?.images && activity?.images?.length > 0
-                    ? activity?.images[0]
-                    : 'https://via.placeholder.com/300'
-                }
-                alt={activity.title}
-                className="w-full h-full md:h-[300px] rounded-lg object-cover"
-              /> */}
               <img
                 src={activity?.images?.length > 0 && activity.images[0]}
                 alt={activity.title}
@@ -285,12 +282,19 @@ const availableFilteredMonths = useMemo(() => {
                   }}
                 ></p>
                 <div className="flex gap-5">
-                  <Link to={`/recent-activities/${activity._id}`}>
+                  <Link
+                    to={`/recent-activities/${activity._id}`}
+                    onClick={() => {
+                      sessionStorage.setItem(
+                        'recent-activities-scroll',
+                        window.scrollY,
+                      );
+                    }}
+                  >
                     {' '}
                     <button
                       aria-label="View Details"
                       className="my-[20px]  text-white  bg-gradient-to-r from-[#2d335d] to-[#44508f] focus:outline-none focus:ring-2 focus:ring-offset-2 hover:scale-105  font-semibold text-[14px] px-[12px] py-[6px] rounded-full transition-all duration-300 ease-in-out"
-                      onClick={() => window.scrollTo(0, 0)}
                     >
                       View Details
                     </button>

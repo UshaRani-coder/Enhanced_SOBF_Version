@@ -1,86 +1,148 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getfeaturedVideo } from '../../Reducers/featuredVideoSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import loader from '../../assets/loader.webp';
-import { ArrowLeft } from 'lucide-react';
+import YouTube from 'react-youtube';
+import fallbackVideos from '../../defaultData/youtubeVideos.json';
 
 const Video = () => {
   const dispatch = useDispatch();
   const { featuredVideo, status } = useSelector((state) => state.featuredVideo);
+
   const location = useLocation();
   const navigate = useNavigate();
+ 
+
   const [videosToShow, setVideosToShow] = useState(3);
 
+  // fetch videos
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getfeaturedVideo());
     }
   }, [status, dispatch]);
 
-  useEffect(() => {
+
+
+useEffect(() => {
+  if (location.pathname !== '/videos') return;
+
+  const savedScroll = sessionStorage.getItem('videos-scroll');
+  if (!savedScroll) return;
+
+  // wait until DOM is fully painted
+  const id = requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: Number(savedScroll),
+        behavior: 'auto',
+      });
+
+      sessionStorage.removeItem('videos-scroll');
+    });
+  });
+
+  return () => cancelAnimationFrame(id);
+}, [location.pathname]);
+ 
+  const handleShowMore = () => {
+  sessionStorage.setItem('videos-scroll', window.scrollY);
+  navigate('/videos');
+};
+
+
+  const getVideoId = useCallback((url) => {
+    if (!url) return null;
+    try {
+      return new URL(url).searchParams.get('v');
+    } catch {
+      return url.match(/(?:youtu\.be\/|v=|\/embed\/)([^&?/]+)/)?.[1] || null;
+    }
+  }, []);
+
+  //  SINGLE SOURCE OF TRUTH
+  const videosData = useMemo(() => {
+    const hasApiVideos =
+      Array.isArray(featuredVideo) && featuredVideo.length > 0;
+
+    return hasApiVideos ? featuredVideo : fallbackVideos;
+  }, [featuredVideo]);
+
+  const videosToDisplay = useMemo(() => {
+    return location.pathname === '/videos'
+      ? videosData
+      : videosData.slice(0, 3);
+  }, [videosData, location.pathname]);
+
+  const visibleVideos = useMemo(() => {
+    return videosToDisplay.slice(0, videosToShow);
+  }, [videosToDisplay, videosToShow]);
+
+  const loadMoreVideos = useCallback(() => {
     if (location.pathname === '/videos') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setVideosToShow((prev) => prev + 3);
     }
   }, [location.pathname]);
 
-  const handleShowMore = () => {
-    navigate('/videos');
-  };
+  const ytOptions = useMemo(
+    () => ({
+      width: '100%',
+      playerVars: {
+        rel: 0,
+        modestbranding: 1,
+        controls: 1,
+        disablekb: 1,
+      },
+    }),
+    [],
+  );
 
-  // Memoized video list with correct filtering
-  const videosToDisplay = useMemo(() => {
-    if (!featuredVideo || featuredVideo.length === 0) return [];
-
-    return location.pathname === '/videos'
-      ? featuredVideo // Show all videos on the /videos page
-      : featuredVideo?.slice(0, 3); // Show only 3 videos on the homepage
-  }, [location.pathname, featuredVideo]);
-
-  // Infinite Scroll - Load more videos
-  const loadMoreVideos = () => {
-    if (location.pathname === '/videos') {
-      setVideosToShow((prevCount) => prevCount + 3);
-    }
-  };
+  const showMoreVisible =
+    location.pathname !== '/videos' && videosData.length > 3;
 
   return (
-    <div>
-
+    <div className="mb-20 mx-2 lg:mx-4">
       <div className="flex flex-col items-center" id="featured-videos">
         <h1
-          className={`text-center text-[30px] md:text-heading3 lg:text-heading2 font-bold pt-8 text-[#2d335d] relative transition-all ease-in-out ${location.pathname === '/videos' ? 'mt-[120px]' : ''
-            }`}
+          className={`text-center text-[30px] md:text-heading3 lg:text-heading2 font-bold pt-8 text-[#2d335d] relative transition-all ease-in-out ${
+            location.pathname === '/videos' ? 'mt-[120px]' : ''
+          }`}
         >
           Our Featured Videos
         </h1>
+
         <hr className="mt-1 border-light-lavender border-[1px] w-3/4 md:w-1/2 mb-[20px]" />
+
         <h1 className="text-center text-lg small-range:text-[20px] md:text-2xl font-bold">
           Discover the powerful stories and moments captured in our latest
           videos.
         </h1>
-        <h1 className="text-center text-md small-range:text-lg md:text-xl mb-4 p-3 text-gray-600">
+
+        <h1 className="text-center text-md small-range:text-lg md:text-xl mb-4 p-3 text-gray-600 hidden md:block">
           Witness the impact of our work through inspiring stories and
           community-driven moments captured in our latest videos.
         </h1>
       </div>
 
-      {status === 'loading' && <p className='w-full text-center'> Videos loading...</p>}
-      {/* Video List with InfiniteScroll */}
+      {status === 'loading' && (
+        <p className="w-full text-center">Videos loading...</p>
+      )}
+
       <InfiniteScroll
-        dataLength={videosToDisplay?.length}
+        dataLength={visibleVideos?.length}
         next={loadMoreVideos}
         hasMore={
           location.pathname === '/videos' &&
-          videosToDisplay?.length < featuredVideo?.length
+          visibleVideos?.length < videosToDisplay?.length
         }
         loader={
           status === 'loading' ? (
             <img
               src={loader}
               alt="Loading..."
-              className="w-[50px] h-[50px] mt-[30px] "
+              className="w-[50px] h-[50px] mt-[30px]"
             />
           ) : null
         }
@@ -88,37 +150,47 @@ const Video = () => {
         className="flex flex-col items-center justify-center"
       >
         <div
-          className={`flex flex-col items-center justify-center md:flex-row lg:justify-start flex-wrap gap-4 w-full mt-6 ${location.pathname === '/videos'
-              ? 'mb-[100px]  md:gap-6 md:px-[20px]'
+          className={`flex flex-col items-center justify-center md:flex-row lg:justify-center flex-wrap gap-4 w-full mt-6 ${
+            location.pathname === '/videos'
+              ? 'mb-[100px] md:gap-6 md:px-[20px]'
               : ''
-            }`}
+          }`}
         >
-          {videosToDisplay?.length > 0 ? (
-            videosToDisplay?.map((video) => {
-              // Safely extract video ID
-              const videoId = video?.URL?.match(/(?:\?v=)([^&]+)/)?.[1] || '';
+          {visibleVideos?.length > 0 ? (
+            visibleVideos.map((video) => {
+              const videoId = getVideoId(video?.URL);
 
               return (
                 <div
                   key={video?._id}
-                  className="border p-2 small-range:mx-2 md:mx-0 rounded w-[95%] small-range:w-[90%] md:w-[42.5%] lg:w-[30%] hover:shadow-lg transition-shadow duration-300 mb-14"
+                  className="
+                    border bg-white rounded-xl overflow-hidden
+                    w-[95%] small-range:w-[90%]
+                    md:w-[45%] lg:w-[32%]
+                    transition-all duration-300 ease-out
+                     hover:-translate-y-2 hover:scale-[1.02]
+                    group relative
+                  "
                 >
                   {videoId ? (
-                    <div className="relative group">
-                      <iframe
-                        src={`https://www.youtube.com/embed/${videoId}`}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        title="YouTube Video"
-                        className="w-full aspect-video object-cover rounded transition-transform duration-300 group-hover:scale-105"
+                    <div className="w-full aspect-video overflow-hidden">
+                      <YouTube
+                        videoId={videoId}
+                        opts={{
+                          ...ytOptions,
+                          width: '100%',
+                          height: '100%',
+                        }}
+                        className="w-full h-full"
                       />
                     </div>
                   ) : (
-                    <p className="text-red-500 text-center">
+                    <p className="text-red-500 text-center py-10">
                       Invalid Video URL
                     </p>
                   )}
+
+                  <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-[#2d335d10] to-transparent" />
                 </div>
               );
             })
@@ -128,8 +200,7 @@ const Video = () => {
         </div>
       </InfiniteScroll>
 
-      {/* Show More button for homepage */}
-      {location.pathname !== '/videos' && featuredVideo?.length > 3 && (
+      {showMoreVisible && (
         <div className="text-center mt-6">
           <button
             onClick={handleShowMore}
@@ -144,3 +215,5 @@ const Video = () => {
 };
 
 export default Video;
+
+

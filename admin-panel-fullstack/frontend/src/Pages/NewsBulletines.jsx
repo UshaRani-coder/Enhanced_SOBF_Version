@@ -311,7 +311,7 @@ const PostPage = () => {
       </div>
 
       {expandedItem && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9]">
           <div className="bg-white p-6 rounded-lg w-[90%] md:w-[70%] lg:w-[50%] max-h-[90vh] overflow-y-auto scrollbar-none">
             {/* Header */}
             <div className="flex justify-between items-start gap-x-[20px] mb-4">
