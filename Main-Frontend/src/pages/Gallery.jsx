@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import aboutus from '../assets/aboutUsImage.png';
 import { getGalleryImages } from '../Reducers/gallerySlice';
-import { lockScroll, unlockScroll } from "@/utils/scrollLock";
+import { lockScroll, unlockScroll } from '@/utils/scrollLock';
 
 const Gallery = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { gallery, status } = useSelector((state) => state.gallery);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedImage, setSelectedImage] = useState(null);
+
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   useEffect(() => {
     if (location.pathname === '/gallery') {
@@ -20,17 +23,29 @@ const Gallery = () => {
       });
     }
   }, [location.pathname]);
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (selectedIndex === null) return;
+
+      if (e.key === 'ArrowLeft') prevImage();
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'Escape') closeModal();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedIndex]);
 
   useEffect(() => {
     dispatch(getGalleryImages()); // Fetch gallery images when component mounts
   }, [dispatch]);
- // Lock the bg scroll when the gallery slider is open
+  // Lock the bg scroll when the gallery slider is open
   useEffect(() => {
-  if (selectedImage) lockScroll();
-  else unlockScroll();
-
-  return () => unlockScroll();
-}, [selectedImage]);
+    if (selectedIndex !== null) lockScroll();
+    else unlockScroll();
+    return () => unlockScroll();
+  }, [selectedIndex]);
   const handleFilterChange = (category) => {
     setSelectedCategory(category);
   };
@@ -55,17 +70,42 @@ const Gallery = () => {
           (image) => image?.tag?.trim().toLowerCase() === selectedCategory,
         );
 
-  const openModal = (imageUrl) => {
-    setSelectedImage(imageUrl);
+  const openModal = (index) => {
+    setSelectedIndex(index);
   };
 
   const closeModal = () => {
-    setSelectedImage(null);
+    setSelectedIndex(null);
+  };
+  const prevImage = () => {
+    setSelectedIndex((prev) =>
+      prev === 0 ? filteredImages.length - 1 : prev - 1,
+    );
   };
 
+  const nextImage = () => {
+    setSelectedIndex((prev) =>
+      prev === filteredImages.length - 1 ? 0 : prev + 1,
+    );
+  };
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.changedTouches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+
+    const distance = touchStartX.current - touchEndX.current;
+
+    // Minimum swipe distance
+    if (distance > 50) {
+      nextImage();
+    } else if (distance < -50) {
+      prevImage();
+    }
+  };
   return (
     <div className="pt-[90px] md:pt-[100px] lg:pt-[120px] pb-8">
-     
       <img
         src={aboutus}
         alt="Gallery"
@@ -108,7 +148,7 @@ const Gallery = () => {
                 <div
                   key={index}
                   className="relative group cursor-pointer transition transform hover:scale-95 duration-300"
-                  onClick={() => openModal(image?.image)}
+                  onClick={() => openModal(index)}
                 >
                   <img
                     src={image.image}
@@ -117,11 +157,6 @@ const Gallery = () => {
                     decoding="async"
                     className="w-full h-[220px] sm:h-[260px] md:h-[300px] object-cover rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out rounded-lg">
-                    <p className="text-white text-center font-bold px-4">
-                      {image.quote}
-                    </p>
-                  </div>
                 </div>
               ))
             ) : (
@@ -134,21 +169,88 @@ const Gallery = () => {
       </div>
 
       {/* Modal to display full image */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="relative w-[90%]  bg-black bg-opacity-30 backdrop-blur-md p-4 rounded-xl shadow-2xl border border-gray-300">
+      {selectedIndex !== null && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-md  flex justify-center items-center z-50"
+          onClick={closeModal}
+        >
+          <div
+            className="relative w-[90%]  bg-black bg-opacity-30 backdrop-blur-md p-4 rounded-xl shadow-2xl border border-gray-300"
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             <img
-              src={selectedImage}
+              src={filteredImages[selectedIndex]?.image}
               alt="Full size"
               loading="eager"
               decoding="async"
               className="w-full max-h-[90vh] object-contain"
             />
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white font-bold text-md lg:text-lg xl:text-xl">
+              {selectedIndex + 1} / {filteredImages.length}
+            </div>
             <button
-              onClick={() => {
-                closeModal();
-                setSelectedImage(null);
-              }}
+              onClick={prevImage}
+              className="hidden md:flex absolute left-3 lg:left-6 top-1/2 -translate-y-1/2
+             p-1.5 
+              items-center justify-center
+             rounded-full
+             bg-white/10 backdrop-blur-lg
+             border border-white/20
+             text-white
+             shadow-xl
+             hover:bg-white/20
+             hover:scale-105
+             transition-all duration-300"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4 md:w-6 md:h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <button
+              onClick={nextImage}
+              className="absolute right-3 lg:right-6 top-1/2 -translate-y-1/2
+              p-1.5 
+             hidden md:flex items-center justify-center
+             rounded-full
+             bg-white/10 backdrop-blur-lg
+             border border-white/20
+             text-white
+             shadow-xl
+             hover:bg-white/20
+             hover:scale-105
+             transition-all duration-300"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4 md:w-6 md:h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+            <button
+              onClick={closeModal}
               className="absolute top-[-10px] right-[-10px]   p-1.5 text-white bg-[#ffffff] rounded-full"
             >
               <svg

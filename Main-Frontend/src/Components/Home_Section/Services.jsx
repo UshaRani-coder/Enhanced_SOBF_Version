@@ -16,7 +16,6 @@ const finalServices =
     : hardcodedServices;
   const dispatch = useDispatch();
   const [service, setService] = useState(null);
-  const [hoveredService, setHoveredService] = useState(null);
   const ourServicesRef = useRef(null);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
@@ -146,22 +145,6 @@ const finalServices =
                   }
                 }}
               >
-                {/* {hoveredService === item._id &&
-                  item.images &&
-                  item?.images?.length > 0 && (
-                    <div
-                      className="absolute inset-0 w-full h-full transition-all duration-500"
-                      style={{
-                        backgroundImage: `url(${item.images[0]})`,
-                        backgroundColor: 'rgba(1, 29, 36, 0.8)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
-                        filter: 'brightness(0.4)',
-                        zIndex: -1,
-                      }}
-                    ></div>
-                  )} */}
                 <div className="px-[20px] service-content relative z-40 h-full cursor-pointer flex flex-col items-center justify-center">
                   <img
                     src={item.logo}

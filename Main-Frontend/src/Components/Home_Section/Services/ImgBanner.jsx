@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const ImgBanner = ({ banners }) => {
- 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const timerRef = useRef(null);
@@ -55,37 +54,42 @@ const ImgBanner = ({ banners }) => {
       />
 
       {/* Left Arrow */}
-      <div
-        className="scroll-arrow hidden lg:block absolute top-[50%] left-[10px] bg-[rgba(0,0,0,0.5)] text-white py-1 px-3 rounded-full z-10 cursor-pointer"
-        style={{ transform: 'translateY(-50%)' }}
-        onClick={scrollLeft}
-      >
-        &lt;
-      </div>
+      {banners.length > 1 && (
+        <div
+          className="scroll-arrow hidden lg:block absolute top-[50%] left-[10px] bg-[rgba(0,0,0,0.5)] text-white py-1 px-3 rounded-full z-10 cursor-pointer"
+          style={{ transform: 'translateY(-50%)' }}
+          onClick={scrollLeft}
+        >
+          &lt;
+        </div>
+      )}
 
       {/* Right Arrow */}
-      <div
-        className="scroll-arrow hidden lg:block absolute top-[50%] right-[10px] bg-[rgba(0,0,0,0.5)] text-white py-1 px-3 rounded-full z-10 cursor-pointer"
-        style={{ transform: 'translateY(-50%)' }}
-        onClick={scrollRight}
-      >
-        &gt;
-      </div>
+      {banners.length > 1 && (
+        <div
+          className="scroll-arrow hidden lg:block absolute top-[50%] right-[10px] bg-[rgba(0,0,0,0.5)] text-white py-1 px-3 rounded-full z-10 cursor-pointer"
+          style={{ transform: 'translateY(-50%)' }}
+          onClick={scrollRight}
+        >
+          &gt;
+        </div>
+      )}
 
       {/* Indicators */}
       <div className="absolute bottom-4 flex justify-center gap-2">
-        {banners.map((_, index) => (
-          <div
-            key={index}
-            className={`w-3 h-3 rounded-full transition-all duration-500 ${
-              currentIndex === index ? 'bg-white scale-125' : 'bg-black/50'
-            } cursor-pointer`}
-            onClick={() => {
-              setLoading(true);
-              setCurrentIndex(index);
-            }}
-          ></div>
-        ))}
+        {banners.length > 1 &&
+          banners.map((_, index) => (
+            <div
+              key={index}
+              className={`w-3 h-3 rounded-full transition-all duration-500 ${
+                currentIndex === index ? 'bg-white scale-125' : 'bg-black/50'
+              } cursor-pointer`}
+              onClick={() => {
+                setLoading(true);
+                setCurrentIndex(index);
+              }}
+            ></div>
+          ))}
       </div>
     </div>
   );

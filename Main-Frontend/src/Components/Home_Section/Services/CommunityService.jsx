@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation
 import ImgBanner from './ImgBanner';
 import { Link } from 'react-router-dom';
+import communityServiceImg1 from '@/assets/Sobf Images/women empowerment/communityService.png';
+import communityServiceImg2 from '@/assets/Sobf Images/Sanitary_pads_distribution/spd7.png';
+import communityServiceImg3 from '@/assets/Sobf Images/Face_mask_distribution/fmd2.png';
 
 const CommunityService = ({ setService }) => {
   const location = useLocation();
@@ -14,11 +17,23 @@ const CommunityService = ({ setService }) => {
       });
     }
   }, [location.pathname]);
-
+  const images = [
+    {
+      img: communityServiceImg1,
+    },
+    {
+      img: communityServiceImg2,
+    },
+    {
+      img: communityServiceImg3,
+    },
+  ];
+  const bannerS = images.map((image) => image.img);
   return (
     <div
-      className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${isHomePage ? '' : 'mt-[120px] lg:mt-20 mb-20'
-        }`}
+      className={`w-full md:w-[90%] flex flex-col items-center lg:items-start mx-auto ${
+        isHomePage ? '' : 'mt-[120px] lg:mt-20 mb-20'
+      }`}
     >
       {/* Only show the "Back to Services" button if on the home page */}
       {isHomePage && (
@@ -35,7 +50,7 @@ const CommunityService = ({ setService }) => {
 
       <div className="flex flex-col lg:flex-row lg:items-stretch items-center lg:justify-center lg:gap-x-[30px]  lg:mt-[120px]">
         <div className="w-[100%] h-[55vh] lg:h-[45vh] xl:h-[55vh]  flex justify-center lg:w-[50%] ">
-          <ImgBanner banners={images} />
+          <ImgBanner banners={bannerS} />
         </div>
         <div className="flex flex-col md:items-start items-center  mx-[20px] w-[90%] lg:w-[50%] justify-center">
           <h1 className="text-center text-heading4 lg:text-[1.9rem] mt-[10px] md:mt-0 font-bold ">
