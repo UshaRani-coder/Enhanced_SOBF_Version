@@ -16,9 +16,8 @@ const sanitizeFileName = (file) => {
     params: async (req, file) => {
       return {
         folder: folderName,
-
         // 🔥 IMPORTANT FOR PDF
-        resource_type: "raw",
+        resource_type: "auto",
 
         public_id: `${Date.now()}-${sanitizeFileName(file)}`,
       };

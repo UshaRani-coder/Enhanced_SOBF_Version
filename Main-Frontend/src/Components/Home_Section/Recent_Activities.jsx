@@ -59,11 +59,15 @@ const Recent_Activities = React.memo(() => {
 
   // **Extract unique years and months**
   const availableYears = useMemo(() => {
+    const sourcePosts =
+      status === 'succeeded' && posts?.length > 0 ? posts : hardcodedPosts;
+
     const years = new Set(
-      posts.map((post) => new Date(post.date).getFullYear()),
+      sourcePosts.map((post) => new Date(post.date).getFullYear()),
     );
+
     return Array.from(years).sort((a, b) => b - a);
-  }, [posts]);
+  }, [posts, status]);
   const availableFilteredMonths = useMemo(() => {
     const sourcePosts =
       status === 'succeeded' && posts?.length > 0 ? posts : hardcodedPosts;
@@ -184,12 +188,14 @@ const Recent_Activities = React.memo(() => {
             focus:ring-2 focus:ring-[rgb(125,168,252)] focus:outline-none 
             max-h-[300px] overflow-y-auto scrollbar-none "
           value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
+          onChange={(e) => {
+            setSelectedYear(e.target.value);
+          }}
         >
           <option value="" className="font-bold">
             Filter by Year
           </option>
-          {availableYears.map((year) => (
+          {availableYears?.map((year) => (
             <option
               key={year}
               value={year}
@@ -247,7 +253,7 @@ const Recent_Activities = React.memo(() => {
           {displayedPosts?.map((activity) => (
             <div
               key={activity._id}
-              className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-full lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg  md:min-h-[450px] lg:min-h-[500px]"
+              className="flex flex-col  items-start md:p-[15px] w-[100%] small-range:w-[90%] md:w-[55%] lg:w-[350px] bg-white rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg  md:min-h-[450px] lg:min-h-[500px]"
             >
               <img
                 src={activity?.images?.length > 0 && activity.images[0]}

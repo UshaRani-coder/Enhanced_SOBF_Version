@@ -14,10 +14,13 @@ const RecentActivityDetails = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (id) {
+    const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
+  
+    if (isMongoId) {
       dispatch(getPostById(id));
     }
   }, [dispatch, id]);
+  
 
   const activity = useMemo(
     () =>

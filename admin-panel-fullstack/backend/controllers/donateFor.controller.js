@@ -103,11 +103,7 @@ const verifyPayment = async (req, res) => {
     }
 
     // Format response
-    const responseCategory = {
-      ...updatedCategory.toObject(),
-      image: "https://backend.sobf.in" + '/uploads/donateFor/' + updatedCategory.image
-    };
-
+  const responseCategory = updatedCategory.toObject();
     res.json({
       success: true,
       message: 'Payment verified and donor added successfully',
@@ -129,9 +125,8 @@ const verifyPayment = async (req, res) => {
 const addDonationCategory = async (req, res) => {
   try {
     const { title, description, raised, goal } = req.body;
-    const filename = req?.file?.filename;
 
-    if (!filename) {
+    if (!req.file) {
       return res.status(400).json({
         success: false,
         message: 'Image is required',
@@ -141,23 +136,22 @@ const addDonationCategory = async (req, res) => {
     const newCategory = new DonationCategoryModel({
       title,
       description,
-      image: filename,
+      image: req.file.path, // Cloudinary URL
       raised: raised || 0,
-      goal
+      goal,
     });
 
     const savedCategory = await newCategory.save();
-    savedCategory.image = "https://backend.sobf.in" + '/uploads/gallery/' + savedCategory.image;
 
     res.status(201).json({
       success: true,
       message: 'Post has been created successfully',
-      savedCategory
+      category: savedCategory,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -167,22 +161,18 @@ const getAllDonationCategories = async (req, res) => {
   try {
     const categories = await DonationCategoryModel.find({});
 
-    const processedCategories = categories.map(category => ({
-      ...category.toObject(),
-      image: "https://backend.sobf.in" + '/uploads/donateFor/' + category.image
-    }));
-
     res.status(200).json({
       success: true,
       message: 'Donation categories retrieved successfully',
-      categories: processedCategories,
+      categories,
     });
   } catch (error) {
-    logger.error("Error retrieving donation categories:", error);
+    logger.error('Error retrieving donation categories:', error);
+
     res.status(500).json({
       success: false,
       message: 'Failed to retrieve donation categories',
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -191,30 +181,27 @@ const getAllDonationCategories = async (req, res) => {
 const getDonationCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
+
     const category = await DonationCategoryModel.findById(id);
 
     if (!category) {
       return res.status(404).json({
         success: false,
-        error: "Donation category not found."
+        error: 'Donation category not found.',
       });
     }
-
-    const processedCategory = {
-      ...category.toObject(),
-      image: "https://backend.sobf.in" + '/uploads/donateFor/' + category.image
-    };
 
     res.status(200).json({
       success: true,
       message: 'Donation category retrieved successfully',
-      category: processedCategory,
+      category,
     });
   } catch (error) {
-    logger.error("Error retrieving donation category:", error);
+    logger.error('Error retrieving donation category:', error);
+
     res.status(500).json({
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -224,10 +211,16 @@ const updateDonationCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, raised, goal } = req.body;
-    const updatedFields = { title, description, raised, goal };
 
-    if (req.file?.filename) {
-      updatedFields.image = req.file.filename;
+    const updatedFields = {
+      title,
+      description,
+      raised,
+      goal,
+    };
+
+    if (req.file) {
+      updatedFields.image = req.file.path; // Cloudinary URL
     }
 
     const updatedCategory = await DonationCategoryModel.findByIdAndUpdate(
@@ -239,22 +232,21 @@ const updateDonationCategory = async (req, res) => {
     if (!updatedCategory) {
       return res.status(404).json({
         success: false,
-        message: "Donation category not found",
+        message: 'Donation category not found',
       });
     }
 
-    updatedCategory.image = "https://backend.sobf.in" + '/uploads/donateFor/' + updatedCategory.image;
-
     res.status(200).json({
       success: true,
-      message: "Donation category updated successfully",
+      message: 'Donation category updated successfully',
       category: updatedCategory,
     });
   } catch (error) {
-    logger.error("Error updating donation category:", error);
+    logger.error('Error updating donation category:', error);
+
     res.status(500).json({
       success: false,
-      message: "Failed to update donation category",
+      message: 'Failed to update donation category',
       error: error.message,
     });
   }

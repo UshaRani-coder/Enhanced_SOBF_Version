@@ -162,7 +162,7 @@ useEffect(() => {
 
               return (
                 <div
-                  key={video?._id}
+                  key={video?._id || video?.URL}
                   className="
                     border bg-white rounded-xl overflow-hidden
                     w-[95%] small-range:w-[90%]

@@ -15,11 +15,14 @@ const NewsBulletinDetails = () => {
   );
   const dispatch = useDispatch();
 
+ 
   useEffect(() => {
-    if (id) {
-      dispatch(getSpecificBulletine(id));
-    }
-  }, [dispatch, id]);
+  const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
+
+  if (isMongoId) {
+    dispatch(getSpecificBulletine(id));
+  }
+}, [dispatch, id]);
 
   const bulletine = useMemo(() => {
     if (specificBulletine) return specificBulletine;

@@ -26,7 +26,7 @@ export const createHeroBanner = (postdata) =>
 export const getHeroBanner = () => apiClient.get('/api/post/get-hero-banner');
 export const updateHeroBanner = (id, updatedPost) =>
   apiClient.put(`/api/post/update-hero-banner/${id}`, updatedPost);
-export const deleteHeroBanner = () =>
+export const deleteHeroBanner = (id) =>
   apiClient.delete(`/api/post/delete-hero-banner/${id}`);
 
 //! Post Endpoints => recent activities   ======= DONE WITH ALL VALIDATIONS
@@ -131,7 +131,7 @@ export const sendTaxCertificate = (donationId) =>
 
 
 // !Donate for endpoints
-export const getAllDonationCategories = () => apiClient.get('/api/post/');
+export const getAllDonationCategories = () => apiClient.get('/api/post/get-donation');
 export const getSingleDonationPostBasedOnId = (id) => apiClient.get(`/api/post/get-donation-by-id/${id}`);
 export const addDonationCategory = (data) => apiClient.post('/api/post/create', data);
 export const addDonor = (id, data) => apiClient.post(`/api/post/add-donor/${id}`, data);

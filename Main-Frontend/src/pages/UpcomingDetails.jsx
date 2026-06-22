@@ -24,10 +24,15 @@ const EventDetails = () => {
   }, [id]);
 
   // clear old event + fetch new one when ID changes
-  useEffect(() => {
-    dispatch(clearEventPost());
+useEffect(() => {
+  dispatch(clearEventPost());
+
+  const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
+
+  if (id && isMongoId) {
     dispatch(getSpecificEvent(id));
-  }, [dispatch, id]);
+  }
+}, [dispatch, id]);
 
   // FINAL SOURCE OF TRUTH
   const event = postStatus === 'succeeded' && post ? post : fallbackEvent;

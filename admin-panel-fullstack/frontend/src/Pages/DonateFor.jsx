@@ -141,6 +141,7 @@ const DonateFor = () => {
   };
 
   const handleEdit = (category) => {
+   
     setFormData({
       title: category.title,
       description: category.description,
@@ -434,7 +435,7 @@ const DonateFor = () => {
               <th className="px-6 py-3">Actions</th>
             </tr>
           </thead>
-          <tbody onClick={() => toggleExpand(category?._id)}>
+          <tbody >
             {paginatedData?.map((category) => {
               const parseCurrency = (value) => parseInt((value || '0').replace(/₹|,/g, ''));
               const raised = parseCurrency(category?.raised);
@@ -468,13 +469,17 @@ const DonateFor = () => {
                     <td className="px-6 py-4">
                       <div className="flex space-x-2">
                         <button
-                          onClick={() => handleEdit(category)}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleEdit(category)}}
                           className="text-blue-600 font-bold hover:text-blue-700"
                         >
                           Edit
                         </button>
                         <button
-                          onClick={() => handleDelete(category?._id)}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDelete(category?._id)}}
                           className="text-red-600 font-bold hover:text-red-800"
                         >
                           Delete
