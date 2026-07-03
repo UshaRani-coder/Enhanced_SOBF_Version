@@ -42,7 +42,7 @@ export const updateService = createAsyncThunk(
   async ({ id, updatedData }, { rejectWithValue }) => {
     try {
       const response = await updateOurServices(id, updatedData);
-      return response.data.service; // ✅ FIX (backend usually returns "service")
+      return response.data.service; 
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || 'Failed to update service'

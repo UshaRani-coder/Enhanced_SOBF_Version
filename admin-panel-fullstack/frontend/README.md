@@ -1,8 +1,59 @@
-# React + Vite
+# SOBF Admin Panel
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The **SOBF Admin Panel** is a React-based dashboard used to manage the Soul of Braj Federation website. It allows administrators to manage gallery images, news, posts, hero banners, team members, legal documents, and other website content.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Authentication
+- Dashboard
+- Gallery Management
+- News Management
+- Posts Management
+- Hero Banner Management
+- Team Management
+- Legal Documents Management
+- Responsive UI
+- Cloudinary Image Uploads
+
+## Tech Stack
+
+- React
+- Vite
+- React Router
+- Redux Toolkit
+- Tailwind CSS
+- Axios
+
+## Installation
+
+```bash
+git clone <repository-url>
+
+cd admin-panel
+
+npm install
+
+npm run dev
+```
+
+## Environment Variables
+
+Create a `.env` file in the project root.
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+## Available Scripts
+
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run lint
+```
+
+
+## License
+
+This project is developed for the Soul of Braj Federation.

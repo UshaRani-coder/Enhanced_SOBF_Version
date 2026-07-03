@@ -14,7 +14,7 @@ const Pagination = ({ volunteersPerPage, totalVolunteers, paginate, currentPage 
 
   // Show limited page numbers on mobile
   const getVisiblePages = () => {
-    if (window.innerWidth < 640) { // sm breakpoint
+    if (window.innerWidth < 640) { 
       const maxVisible = 3;
       let start = Math.max(1, currentPage - 1);
       let end = Math.min(totalPages, currentPage + 1);

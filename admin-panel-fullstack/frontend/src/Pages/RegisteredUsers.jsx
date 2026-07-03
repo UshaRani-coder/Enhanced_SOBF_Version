@@ -18,7 +18,6 @@ const RegisteredUsers = () => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-
   useEffect(() => {
     dispatch(getEventsUsersFromDB());
   }, [dispatch]);
@@ -88,7 +87,8 @@ Best regards,
 [Your Organization Name]`,
     },
     {
-      subject: "🙏 Thank you for attending the SOBF event! Stay connected with us for more initiatives.",
+      subject:
+        '🙏 Thank you for attending the SOBF event! Stay connected with us for more initiatives.',
       message: `Dear Devotees,
 
 Thank you for attending [Event Name]! We hope you had a great time and found the event informative and enjoyable.
@@ -99,20 +99,18 @@ If you have any questions or need further information, feel free to reach out to
 
 Best regards,
 [Your Organization Name]`,
-    }
+    },
   ];
-
 
   const [selectedTemplate, setSelectedTemplate] = useState(emailTemplates[0]);
 
-
-
   // Toggle user selection
   const toggleSelectUser = (userId) => {
-    setSelectedUsers((prev) =>
-      prev.includes(userId)
-        ? prev.filter((id) => id !== userId) // Deselect if already selected
-        : [...prev, userId] // Select if not already selected
+    setSelectedUsers(
+      (prev) =>
+        prev.includes(userId)
+          ? prev.filter((id) => id !== userId) // Deselect if already selected
+          : [...prev, userId], // Select if not already selected
     );
   };
 
@@ -124,8 +122,8 @@ Best regards,
     }
 
     // Get selected users' emails
-    const emails = selectedUsers.map((userId) =>
-      eventUser.find((user) => user._id === userId)?.email
+    const emails = selectedUsers.map(
+      (userId) => eventUser.find((user) => user._id === userId)?.email,
     );
 
     // Use the selected email template
@@ -134,11 +132,14 @@ Best regards,
 
     try {
       // Call the backend API to send emails
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/post/send-emails-to-selected-users`, {
-        emails,
-        subject,
-        message,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/post/send-emails-to-selected-users`,
+        {
+          emails,
+          subject,
+          message,
+        },
+      );
 
       if (response.status === 200) {
         alert('Emails sent successfully!');
@@ -259,17 +260,21 @@ Best regards,
       </div>
       {/* Email Template Selection */}
       <div className="mt-4">
-        <label className="block text-gray-700 text-sm mb-1">Select Email Template:</label>
+        <label className="block text-gray-700 text-sm mb-1">
+          Select Email Template:
+        </label>
         <select
           className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3 cursor-pointer"
           value={selectedTemplate.subject}
           onChange={(e) => {
-            const selected = emailTemplates.find((template) => template.subject === e.target.value);
+            const selected = emailTemplates.find(
+              (template) => template.subject === e.target.value,
+            );
             setSelectedTemplate(selected);
           }}
         >
           {emailTemplates.map((template) => (
-            <option key={template.subject} value={template.subject} >
+            <option key={template.subject} value={template.subject}>
               {template.subject}
             </option>
           ))}
@@ -278,12 +283,19 @@ Best regards,
 
       {/* Customize Email Message */}
       <div className="mt-4">
-        <label className="block text-gray-700 text-sm mb-1">Customize Email Message:</label>
+        <label className="block text-gray-700 text-sm mb-1">
+          Customize Email Message:
+        </label>
         <textarea
           className="w-full border border-gray-300 rounded-lg px-2 py-1 mb-3"
           rows="5"
           value={selectedTemplate.message}
-          onChange={(e) => setSelectedTemplate({ ...selectedTemplate, message: e.target.value })}
+          onChange={(e) =>
+            setSelectedTemplate({
+              ...selectedTemplate,
+              message: e.target.value,
+            })
+          }
         />
       </div>
       {/* Card View for Small Screens */}
@@ -352,12 +364,17 @@ Best regards,
                   </td>
                   <td className="px-4 py-2">{user.username}</td>
                   <td className="px-4 py-2">{user.email}</td>
-                  <td className="px-4 py-2">{user?.registeredEvents[0]?.title}</td>
-                  <td className="px-4 py-2"> {new Date(user.createdAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}</td>
+                  <td className="px-4 py-2">
+                    {user?.registeredEvents[0]?.title}
+                  </td>
+                  <td className="px-4 py-2">
+                    {' '}
+                    {new Date(user.createdAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </td>
                 </tr>
               ))
             ) : (

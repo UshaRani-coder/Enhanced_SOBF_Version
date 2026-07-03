@@ -22,7 +22,7 @@ const Gallery = () => {
   });
   const [availableTags, setAvailableTags] = useState([]);
   const [activeTagFilter, setActiveTagFilter] = useState('all');
-  const [isLoading, setIsLoading] = useState(false); // New loading state
+  const [isLoading, setIsLoading] = useState(false); 
 
   const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 

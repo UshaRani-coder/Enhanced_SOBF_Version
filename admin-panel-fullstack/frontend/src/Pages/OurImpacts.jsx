@@ -104,7 +104,6 @@ const OurImpacts = () => {
       toast.error('No impact selected for updating.');
       return;
     }
-    // Start loading
     setIsLoading(true);
     
     dispatch(updateOurImpact({ id: currentImpact?._id, updatedData }))
@@ -119,7 +118,7 @@ const OurImpacts = () => {
         console.error('Update Error:', error);
         toast.error(error?.message || 'Failed to update our impact');
       })
-      .finally(() => setIsLoading(false)); // End loading
+      .finally(() => setIsLoading(false)); 
   };
 
   // ! Deleting post
@@ -128,7 +127,7 @@ const OurImpacts = () => {
       'Are you sure you want to delete this impact? This action cannot be undone.',
     );
     if (confirmDelete) {
-      setIsLoading(true); // Start loading
+      setIsLoading(true); 
       dispatch(removeOurImpact(id))
         .unwrap()
         .then(() => {
@@ -137,7 +136,7 @@ const OurImpacts = () => {
         .catch((error) => {
           toast.error(error || 'Failed to delete our impact');
         })
-        .finally(() => setIsLoading(false)); // End loading
+        .finally(() => setIsLoading(false)); 
     }
   };
 
@@ -258,7 +257,6 @@ const OurImpacts = () => {
                   className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
                   onClick={isUpdateMode ? handleUpdatePost : handleAddPost}
                 >
-                  {/* {isUpdateMode ? 'Update Impact' : 'Add Impact'} */}
                   {isLoading ? (
                     <span className="flex items-center justify-center">
                       <svg

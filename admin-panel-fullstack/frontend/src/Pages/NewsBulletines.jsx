@@ -14,7 +14,7 @@ import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import { ACCEPTED_DIMENSIONS } from '../helper/Dimention';
 
-const PostPage = () => {
+const NewsBulletines = () => {
   ReactQuill.Quill = Quill;
   const dispatch = useDispatch();
   const { bulletines, status } = useSelector((state) => state.bulletines);
@@ -611,4 +611,4 @@ const PostPage = () => {
   );
 };
 
-export default PostPage;
+export default NewsBulletines;

@@ -136,7 +136,7 @@ const addDonationCategory = async (req, res) => {
     const newCategory = new DonationCategoryModel({
       title,
       description,
-      image: req.file.path, // Cloudinary URL
+      image: req.file.path,
       raised: raised || 0,
       goal,
     });

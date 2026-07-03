@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getEventUsers } from "../api/api"
 
 export const getEventsUsersFromDB = createAsyncThunk(
-  'eventUser/getEventsUserData', // Unique action type
+  'eventUser/getEventsUserData', 
   async (_, { rejectWithValue }) => {
     try {
       const response = await getEventUsers();
