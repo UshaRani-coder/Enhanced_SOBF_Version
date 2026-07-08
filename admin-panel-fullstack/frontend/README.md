@@ -29,7 +29,9 @@ The **SOBF Admin Panel** is a React-based dashboard used to manage the Soul of B
 ```bash
 git clone <repository-url>
 
-cd admin-panel
+cd admin-panel-fullstack
+
+cd frontend
 
 npm install
 

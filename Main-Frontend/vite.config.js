@@ -9,7 +9,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
@@ -21,7 +20,6 @@ export default defineConfig({
     viteCompression({
       algorithm: 'gzip', // Use 'gzip' for Gzip compression
       ext: '.gz', // Use '.gz' extension for Gzip-compressed files
-      // threshold: 10240,             // Only compress files larger than 10KB
       deleteOriginFile: false, // Keep the original uncompressed files
     }),
   ],

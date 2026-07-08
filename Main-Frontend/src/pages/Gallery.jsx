@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import aboutus from '../assets/aboutUsImage.png';
 import { getGalleryImages } from '../Reducers/gallerySlice';
 import { lockScroll, unlockScroll } from '@/utils/scrollLock';
 
 const Gallery = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
   const { gallery, status } = useSelector((state) => state.gallery);
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -16,13 +14,11 @@ const Gallery = () => {
   const touchEndX = useRef(0);
 
   useEffect(() => {
-    if (location.pathname === '/gallery') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [location.pathname]);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (selectedIndex === null) return;

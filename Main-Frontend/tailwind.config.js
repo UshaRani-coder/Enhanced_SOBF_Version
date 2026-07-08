@@ -87,7 +87,7 @@ export default {
         heading3: '2.25rem',
         heading4: '1.5rem',
         heading5: '1rem',
-        heading6: '10px', // Fixed typo (was "headong6")
+        heading6: '10px', 
       },
       animation: {
         'infinite-scroll': 'infinite-scroll 80s linear infinite',
@@ -147,6 +147,6 @@ export default {
     },
   ],
   variants: {
-    scrollbar: ['rounded'], // Add 'rounded' scrollbar support
+    scrollbar: ['rounded'], 
   },
 };

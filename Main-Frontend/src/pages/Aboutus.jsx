@@ -322,14 +322,13 @@ const AboutUs = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {images.map((image, index) => (
             <div key={index} className="w-full hover:opacity-90">
-            
               <img
-  src={image}
-  alt={`Shot ${index + 1}`}
-  loading="lazy"
-  decoding="async"
-  className="w-full h-[250px] md:h-[300px] object-cover rounded-lg transform transition-transform duration-500 ease-in-out hover:scale-105"
-/>
+                src={image}
+                alt={`Shot ${index + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-[250px] md:h-[300px] object-cover rounded-lg transform transition-transform duration-500 ease-in-out hover:scale-105"
+              />
             </div>
           ))}
         </div>
@@ -337,7 +336,6 @@ const AboutUs = () => {
         <div className="flex justify-center mt-10">
           <Link
             to="/gallery"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"
           >
             See More

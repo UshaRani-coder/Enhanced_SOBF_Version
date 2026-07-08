@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdLocationPin, MdAccessTimeFilled } from 'react-icons/md';
 import DOMPurify from 'dompurify';
@@ -10,6 +10,7 @@ import {
   clearEventPost,
 } from '@/Reducers/upcomingeventSlice';
 import fallbackEvents from '@/defaultData/upcoming-events.json';
+import DonateCTA from '@/Components/common_components/DonateCTA.jsx';
 
 const EventDetails = () => {
   const navigate = useNavigate();
@@ -24,15 +25,15 @@ const EventDetails = () => {
   }, [id]);
 
   // clear old event + fetch new one when ID changes
-useEffect(() => {
-  dispatch(clearEventPost());
+  useEffect(() => {
+    dispatch(clearEventPost());
 
-  const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
+    const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
 
-  if (id && isMongoId) {
-    dispatch(getSpecificEvent(id));
-  }
-}, [dispatch, id]);
+    if (id && isMongoId) {
+      dispatch(getSpecificEvent(id));
+    }
+  }, [dispatch, id]);
 
   // FINAL SOURCE OF TRUTH
   const event = postStatus === 'succeeded' && post ? post : fallbackEvent;
@@ -243,23 +244,10 @@ useEffect(() => {
           </div>
 
           {/* DONATION */}
-          <div className="mt-6 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 xl:p-10 rounded-lg shadow-lg">
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-indigo-700">
-              Support Our Mission!
-            </h2>
-            <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
-              Every donation helps us organize meaningful events, reach more
-              people, and strengthen our community. Join us in making a lasting
-              impact.
-            </p>
-
-            <Link
-              to="/donate-us"
-              className="px-5 py-2 bg-logoYellow text-white rounded-lg shadow-lg hover:bg-logo-blue transition-all  font-medium"
-            >
-              Donate Now
-            </Link>
-          </div>
+          <DonateCTA
+            title="Support Our Mission!"
+            description="Every donation helps us organize meaningful events, reach more people, and strengthen our community. Join us in making a lasting impact."
+          />
         </div>
       </div>
     </div>

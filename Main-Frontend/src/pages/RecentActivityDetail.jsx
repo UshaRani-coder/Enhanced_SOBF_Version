@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import hardcodedPosts from '../defaultData/recent-activities.json';
 import { getPostById } from '../Reducers/postSlice';
 import DOMPurify from 'dompurify';
 import ShareButton from '@/Components/common_components/ShareButton';
+import DonateCTA from '@/Components/common_components/DonateCTA.jsx';
 
 const RecentActivityDetails = () => {
   const navigate = useNavigate();
@@ -15,12 +16,11 @@ const RecentActivityDetails = () => {
 
   useEffect(() => {
     const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
-  
+
     if (isMongoId) {
       dispatch(getPostById(id));
     }
   }, [dispatch, id]);
-  
 
   const activity = useMemo(
     () =>
@@ -37,7 +37,7 @@ const RecentActivityDetails = () => {
     );
   }
 
-  if (!post) {
+  if (!activity) {
     return (
       <div className="flex flex-col items-center w-full mt-[150px] min-h-screen p-4">
         <p className="text-lg text-red-500">Activities not found!</p>
@@ -54,10 +54,9 @@ const RecentActivityDetails = () => {
     });
   };
 
- 
   const handleBack = () => {
-  navigate('/recent-activities');
-};
+    navigate('/recent-activities');
+  };
 
   const title = 'Support Braj Seva – Be one in a million';
   const baseURL =
@@ -192,22 +191,10 @@ const RecentActivityDetails = () => {
               />
             </div>
           </div>
-          <div className="mt-6 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 xl:p-10 rounded-lg shadow-lg">
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-indigo-700">
-              Make a Difference!
-            </h2>
-            <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
-              Your support helps us continue our mission of making the world a
-              better place. Every contribution brings us closer to achieving our
-              goals and empowering the community.
-            </p>
-            <Link
-              to="/donate-us"
-              className="px-6 py-3 bg-logoYellow text-white rounded-lg shadow-lg hover:bg-logo-blue transition-all text-lg font-semibold"
-            >
-              Donate Now
-            </Link>
-          </div>
+          <DonateCTA
+            title="Make a Difference!"
+            description="Your support helps us continue our mission of making the world a better place. Every contribution brings us closer to achieving our goals and empowering the community."
+          />
         </div>
       </div>
     </div>

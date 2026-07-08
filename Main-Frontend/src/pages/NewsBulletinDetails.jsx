@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSpecificBulletine } from '../Reducers/bulletinSlice';
 import hardcodedPosts from '../defaultData/newsbulletine.json';
 import DOMPurify from 'dompurify';
 import ShareButton from '@/Components/common_components/ShareButton.jsx';
+import DonateCTA from '@/Components/common_components/DonateCTA.jsx';
 
 const NewsBulletinDetails = () => {
   const navigate = useNavigate();
@@ -15,14 +16,13 @@ const NewsBulletinDetails = () => {
   );
   const dispatch = useDispatch();
 
- 
   useEffect(() => {
-  const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
+    const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
 
-  if (isMongoId) {
-    dispatch(getSpecificBulletine(id));
-  }
-}, [dispatch, id]);
+    if (isMongoId) {
+      dispatch(getSpecificBulletine(id));
+    }
+  }, [dispatch, id]);
 
   const bulletine = useMemo(() => {
     if (specificBulletine) return specificBulletine;
@@ -201,22 +201,10 @@ const NewsBulletinDetails = () => {
               />
             </div>
           </div>
-          <div className="mt-12 w-full flex flex-col items-center bg-gray-100 p-4 md:p-6 xl:p-10 rounded-lg shadow-lg">
-            <h2 className="text-xl md:text-2xl font-bold text-center mb-4 text-indigo-700">
-              Make a Difference!
-            </h2>
-            <p className="text-center text-gray-700 mb-4 lg:text-[18px]">
-              Your support helps us continue our mission of making the world a
-              better place. Every contribution brings us closer to achieving our
-              goals and empowering the community.
-            </p>
-            <Link
-              to="/donate-us"
-              className="px-6 py-3 bg-logoYellow text-white rounded-lg shadow-lg hover:bg-logo-blue transition-all text-lg font-semibold"
-            >
-              Donate Now
-            </Link>
-          </div>
+          <DonateCTA
+            title="Make a Difference!"
+            description="Your support helps us continue our mission of making the world a better place. Every contribution brings us closer to achieving our goals and empowering the community."
+          />
         </div>
       </div>
     </div>

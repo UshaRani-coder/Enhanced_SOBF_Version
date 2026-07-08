@@ -3,15 +3,11 @@ import { useLocation } from 'react-router-dom';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 import donate from '../assets/donateMotive.png';
-import { donors_words } from '../Constant/data';
-import { our_donors } from '../Constant/data';
 import Donate_hero from '../Components/Donate_page/donate_hero.jsx';
-import Impacts from '../Components/Home_Section/Impacts.jsx';
-import QRCode from '../assets/QRCode.png';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// PayPal Configuration (Replace with your Client ID)
+// PayPal Configuration 
 const paypalOptions = {
   clientId: "test", // Replace with YOUR_PAYPAL_CLIENT_ID (e.g., "AeJ9...")
   currency: "USD", // Change to "INR" if needed
@@ -19,7 +15,6 @@ const paypalOptions = {
 };
 
 const Donateus = () => {
-  const [activeTab, setActiveTab] = useState('whydonate');
   const [formData, setFormData] = useState({
     fullName: "",
     dob: "",
@@ -85,8 +80,7 @@ const Donateus = () => {
     setPaymentCompleted(true);
   };
 
-  // Render Tabs (Keep your existing tab content)
-  const renderContent = () => { /* ... */ };
+
 
   return (
     <PayPalScriptProvider options={paypalOptions}>
