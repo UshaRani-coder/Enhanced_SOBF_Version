@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getHeroBanners } from '../../Reducers/heroBannerSlice';
+import { getHeroBanners } from '../../reducers/heroBannerSlice';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 

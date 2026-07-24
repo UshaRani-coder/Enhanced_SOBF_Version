@@ -1,5 +1,5 @@
 import React from 'react';
-import ShareButton from '@/Components/common_components/ShareButton';
+import ShareButton from '@/components/common_components/ShareButton';
 import DonorCard from '@/helper/DonorCard';
 import {
   parseAmount,
@@ -36,7 +36,7 @@ const donor = currentDonation?.category?.donor || [];
 const displayedDonors = donor.slice(0, 4);
   return (
     <div className="lg:w-1/2 bg-white rounded-xl shadow-md overflow-hidden">
-      <div className="h-64 overflow-hidden">
+      <div className="aspect-video overflow-hidden">
         <img
           src={currentDonation?.category?.image}
           alt={currentDonation?.category?.title}

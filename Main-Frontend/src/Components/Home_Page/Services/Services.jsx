@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { getServices } from '@/Reducers/OurServicesSlice.js';
+import { getServices } from '@/reducers/OurServicesSlice.js';
 import { useLocation } from 'react-router-dom';
 import hardcodedServices from '@/defaultData/ourServices.json';
 import ServiceGrid from './ServiceGrid.jsx';

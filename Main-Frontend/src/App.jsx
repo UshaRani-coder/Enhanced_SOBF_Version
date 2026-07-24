@@ -4,20 +4,20 @@ import './App.css';
 import loader from './assets/loader.webp';
 import DonateForDetailedPage from './pages/DonateFor_Details';
 import EventDetails from './pages/UpcomingDetails';
-import ScrollToTop from './Components/common_components/ScrollToTop';
+import ScrollToTop from './components/common_components/ScrollToTop';
 
 // Lazy loading the components
-const Header = lazy(() => import('./Components/common_components/Header.jsx'));
-const Footer = lazy(() => import('./Components/common_components/Footer/Footer.jsx'));
+const Header = lazy(() => import('./components/common_components/Header.jsx'));
+const Footer = lazy(() => import('./components/common_components/Footer/Footer.jsx'));
 const BackgroundMusic = lazy(
-  () => import('./Components/common_components/BackgroundMusic.jsx'),
+  () => import('./components/common_components/BackgroundMusic.jsx'),
 );
 const LegalDoc = lazy(() => import('./pages/LegalDoc.jsx'));
 const NewsBulletinDetails = lazy(
   () => import('./pages/NewsBulletinDetails.jsx'),
 );
 const Whatsapp = lazy(
-  () => import('./Components/common_components/Whatsapp.jsx'),
+  () => import('./components/common_components/Whatsapp.jsx'),
 );
 const RecentActivityDetails = lazy(
   () => import('./pages/RecentActivityDetail.jsx'),
@@ -27,25 +27,25 @@ const AboutUs = lazy(() => import('./pages/AboutUs.jsx'));
 const ContactUsPage = lazy(() => import('./pages/ContactUs.jsx'));
 const Gallery = lazy(() => import('./pages/Gallery.jsx'));
 const Subscription = lazy(
-  () => import('./Components/subscription-page/Subscription.jsx'),
+  () => import('./components/Subscription-Page/Subscription.jsx'),
 );
-const DonateForMain = lazy(() => import('./pages/DonateForMain.jsx'));
-const DonationForm = lazy(() => import('./pages/Donateus.jsx'));
+const DonateForMain = lazy(() => import('./pages/DonateForList.jsx'));
+const DonateUs = lazy(() => import('./pages/DonateUs.jsx'));
 const Press_Release = lazy(
-  () => import('./Components/Home_Section/Press_Release.jsx'),
+  () => import('./components/Home_Page/Press_Release.jsx'),
 );
 const Recent_Activities = lazy(
-  () => import('./Components/Home_Section/Recent_Activities.jsx'),
+  () => import('./components/Home_Page/Recent_Activities.jsx'),
 );
 
 const ServiceDetails = lazy(
-  () => import('./Components/Home_Section/Services/ServiceDetails.jsx'),
+  () => import('./components/Home_Page/Services/ServiceDetails.jsx'),
 );
-const PrivacyPolicy = lazy(() => import('./Components/common_components/Footer/PrivacyPolicy.jsx'));
-const Videos = lazy(() => import('./Components/Home_Section/Video.jsx'));
-const RefundPolicy = lazy(() => import('./Components/common_components/Footer/RefundPolicy.jsx'));
+const PrivacyPolicy = lazy(() => import('./components/common_components/Footer/PrivacyPolicy.jsx'));
+const Videos = lazy(() => import('./components/Home_Page/Video.jsx'));
+const RefundPolicy = lazy(() => import('./components/common_components/Footer/RefundPolicy.jsx'));
 const TermsAndConditions = lazy(
-  () => import('./Components/common_components/Footer/TermsAndConditions.jsx'),
+  () => import('./components/common_components/Footer/TermsAndConditions.jsx'),
 );
 
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
@@ -113,7 +113,7 @@ const App = () => {
           <Route path="/events/:id" element={<EventDetails />} />
           <Route path="/donate-for" element={<DonateForMain />} />
           <Route path="/donate/:id" element={<DonateForDetailedPage />} />
-          <Route path="/donate-us" element={<DonationForm />} />
+          <Route path="/donate-us" element={<DonateUs />} />
           <Route path="/legal-doc" element={<LegalDoc />} />
 
           <Route path="/services/:id" element={<ServiceDetails />} />

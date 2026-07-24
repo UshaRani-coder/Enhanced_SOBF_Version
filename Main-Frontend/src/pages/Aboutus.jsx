@@ -1,7 +1,7 @@
 import React from 'react';
-import AboutUsIntro from '@/Components/AboutUs_Page/AboutUsIntro.jsx';
-import AboutUsSections from '@/Components/AboutUs_Page/AboutUsSections';
-import AboutUsGallery from '@/Components/AboutUs_Page/AboutUsGallery';
+import AboutUsIntro from '@/components/AboutUs_Page/AboutUsIntro.jsx';
+import AboutUsSections from '@/components/AboutUs_Page/AboutUsSections';
+import AboutUsGallery from '@/components/AboutUs_Page/AboutUsGallery';
 
 const AboutUs = () => {
   return (

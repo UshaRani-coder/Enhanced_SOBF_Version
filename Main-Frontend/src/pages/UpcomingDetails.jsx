@@ -4,13 +4,19 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdLocationPin, MdAccessTimeFilled } from 'react-icons/md';
 import DOMPurify from 'dompurify';
-import ShareButton from '@/Components/common_components/ShareButton';
+import ShareButton from '@/components/common_components/ShareButton';
 import {
   getSpecificEvent,
   clearEventPost,
-} from '@/Reducers/upcomingeventSlice';
+} from '@/reducers/upcomingeventSlice';
 import fallbackEvents from '@/defaultData/upcoming-events.json';
-import DonateCTA from '@/Components/common_components/DonateCTA.jsx';
+import DonateCTA from '@/components/common_components/DonateCTA.jsx';
+import formatDate from '@/utils/formatDate.js';
+import {
+  getStatusStyles,
+  getEventStatus,
+  formatTime,
+} from '@/utils/eventUtils.js';
 
 const EventDetails = () => {
   const navigate = useNavigate();
@@ -62,82 +68,6 @@ const EventDetails = () => {
     );
   }
 
-  // ---------------- HELPERS ----------------
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  };
-
-  const formatTime = (timeString) => {
-    if (!timeString) return '';
-    const [hours, minutes] = timeString.split(':');
-    const hour = parseInt(hours, 10);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const displayHour = hour % 12 || 12;
-    return `${displayHour}:${minutes} ${ampm}`;
-  };
-  const getEventStatus = (eventDate, startTime, endTime) => {
-    if (!eventDate || !startTime || !endTime) {
-      return event?.status || 'upcoming';
-    }
-
-    const now = new Date();
-
-    const date = new Date(eventDate);
-
-    const start = new Date(date);
-    const [startHour, startMinute] = startTime.split(':');
-
-    start.setHours(Number(startHour), Number(startMinute), 0, 0);
-
-    const end = new Date(date);
-    const [endHour, endMinute] = endTime.split(':');
-
-    end.setHours(Number(endHour), Number(endMinute), 0, 0);
-
-    if (now < start) return 'upcoming';
-
-    if (now >= start && now <= end) {
-      return 'happening';
-    }
-
-    return 'completed';
-  };
-  const getStatusStyles = (status) => {
-    switch (status) {
-      case 'happening':
-        return {
-          label: 'Happening Now',
-          bgColor: 'bg-gradient-to-r from-purple-400 to-purple-600',
-          icon: '🟢',
-          textColor: 'text-white',
-          animate: 'animate-pulse',
-        };
-      case 'completed':
-        return {
-          label: 'Completed',
-          bgColor: 'bg-gradient-to-r from-green-400 to-green-600',
-          icon: '✅',
-          textColor: 'text-white',
-          animate: '',
-        };
-      case 'upcoming':
-      default:
-        return {
-          label: 'Upcoming',
-          bgColor: 'bg-gradient-to-r from-indigo-400 to-indigo-600',
-          icon: '⏳',
-          textColor: 'text-white',
-          animate: '',
-        };
-    }
-  };
-
   const currentStatus =
     event?.startTime && event?.endTime
       ? getEventStatus(event.date, event.startTime, event.endTime)
@@ -148,8 +78,6 @@ const EventDetails = () => {
     window.location.origin === 'http://localhost:5173'
       ? 'https://sobf.in'
       : window.location.origin;
-
-  // ---------------- UI ----------------
 
   return (
     <div className="flex flex-col items-center w-[100%] md:w-[90%] p-[12px] mx-auto mt-[100px] lg:mt-[130px]">
@@ -183,11 +111,7 @@ const EventDetails = () => {
             <ShareButton
               title={`Check out this event: ${event?.title}`}
               url={`${baseURL}/events/${id}`}
-              className={`px-3 border-0 inline-block font-bold rounded-xl shadow-md
-    ${statusStyles.bgColor} ${statusStyles.textColor}
-    transition-all duration-300
-    hover:scale-105 hover:shadow-lg
-    active:scale-95`}
+              className={`px-3 border-0 inline-block font-bold rounded-xl shadow-md  ${statusStyles.bgColor} ${statusStyles.textColor} transition-all duration-300  hover:scale-105 hover:shadow-lg active:scale-95`}
             />
           </div>
 
@@ -221,8 +145,6 @@ const EventDetails = () => {
           {/* REGISTER */}
           {/* ACTION BUTTONS */}
           <div className="flex flex-wrap justify-start gap-4 mt-4">
-            
-
             <button
               className="px-5 py-2 bg-logo-blue text-white font-medium rounded-lg hover:bg-logoYellow transition-all"
               onClick={() => {

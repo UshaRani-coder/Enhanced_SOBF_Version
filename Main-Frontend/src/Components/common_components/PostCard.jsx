@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import ShareButton from './ShareButton.jsx';
-import { formatDate } from '@/utils/formatDate';
+import  formatDate  from '@/utils/formatDate';
 
 const PostCard = ({ news, detailRoute, title, baseURL }) => {
   return (

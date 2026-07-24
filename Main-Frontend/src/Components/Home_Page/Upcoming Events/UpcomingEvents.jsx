@@ -7,16 +7,16 @@ import 'swiper/css/pagination';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchEvents } from '@/Reducers/upcomingeventSlice.js';
+import { fetchEvents } from '@/reducers/upcomingeventSlice.js';
 import { Navigation, Pagination } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import fallbackEvents from '@/defaultData/upcoming-events.json';
 import { lockScroll, unlockScroll } from '@/utils/scrollLock';
-import FilterBar from '@/Components/common_components/FilterBar.jsx';
+import FilterBar from '@/components/common_components/FilterBar.jsx';
 import useFilteredPosts from '@/hooks/useFilteredPosts.js';
 import EventCard from './EventCard.jsx';
 import EventRegistrationModal from './EventRegistrationModal.jsx';
-import PageHeader from '@/Components/common_components/PageHeader.jsx';
+import PageHeader from '@/components/common_components/PageHeader.jsx';
 
 const UpcomingEvents = () => {
   const dispatch = useDispatch();

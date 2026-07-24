@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { fetchDonationById } from '@/Reducers/donateForSlice';
+import { fetchDonationById } from '@/reducers/donateForSlice';
 import {
   validateDonationForm,
   loadRazorpayScript,

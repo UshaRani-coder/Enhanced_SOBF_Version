@@ -2,11 +2,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSpecificBulletine } from '../Reducers/bulletinSlice';
+import { getSpecificBulletine } from '../reducers/bulletinSlice';
 import hardcodedPosts from '../defaultData/newsbulletine.json';
 import DOMPurify from 'dompurify';
-import ShareButton from '@/Components/common_components/ShareButton.jsx';
-import DonateCTA from '@/Components/common_components/DonateCTA.jsx';
+import ShareButton from '@/components/common_components/ShareButton.jsx';
+import DonateCTA from '@/components/common_components/DonateCTA.jsx';
+import  formatDate  from '@/utils/formatDate.js';
 
 const NewsBulletinDetails = () => {
   const navigate = useNavigate();
@@ -50,14 +51,7 @@ const NewsBulletinDetails = () => {
 
     return null;
   };
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  };
+ 
 
   const handleBack = () => {
     navigate('/press-release');

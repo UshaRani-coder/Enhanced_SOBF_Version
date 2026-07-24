@@ -3,7 +3,7 @@ import VisionImg from '@/assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv1
 import HealthCampImg from '@/assets/Sobf Images/health_and_awareness_camp/hac6.jpg';
 import childrenImg from '@/assets/Sobf Images/children_activities/ca18.jpg';
 import MisionImg from '@/assets/Sobf Images/food distribution/sadhuSeva3.jpg';
-import educationImg from '@/assets/Mission.png';
+import educationImg from '@/assets/mission.png';
 import sadhuSevaImg from '@/assets/Sobf Images/Sadhu Seva/ss7.jpg';
 import womenSkillDevImg from '@/assets/Sobf Images/women empowerment/we3.png';
 import childEduImg from '@/assets/Sobf Images/child_education_and_empowerment/cee12.png';

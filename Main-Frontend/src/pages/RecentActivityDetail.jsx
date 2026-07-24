@@ -3,10 +3,11 @@ import React, { useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import hardcodedPosts from '../defaultData/recent-activities.json';
-import { getPostById } from '../Reducers/postSlice';
+import { getPostById } from '../reducers/postSlice';
 import DOMPurify from 'dompurify';
-import ShareButton from '@/Components/common_components/ShareButton';
-import DonateCTA from '@/Components/common_components/DonateCTA.jsx';
+import ShareButton from '@/components/common_components/ShareButton';
+import DonateCTA from '@/components/common_components/DonateCTA.jsx';
+import  formatDate  from '@/utils/formatDate.js';
 
 const RecentActivityDetails = () => {
   const navigate = useNavigate();
@@ -45,14 +46,7 @@ const RecentActivityDetails = () => {
     );
   }
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  };
+
 
   const handleBack = () => {
     navigate('/recent-activities');

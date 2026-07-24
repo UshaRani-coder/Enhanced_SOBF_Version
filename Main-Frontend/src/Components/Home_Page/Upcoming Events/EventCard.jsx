@@ -1,7 +1,7 @@
 import React from 'react';
 import { MdLocationPin, MdAccessTimeFilled } from 'react-icons/md';
 import DOMPurify from 'dompurify';
-import ShareButton from '@/Components/common_components/ShareButton.jsx';
+import ShareButton from '@/components/common_components/ShareButton.jsx';
 import {
   getEventStatus,
   getStatusStyles,

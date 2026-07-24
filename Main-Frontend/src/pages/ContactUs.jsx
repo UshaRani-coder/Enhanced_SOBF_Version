@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useRef, useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
-import Support from '../Components/Home_Section/Support';
+import Support from '../components/Home_Page/Support';
 import { useLocation } from 'react-router-dom';
 // npm i @emailjs/browser
 

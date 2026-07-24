@@ -75,4 +75,3 @@ const DonateForModel = ({ donation, onClose }) => {
 };
 
 export default DonateForModel;
-

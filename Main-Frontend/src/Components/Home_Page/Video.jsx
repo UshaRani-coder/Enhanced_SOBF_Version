@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getfeaturedVideo } from '../../Reducers/featuredVideoSlice';
+import { getfeaturedVideo } from '../../reducers/featuredVideoSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import loader from '../../assets/loader.webp';
 import YouTube from 'react-youtube';

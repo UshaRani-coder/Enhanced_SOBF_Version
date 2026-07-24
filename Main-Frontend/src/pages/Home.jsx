@@ -1,21 +1,21 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import Hero from '../Components/Home_Section/Hero.jsx';
-import HeroVideo from '../Components/Home_Section/HeroVideo.jsx';
-import Impacts from '../Components/Home_Section/Impacts.jsx';
-import Contactus from '../Components/Home_Section/Support.jsx';
-import Faq from '../Components/Home_Section/Faq.jsx';
-import About from '../Components/Home_Section/About.jsx';
-import Services from '../Components/Home_Section/Services/Services.jsx';
-import Team from '../Components/Home_Section/Team.jsx';
-import Testimonials from '@/Components/Home_Section/Testimonial/Testimonials.jsx';
-import Video from '../Components/Home_Section/Video.jsx';
-import Programms from '../Components/Home_Section/Initiatives.jsx';
-import Partners from '../Components/Home_Section/Partners.jsx';
-import Recent_Activities from '../Components/Home_Section/Recent_Activities.jsx';
-import SidePopup from '../Components/common_components/sidePopup.jsx';
-import UpcomingEvents from '../Components/Home_Section/Upcoming Events/UpcomingEvents.jsx';
-import VolunteerForm from './Volunteer.jsx';
-import DonationOptions from './DonateFor.jsx';
+import Hero from '../components/Home_Page/Hero.jsx';
+import HeroVideo from '../components/Home_Page/HeroVideo.jsx';
+import Impacts from '../components/Home_Page/Impacts.jsx';
+import Contactus from '../components/Home_Page/Support.jsx';
+import Faq from '../components/Home_Page/Faq.jsx';
+import About from '../components/Home_Page/About.jsx';
+import Services from '../components/Home_Page/Services/Services.jsx';
+import Team from '../components/Home_Page/Team.jsx';
+import Testimonials from '@/components/Home_Page/Testimonial/Testimonials.jsx';
+import Video from '../components/Home_Page/Video.jsx';
+import Programms from '../components/Home_Page/Initiatives.jsx';
+import Partners from '../components/Home_Page/Partners.jsx';
+import Recent_Activities from '../components/Home_Page/Recent_Activities.jsx';
+import SidePopup from '../components/common_components/sidePopup.jsx';
+import UpcomingEvents from '../components/Home_Page/Upcoming Events/UpcomingEvents.jsx';
+import VolunteerForm from '../components/Volunteer/Volunteer.jsx';
+import DonationOptions from '@/components/Home_Page/DonateForPreview.jsx'
 import { WavySeparator } from '../utils/Seperator.jsx';
 
 const HomePage = () => {
@@ -67,7 +67,7 @@ const HomePage = () => {
           <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setShowVolunteerForm(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
+              className="absolute top-7 right-4 text-gray-500 hover:text-gray-700 z-10"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

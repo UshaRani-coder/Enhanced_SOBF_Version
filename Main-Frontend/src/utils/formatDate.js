@@ -1,4 +1,4 @@
-export const formatDate = (dateString) => {
+const formatDate = (dateString) => {
   const date = new Date(dateString);
 
   return date.toLocaleDateString("en-GB", {
@@ -7,3 +7,5 @@ export const formatDate = (dateString) => {
     year: "numeric",
   });
 };
+
+export default formatDate;

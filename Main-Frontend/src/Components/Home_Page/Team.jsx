@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTeams } from '../../Reducers/TeamSlice';
+import { getTeams } from '../../reducers/TeamSlice';
 import DOMPurify from 'dompurify';
 const Team = () => {
   const { teams, status } = useSelector((state) => state.teams);

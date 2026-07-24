@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getPosts } from '../../Reducers/postSlice';
+import { getPosts } from '../../reducers/postSlice';
 import hardcodedPosts from '../../defaultData/recent-activities.json';
 import PageHeader from '../common_components/PageHeader.jsx';
 import FilterBar from '../common_components/FilterBar.jsx';

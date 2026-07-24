@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaShareAlt } from 'react-icons/fa';
-import ShareModal from '@/Components/common_components/ShareModal';
+import ShareModal from '@/components/common_components/ShareModal';
 
 const ShareButton = ({ title, url, fullWidth = false, className = '' }) => {
   const [showModal, setShowModal] = useState(false);

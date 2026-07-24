@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOurImpact } from '../../Reducers/ourImpactsSlice.js';
+import { getOurImpact } from '../../reducers/ourImpactsSlice.js';
 
 const Statistics = () => {
   const dispatch = useDispatch();
