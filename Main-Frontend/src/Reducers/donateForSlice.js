@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {getAllDonationCategories,getSingleDonationPostBasedOnId,addDonationCategory, addDonor} from '../api/api';
-import axios from 'axios';
+
 
 // ! Get all donation categories
 export const fetchAllDonations = createAsyncThunk(

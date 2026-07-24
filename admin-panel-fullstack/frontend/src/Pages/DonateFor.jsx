@@ -182,46 +182,63 @@ const DonateFor = () => {
 
 
   const handleImageChange = (e) => {
-    const file = e.target?.files[0];
-    if (!file) return;
+  const file = e.target?.files[0];
 
-    if (!file.type.match('image.*')) {
-      setErrors({ ...errors, image: 'Please select an image file' });
-      return;
-    }
+  if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const img = new Image();
-      img.onload = () => {
-        const isValidDimension = ACCEPTED_DIMENSIONS.some(
-          (dim) =>
-            Math.abs(img.width - dim.width) <= TOLERANCE &&
-            Math.abs(img.height - dim.height) <= TOLERANCE,
-        );
+  const allowedImageTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/jpg',
+  ];
 
-        if (!isValidDimension) {
-          setErrors({
-            ...errors,
-            image: `Image dimensions (${img.width}x${img.height}) don't match required dimensions`,
-          });
-          return;
-        }
+  if (!allowedImageTypes.includes(file.type)) {
+    setErrors({
+      ...errors,
+      image: 'Only JPEG, PNG, and JPG images are allowed.',
+    });
+    return;
+  }
 
-        setFormData({
-          ...formData,
-          image: file,
-          imagePreview: reader.result,
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    const img = new Image();
+
+    img.onload = () => {
+      const width = img.width;
+      const height = img.height;
+
+      const aspectRatio = width / height;
+
+      const isValid =
+        aspectRatio >= 1 && aspectRatio <= 1.8;
+
+      if (!isValid) {
+        setErrors({
+          ...errors,
+          image: `Please upload an image between 1:1 and 16:9 aspect ratio. Your image is ${width}×${height}px.`,
         });
+        return;
+      }
 
-        if (errors.image) {
-          setErrors({ ...errors, image: null });
-        }
-      };
-      img.src = reader.result;
+      setFormData((prev) => ({
+        ...prev,
+        image: file,
+        imagePreview: reader.result,
+      }));
+
+      setErrors((prev) => ({
+        ...prev,
+        image: null,
+      }));
     };
-    reader.readAsDataURL(file);
+
+    img.src = reader.result;
   };
+
+  reader.readAsDataURL(file);
+};
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

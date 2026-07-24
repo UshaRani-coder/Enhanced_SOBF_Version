@@ -1,64 +1,53 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-
 import './App.css';
 import loader from './assets/loader.webp';
-import DonateForDetailedPage from './pages/DonateForDetailedPage';
+import DonateForDetailedPage from './pages/DonateFor_Details';
 import EventDetails from './pages/UpcomingDetails';
 import ScrollToTop from './Components/common_components/ScrollToTop';
 
 // Lazy loading the components
 const Header = lazy(() => import('./Components/common_components/Header.jsx'));
-const Footer = lazy(() => import('./Components/common_components/Footer.jsx'));
-const BackgroundMusic = lazy(() =>
-  import('./Components/common_components/BackgroundMusic.jsx'),
+const Footer = lazy(() => import('./Components/common_components/Footer/Footer.jsx'));
+const BackgroundMusic = lazy(
+  () => import('./Components/common_components/BackgroundMusic.jsx'),
 );
 const LegalDoc = lazy(() => import('./pages/LegalDoc.jsx'));
-const NewsBulletinDetails = lazy(() =>
-  import('./pages/NewsBulletinDetails.jsx'),
+const NewsBulletinDetails = lazy(
+  () => import('./pages/NewsBulletinDetails.jsx'),
 );
-const Whatsapp = lazy(() =>
-  import('./Components/common_components/Whatsapp.jsx'),
+const Whatsapp = lazy(
+  () => import('./Components/common_components/Whatsapp.jsx'),
 );
-const RecentActivityDetails = lazy(() =>
-  import('./pages/RecentActivityDetail.jsx'),
+const RecentActivityDetails = lazy(
+  () => import('./pages/RecentActivityDetail.jsx'),
 );
 const HomePage = lazy(() => import('./pages/Home.jsx'));
-const AboutUs = lazy(() => import('./pages/Aboutus.jsx'));
+const AboutUs = lazy(() => import('./pages/AboutUs.jsx'));
 const ContactUsPage = lazy(() => import('./pages/ContactUs.jsx'));
 const Gallery = lazy(() => import('./pages/Gallery.jsx'));
-const Subscription = lazy(() =>
-  import('./Components/subscription-page/Subscription.jsx'),
+const Subscription = lazy(
+  () => import('./Components/subscription-page/Subscription.jsx'),
 );
 const DonateForMain = lazy(() => import('./pages/DonateForMain.jsx'));
 const DonationForm = lazy(() => import('./pages/Donateus.jsx'));
-const Press_Release = lazy(() =>
-  import('./Components/Home_Section/Press_Release.jsx'),
+const Press_Release = lazy(
+  () => import('./Components/Home_Section/Press_Release.jsx'),
 );
-const Recent_Activities = lazy(() =>
-  import('./Components/Home_Section/Recent_Activities.jsx'),
+const Recent_Activities = lazy(
+  () => import('./Components/Home_Section/Recent_Activities.jsx'),
 );
-const AnnaVitranSeva = lazy(() =>
-  import('./Components/Home_Section/Services/AnnaVitranSeva.jsx'),
+
+const ServiceDetails = lazy(
+  () => import('./Components/Home_Section/Services/ServiceDetails.jsx'),
 );
-const SwachhVrindavan = lazy(() =>
-  import('./Components/Home_Section/Services/SwachhVrindavan.jsx'),
-);
-const SadhuSeva = lazy(() =>
-  import('./Components/Home_Section/Services/SadhuSeva.jsx'),
-);
-const Brajkulam = lazy(() =>
-  import('./Components/Home_Section/Services/Brajkulam.jsx'),
-);
-const PrivacyPolicy = lazy(() => import('./Footer/PrivacyPolicy.jsx'));
+const PrivacyPolicy = lazy(() => import('./Components/common_components/Footer/PrivacyPolicy.jsx'));
 const Videos = lazy(() => import('./Components/Home_Section/Video.jsx'));
-const RefundPolicy = lazy(() => import('./Footer/RefundPolicy.jsx'));
-const TermsAndConditions = lazy(() =>
-  import('./Footer/TermsAndConditions.jsx'),
+const RefundPolicy = lazy(() => import('./Components/common_components/Footer/RefundPolicy.jsx'));
+const TermsAndConditions = lazy(
+  () => import('./Components/common_components/Footer/TermsAndConditions.jsx'),
 );
-const CommunityService = lazy(() =>
-  import('./Components/Home_Section/Services/CommunityService.jsx'),
-);
+
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 const App = () => {
@@ -79,6 +68,7 @@ const App = () => {
     '/events/:id',
     '/videos',
     '/legal-doc',
+    '/services/:id',
     '/anna-vitran-seva',
     '/community-service',
     '/swachh-vrindavan',
@@ -103,42 +93,42 @@ const App = () => {
         </div>
       }
     >
-        <div className="flex flex-col min-h-screen">
-      <ScrollToTop />
-      {!isNotFound && <Header />}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/contact-us" element={<ContactUsPage />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/press-release" element={<Press_Release />} />
-        <Route path="/press-release/:id" element={<NewsBulletinDetails />} />
-        <Route path="/recent-activities" element={<Recent_Activities />} />
-        <Route
-          path="/recent-activities/:id"
-          element={<RecentActivityDetails />}
-        />
-        <Route path="/videos" element={<Videos />} />
-        <Route path="/subscription" element={<Subscription />} />
-        <Route path="/events/:id" element={<EventDetails />} />
-        <Route path="/donate-for" element={<DonateForMain />} />
-        <Route path="/donate/:id" element={<DonateForDetailedPage />} />
-        <Route path="/donate-us" element={<DonationForm />} />
-        <Route path="/legal-doc" element={<LegalDoc />} />
-        <Route path="/anna-vitran-seva" element={<AnnaVitranSeva />} />
-        <Route path="/community-service" element={<CommunityService />} />
-        <Route path="/swachh-vrindavan" element={<SwachhVrindavan />} />
-        <Route path="/sadhu-seva" element={<SadhuSeva />} />
-        <Route path="/brajkulam" element={<Brajkulam />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/refund-policy" element={<RefundPolicy />} />
-        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+      <div className="flex flex-col min-h-screen">
+        <ScrollToTop />
+        {!isNotFound && <Header />}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact-us" element={<ContactUsPage />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/press-release" element={<Press_Release />} />
+          <Route path="/press-release/:id" element={<NewsBulletinDetails />} />
+          <Route path="/recent-activities" element={<Recent_Activities />} />
+          <Route
+            path="/recent-activities/:id"
+            element={<RecentActivityDetails />}
+          />
+          <Route path="/videos" element={<Videos />} />
+          <Route path="/subscription" element={<Subscription />} />
+          <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/donate-for" element={<DonateForMain />} />
+          <Route path="/donate/:id" element={<DonateForDetailedPage />} />
+          <Route path="/donate-us" element={<DonationForm />} />
+          <Route path="/legal-doc" element={<LegalDoc />} />
 
-        <Route path="/*" element={<NotFound />} />
-      </Routes>
-      {!isNotFound && <BackgroundMusic />}
-      {!isNotFound && <Whatsapp />}
-      {!isNotFound && <Footer />}
+          <Route path="/services/:id" element={<ServiceDetails />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
+          <Route
+            path="/terms-and-conditions"
+            element={<TermsAndConditions />}
+          />
+
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+        {!isNotFound && <BackgroundMusic />}
+        {!isNotFound && <Whatsapp />}
+        {!isNotFound && <Footer />}
       </div>
     </Suspense>
   );

@@ -1,11 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-// import {
-//   createDonation,
-//   getAllDonations,
-//   getDonationById,
-//   getDonationsByDonor,
-//   sendTaxCertificate
-// } from '../../../admin-panel-fullstack/frontend/src/api/api';
 import axios from 'axios';
 import { createDonation, getAllDonations, getDonationById, getDonationsByDonor, sendTaxCertificate } from '../../../admin-panel-fullstack/frontend/src/api/api';
 

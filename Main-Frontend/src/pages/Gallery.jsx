@@ -8,17 +8,11 @@ const Gallery = () => {
   const dispatch = useDispatch();
   const { gallery, status } = useSelector((state) => state.gallery);
   const [selectedCategory, setSelectedCategory] = useState('all');
-
   const [selectedIndex, setSelectedIndex] = useState(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }, []);
+  
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (selectedIndex === null) return;

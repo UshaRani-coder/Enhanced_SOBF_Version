@@ -3,7 +3,8 @@ import zeroHunger from '../../assets/Sobf Images/sdg/Zero Hunger.jpg';
 import goodHealth from '../../assets/Sobf Images/sdg/Good Health and Well-Being.jpg';
 import qualityEducation from '../../assets/Sobf Images/sdg/Quality Education.jpg';
 import cleanWater from '../../assets/Sobf Images/sdg/Clean Water and Sanitation.jpg';
-const Programms = () => {
+
+const Initiatives = () => {
   return (
     <div className="my-[15px] pb-12">
       <div className="mt-2 text-center">
@@ -84,4 +85,4 @@ const Programms = () => {
   );
 };
 
-export default Programms;
+export default Initiatives;

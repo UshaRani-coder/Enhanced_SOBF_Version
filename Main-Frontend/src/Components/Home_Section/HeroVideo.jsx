@@ -51,12 +51,7 @@ const HeroVideo = () => {
     }
   };
 
-  const handleSmoothScroll = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+  
 
   return (
     <div className="w-full h-screen relative overflow-hidden">
@@ -101,7 +96,6 @@ const HeroVideo = () => {
   bg-[#2d335d] shadow-lg hover:shadow-2xl transition-all duration-300 border border-[#edb25a]/50"
             onClick={() => {
               navigate('/subscription');
-              handleSmoothScroll();
             }}
           >
             {/* Gold gradient hover */}

@@ -1,0 +1,25 @@
+export const services = [
+  {
+    label: 'Community Service',
+    path: '/services/community-service',
+  },
+  {
+    label: 'Anna Vitran Seva',
+    path: '/services/gopala-bhog',
+  },
+  {
+    label: 'Educational Support',
+    path: '/services/education',
+  }
+];
+
+export const legalLinks = [
+  {
+    label: 'Privacy Policy',
+    path: '/privacy-policy',
+  },
+  {
+    label: 'Terms & Conditions',
+    path: '/terms-and-conditions',
+  }
+];

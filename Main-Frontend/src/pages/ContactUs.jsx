@@ -10,14 +10,7 @@ const ContactUsPage = () => {
   // Reference for the form element
   const form = useRef();
 
-  useEffect(() => {
-    if (location.pathname === '/contact-us') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [location.pathname]);
+
 
   // State to store form data
   const [formData, setFormData] = useState({

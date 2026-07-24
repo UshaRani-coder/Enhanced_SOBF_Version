@@ -1,13 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { data } from '../../utils/data';
-// import { data } from "../../Constant/data";
+import { data } from '../../utils/faqData';
 
 function Accordion() {
-  // State to keep track of which FAQ is currently selected/open
   const [selected, setSelected] = useState(null);
 
-  // Function to handle opening/closing of FAQs
   function handleSingleSelection(getCurrentId) {
     setSelected(getCurrentId === selected ? null : getCurrentId);
   }
@@ -17,11 +14,8 @@ function Accordion() {
   const rightColumnData = data.slice(Math.ceil(data.length / 2));
 
   return (
-    // Outer container with full width and padding
     <div className="w-full max-w-full ">
-      {/* Inner container for centering content */}
       <div className="flex flex-col items-center justify-center p-4">
-        {/* Content wrapper with maximum width */}
         <div className="w-full max-w-[1200px] text-center">
           <h1 className="inline-block text-[30px] md:text-heading3 lg:text-heading2  font-bold mb-4 text-[#2d335d] relative  transition-all ease-in-out ">
             Frequently Asked Questions

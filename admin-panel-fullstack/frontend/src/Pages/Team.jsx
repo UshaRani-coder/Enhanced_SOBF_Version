@@ -105,49 +105,48 @@ const Team = () => {
   };
 
   //! Update team member
- const handleUpdateTeamMember = async () => {
-  const { name, image, role } = formData;
+  const handleUpdateTeamMember = async () => {
+    const { name, image, role } = formData;
 
-  if (!name || !role) {
-    toast.error('Name and Role are required fields.');
-    return;
-  }
+    if (!name || !role) {
+      toast.error('Name and Role are required fields.');
+      return;
+    }
 
-  const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
-  // only validate if image is selected
-  if (image && !allowedImageTypes.includes(image.type)) {
-    toast.error('Image must be jpg, png, or jpeg.');
-    return;
-  }
+    // only validate if image is selected
+    if (image && !allowedImageTypes.includes(image.type)) {
+      toast.error('Image must be jpg, png, or jpeg.');
+      return;
+    }
 
-  const teamData = new FormData();
+    const teamData = new FormData();
 
-  Object.entries(formData).forEach(([key, value]) => {
-  if (value !== null && value !== undefined) {
-    teamData.append(key, value);
-  }
-});
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        teamData.append(key, value);
+      }
+    });
 
-  try {
-    setIsLoading(true);
+    try {
+      setIsLoading(true);
 
-    await dispatch(
-      updateTeamData({ id: currentPost._id, teamData })
-    ).unwrap();
+      await dispatch(
+        updateTeamData({ id: currentPost._id, teamData }),
+      ).unwrap();
 
-    resetForm();
-    setIsModalOpen(false);
+      resetForm();
+      setIsModalOpen(false);
 
-    toast.success('Team member updated successfully.');
-    dispatch(getTeamData());
+      toast.success('Team member updated successfully.');
+      dispatch(getTeamData());
+    } catch (error) {
+      toast.error(error.message || 'Failed to update team member.');
+    }
 
-  } catch (error) {
-    toast.error(error.message || 'Failed to update team member.');
-  }
-
-  setIsLoading(false);
-};
+    setIsLoading(false);
+  };
 
   //! Delete team member
   const handleDeleteTeamMember = async (id) => {
@@ -184,10 +183,30 @@ const Team = () => {
   };
 
   //! Handle file input changes
+
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: files[0] }));
-    setErrorMessage('');
+    const file = files[0];
+    if (!file) return;
+    const img = new Image();
+    img.onload = () => {
+      const ratio = img.width / img.height;
+      // Allow only square images
+      if (ratio < 0.9 || ratio > 1.1) {
+        toast.error(
+          'Please upload a square image (1:1 aspect ratio) for the best appearance.',
+        );
+        e.target.value = '';
+        return;
+      }
+      setFormData((prev) => ({
+        ...prev,
+        [name]: file,
+      }));
+      setErrorMessage('');
+    };
+
+    img.src = URL.createObjectURL(file);
   };
 
   //! Reset form to initial state
@@ -379,8 +398,9 @@ const Team = () => {
               <div
                 className="w-[200px] h-[200px] rounded-full"
                 style={{
-                  backgroundImage: `url(${member?.image || 'https://via.placeholder.com/150'
-                    })`,
+                  backgroundImage: `url(${
+                    member?.image || 'https://via.placeholder.com/150'
+                  })`,
                   backgroundPosition: 'center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',

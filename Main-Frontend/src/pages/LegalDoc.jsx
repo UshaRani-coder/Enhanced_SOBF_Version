@@ -12,11 +12,7 @@ const LegalDoc = () => {
   const dispatch = useDispatch();
   const { legalDocs, status, error } = useSelector((state) => state.legalDocs);
   const docsToShow = legalDocs?.length > 0 ? legalDocs : hardCodedLegalDocs;
-  useEffect(() => {
-    if (location.pathname === '/legal-doc') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [location.pathname]);
+ 
 
   useEffect(() => {
     if (status === 'idle') {

@@ -178,22 +178,63 @@ const OurService = () => {
   };
 
   // ! Handle file changes
-  const handleFileChange = (e) => {
+
+  const handleFileChange = async (e) => {
     const { name, files } = e.target;
+
+    if (!files || files.length === 0) return;
+
     const allowedImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
+    const checkAspectRatio = (file) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
+
+          const aspectRatio = width / height;
+          const requiredRatio = 16 / 9;
+
+          const isValid = Math.abs(aspectRatio - requiredRatio) < 0.02;
+
+          resolve({
+            isValid,
+            width,
+            height,
+          });
+
+          URL.revokeObjectURL(img.src);
+        };
+
+        img.src = URL.createObjectURL(file);
+      });
+    };
+
+    // Logo upload
     if (name === 'logo') {
-      if (files[0]) {
-        if (!allowedImageTypes.includes(files[0].type)) {
-          toast.error(
-            'Only image files (JPEG, PNG, JPG) are allowed for the logo.',
-          );
-          return;
-        }
-        setFormData((prev) => ({ ...prev, logo: files[0] }));
+      const file = files[0];
+
+      if (!allowedImageTypes.includes(file.type)) {
+        toast.error(
+          'Only image files (JPEG, PNG, JPG) are allowed for the logo.',
+        );
+        return;
       }
-    } else if (name === 'images') {
+
+      setFormData((prev) => ({
+        ...prev,
+        logo: file,
+      }));
+
+      return;
+    }
+
+    // Service images upload
+    if (name === 'images') {
       const newImages = Array.from(files);
+
       const invalidFiles = newImages.filter(
         (file) => !allowedImageTypes.includes(file.type),
       );
@@ -204,14 +245,31 @@ const OurService = () => {
         );
         return;
       }
-      if (newImages.length > maxImages) {
+
+      if (formData.images.length + newImages.length > maxImages) {
         toast.error(`You can upload a maximum of ${maxImages} images.`);
         return;
       }
 
+      const validImages = [];
+
+      for (const file of newImages) {
+        const { isValid, width, height } = await checkAspectRatio(file);
+
+        if (!isValid) {
+          toast.error(
+            `Please upload service images with a 16:9 aspect ratio. Your image is ${width}×${height}px.`,
+          );
+
+          return;
+        }
+
+        validImages.push(file);
+      }
+
       setFormData((prev) => ({
         ...prev,
-        images: [...prev.images, ...newImages].slice(0, maxImages),
+        images: [...prev.images, ...validImages],
       }));
     }
   };
@@ -426,7 +484,7 @@ const OurService = () => {
                 <input
                   type="file"
                   name="images"
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/jpg"
                   multiple
                   onChange={handleFileChange}
                   className=""

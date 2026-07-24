@@ -1,12 +1,9 @@
-const mongoose = require("mongoose");
-const logger = require("../logger");
-const { isValidObjectId } = require("mongoose");
-const upcomingEvents = require("../models/upcoming-events.model");
-const EventUser = require("../models/event-user.model");
-const transporter = require("../middleware/nodemailer");
-
-
-
+const mongoose = require('mongoose');
+const logger = require('../logger');
+const { isValidObjectId } = require('mongoose');
+const upcomingEvents = require('../models/upcoming-events.model');
+const EventUser = require('../models/event-user.model');
+const transporter = require('../middleware/nodemailer');
 
 const registerUserForEvent = async (req, res) => {
   try {
@@ -14,7 +11,9 @@ const registerUserForEvent = async (req, res) => {
     const { eventId } = req.params;
     // Validate event ID
     if (!isValidObjectId(eventId)) {
-      return res.status(400).json({ success: false, message: "Invalid event ID" });
+      return res
+        .status(400)
+        .json({ success: false, message: 'Invalid event ID' });
     }
     let user;
     // Check if userId exists
@@ -25,63 +24,96 @@ const registerUserForEvent = async (req, res) => {
       if (user && (user.username !== username || user.email !== email)) {
         return res.status(400).json({
           success: false,
-          message: "User ID exists but provided username or email does not match",
+          message:
+            'User ID exists but provided username or email does not match',
         });
       }
     }
 
     // If user does not exist, check if the email is already registered
-    if (!user) {
-      if (!username || !email) {
-        return res.status(400).json({ success: false, message: "New user must provide username and email" });
-      }
-      // Create a new user
-      user = new EventUser({ username, email, registeredEvents: [] });
-      await user.save();
-      userId = user._id; // Assign newly created user ID
-    }
 
+    if (!user) {
+      user = await EventUser.findOne({ email });
+
+      if (!user) {
+        user = new EventUser({
+          username,
+          email,
+          registeredEvents: [],
+        });
+
+        await user.save();
+      }
+
+      userId = user._id;
+    }
+    if (user) {
+      username = user.username;
+      email = user.email;
+    }
     // Find the event
     const event = await upcomingEvents.findById(eventId);
     if (!event) {
-      return res.status(404).json({ success: false, message: "Event not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: 'Event not found' });
     }
 
     // Check if the user is already registered for this event
-    if (event.registeredUsers.includes(userId)) {
-      return res.status(400).json({ success: false, message: "User already registered for this event" });
-    }
 
+    const alreadyRegistered = event.registeredUsers?.some(
+      (id) => id.toString() === userId.toString(),
+    );
+
+    if (alreadyRegistered) {
+      return res.status(400).json({
+        success: false,
+        message: 'User already registered for this event',
+      });
+    }
+    {
+      return res.status(400).json({
+        success: false,
+        message: 'User already registered for this event',
+      });
+    }
     // Register the user
     event.registeredUsers.push(userId);
     await event.save();
 
     // Also add the event to the user's registeredEvents list
-    if (!user.registeredEvents.includes(eventId)) {
+
+    const alreadyAdded = user.registeredEvents?.some(
+      (id) => id.toString() === eventId.toString(),
+    );
+
+    if (!alreadyAdded) {
       user.registeredEvents.push(eventId);
       await user.save();
     }
 
     // Populate registered users for response
-    const updatedEvent = await upcomingEvents.findById(eventId).populate("registeredUsers", "username email");
+    const updatedEvent = await upcomingEvents
+      .findById(eventId)
+      .populate('registeredUsers', 'username email');
 
     const eventDate = new Date(event.date);
 
     // Format Date & Time in Local Timezone
-    const formattedDate = eventDate.toLocaleString("en-US", {
-      weekday: "long",  // "Monday"
-      year: "numeric",  // "2025"
-      month: "long",    // "March"
-      day: "numeric",   // "15"
-      hour: "2-digit",  // "08"
-      minute: "2-digit", // "30"
-      hour12: true,     // AM/PM format
-      timeZoneName: "short", // Show timezone abbreviation
+    const formattedDate = eventDate.toLocaleString('en-US', {
+      weekday: 'long', // "Monday"
+      year: 'numeric', // "2025"
+      month: 'long', // "March"
+      day: 'numeric', // "15"
+      hour: '2-digit', // "08"
+      minute: '2-digit', // "30"
+      hour12: true, // AM/PM format
+      timeZoneName: 'short', // Show timezone abbreviation
     });
 
     // Email content
     const mailOptions = {
-      from: "soulofbraj@gmail.com",
+      from: 'soulofbraj@gmail.com',
       to: email,
       subject: `🎉 Welcome to ${event.title} - Get Ready!`,
       html: `
@@ -122,57 +154,65 @@ const registerUserForEvent = async (req, res) => {
   `,
     };
 
-
     // Send email
-    await transporter.sendMail(mailOptions);
+
+    try {
+      await transporter.sendMail(mailOptions);
+    } catch (emailError) {
+      logger.error('Email sending failed', emailError);
+    }
+
     return res.status(200).json({
       success: true,
-      message: "User successfully registered for the event",
+      message:
+        'Registration successful! You will receive a confirmation email shortly.',
       event: updatedEvent,
     });
   } catch (error) {
-    logger.error("Error registering user for the event", error);
-    res.status(500).json({
+    console.log('REGISTER ERROR:', error);
+
+    logger.error('Error registering user for the event', error);
+
+    return res.status(500).json({
       success: false,
-      message: "Something went wrong while registering for the event",
+      message: error.message,
     });
   }
 };
-
-
 
 const getUsersWithRegisteredEvents = async (req, res) => {
   try {
     // Find all users and populate their registered events with full details
     const users = await EventUser.find().populate({
-      path: "registeredEvents",
-      model: "upcomingEvents",
+      path: 'registeredEvents',
+      model: 'upcomingEvents',
     });
-    // const users = await EventUser.find().populate({ path:"registeredUsers"})
+
     res.status(200).json({
       success: true,
-      message: "Users with their registered events retrieved successfully",
+      message: 'Users with their registered events retrieved successfully',
       users,
     });
   } catch (error) {
-    logger.error("Error fetching users with registered events", error);
+    logger.error('Error fetching users with registered events', error);
     res.status(500).json({
       success: false,
-      message: "Something went wrong while fetching users with registered events",
+      message:
+        'Something went wrong while fetching users with registered events',
     });
   }
 };
 
-const sendingEmailToSelectedUsers = async (req ,res) => {
+const sendingEmailToSelectedUsers = async (req, res) => {
   const { emails, subject, message } = req.body;
-  
+
   if (!emails || !subject || !message) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
   try {
     for (const email of emails) {
       await transporter.sendMail({
-        from: "soulofbraj@gmail.com", // Sender address
+        from: 'soulofbraj@gmail.com', // Sender address
         to: email, // Recipient address
         subject: subject, // Email subject
         text: message, // Email body (plain text)
@@ -183,13 +223,10 @@ const sendingEmailToSelectedUsers = async (req ,res) => {
     console.error('Error sending emails:', error);
     res.status(500).json({ error: 'Failed to send emails' });
   }
-}
-
-
-
+};
 
 module.exports = {
   registerUserForEvent,
   getUsersWithRegisteredEvents,
-  sendingEmailToSelectedUsers
+  sendingEmailToSelectedUsers,
 };

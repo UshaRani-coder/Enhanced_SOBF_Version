@@ -224,7 +224,29 @@ const UpcomingEvents = () => {
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: files[0] || null }));
+    const file = files[0];
+
+    if (!file) return;
+
+    const img = new Image();
+
+    img.onload = () => {
+      const ratio = img.width / img.height;
+      if (ratio < 1.6 || ratio > 1.9) {
+        toast.error(
+          'Please upload a landscape image with an aspect ratio close to 16:9 for the best appearance.',
+        );
+        e.target.value = '';
+        return;
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        [name]: file,
+      }));
+    };
+
+    img.src = URL.createObjectURL(file);
   };
 
   const resetForm = () => {

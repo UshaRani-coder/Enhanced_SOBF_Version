@@ -221,17 +221,7 @@ const EventDetails = () => {
           {/* REGISTER */}
           {/* ACTION BUTTONS */}
           <div className="flex flex-wrap justify-start gap-4 mt-4">
-            {(currentStatus === 'upcoming' ||
-              currentStatus === 'happening') && (
-              <button
-                className="px-5 py-2 bg-[#2d335d] text-white font-medium rounded-lg hover:bg-[#edb25a] transition-all"
-                onClick={() =>
-                  window.open(event?.registrationLink || '#', '_blank')
-                }
-              >
-                Register Now
-              </button>
-            )}
+            
 
             <button
               className="px-5 py-2 bg-logo-blue text-white font-medium rounded-lg hover:bg-logoYellow transition-all"

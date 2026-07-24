@@ -73,7 +73,7 @@ export default function SidePopup() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -100, opacity: 0 }} // Exits to left
             transition={{ type: 'tween', duration: 0.3, ease: 'easeOut' }} // Fast and smooth
-            className="w-[90%] bg-white shadow-2xl rounded-lg p-4 mt-4 border border-gray-200 
+            className="w-[90%] bg-white  rounded-lg p-4 mt-4 border border-gray-200 
              shadow-[0px_10px_30px_rgba(0,0,0,0.2)] hover:shadow-[0px_15px_35px_rgba(0,0,0,0.3)] transition-all duration-300"
           >
             <div className="flex justify-between items-center border-b pb-2">

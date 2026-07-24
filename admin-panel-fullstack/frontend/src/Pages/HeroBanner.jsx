@@ -140,7 +140,7 @@ const HeroBanner = () => {
 
         if (originalAspect < minAspect || originalAspect > maxAspect) {
           toast.error(
-            'Image is too extreme to crop properly. Please use an image with aspect ratio between 1:1 and 3:1.',
+            'Image is too tall or too wide to crop properly. Please upload an image with an aspect ratio between 1:1 and 3:1.',
             { autoClose: 5000 }
           );
           if (fileInputRef.current) {

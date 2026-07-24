@@ -43,28 +43,11 @@ const Statistics = () => {
             className={`w-full flex flex-col mt-8 items-center  justify-center md:flex-row md:flex-wrap ${ourImpacts.length > 5 ? ' md:justify-evenly' : ''}`}
           >
             {ourImpacts?.map((impact, index) => (
-              // <li
-              //   key={impact?.id || index}
-              //   className="flex flex-col items-center  justify-center  group p-2 md:p-4   rounded-xl hover:shadow-xl w-[230px] md:w-[220px] "
-              // >
-              //   <img
-              //     src={impact?.image}
-              //     alt="impact"
-              //     className="text-[#001d23] w-[60px] transition-transform duration-300 group-hover:scale-110"
-              //   />
-              //   <span className="text-logoYellow text-center font-bold text-3xl md:text-3xl lg:text-4xl mt-4">
-              //     {formatNumber(impact?.total_services)}
-              //     <br />
-              //   </span>
-              //   <p className="text-center w-[90%] overflow-hidden md:mt-2 min-h-[100px] flex flex-col justify-between">
-              //     {impact?.description}
-              //   </p>
-              // </li>
               <li
                 key={impact?.id || index}
                 className="flex flex-col items-center p-4 rounded-xl hover:shadow-xl w-[230px] md:w-[220px] min-h-[200px] md:min-h-[260px]"
               >
-                {/* Image (fixed top spacing) */}
+                {/* Image */}
                 <img
                   src={impact?.image}
                   alt="impact"
@@ -78,7 +61,7 @@ const Statistics = () => {
                   </span>
                 </div>
 
-                {/* Description (flex area but NOT affecting number) */}
+                {/* Description*/}
                 <div className="flex-1 flex items-start justify-center">
                   <p className="text-center w-full text-sm md:text-base text-gray-700 line-clamp-3">
                     {impact?.description}

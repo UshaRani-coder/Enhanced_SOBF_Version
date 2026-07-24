@@ -36,30 +36,24 @@ const NewsBulletines = () => {
   const checkImageDimensions = (file) => {
     return new Promise((resolve) => {
       const img = new Image();
-      img.onload = function () {
-        const width = this.naturalWidth;
-        const height = this.naturalHeight;
 
-        // Check if dimensions match any accepted size (with 1% tolerance)
-        const isValid = ACCEPTED_DIMENSIONS.some((dim) => {
-          const widthMatch =
-            Math.abs(width - dim.width) <= Math.round(dim.width * 0.01);
-          const heightMatch =
-            Math.abs(height - dim.height) <= Math.round(dim.height * 0.01);
-          return widthMatch && heightMatch;
-        });
+      img.onload = () => {
+        const width = img.width;
+        const height = img.height;
+
+        const aspectRatio = width / height;
+
+        // Allow small pixel rounding differences
+        const isValid = Math.abs(aspectRatio - 16 / 9) < 0.02;
 
         resolve({
           isValid,
           width,
           height,
-          acceptedSizes: ACCEPTED_DIMENSIONS.map(
-            (d) => `${d.width}×${d.height}`,
-          ),
-          currentAspectRatio: (width / height).toFixed(2),
+          acceptedSizes: ['16:9'],
         });
       };
-      img.onerror = () => resolve({ isValid: false });
+
       img.src = URL.createObjectURL(file);
     });
   };
@@ -237,8 +231,7 @@ const NewsBulletines = () => {
 
           if (!isValid) {
             toast.error(
-              `Image must be one of these sizes: ${acceptedSizes.join(' or ')}.\n` +
-                `Your image is ${width}×${height}px.`,
+              `Please upload an image with a ${acceptedSizes.join(' or ')} aspect ratio. Your image is ${width}×${height}px.`,
             );
             if (fileInputRef.current) {
               fileInputRef.current.value = '';

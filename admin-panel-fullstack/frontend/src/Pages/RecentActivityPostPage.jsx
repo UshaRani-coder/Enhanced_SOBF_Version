@@ -92,31 +92,7 @@ const RecentActivityPostPage = () => {
       return false;
     }
 
-    // Validate images
-    const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (formData.images.length > 0) {
-      for (let i = 0; i < formData?.images?.length; i++) {
-        const image = formData?.images[i];
-
-        // Check file type
-        if (!validImageTypes?.includes(image?.type)) {
-          toast.error(
-            'Only valid image files (JPEG, PNG, JPG) are allowed in the Images section.',
-          );
-          return false;
-        }
-
-        // Check dimensions
-        const { isValid, width, height } = await checkImageDimensions(image);
-        if (!isValid) {
-          toast.error(
-            `Image "${image.name}" must have a 16:9 aspect ratio. Current dimensions: ${width}x${height}`,
-          );
-          return false;
-        }
-      }
-    }
-
+   
     return true;
   };
 
@@ -235,61 +211,61 @@ const RecentActivityPostPage = () => {
     if (!files || files.length === 0) return;
 
     if (name === 'images') {
-      const file = files[0]; // Only take the first file for single upload
+      const file = files[0];
       const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
       if (!validImageTypes.includes(file.type)) {
         toast.error('Only image files (JPEG, PNG, JPG) are allowed.');
+
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+
         return;
       }
 
       const reader = new FileReader();
       reader.onload = (event) => {
         const image = new Image();
-        image.onload = async () => {
-          // Check if image is too extreme to crop to 16:9
+        image.onload = () => {
           const originalAspect = image.width / image.height;
-          const minAspect = 1; // Minimum acceptable aspect ratio (1:1)
-          const maxAspect = 3; // Maximum acceptable aspect ratio (3:1)
+          const minAspect = 1;
+          const maxAspect = 3;
 
           if (originalAspect < minAspect || originalAspect > maxAspect) {
             toast.error(
-              'Image is too extreme to crop properly. Please use an image with aspect ratio between 1:1 and 3:1.',
-              { autoClose: 5000 },
+              'Image is too tall or too wide to crop properly. Please upload an image with aspect ratio between 1:1 and 3:1.',
+              {
+                autoClose: 5000,
+              },
             );
+
             if (fileInputRef.current) {
-              fileInputRef.current.value = ''; // Reset file input
+              fileInputRef.current.value = '';
             }
+
             return;
           }
 
-          // Check dimensions before proceeding
-          const { isValid, width, height, requiredSize } =
-            await checkImageDimensions(file);
-
-          if (!isValid) {
-            toast.error(
-              `Image must be exactly ${requiredSize} (4:3 aspect ratio). ` +
-                `Your image is ${width}×${height}px.`,
-            );
-            return false;
-          }
-
-          // If validation passes, update the form data
+          // Validation passed
           setFormData((prev) => ({
             ...prev,
-            images: [file], // Replace any existing images with the new one
+            images: [file],
           }));
           setPreviewImage(URL.createObjectURL(file));
         };
+
         image.onerror = () => {
           toast.error('Failed to load the image. Please try another file.');
+
           if (fileInputRef.current) {
             fileInputRef.current.value = '';
           }
         };
+
         image.src = event.target.result;
       };
+
       reader.readAsDataURL(file);
     }
   };
@@ -375,15 +351,14 @@ const RecentActivityPostPage = () => {
             {Array.isArray(expandedItem?.images) &&
             expandedItem.images?.length > 0 ? (
               expandedItem?.images?.map((image, index) => (
-                
                 <img
-  key={index}
-  src={image}
-  alt={`${expandedItem?.title} - ${index + 1}`}
-  loading="lazy"
-  decoding="async"
-  className="w-full max-h-[70vh] object-cover rounded-lg mb-5"
-/>
+                  key={index}
+                  src={image}
+                  alt={`${expandedItem?.title} - ${index + 1}`}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full max-h-[70vh] object-cover rounded-lg mb-5"
+                />
               ))
             ) : (
               <p className="text-gray-500 italic">No images available</p>
@@ -556,14 +531,14 @@ const RecentActivityPostPage = () => {
               onClick={() => handleExpandPost(post)}
             >
               {post.images?.length > 0 ? (
-                  <div className="w-full overflow-hidden rounded-lg">
-                <img
-                  src={post.images[0]}
-                  alt={post.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-56 md:h-64 lg:h-72 object-cover"
-                />
+                <div className="w-full overflow-hidden rounded-lg">
+                  <img
+                    src={post.images[0]}
+                    alt={post.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-56 md:h-64 lg:h-72 object-cover"
+                  />
                 </div>
               ) : (
                 <div className="w-full h-[200px] bg-gray-200 rounded flex items-center justify-center">

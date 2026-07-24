@@ -1,58 +1,79 @@
 [
- 
   {
-    "_id": "gopalaBhog",
+    "_id": "gopala-bhog",
     "title": "Gopala Bhog",
     "logo": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779965906/food-donation-icon_kx5smt.png",
     "small_description": "Serving affordable Satvik food and empowering women with job opportunities.",
     "description": "Gopala Bhog Outlet in Shri Vrindavan Dham is not only serving affordable and Satvik Food Prasadam to hundreds of beneficiaries, Gopala Bhog Outlet is also providing job opportunities to needy women beneficiaries. With this opportunity, they are able to help their families financially. Currently, we have more than 10 women beneficiaries.",
     "images": [
-      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1778841236/sobf_uploads/msttwmh779euof4j06wy.png"
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783749539/fd2_y3qrly.png",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783749537/fd9_mduebs.png",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1778841236/sobf_uploads/msttwmh779euof4j06wy.png",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783749537/fd7_fqcfr6.png"
     ],
     "color": "rgb(215,162,31)"
   },
   {
-    "_id": "swachhSwasthVrindavan",
+    "_id": "swachh-vrindavan",
     "title": "Swachh & Swasth Vrindavan",
     "logo": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779965932/swachh-vrndavan-icon_druvns.png",
     "small_description": "A mission to keep Shri Vrindavan Dham clean and healthy for all.",
     "description": "We feel very sad when we see garbage and filth in Shri Vrindavan Dham, and even more sad when we see cows eating that garbage. Swachh Vrindavan, Swasth Vrindavan is our initiative, in which we will take steps to make Shri Vrindavan Dham more clean and healthy. Every year, lakhs of devotees come to visit Shri Vrindavan Dham. We will make an effort for all, so that all the pilgrims have a very good experience of Braj Yatra. Our Shri Vrindavan Dham is very sacred, hence it is our duty to keep making continuous efforts to keep Shri Vrindavan Dham clean and healthy. Parikrama is going on continuously in Shri Vrindavan Dham. Every Guru, Sadhu, Sanyasi, Acharya, and Vaishnav all do Parikrama, and we will try that while doing Parikrama there is no dirt on their feet.",
     "images": [
-      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1778823337/SwachhVrindavan_nknp2b.jpg"
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1778823337/SwachhVrindavan_nknp2b.jpg",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1778823338/SwachhVrindavan2_ddg1ns.jpg"
     ],
     "color": "rgb(0,138,96)"
   },
   {
-    "_id": "sadhuSeva",
+    "_id": "sadhu-seva",
     "title": "Sadhu Seva",
     "logo": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779965968/sadhu-seva-icon_raia1c.png",
     "small_description": "Providing daily food Prasadam to sadhus and devotees in need.",
     "description": "Those who fully depend on the mercy and blessings of Shri Radha Krishna, for them we would like to start daily food Prasadam seva. There are thousands of devotees who are living and doing their sadhana on the roadside. They don't have houses to live in or food to eat, but even then, they are happily living in Shri Vrindavan Dham and doing their daily sadhana.",
     "images": [
-      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779537853/sobf_uploads/hero-banner/1779537851611-SadhuSeva3.jpg"
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783751895/cropped-ss1_vl0o6r.png",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783751896/cropped-ss3_grsyzw.png",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783751896/cropped-ss2_ssukgq.png"
     ],
     "color": "rgb(228,102,47)"
   },
   {
-    "_id": "brajkulamEducationalCentre",
+    "_id": "brajkulam",
     "title": "Brajkulam Educational Centre",
     "logo": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779965875/brajkulam-icon_lljuu4.png",
     "small_description": "Empowering children with education and technology for a brighter future.",
     "description": "We started a free computer lab for our Brajkulam children in Shri Vrindavan Dham, Mathura district, Uttar Pradesh. In this lab, they will get knowledge of machine learning so they can prepare for their bright future. With this effort, we aim to transform hundreds of deprived children in the Braj region. We need your guidance and support to achieve our goal.",
     "images": [
-      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1778829883/sobf_migration/jue19w6ns1diiojkuqxp.jpg"
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783749129/cee1_lz9izd.png",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1778829883/sobf_migration/jue19w6ns1diiojkuqxp.jpg",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783749128/cee25_fbnchy.png"
     ],
     "color": "rgb(167,112,135)"
   },
   {
-  "_id": "healthcareInitiative",
-  "title": "Healthcare Initiative",
-  "logo": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779965866/health-camp-icon_btbr9u.png",
-  "small_description": "Providing essential healthcare support and medical assistance to underserved communities.",
-  "description": "Our Healthcare Initiative focuses on improving the health and well-being of underprivileged families in the Braj region. We organize free health check-up camps, distribute medicines, provide hygiene awareness, and support people with access to basic medical care. Through this initiative, we aim to create a healthier and safer community for children, women, and elderly people who lack proper healthcare facilities.",
-  "images": [
-    "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779955898/sobf_uploads/recent-activities/1779955898043-HealthCare.jpg"
-  ],
-  "color": "rgb(0, 137, 123)"
-}
+    "_id": "community-service",
+    "title": "Community Service",
+    "logo": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779965968/sadhu-seva-icon_raia1c.png",
+    "small_description": "Empowering communities through volunteer service, humanitarian initiatives, and social welfare programs.",
+
+    "description": "Soul of Braj is committed to community service, believing that helping others is one of the most meaningful ways to create a positive impact. Community service not only benefits those in need but also brings a sense of purpose, happiness, and fulfillment to volunteers. By serving society with compassion and dedication, we strengthen our communities and enrich our own lives.",
+    "images": [
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783752381/fmd2_eqh076.png",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783752318/communityService_uxbryz.png",
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1783752355/spd7_r3il68.png"
+    ],
+    "color": "rgb(100,182,67)"
+  },
+  {
+    "_id": "healthcareInitiative",
+    "title": "Healthcare Initiative",
+    "logo": "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779965866/health-camp-icon_btbr9u.png",
+    "small_description": "Serving communities through humanitarian initiatives, volunteer efforts, and social welfare programs.",
+    "description": "Our Healthcare Initiative focuses on improving the health and well-being of underprivileged families in the Braj region. We organize free health check-up camps, distribute medicines, provide hygiene awareness, and support people with access to basic medical care. Through this initiative, we aim to create a healthier and safer community for children, women, and elderly people who lack proper healthcare facilities.",
+    "images": [
+      "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779955898/sobf_uploads/recent-activities/1779955898043-HealthCare.jpg"
+    ],
+    "color": "rgb(0, 137, 123)"
+  }
 ]

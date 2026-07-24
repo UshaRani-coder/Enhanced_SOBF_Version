@@ -13,7 +13,6 @@ const Video = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
- 
 
   const [videosToShow, setVideosToShow] = useState(3);
 
@@ -24,34 +23,31 @@ const Video = () => {
     }
   }, [status, dispatch]);
 
+  useEffect(() => {
+    if (location.pathname !== '/videos') return;
 
+    const savedScroll = sessionStorage.getItem('videos-scroll');
+    if (!savedScroll) return;
 
-useEffect(() => {
-  if (location.pathname !== '/videos') return;
+    // wait until DOM is fully painted
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: Number(savedScroll),
+          behavior: 'auto',
+        });
 
-  const savedScroll = sessionStorage.getItem('videos-scroll');
-  if (!savedScroll) return;
-
-  // wait until DOM is fully painted
-  const id = requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      window.scrollTo({
-        top: Number(savedScroll),
-        behavior: 'auto',
+        sessionStorage.removeItem('videos-scroll');
       });
-
-      sessionStorage.removeItem('videos-scroll');
     });
-  });
 
-  return () => cancelAnimationFrame(id);
-}, [location.pathname]);
- 
+    return () => cancelAnimationFrame(id);
+  }, [location.pathname]);
+
   const handleShowMore = () => {
-  sessionStorage.setItem('videos-scroll', window.scrollY);
-  navigate('/videos');
-};
-
+    sessionStorage.setItem('videos-scroll', window.scrollY);
+    navigate('/videos');
+  };
 
   const getVideoId = useCallback((url) => {
     if (!url) return null;
@@ -120,7 +116,7 @@ useEffect(() => {
           videos.
         </h1>
 
-        <h1 className="text-center text-md small-range:text-lg md:text-xl mb-4 p-3 text-gray-600 hidden md:block">
+        <h1 className="text-center text-md small-range:text-lg md:text-xl mb-4 p-3 text-gray-600 ">
           Witness the impact of our work through inspiring stories and
           community-driven moments captured in our latest videos.
         </h1>
@@ -215,5 +211,3 @@ useEffect(() => {
 };
 
 export default Video;
-
-

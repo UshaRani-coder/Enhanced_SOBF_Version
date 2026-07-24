@@ -41,7 +41,6 @@ const gallerySlice = createSlice({
       })
       .addCase(getGalleryImages.rejected, (state, action) => {
         state.status = 'failed';
-        // state.error = 'Failed to fetch gallery. Showing fallback images.';
         state.gallery = fallbackGallery; // Use fallback data if API fails
       });
   },
