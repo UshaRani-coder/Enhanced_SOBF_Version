@@ -6,7 +6,7 @@ import {
   getOurImpact,
   updateOurImpact,
   removeOurImpact,
-} from '../Reducers/ourImpactsSlice';
+} from '../reducers/ourImpactsSlice';
 import { MdEdit, MdDelete } from 'react-icons/md';
 
 const OurImpacts = () => {

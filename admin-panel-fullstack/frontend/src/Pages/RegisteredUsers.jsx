@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FaSearch, FaFilter } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
-import { getEventsUsersFromDB } from '../Reducers/eventuserSlice';
+import { getEventsUsersFromDB } from '../reducers/eventuserSlice';
 import axios from 'axios';
 
 const RegisteredUsers = () => {

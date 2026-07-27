@@ -12,7 +12,7 @@ import {
   fetchEvents,
   removeEvent,
   updateEventPost,
-} from '../Reducers/upcomingEventsSlice';
+} from '../reducers/upcomingEventsSlice';
 
 const UpcomingEvents = () => {
   ReactQuill.Quill = Quill;

@@ -10,7 +10,7 @@ import {
   getLegalDocuments,
   removeLegalDocument,
   updateLegalDocumentById,
-} from '../Reducers/legalDocSlice';
+} from '../reducers/legalDocSlice';
 
 const LegalDoc = () => {
   const dispatch = useDispatch();

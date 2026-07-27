@@ -5,7 +5,7 @@ import {
   getfeaturedVideo,
   removefeaturedVideo,
   updatefeaturedVideo,
-} from '../Reducers/featuredVideoSlice';
+} from '../reducers/featuredVideoSlice';
 import { toast } from 'react-toastify';
 import { MdEdit, MdDelete } from 'react-icons/md';
 

@@ -7,7 +7,7 @@ import {
   getTeamData,
   removeTeam,
   updateTeamData,
-} from '../Reducers/TeamSlice';
+} from '../reducers/TeamSlice';
 import DOMPurify from 'dompurify';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';

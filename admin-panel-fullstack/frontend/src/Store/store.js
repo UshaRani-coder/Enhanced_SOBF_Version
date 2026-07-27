@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import postReducer from '../Reducers/RecentActivityPostPageSlice';
-import bulletinReducer from '../Reducers/bulletinSlice';
-import ourImpactsReducer from '../Reducers/ourImpactsSlice';
-import featuredVideoReducer from '../Reducers/featuredVideoSlice';
-import heroBannerReducer from '../Reducers/heroBannerSlice';
-import addLegalDocReducer from '../Reducers/legalDocSlice';
-import teamReducer from '../Reducers/TeamSlice';
-import galleryReducer from '../Reducers/gallerySlice';
-import ourServiceRducer from '../Reducers/OurServicesSlice';
-import upcomingEventReducer from '../Reducers/upcomingEventsSlice.js';
-import eventUserReducer from "../Reducers/eventuserSlice.js"
-import donationsReducer from "../Reducers/donateForSlice.js"
+import postReducer from '../reducers/RecentActivityPostPageSlice.js';
+import bulletinReducer from '../reducers/bulletinSlice.js';
+import ourImpactsReducer from '../reducers/ourImpactsSlice.js';
+import featuredVideoReducer from '../reducers/featuredVideoSlice.js';
+import heroBannerReducer from '../reducers/heroBannerSlice.js';
+import addLegalDocReducer from '../reducers/legalDocSlice.js';
+import teamReducer from '../reducers/TeamSlice.js';
+import galleryReducer from '../reducers/gallerySlice.js';
+import ourServiceRducer from '../reducers/OurServicesSlice.js';
+import upcomingEventReducer from '../reducers/upcomingEventsSlice.js';
+import eventUserReducer from "../reducers/eventuserSlice.js"
+import donationsReducer from "../reducers/donateForSlice.js"
 
 const store = configureStore({
   reducer: {

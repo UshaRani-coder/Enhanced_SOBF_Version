@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom';
 import loader from './assets/loader.webp';
 const ProtectedLayout = lazy(() => import('./components/ProtectedLayout'));
-const Login = lazy(() => import('./Pages/Login.jsx'));
-const NotFound = lazy(() => import('./Pages/NotFound.jsx'));
+const Login = lazy(() => import('./pages/Login.jsx'));
+const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {

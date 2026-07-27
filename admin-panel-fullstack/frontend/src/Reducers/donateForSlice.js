@@ -63,7 +63,7 @@ export const updateDonationCategory = createAsyncThunk(
       if (!response || response.status !== 200) {
         throw new Error('Failed to update category');
       }
-      return response.data;
+      return response.data.category;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -154,7 +154,7 @@ const donationsSlice = createSlice({
       })
       .addCase(createDonationCategory.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.categories.push(action.payload);
+        state.categories.unshift(action.payload.category);
       })
       .addCase(createDonationCategory.rejected, (state, action) => {
         state.status = 'failed';

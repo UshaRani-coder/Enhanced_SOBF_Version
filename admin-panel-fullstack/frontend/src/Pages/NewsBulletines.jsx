@@ -7,7 +7,7 @@ import {
   getBulletine,
   removeBulletine,
   updateBulletine,
-} from '../Reducers/bulletinSlice';
+} from '../reducers/bulletinSlice';
 import DOMPurify from 'dompurify';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';

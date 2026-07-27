@@ -1,6 +1,7 @@
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV || 'development'}`,
 });
+
 const express = require('express');
 const helmet = require('helmet');
 const connectDB = require('./config/db');

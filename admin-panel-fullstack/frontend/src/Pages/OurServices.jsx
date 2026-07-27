@@ -7,7 +7,7 @@ import {
   getServices,
   removeService,
   updateService,
-} from '../Reducers/OurServicesSlice';
+} from '../reducers/OurServicesSlice.js';
 import DOMPurify from 'dompurify';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';

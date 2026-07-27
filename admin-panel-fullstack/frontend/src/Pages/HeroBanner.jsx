@@ -6,7 +6,7 @@ import {
   getHeroBanners,
   updateHeroBanners,
   removeHeroBanner,
-} from '../Reducers/heroBannerSlice';
+} from '../reducers/heroBannerSlice';
 import { MdEdit } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
 

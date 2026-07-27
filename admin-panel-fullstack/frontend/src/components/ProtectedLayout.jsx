@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Sidebar from './Sidebar';
+import Sidebar from './Sidebar/Sidebar.jsx';
 import Header from './Header';
-import NewsBulletines from '../Pages/NewsBulletines';
-import OurImpacts from '../Pages/OurImpacts';
-import FeaturedVideo from '../Pages/FeaturedVideo';
-import LegalDocs from '../Pages/LegalDocs';
-import HeroBanner from '../Pages/HeroBanner';
-import Team from '../Pages/Team';
-import Gallery from '../Pages/Gallery';
-import NotFound from '../Pages/NotFound.jsx';
-import RecentActivityPostPage from '../Pages/RecentActivityPostPage.jsx';
-import OurService from '../Pages/OurServices.jsx';
-import UpcomingEvents from '../Pages/UpcomingEvents.jsx';
-import RegisteredUsers from '../Pages/RegisteredUsers.jsx';
-import Volunteer from '../Pages/Volunteer.jsx';
-import DonateFor from '../Pages/DonateFor.jsx';
-import SubscribedDonor from '../Pages/SubscribedDonor.jsx';
-import DonorDashboard from '../Pages/DonorInfo.jsx';
+import NewsBulletines from '../pages/NewsBulletines';
+import OurImpacts from '../pages/OurImpacts';
+import FeaturedVideo from '../pages/FeaturedVideo';
+import LegalDocs from '../pages/LegalDocs';
+import HeroBanner from '../pages/HeroBanner';
+import Team from '../pages/Team';
+import Gallery from '../pages/Gallery';
+import NotFound from '../pages/NotFound.jsx';
+import RecentActivityPostPage from '../pages/RecentActivityPostPage.jsx';
+import OurService from '../pages/OurServices.jsx';
+import UpcomingEvents from '../pages/UpcomingEvents.jsx';
+import RegisteredUsers from '../pages/RegisteredUsers.jsx';
+import Volunteer from '../pages/Volunteer.jsx';
+import DonateFor from '../pages/DonateFor.jsx';
+import SubscribedDonor from '../pages/SubscribedDonor.jsx';
+import DonorDashboard from '../pages/DonorInfo.jsx';
 
 const ProtectedLayout = ({ setIsAuthenticated }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // Sidebar visibility for small screens
@@ -62,7 +62,7 @@ const ProtectedLayout = ({ setIsAuthenticated }) => {
       {/* Sidebar */}
       {!isNotFound && (
         <div
-          className={`fixed top-0 left-0 md:static transition-all duration-300  z-[9999] ${
+          className={`fixed top-0 left-0 md:static transition-all duration-300   ${
             isSidebarVisible ? 'translate-x-0' : '-translate-x-full'
           } md:translate-x-0 ${
             isCollapsed ? 'md:w-20' : 'md:w-[15rem]'

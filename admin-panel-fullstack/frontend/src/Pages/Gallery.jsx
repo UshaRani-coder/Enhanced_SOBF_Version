@@ -6,7 +6,7 @@ import {
   getGalleryImages,
   updateGalleryImage,
   removeGallery,
-} from '../Reducers/gallerySlice';
+} from '../reducers/gallerySlice';
 import { MdEdit, MdDelete } from 'react-icons/md';
 
 const Gallery = () => {

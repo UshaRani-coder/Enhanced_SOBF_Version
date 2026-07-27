@@ -7,7 +7,7 @@ import {
   getPosts,
   removePost,
   updatePost,
-} from '../Reducers/RecentActivityPostPageSlice';
+} from '../reducers/RecentActivityPostPageSlice';
 import DOMPurify from 'dompurify';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
