@@ -60,7 +60,6 @@ const registerUserForEvent = async (req, res) => {
     }
 
     // Check if the user is already registered for this event
-
     const alreadyRegistered = event.registeredUsers?.some(
       (id) => id.toString() === userId.toString(),
     );
@@ -71,12 +70,7 @@ const registerUserForEvent = async (req, res) => {
         message: 'User already registered for this event',
       });
     }
-    {
-      return res.status(400).json({
-        success: false,
-        message: 'User already registered for this event',
-      });
-    }
+    
     // Register the user
     event.registeredUsers.push(userId);
     await event.save();
@@ -204,24 +198,41 @@ const getUsersWithRegisteredEvents = async (req, res) => {
 };
 
 const sendingEmailToSelectedUsers = async (req, res) => {
-  const { emails, subject, message } = req.body;
+  const { emails } = req.body;
 
-  if (!emails || !subject || !message) {
-    return res.status(400).json({ error: 'Missing required fields' });
+  if (!emails || !Array.isArray(emails) || emails.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: 'No emails provided',
+    });
   }
+
   try {
-    for (const email of emails) {
-      await transporter.sendMail({
-        from: 'soulofbraj@gmail.com', // Sender address
-        to: email, // Recipient address
-        subject: subject, // Email subject
-        text: message, // Email body (plain text)
-      });
+    for (const mail of emails) {
+      const mailOptions = {
+        from: 'soulofbraj@gmail.com',
+
+        to: mail.email,
+
+        subject: mail.subject,
+
+        text: mail.message,
+      };
+
+      await transporter.sendMail(mailOptions);
     }
-    res.status(200).json({ message: 'Emails sent successfully!' });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Emails sent successfully!',
+    });
   } catch (error) {
     console.error('Error sending emails:', error);
-    res.status(500).json({ error: 'Failed to send emails' });
+
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to send emails',
+    });
   }
 };
 

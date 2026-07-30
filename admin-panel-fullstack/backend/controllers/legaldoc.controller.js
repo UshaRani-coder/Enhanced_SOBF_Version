@@ -89,26 +89,22 @@ const updateLegalDocument = async (req, res) => {
       });
     }
 
-    const updatedFields = {
-      title: req.body.title?.trim() || existingDoc.title,
-      description:
-        req.body.description?.trim() || existingDoc.description,
-    };
+const updatedFields = {
+  title: req.body.title?.trim() || existingDoc.title,
+  description:
+    req.body.description?.trim() || existingDoc.description,
+};
 
-    // IF NEW FILE UPLOADED
-    if (req.fileUrl) {
-      updatedFields.fileName = req.fileUrl;
-      updatedFields.public_id = req.publicId;
-    }
+// If new PDF uploaded
+if (req.file) {
+  updatedFields.fileName = req.file.path;
+  updatedFields.public_id = req.file.filename;
+}
 
-    const updatedDoc = await LegalDoc.findByIdAndUpdate(
-  req.params.id,
-  {
-    title: req.body.title,
-    description: req.body.description,
-    ...(req.file && { fileName: req.file.path }),
-  },
-  { new: true } 
+ const updatedDoc = await LegalDoc.findByIdAndUpdate(
+  id,
+  updatedFields,
+  { new: true }
 );
 
     return res.status(200).json({

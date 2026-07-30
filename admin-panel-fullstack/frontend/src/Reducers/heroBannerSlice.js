@@ -42,7 +42,7 @@ export const updateHeroBanners = createAsyncThunk(
   async ({ id, updatedData }, { rejectWithValue }) => {
     try {
       const response = await updateHeroBanner(id, updatedData);
-      return response.data.updatedPost;
+      return response.data.updatedBanner;
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || 'Failed to update hero banner',

@@ -10,20 +10,23 @@ const sanitizeFileName = (file) => {
 };
 
 // reusable storage creator
-  const createStorage = (folderName) =>
+
+const createStorage = (folderName) =>
   new CloudinaryStorage({
     cloudinary,
+
     params: async (req, file) => {
+      const isPdf = file.mimetype === "application/pdf";
+
       return {
         folder: folderName,
-        // 🔥 IMPORTANT FOR PDF
-        resource_type: "auto",
+
+        resource_type: isPdf ? "raw" : "image",
 
         public_id: `${Date.now()}-${sanitizeFileName(file)}`,
       };
     },
   });
-
 // upload instances
 const teamUpload = multer({ storage: createStorage("sobf_uploads/team") });
 

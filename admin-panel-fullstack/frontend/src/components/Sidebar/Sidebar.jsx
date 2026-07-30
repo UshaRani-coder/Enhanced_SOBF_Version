@@ -63,7 +63,7 @@ const Sidebar = ({ isCollapsed, onOptionClick }) => {
             </div>
 
             {isEventsOpen && (
-              <ul className="ml-8 space-y-1">
+              <ul className="ml-8 space-y-1 mt-2">
                 {upcomingEventItems.map((item) => (
                   <SidebarItem
                     key={item.path}
