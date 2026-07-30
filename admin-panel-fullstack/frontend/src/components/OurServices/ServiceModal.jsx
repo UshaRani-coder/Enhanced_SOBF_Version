@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import { quillStyles } from '../../utils/quillConfig.js';
-import ImagePreview from '../ImagePreview.jsx';
+import ImagePreview from '../common/ImagePreview.jsx';
 
 const ServiceModal = ({
   isOpen,

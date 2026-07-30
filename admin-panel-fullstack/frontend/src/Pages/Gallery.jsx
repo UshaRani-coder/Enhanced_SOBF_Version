@@ -5,7 +5,7 @@ import { getGalleryImages } from '../reducers/gallerySlice';
 import GalleryModal from '../components/Gallery/GalleryModal';
 import GalleryGrid from '../components/Gallery/GalleryGrid';
 import GalleryFilter from '../components/Gallery/GalleryFilter';
-import Pagination from '../components/Pagination';
+import Pagination from '../components/common/Pagination';
 
 import useGalleryForm from '../hooks/useGalleryForm';
 

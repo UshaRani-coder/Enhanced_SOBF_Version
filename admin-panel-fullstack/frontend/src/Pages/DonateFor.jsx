@@ -5,7 +5,7 @@ import { fetchAllDonations } from '../reducers/donateForSlice';
 import DonationModal from '../components/DonateFor/DonationModal';
 import DonationTable from '../components/DonateFor/DonationTable';
 import DonationSearch from '../components/DonateFor/DonationSearch';
-import Pagination from '../components/Pagination';
+import Pagination from '../components/common/Pagination';
 
 import useDonationForm from '../hooks/useDonationForm.js';
 import useDonationFilter from '../hooks/useDonationFilter';

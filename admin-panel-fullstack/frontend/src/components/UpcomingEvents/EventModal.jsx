@@ -4,7 +4,7 @@ import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import { quillStyles } from '../../utils/quillConfig';
 
-import ImagePreview from '../ImagePreview.jsx';
+import ImagePreview from '../common/ImagePreview.jsx';
 
 ReactQuill.Quill = Quill;
 
