@@ -6,7 +6,7 @@ import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 
 import SidebarItem from './SidebarItem';
 import { sidebarItems, upcomingEventItems } from './sidebarData';
-import { getSidebarItemClass } from '../../utils/sidebarUtils';
+import { getSidebarItemClass } from '../Sidebar/sidebarUtils.js';
 
 const Sidebar = ({ isCollapsed, onOptionClick }) => {
   const location = useLocation();

@@ -6,7 +6,7 @@ import {
   updateDonationCategory,
   deleteDonationCategory,
 } from '../reducers/donateForSlice';
-import  donationValidation  from '../utils/donationValidation.js';
+import donationValidation from '../components/DonateFor/donationValidation.js';
 import { validateDonationImage } from '../utils/imageValidator';
 
 const useDonationForm = () => {

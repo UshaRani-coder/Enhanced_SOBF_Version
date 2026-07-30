@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { getSidebarItemClass } from "../../utils/sidebarUtils.js";
+import { getSidebarItemClass } from "../Sidebar/sidebarUtils.js";
 
 const SidebarItem = ({
   item,
