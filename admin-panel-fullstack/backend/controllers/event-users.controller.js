@@ -70,7 +70,7 @@ const registerUserForEvent = async (req, res) => {
         message: 'User already registered for this event',
       });
     }
-    
+
     // Register the user
     event.registeredUsers.push(userId);
     await event.save();
@@ -78,11 +78,15 @@ const registerUserForEvent = async (req, res) => {
     // Also add the event to the user's registeredEvents list
 
     const alreadyAdded = user.registeredEvents?.some(
-      (id) => id.toString() === eventId.toString(),
+      (registration) => registration.event.toString() === eventId.toString(),
     );
 
     if (!alreadyAdded) {
-      user.registeredEvents.push(eventId);
+      user.registeredEvents.push({
+        event: eventId,
+        registeredAt: new Date(),
+      });
+
       await user.save();
     }
 
@@ -177,8 +181,9 @@ const registerUserForEvent = async (req, res) => {
 const getUsersWithRegisteredEvents = async (req, res) => {
   try {
     // Find all users and populate their registered events with full details
+
     const users = await EventUser.find().populate({
-      path: 'registeredEvents',
+      path: 'registeredEvents.event',
       model: 'upcomingEvents',
     });
 
@@ -224,7 +229,7 @@ const sendingEmailToSelectedUsers = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Emails sent successfully!',
+      message: 'Email sent successfully!',
     });
   } catch (error) {
     console.error('Error sending emails:', error);

@@ -17,13 +17,17 @@ import {
   getEventStatus,
   formatTime,
 } from '@/utils/eventUtils.js';
+import EventRegistrationModal from '@/components/Home_Page/Upcoming Events/EventRegistrationModal.jsx';
+import useEventRegistration from '@/hooks/useEventRegistration.js';
 
 const EventDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const { post, postStatus } = useSelector((state) => state.events);
+  const { post, postStatus, registeredEventIds } = useSelector(
+    (state) => state.events,
+  );
 
   // fallback event (only used if API fails)
   const fallbackEvent = useMemo(() => {
@@ -43,6 +47,18 @@ const EventDetails = () => {
 
   // FINAL SOURCE OF TRUTH
   const event = postStatus === 'succeeded' && post ? post : fallbackEvent;
+  const isRegistered = registeredEventIds.includes(event?._id);
+
+  const {
+    showForm,
+    setShowForm,
+    formData,
+    errors,
+    isLoading,
+    progress,
+    handleInputChange,
+    handleSubmit,
+  } = useEventRegistration(event?._id);
 
   // ---------------- UI STATES ----------------
 
@@ -142,18 +158,36 @@ const EventDetails = () => {
             }}
           />
 
-          {/* REGISTER */}
-          {/* ACTION BUTTONS */}
-          <div className="flex flex-wrap justify-start gap-4 mt-4">
-            <button
-              className="px-5 py-2 bg-logo-blue text-white font-medium rounded-lg hover:bg-logoYellow transition-all"
-              onClick={() => {
-                navigate('/#events');
-              }}
-            >
-              Back to Events
-            </button>
-          </div>
+         {/* ACTION BUTTONS */}
+<div className="flex flex-wrap gap-4 mt-4">
+  {(currentStatus === 'upcoming' ||
+    currentStatus === 'happening') && (
+    <button
+      disabled={isRegistered}
+      className={`px-5 py-2 font-semibold rounded-lg transition-all ${
+        isRegistered
+          ? 'bg-green-600 text-white cursor-not-allowed'
+          : 'bg-[#2d335d] text-white hover:bg-[#edb25a]'
+      }`}
+      onClick={() => {
+        if (!isRegistered) {
+          setShowForm(true);
+        }
+      }}
+    >
+      {isRegistered ? '✓ Registered' : 'Register Now'}
+    </button>
+  )}
+
+  <button
+    className="px-5 py-2 bg-logo-blue text-white font-medium rounded-lg hover:bg-logoYellow transition-all"
+    onClick={() => {
+      navigate('/#events');
+    }}
+  >
+    Back to Events
+  </button>
+</div>
 
           {/* DONATION */}
           <DonateCTA
@@ -162,6 +196,17 @@ const EventDetails = () => {
           />
         </div>
       </div>
+      <EventRegistrationModal
+        showForm={showForm}
+        event={event}
+        formData={formData}
+        errors={errors}
+        isLoading={isLoading}
+        progress={progress}
+        onChange={handleInputChange}
+        onClose={() => setShowForm(false)}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 };

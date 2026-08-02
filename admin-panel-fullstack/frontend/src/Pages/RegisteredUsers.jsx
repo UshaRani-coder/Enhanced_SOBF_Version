@@ -114,7 +114,7 @@ const RegisteredUsers = () => {
               isMobile && !isHovered ? 'hidden' : 'ml-2'
             }`}
           >
-            Send Emails
+            Send Email
           </span>
         </button>
       </div>

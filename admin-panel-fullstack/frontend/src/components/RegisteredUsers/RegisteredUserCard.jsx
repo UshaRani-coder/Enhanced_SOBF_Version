@@ -2,20 +2,24 @@ import React from 'react';
 
 const RegisteredUserCard = ({ users, selectedUsers, toggleSelectUser }) => {
   return (
-    <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
+    <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
       {users?.length > 0 ? (
         users.map((user) => (
           <div
-            key={user._id}
+            key={user.registrationId}
             className="bg-white p-4 shadow rounded-lg border space-y-2 hover:shadow-lg overflow-hidden"
           >
             {/* Checkbox */}
             <div>
               <input
                 type="checkbox"
-                checked={selectedUsers.includes(user._id)}
-                onChange={() => toggleSelectUser(user._id)}
-                className="mr-2 cursor-pointer"
+                checked={selectedUsers.includes(user.registrationId)}
+                disabled={
+                  selectedUsers.length > 0 &&
+                  !selectedUsers.includes(user.registrationId)
+                }
+                onChange={() => toggleSelectUser(user.registrationId)}
+                className="cursor-pointer disabled:cursor-not-allowed"
               />
             </div>
 
@@ -28,19 +32,20 @@ const RegisteredUserCard = ({ users, selectedUsers, toggleSelectUser }) => {
             <p className="text-gray-600 break-words">{user.email}</p>
 
             {/* Event */}
-            <p className="text-gray-700 text-sm break-words">
-              <strong>Event:</strong>{' '}
-              {user?.registeredEvents?.[0]?.title || 'N/A'}
+            <p className="text-sm text-gray-700 break-words">
+              <strong>Event:</strong> {user.event?.title || 'N/A'}
             </p>
 
             {/* Registration Date */}
             <p className="text-sm text-gray-700">
               <strong>Registered Date:</strong>{' '}
-              {new Date(user.createdAt).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
+              {user.registeredAt
+                ? new Date(user.registeredAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                : 'N/A'}
             </p>
           </div>
         ))

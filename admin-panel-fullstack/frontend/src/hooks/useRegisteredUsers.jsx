@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getEventsUsersFromDB } from '../reducers/eventuserSlice';
+import { formatDate } from '../utils/dateUtils.js';
 
 const useRegisteredUsers = () => {
   const dispatch = useDispatch();
@@ -23,12 +24,10 @@ const useRegisteredUsers = () => {
 
   const [isHovered, setIsHovered] = useState(false);
 
-  // Fetch registered users
   useEffect(() => {
     dispatch(getEventsUsersFromDB());
   }, [dispatch]);
 
-  // Responsive handler
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -39,91 +38,100 @@ const useRegisteredUsers = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Unique event names
+  // Convert users -> registrations
+  const registrations =
+    eventUser
+      ?.map((user) =>
+        user.registeredEvents.map((registration) => ({
+          registrationId: registration._id,
+          userId: user._id,
+
+          username: user.username,
+          email: user.email,
+
+          event: registration.event,
+          registeredAt: registration.registeredAt,
+        })),
+      )
+      .flat() || [];
+
   const eventOptions = [
-    ...new Set(eventUser?.map((user) => user?.registeredEvents?.[0]?.title)),
+    ...new Set(registrations.map((item) => item.event?.title)),
   ].filter(Boolean);
 
-  // Filter users
-  const filteredUsers =
-    eventUser?.filter((user) => {
-      const username = user?.username?.toLowerCase() || '';
+  const filteredUsers = registrations.filter((item) => {
+    const matchesSearch =
+      item.username?.toLowerCase().includes(search.toLowerCase()) ||
+      item.email?.toLowerCase().includes(search.toLowerCase());
 
-      const email = user?.email?.toLowerCase() || '';
+    const matchesEvent = selectedEvent
+      ? item.event?.title === selectedEvent
+      : true;
 
-      const matchesSearch =
-        username.includes(search.toLowerCase()) ||
-        email.includes(search.toLowerCase());
+    const matchesDate = eventDate
+      ? new Date(item.registeredAt).toISOString().split('T')[0] === eventDate
+      : true;
 
-      const userEvent = user?.registeredEvents?.[0]?.title;
+    return matchesSearch && matchesEvent && matchesDate;
+  });
 
-      const matchesEvent = selectedEvent ? userEvent === selectedEvent : true;
-
-      const matchesDate = eventDate
-        ? new Date(user?.registeredEvents?.[0]?.date)
-            .toISOString()
-            .split('T')[0] === eventDate
-        : true;
-      return matchesSearch && matchesEvent && matchesDate;
-    }) || [];
-
-  // Select / deselect users
-
-  const toggleSelectUser = (userId) => {
-    setSelectedUsers((prev) => (prev[0] === userId ? [] : [userId]));
+  // select individual registration
+  const toggleSelectUser = (registrationId) => {
+    setSelectedUsers((prev) =>
+      prev.includes(registrationId) ? [] : [registrationId],
+    );
   };
 
-  // Reset filters
   const resetFilters = () => {
     setSearch('');
 
     setSelectedEvent('');
 
-    setStartDate('');
-
-    setEndDate('');
+    setEventDate('');
 
     setShowFilterDropdown(false);
   };
 
-  // Replace dynamic variables
-  const replaceTemplateVariables = (template, user) => {
-    const event = user?.registeredEvents?.[0];
+  const replaceTemplateVariables = (template, registration) => {
+    const event = registration?.event;
 
     return template
 
-      .replace(/{{username}}/g, user?.username || 'Devotee')
+      .replace(/{{username}}/g, registration?.username || 'Devotee')
 
       .replace(/{{eventName}}/g, event?.title || 'N/A')
 
-      .replace(
-        /{{eventDate}}/g,
-        event?.date ? new Date(event.date).toLocaleDateString() : 'N/A',
-      )
+      .replace(/{{eventDate}}/g, event?.date ? formatDate(event.date) : 'N/A')
+      .replace(/{{eventStartTime}}/g, event?.startTime || 'N/A')
 
-      .replace(/{{eventTime}}/g, event?.time || 'N/A')
+      .replace(/{{eventEndTime}}/g, event?.endTime || 'N/A')
 
       .replace(/{{eventLocation}}/g, event?.location || 'N/A');
   };
 
-  // Send personalized emails
   const sendEmails = async (selectedTemplate) => {
     if (!selectedUsers.length) {
       toast.error('No users selected');
+
       return;
     }
 
     if (!selectedTemplate) {
       toast.error('Please select an email template');
+
       return;
     }
 
-    const users = eventUser.filter((user) => selectedUsers.includes(user._id));
+    const selectedRegistrations = registrations.filter((item) =>
+      selectedUsers.includes(item.registrationId),
+    );
 
-    const emails = users.map((user) => ({
-      email: user.email,
+    const emails = selectedRegistrations.map((registration) => ({
+      email: registration.email,
+
       subject: selectedTemplate.subject,
-      message: replaceTemplateVariables(selectedTemplate.message, user),
+
+      message: replaceTemplateVariables(selectedTemplate.message, registration),
     }));
 
     try {
@@ -135,53 +143,63 @@ const useRegisteredUsers = () => {
       );
 
       if (response.data.success) {
-        toast.success(response.data.message || 'Emails sent successfully!');
+        toast.success(response.data.message || 'Email sent successfully!');
 
         setSelectedUsers([]);
       } else {
         toast.error(response.data.message || 'Failed to send emails');
       }
     } catch (error) {
-      console.error('Error sending emails:', error);
+      console.error(error);
 
       toast.error(error.response?.data?.message || 'Failed to send emails');
     }
   };
 
-  const selectedUser = eventUser?.find((user) => user._id === selectedUsers[0]);
+  // For EmailComposer preview
+  const selectedRegistration = registrations.find(
+    (item) => item.registrationId === selectedUsers[0],
+  );
 
-  const selectedEventDetails = selectedUser?.registeredEvents?.[0];
   return {
-    // data
-    selectedUser,
-    selectedEventDetails,
     eventUser,
+
     filteredUsers,
+
     eventOptions,
 
-    // search
+    selectedUser: selectedRegistration,
+
+    selectedEventDetails: selectedRegistration?.event,
+
     setSearch,
 
-    // selection
     selectedUsers,
+
     toggleSelectUser,
 
-    // filters
     selectedEvent,
+
     setSelectedEvent,
+
     eventDate,
+
     setEventDate,
+
     showFilterDropdown,
+
     setShowFilterDropdown,
+
     resetFilters,
 
-    // email
     sendEmails,
+
     replaceTemplateVariables,
 
-    // responsive
     isMobile,
+
     isHovered,
+
     setIsHovered,
   };
 };

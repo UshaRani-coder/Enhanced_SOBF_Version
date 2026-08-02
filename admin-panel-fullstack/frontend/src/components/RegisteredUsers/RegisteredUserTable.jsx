@@ -1,7 +1,6 @@
 import React from 'react';
 
 const RegisteredUserTable = ({ users, selectedUsers, toggleSelectUser }) => {
-  
   return (
     <div className="hidden lg:block overflow-x-auto rounded-lg">
       <table className="w-full min-w-[700px] bg-white shadow-md rounded-lg border-collapse">
@@ -23,39 +22,45 @@ const RegisteredUserTable = ({ users, selectedUsers, toggleSelectUser }) => {
 
         <tbody>
           {users?.length > 0 ? (
-            users.map((user) => (
-              <tr key={user._id} className="border-b text-sm">
-                {/* Checkbox */}
-                <td className="px-4 py-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedUsers.includes(user._id)}
-                    onChange={() => toggleSelectUser(user._id)}
-                    className="cursor-pointer"
-                  />
-                </td>
+            users.map((user) => {
+              if (!user.event) return null;
 
-                {/* Username */}
-                <td className="px-4 py-2">{user.username}</td>
+              return (
+                <tr key={user.registrationId} className="border-b text-sm">
+                  {/* Checkbox */}
+                  <td className="px-4 py-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedUsers.includes(user.registrationId)}
+                      disabled={
+                        selectedUsers.length > 0 &&
+                        !selectedUsers.includes(user.registrationId)
+                      }
+                      onChange={() => toggleSelectUser(user.registrationId)}
+                      className="cursor-pointer disabled:cursor-not-allowed"
+                    />
+                  </td>
 
-                {/* Email */}
-                <td className="px-4 py-2">{user.email}</td>
+                  {/* Name */}
+                  <td className="px-4 py-2">{user.username}</td>
 
-                {/* Event */}
-                <td className="px-4 py-2">
-                  {user?.registeredEvents?.[0]?.title || 'N/A'}
-                </td>
+                  {/* Email */}
+                  <td className="px-4 py-2">{user.email}</td>
 
-                {/* Date */}
-                <td className="px-4 py-2">
-                  {new Date(user.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </td>
-              </tr>
-            ))
+                  {/* Event */}
+                  <td className="px-4 py-2">{user.event?.title || 'N/A'}</td>
+
+                  {/* Registration Date */}
+                  <td className="px-4 py-2">
+                    {new Date(user.registeredAt).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </td>
+                </tr>
+              );
+            })
           ) : (
             <tr>
               <td colSpan="5" className="text-center py-4 text-gray-500">

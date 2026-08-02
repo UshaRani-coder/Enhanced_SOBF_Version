@@ -4,10 +4,10 @@ import { Swiper } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvents } from '@/reducers/upcomingeventSlice.js';
+import useEventRegistration from '@/hooks/useEventRegistration.js';
 import { Navigation, Pagination } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 import fallbackEvents from '@/defaultData/upcoming-events.json';
@@ -23,27 +23,15 @@ const UpcomingEvents = () => {
   const { events, listStatus } = useSelector((state) => state.events);
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [errors, setErrors] = useState({});
+
   const swiperRef = useRef(null);
   const navigate = useNavigate();
   const [selectedEventIndex, setSelectedEventIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [formData, setFormData] = useState({ name: '', email: '' });
+
   const [swiperState, setSwiperState] = useState({
     activeIndex: 0,
     totalSlides: 0,
   });
-  const [registeredEvents, setRegisteredEvents] = useState(new Set());
-
-  // Lock the bg scroll when this modal is active
-  useEffect(() => {
-    if (showForm) lockScroll();
-    else unlockScroll();
-
-    return () => unlockScroll();
-  }, [showForm]);
 
   useEffect(() => {
     if (listStatus === 'idle') {
@@ -69,79 +57,27 @@ const UpcomingEvents = () => {
   } = useFilteredPosts(sourceEvents, selectedYear, selectedMonth);
 
   const finalEvents = filteredEvents.length > 0 ? filteredEvents : sourceEvents;
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!/^\S+@\S+\.\S+$/.test(formData.email))
-      newErrors.email = 'Invalid email format';
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const selectedEvent = finalEvents[selectedEventIndex];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+  const {
+    showForm,
+    setShowForm,
+    formData,
+    errors,
+    isLoading,
+    progress,
+    handleInputChange,
+    handleSubmit,
+  } = useEventRegistration(selectedEvent?._id);
+  
+  // Lock the bg scroll when this modal is active
+  useEffect(() => {
+    if (showForm) lockScroll();
+    else unlockScroll();
 
-    setIsLoading(true);
-    setProgress(0);
-
-    try {
-      const interval = setInterval(() => {
-        setProgress((prev) => {
-          const newProgress = prev + 10;
-          if (newProgress >= 90) clearInterval(interval);
-          return newProgress;
-        });
-      }, 200);
-
-      const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/post/register-event/${
-          finalEvents[selectedEventIndex]._id
-        }`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            username: formData.name,
-            email: formData.email,
-          }),
-        },
-      );
-
-      clearInterval(interval);
-      setProgress(100);
-
-      const data = await response.json();
-      if (response.ok) {
-        setRegisteredEvents((prev) => {
-          const updated = new Set(prev);
-          updated.add(finalEvents[selectedEventIndex]._id);
-          return updated;
-        });
-
-        toast.success(data.message || 'Registration successful!');
-
-        setTimeout(() => {
-          setShowForm(false);
-          setFormData({ name: '', email: '' });
-        }, 1000);
-      } else {
-        toast.error(data.message || 'Registration failed');
-      }
-    } catch (error) {
-      toast.error('Failed to register for the event');
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-        setProgress(0);
-      }, 500);
-    }
-  };
+    return () => unlockScroll();
+  }, [showForm]);
 
   const handleCardClick = (event) => {
     sessionStorage.setItem('home-scroll', window.scrollY);
@@ -159,7 +95,9 @@ const UpcomingEvents = () => {
 
     return swiperRef.current.isEnd;
   };
-
+  const registeredEventIds = useSelector(
+    (state) => state.events.registeredEventIds,
+  );
   const title = 'Support Braj Seva – Be one in a million';
   const baseURL =
     window.location.origin === 'http://localhost:5173'
@@ -277,8 +215,8 @@ const UpcomingEvents = () => {
                   baseURL={baseURL}
                   onCardClick={handleCardClick}
                   setShowForm={setShowForm}
-                  isRegistered={registeredEvents.has(event._id)}
-                  onRegister={(index) => {
+                  isRegistered={registeredEventIds.includes(event._id)}
+                  onRegister={() => {
                     setSelectedEventIndex(index);
                     setShowForm(true);
                   }}
@@ -292,7 +230,7 @@ const UpcomingEvents = () => {
       {/* Registration Modal */}
       <EventRegistrationModal
         showForm={showForm}
-        event={finalEvents[selectedEventIndex]}
+        event={selectedEvent}
         formData={formData}
         errors={errors}
         isLoading={isLoading}

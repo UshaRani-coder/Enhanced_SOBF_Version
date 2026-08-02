@@ -40,24 +40,41 @@ export const getSpecificEvent = createAsyncThunk(
 // Slice Definition
 const upcomingEventsSlice = createSlice({
   name: 'events',
-  
+
   initialState: {
     events: [],
     post: null,
     listStatus: 'idle',
     postStatus: 'idle',
     error: null,
+    registeredEventIds: [],
   },
 
   reducers: {
-  clearEventPost: (state) => {
-    state.post = null;
-    state.postStatus = 'idle';
-  }
-},
+    clearEventPost: (state) => {
+      state.post = null;
+      state.postStatus = 'idle';
+    },
+
+    addRegisteredEvent: (state, action) => {
+      if (!state.registeredEventIds.includes(action.payload)) {
+        state.registeredEventIds.push(action.payload);
+      }
+    },
+
+    removeRegisteredEvent: (state, action) => {
+      state.registeredEventIds = state.registeredEventIds.filter(
+        (id) => id !== action.payload,
+      );
+    },
+
+    clearRegisteredEvents: (state) => {
+      state.registeredEventIds = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
-      
+
       .addCase(fetchEvents.pending, (state) => {
         state.listStatus = 'loading';
       })
@@ -69,21 +86,26 @@ const upcomingEventsSlice = createSlice({
         state.listStatus = 'failed';
         state.error = action.payload;
       })
-      
+
       .addCase(getSpecificEvent.pending, (state) => {
-  state.postStatus = 'loading';
-})
-.addCase(getSpecificEvent.fulfilled, (state, action) => {
-  state.postStatus = 'succeeded';
-  state.post = action.payload;
-})
-.addCase(getSpecificEvent.rejected, (state, action) => {
-  state.postStatus = 'failed';
-  state.error = action.payload;
-  state.post = null;
-})
+        state.postStatus = 'loading';
+      })
+      .addCase(getSpecificEvent.fulfilled, (state, action) => {
+        state.postStatus = 'succeeded';
+        state.post = action.payload;
+      })
+      .addCase(getSpecificEvent.rejected, (state, action) => {
+        state.postStatus = 'failed';
+        state.error = action.payload;
+        state.post = null;
+      });
   },
 });
 
 export default upcomingEventsSlice.reducer;
-export const { clearEventPost } = upcomingEventsSlice.actions;
+export const {
+  clearEventPost,
+  addRegisteredEvent,
+  removeRegisteredEvent,
+  clearRegisteredEvents,
+} = upcomingEventsSlice.actions;

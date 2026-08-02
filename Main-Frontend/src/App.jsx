@@ -3,7 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import loader from './assets/loader.webp';
 import DonateForDetailedPage from './pages/DonateFor_Details';
-import EventDetails from './pages/UpcomingDetails';
+import EventDetails from './pages/EventDetails';
 import ScrollToTop from './components/common_components/ScrollToTop';
 
 // Lazy loading the components
