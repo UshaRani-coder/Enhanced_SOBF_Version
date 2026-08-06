@@ -1,7 +1,7 @@
-import { fetchAllDonations } from "@/reducers/donateForSlice";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { fetchAllDonations } from '@/reducers/donateForSlice';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const DonateForPreview = () => {
   const dispatch = useDispatch();
@@ -15,10 +15,10 @@ const DonateForPreview = () => {
 
   useEffect(() => {
     if (categories && categories.length > 0) {
-      const sortedCategories = [...categories].sort((a, b) =>
-        new Date(b.createdAt) - new Date(a.createdAt)
+      const sortedCategories = [...categories].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
-      setDisplayedCategories(sortedCategories.slice(0, 6));
+      setDisplayedCategories(sortedCategories.slice(0, 3));
     }
   }, [categories]);
 
@@ -31,18 +31,19 @@ const DonateForPreview = () => {
     return text;
   };
 
-  const loading = status === "loading";
+  const loading = status === 'loading';
 
-  const handleSeeMore = () => {
-    navigate("/donate-for");
-  };
+const handleSeeMore = () => {
+  sessionStorage.setItem('scroll-section', 'donate-for-id');
+  navigate('/donate-for');
+};
 
   const handleDonateNow = (id) => {
     navigate(`/donate/${id}`);
   };
 
   return (
-    <div className="w-full px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 py-8 md:py-12 mx-auto ">
+    <div className="w-full px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 py-8 md:py-12 mx-auto " id="donate-for-id">
       <div className="text-center mb-8 md:mb-12">
         <h1 className="inline-block text-[24px] sm:text-heading3  lg:text-heading2 font-bold p-5 text-[#2d335d] relative transition-all ease-in-out">
           All Donation Categories
@@ -55,13 +56,13 @@ const DonateForPreview = () => {
 
       {loading && <p className="text-center">Loading...</p>}
       {error && <p className="text-center text-red-600">{error}</p>}
-      <div className="relative px-1 xs:px-2 sm:px-3 w-[80%] m-auto">
+      <div className="relative px-1 xs:px-2 sm:px-3 w-[90%] md:w-[80%] m-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {displayedCategories?.map((category) => {
             const progress =
-              (parseInt(category.raised.replace(/₹|,/g, "")) /
-                parseInt(category.goal.replace(/₹|,/g, "")) *
-                100)
+              (parseInt(category.raised.replace(/₹|,/g, '')) /
+                parseInt(category.goal.replace(/₹|,/g, ''))) *
+              100;
 
             return (
               <div key={category._id} className="px-1 xs:px-1.5 sm:px-2">
@@ -85,8 +86,12 @@ const DonateForPreview = () => {
 
                     <div className="mb-3">
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="font-medium">{progress.toFixed(0)}% funded</span>
-                        <span className="text-gray-600">{category.raised} raised</span>
+                        <span className="font-medium">
+                          {progress.toFixed(0)}% funded
+                        </span>
+                        <span className="text-gray-600">
+                          {category.raised} raised
+                        </span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
@@ -112,11 +117,11 @@ const DonateForPreview = () => {
           })}
         </div>
 
-        {categories?.length > 6 && (
+        {categories?.length > 3 && (
           <div className="text-center mt-8">
             <button
               onClick={handleSeeMore}
-              className="px-6 py-2 bg-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="bg-blue text-white  px-6 py-2 rounded-xl hover:bg-logoYellow transition-colors duration-300"
             >
               See More
             </button>

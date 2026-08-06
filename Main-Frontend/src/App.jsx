@@ -23,14 +23,14 @@ const RecentActivityDetails = lazy(
   () => import('./pages/RecentActivityDetail.jsx'),
 );
 const HomePage = lazy(() => import('./pages/Home.jsx'));
-const AboutUs = lazy(() => import('./pages/AboutUs.jsx'));
+const AboutUs = lazy(() => import('./pages/Aboutus.jsx'));
 const ContactUsPage = lazy(() => import('./pages/ContactUs.jsx'));
 const Gallery = lazy(() => import('./pages/Gallery.jsx'));
 const Subscription = lazy(
-  () => import('./components/Subscription-Page/Subscription.jsx'),
+  () => import('./components/subscription-page/Subscription.jsx'),
 );
 const DonateForMain = lazy(() => import('./pages/DonateForList.jsx'));
-const DonateUs = lazy(() => import('./pages/DonateUs.jsx'));
+const DonateUs = lazy(() => import('./pages/Donateus.jsx'));
 const Press_Release = lazy(
   () => import('./components/Home_Page/Press_Release.jsx'),
 );

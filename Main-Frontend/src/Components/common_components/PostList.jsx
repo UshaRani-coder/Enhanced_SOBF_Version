@@ -21,6 +21,13 @@ const PostList = ({
           <h4 className="text-center w-full py-4">Loading more...</h4>
         ) : null
       }
+      endMessage={
+        !isHomePage && posts.length > 0 ? (
+          <p className="text-center text-gray-500 py-6">
+            You've reached the end.
+          </p>
+        ) : null
+      }
       scrollableTarget="scrollableDiv"
       style={{ display: 'flex', flexDirection: 'column' }}
       inverse

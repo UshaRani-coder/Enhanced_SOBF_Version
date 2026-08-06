@@ -15,7 +15,7 @@ import Recent_Activities from '../components/Home_Page/Recent_Activities.jsx';
 import SidePopup from '../components/common_components/sidePopup.jsx';
 import UpcomingEvents from '../components/Home_Page/Upcoming Events/UpcomingEvents.jsx';
 import VolunteerForm from '../components/Volunteer/Volunteer.jsx';
-import DonationOptions from '@/components/Home_Page/DonateForPreview.jsx'
+import DonationOptions from '@/components/Home_Page/DonateForPreview.jsx';
 import { WavySeparator } from '../utils/Seperator.jsx';
 
 const HomePage = () => {
@@ -31,34 +31,38 @@ const HomePage = () => {
   }, []); // Empty dependency array means this runs only once on mount
 
   // scroll restoration that helps to go back to particular component when clicked back
+
   useEffect(() => {
-    const savedScroll = sessionStorage.getItem('home-scroll');
+    const sectionId = sessionStorage.getItem('scroll-section');
 
-    if (savedScroll !== null) {
-      const scrollY = parseInt(savedScroll);
+    if (!sectionId) return;
 
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          window.scrollTo({
-            top: scrollY,
-            behavior: 'auto',
-          });
+    const timer = setInterval(() => {
+      const element = document.getElementById(sectionId);
 
-          sessionStorage.removeItem('home-scroll');
-        }, 0);
-      });
-    }
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'auto',
+          block: 'start',
+        });
+
+        sessionStorage.removeItem('scroll-section');
+        clearInterval(timer);
+      }
+    }, 100);
+
+    return () => clearInterval(timer);
   }, []);
-  useLayoutEffect(() => {
-  const id = window.location.hash.replace('#', '');
-  const el = document.getElementById(id);
+  //   useLayoutEffect(() => {
+  //   const id = window.location.hash.replace('#', '');
+  //   const el = document.getElementById(id);
 
-  if (el) {
-    requestAnimationFrame(() => {
-      el.scrollIntoView({ behavior: 'auto' });
-    });
-  }
-}, []);
+  //   if (el) {
+  //     requestAnimationFrame(() => {
+  //       el.scrollIntoView({ behavior: 'auto' });
+  //     });
+  //   }
+  // }, []);
 
   return (
     <div className="flex flex-col items-center overflow-auto">

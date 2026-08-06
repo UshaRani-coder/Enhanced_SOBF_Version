@@ -12,7 +12,12 @@ const Gallery = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const IMAGES_PER_LOAD = 9;
 
+  const [visibleCount, setVisibleCount] = useState(IMAGES_PER_LOAD);
+  useEffect(() => {
+    setVisibleCount(IMAGES_PER_LOAD);
+  }, [selectedCategory, gallery]);
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (selectedIndex === null) return;
@@ -132,29 +137,46 @@ const Gallery = () => {
         {status === 'loading' ? (
           <p className="text-center text-gray-500">Loading...</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 px-4 ">
-            {filteredImages?.length > 0 ? (
-              filteredImages?.map((image, index) => (
-                <div
-                  key={index}
-                  className="relative group cursor-pointer transition transform hover:scale-95 duration-300"
-                  onClick={() => openModal(index)}
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 px-4">
+              {filteredImages.length > 0 ? (
+                filteredImages.slice(0, visibleCount).map((image, index) => (
+                  <div
+                    key={image._id}
+                    className="relative group cursor-pointer transition transform hover:scale-95 duration-300"
+                    onClick={() => openModal(index)}
+                  >
+                    <img
+                      src={image.image}
+                      alt={`Shot ${index + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-[220px] sm:h-[260px] md:h-[300px] object-cover rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
+                    />
+                  </div>
+                ))
+              ) : (
+                <p className="text-center text-gray-500">
+                  No images found for this category.
+                </p>
+              )}
+            </div>
+
+            {visibleCount < filteredImages.length && (
+              <div className="flex justify-center mt-10">
+                <button
+                  onClick={() =>
+                    setVisibleCount((prev) =>
+                      Math.min(prev + IMAGES_PER_LOAD, filteredImages.length),
+                    )
+                  }
+                  className="px-6 py-3 rounded-lg bg-blue text-white font-medium hover:bg-blue-700 transition-colors"
                 >
-                  <img
-                    src={image.image}
-                    alt={`Shot ${index + 1}`}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-[220px] sm:h-[260px] md:h-[300px] object-cover rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
-                  />
-                </div>
-              ))
-            ) : (
-              <p className="text-center text-gray-500">
-                No images found for this category.
-              </p>
+                  Load More
+                </button>
+              </div>
             )}
-          </div>
+          </>
         )}
       </div>
 

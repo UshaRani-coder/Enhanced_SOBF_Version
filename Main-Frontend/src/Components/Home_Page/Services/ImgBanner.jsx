@@ -56,7 +56,7 @@ const ImgBanner = ({ banners }) => {
       {/* Left Arrow */}
       {banners.length > 1 && (
         <div
-          className="scroll-arrow hidden lg:block absolute top-[50%] left-[10px] bg-[rgba(0,0,0,0.5)] text-white py-1 px-3 rounded-full z-10 cursor-pointer"
+          className="scroll-arrow  absolute top-[50%] left-[10px] bg-[rgba(0,0,0,0.5)] text-white py-1 px-3 rounded-full z-10 cursor-pointer"
           style={{ transform: 'translateY(-50%)' }}
           onClick={scrollLeft}
         >
@@ -67,7 +67,7 @@ const ImgBanner = ({ banners }) => {
       {/* Right Arrow */}
       {banners.length > 1 && (
         <div
-          className="scroll-arrow hidden lg:block absolute top-[50%] right-[10px] bg-[rgba(0,0,0,0.5)] text-white py-1 px-3 rounded-full z-10 cursor-pointer"
+          className="scroll-arrow  absolute top-[50%] right-[10px] bg-[rgba(0,0,0,0.5)] text-white py-1 px-3 rounded-full z-10 cursor-pointer"
           style={{ transform: 'translateY(-50%)' }}
           onClick={scrollRight}
         >

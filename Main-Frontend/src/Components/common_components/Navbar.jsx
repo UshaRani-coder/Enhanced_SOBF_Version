@@ -75,7 +75,7 @@ const Navbar = () => {
           <div className="flex lg:hidden gap-3">
             <NavLink
               to="/donate-us"
-              className="px-2 small-range:px-4 py-2.5 relative rounded-full group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-                         lg"
+              className="px-2 small-range:px-4 py-1.5 relative rounded-full group overflow-hidden font-semibold bg-logoYellow text-white inline-block shadow-md transition-all duration-300 ease-in-out hover:bg-logo-blue hover:shadow-                         lg"
               onClick={closeMenu}
             >
               <span className="absolute top-0 left-0 w-0 h-full transition-all duration-300 ease-out transform bg-logo-blue group-hover:w-full"></span>

@@ -24,27 +24,16 @@ const Video = () => {
   }, [status, dispatch]);
 
   useEffect(() => {
-    if (location.pathname !== '/videos') return;
-
-    const savedScroll = sessionStorage.getItem('videos-scroll');
-    if (!savedScroll) return;
-
-    // wait until DOM is fully painted
-    const id = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        window.scrollTo({
-          top: Number(savedScroll),
-          behavior: 'auto',
-        });
-
-        sessionStorage.removeItem('videos-scroll');
+    if (location.pathname === '/videos') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto',
       });
-    });
-
-    return () => cancelAnimationFrame(id);
+    }
   }, [location.pathname]);
 
   const handleShowMore = () => {
+    sessionStorage.setItem('scroll-section', 'featured-videos');
     sessionStorage.setItem('videos-scroll', window.scrollY);
     navigate('/videos');
   };
@@ -200,7 +189,7 @@ const Video = () => {
         <div className="text-center mt-6">
           <button
             onClick={handleShowMore}
-            className="bg-blue text-white font-bold py-4 px-8 rounded-xl hover:bg-logoYellow transition-colors duration-300"
+            className="bg-blue text-white  py-2 px-6 rounded-xl hover:bg-logoYellow transition-colors duration-300"
           >
             Show More
           </button>

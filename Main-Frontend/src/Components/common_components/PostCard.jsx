@@ -61,7 +61,7 @@ const PostCard = ({ news, detailRoute, title, baseURL }) => {
           >
             <button
               aria-label="View Details"
-              className="my-[20px]  text-white  bg-gradient-to-r from-[#2d335d] to-[#44508f] focus:outline-none focus:ring-2 focus:ring-offset-2 hover:scale-105  font-semibold text-[14px] px-[12px] py-[6px] rounded-full transition-all duration-300 ease-in-out"
+              className="my-[20px]  text-white  bg-gradient-to-r from-[#2d335d] to-[#44508f] focus:outline-none focus:ring-2 focus:ring-offset-2 hover:scale-105  font-semibold text-xs md:text-sm px-[12px] py-[6px] rounded-full transition-all duration-300 ease-in-out"
             >
               View Details
             </button>

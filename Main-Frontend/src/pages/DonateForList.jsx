@@ -1,5 +1,5 @@
 import { fetchAllDonations } from '@/reducers/donateForSlice';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -8,6 +8,13 @@ const DonateForList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { categories, status, error } = useSelector((state) => state.donateFor);
+
+  const ITEMS_PER_LOAD = 6;
+
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_LOAD);
+  useEffect(() => {
+    setVisibleCount(ITEMS_PER_LOAD);
+  }, [categories]);
 
   useEffect(() => {
     dispatch(fetchAllDonations());
@@ -25,7 +32,7 @@ const DonateForList = () => {
       }
     }
   }, [location.hash]);
-  
+
   const loading = status === 'loading';
 
   const handleDonateNow = (id) => {
@@ -49,10 +56,10 @@ const DonateForList = () => {
 
       <div
         id="donate-categories"
-        className="relative px-1 xs:px-2 sm:px-3 w-[80%] m-auto "
+        className="relative px-1 xs:px-2 sm:px-3 w-[90%] md:w-[80%] m-auto "
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {categories.map((category) => {
+          {categories.slice(0, visibleCount).map((category) => {
             const progress =
               (parseInt(category.raised.replace(/₹|,/g, '')) /
                 parseInt(category.goal.replace(/₹|,/g, ''))) *
@@ -61,7 +68,6 @@ const DonateForList = () => {
             return (
               <div key={category._id} className="px-1 xs:px-1.5 sm:px-2">
                 <div className="text-blue border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col h-full">
-                  {/* <div className="h-32 sm:h-40 md:h-44 overflow-hidden"> */}
                   <div className="aspect-[16/9] overflow-hidden">
                     <img
                       src={category?.image}
@@ -108,11 +114,26 @@ const DonateForList = () => {
                     </button>
                   </div>
                 </div>
+             
               </div>
             );
           })}
         </div>
       </div>
+         {visibleCount < categories.length && (
+                  <div className="flex justify-center mt-10">
+                    <button
+                      onClick={() =>
+                        setVisibleCount((prev) =>
+                          Math.min(prev + ITEMS_PER_LOAD, categories.length),
+                        )
+                      }
+                      className="px-6 py-3 rounded-lg bg-blue text-white font-medium hover:bg-blue-700 transition-colors"
+                    >
+                      Load More
+                    </button>
+                  </div>
+                )}
     </div>
   );
 };

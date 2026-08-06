@@ -50,7 +50,7 @@ const DonateFor = () => {
     <div className="w-full px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 mx-auto">
       <div className="flex justify-between pb-8 items-center">
         <h1 className="text-2xl small-range:text-3xl md:text-3xl lg:text-4xl font-semibold">
-          Donors Details
+          Donate For
         </h1>
 
         <button
