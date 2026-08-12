@@ -1,4 +1,4 @@
-import sobfLogo from '@/assets/sobfLogo.png';
+import sobfLogo from '@/assets/sobfLogo.webp';
 import { Link } from 'react-router-dom';
 import ContactInfo from './ContactInfo.jsx';
 import SocialIcons from './SocialIcons.jsx';
@@ -21,7 +21,13 @@ const Footer = () => {
                 className="flex items-center gap-2 mb-3 text-base font-medium leading-6 whitespace-nowrap focus:outline-none text-black hover:text-[#8800ff]"
                 href="/"
               >
-                <img src={sobfLogo} className="h-12 sm:h-16" alt="Logo" />
+                <img
+                  src={sobfLogo}
+                  width={200}
+                  height={102}
+                  className="h-12 sm:h-16"
+                  alt="Logo"
+                />
               </Link>
               <p className="text-gray-400 font-bold text-[15px] p-3">
                 Serving in Braj is equivalent to serving Krishna.

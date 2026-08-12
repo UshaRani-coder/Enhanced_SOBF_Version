@@ -53,16 +53,7 @@ const HomePage = () => {
 
     return () => clearInterval(timer);
   }, []);
-  //   useLayoutEffect(() => {
-  //   const id = window.location.hash.replace('#', '');
-  //   const el = document.getElementById(id);
 
-  //   if (el) {
-  //     requestAnimationFrame(() => {
-  //       el.scrollIntoView({ behavior: 'auto' });
-  //     });
-  //   }
-  // }, []);
 
   return (
     <div className="flex flex-col items-center overflow-auto">

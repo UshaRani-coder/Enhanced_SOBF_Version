@@ -1,14 +1,14 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import loader from './assets/loader.webp';
-import DonateForDetailedPage from './pages/DonateFor_Details';
-import EventDetails from './pages/EventDetails';
 import ScrollToTop from './components/common_components/ScrollToTop';
 
 // Lazy loading the components
 const Header = lazy(() => import('./components/common_components/Header.jsx'));
-const Footer = lazy(() => import('./components/common_components/Footer/Footer.jsx'));
+const Footer = lazy(
+  () => import('./components/common_components/Footer/Footer.jsx'),
+);
 const BackgroundMusic = lazy(
   () => import('./components/common_components/BackgroundMusic.jsx'),
 );
@@ -29,6 +29,11 @@ const Gallery = lazy(() => import('./pages/Gallery.jsx'));
 const Subscription = lazy(
   () => import('./components/subscription-page/Subscription.jsx'),
 );
+const DonateForDetailedPage = lazy(
+  () => import('./pages/DonateFor_Details.jsx'),
+);
+
+const EventDetails = lazy(() => import('./pages/EventDetails.jsx'));
 const DonateForMain = lazy(() => import('./pages/DonateForList.jsx'));
 const DonateUs = lazy(() => import('./pages/Donateus.jsx'));
 const Press_Release = lazy(
@@ -41,9 +46,13 @@ const Recent_Activities = lazy(
 const ServiceDetails = lazy(
   () => import('./components/Home_Page/Services/ServiceDetails.jsx'),
 );
-const PrivacyPolicy = lazy(() => import('./components/common_components/Footer/PrivacyPolicy.jsx'));
+const PrivacyPolicy = lazy(
+  () => import('./components/common_components/Footer/PrivacyPolicy.jsx'),
+);
 const Videos = lazy(() => import('./components/Home_Page/Video.jsx'));
-const RefundPolicy = lazy(() => import('./components/common_components/Footer/RefundPolicy.jsx'));
+const RefundPolicy = lazy(
+  () => import('./components/common_components/Footer/RefundPolicy.jsx'),
+);
 const TermsAndConditions = lazy(
   () => import('./components/common_components/Footer/TermsAndConditions.jsx'),
 );
@@ -52,6 +61,27 @@ const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 const App = () => {
   const location = useLocation();
+
+  const [loadNonCritical, setLoadNonCritical] = useState(false);
+
+  useEffect(() => {
+    const load = () => {
+      setLoadNonCritical(true);
+    };
+
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(load, {
+        timeout: 3000,
+      });
+
+      return () => window.cancelIdleCallback(id);
+    }
+
+    const id = setTimeout(load, 2000);
+
+    return () => clearTimeout(id);
+  }, []);
+
   const validRoutes = [
     '/',
     '/about-us',
@@ -126,8 +156,13 @@ const App = () => {
 
           <Route path="/*" element={<NotFound />} />
         </Routes>
-        {!isNotFound && <BackgroundMusic />}
-        {!isNotFound && <Whatsapp />}
+
+        {!isNotFound && loadNonCritical && (
+          <>
+            <BackgroundMusic />
+            <Whatsapp />
+          </>
+        )}
         {!isNotFound && <Footer />}
       </div>
     </Suspense>

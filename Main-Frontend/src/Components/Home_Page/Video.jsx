@@ -111,9 +111,7 @@ const Video = () => {
         </h1>
       </div>
 
-      {status === 'loading' && (
-        <p className="w-full text-center">Videos loading...</p>
-      )}
+      
 
       <InfiniteScroll
         dataLength={visibleVideos?.length}
@@ -127,7 +125,7 @@ const Video = () => {
             <img
               src={loader}
               alt="Loading..."
-              className="w-[50px] h-[50px] mt-[30px]"
+              className="w-[88px] h-[88px] mt-[30px]"
             />
           ) : null
         }

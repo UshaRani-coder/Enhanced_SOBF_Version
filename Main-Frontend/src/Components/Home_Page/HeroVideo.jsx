@@ -6,36 +6,51 @@ const HeroVideo = () => {
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const videoElement = videoRef.current;
+
+  //   if (!videoElement) return;
+
+  //   if (!showPopup) {
+  //     videoElement
+  //       .play()
+  //       .catch((error) => console.error('Video play error:', error));
+  //   } else {
+  //     videoElement.pause();
+  //   }
+
+  //   if (showPopup) {
+  //     document.body.style.overflow = 'hidden';
+  //     document.documentElement.style.overflow = 'hidden';
+  //   } else {
+  //     document.body.style.overflow = 'auto';
+  //     document.documentElement.style.overflow = 'auto';
+  //   }
+
+  //   return () => {
+  //     document.body.style.overflow = 'auto';
+  //     document.documentElement.style.overflow = 'auto';
+  //   };
+  // }, [showPopup]);
   useEffect(() => {
-    const videoElement = videoRef.current;
-    if (videoElement) {
-      videoElement.loop = true;
-      videoElement.muted = true;
-      videoElement.playsInline = true;
+  const videoElement = videoRef.current;
 
-      if (!showPopup) {
-        videoElement
-          .play()
-          .catch((error) => console.error('Video play error:', error));
-      } else {
-        videoElement.pause();
-      }
-    }
+  if (!videoElement) return;
 
-    // Prevent scrolling when popup is open
-    if (showPopup) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-      document.documentElement.style.overflow = 'auto';
-    }
+  if (showPopup) {
+    videoElement.pause();
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+  }
 
-    return () => {
-      document.body.style.overflow = 'auto';
-      document.documentElement.style.overflow = 'auto';
-    };
-  }, [showPopup]);
+  return () => {
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+  };
+}, [showPopup]);
 
   const handleScrollDown = () => {
     const nextSection = document.getElementById('next-section');
@@ -51,25 +66,22 @@ const HeroVideo = () => {
     }
   };
 
-  
-
   return (
     <div className="w-full h-screen relative overflow-hidden">
       <video
         ref={videoRef}
-        autoPlay
         muted
+        autoPlay
         loop
         playsInline
         preload="none"
-         src="https://res.cloudinary.com/dhv61cvx5/video/upload/v1778738884/Video_kbop2j.mp4"
-         poster = "https://res.cloudinary.com/dhv61cvx5/image/upload/v1779541319/sobf_uploads/upcoming-events/1779541317552-Brajkulam3.png"
+        poster="https://res.cloudinary.com/dhv61cvx5/image/upload/v1779541319/sobf_uploads/upcoming-events/1779541317552-Brajkulam3.png"
         className="w-full h-full object-cover"
         disablePictureInPicture
       >
         <source
-          src="https://res.cloudinary.com/dhv61cvx5/video/upload/f_auto,q_auto/v1778738884/Video_kbop2j.mp4"
-          type="video/mp4"
+          src="https://res.cloudinary.com/dhv61cvx5/video/upload/v1786185111/SOBF_640x360_700k_deecot.webm"
+          type="video/webm"
         />
       </video>
 
@@ -78,7 +90,7 @@ const HeroVideo = () => {
         <h1 className="text-[clamp(1.8rem,4vw,3.8rem)] font-bold tracking-wide leading-tight text-[#f6f1d3] relative text-center w-full max-w-[90%] mx-auto">
           Welcome to
           <span className=" font-extrabold uppercase overflow-hidden text-center w-full flex justify-center items-center">
-            <span className="md:mt-2 text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-[size:200%] bg-clip-text animate-gradient-shimmer">
+            <span className="md:mt-2 text-transparent bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 bg-[size:200%] bg-clip-text ">
               Soul of Braj Federation
             </span>
           </span>
@@ -145,8 +157,6 @@ const HeroVideo = () => {
           </svg>
         </div>
       </div>
-
-     
     </div>
   );
 };

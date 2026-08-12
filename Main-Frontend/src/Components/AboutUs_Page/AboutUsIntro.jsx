@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import aboutus from '@/assets/aboutUsImage.png';
-import ourStory from '@/assets/ourStoryImg.png';
+import aboutus from '@/assets/aboutUsImage.webp';
+import ourStory from '@/assets/ourStoryImg.avif';
 
 const AboutUsIntro = () => {
   const [activeTab, setActiveTab] = useState('mission');
@@ -49,7 +49,9 @@ const AboutUsIntro = () => {
         src={aboutus}
         alt="About Us"
         loading="eager"
-        decoding="async"
+        fetchPriority="high"
+        width={800}
+        height={350}
         className="w-full h-[180px] sm:h-[250px] md:h-[350px] lg:h-[450px] object-cover"
       />
 
@@ -133,15 +135,11 @@ const AboutUsIntro = () => {
             Health and Hygiene Care, distribution of free meals/ration kits, and
             waste management projects. Currently, we are impacting more than
             1,000 beneficiaries on a daily basis.
-
             <br />
-
             <span className="inline-block mt-6 lg:mt-2 font-bold text-xl w-full">
               Focused And On Going Initiatives:
             </span>
-
             <br />
-
             Anna Vitran Seva (affordable food prasadam for all), Swasth aur
             Swachh Vrindavan, Give Me A Chance, Say Yes To Me, Brajkulam
             Community Center.
@@ -154,6 +152,8 @@ const AboutUsIntro = () => {
             alt="Our Story"
             loading="lazy"
             decoding="async"
+            width={450}
+            height={450}
             className="w-full rounded-xl shadow-xl"
           />
         </div>

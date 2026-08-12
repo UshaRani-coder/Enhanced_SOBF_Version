@@ -1,13 +1,13 @@
 import React from 'react';
-import VisionImg from '@/assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv1.png';
-import HealthCampImg from '@/assets/Sobf Images/health_and_awareness_camp/hac6.jpg';
-import childrenImg from '@/assets/Sobf Images/children_activities/ca18.jpg';
-import MisionImg from '@/assets/Sobf Images/food distribution/sadhuSeva3.jpg';
-import educationImg from '@/assets/mission.png';
-import sadhuSevaImg from '@/assets/Sobf Images/Sadhu Seva/ss7.jpg';
-import womenSkillDevImg from '@/assets/Sobf Images/women empowerment/we3.png';
-import childEduImg from '@/assets/Sobf Images/child_education_and_empowerment/cee12.png';
-import HealthCampImg2 from '@/assets/Sobf Images/health_and_awareness_camp/hac4.png';
+import VisionImg from '@/assets/Sobf Images/Swachh yamuna swasth vrindawan/sysv1.avif';
+import HealthCampImg from '@/assets/Sobf Images/health_and_awareness_camp/hac6.avif';
+import childrenImg from '@/assets/Sobf Images/children_activities/ca18.avif';
+import MisionImg from '@/assets/Sobf Images/food distribution/sadhuSeva3.avif';
+import educationImg from '@/assets/mission.avif';
+import sadhuSevaImg from '@/assets/Sobf Images/Sadhu Seva/ss7.avif';
+import womenSkillDevImg from '@/assets/Sobf Images/women empowerment/we3.avif';
+import childEduImg from '@/assets/Sobf Images/child_education_and_empowerment/cee12.avif';
+import HealthCampImg2 from '@/assets/Sobf Images/health_and_awareness_camp/hac4.avif';
 import { DottedSeparator } from '@/utils/Seperator.jsx';
 
 const AboutUsSections = () => {
@@ -25,6 +25,8 @@ const AboutUsSections = () => {
                 alt="Vision 1"
                 loading="lazy"
                 decoding="async"
+                width={450}
+                height={211}
                 className="w-full md:w-[350px] lg:w-[200px] h-full rounded-lg shadow-lg object-cover"
               />
             </div>
@@ -33,6 +35,10 @@ const AboutUsSections = () => {
               <img
                 src={childrenImg}
                 alt="Vision 2"
+                loading="lazy"
+                decoding="async"
+                width={450}
+                height={338}
                 className="w-full md:w-[350px] lg:w-[200px] h-auto rounded-lg shadow-lg"
               />
             </div>
@@ -42,6 +48,10 @@ const AboutUsSections = () => {
             <img
               src={HealthCampImg}
               alt="Vision 3"
+              loading="lazy"
+              decoding="async"
+              width={450}
+              height={338}
               className="h-auto rounded-lg shadow-lg"
             />
           </div>
@@ -94,6 +104,10 @@ const AboutUsSections = () => {
             <img
               src={MisionImg}
               alt="Mission 1"
+              loading="lazy"
+              decoding="async"
+              width={450}
+              height={255}
               className="w-full md:w-[350px] lg:w-[200px] h-auto rounded-lg shadow-lg"
             />
           </div>
@@ -103,6 +117,10 @@ const AboutUsSections = () => {
               <img
                 src={educationImg}
                 alt="Mission 2"
+                loading="lazy"
+                decoding="async"
+                width={450}
+                height={335}
                 className="w-full md:w-[350px] lg:w-[200px] h-full rounded-lg shadow-lg"
               />
             </div>
@@ -111,6 +129,10 @@ const AboutUsSections = () => {
               <img
                 src={sadhuSevaImg}
                 alt="Mission 3"
+                loading="lazy"
+                decoding="async"
+                width={450}
+                height={240}
                 className="w-full md:w-[350px] lg:w-[200px] h-full rounded-lg shadow-lg"
               />
             </div>
@@ -128,6 +150,10 @@ const AboutUsSections = () => {
               <img
                 src={womenSkillDevImg}
                 alt="Objective 1"
+                loading="lazy"
+                decoding="async"
+                width={450}
+                height={334}
                 className="w-full md:w-[350px] lg:w-[200px] h-full rounded-lg shadow-lg"
               />
             </div>
@@ -136,6 +162,10 @@ const AboutUsSections = () => {
               <img
                 src={HealthCampImg2}
                 alt="Objective 2"
+                loading="lazy"
+                decoding="async"
+                width={450}
+                height={334}
                 className="w-full md:w-[350px] lg:w-[200px] h-auto rounded-lg shadow-lg"
               />
             </div>
@@ -145,6 +175,10 @@ const AboutUsSections = () => {
             <img
               src={childEduImg}
               alt="Objective 3"
+              loading="lazy"
+              decoding="async"
+              width={450}
+              height={337}
               className="h-auto rounded-lg shadow-lg"
             />
           </div>

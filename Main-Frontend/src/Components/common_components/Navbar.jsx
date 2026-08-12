@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../../App.css';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.webp';
 
 const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
   const toggleMenu = () => setIsActive(!isActive);
-  const closeMenu = () => { setIsActive(false); };
+  const closeMenu = () => {
+    setIsActive(false);
+  };
 
   const handleSmoothScroll = () => {
     window.scrollTo({
@@ -20,13 +22,20 @@ const Navbar = () => {
       <nav className="cursor-pointer w-[100%] bg-white shadow-2xl p-4 flex justify-between items-center z-20">
         {/* Logo */}
         <NavLink to="/" className="flex-shrink-0" onClick={handleSmoothScroll}>
-          <img src={logo} alt="logo" className="w-20 object-cover" />
+          <img
+            src={logo}
+            width={200}
+            height={102}
+            alt="logo"
+            className="w-20 object-cover"
+          />
         </NavLink>
 
         {/* Navigation Menu */}
         <ul
-          className={`nav-items ${isActive ? 'flex' : 'hidden'
-            } lg:flex max-h-[450px] overflow-y-auto scrollbar-none flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-8 xl:gap-x-10 absolute lg:static top-full left-0 w-full bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
+          className={`nav-items ${
+            isActive ? 'flex' : 'hidden'
+          } lg:flex max-h-[450px] overflow-y-auto scrollbar-none flex-col z-50 lg:flex-row items-center justify-center gap-3 lg:gap-x-8 xl:gap-x-10 absolute lg:static top-full left-0 w-full bg-[#f2f2f2] border border-t-2 lg:border-none shadow-2xl lg:shadow-none lg:bg-transparent p-4 lg:p-0`}
         >
           {[
             { path: '/', label: 'Home' },
@@ -42,9 +51,10 @@ const Navbar = () => {
               <NavLink
                 to={path}
                 className={({ isActive }) =>
-                  `text-lg lg:text-[12px] xl:text-[16px] font-bold font-sans transition-all duration-300 ${isActive
-                    ? 'text-logoYellow'
-                    : 'text-blue hover:text-logoYellow'
+                  `text-lg lg:text-[12px] xl:text-[16px] font-bold font-sans transition-all duration-300 ${
+                    isActive
+                      ? 'text-logoYellow'
+                      : 'text-blue hover:text-logoYellow'
                   }`
                 }
                 onClick={closeMenu}
@@ -85,8 +95,9 @@ const Navbar = () => {
 
           {/* Hamburger Menu */}
           <div
-            className={`ham-menu lg:hidden cursor-pointer flex flex-col justify-center gap-1 relative w-[25px] h-[25px] ${isActive ? 'active' : ''
-              }`}
+            className={`ham-menu lg:hidden cursor-pointer flex flex-col justify-center gap-1 relative w-[25px] h-[25px] ${
+              isActive ? 'active' : ''
+            }`}
             onClick={toggleMenu}
           >
             <span className="block w-[100%] h-[3.5px] rounded-[20px] absolute top-[25%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 transition duration-500 ease-in-out bg-logo-blue"></span>

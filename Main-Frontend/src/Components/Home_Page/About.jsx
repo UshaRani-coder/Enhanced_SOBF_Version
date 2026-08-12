@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import aboutBackgroundImg from '../../assets/Sobf Images/food distribution/fd7.png';
-import aboutImg from '../../assets/Sobf Images/children_activities/aboutUs.jpg';
-import childEducationImg from '../../assets/Sobf Images/child_education_and_empowerment/cee29.jpeg';
-import healthANdAwarenessImg from '../../assets/Sobf Images/health_and_awareness_camp/hac1.png';
-import sadhuSevaImg from '../../assets/Sobf Images/Sadhu Seva/ss9.png';
+import aboutBackgroundImg from '../../assets/Sobf Images/food distribution/fd7.webp';
+import aboutImg from '../../assets/Sobf Images/children_activities/aboutUs.webp';
+import childEducationImg from '../../assets/Sobf Images/child_education_and_empowerment/cee29.webp';
+import healthANdAwarenessImg from '../../assets/Sobf Images/health_and_awareness_camp/hac1.webp';
+import sadhuSevaImg from '../../assets/Sobf Images/Sadhu Seva/ss9.webp';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -72,32 +72,51 @@ const About = () => {
         </p>
 
         {/* Image Grid with Custom Animations */}
-        <div className="flex flex-wrap justify-center w-[90%] gap-6 rounded-tl-lg rounded-br-lg md:w-[60%] align-center lg:w-[50%] xl:w-[600px] my-[30px] lg:my-0 overflow-hidden">
-          <img
-            src={childEducationImg}
-            alt="child-education"
-            data-aos={getAnimation('fade-down', 'fade-down-right')}
-            className="z-40 rounded-tr-[50px] rounded-bl-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
-          />
-          <img
-            src={sadhuSevaImg}
-            alt="sadhu-seva"
-            data-aos={getAnimation('fade-down', 'fade-down-left')}
-            className="z-40 rounded-tl-[50px] rounded-br-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
-          />
-          <img
-            src={healthANdAwarenessImg}
-            alt="health-camp"
-            data-aos={getAnimation('fade-down', 'fade-up-right')}
-            className="z-40 rounded-tl-[50px] rounded-br-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
-          />
-          <img
-            src={aboutImg}
-            alt="about"
-            data-aos={getAnimation('fade-down', 'fade-up-left')}
-            className="z-40 rounded-tr-[50px] rounded-bl-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
-          />
-        </div>
+       <div className="flex flex-wrap justify-center w-[90%] gap-6 rounded-tl-lg rounded-br-lg md:w-[60%] lg:w-[50%] xl:w-[600px] my-[30px] lg:my-0 overflow-hidden">
+  <img
+    src={childEducationImg}
+    alt="Child education"
+    loading="lazy"
+    decoding="async"
+    width="200"
+    height="200"
+    data-aos={getAnimation('fade-down', 'fade-down-right')}
+    className="z-40 object-cover rounded-tr-[50px] rounded-bl-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
+  />
+
+  <img
+    src={sadhuSevaImg}
+    alt="Sadhu Seva"
+    loading="lazy"
+    decoding="async"
+    width="200"
+    height="200"
+    data-aos={getAnimation('fade-down', 'fade-down-left')}
+    className="z-40 object-cover rounded-tl-[50px] rounded-br-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
+  />
+
+  <img
+    src={healthANdAwarenessImg}
+    alt="Health and awareness camp"
+    loading="lazy"
+    decoding="async"
+    width="200"
+    height="200"
+    data-aos={getAnimation('fade-down', 'fade-up-right')}
+    className="z-40 object-cover rounded-tl-[50px] rounded-br-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
+  />
+
+  <img
+    src={aboutImg}
+    alt="About SOBF"
+    loading="lazy"
+    decoding="async"
+    width="200"
+    height="200"
+    data-aos={getAnimation('fade-down', 'fade-up-left')}
+    className="z-40 object-cover rounded-tr-[50px] rounded-bl-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
+  />
+</div>
       </div>
     </div>
   );

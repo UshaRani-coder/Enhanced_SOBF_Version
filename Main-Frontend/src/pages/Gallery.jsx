@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import aboutus from '../assets/aboutUsImage.png';
+import aboutus from '../assets/aboutUsImage.webp';
 import { getGalleryImages } from '../reducers/gallerySlice';
 import { lockScroll, unlockScroll } from '@/utils/scrollLock';
 import GalleryModal from '@/components/Gallery_Page/GalleryModal.jsx';
@@ -106,6 +106,7 @@ const Gallery = () => {
         alt="Gallery"
         loading="eager"
         decoding="async"
+        fetchPriority="high"
         className="w-full h-[180px] sm:h-[250px] md:h-[350px] lg:h-[450px] object-cover"
       />
       <div className="container mx-auto px-1 small-max:px-4">

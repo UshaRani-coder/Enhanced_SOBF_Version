@@ -65,10 +65,7 @@ export default {
       fontFamily: {
         sans: ['DM Sans', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
-        amatic: ['"Amatic SC"', 'sans-serif'],
         workSans: ['"Work Sans"', 'sans-serif'],
-        cursive: ['Are You Serious', 'cursive'],
-        quicksand: ['Quicksand', 'sans-serif'],
       },
       fontWeight: {
         thin: 100,
@@ -87,7 +84,7 @@ export default {
         heading3: '2.25rem',
         heading4: '1.5rem',
         heading5: '1rem',
-        heading6: '10px', 
+        heading6: '10px',
       },
       animation: {
         'infinite-scroll': 'infinite-scroll 80s linear infinite',
@@ -141,12 +138,12 @@ export default {
       });
     },
     function ({ addVariant }) {
-      addVariant("safari", "@supports (-webkit-touch-callout: none)");
-      addVariant("firefox", "@supports (-moz-appearance: none)");
-      addVariant("edge", "@supports (-ms-ime-align: auto)");
+      addVariant('safari', '@supports (-webkit-touch-callout: none)');
+      addVariant('firefox', '@supports (-moz-appearance: none)');
+      addVariant('edge', '@supports (-ms-ime-align: auto)');
     },
   ],
   variants: {
-    scrollbar: ['rounded'], 
+    scrollbar: ['rounded'],
   },
 };

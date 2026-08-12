@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import cee14 from '@/assets/Sobf Images/child_education_and_empowerment/cee14.png';
-import cee11 from '@/assets/Sobf Images/child_education_and_empowerment/cee11.png';
-import ca5 from '@/assets/Sobf Images/children_activities/ca5.png';
-import ca15 from '@/assets/Sobf Images/children_activities/ca3.png';
-import ca6 from '@/assets/Sobf Images/children_activities/ca6.png';
-import hac4 from '@/assets/Sobf Images/health_and_awareness_camp/hac4.png';
+import cee14 from '@/assets/Sobf Images/child_education_and_empowerment/cee14.avif';
+import cee11 from '@/assets/Sobf Images/child_education_and_empowerment/cee11.avif';
+import ca5 from '@/assets/Sobf Images/children_activities/ca5.avif';
+import ca15 from '@/assets/Sobf Images/children_activities/ca3.avif';
+import ca6 from '@/assets/Sobf Images/children_activities/ca6.avif';
+import hac4 from '@/assets/Sobf Images/health_and_awareness_camp/hac4.avif';
 
 const AboutUsGallery = () => {
   const images = [cee14, ca5, hac4, cee11, ca15, ca6];
@@ -26,6 +26,8 @@ const AboutUsGallery = () => {
               alt={`Shot ${index + 1}`}
               loading="lazy"
               decoding="async"
+              width={450}
+              height={211}
               className="w-full h-[250px] md:h-[300px] object-cover rounded-lg transform transition-transform duration-500 ease-in-out hover:scale-105"
             />
           </div>

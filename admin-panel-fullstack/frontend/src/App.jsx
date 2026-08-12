@@ -29,7 +29,7 @@ const App = () => {
       <Suspense
         fallback={
           <div className="flex justify-center items-center h-screen">
-            <p>{<img src={loader} alt="Loader" className="w-[100px]" />}</p>{' '}
+            <p>{<img src={loader} alt="Loader" className="w-[88px] h-[88px]" />}</p>{' '}
             {/* Customize the fallback with a spinner if needed */}
           </div>
         }
