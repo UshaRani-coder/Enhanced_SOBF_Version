@@ -45,7 +45,7 @@ const Whatsapp = () => {
   }, [location.pathname]);
 
   const handleWhatsAppClick = () => {
-    const message = 'Hello Soul of Braj Federation! How can we help you today?';
+   const message = 'Hi! I came across Soul of Braj Federation and would like to know more about your work.';
 
     const whatsappUrl = `https://wa.me/918439406670?text=${encodeURIComponent(
       message,

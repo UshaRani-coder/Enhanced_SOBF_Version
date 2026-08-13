@@ -99,6 +99,12 @@ const Gallery = () => {
       prevImage();
     }
   };
+  const getCloudinaryUrl = (url, width) => {
+    return url.replace(
+      '/image/upload/',
+      `/image/upload/w_${width},f_auto,q_auto/`,
+    );
+  };
   return (
     <div className="pt-[90px] md:pt-[100px] lg:pt-[120px] pb-8">
       <img
@@ -148,11 +154,17 @@ const Gallery = () => {
                     onClick={() => openModal(index)}
                   >
                     <img
-                      src={image.image}
+                      src={getCloudinaryUrl(image.image, 400)}
+                      srcSet={`
+    ${getCloudinaryUrl(image.image, 400)} 400w,
+    ${getCloudinaryUrl(image.image, 800)} 800w,
+    ${getCloudinaryUrl(image.image, 1200)} 1200w
+  `}
+                      sizes="(max-width: 639px) calc(100vw - 40px), (max-width: 767px) calc(50vw - 30px), calc(33.333vw - 25px)"
                       alt={`Shot ${index + 1}`}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-[220px] sm:h-[260px] md:h-[300px] object-cover rounded-lg transition-transform duration-500 ease-in-out hover:scale-105"
+                      className="w-full h-[220px] sm:h-[260px] md:h-[300px] object-cover rounded-lg"
                     />
                   </div>
                 ))
