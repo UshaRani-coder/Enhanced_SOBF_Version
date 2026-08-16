@@ -1,7 +1,7 @@
-import testimonialImg1 from '../assets/Sobf Images/people/Sanjeev Kapoor.png';
-import testimonialImg3 from '../assets/Sobf Images/people/Dr.Prakash Kumar.png';
-import testimonialImg4 from '../assets/Sobf Images/people/Sushant Srdhana.png';
-import testimonialImg5 from '../assets/Sobf Images/people/Naresh Traikha.png';
+import testimonialImg1 from '../assets/Sobf Images/people/Sanjeev Kapoor.webp';
+import testimonialImg3 from '../assets/Sobf Images/people/Dr.Prakash Kumar.webp';
+import testimonialImg4 from '../assets/Sobf Images/people/Sushant Srdhana.webp';
+import testimonialImg5 from '../assets/Sobf Images/people/Naresh Traikha.webp';
 
 
 const testimonials = [

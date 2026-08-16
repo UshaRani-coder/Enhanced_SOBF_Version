@@ -55,6 +55,7 @@ const Recent_Activities = React.memo(() => {
     if (posts && posts.length > 0) return posts;
     return hardcodedPosts;
   }, [posts]);
+  
 
   const { filteredPosts, availableYears, availableFilteredMonths } =
     useFilteredPosts(finalPosts, selectedYear, selectedMonth);

@@ -1,5 +1,7 @@
 import React from 'react';
-const ServiceCard = ({ item, index,  onSelect }) => {
+import { getCloudinaryUrl } from '@/utils/getCloudinaryUrl';
+
+const ServiceCard = ({ item, index, onSelect }) => {
   return (
     <li
       data-aos="fade-up"
@@ -7,7 +9,10 @@ const ServiceCard = ({ item, index,  onSelect }) => {
       className="group service rounded-tl-[50px] rounded-br-[50px] cursor-pointer mx-2 w-[90%] small-max:w-[85%] md:w-[35%] lg:w-[25%] relative overflow-hidden h-[300px] flex flex-col items-center justify-center transition-all duration-500 hover:backdrop-blur-md hover:bg-opacity-80"
       style={{
         backgroundColor: item.color,
-        backgroundImage: `linear-gradient(rgba(45, 51, 93, 0.5), rgba(45, 51, 93, 0.5)), url(${item.images[0]})`,
+        backgroundImage: `linear-gradient(
+    rgba(45, 51, 93, 0.5),
+    rgba(45, 51, 93, 0.5)
+  ), url(${getCloudinaryUrl(item.images[0], 640)})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundBlendMode: 'overlay',
@@ -16,8 +21,12 @@ const ServiceCard = ({ item, index,  onSelect }) => {
     >
       <div className="px-[20px] service-content relative z-40 h-full flex flex-col items-center justify-center">
         <img
-          src={item.logo}
+          src={getCloudinaryUrl(item.logo, 100)}
           alt={`${item.title} logo`}
+          loading="lazy"
+          decoding="async"
+          width="40"
+          height="40"
           className="w-[40px] h-[40px] invert"
         />
 

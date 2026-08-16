@@ -1,7 +1,7 @@
 import React from 'react';
-import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFoundation2.png';
-import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundation.png';
-import curiousBusinessSolutions from '../../assets/Sobf Images/partners/curiousBusinessSolutions.png';
+import raturiFoundationLogo from '../../assets/Sobf Images/partners/raturiFoundation2.avif';
+import hinduFoundationLogo from '../../assets/Sobf Images/partners/hinduFoundation.avif';
+import curiousBusinessSolutions from '../../assets/Sobf Images/partners/curiousBusinessSolutions.avif';
 import { Link } from 'react-router-dom';
 
 const Partners = () => {
@@ -17,6 +17,8 @@ const Partners = () => {
           <li>
             <img
               src={raturiFoundationLogo}
+              width={220}
+              height={188}
               alt="raturi-foundation"
               className="cursor-pointer w-[78px] lg:w-[110px] object-cover"
             />
@@ -26,6 +28,8 @@ const Partners = () => {
           <li>
             <img
               src={hinduFoundationLogo}
+              width={220}
+              height={218}
               alt="hindu-foundation"
               className="cursor-pointer w-[70px] lg:w-[100px] object-cover"
             />
@@ -35,6 +39,8 @@ const Partners = () => {
           <li>
             <img
               src={curiousBusinessSolutions}
+              width={220}
+              height={220}
               alt="curious-business-solutions"
               className="cursor-pointer w-[70px] lg:w-[100px] object-cover"
             />

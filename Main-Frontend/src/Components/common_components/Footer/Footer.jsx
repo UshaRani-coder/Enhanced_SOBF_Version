@@ -25,7 +25,7 @@ const Footer = () => {
                   src={sobfLogo}
                   width={200}
                   height={102}
-                  className="h-12 sm:h-16"
+                  className="w-auto h-12 sm:h-16"
                   alt="Logo"
                 />
               </Link>

@@ -78,8 +78,8 @@ const About = () => {
     alt="Child education"
     loading="lazy"
     decoding="async"
-    width="200"
-    height="200"
+    width="400"
+    height="300"
     data-aos={getAnimation('fade-down', 'fade-down-right')}
     className="z-40 object-cover rounded-tr-[50px] rounded-bl-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
   />
@@ -89,8 +89,8 @@ const About = () => {
     alt="Sadhu Seva"
     loading="lazy"
     decoding="async"
-    width="200"
-    height="200"
+    width="400"
+    height="223"
     data-aos={getAnimation('fade-down', 'fade-down-left')}
     className="z-40 object-cover rounded-tl-[50px] rounded-br-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
   />
@@ -100,8 +100,8 @@ const About = () => {
     alt="Health and awareness camp"
     loading="lazy"
     decoding="async"
-    width="200"
-    height="200"
+    width="400"
+    height="532"
     data-aos={getAnimation('fade-down', 'fade-up-right')}
     className="z-40 object-cover rounded-tl-[50px] rounded-br-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
   />
@@ -111,8 +111,8 @@ const About = () => {
     alt="About SOBF"
     loading="lazy"
     decoding="async"
-    width="200"
-    height="200"
+    width="400"
+    height="451"
     data-aos={getAnimation('fade-down', 'fade-up-left')}
     className="z-40 object-cover rounded-tr-[50px] rounded-bl-[50px] h-[250px] md:h-[200px] w-full small-range:w-[90%] small-max:w-[80%] md:w-[200px]"
   />

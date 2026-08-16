@@ -9,6 +9,7 @@ import {
   formatTime,
   capitalize,
 } from '@/utils/eventUtils';
+import { getCloudinaryUrl } from '@/utils/getCloudinaryUrl';
 
 const EventCard = ({
   event,
@@ -35,10 +36,17 @@ const EventCard = ({
     >
       <div className="relative w-full h-56 md:h-64 lg:h-72 overflow-hidden">
         <img
-          src={event.image}
+          src={getCloudinaryUrl(event.image, 480)}
+          srcSet={`
+    ${getCloudinaryUrl(event.image, 320)} 320w,
+    ${getCloudinaryUrl(event.image, 480)} 480w
+  `}
+          sizes="(max-width: 640px) 100vw, 440px"
           alt={event.title}
           loading={index < 2 ? 'eager' : 'lazy'}
           decoding="async"
+          width="480"
+          height="288"
           className="w-full h-full object-cover rounded-t-xl transition-transform duration-500 hover:scale-105"
         />
       </div>

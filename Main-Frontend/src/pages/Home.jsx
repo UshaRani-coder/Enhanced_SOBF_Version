@@ -1,21 +1,36 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import Hero from '../components/Home_Page/Hero.jsx';
 import HeroVideo from '../components/Home_Page/HeroVideo.jsx';
-import Impacts from '../components/Home_Page/Impacts.jsx';
-import Contactus from '../components/Home_Page/Support.jsx';
-import Faq from '../components/Home_Page/Faq.jsx';
-import About from '../components/Home_Page/About.jsx';
-import Services from '../components/Home_Page/Services/Services.jsx';
-import Team from '../components/Home_Page/Team.jsx';
-import Testimonials from '@/components/Home_Page/Testimonial/Testimonials.jsx';
-import Video from '../components/Home_Page/Video.jsx';
-import Programms from '../components/Home_Page/Initiatives.jsx';
-import Partners from '../components/Home_Page/Partners.jsx';
-import Recent_Activities from '../components/Home_Page/Recent_Activities.jsx';
-import SidePopup from '../components/common_components/sidePopup.jsx';
-import UpcomingEvents from '../components/Home_Page/Upcoming Events/UpcomingEvents.jsx';
-import VolunteerForm from '../components/Volunteer/Volunteer.jsx';
-import DonationOptions from '@/components/Home_Page/DonateForPreview.jsx';
+const Impacts = lazy(() => import('../components/Home_Page/Impacts.jsx'));
+const Contactus = lazy(() => import('../components/Home_Page/Support.jsx'));
+const Faq = lazy(() => import('../components/Home_Page/Faq.jsx'));
+const About = lazy(() => import('../components/Home_Page/About.jsx'));
+const Services = lazy(
+  () => import('../components/Home_Page/Services/Services.jsx'),
+);
+const Team = lazy(() => import('../components/Home_Page/Team.jsx'));
+const Testimonials = lazy(
+  () => import('@/components/Home_Page/Testimonial/Testimonials.jsx'),
+);
+const Video = lazy(() => import('../components/Home_Page/Video.jsx'));
+const Programms = lazy(() => import('../components/Home_Page/Initiatives.jsx'));
+const Partners = lazy(() => import('../components/Home_Page/Partners.jsx'));
+const Recent_Activities = lazy(
+  () => import('../components/Home_Page/Recent_Activities.jsx'),
+);
+const SidePopup = lazy(
+  () => import('../components/common_components/sidePopup.jsx'),
+);
+const UpcomingEvents = lazy(
+  () => import('../components/Home_Page/Upcoming Events/UpcomingEvents.jsx'),
+);
+const VolunteerForm = lazy(
+  () => import('../components/Volunteer/Volunteer.jsx'),
+);
+const DonationOptions = lazy(
+  () => import('@/components/Home_Page/DonateForPreview.jsx'),
+);
+
 import { WavySeparator } from '../utils/Seperator.jsx';
 
 const HomePage = () => {
@@ -25,12 +40,10 @@ const HomePage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowVolunteerForm(true);
-    }, 8000); // 8000 milliseconds = 8 seconds
+    }, 8000); 
 
     return () => clearTimeout(timer);
-  }, []); // Empty dependency array means this runs only once on mount
-
-  // scroll restoration that helps to go back to particular component when clicked back
+  }, []); 
 
   useEffect(() => {
     const sectionId = sessionStorage.getItem('scroll-section');
@@ -53,7 +66,6 @@ const HomePage = () => {
 
     return () => clearInterval(timer);
   }, []);
-
 
   return (
     <div className="flex flex-col items-center overflow-auto">
@@ -91,24 +103,25 @@ const HomePage = () => {
       <div className={` w-full`}>
         <Hero />
       </div>
-
-      <SidePopup />
-      <Impacts />
-      <UpcomingEvents />
-      <DonationOptions />
-      <WavySeparator />
-      <Programms />
-      <About />
-      <Video />
-      <WavySeparator />
-      <Services />
-      <WavySeparator />
-      <Recent_Activities />
-      <Team />
-      <Partners />
-      <Testimonials />
-      <Contactus />
-      <Faq />
+      <Suspense fallback={null}>
+        <SidePopup />
+        <Impacts />
+        <UpcomingEvents />
+        <DonationOptions />
+        <WavySeparator />
+        <Programms />
+        <About />
+        <Video />
+        <WavySeparator />
+        <Services />
+        <WavySeparator />
+        <Recent_Activities />
+        <Team />
+        <Partners />
+        <Testimonials />
+        <Contactus />
+        <Faq />
+      </Suspense>
     </div>
   );
 };

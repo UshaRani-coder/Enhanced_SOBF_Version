@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Avatar from '../../assets/Sobf Images/people/TarunMisra_Sir.png';
+import Avatar from '../../assets/Sobf Images/people/TarunMisra_Sir.webp';
 import './whatsapp.css';
 
 const Whatsapp = () => {

@@ -4,9 +4,93 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getfeaturedVideo } from '../../reducers/featuredVideoSlice';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import loader from '../../assets/loader.webp';
-import YouTube from 'react-youtube';
 import fallbackVideos from '../../defaultData/youtubeVideos.json';
 
+const LazyYouTube = ({ videoId }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  if (!videoId) {
+    return <p className="text-red-500 text-center py-10">Invalid Video URL</p>;
+  }
+
+  if (isPlaying) {
+    return (
+      <iframe
+        className="w-full h-full"
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+        title="YouTube video player"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      />
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => setIsPlaying(true)}
+      className="relative w-full h-full group"
+      aria-label="Play video on YouTube"
+    >
+      {/* YouTube thumbnail */}
+      <img
+        src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
+        alt="YouTube video thumbnail"
+        className="w-full h-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
+
+      {/* Dark overlay */}
+      <span className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-300" />
+
+      {/* YouTube Play Button */}
+      <span className="absolute inset-0 flex items-center justify-center">
+        <span
+          className="
+            flex items-center justify-center
+            w-[68px] h-[48px]
+            rounded-[14px]
+            bg-[#FF0000]
+            shadow-lg
+          "
+        >
+          <svg
+            viewBox="0 0 24 24"
+            className="w-7 h-7 text-white fill-white ml-1"
+            aria-hidden="true"
+          >
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </span>
+
+      {/* YouTube label */}
+      <span
+        className="
+          absolute bottom-3 left-3
+          flex items-center gap-1.5
+          bg-black/75
+          text-white
+          px-2.5 py-1
+          rounded-md
+          text-xs font-medium
+          opacity-90
+        "
+      >
+        <svg
+          viewBox="0 0 24 24"
+          className="w-4 h-4 text-red-500 fill-red-500"
+          aria-hidden="true"
+        >
+          <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.7 31.7 0 0 0 0 12a31.7 31.7 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.7 31.7 0 0 0 24 12a31.7 31.7 0 0 0-.5-5.8ZM9.6 15.9V8.1l6.5 3.9-6.5 3.9Z" />
+        </svg>
+        Watch on YouTube
+      </span>
+    </button>
+  );
+};
 const Video = () => {
   const dispatch = useDispatch();
   const { featuredVideo, status } = useSelector((state) => state.featuredVideo);
@@ -16,13 +100,14 @@ const Video = () => {
 
   const [videosToShow, setVideosToShow] = useState(3);
 
-  // fetch videos
+  // Fetch videos
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getfeaturedVideo());
     }
   }, [status, dispatch]);
 
+  // Scroll to top when visiting /videos
   useEffect(() => {
     if (location.pathname === '/videos') {
       window.scrollTo({
@@ -40,6 +125,7 @@ const Video = () => {
 
   const getVideoId = useCallback((url) => {
     if (!url) return null;
+
     try {
       return new URL(url).searchParams.get('v');
     } catch {
@@ -47,7 +133,7 @@ const Video = () => {
     }
   }, []);
 
-  //  SINGLE SOURCE OF TRUTH
+  // Single source of truth
   const videosData = useMemo(() => {
     const hasApiVideos =
       Array.isArray(featuredVideo) && featuredVideo.length > 0;
@@ -71,19 +157,6 @@ const Video = () => {
     }
   }, [location.pathname]);
 
-  const ytOptions = useMemo(
-    () => ({
-      width: '100%',
-      playerVars: {
-        rel: 0,
-        modestbranding: 1,
-        controls: 1,
-        disablekb: 1,
-      },
-    }),
-    [],
-  );
-
   const showMoreVisible =
     location.pathname !== '/videos' && videosData.length > 3;
 
@@ -105,13 +178,11 @@ const Video = () => {
           videos.
         </h1>
 
-        <h1 className="text-center text-md small-range:text-lg md:text-xl mb-4 p-3 text-gray-600 ">
+        <h1 className="text-center text-md small-range:text-lg md:text-xl mb-4 p-3 text-gray-600">
           Witness the impact of our work through inspiring stories and
           community-driven moments captured in our latest videos.
         </h1>
       </div>
-
-      
 
       <InfiniteScroll
         dataLength={visibleVideos?.length}
@@ -151,27 +222,13 @@ const Video = () => {
                     w-[95%] small-range:w-[90%]
                     md:w-[45%] lg:w-[32%]
                     transition-all duration-300 ease-out
-                     hover:-translate-y-2 hover:scale-[1.02]
+                    hover:-translate-y-2 hover:scale-[1.02]
                     group relative
                   "
                 >
-                  {videoId ? (
-                    <div className="w-full aspect-video overflow-hidden">
-                      <YouTube
-                        videoId={videoId}
-                        opts={{
-                          ...ytOptions,
-                          width: '100%',
-                          height: '100%',
-                        }}
-                        className="w-full h-full"
-                      />
-                    </div>
-                  ) : (
-                    <p className="text-red-500 text-center py-10">
-                      Invalid Video URL
-                    </p>
-                  )}
+                  <div className="w-full aspect-video overflow-hidden">
+                    <LazyYouTube videoId={videoId} />
+                  </div>
 
                   <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-[#2d335d10] to-transparent" />
                 </div>
@@ -187,7 +244,7 @@ const Video = () => {
         <div className="text-center mt-6">
           <button
             onClick={handleShowMore}
-            className="bg-blue text-white  py-2 px-6 rounded-xl hover:bg-logoYellow transition-colors duration-300"
+            className="bg-blue text-white py-2 px-6 rounded-xl hover:bg-logoYellow transition-colors duration-300"
           >
             Show More
           </button>

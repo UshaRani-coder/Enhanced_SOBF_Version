@@ -33,13 +33,14 @@ const PostList = ({
       inverse
     >
       <div className="flex flex-col items-center lg:flex-row lg:items-stretch lg:justify-center lg:flex-wrap gap-[30px] w-full lg:gap-[50px] p-5">
-        {posts.map((news) => (
+        {posts.map((news,index) => (
           <PostCard
             key={news._id}
             news={news}
             detailRoute={detailRoute}
             title={title}
             baseURL={baseURL}
+            isPriority={index === 0}
           />
         ))}
       </div>

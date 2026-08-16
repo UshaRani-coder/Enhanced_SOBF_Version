@@ -1,24 +1,38 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
-import ShareButton from './ShareButton.jsx';
-import  formatDate  from '@/utils/formatDate';
 
-const PostCard = ({ news, detailRoute, title, baseURL }) => {
+const ShareButton = lazy(() => import('./ShareButton.jsx'));
+import formatDate from '@/utils/formatDate';
+import { getCloudinaryUrl } from '@/utils/getCloudinaryUrl.js';
+
+const PostCard = ({
+  news,
+  detailRoute,
+  title,
+  baseURL,
+  isPriority = false,
+}) => {
+  const imageUrl =
+    news?.images?.length > 0
+      ? news.images[0]?.url || news.images[0]
+      : 'https://via.placeholder.com/600';
   return (
     <div className="flex flex-col items-start md:p-[15px] w-full small-range:w-[90%] md:w-[350px] bg-white rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg md:min-h-[450px] lg:min-h-[500px]">
       <img
-        src={
-          news?.images?.length > 0
-            ? news.images[0]?.url || news.images[0]
-            : 'https://via.placeholder.com/600'
-        }
-        alt={news?.title}
-        loading="lazy"
+        src={getCloudinaryUrl(imageUrl, 640)}
+        srcSet={`
+    ${getCloudinaryUrl(imageUrl, 320)} 320w,
+    ${getCloudinaryUrl(imageUrl, 480)} 480w,
+    ${getCloudinaryUrl(imageUrl, 640)} 640w
+  `}
+        sizes="(max-width: 767px) 90vw, 350px"
+        alt={news?.title || ''}
+        loading={isPriority ? 'eager' : 'lazy'}
+        fetchpriority={isPriority ? 'high' : 'auto'}
         decoding="async"
-        className="w-full h-56 md:h-64 lg:h-72 rounded-lg object-cover"
+        className="w-full aspect-[350/288] rounded-lg object-cover"
       />
-
       <div className="px-[10px]">
         {/* Date */}
         <div className="flex items-center gap-x-[5px] mt-[15px]">
@@ -30,15 +44,11 @@ const PostCard = ({ news, detailRoute, title, baseURL }) => {
             <path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
           </svg>
 
-          <span className="text-[13px]">
-            {formatDate(news?.date)}
-          </span>
+          <span className="text-[13px]">{formatDate(news?.date)}</span>
         </div>
 
         {/* Title */}
-        <h2 className="font-bold text-xl line-clamp-1">
-          {news?.title}
-        </h2>
+        <h2 className="font-bold text-xl line-clamp-1">{news?.title}</h2>
 
         {/* Description */}
         <p
@@ -46,7 +56,7 @@ const PostCard = ({ news, detailRoute, title, baseURL }) => {
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(news?.description).replace(
               /<a /g,
-              '<a style="color:#4a90e2;" '
+              '<a style="color:#4a90e2;" ',
             ),
           }}
         />
@@ -67,15 +77,14 @@ const PostCard = ({ news, detailRoute, title, baseURL }) => {
             </button>
           </Link>
 
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="mt-5"
-          >
-            <ShareButton
-              title={title}
-              url={`${baseURL}${detailRoute}/${news?._id}`}
-               className="px-3 py-[6px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-[#2d335d] to-[#44508f] text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 "
-            />
+          <div onClick={(e) => e.stopPropagation()} className="mt-5">
+            <Suspense fallback={null}>
+              <ShareButton
+                title={title}
+                url={`${baseURL}${detailRoute}/${news?._id}`}
+                className="px-3 py-[6px] border-0 text-xs md:text-sm mb-3 inline-block font-bold rounded-full shadow-md bg-gradient-to-r from-[#2d335d] to-[#44508f] text-white hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 "
+              />
+            </Suspense>
           </div>
         </div>
       </div>

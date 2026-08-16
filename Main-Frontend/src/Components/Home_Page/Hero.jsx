@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getHeroBanners } from '../../reducers/heroBannerSlice';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { getCloudinaryUrl } from '../../utils/getCloudinaryUrl';
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -108,14 +109,18 @@ const Hero = () => {
               className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10"
             >
               <img
-                src={heroBanner[currentIndex]?.image}
+                src={getCloudinaryUrl(heroBanner[currentIndex]?.image, 1200)}
+                srcSet={`
+    ${getCloudinaryUrl(heroBanner[currentIndex]?.image, 480)} 480w,
+    ${getCloudinaryUrl(heroBanner[currentIndex]?.image, 768)} 768w,
+    ${getCloudinaryUrl(heroBanner[currentIndex]?.image, 1200)} 1200w
+  `}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
                 alt="Hero Banner"
-                className="
-                  w-full object-cover
-                  h-[240px] sm:h-[300px] md:h-[380px] lg:h-[500px]
-                "
+                fetchpriority="high"
+                decoding="async"
+                className="w-full object-cover h-[240px] sm:h-[300px] md:h-[380px] lg:h-[500px]"
               />
-
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
             </motion.div>
           </AnimatePresence>

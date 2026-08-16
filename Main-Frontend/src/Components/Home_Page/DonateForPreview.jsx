@@ -2,6 +2,7 @@ import { fetchAllDonations } from '@/reducers/donateForSlice';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getCloudinaryUrl } from '@/utils/getCloudinaryUrl';
 
 const DonateForPreview = () => {
   const dispatch = useDispatch();
@@ -33,17 +34,20 @@ const DonateForPreview = () => {
 
   const loading = status === 'loading';
 
-const handleSeeMore = () => {
-  sessionStorage.setItem('scroll-section', 'donate-for-id');
-  navigate('/donate-for');
-};
+  const handleSeeMore = () => {
+    sessionStorage.setItem('scroll-section', 'donate-for-id');
+    navigate('/donate-for');
+  };
 
   const handleDonateNow = (id) => {
     navigate(`/donate/${id}`);
   };
 
   return (
-    <div className="w-full px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 py-8 md:py-12 mx-auto " id="donate-for-id">
+    <div
+      className="w-full px-4 xs:px-6 sm:px-8 md:px-10 lg:px-12 py-8 md:py-12 mx-auto "
+      id="donate-for-id"
+    >
       <div className="text-center mb-8 md:mb-12">
         <h1 className="inline-block text-[24px] sm:text-heading3  lg:text-heading2 font-bold p-5 text-[#2d335d] relative transition-all ease-in-out">
           All Donation Categories
@@ -67,11 +71,24 @@ const handleSeeMore = () => {
             return (
               <div key={category._id} className="px-1 xs:px-1.5 sm:px-2">
                 <div className="text-blue border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col h-full">
-                  {/* <div className="h-32 sm:h-40 md:h-44 overflow-hidden"> */}
                   <div className="aspect-[16/9] overflow-hidden">
                     <img
-                      src={category?.image}
-                      alt={category?.title}
+                      src={getCloudinaryUrl(category?.image, 480)}
+                      srcSet={`
+      ${getCloudinaryUrl(category?.image, 320)} 320w,
+      ${getCloudinaryUrl(category?.image, 480)} 480w,
+      ${getCloudinaryUrl(category?.image, 640)} 640w
+    `}
+                      sizes="
+      (max-width: 640px) 90vw,
+      (max-width: 1024px) 45vw,
+      480px
+    "
+                      alt={category?.title || 'Donation category'}
+                      loading="lazy"
+                      decoding="async"
+                      width="480"
+                      height="270"
                       className="w-full h-full object-cover"
                     />
                   </div>

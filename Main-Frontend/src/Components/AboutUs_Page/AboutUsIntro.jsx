@@ -49,7 +49,7 @@ const AboutUsIntro = () => {
         src={aboutus}
         alt="About Us"
         loading="eager"
-        fetchPriority="high"
+        fetchpriority="high"
         width={800}
         height={350}
         className="w-full h-[180px] sm:h-[250px] md:h-[350px] lg:h-[450px] object-cover"

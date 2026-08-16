@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOurImpact } from '../../reducers/ourImpactsSlice.js';
+import { getCloudinaryUrl } from '@/utils/getCloudinaryUrl.js';
 
 const Statistics = () => {
   const dispatch = useDispatch();
@@ -49,9 +50,13 @@ const Statistics = () => {
               >
                 {/* Image */}
                 <img
-                  src={impact?.image}
-                  alt="impact"
-                  className="w-[60px] transition-transform duration-300 group-hover:scale-110"
+                  src={getCloudinaryUrl(impact?.image, 100)}
+                  alt={impact?.description || 'Impact'}
+                  width="60"
+                  height="60"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-[60px] h-[60px] object-contain transition-transform duration-300 group-hover:scale-110"
                 />
 
                 {/* Number (FIXED POSITION BLOCK) */}

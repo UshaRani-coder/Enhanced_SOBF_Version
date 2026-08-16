@@ -4,6 +4,7 @@ import aboutus from '../assets/aboutUsImage.webp';
 import { getGalleryImages } from '../reducers/gallerySlice';
 import { lockScroll, unlockScroll } from '@/utils/scrollLock';
 import GalleryModal from '@/components/Gallery_Page/GalleryModal.jsx';
+import { getCloudinaryUrl } from '@/utils/getCloudinaryUrl.js';
 
 const Gallery = () => {
   const dispatch = useDispatch();
@@ -99,12 +100,7 @@ const Gallery = () => {
       prevImage();
     }
   };
-  const getCloudinaryUrl = (url, width) => {
-    return url.replace(
-      '/image/upload/',
-      `/image/upload/w_${width},f_auto,q_auto/`,
-    );
-  };
+ 
   return (
     <div className="pt-[90px] md:pt-[100px] lg:pt-[120px] pb-8">
       <img
@@ -112,7 +108,7 @@ const Gallery = () => {
         alt="Gallery"
         loading="eager"
         decoding="async"
-        fetchPriority="high"
+        fetchpriority="high"
         className="w-full h-[180px] sm:h-[250px] md:h-[350px] lg:h-[450px] object-cover"
       />
       <div className="container mx-auto px-1 small-max:px-4">

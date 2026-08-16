@@ -1,8 +1,8 @@
 import React from 'react';
-import zeroHunger from '../../assets/Sobf Images/sdg/Zero Hunger.jpg';
-import goodHealth from '../../assets/Sobf Images/sdg/Good Health and Well-Being.jpg';
-import qualityEducation from '../../assets/Sobf Images/sdg/Quality Education.jpg';
-import cleanWater from '../../assets/Sobf Images/sdg/Clean Water and Sanitation.jpg';
+import zeroHunger from '../../assets/Sobf Images/sdg/Zero Hunger.webp';
+import goodHealth from '../../assets/Sobf Images/sdg/Good Health and Well-Being.webp';
+import qualityEducation from '../../assets/Sobf Images/sdg/Quality Education.webp';
+import cleanWater from '../../assets/Sobf Images/sdg/Clean Water and Sanitation.webp';
 
 const Initiatives = () => {
   return (
@@ -16,7 +16,7 @@ const Initiatives = () => {
       <div className="flex  flex-col lg:flex-row lg:flex-wrap lg:w-[90%] px-2  md:mx-[100px] lg:mx-[50px]">
         <div className="gap-4 flex p-4 flex-col items-center md:flex-row lg:w-[50%]">
           <img
-            className="bg-[#dda63a] object-cover border-2rounded-xl w-16 h-16 rounded-lg p-1"
+            className="bg-[#dda63a] object-cover border-2  w-16 h-16 rounded-lg p-1"
             src={zeroHunger}
             alt=""
           />
@@ -32,7 +32,7 @@ const Initiatives = () => {
         </div>
         <div className="gap-4 flex p-4 flex-col items-center md:flex-row lg:w-[50%]">
           <img
-            className="bg-[#4c9f38] object-cover border-2rounded-xl w-16 h-16 rounded-lg p-1"
+            className="bg-[#4c9f38] object-cover border-2  w-16 h-16 rounded-lg p-1"
             src={goodHealth}
             alt=""
           />
@@ -66,7 +66,7 @@ const Initiatives = () => {
         </div>
         <div className="gap-4 flex p-4 flex-col items-center md:flex-row lg:w-[50%]">
           <img
-            className="bg-[#26bde2] object-cover border-2rounded-xl w-16 h-16 rounded-lg p-1"
+            className="bg-[#26bde2] object-cover border-2  w-16 h-16 rounded-lg p-1"
             src={cleanWater}
             alt=""
           />

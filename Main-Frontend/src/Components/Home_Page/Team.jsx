@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTeams } from '../../reducers/TeamSlice';
 import DOMPurify from 'dompurify';
+import { getCloudinaryUrl } from '@/utils/getCloudinaryUrl';
+
 const Team = () => {
   const { teams, status } = useSelector((state) => state.teams);
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ const Team = () => {
               <div
                 className="w-[200px] h-[200px] rounded-full"
                 style={{
-                  backgroundImage: `url(${item.image || '/default-avatar.png'})`,
+                  backgroundImage: `url(${getCloudinaryUrl(item.image, 400)})`,
                   backgroundPosition: 'center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
@@ -55,7 +57,6 @@ const Team = () => {
                 />
                 {/* Social Links */}
                 <div className="socials flex gap-x-[5px]">
-                  
                   {item.linkedIn && (
                     <Link
                       to={item.linkedIn}
@@ -160,7 +161,6 @@ const Team = () => {
             </div>
           ))}
       </div>
-      
     </div>
   );
 };

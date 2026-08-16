@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "env-cmd -f .env.development vite",
     "build": "env-cmd -f .env.production vite build",
-    "preview": "env-cmd -f .env.production vite preview",
-    "build:preview": "vite build --mode preview",
+    "build:preview": "env-cmd -f .env.preview vite build",
+    "preview": "vite preview",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {

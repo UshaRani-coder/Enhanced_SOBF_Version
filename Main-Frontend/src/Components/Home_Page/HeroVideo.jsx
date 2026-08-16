@@ -1,56 +1,30 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import posterImage from '@/assets/Sobf Images/child_education_and_empowerment/cee29.webp';
 const HeroVideo = () => {
   const videoRef = useRef(null);
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const videoElement = videoRef.current;
-
-  //   if (!videoElement) return;
-
-  //   if (!showPopup) {
-  //     videoElement
-  //       .play()
-  //       .catch((error) => console.error('Video play error:', error));
-  //   } else {
-  //     videoElement.pause();
-  //   }
-
-  //   if (showPopup) {
-  //     document.body.style.overflow = 'hidden';
-  //     document.documentElement.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = 'auto';
-  //     document.documentElement.style.overflow = 'auto';
-  //   }
-
-  //   return () => {
-  //     document.body.style.overflow = 'auto';
-  //     document.documentElement.style.overflow = 'auto';
-  //   };
-  // }, [showPopup]);
   useEffect(() => {
-  const videoElement = videoRef.current;
+    const videoElement = videoRef.current;
 
-  if (!videoElement) return;
+    if (!videoElement) return;
 
-  if (showPopup) {
-    videoElement.pause();
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-    document.documentElement.style.overflow = 'auto';
-  }
+    if (showPopup) {
+      videoElement.pause();
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    }
 
-  return () => {
-    document.body.style.overflow = 'auto';
-    document.documentElement.style.overflow = 'auto';
-  };
-}, [showPopup]);
+    return () => {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    };
+  }, [showPopup]);
 
   const handleScrollDown = () => {
     const nextSection = document.getElementById('next-section');
@@ -74,13 +48,19 @@ const HeroVideo = () => {
         autoPlay
         loop
         playsInline
-        preload="none"
-        poster="https://res.cloudinary.com/dhv61cvx5/image/upload/v1779541319/sobf_uploads/upcoming-events/1779541317552-Brajkulam3.png"
+        preload="metadata"
+        poster={posterImage}
         className="w-full h-full object-cover"
         disablePictureInPicture
       >
         <source
-          src="https://res.cloudinary.com/dhv61cvx5/video/upload/v1786185111/SOBF_640x360_700k_deecot.webm"
+          media="(max-width: 768px)"
+          src="https://res.cloudinary.com/dhv61cvx5/video/upload/q_auto,f_auto/v1786777066/SOBF_mobile_r97aty.webm"
+          type="video/webm"
+        />
+
+        <source
+          src="https://res.cloudinary.com/dhv61cvx5/video/upload/q_auto,f_auto/v1786776035/SOBF_lf0cax.webm"
           type="video/webm"
         />
       </video>
