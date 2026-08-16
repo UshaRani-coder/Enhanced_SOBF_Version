@@ -161,7 +161,19 @@ const HeroBanner = () => {
 
         <button
           onClick={handleOpenAddModal}
-          className="rounded-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 px-3 py-1.5 text-[14px] font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl small-max:px-4 small-max:py-1.5 small-max:text-[16px]"
+          className="   bg-[rgb(39,39,79)]
+    text-white
+    px-4 py-2
+    small-max:px-5 small-max:py-2
+    text-[14px] small-max:text-[16px]
+    font-semibold
+    rounded-full
+    shadow-md
+    transition-all duration-300 ease-out
+    hover:bg-[rgb(49,49,95)]
+    hover:shadow-[0_8px_25px_rgba(39,39,79,0.35)]
+    active:scale-95
+  "
         >
           Add Banner
         </button>

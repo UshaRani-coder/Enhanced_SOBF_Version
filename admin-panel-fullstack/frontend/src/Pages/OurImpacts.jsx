@@ -159,7 +159,19 @@ const OurImpacts = () => {
         <h1 className="text-2xl md:text-4xl font-semibold">Our Impacts</h1>
 
         <button
-          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-3 py-1.5 small-max:px-6 small-max:py-3 text-[14px] small-max:text-[16px] font-semibold rounded-3xl shadow-lg transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
+          className="   bg-[rgb(39,39,79)]
+    text-white
+    px-4 py-2
+    small-max:px-5 small-max:py-2
+    text-[14px] small-max:text-[16px]
+    font-semibold
+    rounded-full
+    shadow-md
+    transition-all duration-300 ease-out
+    hover:bg-[rgb(49,49,95)]
+    hover:shadow-[0_8px_25px_rgba(39,39,79,0.35)]
+    active:scale-95
+  "
           onClick={openAddModal}
         >
           Add Impact

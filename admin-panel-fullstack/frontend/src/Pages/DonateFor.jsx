@@ -57,7 +57,19 @@ const DonateFor = () => {
           onClick={() => {
             setModalOpen(true);
           }}
-          className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white px-4 py-2 rounded-3xl shadow-lg hover:scale-105 transition"
+          className="   bg-[rgb(39,39,79)]
+    text-white
+    px-4 py-2
+    small-max:px-5 small-max:py-2
+    text-[14px] small-max:text-[16px]
+    font-semibold
+    rounded-full
+    shadow-md
+    transition-all duration-300 ease-out
+    hover:bg-[rgb(49,49,95)]
+    hover:shadow-[0_8px_25px_rgba(39,39,79,0.35)]
+    active:scale-95
+  "
         >
           Add Post
         </button>
@@ -83,7 +95,6 @@ const DonateFor = () => {
 
       <div className="mt-4 text-center text-gray-500">
         Showing {currentItems.length} of {categories?.length || 0} items
-
       </div>
 
       {modalOpen && (

@@ -60,6 +60,9 @@ const EventDetails = () => {
     handleSubmit,
   } = useEventRegistration(event?._id);
 
+const goBack = () => {
+  navigate('/#events');
+};
   // ---------------- UI STATES ----------------
 
   if (postStatus === 'loading' && !event) {
@@ -181,9 +184,7 @@ const EventDetails = () => {
 
   <button
     className="px-5 py-2 bg-logo-blue text-white font-medium rounded-lg hover:bg-logoYellow transition-all"
-    onClick={() => {
-      navigate('/#events');
-    }}
+    onClick={goBack}
   >
     Back to Events
   </button>

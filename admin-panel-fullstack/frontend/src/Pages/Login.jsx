@@ -43,19 +43,23 @@ const Login = ({ setIsAuthenticated }) => {
     e.preventDefault();
 
     if (!validateForm()) return;
-    try {
-      // Encrypt the payload
-      const encryptedData = CryptoJS.AES.encrypt(
-        JSON.stringify({ email, password }),
-        import.meta.env.VITE_JWT_SECRET,
-      ).toString();
 
+    try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/admin/login`,
-        { data: encryptedData },
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
       );
 
       const { token } = response?.data;
+
       if (token) {
         localStorage.setItem('adminToken', token);
         setIsAuthenticated(true);
@@ -65,6 +69,7 @@ const Login = ({ setIsAuthenticated }) => {
     } catch (err) {
       const errorMessage =
         err.response?.data?.message || 'Login failed. Please try again.';
+
       toast.error(errorMessage);
     }
   };

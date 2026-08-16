@@ -6,7 +6,6 @@ import { lockScroll, unlockScroll } from '@/utils/scrollLock';
 import VolunteerFields from './VolunteerFeilds.jsx';
 import VolunteerSuccess from './VolunteerSuccess.jsx';
 
-
 const VolunteerForm = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -115,7 +114,7 @@ const VolunteerForm = () => {
 
     try {
       const response = await fetch(
-        'https://backend.sobf.in/api/post/create-volunteer',
+        `${import.meta.env.VITE_BASE_URL}/api/post/create-volunteer`,
         {
           method: 'POST',
           headers: {

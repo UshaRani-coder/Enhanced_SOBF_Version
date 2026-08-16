@@ -46,8 +46,6 @@ const RecentActivityDetails = () => {
     );
   }
 
-
-
   const handleBack = () => {
     navigate('/recent-activities');
   };

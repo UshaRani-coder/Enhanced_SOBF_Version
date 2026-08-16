@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -17,9 +16,7 @@ import useLegalDocForm from '../hooks/useLegalDocForm';
 const LegalDoc = () => {
   const dispatch = useDispatch();
 
-  const { legalDocs, status } = useSelector(
-    (state) => state.legalDocs
-  );
+  const { legalDocs, status } = useSelector((state) => state.legalDocs);
 
   const maxLength = 150;
 
@@ -40,14 +37,12 @@ const LegalDoc = () => {
     populateForm,
   } = useLegalDocForm(dispatch);
 
-
   // Fetch documents
   useEffect(() => {
     if (status === 'idle') {
       dispatch(getLegalDocuments());
     }
   }, [status, dispatch]);
-
 
   // Open Add Modal
   const openAddModal = () => {
@@ -58,7 +53,6 @@ const LegalDoc = () => {
     setIsModalOpen(true);
   };
 
-
   // Open Update Modal
   const openUpdateModal = (doc) => {
     setCurrentDoc(doc);
@@ -68,7 +62,6 @@ const LegalDoc = () => {
 
     setIsModalOpen(true);
   };
-
 
   // Close Modal
   const closeModal = () => {
@@ -81,7 +74,6 @@ const LegalDoc = () => {
     resetForm();
   };
 
-
   // Add Document
   const handleAdd = async () => {
     const success = await handleAddDoc();
@@ -91,23 +83,19 @@ const LegalDoc = () => {
     }
   };
 
-
   // Update Document
   const handleUpdate = async () => {
-    const success = await handleUpdateDoc(
-      currentDoc?._id
-    );
+    const success = await handleUpdateDoc(currentDoc?._id);
 
     if (success) {
       closeModal();
     }
   };
 
-
   // Delete Document
   const handleDeleteDoc = async (id) => {
     const confirmDelete = window.confirm(
-      'Are you sure you want to delete this legal document? This action cannot be undone.'
+      'Are you sure you want to delete this legal document? This action cannot be undone.',
     );
 
     if (!confirmDelete) return;
@@ -115,55 +103,40 @@ const LegalDoc = () => {
     try {
       await dispatch(removeLegalDocument(id)).unwrap();
 
-      toast.success(
-        'Document deleted successfully!'
-      );
+      toast.success('Document deleted successfully!');
     } catch (error) {
-      toast.error(
-        error || 'Failed to delete document'
-      );
+      toast.error(error || 'Failed to delete document');
     }
   };
 
-
   return (
     <div className="container mx-auto">
-
       {/* Header */}
       <div className="flex justify-between items-center m-4">
-
         <h1 className="text-xl small-range:text-2xl lg:text-4xl font-semibold">
           Legal Documents
         </h1>
 
-
         <button
           onClick={openAddModal}
           className="
-          bg-gradient-to-r 
-          from-indigo-600 
-          via-purple-600 
-          to-pink-500 
-          text-white 
-          px-3 py-1.5 
-          small-max:px-4 
-          small-max:py-1.5 
-          text-[12px] 
-          small-max:text-[16px] 
-          font-semibold 
-          rounded-3xl 
-          shadow-lg 
-          transition-all 
-          duration-300 
-          hover:scale-105 
-          hover:shadow-2xl"
+             bg-[rgb(39,39,79)]
+    text-white
+    px-4 py-2
+    small-max:px-5 small-max:py-2
+    text-[14px] small-max:text-[16px]
+    font-semibold
+    rounded-full
+    shadow-md
+    transition-all duration-300 ease-out
+    hover:bg-[rgb(49,49,95)]
+    hover:shadow-[0_8px_25px_rgba(39,39,79,0.35)]
+    active:scale-95
+  "
         >
           Add Document
         </button>
-
       </div>
-
-
 
       {/* PDF Preview */}
 
@@ -173,33 +146,20 @@ const LegalDoc = () => {
         onClose={() => setPreviewPdf(null)}
       />
 
-
-
       {/* Add / Update Modal */}
 
       <LegalDocModal
         isOpen={isModalOpen}
         isUpdateMode={isUpdateMode}
         currentDoc={currentDoc}
-
         formData={formData}
         maxLength={maxLength}
-
         isLoading={isLoading}
-
         onInputChange={handleInputChange}
         onFileChange={handleFileChange}
-
         onClose={closeModal}
-
-        onSubmit={
-          isUpdateMode
-            ? handleUpdate
-            : handleAdd
-        }
+        onSubmit={isUpdateMode ? handleUpdate : handleAdd}
       />
-
-
 
       {/* Documents */}
 
@@ -209,10 +169,8 @@ const LegalDoc = () => {
         onDelete={handleDeleteDoc}
         onPreview={setPreviewPdf}
       />
-
     </div>
   );
 };
-
 
 export default LegalDoc;

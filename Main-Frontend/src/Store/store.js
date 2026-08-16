@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+
 import postReducer from '../reducers/postSlice';
 import bulletinReducer from '../reducers/bulletinSlice';
 import ourImpactsReducer from '../reducers/ourImpactsSlice';
@@ -14,6 +15,17 @@ import upcomingEventReducer from '../reducers/upcomingeventSlice';
 import donationReducer from '../reducers/donationSlice';
 import donationsReducer from '../reducers/donateForSlice';
 
+const eventPersistConfig = {
+  key: 'events',
+  storage,
+  whitelist: ['registeredEventIds'],
+};
+
+const persistedEventReducer = persistReducer(
+  eventPersistConfig,
+  upcomingEventReducer,
+);
+
 const rootReducer = combineReducers({
   posts: postReducer,
   bulletines: bulletinReducer,
@@ -24,21 +36,16 @@ const rootReducer = combineReducers({
   teams: teamReducer,
   gallery: galleryReducer,
   services: ourServiceReducer,
-  events: upcomingEventReducer,
+
+  // Only registeredEventIds will persist
+  events: persistedEventReducer,
+
   donation: donationReducer,
   donateFor: donationsReducer,
 });
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['events'], // only persist event slice
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: rootReducer,
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
